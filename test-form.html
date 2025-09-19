@@ -1,1 +1,18 @@
-/test-form.html
+<!doctype html>
+<html lang="tr">
+  <head><meta charset="utf-8"><title>Netlify Test Form</title></head>
+  <body>
+    <h1>Netlify Test Form</h1>
+    <form name="randevu"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="randevu">
+      <p class="hidden"><label>Bot: <input name="bot-field" autocomplete="off"></label></p>
+
+      <p><label>Ad Soyad <input type="text" name="adsoyad" required></label></p>
+      <p><label>Telefon <input type="tel" name="telefon" required></label></p>
+      <p><button type="submit">Gönder</button></p>
+    </form>
+  </body>
+</html>
