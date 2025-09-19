@@ -8,7 +8,8 @@ public_folder: "/assets/img/uploads"
 site_url: "https://example.com"
 logo_url: "/assets/img/logo.png"
 
-publish_mode: editorial_workflow
+publish_mode: simple
+
 
 collections:
   - name: "icerik"
