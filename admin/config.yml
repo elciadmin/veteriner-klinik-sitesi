@@ -1,0 +1,41 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets/img/uploads"
+public_folder: "/assets/img/uploads"
+
+site_url: "https://example.com"
+logo_url: "/assets/img/logo.png"
+
+publish_mode: editorial_workflow
+
+collections:
+  - name: "icerik"
+    label: "İçerik (Anasayfa)"
+    files:
+      - file: "assets/data/index.json"
+        label: "Anasayfa İçeriği"
+        name: "index"
+        format: "json"
+        fields:
+          - { label: "Başlık", name: "title", widget: "string" }
+          - { label: "Açıklama", name: "description", widget: "text" }
+
+  - name: "blog"
+    label: "Blog / Duyurular"
+    files:
+      - file: "assets/data/blog.json"
+        label: "Blog Listesi"
+        name: "bloglist"
+        format: "json"
+        fields:
+          - label: "Yazılar"
+            name: "posts"
+            widget: "list"
+            fields:
+              - { label: "Başlık", name: "title", widget: "string" }
+              - { label: "Tarih", name: "date", widget: "datetime" }
+              - { label: "Kapak Görseli", name: "cover", widget: "image", required: false }
+              - { label: "Özet", name: "summary", widget: "text", required: false }
+              - { label: "İçerik (HTML)", name: "content", widget: "text", required: false }

@@ -1,0 +1,17 @@
+<!doctype html><html lang="tr"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Blog / Duyurular</title><link rel="stylesheet" href="/assets/css/styles.css">
+</head><body><header class="container"><h1>Blog / Duyurular</h1></header>
+<main class="container" id="blog-list"></main>
+<footer class="container">© <span id="year"></span> Klinigim</footer>
+<script src="/assets/js/main.js"></script>
+<script>
+fetch('/assets/data/blog.json').then(r=>r.json()).then(({posts})=>{
+  const el = document.getElementById('blog-list');
+  (posts||[]).sort((a,b)=> new Date(b.date)-new Date(a.date)).forEach(p=>{
+    const d=new Date(p.date), art=document.createElement('article'); art.className='card';
+    art.innerHTML = `<h3>${p.title}</h3><small>${d.toLocaleDateString('tr-TR')}</small>${p.cover?`<img src='${p.cover}' alt=''>`:''}${p.summary?`<p>${p.summary}</p>`:''}${p.content?`<div class='post-body'>${p.content}</div>`:''}`;
+    el.appendChild(art);
+  });
+}).catch(()=>{});
+</script></body></html>

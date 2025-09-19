@@ -1,0 +1,16 @@
+[build]
+  publish = "."
+  command = ""
+
+[functions]
+  directory = "functions"
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin/"
+  status = 200
+
+[[redirects]]
+  from = "/randevu-gonderildi"
+  to = "/contact.html#tesekkurler"
+  status = 301

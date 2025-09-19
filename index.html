@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="tr"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Klinik | Anasayfa</title>
+<link rel="stylesheet" href="/assets/css/styles.css">
+</head><body>
+<header class="container">
+  <h1 id="hero-title">Klinigim Veteriner Kliniği</h1>
+  <p id="hero-desc">Evcil dostlarınıza 7/24 güvenilir bakım.</p>
+  <nav>
+    <a href="/about.html">Hakkımızda</a>
+    <a href="/services.html">Hizmetler</a>
+    <a href="/team.html">Ekibimiz</a>
+    <a href="/gallery.html">Galeri</a>
+    <a href="/blog.html">Blog</a>
+    <a href="/contact.html">Randevu</a>
+  </nav>
+</header>
+<main class="container"><h2>Öne Çıkan Hizmetler</h2></main>
+<footer class="container">© <span id="year"></span> Klinigim</footer>
+<script src="/assets/js/main.js"></script>
+<script>
+fetch('/assets/data/index.json').then(r=>r.json()).then(d=>{
+  if(d.title) document.getElementById('hero-title').textContent=d.title;
+  if(d.description) document.getElementById('hero-desc').textContent=d.description;
+}).catch(()=>{});
+</script>
+</body></html>
