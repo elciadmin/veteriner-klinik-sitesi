@@ -1,20 +1,18 @@
-<!doctype html><html lang="tr"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>İletişim / Randevu</title><link rel="stylesheet" href="/assets/css/styles.css">
-</head><body><header class="container"><h1>İletişim / Randevu</h1></header>
-<main class="container">
-<form name="randevu" method="POST" data-netlify="true" action="/randevu-gonderildi" netlify-honeypot="bot-field" class="form">
+<form name="randevu"
+      method="POST"
+      data-netlify="true"
+      action="/randevu-gonderildi"
+      netlify-honeypot="bot-field">
   <input type="hidden" name="form-name" value="randevu">
   <p class="hidden"><label>Bot: <input name="bot-field"></label></p>
-  <label>Ad Soyad<input type="text" name="adsoyad" required></label>
-  <label>Telefon (WhatsApp)<input type="tel" name="telefon" required></label>
-  <label>Evcil Türü<select name="tur"><option>Kedi</option><option>Köpek</option><option>Diğer</option></select></label>
-  <label>İstenen Tarih/Saat<input type="datetime-local" name="tarih" required></label>
-  <label>Notlar<textarea name="not"></textarea></label>
+
+  <label>Ad Soyad <input type="text" name="adsoyad" required></label>
+  <label>Telefon (WhatsApp) <input type="tel" name="telefon" required></label>
+  <label>Evcil Türü
+    <select name="tur"><option>Kedi</option><option>Köpek</option><option>Diğer</option></select>
+  </label>
+  <label>İstenen Tarih/Saat <input type="datetime-local" name="tarih" required></label>
+  <label>Notlar <textarea name="not"></textarea></label>
+
   <button type="submit">Randevu Al</button>
 </form>
-<div id="tesekkurler" class="notice" hidden>Teşekkürler! Randevu talebiniz ulaştı.</div>
-</main>
-<footer class="container">© <span id="year"></span> Klinigim</footer>
-<script src="/assets/js/main.js"></script>
-</body></html>
