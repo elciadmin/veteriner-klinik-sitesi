@@ -1,17 +1,28 @@
 <!doctype html>
 <html lang="tr">
-  <head><meta charset="utf-8"><title>Netlify Test Form</title></head>
+  <head>
+    <meta charset="utf-8">
+    <title>Netlify Test Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
   <body>
     <h1>Netlify Test Form</h1>
-    <form name="randevu"
-          method="POST"
-          data-netlify="true"
-          netlify-honeypot="bot-field">
+
+    <form name="randevu" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <!-- Netlify form eşlemesi için zorunlu gizli alan -->
       <input type="hidden" name="form-name" value="randevu">
-      <p class="hidden"><label>Bot: <input name="bot-field" autocomplete="off"></label></p>
+
+      <!-- Honeypot: mutlaka görünmez kalsın -->
+      <p style="display:none">
+        <label>Bot <input name="bot-field" autocomplete="off"></label>
+      </p>
 
       <p><label>Ad Soyad <input type="text" name="adsoyad" required></label></p>
-      <p><label>Telefon <input type="tel" name="telefon" required></label></p>
+      <p><label>Telefon  <input type="tel"  name="telefon" required></label></p>
+      <p><label>Evcil Türü <input type="text" name="tur"></label></p>
+      <p><label>Tarih/Saat <input type="datetime-local" name="tarih"></label></p>
+      <p><label>Notlar <textarea name="not" rows="4"></textarea></label></p>
+
       <p><button type="submit">Gönder</button></p>
     </form>
   </body>
