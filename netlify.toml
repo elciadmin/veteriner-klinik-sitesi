@@ -14,3 +14,26 @@
   from = "/randevu-gonderildi"
   to = "/contact.html#tesekkurler"
   status = 301
+# /faq ve /faq.html -> /sss.html
+[[redirects]]
+  from = "/faq"
+  to = "/sss.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/faq.html"
+  to = "/sss.html"
+  status = 301
+
+# eski alt-çizgili URL -> yeni tireli dosya
+[[redirects]]
+  from = "/hasta_iliskileri.html"
+  to = "/hasta-iliskileri.html"
+  status = 301
+
+# services -> hizmetler
+[[redirects]]
+  from = "/services.html"
+  to = "/hizmetler.html"
+  status = 301
