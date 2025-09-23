@@ -37,3 +37,27 @@
   from = "/services.html"
   to = "/hizmetler.html"
   status = 301
+[[redirects]]
+from = "/services"
+to = "/hizmetler.html"
+status = 301
+
+[[redirects]]
+from = "/services.html"
+to = "/hizmetler.html"
+status = 301
+
+[[redirects]]
+from = "/faq"
+to = "/sss.html"
+status = 301
+
+[[redirects]]
+from = "/faq.html"
+to = "/sss.html"
+status = 301
+
+[[redirects]]
+from = "/hasta_iliskileri.html"
+to = "/hasta-iliskileri.html"
+status = 301
