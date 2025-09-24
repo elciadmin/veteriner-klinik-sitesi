@@ -60,4 +60,29 @@ status = 301
 [[redirects]]
 from = "/hasta_iliskileri.html"
 to = "/hasta-iliskileri.html"
+status = 301  # Eski TR URL'leri doğru dosyalara yönlendir
+[[redirects]]
+from = "/hakkimizda.html"
+to = "/about.html"
 status = 301
+force = true
+
+[[redirects]]
+from = "/hasta_iliskileri.html"
+to = "/hasta-iliskileri.html"
+status = 301
+force = true
+
+# Eski sayfa adları varsa:
+[[redirects]]
+from = "/hizmetlerimiz.html"
+to = "/hizmetler.html"
+status = 301
+force = true
+
+[[redirects]]
+from = "/faq.html"
+to = "/sss.html"
+status = 301
+force = true
+
