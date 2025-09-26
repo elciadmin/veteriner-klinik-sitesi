@@ -351,79 +351,79 @@
 
         <!-- Netlify form -->
         <form name="randevu" method="POST" data-netlify="true" netlify-honeypot="bot-field"
-              action="/hasta-iliskileri.html?tesekkur=randevu#online-randevu" id="appointmentForm">
-          <input type="hidden" name="form-name" value="randevu">
-          <input type="hidden" name="subject" value="Elçi Veteriner - Yeni Randevu">
-          <p style="display:none"><label>Bot <input name="bot-field"></label></p>
+      accept-charset="UTF-8"
+      action="/hasta-iliskileri.html?tesekkur=randevu#online-randevu"
+      id="appointmentForm">
+  <input type="hidden" name="form-name" value="randevu">
+  <input type="hidden" name="subject" value="Elçi Veteriner - Yeni Randevu">
+  <p hidden><label>Bot: <input name="bot-field"></label></p>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label for="name">Adınız Soyadınız</label>
-              <input type="text" id="name" name="name" required>
-            </div>
-            <div class="form-group">
-              <label for="phone">Telefon Numaranız</label>
-              <input type="tel" id="phone" name="phone" required>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="email">E-posta Adresiniz</label>
-              <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-              <label for="petType">Evcil Hayvan Türü</label>
-              <select id="petType" name="petType" required>
-                <option value="">Seçiniz</option>
-                <option value="Köpek">Köpek</option>
-                <option value="Kedi">Kedi</option>
-                <option value="Kuş">Kuş</option>
-                <option value="Diğer">Diğer</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="petName">Evcil Hayvan Adı</label>
-              <input type="text" id="petName" name="petName" required>
-            </div>
-            <div class="form-group">
-              <label for="service">İlgilendiğiniz Hizmet</label>
-              <select id="service" name="service" required>
-                <option value="">Seçiniz</option>
-                <option value="Genel Muayene">Genel Muayene</option>
-                <option value="Aşı">Aşı</option>
-                <option value="Cerrahi Operasyon">Cerrahi Operasyon</option>
-                <option value="Diş Tedavisi">Diş Tedavisi</option>
-                <option value="Tıraş & Bakım">Tıraş & Bakım</option>
-                <option value="Diğer">Diğer</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="date">Tercih Ettiğiniz Tarih</label>
-              <input type="date" id="date" name="date" required>
-            </div>
-            <div class="form-group">
-              <label for="time">Tercih Ettiğiniz Saat</label>
-              <input type="time" id="time" name="time" required>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="message">Ek Bilgiler (İsteğe bağlı)</label>
-            <textarea id="message" name="message" rows="4"></textarea>
-          </div>
-
-          <button type="submit" class="submit-btn">Randevu Oluştur</button>
-        </form>
-      </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label for="adsoyad">Adınız Soyadınız</label>
+      <input type="text" id="adsoyad" name="adsoyad" required>
     </div>
-  </section>
+    <div class="form-group">
+      <label for="telefon">Telefon Numaranız</label>
+      <input type="tel" id="telefon" name="telefon" required>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label for="email">E-posta Adresiniz</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+      <label for="tur">Evcil Hayvan Türü</label>
+      <select id="tur" name="tur" required>
+        <option value="">Seçiniz</option>
+        <option value="Köpek">Köpek</option>
+        <option value="Kedi">Kedi</option>
+        <option value="Kuş">Kuş</option>
+        <option value="Diğer">Diğer</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label for="hayvan_adi">Evcil Hayvan Adı</label>
+      <input type="text" id="hayvan_adi" name="hayvan_adi" required>
+    </div>
+    <div class="form-group">
+      <label for="hizmet">İlgilendiğiniz Hizmet</label>
+      <select id="hizmet" name="hizmet" required>
+        <option value="">Seçiniz</option>
+        <option value="Genel Muayene">Genel Muayene</option>
+        <option value="Aşı">Aşı</option>
+        <option value="Cerrahi Operasyon">Cerrahi Operasyon</option>
+        <option value="Diş Tedavisi">Diş Tedavisi</option>
+        <option value="Tıraş & Bakım">Tıraş & Bakım</option>
+        <option value="Diğer">Diğer</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label for="tarih">Tercih Ettiğiniz Tarih</label>
+      <input type="date" id="tarih" name="tarih" required>
+    </div>
+    <div class="form-group">
+      <label for="saat">Tercih Ettiğiniz Saat</label>
+      <input type="time" id="saat" name="saat" required>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="not">Ek Bilgiler (İsteğe bağlı)</label>
+    <textarea id="not" name="not" rows="4"></textarea>
+  </div>
+
+  <button type="submit" class="submit-btn">Randevu Oluştur</button>
+</form>
+
 
   <!-- Memnuniyet Anketi (Netlify Form) -->
   <section class="survey-section" id="memnuniyet-anketi">
