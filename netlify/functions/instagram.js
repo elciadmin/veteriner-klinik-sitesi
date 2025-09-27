@@ -1,60 +1,43 @@
+// netlify/functions/instagram.js
 export async function handler(event) {
+  const cors = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Content-Type": "application/json; charset=utf-8"
+  };
   if (event.httpMethod === "OPTIONS") {
-    return {
-      statusCode: 204,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET,OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type",
-      },
-      body: "",
-    };
+    return { statusCode: 200, headers: cors, body: "" };
   }
-
-  const IG_TOKEN = process.env.IG_ACCESS_TOKEN;
-  const limit = 12;
-
-  if (!IG_TOKEN) {
-    return {
-      statusCode: 500,
-      headers: { "Access-Control-Allow-Origin": "*" },
-      body: JSON.stringify({ error: "IG_ACCESS_TOKEN ayarlı değil." }),
-    };
-  }
-
-  const url = new URL("https://graph.instagram.com/me/media");
-  url.searchParams.set(
-    "fields",
-    "id,caption,media_url,permalink,media_type,thumbnail_url,timestamp"
-  );
-  url.searchParams.set("limit", String(limit));
-  url.searchParams.set("access_token", IG_TOKEN);
 
   try {
-    const res = await fetch(url.toString());
-    const data = await res.json();
-
-    if (data.error) {
+    const { INSTAGRAM_ACCESS_TOKEN, INSTAGRAM_USER_ID } = process.env;
+    if (!INSTAGRAM_ACCESS_TOKEN || !INSTAGRAM_USER_ID) {
       return {
         statusCode: 500,
-        headers: { "Access-Control-Allow-Origin": "*" },
-        body: JSON.stringify({ error: data.error.message }),
+        headers: cors,
+        body: JSON.stringify({ error: "Env eksik: INSTAGRAM_ACCESS_TOKEN ve INSTAGRAM_USER_ID gerekli." })
       };
     }
 
-    return {
-      statusCode: 200,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data.data || []),
-    };
-  } catch (err) {
-    return {
-      statusCode: 500,
-      headers: { "Access-Control-Allow-Origin": "*" },
-      body: JSON.stringify({ error: err.message }),
-    };
+    const url = `https://graph.instagram.com/${INSTAGRAM_USER_ID}/media?fields=id,media_type,media_url,thumbnail_url,permalink,caption,timestamp&access_token=${INSTAGRAM_ACCESS_TOKEN}`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (data.error) {
+      return { statusCode: 500, headers: cors, body: JSON.stringify({ error: data.error }) };
+    }
+
+    const items = (data.data || []).map(item => ({
+      id: item.id,
+      type: item.media_type,
+      image: item.media_type === "VIDEO" ? (item.thumbnail_url || item.media_url) : item.media_url,
+      url: item.permalink,
+      caption: item.caption,
+      timestamp: item.timestamp
+    })).slice(0, 8);
+
+    return { statusCode: 200, headers: cors, body: JSON.stringify({ items }) };
+  } catch (e) {
+    return { statusCode: 500, headers: cors, body: JSON.stringify({ error: e.message }) };
   }
 }
