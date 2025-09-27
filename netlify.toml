@@ -3,8 +3,10 @@
   command = ""
 
 [functions]
-  directory = "functions"
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
 
+# ---- Redirects (temiz, tekrar yok) ----
 [[redirects]]
   from = "/admin"
   to = "/admin/"
@@ -14,75 +16,45 @@
   from = "/randevu-gonderildi"
   to = "/contact.html#tesekkurler"
   status = 301
-# /faq ve /faq.html -> /sss.html
+
 [[redirects]]
   from = "/faq"
   to = "/sss.html"
   status = 301
-  force = true
 
 [[redirects]]
   from = "/faq.html"
   to = "/sss.html"
   status = 301
 
-# eski alt-çizgili URL -> yeni tireli dosya
 [[redirects]]
   from = "/hasta_iliskileri.html"
   to = "/hasta-iliskileri.html"
   status = 301
 
-# services -> hizmetler
+[[redirects]]
+  from = "/services"
+  to = "/hizmetler.html"
+  status = 301
+
 [[redirects]]
   from = "/services.html"
   to = "/hizmetler.html"
   status = 301
-[[redirects]]
-from = "/services"
-to = "/hizmetler.html"
-status = 301
 
 [[redirects]]
-from = "/services.html"
-to = "/hizmetler.html"
-status = 301
+  from = "/hakkimizda.html"
+  to = "/about.html"
+  status = 301
 
 [[redirects]]
-from = "/faq"
-to = "/sss.html"
-status = 301
+  from = "/hizmetlerimiz.html"
+  to = "/hizmetler.html"
+  status = 301
 
-[[redirects]]
-from = "/faq.html"
-to = "/sss.html"
-status = 301
-
-[[redirects]]
-from = "/hasta_iliskileri.html"
-to = "/hasta-iliskileri.html"
-status = 301  # Eski TR URL'leri doğru dosyalara yönlendir
-[[redirects]]
-from = "/hakkimizda.html"
-to = "/about.html"
-status = 301
-force = true
-
-[[redirects]]
-from = "/hasta_iliskileri.html"
-to = "/hasta-iliskileri.html"
-status = 301
-force = true
-
-# Eski sayfa adları varsa:
-[[redirects]]
-from = "/hizmetlerimiz.html"
-to = "/hizmetler.html"
-status = 301
-force = true
-
-[[redirects]]
-from = "/faq.html"
-to = "/sss.html"
-status = 301
-force = true
-
+# (Opsiyonel) Gerekli env değişkenlerini belgelemek için:
+[template.environment]
+  GOOGLE_PLACES_API_KEY = ""
+  GOOGLE_PLACE_ID = ""
+  INSTAGRAM_ACCESS_TOKEN = ""
+  INSTAGRAM_USER_ID = ""
