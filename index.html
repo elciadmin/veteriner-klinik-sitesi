@@ -34,7 +34,7 @@
       --border:#e6eef7;
       --shadow-sm:0 6px 16px rgba(15,23,42,.06);
       --shadow-md:0 14px 30px rgba(15,23,42,.12);
-      --grad-hero:linear-gradient(110deg, rgba(106,14,161,.94), rgba(16,179,209,.90));
+      --grad-hero:linear-gradient(120deg, rgba(106,14,161,.96), rgba(16,179,209,.92));
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Roboto',sans-serif;color:#1f2937;background:var(--light);line-height:1.6;overflow-x:hidden}
@@ -69,20 +69,47 @@
     .dropdown:hover .dropdown-content{display:block}
     .mobile-menu-btn{display:none;background:none;border:0;font-size:24px;color:var(--primary);cursor:pointer}
 
-    /* HERO — geniş + logo */
+    /* HERO — geniş + merkezli logo + alt hızlı rehber */
     .hero{margin-top:88px;background:var(--grad-hero), url('https://images.unsplash.com/photo-1558944351-babfe8c2d625?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;color:#fff}
-    .hero .container{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center;padding:110px 16px}
-    .hero h1{color:#fff;font-size:48px;line-height:1.12;margin-bottom:12px;text-shadow:0 2px 6px rgba(0,0,0,.25)}
-    .hero p{color:#eaf7ff;font-size:18px;margin-bottom:16px}
-    .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+    .hero .container{display:flex;flex-direction:column;align-items:center;text-align:center;padding:120px 16px 40px}
+    .hero .brand-mark{
+      display:flex;flex-direction:column;align-items:center;gap:14px;margin-bottom:10px
+    }
+    .brand-mark img{width:84px;height:84px;object-fit:contain;background:#fff;border-radius:24px;padding:10px;box-shadow:0 10px 24px rgba(0,0,0,.15)}
+    .hero h1{color:#fff;font-size:48px;line-height:1.12;margin:6px 0 14px;text-shadow:0 2px 6px rgba(0,0,0,.25)}
+    .hero .underline{width:64px;height:4px;border-radius:4px;background:#fff;opacity:.9;margin:0 auto 14px}
+    .hero p{color:#eaf7ff;font-size:18px;max-width:820px}
+    .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
     .btn{display:inline-flex;align-items:center;gap:10px;border-radius:40px;padding:13px 22px;font-weight:700}
     .btn-primary{background:#fff;color:var(--primary-700)}
     .btn-primary:hover{transform:translateY(-2px)}
     .btn-outline{background:transparent;border:2px solid #fff;color:#fff}
     .btn-outline:hover{background:#ffffff22}
-    .hero-brand{display:flex;align-items:center;gap:14px;background:#ffffff12;border:1px solid #ffffff30;padding:14px 16px;border-radius:14px}
-    .hero-brand img{width:56px;height:56px;object-fit:contain;background:#fff;border-radius:12px;padding:6px}
-    .hero-brand h3{color:#fff;margin:0;font-size:18px}
+
+    /* HERO Quick Nav (Site Rehberi) */
+    .quick-nav{
+      width:100%;max-width:1200px;margin-top:36px;padding:22px 12px 8px;
+      border-top:1px solid rgba(255,255,255,.25);
+    }
+    .quick-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+    .quick-item{
+      position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:center;gap:10px;
+      padding:18px 12px;border-radius:16px;color:#fff;text-align:center;
+      border:1px solid rgba(255,255,255,.22);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+      transition:.25s;
+    }
+    .quick-item .qicon{
+      width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;
+      background:rgba(255,255,255,.12);backdrop-filter:blur(2px);
+    }
+    .quick-item strong{font-size:14px;letter-spacing:.3px}
+    .quick-item:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.16);background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.08))}
+    .quick-item:focus-visible{outline:3px solid #fff}
+    /* aralara noktalı ayraç hissi */
+    .quick-grid > a:not(:last-child)::after{
+      content:""; position:absolute; right:-6px; top:50%; transform:translateY(-50%);
+      width:4px; height:4px; border-radius:50%; background:rgba(255,255,255,.35);
+    }
 
     /* Genel section */
     .section{padding:70px 0;background:#fff}
@@ -92,7 +119,7 @@
     .section-title h2:after{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:0;height:3px;width:72px;background:var(--secondary)}
     .section-title p{color:var(--muted);margin-top:8px}
 
-    /* Hizmetler — büyük kart + flip */
+    /* Hizmetler — büyük flip kart */
     .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;perspective:1200px}
     .flip-card{position:relative;height:250px}
     .flip-card-inner{
@@ -110,21 +137,6 @@
     .flip-back{transform:rotateY(180deg);background:#f7fbff;border:1px dashed #dbeafe}
     .flip-back p{color:#555;margin-bottom:12px}
     .flip-back a{font-weight:700}
-
-    /* Site Rehberi */
-    .guide-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
-    .guide-card{display:flex;flex-direction:column;gap:8px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px;box-shadow:var(--shadow-sm)}
-    .guide-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md)}
-    .guide-card i{font-size:20px;color:var(--secondary)}
-
-    /* Blog */
-    .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .blog-card{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm)}
-    .blog-card .thumb{height:170px;background:#eef4ff}
-    .blog-card img{width:100%;height:100%;object-fit:cover;display:block}
-    .blog-card .body{padding:14px}
-    .blog-card h3{font-size:18px;color:var(--dark);margin-bottom:6px}
-    .blog-card p{color:#4b5563;font-size:15px}
 
     /* Embed başlık/çerçeve */
     .embed-wrap{max-width:1100px;margin:0 auto}
@@ -145,6 +157,15 @@
       background:radial-gradient(closest-side, rgba(16,179,209,.12), transparent 70%);pointer-events:none;
     }
 
+    /* Blog */
+    .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .blog-card{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm)}
+    .blog-card .thumb{height:170px;background:#eef4ff}
+    .blog-card img{width:100%;height:100%;object-fit:cover;display:block}
+    .blog-card .body{padding:14px}
+    .blog-card h3{font-size:18px;color:var(--dark);margin-bottom:6px}
+    .blog-card p{color:#4b5563;font-size:15px}
+
     /* Hakkımızdan özet */
     .about-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
     .about-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;box-shadow:var(--shadow-sm)}
@@ -152,7 +173,7 @@
 
     /* Responsive */
     @media (max-width:1200px){
-      .guide-grid{grid-template-columns:repeat(4,1fr)}
+      .quick-grid{grid-template-columns:repeat(3,1fr)}
     }
     @media (max-width:992px){
       nav ul{display:none;position:absolute;left:0;top:100%;width:100%;background:#fff;flex-direction:column;gap:0;box-shadow:0 10px 24px rgba(0,0,0,.1);padding:14px 0}
@@ -161,14 +182,13 @@
       .dropdown-content{position:static;display:none;border:none;box-shadow:none;padding:0;margin-top:6px}
       .dropdown.active .dropdown-content{display:block}
       .mobile-menu-btn{display:block}
-      .hero .container{grid-template-columns:1fr;gap:18px;padding:80px 16px}
+      .hero .container{padding:90px 16px 26px}
       .services-grid{grid-template-columns:1fr 1fr}
-      .guide-grid{grid-template-columns:repeat(3,1fr)}
       .blog-grid{grid-template-columns:1fr 1fr}
+      .about-cards{grid-template-columns:1fr}
     }
     @media (max-width:640px){
       .services-grid{grid-template-columns:1fr}
-      .guide-grid{grid-template-columns:repeat(2,1fr)}
       .blog-grid{grid-template-columns:1fr}
       .hero h1{font-size:36px}
     }
@@ -273,26 +293,53 @@
     </div>
   </header>
 
-  <!-- HERO -->
+  <!-- HERO + Quick Site Rehberi -->
   <section class="hero" aria-label="Açılış">
     <div class="container">
-      <div>
-        <div class="hero-brand">
-          <img src="assets/img/logo.svg" alt="Elçi Veteriner" onerror="this.style.display='none'">
-          <h3>Konya’da 7/24 Acil ve Kapsamlı Veterinerlik</h3>
-        </div>
-        <h1 style="margin-top:14px">Evcil Dostlarınız İçin Güven, Şeffaflık ve Etik Yaklaşım</h1>
-        <p>Koruyucu hekimlikten ileri cerrahiye, diş sağlığından görüntüleme & laboratuvara kadar komple hizmet.</p>
-        <div class="hero-cta">
-          <a class="btn btn-primary" href="hasta-iliskileri.html#online-randevu"><i class="fas fa-calendar-check"></i> Online Randevu Al</a>
-          <a class="btn btn-outline" href="tel:03323223220"><i class="fas fa-phone"></i> 0332 322 32 20</a>
+      <div class="brand-mark">
+        <img src="assets/img/logo.svg" alt="Elçi Veteriner" onerror="this.style.display='none'">
+      </div>
+      <h1>Farabi tarzında ama Elçi rengiyle: <br/>Gülümseyen Sağlık, Güvenli Hizmet</h1>
+      <div class="underline"></div>
+      <p>Koruyucu hekimlikten ileri cerrahiye, diş sağlığından görüntüleme & laboratuvara: evcil dostlarınız için güven, şeffaflık ve etik yaklaşım.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="hasta-iliskileri.html#online-randevu"><i class="fas fa-calendar-check"></i> Online Randevu Al</a>
+        <a class="btn btn-outline" href="tel:03323223220"><i class="fas fa-phone"></i> 0332 322 32 20</a>
+      </div>
+
+      <!-- Quick nav (Site Rehberi) -->
+      <div class="quick-nav" aria-label="Site Rehberi">
+        <div class="quick-grid">
+          <a class="quick-item" href="hizmetler.html#acil">
+            <div class="qicon"><i class="fa-solid fa-stethoscope"></i></div>
+            <strong>Acil / Doktor</strong>
+          </a>
+          <a class="quick-item" href="hizmetler.html">
+            <div class="qicon"><i class="fa-solid fa-heart-pulse"></i></div>
+            <strong>Branşlarımız</strong>
+          </a>
+          <a class="quick-item" href="hasta-iliskileri.html#online-randevu">
+            <div class="qicon"><i class="fa-solid fa-calendar-check"></i></div>
+            <strong>Hızlı Randevu</strong>
+          </a>
+          <a class="quick-item" href="#google-yorumlari">
+            <div class="qicon"><i class="fa-solid fa-star-half-stroke"></i></div>
+            <strong>Google Yorumları</strong>
+          </a>
+          <a class="quick-item" href="#instagram">
+            <div class="qicon"><i class="fa-brands fa-instagram"></i></div>
+            <strong>Instagram</strong>
+          </a>
+          <a class="quick-item" href="contact.html">
+            <div class="qicon"><i class="fa-solid fa-phone-volume"></i></div>
+            <strong>İletişim</strong>
+          </a>
         </div>
       </div>
-      <div><!-- görsel/boş alan hero genişliği için bırakıldı --></div>
     </div>
   </section>
 
-  <!-- 1) HİZMETLER (ilk sırada, büyük flip kartlar) -->
+  <!-- HİZMETLER (büyük flip kartlar) -->
   <section class="section" id="hizmetler-ozet">
     <div class="container">
       <div class="section-title">
@@ -301,7 +348,6 @@
       </div>
 
       <div class="services-grid">
-        <!-- 6 kart -->
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-face flip-front">
@@ -383,7 +429,7 @@
     </div>
   </section>
 
-  <!-- 2) INSTAGRAM (serpiştirildi: hizmetlerin hemen altında) -->
+  <!-- INSTAGRAM (Trustindex) -->
   <section id="instagram" class="section alt">
     <div class="container embed-wrap">
       <div class="embed-header">
@@ -395,31 +441,13 @@
         <a class="btn btn-outline embed-cta" href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener">Takip Et</a>
       </div>
       <div class="embed-frame">
-        <!-- Trustindex Instagram feed -->
         <script defer async src="https://cdn.trustindex.io/loader-feed.js?d56b9c5548479953500649df3ad"></script>
       </div>
     </div>
   </section>
 
-  <!-- 3) SİTE REHBERİ (yukarı alındı) -->
-  <section class="section" id="site-rehberi">
-    <div class="container">
-      <div class="section-title">
-        <h2>Site Rehberi</h2>
-        <p>Aradığınız her şey tek sayfada</p>
-      </div>
-      <div class="guide-grid">
-        <a class="guide-card" href="about.html"><i class="fa-solid fa-circle-info"></i><strong>Hakkımızda</strong><span>Kliniğimizi tanıyın</span></a>
-        <a class="guide-card" href="hizmetler.html"><i class="fa-solid fa-list-check"></i><strong>Hizmetler</strong><span>Tüm servisler</span></a>
-        <a class="guide-card" href="blog.html"><i class="fa-solid fa-newspaper"></i><strong>Blog</strong><span>Güncel yazılar</span></a>
-        <a class="guide-card" href="sss.html"><i class="fa-solid fa-circle-question"></i><strong>SSS</strong><span>Sık sorulanlar</span></a>
-        <a class="guide-card" href="hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i><strong>Randevu</strong><span>Hızlı randevu</span></a>
-      </div>
-    </div>
-  </section>
-
-  <!-- 4) BLOG -->
-  <section class="section alt" id="blog-ozet">
+  <!-- BLOG ÖZET -->
+  <section class="section" id="blog-ozet">
     <div class="container">
       <div class="section-title">
         <h2>Blogdan Son Yazılar</h2>
@@ -429,8 +457,8 @@
     </div>
   </section>
 
-  <!-- 5) HAKKIMIZDAN ÖZET (about.html'den çek) -->
-  <section class="section" id="about-teaser">
+  <!-- HAKKIMIZDAN ÖZET (about.html'den çek) -->
+  <section class="section alt" id="about-teaser">
     <div class="container">
       <div class="section-title">
         <h2>Elçi Kimdir? & Misyonumuz</h2>
@@ -451,8 +479,8 @@
     </div>
   </section>
 
-  <!-- 6) GOOGLE YORUMLARI -->
-  <section id="google-yorumlari" class="section alt">
+  <!-- GOOGLE YORUMLARI (Trustindex) -->
+  <section id="google-yorumlari" class="section">
     <div class="container embed-wrap">
       <div class="embed-header">
         <div class="embed-badge"><i class="fa-solid fa-star"></i></div>
@@ -468,14 +496,13 @@
       </div>
 
       <div class="embed-frame">
-        <!-- Trustindex Google Reviews -->
         <script defer async src="https://cdn.trustindex.io/loader.js?f7b5b0354a019959c54628af18f"></script>
       </div>
     </div>
   </section>
 
-  <!-- 7) YOUTUBE -->
-  <section id="youtube" class="section">
+  <!-- YOUTUBE (Trustindex) -->
+  <section id="youtube" class="section alt">
     <div class="container embed-wrap">
       <div class="embed-header">
         <div class="embed-badge"><i class="fa-brands fa-youtube"></i></div>
@@ -490,7 +517,6 @@
       </div>
 
       <div class="embed-frame">
-        <!-- Trustindex YouTube Feed -->
         <script defer async src="https://cdn.trustindex.io/loader-feed.js?561c8e7551710088f846aedaa2d"></script>
       </div>
     </div>
@@ -639,7 +665,6 @@
           if(!cont) return;
           const src=dom.querySelector(srcSelector);
           if(src){
-            // metinleri temizle, ilk 70-100 kelime
             const text=src.textContent.trim().replace(/\s+/g,' ');
             const snippet=text.split(' ').slice(0,90).join(' ') + (text.split(' ').length>90?'…':'');
             cont.textContent=snippet;
@@ -651,7 +676,6 @@
         fill('elciKimdirCard','#elci-kimdir','Kliniğimizin kurucusu ve değerleri hakkında bilgi için tıklayın.');
         fill('misyonVizyonCard','#misyon-vizyon','Misyon ve vizyonumuz hakkında detaylar için tıklayın.');
       }catch(e){
-        // başarısızsa kartları sakla
         document.getElementById('elciKimdirCard')?.classList.add('hidden');
         document.getElementById('misyonVizyonCard')?.classList.add('hidden');
         console.warn('Hakkımızdan özet alınamadı',e);
