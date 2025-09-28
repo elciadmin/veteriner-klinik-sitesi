@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Elçi Veteriner Kliniği | Konya'da 7/24 Acil Veteriner, Cerrahi, Görüntüleme</title>
-  <meta name="description" content="Konya Meram Elçi Veteriner Kliniği: 7/24 acil veteriner, koruyucu hekimlik, cerrahi, diş sağlığı, görüntüleme, konaklama. Hemen arayın: 0332 322 32 20" />
-  <meta name="keywords" content="Konya veteriner, Meram veteriner, 7/24 acil veteriner, kedi köpek muayene, cerrahi, diş sağlığı, röntgen, ultrason, konaklama" />
+  <meta name="description" content="Konya Meram Elçi Veteriner Kliniği: 7/24 acil veteriner, koruyucu hekimlik, cerrahi, diş sağlığı, görüntüleme, konaklama. Hemen arayın: 0332 322 32 20"/>
+  <meta name="keywords" content="Konya veteriner, Meram veteriner, 7/24 acil veteriner, kedi köpek muayene, cerrahi, diş sağlığı, röntgen, ultrason, konaklama"/>
+
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
@@ -20,20 +21,21 @@
 
   <style>
     :root{
-      /* Marka renkleri: mor+mavi optimize */
-      --primary-color:#5b2ecc;     /* mor */
-      --secondary-color:#0ea5e9;   /* mavi */
-      --primary-700:#4624a2;
-      --secondary-700:#0b86bf;
+      /* Marka renkleri (senin verdiğin) */
+      --primary-color:#6a0ea1;      /* mor */
+      --secondary-color:#10b3d1;    /* mavi */
+      --primary-700:#520b7d;        /* mor koyu ton */
+      --secondary-700:#0e91ab;      /* mavi koyu ton */
+
       --light:#f7f8fc;
       --dark:#0f172a;
       --muted:#6b7280;
       --white:#fff;
       --card:#ffffff;
-      --border:#e8eef8;
+      --border:#e6eef7;
       --shadow-sm:0 6px 16px rgba(15,23,42,.06);
       --shadow-md:0 14px 30px rgba(15,23,42,.12);
-      --gradient-hero:linear-gradient(110deg, rgba(91,46,204,.92), rgba(14,165,233,.88));
+      --gradient-hero:linear-gradient(110deg, rgba(106,14,161,.92), rgba(16,179,209,.88));
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Roboto',sans-serif;color:#1f2937;background:var(--light);line-height:1.6;overflow-x:hidden}
@@ -93,7 +95,7 @@
     .section-title h2:after{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:0;height:3px;width:72px;background:var(--secondary-color)}
     .section-title p{color:var(--muted);margin-top:8px}
 
-    /* Stats (isteğe bağlı tutuyoruz) */
+    /* Stats */
     .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
     .stat-card{background:#fff;border:1px dashed #dbeafe;border-radius:14px;padding:16px;text-align:center;box-shadow:var(--shadow-sm)}
     .stat-card i{font-size:26px;color:var(--primary-color);margin-bottom:6px}
@@ -109,7 +111,7 @@
     }
     .service-card:before{
       content:"";position:absolute;inset:-1px;border-radius:14px;z-index:-1;
-      background:conic-gradient(from 180deg at 50% 50%, rgba(14,165,233,.25), rgba(91,46,204,.25), rgba(14,165,233,.25));
+      background:conic-gradient(from 180deg at 50% 50%, rgba(16,179,209,.25), rgba(106,14,161,.25), rgba(16,179,209,.25));
       filter:blur(18px);opacity:0;transition:.35s;
     }
     .service-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-md);border-color:#cfe7ff}
@@ -135,24 +137,25 @@
     .blog-card h3{font-size:18px;color:var(--dark);margin-bottom:6px}
     .blog-card p{color:#4b5563;font-size:15px}
 
-    /* About teaser */
-    .about-teaser{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center}
-    .about-teaser .card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;box-shadow:var(--shadow-sm)}
-    .about-teaser .photo{border-radius:12px;overflow:hidden;box-shadow:var(--shadow-md)}
-    .about-teaser .photo img{width:100%;height:100%;object-fit:cover;display:block}
-
-    /* Google Reviews */
-    .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .review{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px;box-shadow:var(--shadow-sm)}
-    .stars{color:#f59e0b}
-    .review .author{display:flex;align-items:center;gap:10px;margin-top:8px}
-    .review .author img{width:32px;height:32px;border-radius:50%;object-fit:cover}
-
-    /* Instagram */
-    .ig-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
-    .ig-grid a{display:block;overflow:hidden;border-radius:10px;border:1px solid var(--border)}
-    .ig-grid img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
-    .ig-grid a:hover img{transform:scale(1.05)}
+    /* Google Reviews/Instagram embed çerçevesi */
+    .reviews-wrap,.ig-wrap{max-width:1100px;margin:0 auto}
+    .reviews-header,.ig-header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+    .reviews-badge,.ig-badge{
+      width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;
+      box-shadow:0 8px 18px rgba(16,179,209,.25);background:linear-gradient(135deg,var(--secondary-color),var(--primary-color));
+    }
+    .reviews-title,.ig-title{font-size:28px;color:var(--primary-color);margin:0}
+    .reviews-subtitle,.ig-subtitle{color:#6c757d;margin:4px 0 0}
+    .reviews-cta,.ig-cta{margin-left:auto;white-space:nowrap;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px}
+    .embed-frame{
+      background:#fff;border:2px solid #e6f2ff;border-radius:16px;padding:14px;
+      box-shadow:0 10px 24px rgba(0,0,0,.06);position:relative;overflow:hidden
+    }
+    .embed-frame::after{
+      content:"";position:absolute;right:-80px;top:-80px;width:200px;height:200px;border-radius:50%;
+      background:radial-gradient(closest-side, rgba(16,179,209,.12), transparent 70%);pointer-events:none;
+    }
+    .reviews-footnote{display:flex;align-items:center;gap:8px;color:#6c757d;font-size:14px;margin-top:12px}
 
     /* Footer */
     footer{background:linear-gradient(135deg,#1a3a52,var(--primary-color));color:#fff;padding:60px 0 0}
@@ -172,7 +175,6 @@
     @media (max-width:1200px){
       .stats{grid-template-columns:repeat(3,1fr)}
       .guide-grid{grid-template-columns:repeat(4,1fr)}
-      .ig-grid{grid-template-columns:repeat(4,1fr)}
     }
     @media (max-width:992px){
       nav ul{display:none;position:absolute;left:0;top:100%;width:100%;background:#fff;flex-direction:column;gap:0;box-shadow:0 10px 24px rgba(0,0,0,.1);padding:14px 0}
@@ -182,17 +184,13 @@
       .dropdown.active .dropdown-content{display:block}
       .mobile-menu-btn{display:block}
       .hero .container{grid-template-columns:1fr;gap:18px;padding:70px 16px}
-      .about-teaser{grid-template-columns:1fr}
       .grid.cols-3{grid-template-columns:1fr 1fr}
       .blog-grid{grid-template-columns:1fr 1fr}
-      .reviews-grid{grid-template-columns:1fr 1fr}
     }
     @media (max-width:640px){
       .grid.cols-3{grid-template-columns:1fr}
       .blog-grid{grid-template-columns:1fr}
-      .reviews-grid{grid-template-columns:1fr}
-      .guide-grid{grid-template-columns:repeat(2,1fr)}
-      .ig-grid{grid-template-columns:repeat(2,1fr)}
+      .stats{grid-template-columns:1fr 1fr}
       .hero h1{font-size:36px}
     }
   </style>
@@ -206,7 +204,7 @@
         <div><i class="fas fa-map-marker-alt"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</div>
         <div>
           <a href="tel:03323223220" style="color:#fff"><i class="fas fa-phone-alt"></i> 0332 322 32 20</a>
-          <a href="mailto:elcivetklinik@gmail.com" style="color:#fff;margin-left:12px"><i class="fas fa-envelope"></i> elcivetklinik@gmail.com</a>
+          <a href="mailto:elcivetklinik@gmail.com" style="color:#fff;margin-left:12px"><i class="fas fa-envelope"></i> elcivetklinig@gmail.com</a>
         </div>
       </div>
     </div>
@@ -303,7 +301,7 @@
     </div>
   </section>
 
-  <!-- İstatistikler (istenirse rakamları güncelle) -->
+  <!-- İstatistikler -->
   <section class="section alt" id="istatistikler">
     <div class="container">
       <div class="section-title">
@@ -358,16 +356,14 @@
     </div>
   </section>
 
-  <!-- Blog Önizleme (data/blog.json'dan çekiyor) -->
+  <!-- Blog Önizleme (data/blog.json) -->
   <section class="section alt" id="blog-ozet">
     <div class="container">
       <div class="section-title">
         <h2>Blogdan Son Yazılar</h2>
         <p>Bilgi, rehber ve güncel duyurular</p>
       </div>
-      <div class="blog-grid" id="blogGrid">
-        <!-- JS dolduracak -->
-      </div>
+      <div class="blog-grid" id="blogGrid"><!-- JS dolduracak --></div>
     </div>
   </section>
 
@@ -378,46 +374,66 @@
         <h2>Elçi Veteriner Hakkında</h2>
         <p>Güven, etik ve şeffaf yaklaşım</p>
       </div>
-      <div class="about-teaser">
+      <div class="about-teaser" style="display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center">
         <div class="card">
           <h3>Kliniğimiz</h3>
           <p>Meram/Konya’da modern donanım ve deneyimli bir ekiple hizmet veriyoruz. Amacımız; doğru tanı, etkili tedavi ve her hasta için kişiselleştirilmiş bakım. 7/24 acil destek, ileri görüntüleme ve cerrahi olanaklarımızla yanınızdayız.</p>
           <p style="margin-top:10px"><a class="btn" style="background:var(--secondary-color);color:#fff;border-radius:10px;padding:10px 14px;font-weight:600" href="about.html">Hakkımızda Sayfasına Git</a></p>
         </div>
-        <div class="photo">
+        <div class="photo" style="border-radius:12px;overflow:hidden;box-shadow:var(--shadow-md)">
           <img src="assets/img/clinic-hero.jpg" alt="Elçi Veteriner Kliniği iç mekan" loading="lazy">
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Google Yorumları -->
-  <section class="section alt" id="google-reviews">
-    <div class="container">
-      <div class="section-title">
-        <h2>Google Yorumları</h2>
-        <p>Gerçek deneyimler, gerçek güven</p>
+  <!-- GOOGLE YORUMLARI (Trustindex) -->
+  <section id="google-yorumlari" class="section alt">
+    <div class="container reviews-wrap">
+      <div class="reviews-header">
+        <div class="reviews-badge"><i class="fa-solid fa-star"></i></div>
+        <div>
+          <h2 class="reviews-title">Google Yorumları</h2>
+          <p class="reviews-subtitle">Hasta sahiplerinin güncel deneyimleri</p>
+        </div>
+        <a class="btn btn-primary reviews-cta"
+           href="https://www.google.com/maps/place/El%C3%A7i+Veteriner+Klini%C4%9Fi"
+           target="_blank" rel="noopener">
+          Google'da Yorum Yaz
+        </a>
       </div>
-      <div class="reviews-grid" id="reviewsGrid">
-        <!-- JS dolduracak -->
+
+      <div class="embed-frame">
+        <!-- Trustindex Google Reviews -->
+        <script defer async src="https://cdn.trustindex.io/loader.js?f7b5b0354a019959c54628af18f"></script>
       </div>
-      <p style="text-align:center;margin-top:14px">
-        <a class="btn" style="background:#fff;border:2px solid var(--secondary-color);color:var(--secondary-color)" href="https://www.google.com/search?q=El%C3%A7i+Veteriner+Konya#lrd=0x0:0x0,1,,," target="_blank" rel="noopener">Tüm Yorumları Gör</a>
-      </p>
+
+      <div class="reviews-footnote">
+        <i class="fa-brands fa-google"></i>
+        <span>Yorumlar Google üzerinden otomatik güncellenir.</span>
+      </div>
     </div>
   </section>
 
-  <!-- Instagram Akışı -->
-  <section class="section" id="instagram">
-    <div class="container">
-      <div class="section-title">
-        <h2>Instagram’dan</h2>
-        <p>Günlük hayatımızdan kareler</p>
+  <!-- INSTAGRAM AKIŞI (Trustindex) -->
+  <section id="instagram" class="section">
+    <div class="container ig-wrap">
+      <div class="ig-header">
+        <div class="ig-badge"><i class="fa-brands fa-instagram"></i></div>
+        <div>
+          <h2 class="ig-title">Instagram’dan</h2>
+          <p class="ig-subtitle">Kliniğimizden güncel kareler</p>
+        </div>
+        <a class="btn btn-outline ig-cta"
+           href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener">
+          Instagram’da Takip Et
+        </a>
       </div>
-      <div class="ig-grid" id="igGrid">
-        <!-- JS dolduracak -->
+
+      <div class="embed-frame">
+        <!-- Trustindex Instagram Feed -->
+        <script defer async src="https://cdn.trustindex.io/loader-feed.js?d56b9c5548479953500649df3ad"></script>
       </div>
-      <p style="text-align:center;margin-top:12px"><a class="btn" style="background:var(--primary-color);color:#fff" href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener"><i class="fab fa-instagram"></i> @elciveteriner</a></p>
     </div>
   </section>
 
@@ -478,7 +494,7 @@
             <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank">Havzan Mah., Yeni Meram Cad. No:17/1, Meram/Konya</a>
           </li>
           <li><i class="fas fa-phone-alt"></i> <a href="tel:03323223220">0332 322 32 20</a></li>
-          <li><i class="fas fa-envelope"></i> <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></li>
+          <li><i class="fas fa-envelope"></i> <a href="mailto:elcivetklinig@gmail.com">elcivetklinig@gmail.com</a></li>
           <li><i class="fas fa-clock"></i> Pazartesi–Cumartesi: 08:00–19:00, Pazar: Acil</li>
         </ul>
       </div>
@@ -526,20 +542,20 @@
       });
     });
 
-    // Stats counter on view
+    // İstatistik sayaç animasyonu
     const counters=document.querySelectorAll('.stat-number');
     const io=new IntersectionObserver((entries,obs)=>{
       entries.forEach(entry=>{
         if(entry.isIntersecting){
-          const el=entry.target, target=+el.dataset.target, startTime=performance.now(), duration=1200;
-          const step=(now)=>{const p=Math.min((now-startTime)/duration,1);const ease=p<.5?2*p*p:-1+(4-2*p)*p;el.textContent=Math.floor(target*ease).toLocaleString('tr-TR'); if(p<1) requestAnimationFrame(step);};
+          const el=entry.target, target=+el.dataset.target, start=performance.now(), dur=1200;
+          const step=(now)=>{const p=Math.min((now-start)/dur,1);const ease=p<.5?2*p*p:-1+(4-2*p)*p;el.textContent=Math.floor(target*ease).toLocaleString('tr-TR'); if(p<1) requestAnimationFrame(step);};
           requestAnimationFrame(step); obs.unobserve(el);
         }
       });
     },{threshold:.3});
     counters.forEach(c=>io.observe(c));
 
-    // Blog previews (data/blog.json)
+    // Blog özetlerini doldur
     async function loadBlog(){
       try{
         const res=await fetch('data/blog.json',{cache:'no-store'});
@@ -551,10 +567,10 @@
         posts.slice(0,3).forEach(p=>{
           const title=p.title||p.baslik||'Blog Yazısı';
           const img=p.image||p.cover||'https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=1200&q=60';
-          const url=p.url||p.slug?`blog.html#${p.slug||''}`:'blog.html';
+          const url=p.url||(p.slug?`blog.html#${p.slug}`:'blog.html');
           const raw=p.excerpt||p.ozet||p.summary||p.content||'';
           const text=(raw||'').toString().replace(/<[^>]+>/g,'');
-          const excerpt=text.length>160?text.slice(0,160)+'…':text||'Detaylar için yazıyı okuyun.';
+          const excerpt=text.length>160?text.slice(0,160)+'…':(text||'Detaylar için yazıyı okuyun.');
           grid.insertAdjacentHTML('beforeend',`
             <article class="blog-card">
               <div class="thumb"><img src="${img}" alt="${title}" loading="lazy"></div>
@@ -566,70 +582,11 @@
             </article>
           `);
         });
-      }catch(e){
-        console.warn('Blog yüklenemedi',e);
-      }
+      }catch(e){ console.warn('Blog yüklenemedi',e); }
     }
     loadBlog();
-
-    // Google Reviews (Netlify Function)
-    async function loadReviews(){
-      const el=document.getElementById('reviewsGrid');
-      if(!el) return;
-      try{
-        const res=await fetch('/.netlify/functions/google-reviews');
-        if(!res.ok) throw new Error('Yorum isteği başarısız');
-        const data=await res.json();
-        el.innerHTML='';
-        (data.reviews||[]).slice(0,6).forEach(r=>{
-          const stars='★'.repeat(Math.round(r.rating))+'☆'.repeat(5-Math.round(r.rating));
-          const text=(r.text||'').length>220? r.text.slice(0,220)+'…' : (r.text||'');
-          el.insertAdjacentHTML('beforeend',`
-            <div class="review">
-              <div class="stars" aria-label="${r.rating} yıldız">${stars}</div>
-              <p style="margin-top:8px">${text||'Yorum metni bulunamadı.'}</p>
-              <div class="author">
-                <img src="${r.profile_photo_url||'https://i.pravatar.cc/64'}" alt="${r.author_name||'Kullanıcı'}">
-                <div><strong>${r.author_name||'Google Kullanıcısı'}</strong><div style="font-size:12px;color:#6b7280">${r.relative_time_description||''}</div></div>
-              </div>
-            </div>
-          `);
-        });
-        if(!el.innerHTML.trim()){
-          el.innerHTML='<p style="text-align:center;color:#6b7280">Yorum verisi bağlanınca burada görünecek.</p>';
-        }
-      }catch(e){
-        el.innerHTML='<p style="text-align:center;color:#6b7280">Yorum servisine bağlanılamadı.</p>';
-      }
-    }
-    loadReviews();
-
-    // Instagram feed (Netlify Function)
-    async function loadIG(){
-      const wrap=document.getElementById('igGrid');
-      if(!wrap) return;
-      try{
-        const res=await fetch('/.netlify/functions/instagram');
-        if(!res.ok) throw new Error('IG isteği başarısız');
-        const data=await res.json();
-        wrap.innerHTML='';
-        (data.items||[]).slice(0,12).forEach(m=>{
-          const img=m.media_url||m.thumbnail_url;
-          const link=m.permalink||'#';
-          wrap.insertAdjacentHTML('beforeend',`
-            <a href="${link}" target="_blank" rel="noopener">
-              <img src="${img}" alt="${(m.caption||'Instagram görseli').replace(/"/g,'')}" loading="lazy">
-            </a>
-          `);
-        });
-        if(!wrap.innerHTML.trim()){
-          wrap.innerHTML='<p style="text-align:center;color:#6b7280">Instagram bağlantısı eklenince burada görünecek.</p>';
-        }
-      }catch(e){
-        wrap.innerHTML='<p style="text-align:center;color:#6b7280">Instagram servisine bağlanılamadı.</p>';
-      }
-    }
-    loadIG();
   </script>
+
+  <!-- Trustindex embed scriptleri zaten ilgili bölümlere yerleştirildi -->
 </body>
 </html>
