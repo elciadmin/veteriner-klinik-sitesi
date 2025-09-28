@@ -69,7 +69,7 @@
     .dropdown:hover .dropdown-content{display:block}
     .mobile-menu-btn{display:none;background:none;border:0;font-size:24px;color:var(--primary-color);cursor:pointer}
 
-    /* Hero (artık tek sütun) */
+    /* Hero */
     .hero{margin-top:88px;background:var(--gradient-hero), url('https://images.unsplash.com/photo-1558944351-babfe8c2d625?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;color:#fff}
     .hero .container{display:grid;grid-template-columns:1fr;gap:20px;align-items:center;padding:92px 16px}
     .hero h1{color:#fff;font-size:46px;line-height:1.12;margin-bottom:12px}
@@ -131,16 +131,16 @@
     .blog-card h3{font-size:18px;color:var(--dark);margin-bottom:6px}
     .blog-card p{color:#4b5563;font-size:15px}
 
-    /* Embed başlık/çerçeve */
-    .reviews-wrap,.ig-wrap{max-width:1100px;margin:0 auto}
-    .reviews-header,.ig-header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
-    .reviews-badge,.ig-badge{
+    /* Embed başlık/çerçeve - ortak stiller */
+    .reviews-wrap,.ig-wrap,.ytb-wrap{max-width:1100px;margin:0 auto}
+    .reviews-header,.ig-header,.ytb-header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+    .reviews-badge,.ig-badge,.ytb-badge{
       width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;
       box-shadow:0 8px 18px rgba(16,179,209,.25);background:linear-gradient(135deg,var(--secondary-color),var(--primary-color));
     }
-    .reviews-title,.ig-title{font-size:28px;color:var(--primary-color);margin:0}
-    .reviews-subtitle,.ig-subtitle{color:#6c757d;margin:4px 0 0}
-    .reviews-cta,.ig-cta{margin-left:auto;white-space:nowrap;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px}
+    .reviews-title,.ig-title,.ytb-title{font-size:28px;color:var(--primary-color);margin:0}
+    .reviews-subtitle,.ig-subtitle,.ytb-subtitle{color:#6c757d;margin:4px 0 0}
+    .reviews-cta,.ig-cta,.ytb-cta{margin-left:auto;white-space:nowrap;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px}
     .embed-frame{
       background:#fff;border:2px solid #e6f2ff;border-radius:16px;padding:14px;
       box-shadow:0 10px 24px rgba(0,0,0,.06);position:relative;overflow:hidden
@@ -150,12 +150,6 @@
       background:radial-gradient(closest-side, rgba(16,179,209,.12), transparent 70%);pointer-events:none;
     }
     .reviews-footnote{display:flex;align-items:center;gap:8px;color:#6c757d;font-size:14px;margin-top:12px}
-
-    /* Video bölümünde kullanılacak çerçeve */
-    .video-frame{
-      position:relative;background:#fff;border-radius:16px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow-md)
-    }
-    .video-frame iframe{width:100%;aspect-ratio:16/9;border:0;display:block}
 
     /* Footer */
     footer{background:linear-gradient(135deg,#1a3a52,var(--primary-color));color:#fff;padding:60px 0 0}
@@ -280,7 +274,7 @@
     </div>
   </header>
 
-  <!-- HERO (videoyı buradan kaldırdık) -->
+  <!-- HERO -->
   <section class="hero" aria-label="Açılış">
     <div class="container">
       <div>
@@ -408,7 +402,7 @@
     </div>
   </section>
 
-  <!-- INSTAGRAM AKIŞI (Trustindex) — KOD GÜNCELLENDİ -->
+  <!-- INSTAGRAM AKIŞI (Trustindex) — KOD DEĞİŞTİRİLDİ -->
   <section id="instagram" class="section">
     <div class="container ig-wrap">
       <div class="ig-header">
@@ -424,24 +418,30 @@
       </div>
 
       <div class="embed-frame">
-        <!-- Trustindex Instagram Feed - yeni widget kodu -->
-        <script defer async src="https://cdn.trustindex.io/loader-feed.js?561c8e7551710088f846aedaa2d"></script>
+        <!-- Trustindex Instagram Feed - İSTEDİĞİN KOD -->
+        <script defer async src="https://cdn.trustindex.io/loader-feed.js?d56b9c5548479953500649df3ad"></script>
       </div>
     </div>
   </section>
 
-  <!-- TANITIM VİDEOSU — hero'dan taşındı -->
-  <section class="section" id="tanitim-video">
-    <div class="container">
-      <div class="section-title">
-        <h2>Tanıtım Videosu</h2>
-        <p>Kliniğimizi yakından tanıyın</p>
+  <!-- YOUTUBE BÖLÜMÜ (Trustindex) -->
+  <section id="youtube" class="section alt">
+    <div class="container ytb-wrap">
+      <div class="ytb-header">
+        <div class="ytb-badge"><i class="fa-brands fa-youtube"></i></div>
+        <div>
+          <h2 class="ytb-title">YouTube’dan</h2>
+          <p class="ytb-subtitle">Videolarımız ve bilgilendirici içerikler</p>
+        </div>
+        <a class="btn btn-outline ytb-cta"
+           href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener">
+          Kanalı Ziyaret Et
+        </a>
       </div>
-      <div class="video-frame">
-        <iframe title="Elçi Veteriner Tanıtım Videosu"
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen></iframe>
+
+      <div class="embed-frame">
+        <!-- Trustindex YouTube Feed - BU KOD BURADA -->
+        <script defer async src="https://cdn.trustindex.io/loader-feed.js?561c8e7551710088f846aedaa2d"></script>
       </div>
     </div>
   </section>
