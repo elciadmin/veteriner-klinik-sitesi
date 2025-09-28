@@ -21,11 +21,10 @@
 
   <style>
     :root{
-      /* Marka renkleri (senin verdiğin) */
       --primary-color:#6a0ea1;      /* mor */
       --secondary-color:#10b3d1;    /* mavi */
-      --primary-700:#520b7d;        /* mor koyu ton */
-      --secondary-700:#0e91ab;      /* mavi koyu ton */
+      --primary-700:#520b7d;
+      --secondary-700:#0e91ab;
 
       --light:#f7f8fc;
       --dark:#0f172a;
@@ -70,9 +69,9 @@
     .dropdown:hover .dropdown-content{display:block}
     .mobile-menu-btn{display:none;background:none;border:0;font-size:24px;color:var(--primary-color);cursor:pointer}
 
-    /* Hero */
+    /* Hero (artık tek sütun) */
     .hero{margin-top:88px;background:var(--gradient-hero), url('https://images.unsplash.com/photo-1558944351-babfe8c2d625?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;color:#fff}
-    .hero .container{display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center;padding:92px 16px}
+    .hero .container{display:grid;grid-template-columns:1fr;gap:20px;align-items:center;padding:92px 16px}
     .hero h1{color:#fff;font-size:46px;line-height:1.12;margin-bottom:12px}
     .hero p{color:#eaf7ff;font-size:18px;margin-bottom:16px}
     .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
@@ -82,12 +81,7 @@
     .btn-outline{background:transparent;border:2px solid #fff;color:#fff}
     .btn-outline:hover{background:#ffffff22}
 
-    .hero-video{
-      position:relative;background:#fff;border-radius:16px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow-md)
-    }
-    .hero-video iframe{width:100%;aspect-ratio:16/9;border:0;display:block}
-
-    /* Section generic */
+    /* Genel section */
     .section{padding:70px 0;background:#fff}
     .section.alt{background:#f8fbff}
     .section-title{text-align:center;margin-bottom:34px}
@@ -128,7 +122,7 @@
     .guide-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md)}
     .guide-card i{font-size:20px;color:var(--secondary-color)}
 
-    /* Blog previews */
+    /* Blog */
     .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
     .blog-card{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm)}
     .blog-card .thumb{height:170px;background:#eef4ff}
@@ -137,7 +131,7 @@
     .blog-card h3{font-size:18px;color:var(--dark);margin-bottom:6px}
     .blog-card p{color:#4b5563;font-size:15px}
 
-    /* Google Reviews/Instagram embed çerçevesi */
+    /* Embed başlık/çerçeve */
     .reviews-wrap,.ig-wrap{max-width:1100px;margin:0 auto}
     .reviews-header,.ig-header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
     .reviews-badge,.ig-badge{
@@ -156,6 +150,12 @@
       background:radial-gradient(closest-side, rgba(16,179,209,.12), transparent 70%);pointer-events:none;
     }
     .reviews-footnote{display:flex;align-items:center;gap:8px;color:#6c757d;font-size:14px;margin-top:12px}
+
+    /* Video bölümünde kullanılacak çerçeve */
+    .video-frame{
+      position:relative;background:#fff;border-radius:16px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow-md)
+    }
+    .video-frame iframe{width:100%;aspect-ratio:16/9;border:0;display:block}
 
     /* Footer */
     footer{background:linear-gradient(135deg,#1a3a52,var(--primary-color));color:#fff;padding:60px 0 0}
@@ -204,7 +204,7 @@
         <div><i class="fas fa-map-marker-alt"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</div>
         <div>
           <a href="tel:03323223220" style="color:#fff"><i class="fas fa-phone-alt"></i> 0332 322 32 20</a>
-          <a href="mailto:elcivetklinik@gmail.com" style="color:#fff;margin-left:12px"><i class="fas fa-envelope"></i> elcivetklinig@gmail.com</a>
+          <a href="mailto:elcivetklinig@gmail.com" style="color:#fff;margin-left:12px"><i class="fas fa-envelope"></i> elcivetklinig@gmail.com</a>
         </div>
       </div>
     </div>
@@ -280,7 +280,7 @@
     </div>
   </header>
 
-  <!-- HERO -->
+  <!-- HERO (videoyı buradan kaldırdık) -->
   <section class="hero" aria-label="Açılış">
     <div class="container">
       <div>
@@ -290,13 +290,6 @@
           <a class="btn btn-primary" href="hasta-iliskileri.html#online-randevu"><i class="fas fa-calendar-check"></i> Online Randevu Al</a>
           <a class="btn btn-outline" href="tel:03323223220"><i class="fas fa-phone"></i> 0332 322 32 20</a>
         </div>
-      </div>
-      <div class="hero-video">
-        <!-- YouTube tanıtım videon (ID'yi değiştir) -->
-        <iframe title="Elçi Veteriner Tanıtım Videosu"
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen></iframe>
       </div>
     </div>
   </section>
@@ -356,7 +349,7 @@
     </div>
   </section>
 
-  <!-- Blog Önizleme (data/blog.json) -->
+  <!-- Blog Önizleme -->
   <section class="section alt" id="blog-ozet">
     <div class="container">
       <div class="section-title">
@@ -415,7 +408,7 @@
     </div>
   </section>
 
-  <!-- INSTAGRAM AKIŞI (Trustindex) -->
+  <!-- INSTAGRAM AKIŞI (Trustindex) — KOD GÜNCELLENDİ -->
   <section id="instagram" class="section">
     <div class="container ig-wrap">
       <div class="ig-header">
@@ -431,8 +424,24 @@
       </div>
 
       <div class="embed-frame">
-        <!-- Trustindex Instagram Feed -->
-        <script defer async src="https://cdn.trustindex.io/loader-feed.js?d56b9c5548479953500649df3ad"></script>
+        <!-- Trustindex Instagram Feed - yeni widget kodu -->
+        <script defer async src="https://cdn.trustindex.io/loader-feed.js?561c8e7551710088f846aedaa2d"></script>
+      </div>
+    </div>
+  </section>
+
+  <!-- TANITIM VİDEOSU — hero'dan taşındı -->
+  <section class="section" id="tanitim-video">
+    <div class="container">
+      <div class="section-title">
+        <h2>Tanıtım Videosu</h2>
+        <p>Kliniğimizi yakından tanıyın</p>
+      </div>
+      <div class="video-frame">
+        <iframe title="Elçi Veteriner Tanıtım Videosu"
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
       </div>
     </div>
   </section>
@@ -504,7 +513,7 @@
     </div></div>
   </footer>
 
-  <!-- JSON-LD: VeterinaryCare yerel işletme şeması -->
+  <!-- JSON-LD -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -555,7 +564,7 @@
     },{threshold:.3});
     counters.forEach(c=>io.observe(c));
 
-    // Blog özetlerini doldur
+    // Blog özetleri
     async function loadBlog(){
       try{
         const res=await fetch('data/blog.json',{cache:'no-store'});
@@ -586,7 +595,5 @@
     }
     loadBlog();
   </script>
-
-  <!-- Trustindex embed scriptleri zaten ilgili bölümlere yerleştirildi -->
 </body>
 </html>
