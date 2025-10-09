@@ -1,0 +1,18 @@
+{
+  "aggregate": { "ratingValue": 5, "reviewCount": 12 },
+  "items": [
+    {
+      "author": "Ayşe K.",
+      "rating": 5,
+      "text": "Gece acilde çok yardımcı oldular, teşekkür ederiz.",
+      "date": "2025-02-01",
+      "url": "https://maps.google.com/?cid=ELCI_VET_EXAMPLE"
+    },
+    {
+      "author": "Mehmet D.",
+      "rating": 5,
+      "text": "Diş temizliği sonrası ağız kokusu bitti, ekip harika.",
+      "date": "2025-01-22"
+    }
+  ]
+}
