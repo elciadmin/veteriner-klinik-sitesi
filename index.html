@@ -34,28 +34,19 @@
 
   <style>
     :root{
-      --primary:#6a0ea1;      /* mor */
-      --secondary:#10b3d1;    /* mavi */
-      --primary-700:#520b7d;
-      --secondary-700:#0e91ab;
-
-      --light:#f7f8fc;
-      --dark:#0f172a;
-      --muted:#6b7280;
-      --white:#fff;
-      --border:#e6eef7;
-      --shadow-sm:0 6px 16px rgba(15,23,42,.06);
+      --primary:#6a0ea1; --secondary:#10b3d1;
+      --primary-700:#520b7d; --secondary-700:#0e91ab;
+      --light:#f7f8fc; --dark:#0f172a; --muted:#6b7280; --white:#fff;
+      --border:#e6eef7; --shadow-sm:0 6px 16px rgba(15,23,42,.06);
       --shadow-md:0 14px 30px rgba(15,23,42,.12);
       --grad-hero:linear-gradient(120deg, rgba(106,14,161,.96), rgba(16,179,209,.92));
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Roboto',sans-serif;color:#1f2937;background:var(--light);line-height:1.6;overflow-x:hidden}
-    h1,h2,h3,h4,h5{font-family:'Montserrat',sans-serif;color:#0f172a}
+    h1,h2,h3,h4,h5{font-family:'Montserrat',sans-serif;color:var(--dark)}
     a{color:var(--primary);text-decoration:none;transition:.25s}
     a:hover{color:var(--secondary)}
     .container{max-width:1200px;margin:0 auto;padding:0 16px}
-
-    /* Skip link */
     .skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
     .skip-link:focus{left:8px;top:8px;width:auto;height:auto;background:#fff;color:#000;padding:8px 12px;border-radius:8px;z-index:2000}
 
@@ -95,8 +86,7 @@
     .hero{
       margin-top:88px;
       background:var(--grad-hero), url('assets/img/uploads/clinic-hero.jpg') center/cover no-repeat;
-      background-blend-mode: overlay;
-      color:#fff
+      background-blend-mode: overlay; color:#fff
     }
     .hero .container{display:flex;flex-direction:column;align-items:center;text-align:center;padding:120px 16px 40px}
     .hero .brand-mark{display:flex;flex-direction:column;align-items:center;gap:14px;margin-bottom:10px}
@@ -167,7 +157,7 @@
     .blog-card .thumb{height:170px;background:#eef4ff}
     .blog-card img{width:100%;height:100%;object-fit:cover;display:block}
     .blog-card .body{padding:14px}
-    .blog-card h3{font-size:18px;color:#0f172a;margin-bottom:6px}
+    .blog-card h3{font-size:18px;color:var(--dark);margin-bottom:6px}
     .blog-card p{color:#4b5563;font-size:15px}
 
     /* Hakkımızdan özet */
@@ -228,6 +218,7 @@
     <div class="header-main">
       <div class="container">
         <div class="logo-wrap">
+          <!-- Logo dosyan yoksa metin-logo göster -->
           <img class="logo-img" src="assets/img/uploads/logo.png" alt="Elçi Veteriner Logosu"
                width="168" height="44" loading="eager" decoding="async" fetchpriority="high"
                onerror="this.style.display='none';document.getElementById('textLogo').style.display='block'">
@@ -304,6 +295,7 @@
     <section class="hero" aria-label="Açılış">
       <div class="container">
         <div class="brand-mark">
+          <!-- Logo yoksa gizlenir -->
           <img src="assets/img/uploads/logo.png" alt="Elçi Veteriner" onerror="this.style.display='none'">
         </div>
         <h1>Konya’da 7/24 Acil ve Kapsamlı Veterinerlik</h1>
@@ -462,10 +454,10 @@
           <p>Videolarımız ve bilgilendirici içerikler</p>
         </div>
         <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;border:1px solid #e6eef7">
+          <!-- UC → UU dönüştürüldü: UCj2kiAEEF2LyKko9P78RGPQ → UUj2kiAEEF2LyKko9P78RGPQ -->
           <iframe
             src="https://www.youtube.com/embed/videoseries?list=UUj2kiAEEF2LyKko9P78RGPQ"
-            title="YouTube playlist" allowfullscreen
-            referrerpolicy="strict-origin-when-cross-origin" loading="lazy"
+            title="YouTube uploads playlist" allowfullscreen
             style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"></iframe>
         </div>
         <p style="margin-top:16px">
