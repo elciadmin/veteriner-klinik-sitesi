@@ -23,7 +23,7 @@
   <link rel="canonical" href="https://veteriner-klinik-sitesi.netlify.app/">
   <meta name="theme-color" content="#6a0ea1">
 
-  <!-- Sosyal önizleme (yerel görsele çevrildi) -->
+  <!-- Sosyal önizleme (yerel görsel) -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Elçi Veteriner Kliniği | Konya'da 7/24 Acil Veteriner">
   <meta property="og:description" content="7/24 acil, cerrahi, diş sağlığı, görüntüleme. Hemen arayın: 0332 322 32 20">
@@ -91,10 +91,11 @@
     .dropdown:hover .dropdown-content{display:block}
     .mobile-menu-btn{display:none;background:none;border:0;font-size:24px;color:var(--primary);cursor:pointer}
 
-    /* HERO — geniş + merkezli logo + alt hızlı rehber (yerel görsele çevrildi) */
+    /* HERO — yerel görsel + güvenli overlay */
     .hero{
       margin-top:88px;
       background:var(--grad-hero), url('img/uploads/clinic-hero.jpg') center/cover no-repeat;
+      background-blend-mode: overlay; /* görsel yoksa gradyan tek başına yeter */
       color:#fff
     }
     .hero .container{display:flex;flex-direction:column;align-items:center;text-align:center;padding:120px 16px 40px}
@@ -110,7 +111,7 @@
     .btn-outline{background:transparent;border:2px solid #fff;color:#fff}
     .btn-outline:hover{background:rgba(255,255,255,.13)}
 
-    /* HERO Quick Nav (Site Rehberi) */
+    /* HERO Quick Nav */
     .quick-nav{width:100%;max-width:1200px;margin-top:36px;padding:22px 12px 8px;border-top:1px solid rgba(255,255,255,.25)}
     .quick-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
     .quick-item{
@@ -139,7 +140,7 @@
     .section-title h2:after{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:0;height:3px;width:72px;background:var(--secondary)}
     .section-title p{color:var(--muted);margin-top:8px}
 
-    /* Hizmetler — büyük flip kart */
+    /* Hizmetler — flip kart */
     .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;perspective:1200px}
     .flip-card{position:relative;height:250px}
     .flip-card-inner{
@@ -147,9 +148,7 @@
       box-shadow:var(--shadow-sm);border:2px solid var(--border);background:#fff;
     }
     .flip-card:hover .flip-card-inner{transform:rotateY(180deg)}
-    .flip-face{
-      position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;text-align:center
-    }
+    .flip-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;text-align:center}
     .flip-front{background:#fff}
     .flip-front .icon{width:68px;height:68px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:30px;
       background:linear-gradient(135deg,var(--secondary),var(--primary));color:#fff;box-shadow:0 10px 22px rgba(16,179,209,.25)}
@@ -349,7 +348,7 @@
       </div>
     </section>
 
-    <!-- HİZMETLER (büyük flip kartlar) -->
+    <!-- HİZMETLER -->
     <section class="section" id="hizmetler-ozet">
       <div class="container">
         <div class="section-title">
@@ -391,7 +390,7 @@
       </div>
     </section>
 
-    <!-- INSTAGRAM (Trustindex kaldırıldı — ücretsiz grid) -->
+    <!-- INSTAGRAM (JSON’dan) -->
     <section id="instagram" class="section alt">
       <div class="container">
         <div class="section-title">
@@ -438,7 +437,7 @@
       </div>
     </section>
 
-    <!-- GOOGLE YORUMLARI (Trustindex kaldırıldı — JSON'dan) -->
+    <!-- GOOGLE YORUMLARI (JSON’dan) -->
     <section id="google-yorumlari" class="section">
       <div class="container">
         <div class="section-title">
@@ -460,7 +459,7 @@
       </div>
     </section>
 
-    <!-- YOUTUBE (Trustindex yerine sade iframe) -->
+    <!-- YOUTUBE (ücretsiz iframe) -->
     <section id="youtube" class="section alt">
       <div class="container embed-wrap">
         <div class="section-title">
@@ -468,9 +467,11 @@
           <p>Videolarımız ve bilgilendirici içerikler</p>
         </div>
         <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;border:1px solid #e6eef7">
-          <iframe src="https://www.youtube.com/embed?listType=user_uploads&list=Elçiveterinerkliniği"
-                  title="YouTube" allowfullscreen
-                  style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"></iframe>
+          <!-- TODO: Kanal UC… ID’ni bana ver → ben UU… playlist ID’sini hesaplayıp aşağıyı doldurayım -->
+          <iframe
+            src="https://www.youtube.com/embed/videoseries?list=UU_REPLACEME"
+            title="YouTube playlist" allowfullscreen
+            style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"></iframe>
         </div>
         <p style="margin-top:16px">
           <a class="btn btn-outline" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener">Kanalı Ziyaret Et</a>
@@ -529,7 +530,7 @@
     </div></div>
   </footer>
 
-  <!-- JSON-LD (geliştirildi) -->
+  <!-- JSON-LD -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -562,7 +563,7 @@
   </script>
 
   <script>
-    // Mobile menu + dropdowns (ARIA ile)
+    // Mobile menu + dropdowns (ARIA)
     const mobileMenuBtn=document.getElementById('mobileMenuBtn');
     const mainMenu=document.getElementById('mainMenu');
     mobileMenuBtn.addEventListener('click',()=>{
@@ -586,7 +587,7 @@
     enableTouchFlip();
     window.addEventListener('resize',enableTouchFlip);
 
-    // Blog özetleri: data/blog.json yoksa örneklerle doldur
+    // Blog özetleri
     async function loadBlog(){
       const grid=document.getElementById('blogGrid');
       if(!grid) return;
@@ -627,7 +628,7 @@
     }
     loadBlog();
 
-    // Hakkımızda özetini about.html'den çek (yoksa fallback)
+    // Hakkımızda özet
     async function loadAboutSnippets(){
       const elciBox=document.querySelector('#elciKimdirCard .content');
       const misyonBox=document.querySelector('#misyonVizyonCard .content');
@@ -654,7 +655,7 @@
     }
     loadAboutSnippets();
 
-    // --- GOOGLE REVIEWS (JSON'dan) ---
+    // GOOGLE REVIEWS (JSON)
     async function loadReviews(){
       const grid = document.getElementById('reviewsGrid');
       const summary = document.getElementById('ratingSummary');
@@ -709,7 +710,7 @@
     }
     loadReviews();
 
-    // --- INSTAGRAM (JSON'dan) ---
+    // INSTAGRAM (JSON)
     async function loadInstagram(){
       const grid = document.getElementById('instaGrid');
       if(!grid) return;
