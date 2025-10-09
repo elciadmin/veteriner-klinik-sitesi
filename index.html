@@ -14,9 +14,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
   <!-- Favicons (yerel) -->
-  <link rel="icon" type="image/png" sizes="32x32" href="img/uploads/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="img/uploads/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="img/uploads/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/uploads/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/uploads/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/uploads/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
 
   <!-- Canonical & Theme -->
@@ -27,10 +27,10 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Elçi Veteriner Kliniği | Konya'da 7/24 Acil Veteriner">
   <meta property="og:description" content="7/24 acil, cerrahi, diş sağlığı, görüntüleme. Hemen arayın: 0332 322 32 20">
-  <meta property="og:image" content="img/uploads/og-cover.jpg">
+  <meta property="og:image" content="assets/img/uploads/og-cover.jpg">
   <meta property="og:url" content="https://veteriner-klinik-sitesi.netlify.app/">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="img/uploads/og-cover.jpg">
+  <meta name="twitter:image" content="assets/img/uploads/og-cover.jpg">
 
   <style>
     :root{
@@ -50,7 +50,7 @@
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Roboto',sans-serif;color:#1f2937;background:var(--light);line-height:1.6;overflow-x:hidden}
-    h1,h2,h3,h4,h5{font-family:'Montserrat',sans-serif;color:var(--dark)}
+    h1,h2,h3,h4,h5{font-family:'Montserrat',sans-serif;color:#0f172a}
     a{color:var(--primary);text-decoration:none;transition:.25s}
     a:hover{color:var(--secondary)}
     .container{max-width:1200px;margin:0 auto;padding:0 16px}
@@ -94,8 +94,8 @@
     /* HERO — yerel görsel + güvenli overlay */
     .hero{
       margin-top:88px;
-      background:var(--grad-hero), url('img/uploads/clinic-hero.jpg') center/cover no-repeat;
-      background-blend-mode: overlay; /* görsel yoksa gradyan tek başına yeter */
+      background:var(--grad-hero), url('assets/img/uploads/clinic-hero.jpg') center/cover no-repeat;
+      background-blend-mode: overlay;
       color:#fff
     }
     .hero .container{display:flex;flex-direction:column;align-items:center;text-align:center;padding:120px 16px 40px}
@@ -167,7 +167,7 @@
     .blog-card .thumb{height:170px;background:#eef4ff}
     .blog-card img{width:100%;height:100%;object-fit:cover;display:block}
     .blog-card .body{padding:14px}
-    .blog-card h3{font-size:18px;color:var(--dark);margin-bottom:6px}
+    .blog-card h3{font-size:18px;color:#0f172a;margin-bottom:6px}
     .blog-card p{color:#4b5563;font-size:15px}
 
     /* Hakkımızdan özet */
@@ -228,8 +228,7 @@
     <div class="header-main">
       <div class="container">
         <div class="logo-wrap">
-          <!-- Logo dosyan yoksa metin-logo göster -->
-          <img class="logo-img" src="img/uploads/logo.png" alt="Elçi Veteriner Logosu"
+          <img class="logo-img" src="assets/img/uploads/logo.png" alt="Elçi Veteriner Logosu"
                width="168" height="44" loading="eager" decoding="async" fetchpriority="high"
                onerror="this.style.display='none';document.getElementById('textLogo').style.display='block'">
           <div class="logo-text" id="textLogo" style="display:none">
@@ -305,8 +304,7 @@
     <section class="hero" aria-label="Açılış">
       <div class="container">
         <div class="brand-mark">
-          <!-- Logo yoksa gizlenir -->
-          <img src="img/uploads/logo.png" alt="Elçi Veteriner" onerror="this.style.display='none'">
+          <img src="assets/img/uploads/logo.png" alt="Elçi Veteriner" onerror="this.style.display='none'">
         </div>
         <h1>Konya’da 7/24 Acil ve Kapsamlı Veterinerlik</h1>
         <div class="underline"></div>
@@ -445,10 +443,7 @@
           <p>Hasta sahiplerinin deneyimleri</p>
         </div>
 
-        <!-- Özet puan -->
         <div id="ratingSummary" style="display:flex;align-items:center;gap:10px;margin-bottom:16px"></div>
-
-        <!-- Yorum kartları -->
         <div id="reviewsGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px"></div>
 
         <p style="margin-top:16px">
@@ -467,10 +462,10 @@
           <p>Videolarımız ve bilgilendirici içerikler</p>
         </div>
         <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;border:1px solid #e6eef7">
-          <!-- TODO: Kanal UC… ID’ni bana ver → ben UU… playlist ID’sini hesaplayıp aşağıyı doldurayım -->
           <iframe
-            src="https://www.youtube.com/embed/videoseries?list=UU_REPLACEME"
+            src="https://www.youtube.com/embed/videoseries?list=UUj2kiAEEF2LyKko9P78RGPQ"
             title="YouTube playlist" allowfullscreen
+            referrerpolicy="strict-origin-when-cross-origin" loading="lazy"
             style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"></iframe>
         </div>
         <p style="margin-top:16px">
@@ -537,8 +532,8 @@
     "@type":"VeterinaryCare",
     "name":"Elçi Veteriner Kliniği",
     "url":"https://veteriner-klinik-sitesi.netlify.app/",
-    "logo":"https://veteriner-klinik-sitesi.netlify.app/img/uploads/logo.png",
-    "image":"https://veteriner-klinik-sitesi.netlify.app/img/uploads/og-cover.jpg",
+    "logo":"https://veteriner-klinik-sitesi.netlify.app/assets/img/uploads/logo.png",
+    "image":"https://veteriner-klinik-sitesi.netlify.app/assets/img/uploads/og-cover.jpg",
     "telephone":"+903323223220",
     "address":{
       "@type":"PostalAddress",
