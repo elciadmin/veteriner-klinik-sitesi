@@ -1,0 +1,13 @@
+{
+  "name": "Elçi Veteriner Kliniği",
+  "short_name": "Elçi Vet",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6a0ea1",
+  "icons": [
+    { "src": "assets/img/uploads/favicon-32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "assets/img/uploads/favicon-16.png", "sizes": "16x16", "type": "image/png" },
+    { "src": "assets/img/uploads/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
