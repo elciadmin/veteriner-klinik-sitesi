@@ -1,3 +1,6 @@
+// /js/main.js
+console.log("[main] ready");
+
 // ------- Mobil menü + dropdown (ARIA)
 const mobileMenuBtn = document.getElementById('mobileMenuBtn');
 const mainMenu = document.getElementById('mainMenu');
@@ -26,7 +29,7 @@ function enableTouchFlip() {
 enableTouchFlip();
 window.addEventListener('resize', enableTouchFlip);
 
-// ------- Yardımcı: güvenli fetch
+// ------- Güvenli JSON fetch
 async function safeGetJSON(url) {
   try {
     const res = await fetch(url, { cache: 'no-store' });
@@ -37,61 +40,32 @@ async function safeGetJSON(url) {
     return null;
   }
 }
-async function safeGetHTML(url) {
-  try {
-    const res = await fetch(url, { cache: 'no-store' });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return await res.text();
-  } catch (e) {
-    console.warn('HTML yüklenemedi:', url, e);
-    return null;
-  }
-}
 
-// ------- BLOG (blog.html içinden son 3 yazıyı çek)
+// ------- BLOG (opsiyonel, varsa doldurur)
 async function loadBlog() {
   const grid = document.getElementById('blogGrid');
   if (!grid) return;
 
-  const html = await safeGetHTML('/blog.html');
-  let posts = [];
-  if (html) {
-    const dom = new DOMParser().parseFromString(html, 'text/html');
-    // blog.html yapına göre: her yazı .blog-post içinde, başlık <h2>, özet ilk <p>, görsel .blog-image img
-    const items = Array.from(dom.querySelectorAll('.blog-content .blog-post')).slice(0, 3);
-    posts = items.map(el => {
-      const titleEl = el.querySelector('.blog-info h2');
-      const pEl = el.querySelector('.blog-info p');
-      const imgEl = el.querySelector('.blog-image img');
-      const urlEl = el.querySelector('.blog-info .blog-read-more');
+  const data = await safeGetJSON('/assets/data/blog.json');
+  let posts = Array.isArray(data) ? data : (Array.isArray(data?.posts) ? data.posts : []);
 
-      return {
-        title: titleEl?.textContent?.trim() || 'Blog Yazısı',
-        image: imgEl?.getAttribute('src') || '/img/uploads/data/sample1.webp',
-        url: urlEl?.getAttribute('href') || 'blog.html',
-        excerpt: (pEl?.textContent || 'Detaylar için yazıyı okuyun.').trim()
-      };
-    });
-  }
-
-  // Eğer blog.html okunamazsa yedek içerik
   if (!posts.length) {
     posts = [
       {
         title: "Kedilerde Aşı Takvimi: İlk Yılda Neler Yapılır?",
-        image: "/img/uploads/data/sample1.webp",
+        image: "/assets/img/uploads/sample1.webp",
         url: "blog.html#kedilerde-asi-takvimi",
         excerpt: "Yavru kedilerde temel aşılar, iç/dış parazit ve yıllık hatırlatmalar hakkında kısa rehber."
       },
       {
         title: "Köpeklerde Diş Taşı Temizliği Neden Önemli?",
-        image: "/img/uploads/data/sample1.webp",
+        image: "/assets/img/uploads/sample1.webp",
         url: "blog.html#kopek-dis-sagligi",
         excerpt: "Ağız kokusu, diş taşı ve periodontal hastalıkların önlenmesi için ipuçları."
       },
       {
         title: "Acil Durum Rehberi: Hemen Kliniğe Gelmeniz Gereken 6 Belirti",
-        image: "/img/uploads/data/sample1.webp",
+        image: "/assets/img/uploads/sample1.webp",
         url: "blog.html#acil-durum-rehberi",
         excerpt: "Zehirlenme, solunum güçlüğü, travma gibi durumlarda ilk adımlar."
       }
@@ -99,11 +73,12 @@ async function loadBlog() {
   }
 
   grid.innerHTML = '';
-  posts.forEach(p => {
+  posts.slice(0, 3).forEach(p => {
     const title = p.title || 'Blog Yazısı';
-    const img = p.image || p.cover || '/img/uploads/data/sample1.webp';
-    const url = p.url || 'blog.html';
-    const text = (p.excerpt || '').toString().replace(/<[^>]+>/g, '');
+    const img = p.image || p.cover || '/assets/img/uploads/sample1.webp';
+    const url = p.url || (p.slug ? `blog.html#${p.slug}` : 'blog.html');
+    const raw = p.excerpt || p.ozet || p.summary || p.content || 'Detaylar için yazıyı okuyun.';
+    const text = (raw || '').toString().replace(/<[^>]+>/g, '');
     const excerpt = text.length > 160 ? text.slice(0, 160) + '…' : text;
 
     grid.insertAdjacentHTML('beforeend', `
@@ -117,17 +92,18 @@ async function loadBlog() {
       </article>
     `);
   });
+  console.log("[main] blog loaded:", posts.length);
 }
 loadBlog();
 
-// ------- About özetleri (about.html içinden çek)
+// ------- About özetleri
 async function loadAboutSnippets() {
   const elciBox = document.querySelector('#elciKimdirCard .content');
   const misyonBox = document.querySelector('#misyonVizyonCard .content');
   if (!elciBox || !misyonBox) return;
 
   try {
-    const res = await fetch('/about.html', { cache: 'no-store' });
+    const res = await fetch('about.html', { cache: 'no-store' });
     if (!res.ok) throw new Error('404');
     const html = await res.text();
     const dom = new DOMParser().parseFromString(html, 'text/html');
@@ -142,14 +118,16 @@ async function loadAboutSnippets() {
 
     elciBox.textContent = pick('#elci-kimdir', 'Kliniğimizin kurucusu ve değerleri hakkında bilgi için tıklayın.');
     misyonBox.textContent = pick('#misyon-vizyon', 'Misyon ve vizyonumuz hakkında detaylar için tıklayın.');
+    console.log("[main] about snippets ok");
   } catch (e) {
     elciBox.textContent = 'Kliniğimizin kurucusu ve değerleri hakkında bilgi için tıklayın.';
     misyonBox.textContent = 'Misyon ve vizyonumuz hakkında detaylar için tıklayın.';
+    console.warn("[main] about snippets fallback");
   }
 }
 loadAboutSnippets();
 
-// ------- Google Reviews (statik JSON)
+// ------- Google Reviews
 async function loadReviews() {
   const grid = document.getElementById('reviewsGrid');
   const summary = document.getElementById('ratingSummary');
@@ -165,27 +143,32 @@ async function loadReviews() {
   const count = Number(data.aggregate?.reviewCount || (data.items?.length || 0));
   summary.innerHTML = `
     <strong style="font-size:20px">${rating.toFixed(1)}</strong>
-    <span aria-label="5 üzerinden ${rating} yıldız">${'★'.repeat(5)}</span>
+    <span aria-label="5 üzerinden ${rating} yıldız">${'★'.repeat(Math.round(rating))}${'☆'.repeat(5-Math.round(rating))}</span>
     <span>(${count} yorum)</span>
   `;
 
   grid.innerHTML = '';
-  (data.items || []).slice(0, 6).forEach(r => {
-    const stars = '★'.repeat(r.rating || 5) + '☆'.repeat(5 - (r.rating || 5));
-    grid.insertAdjacentHTML('beforeend', `
-      <article class="about-card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-          <strong>${r.author || 'Anonim'}</strong>
-          <span aria-label="${r.rating || 5} yıldız">${stars}</span>
-        </div>
-        <p style="color:#4b5563">${(r.text || '').toString()}</p>
-        <small style="opacity:.7">${r.date || ''}</small>
-        ${r.url ? `<div style="margin-top:8px"><a class="link" href="${r.url}" target="_blank" rel="noopener">Google’da gör →</a></div>` : ''}
-      </article>
-    `);
-  });
+  const items = (data.items || []).slice(0, 6);
+  if (!items.length) {
+    grid.insertAdjacentHTML('beforeend','<p>Henüz yorum eklenmemiş.</p>');
+  } else {
+    items.forEach(r => {
+      const stars = '★'.repeat(r.rating || 5) + '☆'.repeat(5 - (r.rating || 5));
+      grid.insertAdjacentHTML('beforeend', `
+        <article class="about-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <strong>${r.author || 'Anonim'}</strong>
+            <span aria-label="${r.rating || 5} yıldız">${stars}</span>
+          </div>
+          <p style="color:#4b5563">${(r.text || '').toString()}</p>
+          <small style="opacity:.7">${r.date || ''}</small>
+          ${r.url ? `<div style="margin-top:8px"><a class="link" href="${r.url}" target="_blank" rel="noopener">Google’da gör →</a></div>` : ''}
+        </article>
+      `);
+    });
+  }
 
-  // SEO: AggregateRating JSON-LD
+  // SEO JSON-LD
   const ld = document.createElement('script');
   ld.type = 'application/ld+json';
   ld.text = JSON.stringify({
@@ -199,23 +182,32 @@ async function loadReviews() {
     }
   });
   document.body.appendChild(ld);
+
+  console.log("[main] reviews loaded:", items.length);
 }
 loadReviews();
 
-// ------- Instagram (statik JSON)
+// ------- Instagram
 async function loadInstagram() {
   const grid = document.getElementById('instaGrid');
   if (!grid) return;
 
   const items = await safeGetJSON('/assets/data/instagram.json');
-  if (!Array.isArray(items) || !items.length) {
-    grid.insertAdjacentHTML('beforeend', '<p>Instagram akışı yüklenemedi.</p>');
-    return;
-  }
 
   grid.innerHTML = '';
-  items.slice(0, 12).forEach(it => {
-    const img = it.image || '/img/uploads/data/sample1.webp';
+  let list = Array.isArray(items) ? items.slice(0, 12) : [];
+
+  // Fallback: eğer boşsa sample görselle doldur
+  if (!list.length) {
+    list = Array.from({ length: 6 }).map((_, i) => ({
+      image: "/assets/img/uploads/sample1.webp",
+      url: "https://www.instagram.com/elcivetklinigi/",
+      alt: `Klinikten bir kare ${i+1}`
+    }));
+  }
+
+  list.forEach(it => {
+    const img = it.image || '/assets/img/uploads/sample1.webp';
     const url = it.url || 'https://www.instagram.com/elcivetklinigi/';
     const alt = it.alt || '';
     grid.insertAdjacentHTML('beforeend', `
@@ -226,5 +218,17 @@ async function loadInstagram() {
       </a>
     `);
   });
+
+  console.log("[main] instagram loaded:", list.length);
 }
 loadInstagram();
+
+// ------- YouTube küçük kontrol (iframe var mı?)
+(function checkYouTube(){
+  const ifr = document.querySelector('#youtube iframe');
+  if (!ifr) {
+    console.warn("[main] youtube iframe bulunamadı");
+  } else {
+    console.log("[main] youtube iframe var:", ifr.src);
+  }
+})();
