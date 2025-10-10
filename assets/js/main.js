@@ -38,57 +38,100 @@ async function safeGetJSON(url) {
   }
 }
 
-// ------- BLOG
+// ======= BLOG (blog.html içinden çek) =======
 async function loadBlog() {
   const grid = document.getElementById('blogGrid');
   if (!grid) return;
 
-  const data = await safeGetJSON('/assets/data/blog.json');
-  let posts = Array.isArray(data) ? data : (Array.isArray(data?.posts) ? data.posts : []);
+  try {
+    const res = await fetch('/blog.html', { cache: 'no-store' });
+    if (!res.ok) throw new Error('blog.html bulunamadı');
+    const html = await res.text();
+    const dom = new DOMParser().parseFromString(html, 'text/html');
 
-  if (!posts.length) {
-    posts = [
+    // Esnek seçiciler: blog.html'deki olası yapıları dener
+    let items = Array.from(dom.querySelectorAll(
+      '#blog-list article, #blog-list li,' +
+      '.blog-list article, .blog-list li,' +
+      '.posts article, .posts li,' +
+      '.blog-grid article, article'
+    )).filter(el => el.querySelector('h2 a, h3 a, h2, h3'));
+
+    // Tekrarlı öğeleri linke göre ayıkla
+    const seen = new Set();
+    items = items.filter(el => {
+      const a = el.querySelector('h2 a, h3 a, a[href*="blog"]');
+      const href = a?.getAttribute('href') || '';
+      const key = href || el.textContent.trim().slice(0, 80);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
+    // İlk 3 yazıyı çıkar
+    const posts = items.slice(0, 3).map(el => {
+      const a = el.querySelector('h2 a, h3 a, a[href*="blog"]');
+      const titleEl = el.querySelector('h2, h3, .title');
+      const imgEl = el.querySelector('img');
+      const pEl = el.querySelector('p, .excerpt, .summary');
+
+      const title = (a?.textContent || titleEl?.textContent || 'Blog Yazısı').trim();
+
+      // Bağlantıyı kökten ver (/) — göreliyse köke çevir
+      let url = (a?.getAttribute('href') || '/blog.html').trim();
+      if (url && !/^https?:\/\//.test(url) && !url.startsWith('/')) {
+        url = '/' + url.replace(/^\.?\//, '');
+      }
+
+      // Görsel: varsa kullan; yoksa fallback
+      let image = imgEl?.getAttribute('src') || '/img/uploads/data/sample1.webp';
+      if (image && !/^https?:\/\//.test(image) && !image.startsWith('/')) {
+        image = '/' + image.replace(/^\.?\//, '');
+      }
+
+      const raw = (pEl?.textContent || '').trim();
+      const excerpt = raw ? (raw.length > 160 ? raw.slice(0, 160) + '…' : raw) : 'Detaylar için yazıyı okuyun.';
+
+      return { title, url, image, excerpt };
+    });
+
+    // Hiç post bulunamazsa fallback
+    const finalPosts = posts.length ? posts : [
       {
-        title: "Kedilerde Aşı Takvimi: İlk Yılda Neler Yapılır?",
-        image: "/img/uploads/sample1.webp",
-        url: "blog.html#kedilerde-asi-takvimi",
-        excerpt: "Yavru kedilerde temel aşılar, iç/dış parazit ve yıllık hatırlatmalar hakkında kısa rehber."
-      },
-      {
-        title: "Köpeklerde Diş Taşı Temizliği Neden Önemli?",
-        image: "/img/uploads/sample1.webp",
-        url: "blog.html#kopek-dis-sagligi",
-        excerpt: "Ağız kokusu, diş taşı ve periodontal hastalıkların önlenmesi için ipuçları."
-      },
-      {
-        title: "Acil Durum Rehberi: Hemen Kliniğe Gelmeniz Gereken 6 Belirti",
-        image: "/img/uploads/sample1.webp",
-        url: "blog.html#acil-durum-rehberi",
-        excerpt: "Zehirlenme, solunum güçlüğü, travma gibi durumlarda ilk adımlar."
+        title: 'Blog Yazıları',
+        image: '/img/uploads/data/sample1.webp',
+        url: '/blog.html',
+        excerpt: 'Güncel yazılarımızı blog sayfamızda okuyabilirsiniz.'
       }
     ];
-  }
 
-  grid.innerHTML = '';
-  posts.slice(0, 3).forEach(p => {
-    const title = p.title || 'Blog Yazısı';
-    const img = p.image || p.cover || '/img/uploads/sample1.webp';
-    const url = p.url || (p.slug ? `blog.html#${p.slug}` : 'blog.html');
-    const raw = p.excerpt || p.ozet || p.summary || p.content || 'Detaylar için yazıyı okuyun.';
-    const text = (raw || '').toString().replace(/<[^>]+>/g, '');
-    const excerpt = text.length > 160 ? text.slice(0, 160) + '…' : text;
+    grid.innerHTML = '';
+    finalPosts.forEach(p => {
+      grid.insertAdjacentHTML('beforeend', `
+        <article class="blog-card">
+          <div class="thumb"><img src="${p.image}" alt="${p.title}" loading="lazy" decoding="async"></div>
+          <div class="body">
+            <h3>${p.title}</h3>
+            <p>${p.excerpt}</p>
+            <p style="margin-top:8px"><a class="link" href="${p.url}">Devamını oku <i class="fa-solid fa-arrow-right"></i></a></p>
+          </div>
+        </article>
+      `);
+    });
 
-    grid.insertAdjacentHTML('beforeend', `
+  } catch (e) {
+    console.warn('Blog özetleri alınamadı:', e);
+    grid.innerHTML = `
       <article class="blog-card">
-        <div class="thumb"><img src="${img}" alt="${title}" loading="lazy" decoding="async"></div>
+        <div class="thumb"><img src="/img/uploads/data/sample1.webp" alt="Blog" loading="lazy" decoding="async"></div>
         <div class="body">
-          <h3>${title}</h3>
-          <p>${excerpt}</p>
-          <p style="margin-top:8px"><a class="link" href="${url}">Devamını oku <i class="fa-solid fa-arrow-right"></i></a></p>
+          <h3>Blog Yazıları</h3>
+          <p>Güncel yazılarımızı blog sayfamızda okuyabilirsiniz.</p>
+          <p style="margin-top:8px"><a class="link" href="/blog.html">Bloga git <i class="fa-solid fa-arrow-right"></i></a></p>
         </div>
       </article>
-    `);
-  });
+    `;
+  }
 }
 loadBlog();
 
@@ -99,7 +142,7 @@ async function loadAboutSnippets() {
   if (!elciBox || !misyonBox) return;
 
   try {
-    const res = await fetch('about.html', { cache: 'no-store' });
+    const res = await fetch('/about.html', { cache: 'no-store' });
     if (!res.ok) throw new Error('404');
     const html = await res.text();
     const dom = new DOMParser().parseFromString(html, 'text/html');
@@ -187,9 +230,17 @@ async function loadInstagram() {
 
   grid.innerHTML = '';
   items.slice(0, 12).forEach(it => {
-    const img = it.image || '/img/uploads/sample1.webp';
-    const url = it.url || '#';
+    let img = it.image || '/img/uploads/data/sample1.webp';
+    let url = it.url || '#';
     const alt = it.alt || '';
+
+    if (img && !/^https?:\/\//.test(img) && !img.startsWith('/')) {
+      img = '/' + img.replace(/^\.?\//, '');
+    }
+    if (url && !/^https?:\/\//.test(url) && !url.startsWith('/')) {
+      url = '/' + url.replace(/^\.?\//, '');
+    }
+
     grid.insertAdjacentHTML('beforeend', `
       <a href="${url}" target="_blank" rel="noopener"
          style="display:block;aspect-ratio:1/1;border-radius:10px;overflow:hidden;border:1px solid #e6eef7">
