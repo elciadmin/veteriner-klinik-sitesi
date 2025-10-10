@@ -1,0 +1,12 @@
+{
+  "aggregate": { "ratingValue": 5, "reviewCount": 12 },
+  "items": [
+    {
+      "author": "Ayşe K.",
+      "rating": 5,
+      "text": "Gece acilde çok yardımcı oldular, teşekkür ederiz.",
+      "date": "2025-02-01",
+      "url": "https://maps.google.com/?cid=ELCI_VET_EXAMPLE"
+    }
+  ]
+}
