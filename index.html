@@ -110,19 +110,13 @@
       border:1px solid rgba(255,255,255,.22);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
       transition:.25s;
     }
-    .quick-item .qicon{
-      width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;
-      background:rgba(255,255,255,.12);backdrop-filter:blur(2px);
-    }
+    .quick-item .qicon{width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;background:rgba(255,255,255,.12);backdrop-filter:blur(2px)}
     .quick-item strong{font-size:14px;letter-spacing:.3px}
     .quick-item:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.16);background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.08))}
     .quick-item:focus-visible{outline:3px solid #fff}
-    .quick-grid > a:not(:last-child)::after{
-      content:""; position:absolute; right:-6px; top:50%; transform:translateY(-50%);
-      width:4px; height:4px; border-radius:50%; background:rgba(255,255,255,.35);
-    }
+    .quick-grid > a:not(:last-child)::after{content:""; position:absolute; right:-6px; top:50%; transform:translateY(-50%); width:4px; height:4px; border-radius:50%; background:rgba(255,255,255,.35)}
 
-    /* Genel section */
+    /* Section */
     .section{padding:70px 0;background:#fff}
     .section.alt{background:#f8fbff}
     .section-title{text-align:center;margin-bottom:34px}
@@ -133,25 +127,19 @@
     /* Hizmetler */
     .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;perspective:1200px}
     .flip-card{position:relative;height:250px}
-    .flip-card-inner{
-      position:absolute;inset:0;border-radius:16px;transition:transform .7s;transform-style:preserve-3d;
-      box-shadow:var(--shadow-sm);border:2px solid var(--border);background:#fff;
-    }
+    .flip-card-inner{position:absolute;inset:0;border-radius:16px;transition:transform .7s;transform-style:preserve-3d;box-shadow:var(--shadow-sm);border:2px solid var(--border);background:#fff}
     .flip-card:hover .flip-card-inner{transform:rotateY(180deg)}
     .flip-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;text-align:center}
     .flip-front{background:#fff}
-    .flip-front .icon{width:68px;height:68px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:30px;
-      background:linear-gradient(135deg,var(--secondary),var(--primary));color:#fff;box-shadow:0 10px 22px rgba(16,179,209,.25)}
+    .flip-front .icon{width:68px;height:68px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:30px;background:linear-gradient(135deg,var(--secondary),var(--primary));color:#fff;box-shadow:0 10px 22px rgba(16,179,209,.25)}
     .flip-front h3{margin-top:12px;color:var(--primary)}
     .flip-back{transform:rotateY(180deg);background:#f7fbff;border:1px dashed #dbeafe}
     .flip-back p{color:#555;margin-bottom:12px}
     .flip-back a{font-weight:700}
 
-    /* Kart/Embed çerçeve */
+    /* Cards / Blog */
     .embed-wrap{max-width:1100px;margin:0 auto}
     .about-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;box-shadow:var(--shadow-sm)}
-
-    /* Blog */
     .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
     .blog-card{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm)}
     .blog-card .thumb{height:170px;background:#eef4ff}
@@ -160,7 +148,7 @@
     .blog-card h3{font-size:18px;color:var(--dark);margin-bottom:6px}
     .blog-card p{color:#4b5563;font-size:15px}
 
-    /* Hakkımızda özet */
+    /* About teaser */
     .about-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
     .about-card h3{color:var(--primary);margin-bottom:8px}
 
@@ -304,7 +292,6 @@
           <a class="btn btn-outline" href="tel:03323223220"><i class="fas fa-phone"></i> 0332 322 32 20</a>
         </div>
 
-        <!-- Quick nav (Site Rehberi) -->
         <div class="quick-nav" aria-label="Site Rehberi">
           <div class="quick-grid">
             <a class="quick-item" href="hizmetler.html#acil">
@@ -378,7 +365,7 @@
       </div>
     </section>
 
-    <!-- INSTAGRAM (JSON’dan) -->
+    <!-- INSTAGRAM -->
     <section id="instagram" class="section alt">
       <div class="container">
         <div class="section-title">
@@ -403,7 +390,7 @@
       </div>
     </section>
 
-    <!-- HAKKIMIZDAN ÖZET -->
+    <!-- HAKKIMIZDA ÖZET -->
     <section class="section alt" id="about-teaser">
       <div class="container">
         <div class="section-title">
@@ -425,7 +412,7 @@
       </div>
     </section>
 
-    <!-- GOOGLE YORUMLARI (JSON’dan) -->
+    <!-- GOOGLE YORUMLARI -->
     <section id="google-yorumlari" class="section">
       <div class="container">
         <div class="section-title">
@@ -437,7 +424,7 @@
         <div id="reviewsGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px"></div>
 
         <p style="margin-top:16px">
-          <a class="btn btn-primary" href="https://www.google.com/search?q=El%C3%A7i+Veteriner+Klini%C4%9Fi#lrd=0x0:0x0,1" target="_blank" rel="noopener">
+          <a class="btn btn-primary" href="https://www.google.com/maps/place/El%C3%A7i+Veteriner+Klini%C4%9Fi" target="_blank" rel="noopener">
             Google'da tüm yorumları gör
           </a>
         </p>
@@ -452,10 +439,11 @@
           <p>Videolarımız ve bilgilendirici içerikler</p>
         </div>
         <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;border:1px solid #e6eef7">
-          <!-- UC → UU: UCj2kiAEEF2LyKko9P78RGPQ → UUj2kiAEEF2LyKko9P78RGPQ -->
+          <!-- Kanal UC: UCj2kiAEEF2LyKko9P78RGPQ  → Uploads playlist: UUj2kiAEEF2LyKko9P78RGPQ -->
           <iframe
             src="https://www.youtube.com/embed/videoseries?list=UUj2kiAEEF2LyKko9P78RGPQ"
             title="YouTube playlist" allowfullscreen
+            referrerpolicy="strict-origin-when-cross-origin"
             style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"></iframe>
         </div>
         <p style="margin-top:16px">
@@ -547,7 +535,7 @@
   }
   </script>
 
-  <!-- Tek JS dosyamız -->
+  <!-- Harici JS -->
   <script src="/js/main.js" defer></script>
 </body>
 </html>
