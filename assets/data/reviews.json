@@ -1,19 +1,18 @@
 {
-  "aggregate": { "ratingValue": 5, "reviewCount": 12 },
+  "aggregate": { "ratingValue": 4.8, "reviewCount": 126 },
   "items": [
     {
-      "author": "Ayşe K.",
+      "author": "A. Yılmaz",
       "rating": 5,
-      "text": "Gece acilde çok yardımcı oldular, teşekkür ederiz.",
-      "date": "2025-02-01",
-      "url": "https://www.google.com/maps?cid=1234567890"
+      "text": "Hızlı, ilgili ve çok profesyoneller. Kesinlikle tavsiye ederim.",
+      "date": "2024-11-02",
+      "url": "https://www.google.com/maps/place/El%C3%A7i+Veteriner+Klini%C4%9Fi"
     },
     {
-      "author": "Mehmet D.",
+      "author": "S. Demir",
       "rating": 5,
-      "text": "Hızlı teşhis ve başarılı bir operasyon. Ekibe teşekkürler.",
-      "date": "2025-01-15",
-      "url": "https://www.google.com/maps?cid=1234567890"
+      "text": "Acil durumda çok yardımcı oldular. Teşekkürler!",
+      "date": "2024-10-18"
     }
   ]
 }
