@@ -58,3 +58,19 @@
   GOOGLE_PLACE_ID = ""
   INSTAGRAM_ACCESS_TOKEN = ""
   INSTAGRAM_USER_ID = ""
+
+# ---- Güvenlik başlıkları (YouTube, Google Fonts, cdnjs izinleri) ----
+[[headers]]
+  for = "/*"
+  [headers.values]
+  Content-Security-Policy = """
+    default-src 'self';
+    img-src 'self' data: https:;
+    script-src 'self' https://cdnjs.cloudflare.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+    font-src 'self' https://fonts.gstatic.com data:;
+    frame-src https://www.youtube.com https://www.youtube-nocookie.com;
+    connect-src 'self';
+  """
+  Referrer-Policy = "strict-origin-when-cross-origin"
+  X-Content-Type-Options = "nosniff"
