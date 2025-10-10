@@ -6,7 +6,19 @@
       "rating": 5,
       "text": "Gece acilde çok yardımcı oldular, teşekkür ederiz.",
       "date": "2025-02-01",
-      "url": "https://maps.google.com/?cid=ELCI_VET_EXAMPLE"
+      "url": "https://www.google.com/search?q=El%C3%A7i+Veteriner+Klini%C4%9Fi#lrd=0x0:0x0,1"
+    },
+    {
+      "author": "Mehmet D.",
+      "rating": 5,
+      "text": "Köpeğimizin operasyonu sorunsuz geçti. İlgi alaka çok iyi.",
+      "date": "2025-02-10"
+    },
+    {
+      "author": "Zeynep T.",
+      "rating": 5,
+      "text": "Hızlı muayene ve net bilgilendirme. Tavsiye ederim.",
+      "date": "2025-02-15"
     }
   ]
 }
