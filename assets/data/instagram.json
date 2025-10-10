@@ -1,7 +1,8 @@
 [
-  {
-    "image": "/img/uploads/sample1.webp",
-    "url": "https://www.instagram.com/p/XXXX/",
-    "alt": "Kliniğimizden bir kare"
-  }
+  { "image": "/img/uploads/data/sample1.webp", "url": "https://www.instagram.com/elcivetklinigi/", "alt": "Kliniğimizden bir kare" },
+  { "image": "/img/uploads/data/sample1.webp", "url": "https://www.instagram.com/elcivetklinigi/", "alt": "Hasta kabul" },
+  { "image": "/img/uploads/data/sample1.webp", "url": "https://www.instagram.com/elcivetklinigi/", "alt": "Muayene odası" },
+  { "image": "/img/uploads/data/sample1.webp", "url": "https://www.instagram.com/elcivetklinigi/", "alt": "Tedavi anı" },
+  { "image": "/img/uploads/data/sample1.webp", "url": "https://www.instagram.com/elcivetklinigi/", "alt": "Sevimli bir dost" },
+  { "image": "/img/uploads/data/sample1.webp", "url": "https://www.instagram.com/elcivetklinigi/", "alt": "Kliniğimiz" }
 ]
