@@ -23,14 +23,14 @@
   <link rel="canonical" href="https://veteriner-klinik-sitesi.netlify.app/">
   <meta name="theme-color" content="#6a0ea1">
 
-  <!-- Sosyal önizleme (yerel görsel) -->
+  <!-- Sosyal önizleme (mutlak görsel) -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Elçi Veteriner Kliniği | Konya'da 7/24 Acil Veteriner">
   <meta property="og:description" content="7/24 acil, cerrahi, diş sağlığı, görüntüleme. Hemen arayın: 0332 322 32 20">
-  <meta property="og:image" content="assets/img/uploads/og-cover.jpg">
+  <meta property="og:image" content="https://veteriner-klinik-sitesi.netlify.app/assets/img/uploads/og-cover.jpg">
   <meta property="og:url" content="https://veteriner-klinik-sitesi.netlify.app/">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="assets/img/uploads/og-cover.jpg">
+  <meta name="twitter:image" content="https://veteriner-klinik-sitesi.netlify.app/assets/img/uploads/og-cover.jpg">
 
   <style>
     :root{
@@ -82,7 +82,7 @@
     .dropdown:hover .dropdown-content{display:block}
     .mobile-menu-btn{display:none;background:none;border:0;font-size:24px;color:var(--primary);cursor:pointer}
 
-    /* HERO — yerel görsel + güvenli overlay */
+    /* HERO */
     .hero{
       margin-top:88px;
       background:var(--grad-hero), url('assets/img/uploads/clinic-hero.jpg') center/cover no-repeat;
@@ -218,7 +218,6 @@
     <div class="header-main">
       <div class="container">
         <div class="logo-wrap">
-          <!-- Logo dosyan yoksa metin-logo göster -->
           <img class="logo-img" src="assets/img/uploads/logo.png" alt="Elçi Veteriner Logosu"
                width="168" height="44" loading="eager" decoding="async" fetchpriority="high"
                onerror="this.style.display='none';document.getElementById('textLogo').style.display='block'">
@@ -295,7 +294,6 @@
     <section class="hero" aria-label="Açılış">
       <div class="container">
         <div class="brand-mark">
-          <!-- Logo yoksa gizlenir -->
           <img src="assets/img/uploads/logo.png" alt="Elçi Veteriner" onerror="this.style.display='none'">
         </div>
         <h1>Konya’da 7/24 Acil ve Kapsamlı Veterinerlik</h1>
@@ -380,7 +378,7 @@
       </div>
     </section>
 
-    <!-- INSTAGRAM (JSON’dan) -->
+    <!-- INSTAGRAM -->
     <section id="instagram" class="section alt">
       <div class="container">
         <div class="section-title">
@@ -427,7 +425,7 @@
       </div>
     </section>
 
-    <!-- GOOGLE YORUMLARI (JSON’dan) -->
+    <!-- GOOGLE YORUMLARI -->
     <section id="google-yorumlari" class="section">
       <div class="container">
         <div class="section-title">
@@ -446,7 +444,7 @@
       </div>
     </section>
 
-    <!-- YOUTUBE (ücretsiz iframe) -->
+    <!-- YOUTUBE -->
     <section id="youtube" class="section alt">
       <div class="container embed-wrap">
         <div class="section-title">
@@ -454,13 +452,11 @@
           <p>Videolarımız ve bilgilendirici içerikler</p>
         </div>
         <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;border:1px solid #e6eef7">
-          <!-- UC → UU dönüştürüldü: UCj2kiAEEF2LyKko9P78RGPQ → UUj2kiAEEF2LyKko9P78RGPQ -->
-         <iframe
-  src="https://www.youtube.com/embed/videoseries?list=UUj2kiAEEF2LyKko9P78RGPQ"
-  title="YouTube playlist" allowfullscreen
-  style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"></iframe>
-
-
+          <!-- UC → UU: UCj2kiAEEF2LyKko9P78RGPQ → UUj2kiAEEF2LyKko9P78RGPQ -->
+          <iframe
+            src="https://www.youtube.com/embed/videoseries?list=UUj2kiAEEF2LyKko9P78RGPQ"
+            title="YouTube playlist" allowfullscreen
+            style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"></iframe>
         </div>
         <p style="margin-top:16px">
           <a class="btn btn-outline" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener">Kanalı Ziyaret Et</a>
@@ -552,7 +548,7 @@
   </script>
 
   <script>
-    // Mobile menu + dropdowns (ARIA)
+    // --- Menü & dropdown
     const mobileMenuBtn=document.getElementById('mobileMenuBtn');
     const mainMenu=document.getElementById('mainMenu');
     mobileMenuBtn.addEventListener('click',()=>{
@@ -565,7 +561,7 @@
       });
     });
 
-    // Dokunmatik: flip kart tıklanınca dönsün
+    // --- Dokunmatik: flip kart tıklanınca dönsün
     function enableTouchFlip(){
       if(window.innerWidth<=992){
         document.querySelectorAll('.flip-card').forEach(card=>{
@@ -576,29 +572,44 @@
     enableTouchFlip();
     window.addEventListener('resize',enableTouchFlip);
 
-    // Blog özetleri
+    // --- Yardımcı: görünür hata kutusu
+    function showError(el, msg){
+      if(!el) return;
+      const box = document.createElement('p');
+      box.style.color = '#b91c1c';
+      box.style.background = '#fee2e2';
+      box.style.border = '1px solid #fecaca';
+      box.style.padding = '10px';
+      box.style.borderRadius = '8px';
+      box.textContent = msg;
+      el.appendChild(box);
+    }
+
+    // --- BLOG ( /data/blog.json )
     async function loadBlog(){
       const grid=document.getElementById('blogGrid');
       if(!grid) return;
       try{
-        const res=await fetch('data/blog.json',{cache:'no-store'});
-        if(!res.ok) throw new Error('yok');
+        const res=await fetch('/data/blog.json',{cache:'no-store'});
+        if(!res.ok) throw new Error('HTTP '+res.status);
         const json=await res.json();
         const posts=Array.isArray(json)?json:(Array.isArray(json.posts)?json.posts:[]);
         renderPosts(posts);
       }catch(e){
         renderPosts([
-          {title:"Kedilerde Aşı Takvimi: İlk Yılda Neler Yapılır?", image:"https://images.unsplash.com/photo-1543852786-1cf6624b9987?q=80&w=1200&auto=format&fit=crop", url:"blog.html#kedilerde-asi-takvimi", excerpt:"Yavru kedilerde temel aşılar, iç/dış parazit ve yıllık hatırlatmalar hakkında kısa rehber."},
-          {title:"Köpeklerde Diş Taşı Temizliği Neden Önemli?", image:"https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=1200&auto=format&fit=crop", url:"blog.html#kopek-dis-sagligi", excerpt:"Ağız kokusu, diş taşı ve periodontal hastalıkların önlenmesi için ipuçları."},
-          {title:"Acil Durum Rehberi: Hemen Kliniğe Gelmeniz Gereken 6 Belirti", image:"https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?q=80&w=1200&auto=format&fit=crop", url:"blog.html#acil-durum-rehberi", excerpt:"Zehirlenme, solunum güçlüğü, travma gibi durumlarda ilk adımlar."}
+          {title:"Kedilerde Aşı Takvimi: İlk Yılda Neler Yapılır?", image:"https://images.unsplash.com/photo-1543852786-1cf6624b9987?q=80&w=1200&auto=format&fit=crop", url:"/blog.html#kedilerde-asi-takvimi", excerpt:"Yavru kedilerde temel aşılar, iç/dış parazit ve yıllık hatırlatmalar hakkında kısa rehber."},
+          {title:"Köpeklerde Diş Taşı Temizliği Neden Önemli?", image:"https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=1200&auto=format&fit=crop", url:"/blog.html#kopek-dis-sagligi", excerpt:"Ağız kokusu, diş taşı ve periodontal hastalıkların önlenmesi için ipuçları."},
+          {title:"Acil Durum Rehberi: Hemen Kliniğe Gelmeniz Gereken 6 Belirti", image:"https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?q=80&w=1200&auto=format&fit=crop", url:"/blog.html#acil-durum-rehberi", excerpt:"Zehirlenme, solunum güçlüğü, travma gibi durumlarda ilk adımlar."}
         ]);
+        showError(grid, 'Blog verisi yüklenemedi. /data/blog.json dosyasını kontrol edin.');
+        console.error('Blog hatası:', e);
       }
       function renderPosts(posts){
         grid.innerHTML='';
         posts.slice(0,3).forEach(p=>{
           const title=p.title||'Blog Yazısı';
           const img=p.image||p.cover||'https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=1200&q=60';
-          const url=p.url||(p.slug?`blog.html#${p.slug}`:'blog.html');
+          const url=p.url||(p.slug?`/blog.html#${p.slug}`:'/blog.html');
           const raw=p.excerpt||p.ozet||p.summary||p.content||'Detaylar için yazıyı okuyun.';
           const text=(raw||'').toString().replace(/<[^>]+>/g,'');
           const excerpt=text.length>160?text.slice(0,160)+'…':text;
@@ -617,13 +628,13 @@
     }
     loadBlog();
 
-    // Hakkımızda özet
+    // --- Hakkımızda’dan küçük özetler
     async function loadAboutSnippets(){
       const elciBox=document.querySelector('#elciKimdirCard .content');
       const misyonBox=document.querySelector('#misyonVizyonCard .content');
       try{
-        const res=await fetch('about.html',{cache:'no-store'});
-        if(!res.ok) throw new Error('yok');
+        const res=await fetch('/about.html',{cache:'no-store'});
+        if(!res.ok) throw new Error('HTTP '+res.status);
         const html=await res.text();
         const dom=new DOMParser().parseFromString(html,'text/html');
 
@@ -635,23 +646,25 @@
           return words.slice(0,90).join(' ')+(words.length>90?'…':'');
         };
 
-        elciBox.textContent=pick('#elci-kimdir','Kliniğimizin kurucusu ve değerleri hakkında bilgi için tıklayın.');
-        misyonBox.textContent=pick('#misyon-vizyon','Misyon ve vizyonumuz hakkında detaylar için tıklayın.');
+        if(elciBox) elciBox.textContent=pick('#elci-kimdir','Kliniğimizin kurucusu ve değerleri hakkında bilgi için tıklayın.');
+        if(misyonBox) misyonBox.textContent=pick('#misyon-vizyon','Misyon ve vizyonumuz hakkında detaylar için tıklayın.');
       }catch(e){
         if(elciBox) elciBox.textContent='Kliniğimizin kurucusu ve değerleri hakkında bilgi için tıklayın.';
         if(misyonBox) misyonBox.textContent='Misyon ve vizyonumuz hakkında detaylar için tıklayın.';
+        console.error('About snippet hatası:', e);
       }
     }
     loadAboutSnippets();
 
-    // GOOGLE REVIEWS (JSON)
+    // --- GOOGLE REVIEWS
     async function loadReviews(){
       const grid = document.getElementById('reviewsGrid');
       const summary = document.getElementById('ratingSummary');
       if(!grid || !summary) return;
 
       try{
-        const res = await fetch('data/reviews.json', { cache: 'no-store' });
+        const res = await fetch('/data/reviews.json', { cache: 'no-store' });
+        if(!res.ok) throw new Error('HTTP '+res.status);
         const data = await res.json();
 
         const rating = Number(data.aggregate?.ratingValue || 5);
@@ -694,18 +707,20 @@
         document.body.appendChild(ld);
 
       }catch(err){
-        grid?.insertAdjacentHTML('beforeend','<p>Yorumlar yüklenemedi.</p>');
+        showError(grid, 'Yorumlar yüklenemedi. /data/reviews.json dosyasını ve JSON biçimini kontrol edin.');
+        console.error('Reviews hatası:', err);
       }
     }
     loadReviews();
 
-    // INSTAGRAM (JSON)
+    // --- INSTAGRAM
     async function loadInstagram(){
       const grid = document.getElementById('instaGrid');
       if(!grid) return;
 
       try{
-        const res = await fetch('data/instagram.json', { cache: 'no-store' });
+        const res = await fetch('/data/instagram.json', { cache: 'no-store' });
+        if(!res.ok) throw new Error('HTTP '+res.status);
         const items = await res.json();
 
         grid.innerHTML = '';
@@ -719,11 +734,17 @@
           `);
         });
 
+        if(items.length===0){
+          showError(grid, 'instagram.json boş görünüyor. İçerik ekleyin.');
+        }
       }catch(err){
-        grid?.insertAdjacentHTML('beforeend','<p>Instagram akışı yüklenemedi.</p>');
+        showError(grid, 'Instagram akışı yüklenemedi. /data/instagram.json yolunu ve JSON biçimini kontrol edin.');
+        console.error('Instagram hatası:', err);
       }
     }
     loadInstagram();
+
+    // YouTube iframe sabit (list=UUj2kiAEEF2LyKko9P78RGPQ)
   </script>
 </body>
 </html>
