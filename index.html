@@ -13,24 +13,24 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
-  <!-- Favicons (yollar düzeltildi) -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/img/uploads/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/img/uploads/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/img/uploads/apple-touch-icon.png">
-  <link rel="manifest" href="/img/uploads/data/site.webmanifest">
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/uploads/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/uploads/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/uploads/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
 
   <!-- Canonical & Theme -->
   <link rel="canonical" href="https://veteriner-klinik-sitesi.netlify.app/">
   <meta name="theme-color" content="#6a0ea1">
 
-  <!-- Sosyal önizleme (yollar düzeltildi) -->
+  <!-- Sosyal önizleme -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Elçi Veteriner Kliniği | Konya'da 7/24 Acil Veteriner">
   <meta property="og:description" content="7/24 acil, cerrahi, diş sağlığı, görüntüleme. Hemen arayın: 0332 322 32 20">
-  <meta property="og:image" content="/img/uploads/og-cover.jpg">
+  <meta property="og:image" content="/assets/img/uploads/og-cover.jpg">
   <meta property="og:url" content="https://veteriner-klinik-sitesi.netlify.app/">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="/img/uploads/og-cover.jpg">
+  <meta name="twitter:image" content="/assets/img/uploads/og-cover.jpg">
 
   <style>
     :root{
@@ -82,10 +82,10 @@
     .dropdown:hover .dropdown-content{display:block}
     .mobile-menu-btn{display:none;background:none;border:0;font-size:24px;color:var(--primary);cursor:pointer}
 
-    /* HERO — arka plan yolu düzeltildi */
+    /* HERO */
     .hero{
       margin-top:88px;
-      background:var(--grad-hero), url('/img/uploads/clinic-hero.jpg') center/cover no-repeat;
+      background:var(--grad-hero), url('/assets/img/uploads/clinic-hero.jpg') center/cover no-repeat;
       background-blend-mode: overlay; color:#fff
     }
     .hero .container{display:flex;flex-direction:column;align-items:center;text-align:center;padding:120px 16px 40px}
@@ -101,7 +101,7 @@
     .btn-outline{background:transparent;border:2px solid #fff;color:#fff}
     .btn-outline:hover{background:rgba(255,255,255,.13)}
 
-    /* HERO Quick Nav */
+    /* Quick Nav */
     .quick-nav{width:100%;max-width:1200px;margin-top:36px;padding:22px 12px 8px;border-top:1px solid rgba(255,255,255,.25)}
     .quick-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
     .quick-item{
@@ -130,7 +130,7 @@
     .section-title h2:after{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:0;height:3px;width:72px;background:var(--secondary)}
     .section-title p{color:var(--muted);margin-top:8px}
 
-    /* Hizmetler — flip kart */
+    /* Hizmetler */
     .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;perspective:1200px}
     .flip-card{position:relative;height:250px}
     .flip-card-inner{
@@ -160,7 +160,7 @@
     .blog-card h3{font-size:18px;color:var(--dark);margin-bottom:6px}
     .blog-card p{color:#4b5563;font-size:15px}
 
-    /* Hakkımızdan özet */
+    /* Hakkımızda özet */
     .about-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
     .about-card h3{color:var(--primary);margin-bottom:8px}
 
@@ -218,8 +218,7 @@
     <div class="header-main">
       <div class="container">
         <div class="logo-wrap">
-          <!-- Logo dosyan yoksa metin-logo göster -->
-          <img class="logo-img" src="/img/uploads/logo.png" alt="Elçi Veteriner Logosu"
+          <img class="logo-img" src="/assets/img/uploads/logo.png" alt="Elçi Veteriner Logosu"
                width="168" height="44" loading="eager" decoding="async" fetchpriority="high"
                onerror="this.style.display='none';document.getElementById('textLogo').style.display='block'">
           <div class="logo-text" id="textLogo" style="display:none">
@@ -295,8 +294,7 @@
     <section class="hero" aria-label="Açılış">
       <div class="container">
         <div class="brand-mark">
-          <!-- Logo yoksa gizlenir -->
-          <img src="/img/uploads/logo.png" alt="Elçi Veteriner" onerror="this.style.display='none'">
+          <img src="/assets/img/uploads/logo.png" alt="Elçi Veteriner" onerror="this.style.display='none'">
         </div>
         <h1>Konya’da 7/24 Acil ve Kapsamlı Veterinerlik</h1>
         <div class="underline"></div>
@@ -389,7 +387,7 @@
         </div>
         <div id="instaGrid" style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px"></div>
         <p style="margin-top:16px">
-          <a class="btn btn-outline" href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener">Instagram’ı Takip Et</a>
+          <a class="btn btn-outline" href="https://www.instagram.com/elcivetklinigi/" target="_blank" rel="noopener">Instagram’ı Takip Et</a>
         </p>
       </div>
     </section>
@@ -439,14 +437,14 @@
         <div id="reviewsGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px"></div>
 
         <p style="margin-top:16px">
-          <a class="btn btn-primary" href="https://www.google.com/maps/place/El%C3%A7i+Veteriner+Klini%C4%9Fi" target="_blank" rel="noopener">
+          <a class="btn btn-primary" href="https://www.google.com/search?q=El%C3%A7i+Veteriner+Klini%C4%9Fi#lrd=0x0:0x0,1" target="_blank" rel="noopener">
             Google'da tüm yorumları gör
           </a>
         </p>
       </div>
     </section>
 
-    <!-- YOUTUBE (embed) -->
+    <!-- YOUTUBE -->
     <section id="youtube" class="section alt">
       <div class="container embed-wrap">
         <div class="section-title">
@@ -454,14 +452,14 @@
           <p>Videolarımız ve bilgilendirici içerikler</p>
         </div>
         <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;border:1px solid #e6eef7">
-          <!-- UC → UU dönüştürüldü: UCj2kiAEEF2LyKko9P78RGPQ → UUj2kiAEEF2LyKko9P78RGPQ -->
+          <!-- UC → UU: UCj2kiAEEF2LyKko9P78RGPQ → UUj2kiAEEF2LyKko9P78RGPQ -->
           <iframe
             src="https://www.youtube.com/embed/videoseries?list=UUj2kiAEEF2LyKko9P78RGPQ"
             title="YouTube playlist" allowfullscreen
             style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"></iframe>
         </div>
         <p style="margin-top:16px">
-          <a class="btn btn-outline" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener">Kanalı Ziyaret Et</a>
+          <a class="btn btn-outline" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi/videos" target="_blank" rel="noopener">Kanalı Ziyaret Et</a>
         </p>
       </div>
     </section>
@@ -475,7 +473,7 @@
         <p>Konya'nın Meram ilçesinde, hayvan sağlığı alanında uzman ekibimizle hizmet veriyoruz. 7/24 acil veteriner hizmeti.</p>
         <div class="social-links">
           <a href="https://www.facebook.com/elciveteriner" aria-label="Facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/elciveteriner" aria-label="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.instagram.com/elcivetklinigi/" aria-label="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
           <a href="https://twitter.com/elciveteriner" aria-label="Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
           <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" aria-label="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
         </div>
@@ -517,15 +515,15 @@
     </div></div>
   </footer>
 
-  <!-- JSON-LD (yollar düzeltildi) -->
+  <!-- JSON-LD -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
     "@type":"VeterinaryCare",
     "name":"Elçi Veteriner Kliniği",
     "url":"https://veteriner-klinik-sitesi.netlify.app/",
-    "logo":"https://veteriner-klinik-sitesi.netlify.app/img/uploads/logo.png",
-    "image":"https://veteriner-klinik-sitesi.netlify.app/img/uploads/og-cover.jpg",
+    "logo":"https://veteriner-klinik-sitesi.netlify.app/assets/img/uploads/logo.png",
+    "image":"https://veteriner-klinik-sitesi.netlify.app/assets/img/uploads/og-cover.jpg",
     "telephone":"+903323223220",
     "address":{
       "@type":"PostalAddress",
@@ -542,14 +540,14 @@
     }],
     "sameAs":[
       "https://www.facebook.com/elciveteriner",
-      "https://www.instagram.com/elciveteriner",
+      "https://www.instagram.com/elcivetklinigi/",
       "https://twitter.com/elciveteriner",
       "https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi"
     ]
   }
   </script>
 
-  <!-- Tüm JS dış dosyada -->
+  <!-- Tek JS dosyamız -->
   <script src="/js/main.js" defer></script>
 </body>
 </html>
