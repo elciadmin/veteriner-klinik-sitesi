@@ -1,176 +1,162 @@
-// /js/main.js
-console.log("[main] ready");
+/* /js/main.js */
+(() => {
+  const log = (...args) => console.log('[main]', ...args);
 
-// ------- Mobil menü + dropdown (ARIA)
-const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-const mainMenu = document.getElementById('mainMenu');
-if (mobileMenuBtn && mainMenu) {
-  mobileMenuBtn.addEventListener('click', () => {
-    const shown = mainMenu.classList.toggle('show');
-    mobileMenuBtn.setAttribute('aria-expanded', shown ? 'true' : 'false');
-  });
-  document.querySelectorAll('#mainMenu .dropdown > a').forEach(a => {
-    a.addEventListener('click', e => {
-      if (window.innerWidth <= 992) { e.preventDefault(); a.parentElement.classList.toggle('active'); }
-    });
-  });
-}
+  // Basit yardımcılar
+  const qs  = (sel, root=document) => root.querySelector(sel);
+  const qsa = (sel, root=document) => Array.from(root.querySelectorAll(sel));
 
-// ------- Dokunmatik flip
-function enableTouchFlip() {
-  if (window.innerWidth <= 992) {
-    document.querySelectorAll('.flip-card').forEach(card => {
-      card.addEventListener('click', () =>
-        card.querySelector('.flip-card-inner')?.classList.toggle('is-flipped')
-      );
-    });
-  }
-}
-enableTouchFlip();
-window.addEventListener('resize', enableTouchFlip);
+  const safeArr = (data) => {
+    if (Array.isArray(data)) return data;
+    if (data?.items && Array.isArray(data.items)) return data.items;
+    if (data?.data && Array.isArray(data.data)) return data.data;
+    if (data?.reviews && Array.isArray(data.reviews)) return data.reviews;
+    if (data?.edges && Array.isArray(data.edges)) return data.edges;
+    return [];
+  };
 
-// ------- Güvenli JSON fetch
-async function safeGetJSON(url) {
-  try {
-    const res = await fetch(url, { cache: 'no-store' });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return await res.json();
-  } catch (e) {
-    console.warn('JSON yüklenemedi:', url, e);
-    return null;
-  }
-}
+  const text = (v, fallback='') => (v ?? fallback).toString();
 
-// ------- BLOG (blog.json varsa oradan, yoksa blog.html'i parse et, o da yoksa fallback)
-async function loadBlog() {
-  const grid = document.getElementById('blogGrid');
-  if (!grid) return;
+  document.addEventListener('DOMContentLoaded', async () => {
+    log('ready');
 
-  let posts = [];
-  const data = await safeGetJSON('/assets/data/blog.json');
-  if (Array.isArray(data)) posts = data;
-  else if (Array.isArray(data?.posts)) posts = data.posts;
+    // --- YouTube iFrame kontrolü
+    const hasYT = !!qs('#youtube iframe[src*="youtube.com"]');
+    log('youtube iframe var:', hasYT);
 
-  if (!posts.length) {
+    // --- BLOG (dummy üç kart – istersen sonra JSON bağlarız)
     try {
-      const res = await fetch('blog.html', { cache: 'no-store' });
-      if (res.ok) {
-        const html = await res.text();
-        const dom = new DOMParser().parseFromString(html, 'text/html');
-        dom.querySelectorAll('.blog-post').forEach((art, i) => {
-          const img = art.querySelector('.blog-image img')?.getAttribute('src') || '/assets/img/uploads/og-cover.jpg';
-          const title = art.querySelector('.blog-info h2')?.textContent?.trim() || `Blog Yazısı ${i+1}`;
-          const p = art.querySelector('.blog-info p')?.textContent?.trim() || '';
-          const url = art.querySelector('.blog-read-more')?.getAttribute('href') || 'blog.html';
-          posts.push({ title, image: img, url, excerpt: p });
-        });
+      const blogWrap = qs('#blogGrid');
+      if (blogWrap) {
+        const posts = [
+          { t: 'Kedi Aşı Takvimi 2025', d: 'Yavru ve yetişkin kediler için önerilen aşı planı.' },
+          { t: 'Köpeklerde Diş Bakımı', d: 'Ağız kokusu ve diş taşı için günlük bakım rehberi.' },
+          { t: 'Kısırlaştırma Sonrası Bakım', d: 'Operasyon sonrası beslenme ve yara bakımı.' },
+        ];
+        blogWrap.innerHTML = posts.map(p => `
+          <article class="blog-card">
+            <div class="thumb"></div>
+            <div class="body">
+              <h3>${p.t}</h3>
+              <p>${p.d}</p>
+            </div>
+          </article>
+        `).join('');
+        log('blog loaded:', posts.length);
       }
     } catch (e) {
-      console.warn('blog.html okunamadı', e);
+      console.error('[main] blog error:', e);
     }
-  }
 
-  if (!posts.length) {
-    posts = [
-      {
-        title: "Kedilerde Aşı Takvimi: İlk Yılda Neler Yapılır?",
-        image: "https://images.unsplash.com/photo-1543852786-1cf6624b9987?q=80&w=800&auto=format&fit=crop",
-        url: "blog.html#kedilerde-asi-takvimi",
-        excerpt: "Yavru kedilerde temel aşılar, iç/dış parazit ve yıllık hatırlatmalar hakkında kısa rehber."
-      },
-      {
-        title: "Köpeklerde Diş Taşı Temizliği Neden Önemli?",
-        image: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=800&auto=format&fit=crop",
-        url: "blog.html#kopek-dis-sagligi",
-        excerpt: "Ağız kokusu, diş taşı ve periodontal hastalıkların önlenmesi için ipuçları."
-      },
-      {
-        title: "Acil Durum Rehberi: Hemen Kliniğe Gelmeniz Gereken 6 Belirti",
-        image: "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?q=80&w=800&auto=format&fit=crop",
-        url: "blog.html#acil-durum-rehberi",
-        excerpt: "Zehirlenme, solunum güçlüğü, travma gibi durumlarda ilk adımlar."
+    // --- ABOUT özet (about.html varsa başlıklardan küçük bir parça çekmeyi dener)
+    try {
+      const res = await fetch('/about.html', { method: 'GET' });
+      if (res.ok) {
+        const html = await res.text();
+        const dom  = new DOMParser().parseFromString(html, 'text/html');
+
+        const elci = qs('#elci-kimdir, h2#elci-kimdir', dom) || qs('[id*="elci"]', dom);
+        const mis  = qs('#misyon-vizyon, h2#misyon-vizyon', dom) || qs('[id*="misyon"]', dom);
+
+        const elciBox = qs('#elciKimdirCard .content');
+        const misBox  = qs('#misyonVizyonCard .content');
+
+        if (elci && elciBox) {
+          // Başlıktan sonraki ilk paragrafı bul
+          const para = elci.nextElementSibling && elci.nextElementSibling.tagName.startsWith('P')
+            ? elci.nextElementSibling.textContent.trim()
+            : '';
+          elciBox.textContent = para || 'Hakkımızda içeriği yakında.';
+        }
+        if (mis && misBox) {
+          const para = mis.nextElementSibling && mis.nextElementSibling.tagName.startsWith('P')
+            ? mis.nextElementSibling.textContent.trim()
+            : '';
+          misBox.textContent = para || 'Misyon & vizyon içeriği yakında.';
+        }
+
+        log('about snippets ok (about.html varsa)');
+      } else {
+        log('about bulunamadı, özet atlandı');
       }
-    ];
-  }
+    } catch (e) {
+      console.warn('[main] about fetch hatası (normal olabilir):', e);
+    }
 
-  grid.innerHTML = '';
-  posts.slice(0, 3).forEach(p => {
-    const title = p.title || 'Blog Yazısı';
-    const img = p.image || p.cover || "https://images.unsplash.com/photo-1555680202-c86f0e12f086?q=80&w=800&auto=format&fit=crop";
-    const url = p.url || (p.slug ? `blog.html#${p.slug}` : 'blog.html');
-    const raw = p.excerpt || p.ozet || p.summary || p.content || '';
-    const text = (raw || '').toString().replace(/<[^>]+>/g, '');
-    const excerpt = text.length > 160 ? text.slice(0, 160) + '…' : text;
+    // --- GOOGLE REVIEWS
+    try {
+      const revWrap = qs('#reviewsGrid');
+      const sumWrap = qs('#ratingSummary');
+      const r = await fetch('/assets/data/reviews.json');
+      const j = await r.json().catch(() => ({}));
+      const arr = safeArr(j);
 
-    grid.insertAdjacentHTML('beforeend', `
-      <article class="blog-card">
-        <div class="thumb"><img src="${img}" alt="${title}" loading="lazy" decoding="async"></div>
-        <div class="body">
-          <h3>${title}</h3>
-          <p>${excerpt}</p>
-          <p style="margin-top:8px"><a class="link" href="${url}">Devamını oku <i class="fa-solid fa-arrow-right"></i></a></p>
-        </div>
-      </article>
-    `);
+      if (sumWrap) {
+        // Ortalama hesapla (varsa)
+        const ratings = arr.map(it => Number(it.rating || it.stars || it.score)).filter(n => !Number.isNaN(n) && n>0);
+        const avg = ratings.length ? (ratings.reduce((a,b)=>a+b,0)/ratings.length) : null;
+        sumWrap.innerHTML = `
+          <strong style="font-size:20px">${avg ? avg.toFixed(1) : '5.0'}</strong>
+          <span> / 5 · ${arr.length || '10+'} yorum</span>
+        `;
+      }
+
+      if (revWrap) {
+        revWrap.innerHTML = (arr.length ? arr : [
+          { author: 'Hasta Sahibi', text: 'Çok ilgili ve güler yüzlü bir ekip. Tavsiye ederim.', rating: 5 },
+          { author: 'Ayşe K.', text: 'Acil durumda hızlı müdahale ettiler, teşekkür ederim.', rating: 5 },
+          { author: 'Mehmet D.', text: 'Temiz klinik, şeffaf bilgilendirme.', rating: 4.8 },
+        ]).slice(0, 6).map(it => {
+          const name = text(it.author || it.user || it.profileName || 'Ziyaretçi');
+          const msg  = text(it.text || it.comment || it.content || '');
+          const star = Number(it.rating || it.stars || 5);
+          return `
+            <article class="about-card review-card">
+              <h3 style="margin-bottom:6px">${name}</h3>
+              <div style="color:#f59e0b;margin-bottom:8px">★ ${isFinite(star) ? star.toFixed(1) : '5.0'}</div>
+              <p>${msg || 'Detaylı yorum bırakılmadı.'}</p>
+            </article>
+          `;
+        }).join('');
+      }
+
+      log('reviews loaded:', arr.length || '(dummy)');
+    } catch (e) {
+      console.error('[main] reviews error:', e);
+    }
+
+    // --- INSTAGRAM
+    try {
+      const igWrap = qs('#instaGrid');
+      const r = await fetch('/assets/data/instagram.json');
+      const j = await r.json().catch(() => ({}));
+      const arr = safeArr(j);
+
+      if (igWrap) {
+        const items = (arr.length ? arr : [
+          { permalink: 'https://www.instagram.com/elcivetklinigi/', media_url: '/assets/img/uploads/og-cover.jpg' },
+          { permalink: 'https://www.instagram.com/elcivetklinigi/', media_url: '/assets/img/uploads/og-cover.jpg' },
+          { permalink: 'https://www.instagram.com/elcivetklinigi/', media_url: '/assets/img/uploads/og-cover.jpg' },
+          { permalink: 'https://www.instagram.com/elcivetklinigi/', media_url: '/assets/img/uploads/og-cover.jpg' },
+          { permalink: 'https://www.instagram.com/elcivetklinigi/', media_url: '/assets/img/uploads/og-cover.jpg' },
+          { permalink: 'https://www.instagram.com/elcivetklinigi/', media_url: '/assets/img/uploads/og-cover.jpg' },
+        ]).slice(0, 12);
+
+        igWrap.innerHTML = items.map(it => {
+          const href = it.permalink || it.link || 'https://www.instagram.com/elcivetklinigi/';
+          const src  = it.media_url || it.thumbnail_url || it.url || '/assets/img/uploads/og-cover.jpg';
+          const alt  = text(it.caption || 'Instagram görseli');
+          return `
+            <a href="${href}" target="_blank" rel="noopener" style="display:block;aspect-ratio:1/1;border-radius:10px;overflow:hidden">
+              <img src="${src}" alt="${alt}" loading="lazy" style="width:100%;height:100%;object-fit:cover"/>
+            </a>
+          `;
+        }).join('');
+      }
+
+      log('instagram loaded:', (Array.isArray(arr) && arr.length) ? arr.length : '(dummy)');
+    } catch (e) {
+      console.error('[main] instagram error:', e);
+    }
   });
-  console.log("[main] blog loaded:", posts.length);
-}
-loadBlog();
-
-// ------- About özetleri
-async function loadAboutSnippets() {
-  const elciBox = document.querySelector('#elciKimdirCard .content');
-  const misyonBox = document.querySelector('#misyonVizyonCard .content');
-  if (!elciBox || !misyonBox) return;
-
-  try {
-    const res = await fetch('about.html', { cache: 'no-store' });
-    if (!res.ok) throw new Error('404');
-    const html = await res.text();
-    const dom = new DOMParser().parseFromString(html, 'text/html');
-
-    const pick = (sel, fallback) => {
-      const n = dom.querySelector(sel);
-      if (!n) return fallback;
-      const text = n.textContent.trim().replace(/\s+/g, ' ');
-      const words = text.split(' ');
-      return words.slice(0, 90).join(' ') + (words.length > 90 ? '…' : '');
-    };
-
-    elciBox.textContent = pick('#elci-kimdir', 'Kliniğimizin kurucusu ve değerleri hakkında bilgi için tıklayın.');
-    misyonBox.textContent = pick('#misyon-vizyon', 'Misyon ve vizyonumuz hakkında detaylar için tıklayın.');
-    console.log("[main] about snippets ok");
-  } catch (e) {
-    elciBox.textContent = 'Kliniğimizin kurucusu ve değerleri hakkında bilgi için tıklayın.';
-    misyonBox.textContent = 'Misyon ve vizyonumuz hakkında bilgi için tıklayın.';
-    console.warn("[main] about snippets fallback");
-  }
-}
-loadAboutSnippets();
-
-// ------- Google Reviews
-async function loadReviews() {
-  const grid = document.getElementById('reviewsGrid');
-  const summary = document.getElementById('ratingSummary');
-  if (!grid || !summary) return;
-
-  const data = await safeGetJSON('/assets/data/reviews.json');
-  if (!data) {
-    grid.insertAdjacentHTML('beforeend', '<p>Yorumlar yüklenemedi.</p>');
-    return;
-  }
-
-  const rating = Number(data.aggregate?.ratingValue || 5);
-  const count = Number(data.aggregate?.reviewCount || (data.items?.length || 0));
-  summary.innerHTML = `
-    <strong style="font-size:20px">${rating.toFixed(1)}</strong>
-    <span aria-label="5 üzerinden ${rating} yıldız">${'★'.repeat(Math.round(rating))}${'☆'.repeat(5-Math.round(rating))}</span>
-    <span>(${count} yorum)</span>
-  `;
-
-  grid.innerHTML = '';
-  const items = (data.items || []).slice(0, 6);
-  if (!items.length) {
-    grid.insertAdjacentHTML('beforeend','<p>Henüz yorum eklenmemiş.</p>');
-  } else {
-    items.f
+})();
