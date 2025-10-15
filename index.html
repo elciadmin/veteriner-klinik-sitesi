@@ -4,6 +4,15 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
+  <!-- CSP FIX - Font Awesome için izin ver -->
+  <meta http-equiv="Content-Security-Policy" 
+        content="default-src 'self';
+                 font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com/ajax/libs/;
+                 img-src 'self' data: https: http:;
+                 style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com/ajax/libs/ https://fonts.googleapis.com;
+                 script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com/ajax/libs/;
+                 connect-src 'self'">
+
   <title>Elçi Veteriner Kliniği | Konya'da 7/24 Acil Veteriner, Cerrahi, Görüntüleme</title>
   <meta name="description" content="Konya Meram Elçi Veteriner Kliniği: 7/24 acil veteriner, koruyucu hekimlik, cerrahi, diş sağlığı, görüntüleme, konaklama. Hemen arayın: 0332 322 32 20"/>
   <meta name="keywords" content="Konya veteriner, Meram veteriner, 7/24 acil veteriner, kedi köpek muayene, cerrahi, diş sağlığı, röntgen, ultrason, konaklama"/>
@@ -33,6 +42,7 @@
   <meta name="twitter:image" content="/assets/img/uploads/og-cover.jpg">
 
   <style>
+    /* Tüm CSS kodun burada kalacak (değişmeden) */
     :root{
       --primary:#6a0ea1; --secondary:#10b3d1;
       --primary-700:#520b7d; --secondary-700:#0e91ab;
@@ -152,7 +162,7 @@
     .about-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
     .about-card h3{color:var(--primary);margin-bottom:8px}
 
-    /* INSTAGRAM STYLES - YENİ EKLENEN */
+    /* INSTAGRAM STYLES */
     .instagram-feed {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -433,7 +443,7 @@
       </div>
     </section>
 
-    <!-- INSTAGRAM - DÜZELTİLMİŞ BÖLÜM -->
+    <!-- INSTAGRAM -->
     <section id="instagram" class="section alt">
       <div class="container">
         <div class="section-title">
@@ -501,7 +511,7 @@
       </div>
     </section>
 
-    <!-- YOUTUBE - ESKİ HALİNE GETİRİLDİ -->
+    <!-- YOUTUBE -->
     <section id="youtube" class="section alt">
       <div class="container embed-wrap">
         <div class="section-title">
