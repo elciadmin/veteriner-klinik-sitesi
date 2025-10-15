@@ -1,26 +1,292 @@
-[
-  {"permalink":"https://www.instagram.com/p/DPWE134jKO7/?img_index=1"},
-  {"permalink":"https://www.instagram.com/p/DOnyxu1DG7J/"},
-  {"permalink":"https://www.instagram.com/p/DObPKy2jAaw/?img_index=1"},
-  {"permalink":"https://www.instagram.com/p/DOXucUCjLid/?img_index=1"},
-  {"permalink":"https://www.instagram.com/p/DOVmQURDMM9/"},
-  {"permalink":"https://www.instagram.com/p/DNkqep_s1Po/"},
-  {"permalink":"https://www.instagram.com/p/DMxDsbIN9co/"},
-  {"permalink":"https://www.instagram.com/p/DMe8a4OMlf_/"},
-  {"permalink":"https://www.instagram.com/p/DMaFS0tsY2c/"},
-  {"permalink":"https://www.instagram.com/p/DMHnGsCsen2/"},
-  {"permalink":"https://www.instagram.com/p/DMAOoNusv-2/"},
-  {"permalink":"https://www.instagram.com/p/DL6sVJfNdmw/"},
-  {"permalink":"https://www.instagram.com/p/DLry5-aMumN/"},
-  {"permalink":"https://www.instagram.com/p/DKZzwZ-MiMT/"},
-  {"permalink":"https://www.instagram.com/p/DJTTEJBMS7u/"},
-  {"permalink":"https://www.instagram.com/p/DIDqFYksTDW/"},
-  {"permalink":"https://www.instagram.com/p/DHlCcK0MgXv/"},
-  {"permalink":"https://www.instagram.com/p/DFqU-TvMG1z/"},
-  {"permalink":"https://www.instagram.com/p/DDZuO76MZN6/"},
-  {"permalink":"https://www.instagram.com/p/DCyRB88tgnY/?img_index=1"},
-  {"permalink":"https://www.instagram.com/p/C7WfQZjIIBY/?img_index=1"},
-  {"permalink":"https://www.instagram.com/p/C3ilU4gssXq/"},
-  {"permalink":"https://www.instagram.com/p/C3e5X7ps631/?img_index=1"},
-  {"permalink":"https://www.instagram.com/p/C1Jh4NFMoH1/"}
-]
+{
+  "posts": [
+    {
+      "id": 1,
+      "image": "assets/img/insta/C2wo3Hnsp3s.webp",
+      "thumbnail": "assets/img/insta/C2wo3Hnsp3s.webp",
+      "caption": "Kliniğimizden bir kare",
+      "link": "https://instagram.com/p/C2wo3Hnsp3s",
+      "timestamp": "2024-01-15"
+    },
+    {
+      "id": 2,
+      "image": "assets/img/insta/C3YiNTtMHTZ.webp",
+      "thumbnail": "assets/img/insta/C3YiNTtMHTZ.webp",
+      "caption": "Hasta memnuniyeti",
+      "link": "https://instagram.com/p/C3YiNTtMHTZ",
+      "timestamp": "2024-01-15"
+    },
+    {
+      "id": 3,
+      "image": "assets/img/insta/C7WfQZjIIBY.webp",
+      "thumbnail": "assets/img/insta/C7WfQZjIIBY.webp",
+      "caption": "Tedavi süreci",
+      "link": "https://instagram.com/p/C7WfQZjIIBY",
+      "timestamp": "2024-01-14"
+    },
+    {
+      "id": 4,
+      "image": "assets/img/insta/CzhLbv8MTJI.webp",
+      "thumbnail": "assets/img/insta/CzhLbv8MTJI.webp",
+      "caption": "Muayenehane ortamımız",
+      "link": "https://instagram.com/p/CzhLbv8MTJI",
+      "timestamp": "2024-01-14"
+    },
+    {
+      "id": 5,
+      "image": "assets/img/insta/DCyRB88tgnY.webp",
+      "thumbnail": "assets/img/insta/DCyRB88tgnY.webp",
+      "caption": "Teknolojik ekipmanlarımız",
+      "link": "https://instagram.com/p/DCyRB88tgnY",
+      "timestamp": "2024-01-13"
+    },
+    {
+      "id": 6,
+      "image": "assets/img/insta/DFqU-TvMG1z.webp",
+      "thumbnail": "assets/img/insta/DFqU-TvMG1z.webp",
+      "caption": "Sağlıklı gülüşler",
+      "link": "https://instagram.com/p/DFqU-TvMG1z",
+      "timestamp": "2024-01-13"
+    },
+    {
+      "id": 7,
+      "image": "assets/img/insta/DFxhqt6sNjF.webp",
+      "thumbnail": "assets/img/insta/DFxhqt6sNjF.webp",
+      "caption": "Profesyonel ekip",
+      "link": "https://instagram.com/p/DFxhqt6sNjF",
+      "timestamp": "2024-01-12"
+    },
+    {
+      "id": 8,
+      "image": "assets/img/insta/DHQNeW-so6N.webp",
+      "thumbnail": "assets/img/insta/DHQNeW-so6N.webp",
+      "caption": "Modern tedavi yöntemleri",
+      "link": "https://instagram.com/p/DHQNeW-so6N",
+      "timestamp": "2024-01-12"
+    },
+    {
+      "id": 9,
+      "image": "assets/img/insta/DHlCcK0MgXv.webp",
+      "thumbnail": "assets/img/insta/DHlCcK0MgXv.webp",
+      "caption": "Ağız ve diş sağlığı",
+      "link": "https://instagram.com/p/DHlCcK0MgXv",
+      "timestamp": "2024-01-11"
+    },
+    {
+      "id": 10,
+      "image": "assets/img/insta/DIDqFYksTDW.webp",
+      "thumbnail": "assets/img/insta/DIDqFYksTDW.webp",
+      "caption": "Estetik gülüş tasarımı",
+      "link": "https://instagram.com/p/DIDqFYksTDW",
+      "timestamp": "2024-01-11"
+    },
+    {
+      "id": 11,
+      "image": "assets/img/insta/DJTTEJBMS7u.webp",
+      "thumbnail": "assets/img/insta/DJTTEJBMS7u.webp",
+      "caption": "Diş hekimliği hizmetleri",
+      "link": "https://instagram.com/p/DJTTEJBMS7u",
+      "timestamp": "2024-01-10"
+    },
+    {
+      "id": 12,
+      "image": "assets/img/insta/DJw0BfDM15g.webp",
+      "thumbnail": "assets/img/insta/DJw0BfDM15g.webp",
+      "caption": "İmplant tedavisi",
+      "link": "https://instagram.com/p/DJw0BfDM15g",
+      "timestamp": "2024-01-10"
+    },
+    {
+      "id": 13,
+      "image": "assets/img/insta/DL4IT9pthqP.webp",
+      "thumbnail": "assets/img/insta/DL4IT9pthqP.webp",
+      "caption": "Ortodonti tedavisi",
+      "link": "https://instagram.com/p/DL4IT9pthqP",
+      "timestamp": "2024-01-09"
+    },
+    {
+      "id": 14,
+      "image": "assets/img/insta/DL6sVJfNdmw.webp",
+      "thumbnail": "assets/img/insta/DL6sVJfNdmw.webp",
+      "caption": "Pedodonti (çocuk diş hekimliği)",
+      "link": "https://instagram.com/p/DL6sVJfNdmw",
+      "timestamp": "2024-01-09"
+    },
+    {
+      "id": 15,
+      "image": "assets/img/insta/DLry5-aMumN.webp",
+      "thumbnail": "assets/img/insta/DLry5-aMumN.webp",
+      "caption": "Diş beyazlatma",
+      "link": "https://instagram.com/p/DLry5-aMumN",
+      "timestamp": "2024-01-08"
+    },
+    {
+      "id": 16,
+      "image": "assets/img/insta/DLuwNqRta4r.webp",
+      "thumbnail": "assets/img/insta/DLuwNqRta4r.webp",
+      "caption": "Protez dişler",
+      "link": "https://instagram.com/p/DLuwNqRta4r",
+      "timestamp": "2024-01-08"
+    },
+    {
+      "id": 17,
+      "image": "assets/img/insta/DLwdzFmtUhV.webp",
+      "thumbnail": "assets/img/insta/DLwdzFmtUhV.webp",
+      "caption": "Kanal tedavisi",
+      "link": "https://instagram.com/p/DLwdzFmtUhV",
+      "timestamp": "2024-01-07"
+    },
+    {
+      "id": 18,
+      "image": "assets/img/insta/DMAOoNusv-2.webp",
+      "thumbnail": "assets/img/insta/DMAOoNusv-2.webp",
+      "caption": "Diş dolguları",
+      "link": "https://instagram.com/p/DMAOoNusv-2",
+      "timestamp": "2024-01-07"
+    },
+    {
+      "id": 19,
+      "image": "assets/img/insta/DMGD-m6No-m.webp",
+      "thumbnail": "assets/img/insta/DMGD-m6No-m.webp",
+      "caption": "Ağız hijyeni",
+      "link": "https://instagram.com/p/DMGD-m6No-m",
+      "timestamp": "2024-01-06"
+    },
+    {
+      "id": 20,
+      "image": "assets/img/insta/DMHnGsCsen2.webp",
+      "thumbnail": "assets/img/insta/DMHnGsCsen2.webp",
+      "caption": "Diş temizliği",
+      "link": "https://instagram.com/p/DMHnGsCsen2",
+      "timestamp": "2024-01-06"
+    },
+    {
+      "id": 21,
+      "image": "assets/img/insta/DMaFS0tsY2c.webp",
+      "thumbnail": "assets/img/insta/DMaFS0tsY2c.webp",
+      "caption": "Diş eti tedavisi",
+      "link": "https://instagram.com/p/DMaFS0tsY2c",
+      "timestamp": "2024-01-05"
+    },
+    {
+      "id": 22,
+      "image": "assets/img/insta/DMc2WGrsKaC.webp",
+      "thumbnail": "assets/img/insta/DMc2WGrsKaC.webp",
+      "caption": "Cerrahî işlemler",
+      "link": "https://instagram.com/p/DMc2WGrsKaC",
+      "timestamp": "2024-01-05"
+    },
+    {
+      "id": 23,
+      "image": "assets/img/insta/DMdKnu2Ngc2.webp",
+      "thumbnail": "assets/img/insta/DMdKnu2Ngc2.webp",
+      "caption": "Diş çekimi",
+      "link": "https://instagram.com/p/DMdKnu2Ngc2",
+      "timestamp": "2024-01-04"
+    },
+    {
+      "id": 24,
+      "image": "assets/img/insta/DMe8a4OMlf_.webp",
+      "thumbnail": "assets/img/insta/DMe8a4OMlf_.webp",
+      "caption": "Konsültasyon",
+      "link": "https://instagram.com/p/DMe8a4OMlf_",
+      "timestamp": "2024-01-04"
+    },
+    {
+      "id": 25,
+      "image": "assets/img/insta/DMhptNwMzz6.webp",
+      "thumbnail": "assets/img/insta/DMhptNwMzz6.webp",
+      "caption": "Teşhis ve tedavi planlama",
+      "link": "https://instagram.com/p/DMhptNwMzz6",
+      "timestamp": "2024-01-03"
+    },
+    {
+      "id": 26,
+      "image": "assets/img/insta/DMiFhqZsMpQ.webp",
+      "thumbnail": "assets/img/insta/DMiFhqZsMpQ.webp",
+      "caption": "Radyolojik görüntüleme",
+      "link": "https://instagram.com/p/DMiFhqZsMpQ",
+      "timestamp": "2024-01-03"
+    },
+    {
+      "id": 27,
+      "image": "assets/img/insta/DMmp9BEsrPu.webp",
+      "thumbnail": "assets/img/insta/DMmp9BEsrPu.webp",
+      "caption": "Digital diş hekimliği",
+      "link": "https://instagram.com/p/DMmp9BEsrPu",
+      "timestamp": "2024-01-02"
+    },
+    {
+      "id": 28,
+      "image": "assets/img/insta/DMqIlwQsd92.webp",
+      "thumbnail": "assets/img/insta/DMqIlwQsd92.webp",
+      "caption": "3D yazıcı teknolojisi",
+      "link": "https://instagram.com/p/DMqIlwQsd92",
+      "timestamp": "2024-01-02"
+    },
+    {
+      "id": 29,
+      "image": "assets/img/insta/DNI7nlwstaH.webp",
+      "thumbnail": "assets/img/insta/DNI7nlwstaH.webp",
+      "caption": "CAD/CAM sistemleri",
+      "link": "https://instagram.com/p/DNI7nlwstaH",
+      "timestamp": "2024-01-01"
+    },
+    {
+      "id": 30,
+      "image": "assets/img/insta/DNKs89CsOLn.webp",
+      "thumbnail": "assets/img/insta/DNKs89CsOLn.webp",
+      "caption": "Diş laboratuvarı",
+      "link": "https://instagram.com/p/DNKs89CsOLn",
+      "timestamp": "2024-01-01"
+    },
+    {
+      "id": 31,
+      "image": "assets/img/insta/DNdstQ4M28W.webp",
+      "thumbnail": "assets/img/insta/DNdstQ4M28W.webp",
+      "caption": "Kaliteli malzemeler",
+      "link": "https://instagram.com/p/DNdstQ4M28W",
+      "timestamp": "2023-12-31"
+    },
+    {
+      "id": 32,
+      "image": "assets/img/insta/DOVmQURDMM9.webp",
+      "thumbnail": "assets/img/insta/DOVmQURDMM9.webp",
+      "caption": "Sterilizasyon",
+      "link": "https://instagram.com/p/DOVmQURDMM9",
+      "timestamp": "2023-12-31"
+    },
+    {
+      "id": 33,
+      "image": "assets/img/insta/DOXucUCjLid.webp",
+      "thumbnail": "assets/img/insta/DOXucUCjLid.webp",
+      "caption": "Hijyen standartları",
+      "link": "https://instagram.com/p/DOXucUCjLid",
+      "timestamp": "2023-12-30"
+    },
+    {
+      "id": 34,
+      "image": "assets/img/insta/DObPKy2jAaw.webp",
+      "thumbnail": "assets/img/insta/DObPKy2jAaw.webp",
+      "caption": "Konforlu hasta deneyimi",
+      "link": "https://instagram.com/p/DObPKy2jAaw",
+      "timestamp": "2023-12-30"
+    },
+    {
+      "id": 35,
+      "image": "assets/img/insta/DOlGNiqDOgE.webp",
+      "thumbnail": "assets/img/insta/DOlGNiqDOgE.webp",
+      "caption": "Modern bekleme salonu",
+      "link": "https://instagram.com/p/DOlGNiqDOgE",
+      "timestamp": "2023-12-29"
+    },
+    {
+      "id": 36,
+      "image": "assets/img/insta/DOnyxu1DG7J.webp",
+      "thumbnail": "assets/img/insta/DOnyxu1DG7J.webp",
+      "caption": "Misyon ve vizyon",
+      "link": "https://instagram.com/p/DOnyxu1DG7J",
+      "timestamp": "2023-12-29"
+    }
+  ]
+}
