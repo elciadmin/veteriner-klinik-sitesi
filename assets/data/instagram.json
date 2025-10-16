@@ -1,244 +1,79 @@
-{
-  "posts": [
-    {
-      "id": 1,
-      "image": "assets/img/insta/440627491_3658413994400608_6198802200265851139_n.webp",
-      "thumbnail": "assets/img/insta/440627491_3658413994400608_6198802200265851139_n.webp",
-      "caption": "Kliniğimizden profesyonel hizmet",
-      "link": "https://instagram.com/p/ornek-link-1",
-      "timestamp": "2024-06-25"
-    },
-    {
-      "id": 2,
-      "image": "assets/img/insta/445437000_962840265507678_8680598590905858678_n.webp",
-      "thumbnail": "assets/img/insta/445437000_962840265507678_8680598590905858678_n.webp",
-      "caption": "Modern tedavi yöntemleri",
-      "link": "https://instagram.com/p/ornek-link-2",
-      "timestamp": "2024-06-24"
-    },
-    {
-      "id": 3,
-      "image": "assets/img/insta/446082291_1428314381405802_7786205854589102587_n.webp",
-      "thumbnail": "assets/img/insta/446082291_1428314381405802_7786205854589102587_n.webp",
-      "caption": "Hasta memnuniyeti önceliğimiz",
-      "link": "https://instagram.com/p/ornek-link-3",
-      "timestamp": "2024-06-23"
-    },
-    {
-      "id": 4,
-      "image": "assets/img/insta/447919710_483265947483688_5057800507104969886_n.webp",
-      "thumbnail": "assets/img/insta/447919710_483265947483688_5057800507104969886_n.webp",
-      "caption": "Steril ve hijyenik ortam",
-      "link": "https://instagram.com/p/ornek-link-4",
-      "timestamp": "2024-06-22"
-    },
-    {
-      "id": 5,
-      "image": "assets/img/insta/455899210_495568729842026_8168088916708762455_n.webp",
-      "thumbnail": "assets/img/insta/455899210_495568729842026_8168088916708762455_n.webp",
-      "caption": "Teknolojik ekipmanlar",
-      "link": "https://instagram.com/p/ornek-link-5",
-      "timestamp": "2024-06-21"
-    },
-    {
-      "id": 6,
-      "image": "assets/img/insta/466860843_934070461911382_72217489365844725_n.webp",
-      "thumbnail": "assets/img/insta/466860843_934070461911382_72217489365844725_n.webp",
-      "caption": "Deneyimli ekip",
-      "link": "https://instagram.com/p/ornek-link-6",
-      "timestamp": "2024-06-20"
-    },
-    {
-      "id": 7,
-      "image": "assets/img/insta/467030160_1222102422339852_6275129431133793931_n.jpg",
-      "thumbnail": "assets/img/insta/467030160_1222102422339852_6275129431133793931_n.jpg",
-      "caption": "Güler yüzlü hizmet",
-      "link": "https://instagram.com/p/ornek-link-7",
-      "timestamp": "2024-06-19"
-    },
-    {
-      "id": 8,
-      "image": "assets/img/insta/467524741_869934315298166_4336251709520357612_n.jpg",
-      "thumbnail": "assets/img/insta/467524741_869934315298166_4336251709520357612_n.jpg",
-      "caption": "Modern muayenehane",
-      "link": "https://instagram.com/p/ornek-link-8",
-      "timestamp": "2024-06-18"
-    },
-    {
-      "id": 9,
-      "image": "assets/img/insta/468345373_572912068662482_8906381006427755090_n.webp",
-      "thumbnail": "assets/img/insta/468345373_572912068662482_8906381006427755090_n.webp",
-      "caption": "Profesyonel yaklaşım",
-      "link": "https://instagram.com/p/ornek-link-9",
-      "timestamp": "2024-06-17"
-    },
-    {
-      "id": 10,
-      "image": "assets/img/insta/468593084_427906307036197_5011506903165903629_n.webp",
-      "thumbnail": "assets/img/insta/468593084_427906307036197_5011506903165903629_n.webp",
-      "caption": "Kaliteli malzemeler",
-      "link": "https://instagram.com/p/ornek-link-10",
-      "timestamp": "2024-06-16"
-    },
-    {
-      "id": 11,
-      "image": "assets/img/insta/468954693_1747440849352216_374880022022782800_n.webp",
-      "thumbnail": "assets/img/insta/468954693_1747440849352216_374880022022782800_n.webp",
-      "caption": "Hijyen standartları",
-      "link": "https://instagram.com/p/ornek-link-11",
-      "timestamp": "2024-06-15"
-    },
-    {
-      "id": 12,
-      "image": "assets/img/insta/469281622_17934769373952613_3949241468910018957_n.jpg",
-      "thumbnail": "assets/img/insta/469281622_17934769373952613_3949241468910018957_n.jpg",
-      "caption": "Uzman kadro",
-      "link": "https://instagram.com/p/ornek-link-12",
-      "timestamp": "2024-06-14"
-    },
-    {
-      "id": 13,
-      "image": "assets/img/insta/469439500_984524227041732_3619247965631629540_n.webp",
-      "thumbnail": "assets/img/insta/469439500_984524227041732_3619247965631629540_n.webp",
-      "caption": "Modern tedavi üniteleri",
-      "link": "https://instagram.com/p/ornek-link-13",
-      "timestamp": "2024-06-13"
-    },
-    {
-      "id": 14,
-      "image": "assets/img/insta/475738220_17941434893952613_8124965335492958350_n.webp",
-      "thumbnail": "assets/img/insta/475738220_17941434893952613_8124965335492958350_n.webp",
-      "caption": "Hasta odaklı hizmet",
-      "link": "https://instagram.com/p/ornek-link-14",
-      "timestamp": "2024-06-12"
-    },
-    {
-      "id": 15,
-      "image": "assets/img/insta/476214503_17942135402952613_3689997160736725461_n.webp",
-      "thumbnail": "assets/img/insta/476214503_17942135402952613_3689997160736725461_n.webp",
-      "caption": "Teknoloji ve deneyim",
-      "link": "https://instagram.com/p/ornek-link-15",
-      "timestamp": "2024-06-11"
-    },
-    {
-      "id": 16,
-      "image": "assets/img/insta/476397660_17942409599952613_5586953364641813527_n.webp",
-      "thumbnail": "assets/img/insta/476397660_17942409599952613_5586953364641813527_n.webp",
-      "caption": "Güvenilir hizmet",
-      "link": "https://instagram.com/p/ornek-link-16",
-      "timestamp": "2024-06-10"
-    },
-    {
-      "id": 17,
-      "image": "assets/img/insta/476562403_17942435303952613_3922818861902761649_n.webp",
-      "thumbnail": "assets/img/insta/476562403_17942435303952613_3922818861902761649_n.webp",
-      "caption": "Profesyonel ekipman",
-      "link": "https://instagram.com/p/ornek-link-17",
-      "timestamp": "2024-06-09"
-    },
-    {
-      "id": 18,
-      "image": "assets/img/insta/476562421_17942531669952613_4659154904966357694_n.webp",
-      "thumbnail": "assets/img/insta/476562421_17942531669952613_4659154904966357694_n.webp",
-      "caption": "Modern tıp teknolojisi",
-      "link": "https://instagram.com/p/ornek-link-18",
-      "timestamp": "2024-06-08"
-    },
-    {
-      "id": 19,
-      "image": "assets/img/insta/477173003_9070346953041181_349707004718423106_n.jpg",
-      "thumbnail": "assets/img/insta/477173003_9070346953041181_349707004718423106_n.jpg",
-      "caption": "Hijyenik ortam",
-      "link": "https://instagram.com/p/ornek-link-19",
-      "timestamp": "2024-06-07"
-    },
-    {
-      "id": 20,
-      "image": "assets/img/insta/477443096_17943125462952613_6468719736833984607_n.jpg",
-      "thumbnail": "assets/img/insta/477443096_17943125462952613_6468719736833984607_n.jpg",
-      "caption": "Deneyimli hekimler",
-      "link": "https://instagram.com/p/ornek-link-20",
-      "timestamp": "2024-06-06"
-    },
-    {
-      "id": 21,
-      "image": "assets/img/insta/477724619_927850812805605_651015568676152882_n.jpg",
-      "thumbnail": "assets/img/insta/477724619_927850812805605_651015568676152882_n.jpg",
-      "caption": "Modern tedavi yöntemleri",
-      "link": "https://instagram.com/p/ornek-link-21",
-      "timestamp": "2024-06-05"
-    },
-    {
-      "id": 22,
-      "image": "assets/img/insta/480479662_17943727415952613_7243602397328243264_n.webp",
-      "thumbnail": "assets/img/insta/480479662_17943727415952613_7243602397328243264_n.webp",
-      "caption": "Hasta konforu",
-      "link": "https://instagram.com/p/ornek-link-22",
-      "timestamp": "2024-06-04"
-    },
-    {
-      "id": 23,
-      "image": "assets/img/insta/481894317_17944475582952613_6387326439564506312_n.webp",
-      "thumbnail": "assets/img/insta/481894317_17944475582952613_6387326439564506312_n.webp",
-      "caption": "Profesyonel ekip",
-      "link": "https://instagram.com/p/ornek-link-23",
-      "timestamp": "2024-06-03"
-    },
-    {
-      "id": 24,
-      "image": "assets/img/insta/482585128_1296813552012742_3852833528541993924_n.jpg",
-      "thumbnail": "assets/img/insta/482585128_1296813552012742_3852833528541993924_n.jpg",
-      "caption": "Modern tıbbi cihazlar",
-      "link": "https://instagram.com/p/ornek-link-24",
-      "timestamp": "2024-06-02"
-    },
-    {
-      "id": 25,
-      "image": "assets/img/insta/483165578_548261137647070_6947103820561491109_n.jpg",
-      "thumbnail": "assets/img/insta/483165578_548261137647070_6947103820561491109_n.jpg",
-      "caption": "Hijyen ve kalite",
-      "link": "https://instagram.com/p/ornek-link-25",
-      "timestamp": "2024-06-01"
-    },
-    {
-      "id": 26,
-      "image": "assets/img/insta/483485177_1006842621299236_3573944960873439330_n.jpg",
-      "thumbnail": "assets/img/insta/483485177_1006842621299236_3573944960873439330_n.jpg",
-      "caption": "Profesyonel hizmet",
-      "link": "https://instagram.com/p/ornek-link-26",
-      "timestamp": "2024-05-31"
-    },
-    {
-      "id": 27,
-      "image": "assets/img/insta/483491839_996567198604387_5931639521869185200_n.jpg",
-      "thumbnail": "assets/img/insta/483491839_996567198604387_5931639521869185200_n.jpg",
-      "caption": "Modern tedavi üniteleri",
-      "link": "https://instagram.com/p/ornek-link-27",
-      "timestamp": "2024-05-30"
-    },
-    {
-      "id": 28,
-      "image": "assets/img/insta/483540557_1144443193654615_3138207707127552204_n.jpg",
-      "thumbnail": "assets/img/insta/483540557_1144443193654615_3138207707127552204_n.jpg",
-      "caption": "Deneyimli kadro",
-      "link": "https://instagram.com/p/ornek-link-28",
-      "timestamp": "2024-05-29"
-    },
-    {
-      "id": 29,
-      "image": "assets/img/insta/484356985_680355941084670_7395301242529952627_n.jpg",
-      "thumbnail": "assets/img/insta/484356985_680355941084670_7395301242529952627_n.jpg",
-      "caption": "Hasta memnuniyeti",
-      "link": "https://instagram.com/p/ornek-link-29",
-      "timestamp": "2024-05-28"
-    },
-    {
-      "id": 30,
-      "image": "assets/img/insta/484459108_651627587562816_5969507907451929930_n.jpg",
-      "thumbnail": "assets/img/insta/484459108_651627587562816_5969507907451929930_n.jpg",
-      "caption": "Modern tıp teknolojisi",
-      "link": "https://instagram.com/p/ornek-link-30",
-      "timestamp": "2024-05-27"
-    }
-  ]
-}
+[
+  {"file":"440627491_3658413994400608_6198802200265851139_n.webp"},
+  {"file":"445437000_962840265507678_8680598590905858678_n.webp"},
+  {"file":"446082291_1428314381405802_7786205854589102587_n.webp"},
+  {"file":"447919710_483265947483688_5057800507104969886_n.webp"},
+  {"file":"455899210_495568729842026_8168088916708762455_n.webp"},
+  {"file":"466860843_934070461911382_72217489365844725_n.webp"},
+  {"file":"467030160_1222102422339852_6275129431133793931_n.jpg"},
+  {"file":"467524741_869934315298166_4336251709520357612_n.jpg"},
+  {"file":"468345373_572912068662482_8906381006427755090_n.webp"},
+  {"file":"468593084_427906307036197_5011506903165903629_n.webp"},
+  {"file":"468954693_1747440849352216_374880022022782800_n.webp"},
+  {"file":"469281622_17934769373952613_3949241468910018957_n.jpg"},
+  {"file":"469439500_984524227041732_3619247965631629540_n.webp"},
+  {"file":"475738220_17941434893952613_8124965335492958350_n.webp"},
+  {"file":"476214503_17942135402952613_3689997160736725461_n.webp"},
+  {"file":"476397660_17942409599952613_5586953364641813527_n.webp"},
+  {"file":"476562403_17942435303952613_3922818861902761649_n.webp"},
+  {"file":"476562421_17942531669952613_4659154904966357694_n.webp"},
+  {"file":"477173003_9070346953041181_349707004718423106_n.jpg"},
+  {"file":"477443096_17943125462952613_6468719736833984607_n.jpg"},
+  {"file":"477724619_927850812805605_651015568676152882_n.jpg"},
+  {"file":"480479662_17943727415952613_7243602397328243264_n.webp"},
+  {"file":"481894317_17944475582952613_6387326439564506312_n.webp"},
+  {"file":"482585128_1296813552012742_3852833528541993924_n.jpg"},
+  {"file":"483165578_548261137647070_6947103820561491109_n.jpg"},
+  {"file":"483485177_1006842621299236_3573944960873439330_n.jpg"},
+  {"file":"483491839_996567198604387_5931639521869185200_n.jpg"},
+  {"file":"483540557_1144443193654615_3138207707127552204_n.jpg"},
+  {"file":"484356985_680355941084670_7395301242529952627_n.jpg"},
+  {"file":"484459108_651627587562816_5969507907451929930_n.jpg"},
+  {"file":"484760095_2023188298176492_6160657576087926111_n.jpg"},
+  {"file":"485843461_980365187511697_3485306636871701665_n.jpg"},
+  {"file":"486069951_672642811935123_6869189865077752133_n.jpg"},
+  {"file":"486099093_2586250061579975_6080382198033585228_n.jpg"},
+  {"file":"486461409_639118435600076_9064331739654690870_n.jpg"},
+  {"file":"486633304_631451073099864_7148139141382143181_n.jpg"},
+  {"file":"487744978_645539304882498_650928784245517020_n.jpg"},
+  {"file":"488762645_17948932631952613_4210406722293670880_n.webp"},
+  {"file":"488804424_17949137456952613_5249488604009496430_n.webp"},
+  {"file":"491432586_17950419851952613_5053526137612850624_n.webp"},
+  {"file":"491444162_17950551041952613_5911976961459865319_n.webp"},
+  {"file":"491460108_17949998246952613_1768748381815461780_n.webp"},
+  {"file":"491469767_17950614662952613_5311253327378227826_n.webp"},
+  {"file":"491470473_17949888824952613_2879355154094627506_n.webp"},
+  {"file":"502393848_30697972019801296_3948252758378262644_n.jpg"},
+  {"file":"502471033_1032934921775886_7952639124768792085_n.jpg"},
+  {"file":"502717869_716925030732651_8142078685145474183_n.jpg"},
+  {"file":"502980985_699857056319207_4447611271754407007_n.jpg"},
+  {"file":"503737822_687667550745228_2117100743127394436_n.jpg"},
+  {"file":"505064786_2062653287476831_6346379828169745265_n.jpg"},
+  {"file":"513890881_1032322785556711_4341573273293587514_n.jpg"},
+  {"file":"515165739_577925542048232_5772402404338208458_n.jpg"},
+  {"file":"515608391_1063037069265351_6184428145206749744_n.jpg"},
+  {"file":"516197226_1097844812238752_7282701101929644538_n.jpg"},
+  {"file":"516847564_585928904310767_8489099213886503366_n.jpg"},
+  {"file":"518017890_629541702914838_188631059563921583_n.jpg"},
+  {"file":"518176530_509579202212308_7308346160838028012_n.jpg"},
+  {"file":"518540101_1103970944985340_7338764899793663538_n.jpg"},
+  {"file":"519679425_1821435408410662_3011058108457127496_n.jpg"},
+  {"file":"521174270_2122152444928092_4093642627496475616_n.jpg"},
+  {"file":"521209211_753667823820266_8424607280097836058_n.jpg"},
+  {"file":"522154289_627692417030541_6610864124911917496_n.jpg"},
+  {"file":"522157964_738680755716336_266802054684572359_n.jpg"},
+  {"file":"522352655_1124306546268567_8340636903669097837_n.jpg"},
+  {"file":"522664474_776179628311880_8231178769087805153_n.jpg"},
+  {"file":"522992013_2230834874016333_5527722941796041561_n.jpg"},
+  {"file":"523375333_749147321144037_2096843465043939423_n.jpg"},
+  {"file":"523492557_1198005598678330_360031654132431956_n.jpg"},
+  {"file":"523969157_1188846103012791_3127976349775573174_n.jpg"},
+  {"file":"524534132_2251222035318288_6257569823020751333_n.jpg"},
+  {"file":"524562851_1079708157014801_2020429850801630452_n.jpg"},
+  {"file":"525157686_2154773111656743_4881216016136651146_n.jpg"},
+  {"file":"526842082_2266892823731948_252286311400241647_n.jpg"},
+  {"file":"527254628_1094450235461524_5237702489848783565_n.jpg"},
+  {"file":"527342333_1260547561788963_8872867493800733327_n.jpg"},
+  {"file":"527453835_722801157339323_964205686608736319_n.jpg"},
+  {"file":"528689861_772188032197689_3854928458561974860_n.jpg"}
+]
