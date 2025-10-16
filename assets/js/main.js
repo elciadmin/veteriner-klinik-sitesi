@@ -76,44 +76,72 @@ document.addEventListener('DOMContentLoaded', () => {
     }catch{}
   })();
 
-  /* === YouTube: 4–5 kart === */
-  (async function initYouTube(){
-    const grid = document.getElementById('ytGrid');
-    if (!grid) return;
+  /* === YouTube: son 4–5 videoyu otomatik çek === */
+(async function initYouTube(){
+  const grid = document.getElementById('ytGrid');
+  if (!grid) return;
 
-    let vids = null;
+  const CHANNEL_ID = 'UCj2kiAEEF2LyKko9P78RGPQ'; // Elçi Veteriner Kliniği
+  const FEED_URL = `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
+
+  // 1) RSS'ten çekmeyi dene (API KEY gereksiz)
+  let videos = [];
+  try {
+    const res = await fetch(FEED_URL, { cache: 'no-store' });
+    const text = await res.text();
+    // Bazı tarayıcılarda CORS olabilir — try/catch ile koruduk
+    const doc = new DOMParser().parseFromString(text, 'application/xml');
+    const entries = Array.from(doc.getElementsByTagName('entry'));
+    videos = entries.map(e => {
+      const titleEl = e.getElementsByTagName('title')[0];
+      const idEl    = e.getElementsByTagName('yt:videoId')[0] || e.getElementsByTagName('videoId')[0];
+      return {
+        id: idEl ? idEl.textContent : '',
+        title: titleEl ? titleEl.textContent : 'Video'
+      };
+    }).filter(v => v.id);
+  } catch (err) {
+    // sessiz geç → json yedeğe düşeceğiz
+  }
+
+  // 2) Eğer RSS başarısızsa, yerel JSON yedeğini dene
+  if (!Array.isArray(videos) || videos.length === 0) {
     try{
       const res = await fetch('assets/data/youtube.json', { cache: 'no-store' });
-      if (res.ok) vids = await res.json();
+      if (res.ok) {
+        const fallback = await res.json();
+        videos = Array.isArray(fallback) ? fallback : [];
+      }
     }catch{}
+  }
 
-    if (!Array.isArray(vids) || vids.length === 0){
-      // geçici örnek ID'ler (kendi videolarının ID'leriyle değiştir)
-      vids = [
-        {"id":"dQw4w9WgXcQ","title":"Örnek Video 1"},
-        {"id":"oHg5SJYRHA0","title":"Örnek Video 2"},
-        {"id":"9bZkp7q19f0","title":"Örnek Video 3"},
-        {"id":"3JZ_D3ELwOQ","title":"Örnek Video 4"},
-        {"id":"kXYiU_JCYtU","title":"Örnek Video 5"}
-      ];
-    }
+  // 3) Hâlâ yoksa örneklerle doldur (tamamen görsel amaçlı)
+  if (!Array.isArray(videos) || videos.length === 0){
+    videos = [
+      { id: 'dQw4w9WgXcQ', title: 'Örnek Video 1' },
+      { id: 'oHg5SJYRHA0', title: 'Örnek Video 2' },
+      { id: '9bZkp7q19f0', title: 'Örnek Video 3' },
+      { id: '3JZ_D3ELwOQ', title: 'Örnek Video 4' },
+      { id: 'kXYiU_JCYtU', title: 'Örnek Video 5' }
+    ];
+  }
 
-    const limit = 5;
-    const pick = vids.slice(0, limit);
+  const limit = 5; // 4–5 göster
+  const pick = videos.slice(0, limit);
 
-    grid.innerHTML = pick.map(v => {
-      const thumb = `https://img.youtube.com/vi/${v.id}/hqdefault.jpg`;
-      const url   = `https://www.youtube.com/watch?v=${v.id}`;
-      return `
-        <article class="yt-card">
-          <a class="yt-thumb" href="${url}" target="_blank" rel="noopener" aria-label="${v.title||'YouTube'}">
-            <img src="${thumb}" alt="${v.title||'YouTube'}" loading="lazy">
-          </a>
-          <div class="yt-body">
-            <div class="yt-title">${v.title || 'Video'}</div>
-          </div>
-        </article>
-      `;
-    }).join('');
-  })();
-});
+  grid.innerHTML = pick.map(v => {
+    const thumb = `https://img.youtube.com/vi/${v.id}/hqdefault.jpg`;
+    const url   = `https://www.youtube.com/watch?v=${v.id}`;
+    return `
+      <article class="yt-card">
+        <a class="yt-thumb" href="${url}" target="_blank" rel="noopener" aria-label="${v.title||'YouTube'}">
+          <img src="${thumb}" alt="${v.title||'YouTube'}" loading="lazy">
+        </a>
+        <div class="yt-body">
+          <div class="yt-title">${v.title || 'Video'}</div>
+        </div>
+      </article>
+    `;
+  }).join('');
+})();
+
