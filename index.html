@@ -152,25 +152,27 @@
     .about-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
     .about-card h3{color:var(--primary);margin-bottom:8px}
 
-    /* Responsive */
-    @media (max-width:1200px){ .quick-grid{grid-template-columns:repeat(3,1fr)} }
-    @media (max-width:992px){
-      nav ul{display:none;position:absolute;left:0;top:100%;width:100%;background:#fff;flex-direction:column;gap:0;box-shadow:0 10px 24px rgba(0,0,0,.1);padding:14px 0}
-      nav ul.show{display:flex}
-      nav li{padding:8px 18px;border-bottom:1px solid var(--border)}
-      .dropdown-content{position:static;display:none;border:none;box-shadow:none;padding:0;margin-top:6px}
-      .dropdown.active .dropdown-content{display:block}
-      .mobile-menu-btn{display:block}
-      .hero .container{padding:90px 16px 26px}
-      .services-grid{grid-template-columns:1fr 1fr}
-      .blog-grid{grid-template-columns:1fr 1fr}
-      .about-cards{grid-template-columns:1fr}
+    /* === INSTAGRAM: akan şerit (kare kırpma) === */
+    #instaGrid{overflow:hidden;padding:4px 0}
+    .insta-track{display:flex;align-items:center;gap:10px;will-change:transform}
+    .insta-item{
+      flex:0 0 18%;max-width:210px;aspect-ratio:1/1;border-radius:12px;
+      overflow:hidden;border:1px solid #e6eef7;background:#f7faff
     }
-    @media (max-width:640px){
-      .services-grid{grid-template-columns:1fr}
-      .blog-grid{grid-template-columns:1fr}
-      .hero h1{font-size:36px}
-    }
+    .insta-item img{width:100%;height:100%;object-fit:cover;display:block}
+    @media (max-width:1200px){ .insta-item{flex-basis:22%} }
+    @media (max-width:992px){  .insta-item{flex-basis:28%} }
+    @media (max-width:640px){  .insta-item{flex-basis:40%} }
+
+    /* === YOUTUBE: ızgara kartlar === */
+    #ytGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .yt-card{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;box-shadow:var(--shadow-sm)}
+    .yt-thumb{aspect-ratio:16/9;background:#eef4ff}
+    .yt-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .yt-body{padding:10px 12px}
+    .yt-title{font-size:14px;color:var(--dark);font-weight:600;line-height:1.35}
+    @media(max-width:992px){ #ytGrid{grid-template-columns:repeat(2,1fr)} }
+    @media(max-width:640px){ #ytGrid{grid-template-columns:1fr} }
 
     /* Footer */
     footer{background:linear-gradient(135deg,#1a3a52,var(--primary));color:#fff;padding:60px 0 0}
@@ -349,7 +351,7 @@
 
           <div class="flip-card"><div class="flip-card-inner">
             <div class="flip-face flip-front"><div class="icon"><i class="fas fa-tooth"></i></div><h3>Diş Sağlığı</h3></div>
-            <div class="flip-face flip-back"><p>Diş taşı temizliği, çekim, periodontal tedaviler ve ev bakımı eğitimi.</p><a href="hizmetler.html#agiz-dis">Detayları gör →</a></div>
+            <div class="flip-face flip-back"><div><p>Diş taşı temizliği, çekim, periodontal tedaviler ve ev bakımı eğitimi.</p><a href="hizmetler.html#agiz-dis">Detayları gör →</a></div></div>
           </div></div>
 
           <div class="flip-card"><div class="flip-card-inner">
@@ -372,7 +374,7 @@
           <h2>Instagram’dan</h2>
           <p>Kliniğimizden güncel kareler</p>
         </div>
-        <div id="instaGrid" style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px"></div>
+        <div id="instaGrid" aria-live="polite"></div>
         <p style="margin-top:16px">
           <a class="btn btn-outline" href="https://www.instagram.com/elcivetklinigi/" target="_blank" rel="noopener">Instagram’ı Takip Et</a>
         </p>
@@ -431,21 +433,14 @@
       </div>
     </section>
 
-    <!-- YOUTUBE -->
+    <!-- YOUTUBE (çoklu kart) -->
     <section id="youtube" class="section alt">
       <div class="container embed-wrap">
         <div class="section-title">
           <h2>YouTube’dan</h2>
           <p>Videolarımız ve bilgilendirici içerikler</p>
         </div>
-        <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;border:1px solid #e6eef7">
-          <!-- Kanal UC: UCj2kiAEEF2LyKko9P78RGPQ  → Uploads playlist: UUj2kiAEEF2LyKko9P78RGPQ -->
-          <iframe
-            src="https://www.youtube.com/embed/videoseries?list=UUj2kiAEEF2LyKko9P78RGPQ"
-            title="YouTube playlist" allowfullscreen
-            referrerpolicy="strict-origin-when-cross-origin"
-            style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"></iframe>
-        </div>
+        <div id="ytGrid"></div>
         <p style="margin-top:16px">
           <a class="btn btn-outline" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi/videos" target="_blank" rel="noopener">Kanalı Ziyaret Et</a>
         </p>
