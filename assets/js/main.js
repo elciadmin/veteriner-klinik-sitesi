@@ -75,39 +75,35 @@ document.addEventListener('DOMContentLoaded', () => {
       `).join('');
     }catch{}
   })();
-
-  /* === YouTube: son 4–5 videoyu otomatik çek === */
+/* === YouTube: son 4–5 videoyu otomatik çek (Netlify proxy ile CORS yok) === */
 (async function initYouTube(){
   const grid = document.getElementById('ytGrid');
   if (!grid) return;
 
-  const CHANNEL_ID = 'UCj2kiAEEF2LyKko9P78RGPQ'; // Elçi Veteriner Kliniği
-  const FEED_URL = `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
+  const FEED_URL = '/.netlify/functions/youtube';
+  const ATOM_NS = 'http://www.w3.org/2005/Atom';
+  const YT_NS   = 'http://www.youtube.com/xml/schemas/2015';
 
-  // 1) RSS'ten çekmeyi dene (API KEY gereksiz)
   let videos = [];
   try {
-    const res = await fetch(FEED_URL, { cache: 'no-store' });
+    const res  = await fetch(FEED_URL, { cache: 'no-store' });
     const text = await res.text();
-    // Bazı tarayıcılarda CORS olabilir — try/catch ile koruduk
-    const doc = new DOMParser().parseFromString(text, 'application/xml');
-    const entries = Array.from(doc.getElementsByTagName('entry'));
+    const doc  = new DOMParser().parseFromString(text, 'application/xml');
+
+    // Namespace'li Atom feed: entry ve yt:videoId doğru namespace ile okunmalı
+    const entries = Array.from(doc.getElementsByTagNameNS(ATOM_NS, 'entry'));
     videos = entries.map(e => {
-      const titleEl = e.getElementsByTagName('title')[0];
-      const idEl    = e.getElementsByTagName('yt:videoId')[0] || e.getElementsByTagName('videoId')[0];
+      const idEl    = e.getElementsByTagNameNS(YT_NS, 'videoId')[0];
+      const titleEl = e.getElementsByTagNameNS(ATOM_NS, 'title')[0];
       return {
         id: idEl ? idEl.textContent : '',
         title: titleEl ? titleEl.textContent : 'Video'
       };
     }).filter(v => v.id);
   } catch (err) {
-    // sessiz geç → json yedeğe düşeceğiz
-  }
-
-  // 2) Eğer RSS başarısızsa, yerel JSON yedeğini dene
-  if (!Array.isArray(videos) || videos.length === 0) {
+    // RSS okunamadı → JSON yedeğine düş
     try{
-      const res = await fetch('assets/data/youtube.json', { cache: 'no-store' });
+      const res = await fetch('/assets/data/youtube.json', { cache: 'no-store' });
       if (res.ok) {
         const fallback = await res.json();
         videos = Array.isArray(fallback) ? fallback : [];
@@ -115,18 +111,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }catch{}
   }
 
-  // 3) Hâlâ yoksa örneklerle doldur (tamamen görsel amaçlı)
   if (!Array.isArray(videos) || videos.length === 0){
     videos = [
-      { id: 'dQw4w9WgXcQ', title: 'Örnek Video 1' },
-      { id: 'oHg5SJYRHA0', title: 'Örnek Video 2' },
-      { id: '9bZkp7q19f0', title: 'Örnek Video 3' },
-      { id: '3JZ_D3ELwOQ', title: 'Örnek Video 4' },
-      { id: 'kXYiU_JCYtU', title: 'Örnek Video 5' }
+      { id: 'GVHnMUg_GeU', title: 'Kedi Sağlığında A Vitamini Sırrı' },
+      { id: 'HBgzBBuwCeY', title: 'Soğukta Donan Dostlarımız!' },
+      { id: 'Y3pWObjTFAw', title: 'Pyoderma Nedir?' },
+      { id: 'VNVp534lGYw', title: 'Kedim Hamile Mi?' },
+      { id: 'X4DYXSzqewU', title: 'Kedimde Cushing Var mı?' }
     ];
   }
 
-  const limit = 5; // 4–5 göster
+  const limit = 5;
   const pick = videos.slice(0, limit);
 
   grid.innerHTML = pick.map(v => {
@@ -144,4 +139,3 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }).join('');
 })();
-
