@@ -13,24 +13,24 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
-  <!-- Favicons -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/uploads/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/uploads/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/uploads/apple-touch-icon.png">
-  <link rel="manifest" href="/site.webmanifest">
+  <!-- Favicons (dosyalar assets/img/uploads içinde olmalı) -->
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/uploads/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/uploads/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/uploads/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
 
   <!-- Canonical & Theme -->
   <link rel="canonical" href="https://veteriner-klinik-sitesi.netlify.app/">
   <meta name="theme-color" content="#6a0ea1">
 
-  <!-- Sosyal önizleme -->
+  <!-- Sosyal önizleme (mutlak URL şart) -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Elçi Veteriner Kliniği | Konya'da 7/24 Acil Veteriner">
   <meta property="og:description" content="7/24 acil, cerrahi, diş sağlığı, görüntüleme. Hemen arayın: 0332 322 32 20">
-  <meta property="og:image" content="/assets/img/uploads/og-cover.jpg">
+  <meta property="og:image" content="https://veteriner-klinik-sitesi.netlify.app/assets/img/uploads/og-cover.jpg">
   <meta property="og:url" content="https://veteriner-klinik-sitesi.netlify.app/">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="/assets/img/uploads/og-cover.jpg">
+  <meta name="twitter:image" content="https://veteriner-klinik-sitesi.netlify.app/assets/img/uploads/og-cover.jpg">
 
   <style>
     :root{
@@ -85,7 +85,7 @@
     /* HERO */
     .hero{
       margin-top:88px;
-      background:var(--grad-hero), url('/assets/img/uploads/clinic-hero.jpg') center/cover no-repeat;
+      background:var(--grad-hero), url('assets/img/uploads/clinic-hero.jpg') center/cover no-repeat;
       background-blend-mode: overlay; color:#fff
     }
     .hero .container{display:flex;flex-direction:column;align-items:center;text-align:center;padding:120px 16px 40px}
@@ -206,7 +206,7 @@
     <div class="header-main">
       <div class="container">
         <div class="logo-wrap">
-          <img class="logo-img" src="/assets/img/uploads/logo.png" alt="Elçi Veteriner Logosu"
+          <img class="logo-img" src="assets/img/uploads/logo.png" alt="Elçi Veteriner Logosu"
                width="168" height="44" loading="eager" decoding="async" fetchpriority="high"
                onerror="this.style.display='none';document.getElementById('textLogo').style.display='block'">
           <div class="logo-text" id="textLogo" style="display:none">
@@ -282,7 +282,7 @@
     <section class="hero" aria-label="Açılış">
       <div class="container">
         <div class="brand-mark">
-          <img src="/assets/img/uploads/logo.png" alt="Elçi Veteriner" onerror="this.style.display='none'">
+          <img src="assets/img/uploads/logo.png" alt="Elçi Veteriner" onerror="this.style.display='none'">
         </div>
         <h1>Konya’da 7/24 Acil ve Kapsamlı Veterinerlik</h1>
         <div class="underline"></div>
@@ -493,7 +493,7 @@
             <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank">Havzan Mah., Yeni Meram Cad. No:17/1, Meram/Konya</a>
           </li>
           <li><i class="fas fa-phone-alt"></i> <a href="tel:03323223220">0332 322 32 20</a></li>
-          <li><i class="fas fa-envelope"></i> <a href="mailto:elcivetklinig@gmail.com">elcivetklinig@gmail.com</a></li>
+          <li><i class="fas fa-envelope"></i> <a href="mailto:elcivetklinigi@gmail.com">elcivetklinigi@gmail.com</a></li>
           <li><i class="fas fa-clock"></i> Pazartesi–Cumartesi: 08:00–19:00, Pazar: Acil</li>
         </ul>
       </div>
@@ -503,7 +503,7 @@
     </div></div>
   </footer>
 
-  <!-- JSON-LD -->
+  <!-- JSON-LD (mutlak URL) -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -536,9 +536,6 @@
   </script>
 
   <!-- Harici JS -->
-<script src="/assets/js/main.js" defer></script>
-
-
-
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>
