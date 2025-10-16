@@ -9,51 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* === Instagram: akan şerit, kare görüntü === */
-  (async function initInstaMarquee() {
-    const grid = document.getElementById('instaGrid');
-    if (!grid) return;
+// ESKİ: const res = await fetch('assets/data/instagram.json', { cache: 'no-store' });
+const res = await fetch('/assets/data/instagram.json', { cache: 'no-store' });
 
-    let items = [];
-    try {
-      const res = await fetch('assets/data/instagram.json', { cache: 'no-store' });
-      if (res.ok) items = await res.json();
-    } catch (e) {}
+// ESKİ: const base = 'assets/img/insta/';
+const base = '/assets/img/insta/';
 
-    if (!Array.isArray(items) || items.length === 0) return;
-
-    const base = 'assets/img/insta/';
-    const slice = items.slice(0, 24); // bir anda çok yüklenmesin
-
-    const track = document.createElement('div');
-    track.className = 'insta-track';
-    const render = (arr) => arr.map(({file, alt}, i) => `
-      <a class="insta-item" href="https://www.instagram.com/elcivetklinigi/" target="_blank" rel="noopener"
-         aria-label="Instagram fotoğrafı ${i+1}">
-        <img src="${base}${file}" alt="${alt || 'Elçi Veteriner'}" loading="lazy" onerror="this.remove()">
-      </a>
-    `).join('');
-
-    track.innerHTML = render(slice) + render(slice); // kesintisiz döngü için iki kopya
-    grid.innerHTML = '';
-    grid.appendChild(track);
-
-    // Akış animasyonu
-    let pos = 0;
-    let speed = 0.6; // akış hızı (0.4–0.8 arası ideal)
-    let singleWidth = track.scrollWidth / 2;
-
-    const step = () => {
-      pos -= speed;
-      if (-pos >= singleWidth) pos = 0;
-      track.style.transform = `translateX(${pos}px)`;
-      requestAnimationFrame(step);
-    };
-
-    const ro = new ResizeObserver(() => { singleWidth = track.scrollWidth / 2; });
-    ro.observe(track);
-    requestAnimationFrame(step);
-  })();
 
   /* === Blog kartları (varsa) === */
   (async function initBlog(){
