@@ -1,13 +1,13 @@
 // -------------------------------------------------------------
-// Elçi Veteriner - Ana JS (v10)
+// Elçi Veteriner - Ana JS (v11)
 // -------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
   initMobileMenu();
   initDropdownTouch();
   initBlog();
-  initInstagram();     // küçük ızgara + yumuşak rotasyon
-  initYouTube();       // öneriler sayfası gibi kompakt kart
-  initGoogleReviews(); // yerel JSON'dan yorumlar
+  initInstagramStrip(); // Akan şerit + spotlight
+  initYouTubeCompact(); // Öneriler benzeri kompakt grid
+  initGoogleReviews();  // Yerel JSON
 });
 
 // -------------------------------------------------------------
@@ -20,7 +20,6 @@ function initMobileMenu(){
   btn.addEventListener('click', () => {
     const show = menu.classList.toggle('show');
     btn.setAttribute('aria-expanded', show ? 'true' : 'false');
-    // Mobil dropdown tıklaması
     menu.querySelectorAll('.dropdown > a').forEach(a => {
       a.addEventListener('click', (ev) => {
         if (window.innerWidth < 992) {
@@ -39,7 +38,7 @@ function initDropdownTouch(){
 }
 
 // -------------------------------------------------------------
-// Blog (assets/data/blog.json)
+// Blog
 // -------------------------------------------------------------
 async function initBlog(){
   const grid = document.getElementById('blogGrid');
@@ -62,81 +61,115 @@ async function initBlog(){
 }
 
 // -------------------------------------------------------------
-// Instagram – küçük ızgara + rotasyon
+// Instagram – AKAN ŞERİT + Spotlight
 //  - JSON: assets/data/instagram.json  → ["a.webp", {file:"b.jpg"}, ...]
 //  - Görsel kök: assets/img/insta/
-//  - Başlangıçta 10 görsel (2x5), her 3sn'de bir slotu değiştir
+//  - Sonsuz kaydırma için içerik iki kez klonlanır
+//  - Rastgele 1 görsel 2.5sn "spotlight" büyür, sonra eski haline döner
 // -------------------------------------------------------------
-async function initInstagram(){
-  const grid = document.getElementById('instaGrid');
-  if (!grid) return;
-
-  // Fallback görünüm (CSS olmasa da)
-  grid.style.display = 'grid';
-  grid.style.gridTemplateColumns = 'repeat(5, 1fr)';
-  grid.style.gap = '10px';
+async function initInstagramStrip(){
+  const mount = document.getElementById('instaGrid');
+  if (!mount) return;
 
   let list = [];
   try{
     const res = await fetch('assets/data/instagram.json', { cache: 'no-store' });
     if (!res.ok) return;
     const data = await res.json();
-    if (!Array.isArray(data)) return;
-    list = data.map(x => typeof x === 'string' ? x : String(x.file)).filter(Boolean);
+    list = (Array.isArray(data) ? data : []).map(x => typeof x === 'string' ? x : String(x.file)).filter(Boolean);
   }catch{ return; }
-
   if (!list.length) return;
 
   const base = 'assets/img/insta/';
-  const SLOT_COUNT = Math.min(10, list.length); // 2 satır x 5 sütun
-  let cursor = 0;
-  const next = () => { const i = cursor % list.length; cursor++; return list[i]; };
+  // Stil ekle
+  if (!document.getElementById('instaStripStyles')){
+    const css = `
+      .insta-strip-wrap{ overflow:hidden; position:relative; }
+      .insta-strip{ display:flex; gap:10px; will-change:transform; }
+      .insta-tile{
+        flex:0 0 auto; width:170px; height:170px; border-radius:14px; overflow:hidden;
+        border:1px solid #e6eef7; background:#f7faff; position:relative; transition:transform .35s;
+      }
+      .insta-tile img{ width:100%; height:100%; object-fit:cover; display:block; }
+      @media (max-width:1200px){ .insta-tile{ width:150px; height:150px; } }
+      @media (max-width:768px){  .insta-tile{ width:130px; height:130px; } }
+      /* Spotlight efekti */
+      .insta-spot{ z-index:2; transform:scale(1.15); box-shadow:0 12px 30px rgba(0,0,0,.18) }
+    `.trim();
+    const s = document.createElement('style');
+    s.id = 'instaStripStyles'; s.textContent = css;
+    document.head.appendChild(s);
+  }
 
-  const slots = [];
-  for (let i=0; i<SLOT_COUNT; i++){
-    const file = next();
+  // DOM kur
+  mount.innerHTML = '';
+  mount.classList.add('insta-strip-wrap');
+  const track = document.createElement('div');
+  track.className = 'insta-strip';
+  mount.appendChild(track);
+
+  // Bir seti oluştur
+  const makeSet = () => list.map(file => {
     const a = document.createElement('a');
-    a.href = `${base}${file}`;
-    a.target = '_blank';
-    a.rel = 'noopener';
-    a.className = 'insta-item';
-    a.style.cssText = `
-      position:relative;display:block;border-radius:12px;overflow:hidden;
-      aspect-ratio:1/1;background:#f7faff;border:1px solid #e6eef7
-    `;
-    a.innerHTML = `<img src="${base}${file}" alt="Instagram" loading="lazy"
-      style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .25s">`;
-    a.addEventListener('mouseenter', ()=>a.firstElementChild.style.transform='scale(1.04)');
-    a.addEventListener('mouseleave', ()=>a.firstElementChild.style.transform='scale(1)');
-    grid.appendChild(a);
-    slots.push(a);
-  }
+    a.href = `${base}${file}`; a.target = '_blank'; a.rel = 'noopener';
+    a.className = 'insta-tile';
+    a.innerHTML = `<img src="${base}${file}" alt="Instagram" loading="lazy">`;
+    return a;
+  });
 
-  if (list.length > SLOT_COUNT){
-    let rot = 0;
-    setInterval(() => {
-      const target = slots[rot % SLOT_COUNT].querySelector('img');
-      const file = next();
-      target.src = `${base}${file}`;
-      rot++;
-    }, 3000);
+  // Akış için iki kez ekle (sonsuz)
+  const set1 = makeSet(); set1.forEach(el => track.appendChild(el));
+  const set2 = makeSet(); set2.forEach(el => track.appendChild(el));
+
+  // Animasyon
+  let x = 0;
+  let speed = 0.35; // px/frame
+  let last = performance.now();
+  function loop(t){
+    const dt = Math.min(40, t - last); // zıplamayı azalt
+    last = t;
+    x -= speed * dt;
+    const trackWidth = track.scrollWidth / 2; // bir set uzunluğu
+    if (-x >= trackWidth) x += trackWidth;    // başa sar
+    track.style.transform = `translateX(${x}px)`;
+    req = requestAnimationFrame(loop);
   }
+  let req = requestAnimationFrame(loop);
+
+  // Hover olunca dur / devam et
+  mount.addEventListener('mouseenter', ()=>{ speed = 0; });
+  mount.addEventListener('mouseleave', ()=>{ speed = 0.35; });
+
+  // Rastgele spotlight
+  const allTiles = Array.from(track.children);
+  setInterval(() => {
+    // Mevcut spotlight'ı temizle
+    allTiles.forEach(t => t.classList.remove('insta-spot'));
+    // Görünür aralıktan birini seç (orta civarı daha hoş)
+    const startIdx = Math.max(0, Math.floor(allTiles.length/2) - 6);
+    const endIdx   = Math.min(allTiles.length-1, startIdx + 12);
+    const pickIdx  = Math.floor(Math.random() * (endIdx - startIdx + 1)) + startIdx;
+    const el = allTiles[pickIdx];
+    if (!el) return;
+    el.classList.add('insta-spot');
+    setTimeout(() => el.classList.remove('insta-spot'), 2500);
+  }, 3000);
 }
 
 // -------------------------------------------------------------
-// YouTube – "öneriler" tarzı kompakt kartlar
-//   - Function: /.netlify/functions/youtube (Atom XML)
-//   - Fallback: assets/data/youtube.json
-//   - 6/5/4/3/2 sütun responsive, küçük kart
+// YouTube – "öneriler" tarzı kompakt grid
+//  - Function: /.netlify/functions/youtube (Atom XML)
+//  - Fallback: assets/data/youtube.json
+//  - LIMIT_YT ile sayıyı kontrol et
 // -------------------------------------------------------------
-async function initYouTube(){
+async function initYouTubeCompact(){
   const grid = document.getElementById('ytGrid');
   if (!grid) return;
 
-  // Stil (bir kez ekle)
+  // Stil (tek sefer)
   if (!document.getElementById('ytCompactStyles')){
     const css = `
-      .yt-grid{ display:grid; gap:14px; grid-template-columns:repeat(6, minmax(0,1fr)); }
+      .yt-grid{ display:grid; gap:12px; grid-template-columns:repeat(6, minmax(0,1fr)); }
       @media (max-width:1400px){ .yt-grid{ grid-template-columns:repeat(5, minmax(0,1fr)); } }
       @media (max-width:1200px){ .yt-grid{ grid-template-columns:repeat(4, minmax(0,1fr)); } }
       @media (max-width:992px){  .yt-grid{ grid-template-columns:repeat(3, minmax(0,1fr)); } }
@@ -159,12 +192,12 @@ async function initYouTube(){
   const ATOM_NS  = 'http://www.w3.org/2005/Atom';
   const YT_NS    = 'http://www.youtube.com/xml/schemas/2015';
   const MEDIA_NS = 'http://search.yahoo.com/mrss/';
+  const LIMIT_YT = 8; // <<< İstersen 6/10 yapabilirsin
 
-  // yardımcılar
   const relTime = (iso) => {
     const d = new Date(iso);
     if (isNaN(d)) return '';
-    const diff = Math.max(0, (Date.now() - d.getTime())/1000); // sn
+    const diff = Math.max(0, (Date.now() - d.getTime())/1000);
     const t = [
       {s:31536000, n:'yıl'},
       {s:2592000,  n:'ay'},
@@ -232,11 +265,11 @@ async function initYouTube(){
     ];
   }
 
-  const limit = 8; // öneriler gibi
-  const pick = videos.slice(0, limit);
+  const pick = videos.slice(0, LIMIT_YT);
 
   grid.innerHTML = pick.map(v => {
-    const thumb = `https://img.youtube.com/vi/${v.id}/hqdefault.jpg`;
+    // CSP uyumlu domain: i.ytimg.com
+    const thumb = `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`;
     const url   = `https://www.youtube.com/watch?v=${v.id}`;
     const meta  = [
       'Elçi Veteriner Kliniği',
@@ -257,8 +290,7 @@ async function initYouTube(){
 }
 
 // -------------------------------------------------------------
-// Google Yorumları – yerel JSON (assets/data/reviews.json)
-//  - Relative/TR tarihleri ham göster, ISO tarihleri formatla
+// Google Yorumları – assets/data/reviews.json
 // -------------------------------------------------------------
 async function initGoogleReviews(){
   const summaryEl = document.getElementById('ratingSummary');
@@ -327,7 +359,6 @@ async function initGoogleReviews(){
     const stars = makeStars(r.rating);
     const name  = esc(r.author || r.authorName || r.user || 'Ziyaretçi');
     const txt   = esc(r.text || r.comment || r.reviewText || '');
-
     const rawWhen = r.time || r.date || r.createTime;
     const pretty  = fmtDate(rawWhen);
     const when    = pretty || esc(String(rawWhen || ''));
