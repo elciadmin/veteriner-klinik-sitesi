@@ -152,8 +152,84 @@
     .about-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
     .about-card h3{color:var(--primary);margin-bottom:8px}
 
-    /* === INSTAGRAM: grid fallback (JS zaten stilleri ekliyor) === */
-    #instaGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+    /* === INSTAGRAM: akan şerit (kare kırpma) – %30 daha büyük & spotlight === */
+    #instaGrid{overflow:hidden;padding:4px 0}
+    .insta-track{display:flex;align-items:center;gap:10px;will-change:transform}
+    .insta-item{
+      /* önce ~18% idi → %30 civarı büyüttük (24%); max genişlik de arttı */
+      flex:0 0 24%;
+      max-width:260px;
+      aspect-ratio:1/1;border-radius:12px;
+      overflow:hidden;border:1px solid #e6eef7;background:#f7faff;
+      transition:transform .4s ease, box-shadow .4s ease, filter .4s ease;
+    }
+    .insta-item img{width:100%;height:100%;object-fit:cover;display:block}
+    @media (max-width:1200px){ .insta-item{flex-basis:30%} }
+    @media (max-width:992px){  .insta-item{flex-basis:36%} }
+    @media (max-width:640px){  .insta-item{flex-basis:58%} }
+    .insta-spot{
+      transform:scale(1.18);
+      box-shadow:0 16px 32px rgba(0,0,0,.18);
+      z-index:2; filter:saturate(1.1);
+    }
+
+    /* === YOUTUBE: yatay slider (aynı anda 5 görünür, 1'er kay) === */
+    .yt-carousel{position:relative;overflow:hidden}
+    .yt-track{
+      display:flex;align-items:stretch;gap:12px;
+      will-change:transform;
+      transition:transform .6s ease;
+      padding:4px 2px;
+    }
+    .yt-card{
+      flex:0 0 calc(20% - 10px); /* görünürde 5 kart */
+      max-width:320px;
+      border:1px solid var(--border);
+      border-radius:12px;overflow:hidden;background:#fff;box-shadow:var(--shadow-sm)
+    }
+    .yt-thumb{aspect-ratio:16/9;background:#eef4ff;display:block}
+    .yt-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .yt-body{padding:10px 12px}
+    .yt-title{
+      font-size:14px;color:var(--dark);font-weight:600;line-height:1.35;
+      display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden
+    }
+    @media(max-width:992px){ .yt-card{flex-basis:calc(50% - 10px)} } /* 2 görünür */
+    @media(max-width:640px){ .yt-card{flex-basis:100%} }            /* 1 görünür */
+
+    /* === Reviews: flip animasyon & kademeli görünüm === */
+    .review-card{
+      background:#fff;border:1px solid var(--border);border-radius:12px;
+      box-shadow:var(--shadow-sm);padding:14px;transform-style:preserve-3d;
+      backface-visibility:hidden;
+    }
+    .review-author{font-weight:700;color:var(--dark);margin-bottom:6px}
+    .review-meta{color:#6b7280;font-size:13px;margin-bottom:8px}
+    .review-text{color:#374151;font-size:15px}
+    .flip-out{animation:flipOut .6s ease forwards}
+    .flip-in{ animation:flipIn  .6s ease forwards}
+    @keyframes flipOut{ to{ transform:rotateY(90deg); opacity:0 } }
+    @keyframes flipIn { from{ transform:rotateY(-90deg); opacity:0 } to{ transform:rotateY(0); opacity:1 } }
+
+    /* Responsive */
+    @media (max-width:1200px){ .quick-grid{grid-template-columns:repeat(3,1fr)} }
+    @media (max-width:992px){
+      nav ul{display:none;position:absolute;left:0;top:100%;width:100%;background:#fff;flex-direction:column;gap:0;box-shadow:0 10px 24px rgba(0,0,0,.1);padding:14px 0}
+      nav ul.show{display:flex}
+      nav li{padding:8px 18px;border-bottom:1px solid var(--border)}
+      .dropdown-content{position:static;display:none;border:none;box-shadow:none;padding:0;margin-top:6px}
+      .dropdown.active .dropdown-content{display:block}
+      .mobile-menu-btn{display:block}
+      .hero .container{padding:90px 16px 26px}
+      .services-grid{grid-template-columns:1fr 1fr}
+      .blog-grid{grid-template-columns:1fr 1fr}
+      .about-cards{grid-template-columns:1fr}
+    }
+    @media (max-width:640px){
+      .services-grid{grid-template-columns:1fr}
+      .blog-grid{grid-template-columns:1fr}
+      .hero h1{font-size:36px}
+    }
 
     /* Footer */
     footer{background:linear-gradient(135deg,#1a3a52,var(--primary));color:#fff;padding:60px 0 0}
@@ -162,7 +238,7 @@
     .footer-col h3:after{content:"";position:absolute;left:0;bottom:0;height:2px;width:40px;background:var(--secondary)}
     .footer-links li{list-style:none;margin:8px 0}
     .footer-links a{color:#fff;opacity:.85}
-    .footer-links a:hover{opacity:1;color:#secondary}
+    .footer-links a:hover{opacity:1;color:var(--secondary)}
     .footer-contact li{list-style:none;margin:10px 0;display:flex;gap:10px}
     .social-links{display:flex;gap:8px;margin-top:10px}
     .social-links a{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.1);color:#fff}
@@ -378,7 +454,6 @@
       <div class="container">
         <div class="section-title">
           <h2>Elçi Kimdir? & Misyonumuz</h2>
-          <p>Hakkımızda sayfasından özet bilgiler</p>
         </div>
         <div class="about-cards">
           <div class="about-card" id="elciKimdirCard">
@@ -414,14 +489,16 @@
       </div>
     </section>
 
-    <!-- YOUTUBE (öneriler tarzı kompakt kartlar) -->
+    <!-- YOUTUBE (çoklu kart, slider) -->
     <section id="youtube" class="section alt">
       <div class="container embed-wrap">
         <div class="section-title">
           <h2>YouTube’dan</h2>
           <p>Videolarımız ve bilgilendirici içerikler</p>
         </div>
-        <div id="ytGrid"></div>
+        <div id="ytCarousel" class="yt-carousel" aria-live="polite">
+          <div class="yt-track" id="ytTrack"></div>
+        </div>
         <p style="margin-top:16px">
           <a class="btn btn-outline" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi/videos" target="_blank" rel="noopener">Kanalı Ziyaret Et</a>
         </p>
@@ -469,7 +546,7 @@
             <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank">Havzan Mah., Yeni Meram Cad. No:17/1, Meram/Konya</a>
           </li>
           <li><i class="fas fa-phone-alt"></i> <a href="tel:03323223220">0332 322 32 20</a></li>
-          <li><i class="fas fa-envelope"></i> <a href="mailto:elcivetklinigi@gmail.com">elcivetklinigi@gmail.com</a></li>
+          <li><i class="fas fa-envelope"></i> <a href="mailto:elcivetklinig@gmail.com">elcivetklinig@gmail.com</a></li>
           <li><i class="fas fa-clock"></i> Pazartesi–Cumartesi: 08:00–19:00, Pazar: Acil</li>
         </ul>
       </div>
@@ -511,8 +588,7 @@
   }
   </script>
 
-  <!-- Ana JS -->
- <script src="assets/js/main.js?v=11" defer></script>
-
+  <!-- Harici JS -->
+  <script src="assets/js/main.js?v=12" defer></script>
 </body>
 </html>
