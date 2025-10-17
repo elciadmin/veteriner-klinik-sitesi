@@ -1,5 +1,5 @@
+/* ====== NAV ====== */
 document.addEventListener('DOMContentLoaded', () => {
-  /* === Mobil Menü === */
   const btn = document.getElementById('mobileMenuBtn');
   const menu = document.getElementById('mainMenu');
   if (btn && menu) {
@@ -10,49 +10,26 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-/* === Blog kartları (varsa) === */
-(async function initBlog(){
-  const grid = document.getElementById('blogGrid');
-  if (!grid) return;
-  try{
-    const res = await fetch('/assets/data/blog.json', { cache: 'no-store' });
-    if (!res.ok) return;
-    const posts = await res.json();
-    if (!Array.isArray(posts)) return;
-    grid.innerHTML = posts.slice(0,3).map(p => `
-      <article class="blog-card">
-        <div class="thumb">${p.image ? `<img src="${p.image}" alt="${p.title||''}" loading="lazy">` : ''}</div>
-        <div class="body">
-          <h3>${p.title||''}</h3>
-          <p>${p.excerpt||''}</p>
-        </div>
-      </article>
-    `).join('');
-  }catch{}
-})();
-
-/* === INSTAGRAM: sağlam/fallback'lı yavaş akan şerit + düzenli duraksama + spotlight === */
+/* ====== INSTAGRAM: yavaş akan şerit + periyodik duraksama + spotlight ====== */
 (async function initInstagram(){
   const wrap = document.getElementById('instaGrid');
   if (!wrap) return;
 
-  let items = [];
+  let files = [];
   try{
     const res = await fetch('/assets/data/instagram.json', { cache: 'no-store' });
-    if (res.ok) items = await res.json();
-  }catch(e){
-    console.warn('instagram.json okunamadı', e);
-  }
-  if (!Array.isArray(items) || items.length === 0){
-    wrap.innerHTML = '';
+    if (res.ok) files = await res.json();
+  }catch(e){ console.warn('instagram.json okunamadı', e); }
+
+  if (!Array.isArray(files) || files.length === 0){
+    wrap.remove(); // veri yoksa bölümü gizle
     return;
   }
 
   const track = document.createElement('div');
   track.className = 'insta-track';
 
-  // >>> İSTENEN KLASÖR: /assets/img/insta/  (404 olursa /assets/img/ köküne düşer)
-  const mkItem = (name) => `
+  const mk = (name) => `
     <a class="insta-item" href="https://www.instagram.com/elcivetklinigi/" target="_blank" rel="noopener">
       <img loading="lazy"
            src="/assets/img/insta/${name}"
@@ -61,49 +38,50 @@ document.addEventListener('DOMContentLoaded', () => {
     </a>
   `;
 
-  track.innerHTML = [...items, ...items].map(mkItem).join('');
+  // Kesintisiz akış: iki kat
+  track.innerHTML = [...files, ...files].map(mk).join('');
   wrap.innerHTML = '';
   wrap.appendChild(track);
 
-  // Daha yavaş akış
-  const PX_PER_SEC = 10;   // düşük hız
+  // Hız (önceki hızlıydı → yarıya düşürdük)
+  const PX_PER_SEC = 6; // düşük hız
   let x = 0;
-  let lastTs = performance.now();
-  const singleWidth = () => track.scrollWidth / 2;
-
+  let last = performance.now();
   let raf;
-  function tick(ts){
-    const dt = (ts - lastTs) / 1000;
-    lastTs = ts;
-    x -= PX_PER_SEC * dt;
-    const width = singleWidth();
-    if (Math.abs(x) > width) x += width;
-    track.style.transform = `translateX(${x}px)`;
-    raf = requestAnimationFrame(tick);
-  }
-  raf = requestAnimationFrame(tick);
 
-  // 15 sn'de bir 3 sn duraksama
+  const widthHalf = () => track.scrollWidth / 2;
+
+  function loop(ts){
+    const dt = (ts - last) / 1000;
+    last = ts;
+    x -= PX_PER_SEC * dt;
+    const half = widthHalf();
+    if (Math.abs(x) > half) x += half;
+    track.style.transform = `translateX(${x}px)`;
+    raf = requestAnimationFrame(loop);
+  }
+  raf = requestAnimationFrame(loop);
+
+  // 20sn'de bir 3sn duraksama
   setInterval(()=>{
     cancelAnimationFrame(raf);
-    setTimeout(()=>{ lastTs = performance.now(); raf = requestAnimationFrame(tick); }, 3000);
-  }, 15000);
+    setTimeout(()=>{ last = performance.now(); raf = requestAnimationFrame(loop); }, 3000);
+  }, 20000);
 
-  // 30 sn’de bir 10 sn spotlight
-  function runSpotlight(){
+  // 30sn’de bir 10sn spotlight (öne büyüt)
+  function spotlight(){
     const cards = track.querySelectorAll('.insta-item');
     if (!cards.length) return;
-    const max = Math.min(8, cards.length);
-    const idx = Math.floor(Math.random() * max);
-    const c = cards[idx];
-    c.classList.add('insta-spot');
-    setTimeout(()=> c.classList.remove('insta-spot'), 10000);
+    const idx = Math.floor(Math.random() * Math.min(10, cards.length));
+    const el = cards[idx];
+    el.classList.add('insta-spot');
+    setTimeout(()=> el.classList.remove('insta-spot'), 10000);
   }
-  runSpotlight();
-  setInterval(runSpotlight, 30000);
+  spotlight();
+  setInterval(spotlight, 30000);
 })();
 
-/* === Google Reviews: büyük kart + 15sn’de sayfalama (3’erli) === */
+/* ====== GOOGLE REVIEWS: 3'erli büyük kart; 15sn'de sayfa çevir ====== */
 (async function initReviews(){
   const sumEl = document.getElementById('ratingSummary');
   const grid  = document.getElementById('reviewsGrid');
@@ -112,62 +90,47 @@ document.addEventListener('DOMContentLoaded', () => {
   let data = [];
   try{
     const res = await fetch('/assets/data/reviews.json', { cache: 'no-store' });
-    if (res.ok) {
-      data = await res.json();
-    } else {
-      console.warn('reviews.json HTTP hatası', res.status);
-    }
-  }catch(e){
-    console.warn('reviews.json okunamadı', e);
-  }
+    if (res.ok) data = await res.json();
+  }catch(e){ console.warn('reviews.json okunamadı', e); }
 
   if (!Array.isArray(data) || data.length === 0){
     document.getElementById('google-yorumlari')?.remove();
     return;
   }
 
-  // Özet — toplam yorum sayısını göstermiyoruz (senin isteğine göre)
-  sumEl.innerHTML = `
-    <span class="stars" aria-hidden="true" title="5 yıldız">★★★★★</span>
-    <span class="score">5.0 / 5</span>
-  `;
+  // Üst özet – yıldızlar beyaz, yorum sayısını kaldırdık
+  sumEl.innerHTML = `<span class="stars" aria-hidden="true">★★★★★</span> <span class="score">5.0 / 5</span>`;
 
   const pageSize = 3;
   let page = 0;
 
-  function tpl(r){
-    return `
-      <article class="review-card">
-        <div class="review-author">${r.author||''}</div>
-        <div class="review-meta"><span class="stars" aria-hidden="true">★★★★★</span> · ${r.time||''}</div>
-        <div class="review-text">${r.text||''}</div>
-      </article>
-    `;
-  }
+  const card = (r) => `
+    <article class="review-card">
+      <div class="review-author">${r.author||''}</div>
+      <div class="review-meta"><span class="stars">★★★★★</span> · ${r.time||''}</div>
+      <div class="review-text">${r.text||''}</div>
+    </article>
+  `;
 
-  function renderPage(){
+  function render(){
     const start = page * pageSize;
     let slice = data.slice(start, start + pageSize);
-    if (slice.length < pageSize){
-      slice = slice.concat(data.slice(0, pageSize - slice.length));
-    }
-    grid.innerHTML = slice.map(tpl).join('');
-    requestAnimationFrame(()=>{
-      grid.querySelectorAll('.review-card').forEach(c => c.classList.add('show'));
-    });
+    if (slice.length < pageSize) slice = slice.concat(data.slice(0, pageSize - slice.length));
+    grid.innerHTML = slice.map(card).join('');
+    requestAnimationFrame(()=> grid.querySelectorAll('.review-card').forEach(c => c.classList.add('show')));
   }
 
-  renderPage();
+  render();
   setInterval(()=>{
     grid.querySelectorAll('.review-card').forEach(c => c.classList.remove('show'));
     setTimeout(()=>{
       page = (page + 1) % Math.ceil(data.length / pageSize);
-      renderPage();
-    }, 500);
+      render();
+    }, 450);
   }, 15000);
 })();
 
-/* === YouTube: son 5 videoyu kanal feed'inden otomatik çek === */
+/* ====== YOUTUBE: kanal feed → öneri grid (5 video) ====== */
 (async function initYouTube(){
   const grid = document.getElementById('ytGrid');
   if (!grid) return;
@@ -186,22 +149,16 @@ document.addEventListener('DOMContentLoaded', () => {
     videos = entries.map(e => {
       const idEl    = e.getElementsByTagNameNS(YT_NS, 'videoId')[0];
       const titleEl = e.getElementsByTagNameNS(ATOM_NS, 'title')[0];
-      return {
-        id: idEl ? idEl.textContent : '',
-        title: titleEl ? titleEl.textContent : 'Video'
-      };
+      return { id: idEl ? idEl.textContent : '', title: titleEl ? titleEl.textContent : 'Video' };
     }).filter(v => v.id);
-  } catch (err) {
+  } catch {
     try{
       const res = await fetch('/assets/data/youtube.json', { cache: 'no-store' });
-      if (res.ok) {
-        const fallback = await res.json();
-        videos = Array.isArray(fallback) ? fallback : [];
-      }
+      if (res.ok) videos = await res.json();
     }catch{}
   }
 
-  if (!Array.isArray(videos) || videos.length === 0){
+  if (!videos.length){
     videos = [
       { id: 'GVHnMUg_GeU', title: 'Kedi Sağlığında A Vitamini Sırrı' },
       { id: 'HBgzBBuwCeY', title: 'Soğukta Donan Dostlarımız!' },
@@ -211,9 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
   }
 
-  const limit = 5;
-  const pick = videos.slice(0, limit);
-
+  const pick = videos.slice(0, 5);
   grid.innerHTML = pick.map(v => {
     const thumb = `https://img.youtube.com/vi/${v.id}/hqdefault.jpg`;
     const url   = `https://www.youtube.com/watch?v=${v.id}`;
@@ -222,9 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <a class="yt-thumb" href="${url}" target="_blank" rel="noopener" aria-label="${v.title||'YouTube'}">
           <img src="${thumb}" alt="${v.title||'YouTube'}" loading="lazy">
         </a>
-        <div class="yt-body">
-          <div class="yt-title">${v.title || 'Video'}</div>
-        </div>
+        <div class="yt-body"><div class="yt-title">${v.title || 'Video'}</div></div>
       </article>
     `;
   }).join('');
