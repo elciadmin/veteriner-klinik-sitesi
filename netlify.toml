@@ -6,22 +6,18 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
+# ---------- Güvenlik Başlıkları (CSP + frame izinleri) ----------
 [[headers]]
   for = "/*"
   [headers.values]
     X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "ALLOW-FROM https://www.youtube.com https://www.youtube-nocookie.com"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-    # CSP'yi genişlettik: Font Awesome webfontları ve YouTube thumb'ları serbest
-    Content-Security-Policy = """
-      default-src 'self';
-      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com https://www.youtube-nocookie.com;
-      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
-      img-src 'self' data: https://images.unsplash.com https://i.ytimg.com https://img.youtube.com https://cdn.trustindex.io https://assets.trustindex.io;
-      font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
-      frame-src https://www.youtube.com https://www.youtube-nocookie.com;
-      connect-src 'self';
-    """
+    # DÜZELTİLEN CSP:
+    # - font-src: cdnjs eklendi (FA webfontları için)
+    # - img-src: YouTube küçük resimleri (i.ytimg.com ve img.youtube.com) eklendi
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com https://www.youtube-nocookie.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; img-src 'self' data: https://images.unsplash.com https://i.ytimg.com https://img.youtube.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'self';"
 
 # ---------- Redirects ----------
 [[redirects]]
