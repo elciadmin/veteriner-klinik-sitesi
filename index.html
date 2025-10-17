@@ -19,11 +19,9 @@
   <link rel="apple-touch-icon" sizes="180x180" href="assets/img/uploads/apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
 
-  <!-- Canonical & Theme -->
   <link rel="canonical" href="https://veteriner-klinik-sitesi.netlify.app/">
   <meta name="theme-color" content="#6a0ea1">
 
-  <!-- Sosyal önizleme (mutlak URL) -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Elçi Veteriner Kliniği | Konya'da 7/24 Acil Veteriner">
   <meta property="og:description" content="7/24 acil, cerrahi, diş sağlığı, görüntüleme. Hemen arayın: 0332 322 32 20">
@@ -89,7 +87,6 @@
       background-blend-mode: overlay; color:#fff
     }
     .hero .container{display:flex;flex-direction:column;align-items:center;text-align:center;padding:120px 16px 40px}
-    .hero .brand-mark{display:flex;flex-direction:column;align-items:center;gap:14px;margin-bottom:10px}
     .brand-mark img{width:84px;height:84px;object-fit:contain;background:#fff;border-radius:24px;padding:10px;box-shadow:0 10px 24px rgba(0,0,0,.15)}
     .hero h1{color:#fff;font-size:48px;line-height:1.12;margin:6px 0 14px;text-shadow:0 2px 6px rgba(0,0,0,.25)}
     .hero .underline{width:64px;height:4px;border-radius:4px;background:#fff;opacity:.9;margin:0 auto 14px}
@@ -101,21 +98,6 @@
     .btn-outline{background:transparent;border:2px solid #fff;color:#fff}
     .btn-outline:hover{background:rgba(255,255,255,.13)}
 
-    /* Quick Nav */
-    .quick-nav{width:100%;max-width:1200px;margin-top:36px;padding:22px 12px 8px;border-top:1px solid rgba(255,255,255,.25)}
-    .quick-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
-    .quick-item{
-      position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:center;gap:10px;
-      padding:18px 12px;border-radius:16px;color:#fff;text-align:center;
-      border:1px solid rgba(255,255,255,.22);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
-      transition:.25s;
-    }
-    .quick-item .qicon{width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;background:rgba(255,255,255,.12);backdrop-filter:blur(2px)}
-    .quick-item strong{font-size:14px;letter-spacing:.3px}
-    .quick-item:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.16);background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.08))}
-    .quick-item:focus-visible{outline:3px solid #fff}
-    .quick-grid > a:not(:last-child)::after{content:""; position:absolute; right:-6px; top:50%; transform:translateY(-50%); width:4px; height:4px; border-radius:50%; background:rgba(255,255,255,.35)}
-
     /* Section */
     .section{padding:70px 0;background:#fff}
     .section.alt{background:#f8fbff}
@@ -124,39 +106,13 @@
     .section-title h2:after{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:0;height:3px;width:72px;background:var(--secondary)}
     .section-title p{color:var(--muted);margin-top:8px}
 
-    /* Hizmetler */
-    .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;perspective:1200px}
-    .flip-card{position:relative;height:250px}
-    .flip-card-inner{position:absolute;inset:0;border-radius:16px;transition:transform .7s;transform-style:preserve-3d;box-shadow:var(--shadow-sm);border:2px solid var(--border);background:#fff}
-    .flip-card:hover .flip-card-inner{transform:rotateY(180deg)}
-    .flip-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;text-align:center}
-    .flip-front{background:#fff}
-    .flip-front .icon{width:68px;height:68px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:30px;background:linear-gradient(135deg,var(--secondary),var(--primary));color:#fff;box-shadow:0 10px 22px rgba(16,179,209,.25)}
-    .flip-front h3{margin-top:12px;color:var(--primary)}
-    .flip-back{transform:rotateY(180deg);background:#f7fbff;border:1px dashed #dbeafe}
-    .flip-back p{color:#555;margin-bottom:12px}
-    .flip-back a{font-weight:700}
-
-    /* Blog */
-    .embed-wrap{max-width:1100px;margin:0 auto}
-    .about-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;box-shadow:var(--shadow-sm)}
-    .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .blog-card{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm)}
-    .blog-card .thumb{height:170px;background:#eef4ff}
-    .blog-card img{width:100%;height:100%;object-fit:cover;display:block}
-    .blog-card .body{padding:14px}
-    .blog-card h3{font-size:18px;color:var(--dark);margin-bottom:6px}
-    .blog-card p{color:#4b5563;font-size:15px}
-
-    /* About teaser */
-    .about-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-    .about-card h3{color:var(--primary);margin-bottom:8px}
+    /* Blog ve About kartları aynı kalsın */
 
     /* === INSTAGRAM: yavaş akış + spotlight === */
     #instaGrid{overflow:hidden;padding:4px 0}
     .insta-track{display:flex;align-items:center;gap:10px;will-change:transform}
     .insta-item{
-      flex:0 0 22%; /* daha küçük görünüm */
+      flex:0 0 24%;
       max-width:210px;
       aspect-ratio:1/1;
       border-radius:12px; overflow:hidden;
@@ -166,46 +122,41 @@
     }
     .insta-item img{width:100%;height:100%;object-fit:cover;display:block}
     .insta-item:hover{transform:scale(1.04); box-shadow:0 12px 26px rgba(0,0,0,.12)}
-    /* spotlight */
     .insta-spot{
       z-index:2;
       transform:scale(1.2) !important;
       box-shadow:0 20px 40px rgba(0,0,0,.22) !important;
       filter:saturate(1.15) contrast(1.05);
     }
-    @media (max-width:1200px){ .insta-item{flex-basis:26%} }
-    @media (max-width:992px){  .insta-item{flex-basis:32%} }
-    @media (max-width:640px){  .insta-item{flex-basis:44%} }
+    @media (max-width:1200px){ .insta-item{flex-basis:28%} }
+    @media (max-width:992px){  .insta-item{flex-basis:34%} }
+    @media (max-width:640px){  .insta-item{flex-basis:46%} }
 
-    /* === YOUTUBE: (YouTube önerileri gibi grid) === */
-    #ytGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    /* === YOUTUBE: öneri-grid === */
+    #ytGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
     .yt-card{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;box-shadow:var(--shadow-sm)}
     .yt-thumb{aspect-ratio:16/9;background:#eef4ff}
     .yt-thumb img{width:100%;height:100%;object-fit:cover;display:block}
     .yt-body{padding:10px 12px}
-    .yt-title{font-size:15px;color:var(--dark);font-weight:600;line-height:1.35}
+    .yt-title{font-size:16px;color:var(--dark);font-weight:700;line-height:1.35}
     @media(max-width:992px){ #ytGrid{grid-template-columns:repeat(2,1fr)} }
     @media(max-width:640px){ #ytGrid{grid-template-columns:1fr} }
 
-    /* === Google Reviews (büyük kart + fade sayfalama) === */
-    #ratingSummary{
-      display:flex;align-items:center;gap:10px;margin-bottom:16px
-    }
+    /* === Google Reviews === */
+    #ratingSummary{display:flex;align-items:center;gap:10px;margin-bottom:16px}
     #ratingSummary .stars{color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.25);font-size:20px}
     #ratingSummary .score{font-weight:700;color:#0f172a}
-
-    #reviewsGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    #reviewsGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
     .review-card{
-      border:1px solid var(--border); background:#fff; border-radius:14px; padding:16px; box-shadow:var(--shadow-sm);
+      border:1px solid var(--border); background:#fff; border-radius:16px; padding:18px; box-shadow:var(--shadow-sm);
       transform:rotateY(90deg); opacity:0; transition:transform .5s ease, opacity .5s ease;
-      min-height:160px;
+      min-height:170px;
     }
     .review-card.show{transform:rotateY(0deg); opacity:1}
-    .review-author{font-weight:700;color:#0f172a;margin-bottom:4px}
+    .review-author{font-weight:700;color:#0f172a;margin-bottom:6px}
     .review-meta{color:#6b7280;font-size:13px;margin-bottom:8px}
     .review-meta .stars{color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.25)}
     .review-text{color:#374151;font-size:15px;line-height:1.55}
-
     @media(max-width:992px){ #reviewsGrid{grid-template-columns:1fr 1fr} }
     @media(max-width:640px){ #reviewsGrid{grid-template-columns:1fr} }
 
@@ -226,10 +177,8 @@
 </head>
 <body class="home">
 
-  <!-- Skip to content -->
   <a class="skip-link" href="#main">İçeriğe atla</a>
 
-  <!-- Header -->
   <header>
     <div class="header-top">
       <div class="container">
@@ -315,7 +264,7 @@
   </header>
 
   <main id="main" role="main">
-    <!-- HERO + Quick Site Rehberi -->
+    <!-- HERO -->
     <section class="hero" aria-label="Açılış">
       <div class="container">
         <div class="brand-mark">
@@ -327,77 +276,6 @@
         <div class="hero-cta">
           <a class="btn btn-primary" href="hasta-iliskileri.html#online-randevu"><i class="fas fa-calendar-check"></i> Online Randevu Al</a>
           <a class="btn btn-outline" href="tel:03323223220"><i class="fas fa-phone"></i> 0332 322 32 20</a>
-        </div>
-
-        <div class="quick-nav" aria-label="Site Rehberi">
-          <div class="quick-grid">
-            <a class="quick-item" href="hizmetler.html#acil">
-              <div class="qicon"><i class="fa-solid fa-stethoscope"></i></div>
-              <strong>Acil / Doktor</strong>
-            </a>
-            <a class="quick-item" href="hizmetler.html">
-              <div class="qicon"><i class="fa-solid fa-heart-pulse"></i></div>
-              <strong>Branşlarımız</strong>
-            </a>
-            <a class="quick-item" href="hasta-iliskileri.html#online-randevu">
-              <div class="qicon"><i class="fa-solid fa-calendar-check"></i></div>
-              <strong>Hızlı Randevu</strong>
-            </a>
-            <a class="quick-item" href="#google-yorumlari">
-              <div class="qicon"><i class="fa-solid fa-star-half-stroke"></i></div>
-              <strong>Google Yorumları</strong>
-            </a>
-            <a class="quick-item" href="#instagram">
-              <div class="qicon"><i class="fa-brands fa-instagram"></i></div>
-              <strong>Instagram</strong>
-            </a>
-            <a class="quick-item" href="contact.html">
-              <div class="qicon"><i class="fa-solid fa-phone-volume"></i></div>
-              <strong>İletişim</strong>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- HİZMETLER -->
-    <section class="section" id="hizmetler-ozet">
-      <div class="container">
-        <div class="section-title">
-          <h2>Hizmetlerimiz</h2>
-          <p>İhtiyacınıza yönelik çözümler</p>
-        </div>
-
-        <div class="services-grid">
-          <div class="flip-card"><div class="flip-card-inner">
-            <div class="flip-face flip-front"><div class="icon"><i class="fas fa-ambulance"></i></div><h3>7/24 Acil</h3></div>
-            <div class="flip-face flip-back"><p>Kaza, zehirlenme, solunum sıkıntısı gibi durumlarda hızlı ve doğru müdahale.</p><a href="hizmetler.html#acil">Detayları gör →</a></div>
-          </div></div>
-
-          <div class="flip-card"><div class="flip-card-inner">
-            <div class="flip-face flip-front"><div class="icon"><i class="fas fa-shield-virus"></i></div><h3>Koruyucu Hekimlik</h3></div>
-            <div class="flip-face flip-back"><p>Aşılama, parazit kontrolü, check-up ve yaşam boyu sağlık planları.</p><a href="hizmetler.html#koruyucu">Detayları gör →</a></div>
-          </div></div>
-
-          <div class="flip-card"><div class="flip-card-inner">
-            <div class="flip-face flip-front"><div class="icon"><i class="fas fa-scalpel"></i></div><h3>Cerrahi</h3></div>
-            <div class="flip-face flip-back"><p>Kısırlaştırma, yumuşak doku, ortopedik ve onkolojik cerrahiler.</p><a href="hizmetler.html#cerrahi">Detayları gör →</a></div>
-          </div></div>
-
-          <div class="flip-card"><div class="flip-card-inner">
-            <div class="flip-face flip-front"><div class="icon"><i class="fas fa-tooth"></i></div><h3>Diş Sağlığı</h3></div>
-            <div class="flip-face flip-back"><div><p>Diş taşı temizliği, çekim, periodontal tedaviler ve ev bakımı eğitimi.</p><a href="hizmetler.html#agiz-dis">Detayları gör →</a></div></div>
-          </div></div>
-
-          <div class="flip-card"><div class="flip-card-inner">
-            <div class="flip-face flip-front"><div class="icon"><i class="fas fa-x-ray"></i></div><h3>Görüntüleme</h3></div>
-            <div class="flip-face flip-back"><p>Dijital röntgen, ultrason, EKG ve laboratuvar ile doğru tanı.</p><a href="hizmetler.html#ic-hastaliklari">Detayları gör →</a></div>
-          </div></div>
-
-          <div class="flip-card"><div class="flip-card-inner">
-            <div class="flip-face flip-front"><div class="icon"><i class="fas fa-home"></i></div><h3>Konaklama</h3></div>
-            <div class="flip-face flip-back"><p>Hijyenik, klimalı odalar; günlük kontrol ve oyun alanları.</p><a href="hizmetler.html#konaklama">Detayları gör →</a></div>
-          </div></div>
         </div>
       </div>
     </section>
@@ -413,39 +291,6 @@
         <p style="margin-top:16px">
           <a class="btn btn-outline" href="https://www.instagram.com/elcivetklinigi/" target="_blank" rel="noopener">Instagram’ı Takip Et</a>
         </p>
-      </div>
-    </section>
-
-    <!-- BLOG ÖZET -->
-    <section class="section" id="blog-ozet">
-      <div class="container">
-        <div class="section-title">
-          <h2>Blogdan Son Yazılar</h2>
-          <p>Bilgi, rehber ve güncel duyurular</p>
-        </div>
-        <div class="blog-grid" id="blogGrid"></div>
-      </div>
-    </section>
-
-    <!-- HAKKIMIZDA ÖZET -->
-    <section class="section alt" id="about-teaser">
-      <div class="container">
-        <div class="section-title">
-          <h2>Elçi Kimdir? & Misyonumuz</h2>
-          <p>Hakkımızda sayfasından özet bilgiler</p>
-        </div>
-        <div class="about-cards">
-          <div class="about-card" id="elciKimdirCard">
-            <h3>Elçi Kimdir?</h3>
-            <div class="content">Yükleniyor…</div>
-            <p style="margin-top:10px"><a class="btn" style="background:var(--secondary);color:#fff;border-radius:10px;padding:10px 14px;font-weight:600" href="about.html#elci-kimdir">Tamamını Oku</a></p>
-          </div>
-          <div class="about-card" id="misyonVizyonCard">
-            <h3>Misyon & Vizyon</h3>
-            <div class="content">Yükleniyor…</div>
-            <p style="margin-top:10px"><a class="btn" style="background:var(--secondary);color:#fff;border-radius:10px;padding:10px 14px;font-weight:600" href="about.html#misyon-vizyon">Tamamını Oku</a></p>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -468,7 +313,7 @@
       </div>
     </section>
 
-    <!-- YOUTUBE (çoklu kart) -->
+    <!-- YOUTUBE -->
     <section id="youtube" class="section alt">
       <div class="container embed-wrap">
         <div class="section-title">
@@ -483,7 +328,6 @@
     </section>
   </main>
 
-  <!-- Footer -->
   <footer>
     <div class="container footer-container">
       <div class="footer-col">
@@ -523,7 +367,7 @@
             <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank">Havzan Mah., Yeni Meram Cad. No:17/1, Meram/Konya</a>
           </li>
           <li><i class="fas fa-phone-alt"></i> <a href="tel:03323223220">0332 322 32 20</a></li>
-          <li><i class="fas fa-envelope"></i> <a href="mailto:elcivetklinig@gmail.com">elcivetklinig@gmail.com</a></li>
+          <li><i class="fas fa-envelope"></i> <a href="mailto:elcivetklinigi@gmail.com">elcivetklinigi@gmail.com</a></li>
           <li><i class="fas fa-clock"></i> Pazartesi–Cumartesi: 08:00–19:00, Pazar: Acil</li>
         </ul>
       </div>
@@ -565,7 +409,6 @@
   }
   </script>
 
-  <!-- JS -->
-  <script src="/assets/js/main.js?v=7" defer></script>
+  <script src="/assets/js/main.js?v=9" defer></script>
 </body>
 </html>
