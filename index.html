@@ -13,7 +13,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
-  <!-- Favicons (dosyalar assets/img/uploads içinde olmalı) -->
+  <!-- Favicons (dosyalar assets/img/uploads içinde) -->
   <link rel="icon" type="image/png" sizes="32x32" href="assets/img/uploads/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/img/uploads/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/img/uploads/apple-touch-icon.png">
@@ -23,7 +23,7 @@
   <link rel="canonical" href="https://veteriner-klinik-sitesi.netlify.app/">
   <meta name="theme-color" content="#6a0ea1">
 
-  <!-- Sosyal önizleme (mutlak URL şart) -->
+  <!-- Sosyal önizleme (mutlak URL) -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Elçi Veteriner Kliniği | Konya'da 7/24 Acil Veteriner">
   <meta property="og:description" content="7/24 acil, cerrahi, diş sağlığı, görüntüleme. Hemen arayın: 0332 322 32 20">
@@ -152,67 +152,47 @@
     .about-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
     .about-card h3{color:var(--primary);margin-bottom:8px}
 
-    /* === INSTAGRAM: akan şerit (kare kırpma) – %30 daha büyük & spotlight === */
+    /* === INSTAGRAM: yavaş akan şerit + spotlight === */
     #instaGrid{overflow:hidden;padding:4px 0}
     .insta-track{display:flex;align-items:center;gap:10px;will-change:transform}
+    /* %30 daha büyük kartlar (eski 18% → ~24%) */
     .insta-item{
-      /* önce ~18% idi → %30 civarı büyüttük (24%); max genişlik de arttı */
-      flex:0 0 24%;
-      max-width:260px;
-      aspect-ratio:1/1;border-radius:12px;
-      overflow:hidden;border:1px solid #e6eef7;background:#f7faff;
-      transition:transform .4s ease, box-shadow .4s ease, filter .4s ease;
+      flex:0 0 24%;max-width:260px;aspect-ratio:1/1;border-radius:12px;
+      overflow:hidden;border:1px solid #e6eef7;background:#f7faff;position:relative;transition:transform .35s ease, box-shadow .35s ease;
     }
     .insta-item img{width:100%;height:100%;object-fit:cover;display:block}
-    @media (max-width:1200px){ .insta-item{flex-basis:30%} }
-    @media (max-width:992px){  .insta-item{flex-basis:36%} }
-    @media (max-width:640px){  .insta-item{flex-basis:58%} }
-    .insta-spot{
-      transform:scale(1.18);
-      box-shadow:0 16px 32px rgba(0,0,0,.18);
-      z-index:2; filter:saturate(1.1);
-    }
+    /* spotlight efekti */
+    .insta-spot{transform:scale(1.2); z-index:2; box-shadow:0 16px 36px rgba(0,0,0,.22)}
+    @media (max-width:1200px){ .insta-item{flex-basis:28%} }
+    @media (max-width:992px){  .insta-item{flex-basis:34%} }
+    @media (max-width:640px){  .insta-item{flex-basis:48%} }
 
-    /* === YOUTUBE: yatay slider (aynı anda 5 görünür, 1'er kay) === */
-    .yt-carousel{position:relative;overflow:hidden}
-    .yt-track{
-      display:flex;align-items:stretch;gap:12px;
-      will-change:transform;
-      transition:transform .6s ease;
-      padding:4px 2px;
-    }
+    /* === YOUTUBE: 5 kart görünsün, yatay kaydır === */
+    .yt-carousel{overflow:hidden}
+    .yt-track{display:flex;gap:12px;transition:transform .6s ease}
     .yt-card{
-      flex:0 0 calc(20% - 10px); /* görünürde 5 kart */
-      max-width:320px;
-      border:1px solid var(--border);
-      border-radius:12px;overflow:hidden;background:#fff;box-shadow:var(--shadow-sm)
+      flex:0 0 calc((100% - 48px)/5); /* 5 kart + 4x12px gap */
+      border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;box-shadow:var(--shadow-sm)
     }
-    .yt-thumb{aspect-ratio:16/9;background:#eef4ff;display:block}
+    .yt-thumb{display:block;aspect-ratio:16/9;background:#eef4ff}
     .yt-thumb img{width:100%;height:100%;object-fit:cover;display:block}
     .yt-body{padding:10px 12px}
-    .yt-title{
-      font-size:14px;color:var(--dark);font-weight:600;line-height:1.35;
-      display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden
-    }
-    @media(max-width:992px){ .yt-card{flex-basis:calc(50% - 10px)} } /* 2 görünür */
-    @media(max-width:640px){ .yt-card{flex-basis:100%} }            /* 1 görünür */
+    .yt-title{font-size:14px;color:var(--dark);font-weight:600;line-height:1.35}
+    @media(max-width:992px){ .yt-card{flex-basis:calc((100% - 12px)/2)} }
+    @media(max-width:640px){ .yt-card{flex-basis:100%} }
 
-    /* === Reviews: flip animasyon & kademeli görünüm === */
+    /* === Google Reviews: kart + flip animasyon === */
     .review-card{
-      background:#fff;border:1px solid var(--border);border-radius:12px;
-      box-shadow:var(--shadow-sm);padding:14px;transform-style:preserve-3d;
-      backface-visibility:hidden;
+      background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px;box-shadow:var(--shadow-sm);
+      transform-style:preserve-3d;backface-visibility:hidden;transition:transform .6s ease;
     }
-    .review-author{font-weight:700;color:var(--dark);margin-bottom:6px}
-    .review-meta{color:#6b7280;font-size:13px;margin-bottom:8px}
-    .review-text{color:#374151;font-size:15px}
-    .flip-out{animation:flipOut .6s ease forwards}
-    .flip-in{ animation:flipIn  .6s ease forwards}
-    @keyframes flipOut{ to{ transform:rotateY(90deg); opacity:0 } }
-    @keyframes flipIn { from{ transform:rotateY(-90deg); opacity:0 } to{ transform:rotateY(0); opacity:1 } }
-
+    .review-author{font-weight:700;color:#0f172a;margin-bottom:6px}
+    .review-meta{font-size:13px;margin-bottom:8px}
+    .review-text{color:#374151;font-size:14px}
+    .flip-out{transform:rotateY(90deg)}
+    .flip-in{transform:rotateY(0deg)}
+    
     /* Responsive */
-    @media (max-width:1200px){ .quick-grid{grid-template-columns:repeat(3,1fr)} }
     @media (max-width:992px){
       nav ul{display:none;position:absolute;left:0;top:100%;width:100%;background:#fff;flex-direction:column;gap:0;box-shadow:0 10px 24px rgba(0,0,0,.1);padding:14px 0}
       nav ul.show{display:flex}
@@ -454,6 +434,7 @@
       <div class="container">
         <div class="section-title">
           <h2>Elçi Kimdir? & Misyonumuz</h2>
+          <p>Hakkımızda sayfasından özet bilgiler</p>
         </div>
         <div class="about-cards">
           <div class="about-card" id="elciKimdirCard">
@@ -588,8 +569,7 @@
   }
   </script>
 
-  <!-- Harici JS -->
-  <script src="assets/js/main.js?v=12" defer></script>
+  <!-- JS -->
+  <script src="assets/js/main.js?v=13" defer></script>
 </body>
 </html>
- 
