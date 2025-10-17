@@ -72,7 +72,7 @@
     nav a{color:#111827;font-weight:600;padding:10px 0;display:inline-flex;align-items:center;gap:6px}
     nav a:after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:0;background:var(--secondary);transition:.25s}
     nav a:hover:after,nav a.active:after{width:100%}
-    .dropdown > a::after{content:"\f078";font-family:"Font Awesome 6 Free";font-weight:900;font-size:12px;margin-left:6px;opacity:.7;transition:.25s}
+    .dropdown > a::after{content:"078";font-family:"Font Awesome 6 Free";font-weight:900;font-size:12px;margin-left:6px;opacity:.7;transition:.25s}
     .dropdown:hover > a::after{transform:rotate(180deg)}
     .dropdown-content{
       position:absolute;top:100%;left:0;min-width:260px;background:#fff;border:1px solid var(--border);border-radius:12px;
@@ -98,7 +98,7 @@
     .btn-outline{background:transparent;border:2px solid #fff;color:#fff}
     .btn-outline:hover{background:rgba(255,255,255,.13)}
 
-    /* Entrance animation (slower: 1.2s -> 2.4s) */
+    /* Entrance animation */
     @keyframes fadeUp {from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)}}
     .reveal{opacity:0;animation:fadeUp 2.4s ease forwards}
 
@@ -123,7 +123,6 @@
     /* Hizmetler */
     .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;perspective:1200px}
     .flip-card{position:relative;height:250px}
-    /* Slower flip (0.7s -> 1.4s) */
     .flip-card-inner{position:absolute;inset:0;border-radius:16px;transition:transform 1.4s;transform-style:preserve-3d;box-shadow:var(--shadow-sm);border:2px solid var(--border);background:#fff}
     .flip-card:hover .flip-card-inner{transform:rotateY(180deg)}
     .flip-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;text-align:center}
@@ -134,7 +133,7 @@
     .flip-back p{color:#555;margin-bottom:12px}
     .flip-back a{font-weight:700}
 
-    /* Cards / Blog */
+    /* About/Blog */
     .embed-wrap{max-width:1100px;margin:0 auto}
     .about-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;box-shadow:var(--shadow-sm)}
     .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -145,115 +144,49 @@
     .blog-card h3{font-size:18px;color:var(--dark);margin-bottom:6px}
     .blog-card p{color:#4b5563;font-size:15px}
 
-    /* About teaser */
     .about-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
     .about-card h3{color:var(--primary);margin-bottom:8px}
 
-    /* === INSTAGRAM === */
-    #instaGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
-    #instaGrid .insta-item{position:relative;overflow:hidden;border-radius:12px}
-    #instaGrid .insta-item img{display:block;width:100%;height:100%;object-fit:cover;aspect-ratio:1/1;transition:transform .6s ease}
-    #instaGrid .insta-item:hover img{transform:scale(1.06)}
-
-    /* === GOOGLE YORUMLARI === */
-    /* İstek: yıldızlar beyaz, kartlar daha büyük, toplam özet gizli */
-    #ratingSummary{display:none !important}
-    #reviewsGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .review-card{background:linear-gradient(135deg,#203045,#3d1771);color:#fff;border-radius:14px;padding:16px;border:1px solid rgba(255,255,255,.15);box-shadow:0 12px 26px rgba(0,0,0,.18)}
-    .review-card .stars{font-size:18px;line-height:1;color:#fff;letter-spacing:2px}
-    .review-card .author{font-weight:700;margin-top:6px}
-    .review-card .text{opacity:.95;margin-top:8px}
-
-    /* === YOUTUBE === */
-    #ytGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .yt-card{border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#fff;box-shadow:var(--shadow-sm)}
-    .yt-thumb{aspect-ratio:16/9;background:#000}
-    .yt-body{padding:12px}
-    .yt-title{font-weight:700}
     /* === INSTAGRAM ŞERİT + POP === */
     .insta-viewport{overflow:hidden}
-    .insta-track{display:flex;gap:10px;align-items:center;will-change:transform;animation:instaScroll var(--insta-speed,90s) linear infinite}
+    .insta-track{display:flex;gap:10px;align-items:center;will-change:transform;animation:instaScroll var(--insta-speed,95s) linear infinite;animation-timing-function:cubic-bezier(.25,.1,.25,1)}
     .insta-viewport:hover .insta-track{animation-play-state:paused}
-    .frame{flex:0 0 160px;position:relative;border-radius:12px;overflow:hidden}
-    .frame img{display:block;width:100%;height:100%;object-fit:cover;aspect-ratio:1/1;transition:transform .8s ease}
-    .frame.pop img{transform:scale(1.15)}
-    @keyframes instaScroll{from{transform:translateX(0)} to{transform:translateX(-50%)}}
-
-    /* === GOOGLE YORUMLARI DÖNGÜ === */
-    #ratingSummary{display:none !important}
-    #reviewsGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;opacity:1;transition:opacity .8s ease}
-    .reviews-fade{opacity:0}
-    .review-card{background:linear-gradient(135deg,#203045,#3d1771);color:#fff;border-radius:14px;padding:16px;border:1px solid rgba(255,255,255,.15);box-shadow:0 12px 26px rgba(0,0,0,.18)}
-    .review-card .stars{font-size:18px;line-height:1;color:#fff;letter-spacing:2px}
-    .review-card .author{font-weight:700;margin-top:6px}
-    .review-card .text{opacity:.95;margin-top:8px}
-
-    /* === YOUTUBE ŞERİT === */
-    #ytStrip{display:flex;gap:14px;overflow:hidden}
-    #ytStrip .yt-card{min-width:calc((100% - 28px)/3);border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#fff;box-shadow:var(--shadow-sm)}
-    .yt-thumb{aspect-ratio:16/9;background:#000}
-    .yt-body{padding:12px}
-    .yt-title{font-weight:700}
-    /* === ANİMASYON BOOST – daha efektif ve akıcı === */
-    /* Baz setin üstüne override; sadece bu blok eklendi */
-
-    /* Instagram şerit – daha doğal hız eğrisi ve pop efekti */
-    .insta-track{animation-timing-function:cubic-bezier(.25,.1,.25,1)}
-    .frame{transition:transform .9s cubic-bezier(.22,.61,.36,1), box-shadow .9s ease}
-    .frame.pop{z-index:2}
+    .frame{flex:0 0 160px;position:relative;border-radius:12px;overflow:hidden;transition:transform .9s cubic-bezier(.22,.61,.36,1), box-shadow .9s ease}
+    .frame img{display:block;width:100%;height:100%;object-fit:cover;aspect-ratio:1/1;transition:transform .9s cubic-bezier(.22,.61,.36,1)}
+    .frame.pop{z-index:2;box-shadow:0 18px 40px rgba(16,179,209,.28), 0 10px 20px rgba(106,14,161,.18)}
     .frame.pop img{transform:scale(1.22) rotate(.8deg)}
     .frame.pop::after{content:"";position:absolute;inset:0;background:radial-gradient(transparent 55%, rgba(255,255,255,.12));pointer-events:none}
-    .frame.pop{box-shadow:0 18px 40px rgba(16,179,209,.28), 0 10px 20px rgba(106,14,161,.18)}
+    @keyframes instaScroll{from{transform:translateX(0)} to{transform:translateX(-50%)}}
 
-    /* Google yorumlar – giriş/çıkış hareketi */
-    #reviewsGrid{transform:translateY(0);transition:opacity .6s ease, transform .6s ease}
-    .reviews-exit{opacity:0;transform:translateY(8px)}
-    .reviews-enter{opacity:0;transform:translateY(-8px)}
-    .reviews-enter.reviews-enter-active{opacity:1;transform:translateY(0)}
-
-    /* YouTube şerit – pencere değişiminde kaydırma hissi */
-    #ytStrip{transition:opacity .5s ease, transform .5s ease}
-    #ytStrip.strip-hide{opacity:0;transform:translateX(-12px)}
-
-    /* Reduce Motion – erişilebilirlik */
-    @media (prefers-reduced-motion: reduce){
-      .insta-track{animation:none}
-      .frame, .frame img{transition:none}
-      #reviewsGrid, #ytStrip{transition:none}
-    }
     /* === GOOGLE YORUMLARI – RENKLİ & BELİRGİN ANİMASYON === */
     #ratingSummary{display:none !important}
     #reviewsGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;opacity:1;transition:opacity .6s ease, transform .6s ease;transform:translateY(0) scale(1)}
     .reviews-exit{opacity:0;transform:translateY(16px) scale(.98)}
     .reviews-enter{opacity:0;transform:translateY(-16px) scale(.98)}
     .reviews-enter-active{opacity:1;transform:translateY(0) scale(1)}
-
-    .review-card{position:relative;border-radius:16px;padding:18px;color:#fff;box-shadow:0 14px 32px rgba(0,0,0,.2);overflow:hidden;
-      background:linear-gradient(135deg,var(--c1,#3b82f6),var(--c2,#a855f7));background-size:200% 200%;
-      animation:gradientMove 10s ease infinite, cardIn .7s cubic-bezier(.22,.61,.36,1) both}
+    .review-card{position:relative;border-radius:16px;padding:18px;color:#fff;box-shadow:0 14px 32px rgba(0,0,0,.2);overflow:hidden;background:linear-gradient(135deg,var(--c1,#3b82f6),var(--c2,#a855f7));background-size:200% 200%;animation:gradientMove 10s ease infinite, cardIn .7s cubic-bezier(.22,.61,.36,1) both}
     .review-card .stars{font-size:18px;line-height:1;letter-spacing:2px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.35)}
     .review-card .author{font-weight:800;margin-top:8px;letter-spacing:.3px}
     .review-card .text{opacity:.97;margin-top:10px}
     .review-card:hover{transform:translateY(-6px) scale(1.02) rotateX(.6deg);box-shadow:0 20px 44px rgba(16,179,209,.28), 0 12px 24px rgba(106,14,161,.2)}
     .review-card::after{content:"";position:absolute;inset:-20%;background:radial-gradient(40% 40% at 80% 0%, rgba(255,255,255,.18), transparent 60%);mix-blend-mode:screen;animation:shine 5.5s ease-in-out infinite}
-
     #reviewsGrid > .review-card:nth-child(1){--c1:#10b3d1;--c2:#6a0ea1}
     #reviewsGrid > .review-card:nth-child(2){--c1:#22c55e;--c2:#06b6d4}
     #reviewsGrid > .review-card:nth-child(3){--c1:#f59e0b;--c2:#ef4444}
-
     @keyframes gradientMove{0%{background-position:0% 0%}50%{background-position:100% 100%}100%{background-position:0% 0%}}
     @keyframes shine{0%,100%{transform:translateX(-10%) translateY(0)}50%{transform:translateX(8%) translateY(-2%)}}
     @keyframes cardIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
-
     #reviewsDots{display:flex;gap:8px;justify-content:center;margin-top:10px}
     #reviewsDots .dot{width:9px;height:9px;border-radius:50%;background:#cbd5e1;opacity:.9;transition:all .35s ease}
     #reviewsDots .dot.active{width:28px;border-radius:999px;background:var(--secondary)}
 
-    
-
-    
-
-    
+    /* === YOUTUBE ŞERİT === */
+    #ytStrip{display:flex;gap:14px;overflow:hidden;transition:opacity .5s ease, transform .5s ease}
+    #ytStrip.strip-hide{opacity:0;transform:translateX(-12px)}
+    #ytStrip .yt-card{min-width:calc((100% - 28px)/3);border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#fff;box-shadow:var(--shadow-sm)}
+    .yt-thumb{aspect-ratio:16/9;background:#000;display:block;width:100%}
+    .yt-body{padding:12px}
+    .yt-title{font-weight:700}
 
     /* Footer */
     footer{background:linear-gradient(135deg,#1a3a52,var(--primary));color:#fff;padding:60px 0 0}
@@ -271,8 +204,7 @@
 
     /* Responsive */
     @media (max-width:1024px){
-      .services-grid,.blog-grid,#reviewsGrid,#ytGrid{grid-template-columns:repeat(2,1fr)}
-      #instaGrid{grid-template-columns:repeat(4,1fr)}
+      .services-grid,.blog-grid,#reviewsGrid{grid-template-columns:repeat(2,1fr)}
     }
     @media (max-width:768px){
       nav ul{position:fixed;inset:64px 16px auto 16px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px;display:none;flex-direction:column;gap:6px;box-shadow:var(--shadow-md)}
@@ -283,13 +215,18 @@
       .quick-grid{grid-template-columns:repeat(3,1fr)}
       .hero h1{font-size:36px}
       .services-grid{grid-template-columns:1fr}
-      #instaGrid{grid-template-columns:repeat(3,1fr)}
-      .header-main .container{gap:8px}
     }
     @media (max-width:520px){
       .quick-grid{grid-template-columns:repeat(2,1fr)}
-      #instaGrid{grid-template-columns:repeat(2,1fr)}
-      #ytGrid,#reviewsGrid{grid-template-columns:1fr}
+      #ytStrip .yt-card{min-width:100%}
+      #reviewsGrid{grid-template-columns:1fr}
+    }
+
+    /* Reduce Motion */
+    @media (prefers-reduced-motion: reduce){
+      .insta-track{animation:none}
+      .frame, .frame img{transition:none}
+      #reviewsGrid, #ytStrip{transition:none}
     }
   </style>
 </head>
@@ -324,7 +261,6 @@
           <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç" aria-expanded="false"><i class="fas fa-bars"></i></button>
           <ul id="mainMenu">
             <li><a class="active" href="index.html">Ana Sayfa</a></li>
-
             <li class="dropdown">
               <a href="about.html">Hakkımızda</a>
               <div class="dropdown-content">
@@ -335,7 +271,6 @@
                 <a href="about.html#degerler">Değerlerimiz</a>
               </div>
             </li>
-
             <li class="dropdown">
               <a href="hizmetler.html">Hizmetlerimiz</a>
               <div class="dropdown-content">
@@ -349,7 +284,6 @@
                 <a href="hizmetler.html#konaklama">Konaklama</a>
               </div>
             </li>
-
             <li class="dropdown">
               <a href="blog.html">Blog</a>
               <div class="dropdown-content">
@@ -358,7 +292,6 @@
                 <a href="blog.html#haber">Kliniğimizden Haberler</a>
               </div>
             </li>
-
             <li class="dropdown">
               <a href="sss.html">SSS</a>
               <div class="dropdown-content">
@@ -367,7 +300,6 @@
                 <a href="sss.html#acil">Acil Durumlar</a>
               </div>
             </li>
-
             <li class="dropdown">
               <a href="hasta-iliskileri.html">Hasta İlişkileri</a>
               <div class="dropdown-content">
@@ -471,7 +403,7 @@
       </div>
     </section>
 
-    <!-- INSTAGRAM -->
+    <!-- INSTAGRAM – ŞERİT -->
     <section id="instagram" class="section alt">
       <div class="container">
         <div class="section-title">
@@ -479,9 +411,7 @@
           <p>Kliniğimizden güncel kareler</p>
         </div>
         <div class="insta-viewport" aria-live="polite">
-          <div id="instaTrack" class="insta-track" style="--insta-speed:95s">
-            <!-- İçerik JS ile doldurulacak; kesintisiz döngü için iki kez kopyalanacak -->
-          </div>
+          <div id="instaTrack" class="insta-track" style="--insta-speed:95s"></div>
         </div>
         <p style="margin-top:16px">
           <a class="btn btn-outline" href="https://www.instagram.com/elcivetklinigi/" target="_blank" rel="noopener">Instagram’ı Takip Et</a>
@@ -529,23 +459,16 @@
           <h2>Google Yorumları</h2>
           <p>Hasta sahiplerinin deneyimleri</p>
         </div>
-        <!-- Özet gizlendi; sadece kartlar -->
         <div id="ratingSummary"></div>
         <div id="reviewsGrid"></div>
-        <template id="reviewTpl">
-          <article class="review-card">
-            <div class="stars">★★★★★</div>
-            <div class="author"></div>
-            <p class="text"></p>
-          </article>
-        </template>
+        <div id="reviewsDots" aria-hidden="true"></div>
         <p style="margin-top:16px">
           <a class="btn btn-primary" href="https://www.google.com/maps/place/El%C3%A7i+Veteriner+Klini%C4%9Fi" target="_blank" rel="noopener">Google'da tüm yorumları gör</a>
         </p>
       </div>
     </section>
 
-    <!-- YOUTUBE (öneriler tarzı kompakt kartlar) -->
+    <!-- YOUTUBE ŞERİT -->
     <section id="youtube" class="section alt">
       <div class="container embed-wrap">
         <div class="section-title">
@@ -642,10 +565,10 @@
   }
   </script>
 
-  <!-- Mini yardımcı JS (mobil menü + gelişmiş animasyonlar) -->
+  <!-- Tüm etkileşimler için GÖMÜLÜ JS (harici dosya yok) -->
   <script>
     document.addEventListener('DOMContentLoaded', function(){
-      // Mobil menü
+      // ====== Mobil Menü ======
       const btn = document.getElementById('mobileMenuBtn');
       const menu = document.getElementById('mainMenu');
       if(btn && menu){
@@ -656,95 +579,75 @@
         });
       }
 
-      // Reveal animasyonu (yavaşlatıldı)
+      // ====== HERO reveal ======
       const els = document.querySelectorAll('.reveal');
       const io = new IntersectionObserver((entries)=>{
         entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); e.target.style.animationPlayState='running'; io.unobserve(e.target);} });
       },{threshold:0.15});
       els.forEach(el=>{ el.style.animationPlayState='paused'; io.observe(el); });
 
-      // === INSTAGRAM: yavaş şerit + akıllı rastgele pop burst ===
+      // ====== INSTAGRAM ŞERİT ======
       const instaTrack = document.getElementById('instaTrack');
-      const instaImgs = ['1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg','8.jpg']
-        .map(n=>`assets/img/insta/${n}`);
-
+      const INSTA_IMAGES = [
+        'assets/img/insta/1.jpg','assets/img/insta/2.jpg','assets/img/insta/3.jpg','assets/img/insta/4.jpg',
+        'assets/img/insta/5.jpg','assets/img/insta/6.jpg','assets/img/insta/7.jpg','assets/img/insta/8.jpg'
+      ];
       function buildInsta(track){
+        if(!track) return;
         track.innerHTML = '';
-        const list = [...instaImgs];
-        for(let k=0;k<2;k++){
-          list.forEach(src=>{
-            const a = document.createElement('a');
-            a.href = 'https://www.instagram.com/elcivetklinigi/';
-            a.target = '_blank'; a.rel = 'noopener'; a.className='frame';
-            const img = document.createElement('img');
-            img.loading='lazy'; img.decoding='async'; img.alt='Instagram görseli';
-            img.src = src; a.appendChild(img); track.appendChild(a);
-          });
-        }
+        const frames = [];
+        INSTA_IMAGES.forEach(src=>{
+          const a = document.createElement('a');
+          a.href = 'https://www.instagram.com/elcivetklinigi/'; a.target='_blank'; a.rel='noopener';
+          a.className='frame';
+          const img = document.createElement('img'); img.src = src; img.alt='Instagram görseli'; img.loading='lazy'; img.decoding='async';
+          img.onerror = ()=>{ a.style.display='none'; };
+          a.appendChild(img); frames.push(a);
+        });
+        // kesintisiz akış için iki kez kopyala
+        [...frames, ...frames.map(f=>f.cloneNode(true))].forEach(f=> track.appendChild(f));
+        // pop efekti
+        setInterval(()=>{
+          const half = Math.max(1, track.children.length/2);
+          const count = Math.random() < 0.35 ? 2 : 1;
+          const used = new Set();
+          for(let c=0;c<count;c++){
+            let idx; do { idx = Math.floor(Math.random()*half); } while(used.has(idx)); used.add(idx);
+            const el = track.children[idx]; if(!el) continue;
+            el.classList.add('pop'); setTimeout(()=> el.classList.remove('pop'), 2300 + c*200);
+          }
+        }, 3800);
       }
+      buildInsta(instaTrack);
 
-      function popBurst(){
-        if(!instaTrack) return;
-        const half = Math.max(1, instaTrack.children.length / 2);
-        const count = Math.random() < 0.35 ? 2 : 1; // bazen 2 görsel birden
-        const used = new Set();
-        for(let c=0;c<count;c++){
-          let idx;
-          do { idx = Math.floor(Math.random()*half); } while(used.has(idx));
-          used.add(idx);
-          const el = instaTrack.children[idx];
-          if(!el) continue;
-          el.classList.add('pop');
-          setTimeout(()=> el.classList.remove('pop'), 2300 + c*200);
-        }
-      }
-
-      if(instaTrack){
-        buildInsta(instaTrack);
-        // Yavaş akış: hız CSS değişkeniyle (—insta-speed) ayarlı; aralıklı pop efekti
-        popBurst();
-        setInterval(popBurst, 3800);
-      }
-
-      // === GOOGLE YORUMLARI: yavaş kaydırmalı döngü ===
+      // ====== GOOGLE YORUMLARI (RENKLİ ROTASYON) ======
       const reviewsGrid = document.getElementById('reviewsGrid');
-      const reviews = [
+      const reviewsDots = document.getElementById('reviewsDots');
+      const REVIEWS = [
         {a:'A. **', t:'Kızımın tedavisinde çok ilgili davrandılar, teşekkürler.'},
         {a:'M. **', t:'Gece acilde hızlı müdahale, gönül rahatlığıyla tavsiye ederim.'},
         {a:'S. **', t:'Tertemiz klinik, detaylı bilgilendirme, müthiş ekip.'},
         {a:'B. **', t:'Randevu saatlerine uyum ve güleryüz harika.'},
         {a:'E. **', t:'Teşhis ve tedavi çok isabetliydi.'}
       ];
-      // Dots oluştur
-      (function ensureDots(){
-        const after = reviewsGrid && reviewsGrid.nextElementSibling;
-        if(after && after.id === 'reviewsDots') return;
-        const dots = document.createElement('div'); dots.id = 'reviewsDots';
-        reviewsGrid.parentNode.insertBefore(dots, reviewsGrid.nextSibling);
-      })();
-      function buildDots(){
-        const dots = document.getElementById('reviewsDots');
-        if(!dots) return;
-        dots.innerHTML='';
-        for(let i=0;i<reviews.length;i++){
-          const d=document.createElement('span'); d.className='dot'; dots.appendChild(d);
-        }
+      function buildDots(len){
+        if(!reviewsDots) return;
+        reviewsDots.innerHTML='';
+        for(let i=0;i<len;i++){ const d=document.createElement('span'); d.className='dot'; reviewsDots.appendChild(d); }
       }
-      function updateDots(activeIndex){
+      function setActiveDot(i){
         const dots = document.querySelectorAll('#reviewsDots .dot');
-        if(!dots.length) return;
-        dots.forEach((el,i)=> el.classList.toggle('active', i===activeIndex%reviews.length));
+        dots.forEach((d,idx)=> d.classList.toggle('active', idx===i));
       }
       function renderReviews(start=0){
         if(!reviewsGrid) return;
         reviewsGrid.classList.add('reviews-exit');
         setTimeout(()=>{
           reviewsGrid.innerHTML='';
-          const page = [0,1,2].map(i => reviews[(start+i)%reviews.length]);
+          const page = [0,1,2].map(i => REVIEWS[(start+i)%REVIEWS.length]);
           page.forEach((d,idx)=>{
             const art = document.createElement('article');
-            art.className='review-card';
-            art.style.animationDelay = (idx*110)+'ms';
+            art.className='review-card'; art.style.animationDelay=(idx*110)+'ms';
             art.innerHTML = `<div class="stars">★★★★★</div><div class="author">${d.a}</div><p class="text">${d.t}</p>`;
             reviewsGrid.appendChild(art);
           });
@@ -752,56 +655,44 @@
           reviewsGrid.classList.add('reviews-enter');
           requestAnimationFrame(()=>{
             reviewsGrid.classList.add('reviews-enter-active');
-            setTimeout(()=>{
-              reviewsGrid.classList.remove('reviews-enter','reviews-enter-active');
-            }, 700);
+            setTimeout(()=> reviewsGrid.classList.remove('reviews-enter','reviews-enter-active'), 700);
           });
+          setActiveDot(start % REVIEWS.length);
         }, 380);
-        updateDots(start);
       }
-      if(reviewsGrid){
-        buildDots();
-        let rIndex = 0;
-        renderReviews(rIndex);
-        setInterval(()=>{ rIndex = (rIndex+1)%reviews.length; renderReviews(rIndex); }, 9000);
-      }
+      buildDots(REVIEWS.length);
+      let rIndex = 0; renderReviews(rIndex);
+      setInterval(()=>{ rIndex=(rIndex+1)%REVIEWS.length; renderReviews(rIndex); }, 9000);
 
-      // === YOUTUBE: pencere kaydırması + akıcı giriş ===
+      // ====== YOUTUBE ŞERİT (3’lü pencere döngü) ======
       const ytStrip = document.getElementById('ytStrip');
-      const ytData = [
-        {title:'Video 1', url:'https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi/videos'},
-        {title:'Video 2', url:'https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi/videos'},
-        {title:'Video 3', url:'https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi/videos'},
-        {title:'Video 4', url:'https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi/videos'},
-        {title:'Video 5', url:'https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi/videos'}
+      const YT = [
+        {title:'Video 1', url:'https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi/videos', thumb:'assets/img/yt/1.jpg'},
+        {title:'Video 2', url:'https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi/videos', thumb:'assets/img/yt/2.jpg'},
+        {title:'Video 3', url:'https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi/videos', thumb:'assets/img/yt/3.jpg'},
+        {title:'Video 4', url:'https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi/videos', thumb:'assets/img/yt/4.jpg'},
+        {title:'Video 5', url:'https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi/videos', thumb:'assets/img/yt/5.jpg'}
       ];
-
       function renderYT(start=0){
         if(!ytStrip) return;
         ytStrip.classList.add('strip-hide');
         setTimeout(()=>{
           ytStrip.innerHTML='';
-          const window3 = [0,1,2].map(i => ytData[(start+i)%ytData.length]);
+          const window3 = [0,1,2].map(i => YT[(start+i)%YT.length]);
           window3.forEach(v=>{
             const card = document.createElement('article');
             card.className='yt-card';
-            card.innerHTML = `<div class=\"yt-thumb\"></div><div class=\"yt-body\"><div class=\"yt-title\">${v.title}</div><a href=\"${v.url}\" target=\"_blank\" rel=\"noopener\">İzle →</a></div>`;
+            card.innerHTML = `
+              <img class="yt-thumb" src="${v.thumb}" alt="${v.title}" onerror="this.replaceWith(document.createElement('div'))">
+              <div class="yt-body"><div class="yt-title">${v.title}</div><a href="${v.url}" target="_blank" rel="noopener">İzle →</a></div>`;
             ytStrip.appendChild(card);
           });
-          // Giriş animasyonu
           requestAnimationFrame(()=> ytStrip.classList.remove('strip-hide'));
         }, 350);
       }
-
-      if(ytStrip){
-        let yIndex = 0; // 0→1→2
-        renderYT(0);
-        setInterval(()=>{ yIndex = (yIndex+1) % (ytData.length - 2 === 0 ? 1 : ytData.length); renderYT(yIndex); }, 7000);
-      }
+      let yIndex = 0; renderYT(0);
+      setInterval(()=>{ yIndex = (yIndex+1)%YT.length; renderYT(yIndex); }, 7000);
     });
   </script>
-
-  <!-- Ana JS -->
-  <script src="assets/js/main.js?v=11" defer></script>
 </body>
 </html>
