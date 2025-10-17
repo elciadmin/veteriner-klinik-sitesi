@@ -170,6 +170,90 @@
     .yt-thumb{aspect-ratio:16/9;background:#000}
     .yt-body{padding:12px}
     .yt-title{font-weight:700}
+    /* === INSTAGRAM ŞERİT + POP === */
+    .insta-viewport{overflow:hidden}
+    .insta-track{display:flex;gap:10px;align-items:center;will-change:transform;animation:instaScroll var(--insta-speed,90s) linear infinite}
+    .insta-viewport:hover .insta-track{animation-play-state:paused}
+    .frame{flex:0 0 160px;position:relative;border-radius:12px;overflow:hidden}
+    .frame img{display:block;width:100%;height:100%;object-fit:cover;aspect-ratio:1/1;transition:transform .8s ease}
+    .frame.pop img{transform:scale(1.15)}
+    @keyframes instaScroll{from{transform:translateX(0)} to{transform:translateX(-50%)}}
+
+    /* === GOOGLE YORUMLARI DÖNGÜ === */
+    #ratingSummary{display:none !important}
+    #reviewsGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;opacity:1;transition:opacity .8s ease}
+    .reviews-fade{opacity:0}
+    .review-card{background:linear-gradient(135deg,#203045,#3d1771);color:#fff;border-radius:14px;padding:16px;border:1px solid rgba(255,255,255,.15);box-shadow:0 12px 26px rgba(0,0,0,.18)}
+    .review-card .stars{font-size:18px;line-height:1;color:#fff;letter-spacing:2px}
+    .review-card .author{font-weight:700;margin-top:6px}
+    .review-card .text{opacity:.95;margin-top:8px}
+
+    /* === YOUTUBE ŞERİT === */
+    #ytStrip{display:flex;gap:14px;overflow:hidden}
+    #ytStrip .yt-card{min-width:calc((100% - 28px)/3);border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#fff;box-shadow:var(--shadow-sm)}
+    .yt-thumb{aspect-ratio:16/9;background:#000}
+    .yt-body{padding:12px}
+    .yt-title{font-weight:700}
+    /* === ANİMASYON BOOST – daha efektif ve akıcı === */
+    /* Baz setin üstüne override; sadece bu blok eklendi */
+
+    /* Instagram şerit – daha doğal hız eğrisi ve pop efekti */
+    .insta-track{animation-timing-function:cubic-bezier(.25,.1,.25,1)}
+    .frame{transition:transform .9s cubic-bezier(.22,.61,.36,1), box-shadow .9s ease}
+    .frame.pop{z-index:2}
+    .frame.pop img{transform:scale(1.22) rotate(.8deg)}
+    .frame.pop::after{content:"";position:absolute;inset:0;background:radial-gradient(transparent 55%, rgba(255,255,255,.12));pointer-events:none}
+    .frame.pop{box-shadow:0 18px 40px rgba(16,179,209,.28), 0 10px 20px rgba(106,14,161,.18)}
+
+    /* Google yorumlar – giriş/çıkış hareketi */
+    #reviewsGrid{transform:translateY(0);transition:opacity .6s ease, transform .6s ease}
+    .reviews-exit{opacity:0;transform:translateY(8px)}
+    .reviews-enter{opacity:0;transform:translateY(-8px)}
+    .reviews-enter.reviews-enter-active{opacity:1;transform:translateY(0)}
+
+    /* YouTube şerit – pencere değişiminde kaydırma hissi */
+    #ytStrip{transition:opacity .5s ease, transform .5s ease}
+    #ytStrip.strip-hide{opacity:0;transform:translateX(-12px)}
+
+    /* Reduce Motion – erişilebilirlik */
+    @media (prefers-reduced-motion: reduce){
+      .insta-track{animation:none}
+      .frame, .frame img{transition:none}
+      #reviewsGrid, #ytStrip{transition:none}
+    }
+    /* === GOOGLE YORUMLARI – RENKLİ & BELİRGİN ANİMASYON === */
+    #ratingSummary{display:none !important}
+    #reviewsGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;opacity:1;transition:opacity .6s ease, transform .6s ease;transform:translateY(0) scale(1)}
+    .reviews-exit{opacity:0;transform:translateY(16px) scale(.98)}
+    .reviews-enter{opacity:0;transform:translateY(-16px) scale(.98)}
+    .reviews-enter-active{opacity:1;transform:translateY(0) scale(1)}
+
+    .review-card{position:relative;border-radius:16px;padding:18px;color:#fff;box-shadow:0 14px 32px rgba(0,0,0,.2);overflow:hidden;
+      background:linear-gradient(135deg,var(--c1,#3b82f6),var(--c2,#a855f7));background-size:200% 200%;
+      animation:gradientMove 10s ease infinite, cardIn .7s cubic-bezier(.22,.61,.36,1) both}
+    .review-card .stars{font-size:18px;line-height:1;letter-spacing:2px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.35)}
+    .review-card .author{font-weight:800;margin-top:8px;letter-spacing:.3px}
+    .review-card .text{opacity:.97;margin-top:10px}
+    .review-card:hover{transform:translateY(-6px) scale(1.02) rotateX(.6deg);box-shadow:0 20px 44px rgba(16,179,209,.28), 0 12px 24px rgba(106,14,161,.2)}
+    .review-card::after{content:"";position:absolute;inset:-20%;background:radial-gradient(40% 40% at 80% 0%, rgba(255,255,255,.18), transparent 60%);mix-blend-mode:screen;animation:shine 5.5s ease-in-out infinite}
+
+    #reviewsGrid > .review-card:nth-child(1){--c1:#10b3d1;--c2:#6a0ea1}
+    #reviewsGrid > .review-card:nth-child(2){--c1:#22c55e;--c2:#06b6d4}
+    #reviewsGrid > .review-card:nth-child(3){--c1:#f59e0b;--c2:#ef4444}
+
+    @keyframes gradientMove{0%{background-position:0% 0%}50%{background-position:100% 100%}100%{background-position:0% 0%}}
+    @keyframes shine{0%,100%{transform:translateX(-10%) translateY(0)}50%{transform:translateX(8%) translateY(-2%)}}
+    @keyframes cardIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+    #reviewsDots{display:flex;gap:8px;justify-content:center;margin-top:10px}
+    #reviewsDots .dot{width:9px;height:9px;border-radius:50%;background:#cbd5e1;opacity:.9;transition:all .35s ease}
+    #reviewsDots .dot.active{width:28px;border-radius:999px;background:var(--secondary)}
+
+    
+
+    
+
+    
 
     /* Footer */
     footer{background:linear-gradient(135deg,#1a3a52,var(--primary));color:#fff;padding:60px 0 0}
@@ -394,23 +478,10 @@
           <h2>Instagram’dan</h2>
           <p>Kliniğimizden güncel kareler</p>
         </div>
-        <div id="instaGrid" aria-live="polite">
-          <!-- Yerel yedek (insta API çalışmıyorsa): assets/img/insta/1.jpg ... -->
-          <a class="insta-item" href="https://www.instagram.com/elcivetklinigi/" target="_blank" rel="noopener" aria-label="Instagram">
-            <img src="assets/img/insta/1.jpg" alt="Instagram görseli" loading="lazy" decoding="async"/>
-          </a>
-          <a class="insta-item" href="https://www.instagram.com/elcivetklinigi/" target="_blank" rel="noopener">
-            <img src="assets/img/insta/2.jpg" alt="Instagram görseli" loading="lazy" decoding="async"/>
-          </a>
-          <a class="insta-item" href="https://www.instagram.com/elcivetklinigi/" target="_blank" rel="noopener">
-            <img src="assets/img/insta/3.jpg" alt="Instagram görseli" loading="lazy" decoding="async"/>
-          </a>
-          <a class="insta-item" href="https://www.instagram.com/elcivetklinigi/" target="_blank" rel="noopener">
-            <img src="assets/img/insta/4.jpg" alt="Instagram görseli" loading="lazy" decoding="async"/>
-          </a>
-          <a class="insta-item" href="https://www.instagram.com/elcivetklinigi/" target="_blank" rel="noopener">
-            <img src="assets/img/insta/5.jpg" alt="Instagram görseli" loading="lazy" decoding="async"/>
-          </a>
+        <div class="insta-viewport" aria-live="polite">
+          <div id="instaTrack" class="insta-track" style="--insta-speed:95s">
+            <!-- İçerik JS ile doldurulacak; kesintisiz döngü için iki kez kopyalanacak -->
+          </div>
         </div>
         <p style="margin-top:16px">
           <a class="btn btn-outline" href="https://www.instagram.com/elcivetklinigi/" target="_blank" rel="noopener">Instagram’ı Takip Et</a>
@@ -481,7 +552,7 @@
           <h2>YouTube’dan</h2>
           <p>Videolarımız ve bilgilendirici içerikler</p>
         </div>
-        <div id="ytGrid"></div>
+        <div id="ytStrip"></div>
         <p style="margin-top:16px">
           <a class="btn btn-outline" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi/videos" target="_blank" rel="noopener">Kanalı Ziyaret Et</a>
         </p>
@@ -571,7 +642,7 @@
   }
   </script>
 
-  <!-- Mini yardımcı JS (mobil menü + yumuşak giriş + yerel insta yedeği) -->
+  <!-- Mini yardımcı JS (mobil menü + gelişmiş animasyonlar) -->
   <script>
     document.addEventListener('DOMContentLoaded', function(){
       // Mobil menü
@@ -592,16 +663,140 @@
       },{threshold:0.15});
       els.forEach(el=>{ el.style.animationPlayState='paused'; io.observe(el); });
 
-      // Google yorumları - örnek (main.js yoksa göstermek için 3 sahte kart)
+      // === INSTAGRAM: yavaş şerit + akıllı rastgele pop burst ===
+      const instaTrack = document.getElementById('instaTrack');
+      const instaImgs = ['1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg','8.jpg']
+        .map(n=>`assets/img/insta/${n}`);
+
+      function buildInsta(track){
+        track.innerHTML = '';
+        const list = [...instaImgs];
+        for(let k=0;k<2;k++){
+          list.forEach(src=>{
+            const a = document.createElement('a');
+            a.href = 'https://www.instagram.com/elcivetklinigi/';
+            a.target = '_blank'; a.rel = 'noopener'; a.className='frame';
+            const img = document.createElement('img');
+            img.loading='lazy'; img.decoding='async'; img.alt='Instagram görseli';
+            img.src = src; a.appendChild(img); track.appendChild(a);
+          });
+        }
+      }
+
+      function popBurst(){
+        if(!instaTrack) return;
+        const half = Math.max(1, instaTrack.children.length / 2);
+        const count = Math.random() < 0.35 ? 2 : 1; // bazen 2 görsel birden
+        const used = new Set();
+        for(let c=0;c<count;c++){
+          let idx;
+          do { idx = Math.floor(Math.random()*half); } while(used.has(idx));
+          used.add(idx);
+          const el = instaTrack.children[idx];
+          if(!el) continue;
+          el.classList.add('pop');
+          setTimeout(()=> el.classList.remove('pop'), 2300 + c*200);
+        }
+      }
+
+      if(instaTrack){
+        buildInsta(instaTrack);
+        // Yavaş akış: hız CSS değişkeniyle (—insta-speed) ayarlı; aralıklı pop efekti
+        popBurst();
+        setInterval(popBurst, 3800);
+      }
+
+      // === GOOGLE YORUMLARI: yavaş kaydırmalı döngü ===
       const reviewsGrid = document.getElementById('reviewsGrid');
+      const reviews = [
+        {a:'A. **', t:'Kızımın tedavisinde çok ilgili davrandılar, teşekkürler.'},
+        {a:'M. **', t:'Gece acilde hızlı müdahale, gönül rahatlığıyla tavsiye ederim.'},
+        {a:'S. **', t:'Tertemiz klinik, detaylı bilgilendirme, müthiş ekip.'},
+        {a:'B. **', t:'Randevu saatlerine uyum ve güleryüz harika.'},
+        {a:'E. **', t:'Teşhis ve tedavi çok isabetliydi.'}
+      ];
+      // Dots oluştur
+      (function ensureDots(){
+        const after = reviewsGrid && reviewsGrid.nextElementSibling;
+        if(after && after.id === 'reviewsDots') return;
+        const dots = document.createElement('div'); dots.id = 'reviewsDots';
+        reviewsGrid.parentNode.insertBefore(dots, reviewsGrid.nextSibling);
+      })();
+      function buildDots(){
+        const dots = document.getElementById('reviewsDots');
+        if(!dots) return;
+        dots.innerHTML='';
+        for(let i=0;i<reviews.length;i++){
+          const d=document.createElement('span'); d.className='dot'; dots.appendChild(d);
+        }
+      }
+      function updateDots(activeIndex){
+        const dots = document.querySelectorAll('#reviewsDots .dot');
+        if(!dots.length) return;
+        dots.forEach((el,i)=> el.classList.toggle('active', i===activeIndex%reviews.length));
+      }
+      function renderReviews(start=0){
+        if(!reviewsGrid) return;
+        reviewsGrid.classList.add('reviews-exit');
+        setTimeout(()=>{
+          reviewsGrid.innerHTML='';
+          const page = [0,1,2].map(i => reviews[(start+i)%reviews.length]);
+          page.forEach((d,idx)=>{
+            const art = document.createElement('article');
+            art.className='review-card';
+            art.style.animationDelay = (idx*110)+'ms';
+            art.innerHTML = `<div class="stars">★★★★★</div><div class="author">${d.a}</div><p class="text">${d.t}</p>`;
+            reviewsGrid.appendChild(art);
+          });
+          reviewsGrid.classList.remove('reviews-exit');
+          reviewsGrid.classList.add('reviews-enter');
+          requestAnimationFrame(()=>{
+            reviewsGrid.classList.add('reviews-enter-active');
+            setTimeout(()=>{
+              reviewsGrid.classList.remove('reviews-enter','reviews-enter-active');
+            }, 700);
+          });
+        }, 380);
+        updateDots(start);
+      }
       if(reviewsGrid){
-        const data = [
-          {a:'A. **', t:'Kızımın tedavisinde çok ilgili davrandılar, teşekkürler.'},
-          {a:'M. **', t:'Gece acilde hızlı müdahale, gönül rahatlığıyla tavsiye ederim.'},
-          {a:'S. **', t:'Tertemiz klinik, detaylı bilgilendirme, müthiş ekip.'}
-        ];
-        const tpl = document.getElementById('reviewTpl');
-        data.forEach(d=>{ const node = tpl.content.cloneNode(true); node.querySelector('.author').textContent = d.a; node.querySelector('.text').textContent = d.t; reviewsGrid.appendChild(node); });
+        buildDots();
+        let rIndex = 0;
+        renderReviews(rIndex);
+        setInterval(()=>{ rIndex = (rIndex+1)%reviews.length; renderReviews(rIndex); }, 9000);
+      }
+
+      // === YOUTUBE: pencere kaydırması + akıcı giriş ===
+      const ytStrip = document.getElementById('ytStrip');
+      const ytData = [
+        {title:'Video 1', url:'https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi/videos'},
+        {title:'Video 2', url:'https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi/videos'},
+        {title:'Video 3', url:'https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi/videos'},
+        {title:'Video 4', url:'https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi/videos'},
+        {title:'Video 5', url:'https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi/videos'}
+      ];
+
+      function renderYT(start=0){
+        if(!ytStrip) return;
+        ytStrip.classList.add('strip-hide');
+        setTimeout(()=>{
+          ytStrip.innerHTML='';
+          const window3 = [0,1,2].map(i => ytData[(start+i)%ytData.length]);
+          window3.forEach(v=>{
+            const card = document.createElement('article');
+            card.className='yt-card';
+            card.innerHTML = `<div class=\"yt-thumb\"></div><div class=\"yt-body\"><div class=\"yt-title\">${v.title}</div><a href=\"${v.url}\" target=\"_blank\" rel=\"noopener\">İzle →</a></div>`;
+            ytStrip.appendChild(card);
+          });
+          // Giriş animasyonu
+          requestAnimationFrame(()=> ytStrip.classList.remove('strip-hide'));
+        }, 350);
+      }
+
+      if(ytStrip){
+        let yIndex = 0; // 0→1→2
+        renderYT(0);
+        setInterval(()=>{ yIndex = (yIndex+1) % (ytData.length - 2 === 0 ? 1 : ytData.length); renderYT(yIndex); }, 7000);
       }
     });
   </script>
