@@ -1,45 +1,50 @@
-/* Elçi Veteriner – Ana JS
- * - Instagram akışı yavaş + rastgele spotlight büyütme
- * - Google yorumları kart ve periyodik fade ile döndürme (prev/next destekli)
- * - YouTube şeridi: 3’lü pencere, 7 sn’de bir 1-2-3 → 2-3-4 → 3-4-5 … (prev/next destekli)
- * - Veriler assets/data/*.json'dan; yoksa fallback içerikler
+/* assets/js/main.js
+ * Elçi Veteriner – çalışır, defansif, bağımsız sürüm
+ * Bölümler: Instagram (yavaş + spotlight), Google Yorumlar (kart + rotasyon), YouTube (3’lü şerit + geçiş)
  */
-
 (function(){
-  const qs  = (s, el=document)=>el.querySelector(s);
-  const qsa = (s, el=document)=>[...el.querySelectorAll(s)];
+  'use strict';
 
-  /** Güvenli JSON fetch (yoksa fallback döner) */
+  /* ----------------- Yardımcılar ----------------- */
+  const qs  = (s, el=document)=>el && el.querySelector ? el.querySelector(s) : null;
+  const qsa = (s, el=document)=>el && el.querySelectorAll ? Array.from(el.querySelectorAll(s)) : [];
+  const log = (...a)=>console.log('[main.js]', ...a);
+
   async function fetchJSON(url, fallback=[]) {
     try {
       const res = await fetch(url, {cache:'no-store'});
       if (!res.ok) throw new Error('HTTP '+res.status);
       return await res.json();
-    } catch {
+    } catch (e) {
+      log('fetchJSON fallback:', url, e.message || e);
       return fallback;
     }
   }
 
-  /** Görünürlük tespiti */
-  function onVisible(element, cb, options={threshold:0.2}) {
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(ent=>{
-        if (ent.isIntersecting){ cb(); io.unobserve(element); }
-      });
-    }, options);
-    io.observe(element);
+  function onVisible(el, cb, options={threshold:0.2}) {
+    if (!el) return;
+    try {
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(ent=>{
+          if (ent.isIntersecting){ cb(); io.unobserve(el); }
+        });
+      }, options);
+      io.observe(el);
+    } catch {
+      // Bazı eski tarayıcılar için hemen çalıştır
+      cb();
+    }
   }
 
-  /** ---------- Instagram Bölümü ---------- */
+  /* ----------------- Instagram ----------------- */
   async function setupInstagram(){
     const section = qs('#instagram');
     const grid = qs('#instaGrid');
-    if (!section || !grid) return;
+    if (!section || !grid) { log('Instagram bölümü bulunamadı, atlanıyor.'); return; }
 
     const STEP_MS = Number(section.dataset.speed || 6000);     // yavaş akış
     const SPOT_MS = Number(section.dataset.spotlight || 2500); // spotlight süresi
 
-    // JSON yoksa yedek
     const instaData = await fetchJSON('assets/data/instagram.json', [
       {src:'assets/img/insta/1.jpg', alt:'Klinik - 1'},
       {src:'assets/img/insta/2.jpg', alt:'Klinik - 2'},
@@ -51,7 +56,7 @@
       {src:'assets/img/insta/8.jpg', alt:'Klinik - 8'}
     ]);
 
-    // Render
+    // Render güvenli
     grid.innerHTML = '';
     instaData.slice(0, 15).forEach(item=>{
       const div = document.createElement('div');
@@ -65,7 +70,7 @@
       grid.appendChild(div);
     });
 
-    // Rastgele spotlight (büyüme) efekti
+    // Spotlight (rastgele büyüsün, sonra normale dönsün)
     function spotlightOnce(){
       const items = qsa('.insta-item', grid);
       if (!items.length) return;
@@ -74,19 +79,21 @@
       setTimeout(()=>pick.classList.remove('spotlight'), SPOT_MS);
     }
 
-    // Mobilde yumuşak otomatik yatay kaydırma
+    // Mobil/ dar ekran: hafif otomatik yatay kaydırma
     let autoScrollTimer = null;
     function startAuto(){
       stopAuto();
       autoScrollTimer = setInterval(()=>{
-        if (grid.scrollWidth > grid.clientWidth) {
-          const next = grid.scrollLeft + grid.clientWidth*0.45;
-          grid.scrollTo({left: next, behavior:'smooth'});
-          if (next + grid.clientWidth >= grid.scrollWidth - 8) {
-            setTimeout(()=>grid.scrollTo({left:0, behavior:'smooth'}), 300);
+        try{
+          if (grid.scrollWidth > grid.clientWidth) {
+            const next = grid.scrollLeft + grid.clientWidth*0.45;
+            grid.scrollTo({left: next, behavior:'smooth'});
+            if (next + grid.clientWidth >= grid.scrollWidth - 8) {
+              setTimeout(()=>grid.scrollTo({left:0, behavior:'smooth'}), 300);
+            }
           }
-        }
-        spotlightOnce();
+          spotlightOnce();
+        }catch(e){ /* sessiz */ }
       }, STEP_MS);
     }
     function stopAuto(){
@@ -95,18 +102,18 @@
 
     onVisible(section, startAuto);
     document.addEventListener('visibilitychange', ()=>{ document.hidden ? stopAuto() : startAuto(); });
+    log('Instagram hazır (step=', STEP_MS, ', spotlight=', SPOT_MS, ')');
   }
 
-  /** ---------- Google Yorumları (sıfırdan) ---------- */
+  /* ----------------- Google Yorumları ----------------- */
   async function setupReviews(){
     const section = qs('#google-yorumlari');
-    if (!section) return;
+    if (!section) { log('Yorum bölümü bulunamadı, atlanıyor.'); return; }
 
     const grid = qs('#reviewsGrid');
-    const summaryBadge = qs('#ratingSummary-badge');
+    const summaryBadge = qs('#ratingSummary-badge') || qs('#ratingSummary'); // biri yoksa diğeri
     const ROTATE_MS = Number(section.dataset.rotate || 7000);
 
-    // JSON şeması: [{name, rating, text, time, avatar}]
     const reviews = await fetchJSON('assets/data/reviews.json', [
       {name:'Merve K.', rating:5, text:'Gece acilde çok ilgilendiler, minnoşumuz şimdi harika!', time:'2 hafta önce'},
       {name:'Seda B.',  rating:5, text:'Diş taşını tertemiz yaptılar, ekip çok ilgili.',      time:'1 ay önce'},
@@ -116,25 +123,30 @@
       {name:'Leyla N.', rating:5, text:'Aşı ve check-up süreçleri düzenli ilerliyor.',         time:'2 ay önce'}
     ]);
 
-    // Ortalama ve adet rozeti
-    const avg = (reviews.reduce((a,r)=>a+(r.rating||5),0)/reviews.length).toFixed(1);
-    if (summaryBadge) summaryBadge.textContent = `★ ${avg} / 5 — ${reviews.length} yorum`;
+    if (summaryBadge) {
+      const avg = (reviews.reduce((a,r)=>a+(r.rating||5),0)/reviews.length).toFixed(1);
+      // summaryBadge bir span ise direkt yaz, değilse içine span koy
+      if (summaryBadge.id === 'ratingSummary-badge') {
+        summaryBadge.textContent = `★ ${avg} / 5 — ${reviews.length} yorum`;
+      } else {
+        summaryBadge.innerHTML = `<span id="ratingSummary-badge">★ ${avg} / 5 — ${reviews.length} yorum</span>`;
+      }
+    }
 
-    // İlk pencereyi bas
+    if (!grid) { log('reviewsGrid yok, yine de devam.'); return; }
+
     let cursor = 0;
     function renderWindow(start){
       grid.innerHTML = '';
       const slice = [];
-      for (let i=0;i<3;i++){
-        slice.push(reviews[(start+i)%reviews.length]);
-      }
+      for (let i=0;i<3;i++) slice.push(reviews[(start+i)%reviews.length]);
       slice.forEach(r=>{
-        const card = document.createElement('div');
+        const card = document.createElement('article');
         card.className = 'review-card';
         card.innerHTML = `
           <div class="review-ribbon">Doğrulanmış Ziyaretçi</div>
           <div class="review-head">
-            <div class="review-avatar">${(r.name||'?').charAt(0)}</div>
+            <div class="review-avatar">${(r.name||'?').trim().charAt(0)}</div>
             <div>
               <div class="review-name">${r.name||'Ziyaretçi'}</div>
               <div style="font-size:12px;color:#6b7280">${r.time||''}</div>
@@ -146,8 +158,6 @@
         grid.appendChild(card);
       });
     }
-    renderWindow(cursor);
-
     function step(dir=+1){
       qsa('.review-card',grid).forEach(c=>c.classList.add('fade-out'));
       setTimeout(()=>{
@@ -156,7 +166,8 @@
       }, 500);
     }
 
-    // Auto döngü
+    renderWindow(cursor);
+
     let timer=null;
     function start(){ stop(); timer = setInterval(()=>step(+1), ROTATE_MS); }
     function stop(){ if (timer){ clearInterval(timer); timer=null; } }
@@ -164,21 +175,22 @@
     onVisible(section, start);
     document.addEventListener('visibilitychange', ()=>{ document.hidden ? stop() : start(); });
 
-    // Manuel kontroller
+    // Manuel oklar (varsa)
     const bPrev=qs('#revPrev'); const bNext=qs('#revNext');
     if (bPrev) bPrev.addEventListener('click', ()=>{ stop(); step(-1); start(); });
     if (bNext) bNext.addEventListener('click', ()=>{ stop(); step(+1); start(); });
+
+    log('Yorumlar hazır (rotate=', ROTATE_MS, 'ms)');
   }
 
-  /** ---------- YouTube Şeridi ---------- */
+  /* ----------------- YouTube ----------------- */
   async function setupYouTube(){
     const section = qs('#youtube');
     const wrap = qs('#ytGrid');
-    if (!section || !wrap) return;
+    if (!section || !wrap) { log('YouTube bölümü bulunamadı, atlanıyor.'); return; }
 
     const SHIFT_MS = Number(section.dataset.shift || 7000);
 
-    // JSON şeması: [{id,title,channel,date}]
     const videos = await fetchJSON('assets/data/youtube.json', [
       {id:'VIDEOID1', title:'Kedilerde Pyoderma – Belirtiler & Tedavi', channel:'Elçi Veteriner', date:'2025-09-01'},
       {id:'VIDEOID2', title:'Köpeklerde Diş Sağlığı – Ev Bakımı',       channel:'Elçi Veteriner', date:'2025-08-21'},
@@ -188,6 +200,7 @@
     ]);
 
     let start = 0;
+
     function renderWindow(){
       wrap.innerHTML = '';
       for(let i=0;i<3;i++){
@@ -211,11 +224,10 @@
         wrap.appendChild(card);
       }
     }
-    renderWindow();
-
     function step(dir=+1){ start = (start + dir + videos.length) % videos.length; renderWindow(); }
 
-    // Auto
+    renderWindow();
+
     let timer=null;
     function startAuto(){ stopAuto(); timer = setInterval(()=>step(+1), SHIFT_MS); }
     function stopAuto(){ if (timer){ clearInterval(timer); timer=null; } }
@@ -223,21 +235,21 @@
     onVisible(section, startAuto);
     document.addEventListener('visibilitychange', ()=>{ document.hidden ? stopAuto() : startAuto(); });
 
-    // Butonlar
     const bPrev=qs('#ytPrev'); const bNext=qs('#ytNext');
     if (bPrev) bPrev.addEventListener('click', ()=>{ stopAuto(); step(-1); startAuto(); });
     if (bNext) bNext.addEventListener('click', ()=>{ stopAuto(); step(+1); startAuto(); });
+
+    log('YouTube hazır (shift=', SHIFT_MS, 'ms)');
   }
 
-  /** ---------- About teaser doldurma (kısa) ---------- */
+  /* ----------------- About + Menü + Blog (küçük yardımcılar) ----------------- */
   function setupAboutTeasers(){
     const elci = qs('#elciKimdirCard .content');
     const mis  = qs('#misyonVizyonCard .content');
-    if (elci) elci.textContent = 'Kurucumuz ve ekibimizle tanışın: deneyim, eğitim ve yaklaşımımız.';
-    if (mis)  mis.textContent  = 'Hayvan refahı odaklı, şeffaf ve etik hekimlik anlayışımız.';
+    if (elci && !elci.textContent?.trim()) elci.textContent = 'Kurucumuz ve ekibimizle tanışın: deneyim, eğitim ve yaklaşımımız.';
+    if (mis  && !mis.textContent?.trim())  mis.textContent  = 'Hayvan refahı odaklı, şeffaf ve etik hekimlik anlayışımız.';
   }
 
-  /** ---------- Menü (mobil) ---------- */
   function setupMenu(){
     const btn = qs('#mobileMenuBtn');
     const ul  = qs('#mainMenu');
@@ -252,10 +264,11 @@
     });
   }
 
-  /** ---------- Blog dummy (istersen gerçek fetch bağlayabilirsin) ---------- */
   function setupBlog(){
     const grid = qs('#blogGrid');
     if (!grid) return;
+    // basit placeholder (mevcutta varsa dokunmaz)
+    if (grid.children.length) return;
     const posts = [
       {title:'Kısırlaştırma Sonrası Bakım Rehberi', img:'assets/img/uploads/og-cover.jpg', text:'Evde bakım, dikiş kontrolü ve beslenme ipuçları.'},
       {title:'Kedilerde Ağız ve Diş Sağlığı',       img:'assets/img/uploads/og-cover.jpg', text:'Diş taşı, periodontitis ve düzenli bakım önerileri.'},
@@ -264,15 +277,12 @@
     grid.innerHTML = posts.map(p=>`
       <article class="blog-card">
         <div class="thumb"><img loading="lazy" decoding="async" src="${p.img}" alt=""></div>
-        <div class="body">
-          <h3>${p.title}</h3>
-          <p>${p.text}</p>
-        </div>
+        <div class="body"><h3>${p.title}</h3><p>${p.text}</p></div>
       </article>
     `).join('');
   }
 
-  // Init
+  /* ----------------- Init ----------------- */
   document.addEventListener('DOMContentLoaded', ()=>{
     setupMenu();
     setupAboutTeasers();
@@ -280,6 +290,7 @@
     setupReviews();
     setupYouTube();
     setupBlog();
+    log('Tüm modüller başlatıldı.');
   });
 
 })();
