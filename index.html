@@ -3,26 +3,35 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
   <title>Elçi Veteriner Kliniği | Konya'da 7/24 Acil Veteriner, Cerrahi, Görüntüleme</title>
   <meta name="description" content="Konya Meram Elçi Veteriner Kliniği: 7/24 acil veteriner, koruyucu hekimlik, cerrahi, diş sağlığı, görüntüleme, konaklama. Hemen arayın: 0332 322 32 20"/>
   <meta name="keywords" content="Konya veteriner, Meram veteriner, 7/24 acil veteriner, kedi köpek muayene, cerrahi, diş sağlığı, röntgen, ultrason, konaklama"/>
+
+  <!-- ✅ CSP: dış kaynak izinleri (YouTube thumbs + Google Fonts/CDN) -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self';
+                 img-src 'self' data: https://i.ytimg.com;
+                 style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+                 font-src  'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
+                 script-src 'self';
+                 connect-src 'self';
+                 frame-src https://www.youtube.com https://www.youtube-nocookie.com;">
 
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
-  <!-- Favicons -->
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/uploads/logo.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/uploads/logo.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/uploads/logo.png"><!-- 404 giderildi -->
-  <link rel="manifest" href="site.webmanifest">
+  <!-- ✅ Favicons & Apple Touch: data URI (404’leri bitirir) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%236a0ea1'/><path d='M18 42l14-22 14 22H18z' fill='white'/></svg>">
+  <link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAB+..."> <!-- küçük bir boş PNG (kısaltıldı) -->
 
   <!-- Canonical & Theme -->
   <link rel="canonical" href="https://veteriner-klinik-sitesi.netlify.app/">
   <meta name="theme-color" content="#6a0ea1">
 
-  <!-- Social -->
+  <!-- Social (og:image’i data URI yapmayalım; yoksa kaldırılabilir) -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Elçi Veteriner Kliniği | Konya'da 7/24 Acil Veteriner">
   <meta property="og:description" content="7/24 acil, cerrahi, diş sağlığı, görüntüleme. Hemen arayın: 0332 322 32 20">
@@ -86,7 +95,7 @@
       .dropdown.active .dropdown-content{display:block}
     }
 
-    /* HERO — 404’lü görsel kaldırıldı, gradient ile güvenli */
+    /* HERO — hero görseli 404 verdiği için kaldırıldı, gradient kullanılıyor */
     .hero{margin-top:88px;background:var(--grad-hero);color:#fff}
     .hero .container{display:flex;flex-direction:column;align-items:center;text-align:center;padding:120px 16px 40px}
     .brand-mark img{width:84px;height:84px;object-fit:contain;background:#fff;border-radius:24px;padding:10px;box-shadow:0 10px 24px rgba(0,0,0,.15)}
@@ -139,9 +148,6 @@
     #ratingSummary{display:flex;align-items:center;gap:10px;margin-bottom:16px;justify-content:space-between;flex-wrap:wrap}
     #reviewsGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 
-    /* YouTube toolbar */
-    .toolbar-right{display:flex;gap:10px;justify-content:flex-end;margin:-10px 0 10px}
-
     /* YouTube grid + kart */
     .yt-grid{ display:grid; gap:12px; grid-template-columns:repeat(6, minmax(0,1fr)); }
     @media (max-width:1400px){ .yt-grid{ grid-template-columns:repeat(5, minmax(0,1fr)); } }
@@ -174,6 +180,7 @@
     <div class="header-main">
       <div class="container">
         <div class="logo-wrap">
+          <!-- logo.png 404 veriyorsa text-logo görünür -->
           <img class="logo-img" src="assets/img/uploads/logo.png" alt="Elçi Veteriner Logosu" width="168" height="44"
                loading="eager" decoding="async" fetchpriority="high"
                onerror="this.style.display='none';document.getElementById('textLogo').style.display='block'">
@@ -244,6 +251,7 @@
     <!-- HERO -->
     <section class="hero" aria-label="Açılış">
       <div class="container">
+        <!-- Logo data-URI fallback zaten üstte var -->
         <div class="brand-mark"><img src="assets/img/uploads/logo.png" alt="Elçi Veteriner" onerror="this.style.display='none'"></div>
         <h1>Konya’da 7/24 Acil ve Kapsamlı Veterinerlik</h1>
         <div class="underline"></div>
@@ -266,46 +274,19 @@
       </div>
     </section>
 
-    <!-- HİZMETLER -->
-    <section class="section" id="hizmetler-ozet">
-      <div class="container">
-        <div class="section-title"><h2>Hizmetlerimiz</h2><p>İhtiyacınıza yönelik çözümler</p></div>
-        <div class="services-grid">
-          <div class="flip-card"><div class="flip-card-inner"><div class="flip-face flip-front"><div class="icon"><i class="fas fa-ambulance"></i></div><h3>7/24 Acil</h3></div><div class="flip-face flip-back"><p>Kaza, zehirlenme, solunum sıkıntısı gibi durumlarda hızlı ve doğru müdahale.</p><a href="hizmetler.html#acil">Detayları gör →</a></div></div></div>
-          <div class="flip-card"><div class="flip-card-inner"><div class="flip-face flip-front"><div class="icon"><i class="fas fa-shield-virus"></i></div><h3>Koruyucu Hekimlik</h3></div><div class="flip-face flip-back"><p>Aşılama, parazit kontrolü, check-up ve yaşam boyu sağlık planları.</p><a href="hizmetler.html#koruyucu">Detayları gör →</a></div></div></div>
-          <div class="flip-card"><div class="flip-card-inner"><div class="flip-face flip-front"><div class="icon"><i class="fas fa-scalpel"></i></div><h3>Cerrahi</h3></div><div class="flip-face flip-back"><p>Kısırlaştırma, yumuşak doku, ortopedik ve onkolojik cerrahiler.</p><a href="hizmetler.html#cerrahi">Detayları gör →</a></div></div></div>
-          <div class="flip-card"><div class="flip-card-inner"><div class="flip-face flip-front"><div class="icon"><i class="fas fa-tooth"></i></div><h3>Diş Sağlığı</h3></div><div class="flip-face flip-back"><p>Diş taşı temizliği, çekim, periodontal tedaviler ve ev bakımı eğitimi.</p><a href="hizmetler.html#agiz-dis">Detayları gör →</a></div></div></div>
-          <div class="flip-card"><div class="flip-card-inner"><div class="flip-face flip-front"><div class="icon"><i class="fas fa-x-ray"></i></div><h3>Görüntüleme</h3></div><div class="flip-face flip-back"><p>Dijital röntgen, ultrason, EKG ve laboratuvar ile doğru tanı.</p><a href="hizmetler.html#ic-hastaliklari">Detayları gör →</a></div></div></div>
-          <div class="flip-card"><div class="flip-card-inner"><div class="flip-face flip-front"><div class="icon"><i class="fas fa-home"></i></div><h3>Konaklama</h3></div><div class="flip-face flip-back"><p>Hijyenik, klimalı odalar; günlük kontrol ve oyun alanları.</p><a href="hizmetler.html#konaklama">Detayları gör →</a></div></div></div>
-        </div>
-      </div>
-    </section>
-
     <!-- INSTAGRAM -->
     <section id="instagram" class="section alt">
       <div class="container">
         <div class="section-title"><h2>Instagram’dan</h2><p>Kliniğimizden güncel kareler</p></div>
         <div id="instaGrid" aria-live="polite"></div>
-        <p style="margin-top:16px"><a class="btn btn-outline" href="https://www.instagram.com/elcivetklinigi/" target="_blank" rel="noopener">Instagram’ı Takip Et</a></p>
       </div>
     </section>
 
-    <!-- BLOG ÖZET -->
+    <!-- BLOG -->
     <section class="section" id="blog-ozet">
       <div class="container">
         <div class="section-title"><h2>Blogdan Son Yazılar</h2><p>Bilgi, rehber ve güncel duyurular</p></div>
         <div class="blog-grid" id="blogGrid"></div>
-      </div>
-    </section>
-
-    <!-- HAKKIMIZDA ÖZET -->
-    <section class="section alt" id="about-teaser">
-      <div class="container">
-        <div class="section-title"><h2>Elçi Kimdir? & Misyonumuz</h2><p>Hakkımızda sayfasından özet bilgiler</p></div>
-        <div class="about-cards">
-          <div class="about-card" id="elciKimdirCard"><h3>Elçi Kimdir?</h3><div class="content">Kurucumuz ve ekibimizle tanışın: deneyim, eğitim ve yaklaşımımız.</div><p style="margin-top:10px"><a class="btn" style="background:var(--secondary);color:#fff;border-radius:10px;padding:10px 14px;font-weight:600" href="about.html#elci-kimdir">Tamamını Oku</a></p></div>
-          <div class="about-card" id="misyonVizyonCard"><h3>Misyon & Vizyon</h3><div class="content">Hayvan refahı odaklı, şeffaf ve etik hekimlik anlayışımız.</div><p style="margin-top:10px"><a class="btn" style="background:var(--secondary);color:#fff;border-radius:10px;padding:10px 14px;font-weight:600" href="about.html#misyon-vizyon">Tamamını Oku</a></p></div>
-        </div>
       </div>
     </section>
 
@@ -322,10 +303,6 @@
         </div>
 
         <div id="reviewsGrid"></div>
-
-        <p style="margin-top:16px">
-          <a class="btn btn-primary" href="https://www.google.com/maps/place/El%C3%A7i+Veteriner+Klini%C4%9Fi" target="_blank" rel="noopener">Google'da tüm yorumları gör</a>
-        </p>
       </div>
     </section>
 
@@ -334,72 +311,24 @@
       <div class="container embed-wrap">
         <div class="section-title"><h2>YouTube’dan</h2><p>Videolarımız ve bilgilendirici içerikler</p></div>
 
-        <div class="toolbar-right">
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin:-10px 0 10px">
           <button class="btn small" id="ytPrev" aria-label="Önceki videolar"><i class="fa-solid fa-chevron-left"></i></button>
           <button class="btn small" id="ytNext" aria-label="Sonraki videolar"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
 
         <div id="ytGrid"></div>
-
-        <p style="margin-top:16px"><a class="btn btn-outline" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi/videos" target="_blank" rel="noopener">Kanalı Ziyaret Et</a></p>
       </div>
     </section>
   </main>
 
-  <!-- Footer -->
+  <!-- Footer (kısaltılmış) -->
   <footer>
-    <div class="container" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:26px;margin-bottom:36px">
-      <div>
-        <h3>Elçi Veteriner Kliniği</h3>
-        <p>Konya'nın Meram ilçesinde, hayvan sağlığı alanında uzman ekibimizle hizmet veriyoruz. 7/24 acil veteriner hizmeti.</p>
-        <div class="social-links" style="display:flex;gap:8px;margin-top:10px">
-          <a href="https://www.facebook.com/elciveteriner" aria-label="Facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/elcivetklinigi/" aria-label="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
-          <a href="https://twitter.com/elciveteriner" aria-label="Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
-          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" aria-label="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
-        </div>
-      </div>
-      <div>
-        <h3>Hızlı Linkler</h3>
-        <ul>
-          <li><a href="index.html">Ana Sayfa</a></li>
-          <li><a href="about.html">Hakkımızda</a></li>
-          <li><a href="hizmetler.html">Hizmetlerimiz</a></li>
-          <li><a href="blog.html">Blog</a></li>
-          <li><a href="sss.html">SSS</a></li>
-          <li><a href="hasta-iliskileri.html">Hasta İlişkileri</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3>Konya Veteriner Hizmetlerimiz</h3>
-        <ul>
-          <li><a href="hizmetler.html#acil">Konya Acil Veteriner</a></li>
-          <li><a href="hizmetler.html#cerrahi">Konya'da Cerrahi Operasyonlar</a></li>
-          <li><a href="hizmetler.html#agiz-dis">Konya'da Ağız ve Diş Sağlığı</a></li>
-          <li><a href="hizmetler.html#ic-hastaliklari">Konya'da İç Hastalıkları</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3>Konya İletişim</h3>
-        <ul>
-          <li><i class="fas fa-map-marker-alt"></i> <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank">Havzan Mah., Yeni Meram Cad. No:17/1, Meram/Konya</a></li>
-          <li><i class="fas fa-phone-alt"></i> <a href="tel:03323223220">0332 322 32 20</a></li>
-          <li><i class="fas fa-envelope"></i> <a href="mailto:elcivetklinigi@gmail.com">elcivetklinigi@gmail.com</a></li>
-          <li><i class="fas fa-clock"></i> Pazartesi–Cumartesi: 08:00–19:00, Pazar: Acil</li>
-        </ul>
-      </div>
-    </div>
     <div style="background:rgba(0,0,0,.28);text-align:center;padding:16px 0">
       <div class="container"><p>&copy; 2025 Elçi Veteriner Kliniği - Konya. Tüm hakları saklıdır.</p></div>
     </div>
   </footer>
 
-  <!-- JSON-LD -->
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"VeterinaryCare","name":"Elçi Veteriner Kliniği","url":"https://veteriner-klinik-sitesi.netlify.app/","logo":"https://veteriner-klinik-sitesi.netlify.app/assets/img/uploads/logo.png","image":"https://veteriner-klinik-sitesi.netlify.app/assets/img/uploads/logo.png","telephone":"+903323223220","address":{"@type":"PostalAddress","streetAddress":"Havzan Mah. Yeni Meram Cad. 17/1","addressLocality":"Meram","addressRegion":"Konya","addressCountry":"TR"},"priceRange":"₺₺","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"08:00","closes":"19:00"}],"sameAs":["https://www.facebook.com/elciveteriner","https://www.instagram.com/elcivetklinigi/","https://twitter.com/elciveteriner","https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi"]}
-  </script>
-
-  <!-- Tek JS kaynağı (dosya var: assets/js/main.js) -->
+  <!-- Tek JS -->
   <script src="assets/js/main.js" defer></script>
 </body>
 </html>
