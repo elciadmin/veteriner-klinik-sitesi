@@ -1,26 +1,23 @@
 /* =========================================================================
-   Elçi Veteriner — Ana JS
-   - Instagram şeridi (yavaş akış + rastgele büyütme)
-   - Google yorum kartları (otomatik döngü)
-   - YouTube 3'lü şerit (7 sn’de kaydırma)
-   - Güvenli JSON yükleme + graceful fallback
+   Elçi Veteriner — Ana JS (v14, sade ve hatasız)
+   - Instagram şeridi: yavaş akış + rastgele büyütme
+   - Google yorumları: 6'lı sayfalar halinde döngü
+   - YouTube şeridi: 3'lü, 7 sn'de bir kaydır
    ======================================================================== */
-
 (function () {
   "use strict";
 
-  const $ = (sel, root = document) => root.querySelector(sel);
-  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
-
-  /* -------------------- Küçük yardımcılar -------------------- */
+  // Kısa yardımcılar
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
   async function fetchJSON(url) {
     try {
       const res = await fetch(url, { cache: "no-cache" });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) throw new Error("HTTP " + res.status);
       return await res.json();
     } catch (e) {
-      console.warn("fetchJSON fail:", url, e.message);
+      console.warn("fetchJSON:", url, e.message);
       return null;
     }
   }
@@ -31,117 +28,92 @@
     return out;
   }
 
-  // Yıl bas
+  // Yıl
   const yilEl = $("#yil");
   if (yilEl) yilEl.textContent = new Date().getFullYear();
 
-  /* -------------------- INSTAGRAM ŞERİDİ -------------------- */
-
-  (async function initInstagram() {
+  /* -------------------- INSTAGRAM -------------------- */
+  (function initInstagram() {
     const section = $("#insta");
     const track = $("#instaTrack");
     if (!section || !track) return;
 
-    // Veri kaynağı
     const jsonUrl = section.getAttribute("data-json") || "/assets/data/instagram.json";
-    let data = await fetchJSON(jsonUrl);
 
-    // JSON yoksa bir şey yapma (hata vermeden geç)
-    if (!data || !Array.isArray(data)) {
-      console.warn("instagram.json bulunamadı veya format yanlış.");
-      return;
-    }
+    fetchJSON(jsonUrl).then((data) => {
+      if (!data || !Array.isArray(data)) return;
 
-    // Beklenen format:
-    // ["file1.webp","file2.webp"] veya [{src:"/assets/img/insta/x.webp", alt:"..."}]
-    const toSrc = (it) =>
-      typeof it === "string" ? it : (it && it.src ? it.src : null);
-    const toAlt = (it) =>
-      typeof it === "object" && it && it.alt ? it.alt : "Instagram görseli";
+      // "dosya.webp" ya da {src, alt}
+      const items = data
+        .map((it) => {
+          const src = typeof it === "string" ? it : (it && it.src) ? it.src : null;
+          if (!src) return null;
+          const full = src.startsWith("/") || src.startsWith("http") ? src : "/assets/img/insta/" + src;
+          const alt = typeof it === "object" && it && it.alt ? it.alt : "Instagram görseli";
+          return { src: full, alt: alt };
+        })
+        .filter(Boolean);
 
-    // Yollar: Eğer çıplak dosya adı geldiyse /assets/img/insta/ altından al
-    const items = data
-      .map((it) => {
-        const src = toSrc(it);
-        if (!src) return null;
-        const absolute =
-          src.startsWith("/") || src.startsWith("http")
-            ? src
-            : `/assets/img/insta/${src}`;
-        return { src: absolute, alt: toAlt(it) };
-      })
-      .filter(Boolean);
+      // DOM
+      function make(img) {
+        const d = document.createElement("div");
+        d.className = "insta-item";
+        const im = document.createElement("img");
+        im.loading = "lazy";
+        im.decoding = "async";
+        im.src = img.src;
+        im.alt = img.alt;
+        d.appendChild(im);
+        return d;
+      }
 
-    // DOM’a bas
-    const makeItem = (img) => {
-      const d = document.createElement("div");
-      d.className = "insta-item";
-      const im = document.createElement("img");
-      im.loading = "lazy";
-      im.decoding = "async";
-      im.src = img.src;
-      im.alt = img.alt;
-      d.appendChild(im);
-      return d;
-    };
-
-    // Akıcı kayış etkisi için, uçtan uca kopyalar ekleyelim
-    const renderStrip = () => {
       track.innerHTML = "";
-      const STRIP_MIN = 18; // mobilde bile dolgun olsun
+      const STRIP_MIN = 18;
       const repeated = [];
       while (repeated.length < STRIP_MIN) repeated.push(...items);
-      repeated.slice(0, STRIP_MIN).forEach((img) => track.appendChild(makeItem(img)));
-      // Sorunsuz döngü için bir tur daha ekle (wrap)
-      repeated.slice(0, 6).forEach((img) => track.appendChild(makeItem(img)));
-    };
+      repeated.slice(0, STRIP_MIN + 6).forEach((im) => track.appendChild(make(im)));
 
-    renderStrip();
+      // Yavaş akış
+      let pos = 0;
+      const STEP = 0.25; // yavaş
+      let playing = true;
 
-    // YAVAŞ AKIŞ — hız düşürüldü (kullanıcı isteği)
-    let pos = 0;
-    const STEP = 0.25; // px/frame — düşük = yavaş
-    let playing = true;
-
-    function tick() {
-      if (!playing) return;
-      pos -= STEP;
-      track.style.transform = `translate3d(${pos}px,0,0)`;
-      // Sona gelince başa sar
-      const first = track.firstElementChild;
-      if (!first) return;
-      const firstWidth = first.getBoundingClientRect().width + 12; // gap
-      if (Math.abs(pos) >= firstWidth) {
-        track.appendChild(first);
-        pos += firstWidth;
+      function tick() {
+        if (!playing) return;
+        pos -= STEP;
+        track.style.transform = "translate3d(" + pos + "px,0,0)";
+        const first = track.firstElementChild;
+        if (!first) return;
+        const firstW = first.getBoundingClientRect().width + 12;
+        if (Math.abs(pos) >= firstW) {
+          track.appendChild(first);
+          pos += firstW;
+        }
       }
-    }
 
-    let rafId;
-    function loop() {
-      tick();
-      rafId = requestAnimationFrame(loop);
-    }
-    loop();
+      function loop() {
+        tick();
+        requestAnimationFrame(loop);
+      }
+      loop();
 
-    // Hover’da durdur / devam
-    track.addEventListener("mouseenter", () => (playing = false));
-    track.addEventListener("mouseleave", () => (playing = true));
+      track.addEventListener("mouseenter", () => { playing = false; });
+      track.addEventListener("mouseleave", () => { playing = true; });
 
-    // RASTGELE ÖNE ÇIKMA (büyütüp geri dönsün)
-    setInterval(() => {
-      const cards = $$(".insta-item", track);
-      if (cards.length === 0) return;
-      const i = Math.floor(Math.random() * Math.min(cards.length, 14));
-      const el = cards[i];
-      el.classList.add("highlight");
-      setTimeout(() => el.classList.remove("highlight"), 1800);
-    }, 2800);
+      // Rastgele büyütme
+      setInterval(() => {
+        const cards = $$(".insta-item", track);
+        if (!cards.length) return;
+        const i = Math.floor(Math.random() * Math.min(cards.length, 14));
+        const el = cards[i];
+        el.classList.add("highlight");
+        setTimeout(() => el.classList.remove("highlight"), 1800);
+      }, 2800);
+    });
   })();
 
   /* -------------------- GOOGLE YORUMLAR -------------------- */
-
-  (async function initReviews() {
+  (function initReviews() {
     const section = $("#reviews");
     const grid = $("#reviewGrid");
     if (!section || !grid) return;
@@ -149,118 +121,96 @@
     const localJson = section.getAttribute("data-json") || "/assets/data/reviews.json";
     const fnUrl = section.getAttribute("data-fn") || "/.netlify/functions/google-reviews";
 
-    // 1) Yerel JSON’u dene
-    let reviews = await fetchJSON(localJson);
-
-    // 2) Yoksa Netlify Function
-    if (!reviews || !Array.isArray(reviews) || reviews.length === 0) {
-      const remote = await fetchJSON(fnUrl);
-      if (remote && Array.isArray(remote.reviews)) {
-        reviews = remote.reviews;
-      }
-    }
-
-    if (!reviews || reviews.length === 0) {
-      grid.innerHTML = `<div class="muted">Şimdilik yorum bulunamadı.</div>`;
-      return;
-    }
-
-    // Normalize
-    const norm = reviews.map((r) => ({
-      author: r.author || r.author_name || "Ziyaretçi",
-      rating: r.rating || r.stars || 5,
-      text: r.text || r.review_text || "",
-      time: r.time || r.relative_time_description || ""
-    }));
-
-    // Kartları 6’lı gruplar halinde döndür
-    const pages = chunk(norm, 6);
-    let page = 0;
-
     function starLine(n) {
-      const full = Math.round(Math.max(0, Math.min(5, Number(n) || 5)));
-      return "★".repeat(full) + "☆".repeat(5 - full);
+      const v = Math.round(Math.max(0, Math.min(5, Number(n) || 5)));
+      return "★".repeat(v) + "☆".repeat(5 - v);
     }
 
-    function renderPage(p) {
+    function renderPage(list) {
       grid.innerHTML = "";
-      p.forEach((rv) => {
+      list.forEach((rv) => {
         const card = document.createElement("div");
         card.className = "review-card";
-        card.innerHTML = `
-          <div class="stars" aria-label="${rv.rating} yıldız">${starLine(rv.rating)}</div>
-          <div style="margin-top:8px">${rv.text || ""}</div>
-          <div class="review-author">${rv.author}</div>
-          <div class="muted" style="font-size:12px">${rv.time || ""}</div>
-        `;
+        card.innerHTML =
+          '<div class="stars">' + starLine(rv.rating) + "</div>" +
+          '<div style="margin-top:8px">' + (rv.text || "") + "</div>" +
+          '<div class="review-author">' + (rv.author || "Ziyaretçi") + "</div>" +
+          '<div class="muted" style="font-size:12px">' + (rv.time || "") + "</div>";
         grid.appendChild(card);
         requestAnimationFrame(() => card.classList.add("visible"));
       });
     }
 
-    renderPage(pages[page]);
+    function normalize(arr) {
+      return arr.map((r) => ({
+        author: r.author || r.author_name || "Ziyaretçi",
+        rating: r.rating || r.stars || 5,
+        text: r.text || r.review_text || "",
+        time: r.time || r.relative_time_description || ""
+      }));
+    }
 
-    setInterval(() => {
-      page = (page + 1) % pages.length;
+    (async function loadReviews() {
+      let reviews = await fetchJSON(localJson);
+      if (!reviews || !Array.isArray(reviews) || !reviews.length) {
+        const remote = await fetchJSON(fnUrl);
+        if (remote && Array.isArray(remote.reviews)) reviews = remote.reviews;
+      }
+      if (!reviews || !reviews.length) {
+        grid.innerHTML = '<div class="muted">Şimdilik yorum bulunamadı.</div>';
+        return;
+      }
+      const pages = chunk(normalize(reviews), 6);
+      let page = 0;
       renderPage(pages[page]);
-    }, 6500); // yavaş, akıcı geçiş
+      setInterval(() => {
+        page = (page + 1) % pages.length;
+        renderPage(pages[page]);
+      }, 6500);
+    })();
   })();
 
-  /* -------------------- YOUTUBE ŞERİDİ -------------------- */
-
-  (async function initYouTube() {
+  /* -------------------- YOUTUBE -------------------- */
+  (function initYouTube() {
     const section = $("#youtube");
     const strip = $("#ytStrip");
     if (!section || !strip) return;
 
     async function loadIds() {
-      // index.json’da youtubeIds dizisi varsa onu kullan
       const idx = await fetchJSON("/assets/data/index.json");
       if (idx && Array.isArray(idx.youtubeIds) && idx.youtubeIds.length) return idx.youtubeIds;
-
-      // değilse section attribute’tan çek
       const attr = (section.getAttribute("data-youtube-ids") || "").trim();
       if (attr) return attr.split(",").map((s) => s.trim()).filter(Boolean);
-
-      // yine yoksa boş
       return [];
     }
 
-    const ids = await loadIds();
-    if (!ids.length) {
-      strip.innerHTML = `<div class="muted">Video bulunamadı.</div>`;
-      return;
-    }
-
-    let start = 0;
-
-    function renderWindow() {
-      strip.innerHTML = "";
-      const view = [];
-      for (let i = 0; i < 3; i++) {
-        view.push(ids[(start + i) % ids.length]);
+    (async function run() {
+      const ids = await loadIds();
+      if (!ids.length) {
+        strip.innerHTML = '<div class="muted">Video bulunamadı.</div>';
+        return;
       }
-      view.forEach((id) => {
-        const box = document.createElement("div");
-        box.className = "yt-box";
-        box.innerHTML = `
-          <iframe loading="lazy"
-                  src="https://www.youtube.com/embed/${encodeURIComponent(id)}"
-                  title="YouTube video"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  allowfullscreen></iframe>
-        `;
-        strip.appendChild(box);
-      });
-    }
 
-    renderWindow();
+      let start = 0;
 
-    // İstek: 1-2-3 görüldükten 7 sn sonra 2-3-4…
-    setInterval(() => {
-      start = (start + 1) % ids.length;
-      renderWindow();
-    }, 7000);
+      function render() {
+        strip.innerHTML = "";
+        const view = [0, 1, 2].map((i) => ids[(start + i) % ids.length]);
+        view.forEach((id) => {
+          const box = document.createElement("div");
+          box.className = "yt-box";
+          box.innerHTML =
+            '<iframe loading="lazy" src="https://www.youtube.com/embed/' + encodeURIComponent(id) + '" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+          strip.appendChild(box);
+        });
+      }
+
+      render();
+      setInterval(() => {
+        start = (start + 1) % ids.length; // 1-2-3 -> 2-3-4
+        render();
+      }, 7000);
+    })();
   })();
-})();
+
+})(); // IIFE SONU
