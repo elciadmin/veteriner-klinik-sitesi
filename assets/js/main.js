@@ -1,216 +1,160 @@
-/* =========================================================================
-   Elçi Veteriner — Ana JS (v14, sade ve hatasız)
-   - Instagram şeridi: yavaş akış + rastgele büyütme
-   - Google yorumları: 6'lı sayfalar halinde döngü
-   - YouTube şeridi: 3'lü, 7 sn'de bir kaydır
-   ======================================================================== */
-(function () {
-  "use strict";
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Elçi Veteriner Kliniği | Konya'da 7/24 Acil, Cerrahi, Görüntüleme</title>
+  <meta name="description" content="Konya Meram Elçi Veteriner Kliniği: 7/24 acil, koruyucu hekimlik, cerrahi, diş sağlığı, röntgen, ultrason, laboratuvar."/>
+  <link rel="stylesheet" href="/assets/css/styles.css"/>
+  <style>
+    :root { --brand:#0c4e54; --muted:#6b7a7c; --gap:14px; }
+    .container{max-width:1200px;margin:0 auto;padding:0 16px}
+    header.topbar{background:var(--brand);color:#fff;font-size:14px}
+    header.topbar .container{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;padding:8px 16px}
+    nav.site-nav{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #eee}
+    nav.site-nav .container{display:flex;align-items:center;justify-content:space-between;padding:10px 16px}
+    .brand{font-weight:800;font-size:20px;color:var(--brand);text-decoration:none}
+    .menu{display:flex;gap:16px;align-items:center}
+    .menu a{text-decoration:none;color:#1a1a1a;font-weight:600}
+    .btn{padding:10px 16px;border-radius:10px;border:1px solid var(--brand);font-weight:700;cursor:pointer}
+    .btn.primary{background:var(--brand);color:#fff}
+    .hero{background:#f3fbfc url('/assets/img/uploads/clinic-hero.jpg') center/cover no-repeat}
+    .hero .container{padding:64px 16px}
+    .hero h1{font-size:clamp(28px,4vw,44px);color:var(--brand);margin:0 0 8px}
+    .hero p{max-width:840px;font-size:18px;line-height:1.55;color:#133}
+    .hero-cta{display:flex;gap:10px;margin-top:14px}
+    section#services{padding:32px 0;background:#fff}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
+    .card{background:#fff;border:1px solid #e9eff0;border-radius:14px;padding:16px;box-shadow:0 4px 10px rgba(0,0,0,.04)}
+    .card h3{margin:0 0 6px;font-size:18px}
+    .card p{margin:0;color:#223}
+    @media(max-width:900px){.grid{grid-template-columns:1fr}}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap);margin-top:14px}
+    .stat{background:#0f5960;color:#fff;padding:14px;border-radius:12px;text-align:center}
+    .stat b{font-size:22px}
+    section#insta{padding:28px 0;background:#fff}
+    .insta-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .insta-track-wrap{overflow:hidden}
+    .insta-track{display:flex;gap:12px;will-change:transform}
+    .insta-item{flex:0 0 auto;width:160px;height:160px;border-radius:12px;overflow:hidden;position:relative}
+    .insta-item img{width:100%;height:100%;object-fit:cover;display:block}
+    .insta-item.highlight{transform:scale(1.12);transition:transform .6s;box-shadow:0 10px 24px rgba(0,0,0,.15);z-index:2}
+    section#reviews{padding:32px 0;background:#f7fbfb}
+    .review-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+    .review-card{background:#fff;border:1px solid #e9eff0;border-radius:14px;padding:16px;box-shadow:0 4px 10px rgba(0,0,0,.04);opacity:0;transform:translateY(6px);transition:opacity .5s, transform .5s}
+    .review-card.visible{opacity:1;transform:none}
+    .stars{font-size:18px;color:#fff;text-shadow:0 0 2px #f5a800,0 0 6px #f5a800}
+    .review-author{font-weight:700;margin-top:8px}
+    section#youtube{padding:32px 0;background:#fff}
+    .yt-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
+    .yt-box{aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000}
+    .yt-box iframe{width:100%;height:100%;border:0;display:block}
+    @media(max-width:768px){.yt-strip{grid-template-columns:1fr}.insta-item{width:130px;height:130px}}
+    .cta-bar{background:#e9f4f5;border:1px dashed #a8cacc;padding:16px;border-radius:14px;display:flex;gap:10px;align-items:center;justify-content:space-between;margin:24px 0}
+    footer.site{padding:24px 0;background:var(--brand);color:#fff;margin-top:32px}
+    .muted{color:var(--muted)}
+  </style>
+  <script defer src="/assets/js/main.js?v=14"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container">
+      <div>Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</div>
+      <div>☎ 0332 322 32 20 &nbsp;•&nbsp; 📧 elcivetklinig@gmail.com</div>
+    </div>
+  </header>
 
-  // Kısa yardımcılar
-  const $ = (s, r = document) => r.querySelector(s);
-  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  <nav class="site-nav">
+    <div class="container">
+      <a class="brand" href="/">Elçi Veteriner</a>
+      <div class="menu">
+        <a href="/about.html">Hakkımızda</a>
+        <a href="/hizmetler.html">Hizmetler</a>
+        <a href="/blog.html">Blog</a>
+        <a href="/sss.html">SSS</a>
+        <a href="/hasta-iliskileri.html">Hasta İlişkileri</a>
+        <a class="btn primary" href="tel:03323223220">Acil Ara</a>
+      </div>
+    </div>
+  </nav>
 
-  async function fetchJSON(url) {
-    try {
-      const res = await fetch(url, { cache: "no-cache" });
-      if (!res.ok) throw new Error("HTTP " + res.status);
-      return await res.json();
-    } catch (e) {
-      console.warn("fetchJSON:", url, e.message);
-      return null;
-    }
-  }
+  <section class="hero">
+    <div class="container">
+      <h1>Konya’da 7/24 Acil ve Kapsamlı Veterinerlik</h1>
+      <p>Koruyucu hekimlikten ileri cerrahiye, diş sağlığından görüntüleme & laboratuvara: evcil dostlarınız için güven, şeffaflık ve etik yaklaşım.</p>
+      <div class="hero-cta">
+        <a class="btn primary" href="tel:03323223220">Hemen Ara</a>
+        <a class="btn" href="/contact.html">Randevu Al</a>
+      </div>
 
-  function chunk(arr, size) {
-    const out = [];
-    for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
-    return out;
-  }
+      <div class="stats">
+        <div class="stat"><b>7/24</b><br><small>Nöbet & Acil</small></div>
+        <div class="stat"><b>+1,500</b><br><small>Hasta/Yıl</small></div>
+        <div class="stat"><b>+10</b><br><small>Hizmet Başlığı</small></div>
+        <div class="stat"><b>4.9/5</b><br><small>Google Puanı</small></div>
+      </div>
+    </div>
+  </section>
 
-  // Yıl
-  const yilEl = $("#yil");
-  if (yilEl) yilEl.textContent = new Date().getFullYear();
+  <section id="services">
+    <div class="container">
+      <h2>Hizmetlerimiz</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Acil & Yoğun Bakım</h3>
+          <p>Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat takip.</p>
+        </div>
+        <div class="card">
+          <h3>Cerrahi</h3>
+          <p>Yumuşak doku, ortopedi, sterilizasyon ve operasyon sonrası ağrı yönetimi.</p>
+        </div>
+        <div class="card">
+          <h3>Görüntüleme & Lab</h3>
+          <p>Röntgen, ultrason, kan tahlilleri, mikroskobik muayeneler.</p>
+        </div>
+      </div>
+      <div class="cta-bar">
+        <strong>Evcil dostunuz için hızlı randevu alın.</strong>
+        <div>
+          <a class="btn" href="/services.html">Tüm Hizmetler</a>
+          <a class="btn primary" href="/contact.html">Randevu Al</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  /* -------------------- INSTAGRAM -------------------- */
-  (function initInstagram() {
-    const section = $("#insta");
-    const track = $("#instaTrack");
-    if (!section || !track) return;
+  <section id="insta" data-json="/assets/data/instagram.json">
+    <div class="container">
+      <div class="insta-head">
+        <h2>Instagram’dan</h2>
+        <small class="muted">Yavaş akış • Rastgele öne çıkma efekti</small>
+      </div>
+      <div class="insta-track-wrap">
+        <div class="insta-track" id="instaTrack" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
 
-    const jsonUrl = section.getAttribute("data-json") || "/assets/data/instagram.json";
+  <section id="reviews" data-json="/assets/data/reviews.json">
+    <div class="container">
+      <h2>Google Yorumları</h2>
+      <div class="review-grid" id="reviewGrid" aria-live="polite"></div>
+    </div>
+  </section>
 
-    fetchJSON(jsonUrl).then((data) => {
-      if (!data || !Array.isArray(data)) return;
+  <section id="youtube" data-fn="/.netlify/functions/youtube-latest?limit=9">
+    <div class="container">
+      <h2>YouTube</h2>
+      <div class="yt-strip" id="ytStrip"></div>
+      <small class="muted">3 video görünür; 7 sn sonra 2-3-4 şeklinde kayar.</small>
+    </div>
+  </section>
 
-      // "dosya.webp" ya da {src, alt}
-      const items = data
-        .map((it) => {
-          const src = typeof it === "string" ? it : (it && it.src) ? it.src : null;
-          if (!src) return null;
-          const full = src.startsWith("/") || src.startsWith("http") ? src : "/assets/img/insta/" + src;
-          const alt = typeof it === "object" && it && it.alt ? it.alt : "Instagram görseli";
-          return { src: full, alt: alt };
-        })
-        .filter(Boolean);
-
-      // DOM
-      function make(img) {
-        const d = document.createElement("div");
-        d.className = "insta-item";
-        const im = document.createElement("img");
-        im.loading = "lazy";
-        im.decoding = "async";
-        im.src = img.src;
-        im.alt = img.alt;
-        d.appendChild(im);
-        return d;
-      }
-
-      track.innerHTML = "";
-      const STRIP_MIN = 18;
-      const repeated = [];
-      while (repeated.length < STRIP_MIN) repeated.push(...items);
-      repeated.slice(0, STRIP_MIN + 6).forEach((im) => track.appendChild(make(im)));
-
-      // Yavaş akış
-      let pos = 0;
-      const STEP = 0.25; // yavaş
-      let playing = true;
-
-      function tick() {
-        if (!playing) return;
-        pos -= STEP;
-        track.style.transform = "translate3d(" + pos + "px,0,0)";
-        const first = track.firstElementChild;
-        if (!first) return;
-        const firstW = first.getBoundingClientRect().width + 12;
-        if (Math.abs(pos) >= firstW) {
-          track.appendChild(first);
-          pos += firstW;
-        }
-      }
-
-      function loop() {
-        tick();
-        requestAnimationFrame(loop);
-      }
-      loop();
-
-      track.addEventListener("mouseenter", () => { playing = false; });
-      track.addEventListener("mouseleave", () => { playing = true; });
-
-      // Rastgele büyütme
-      setInterval(() => {
-        const cards = $$(".insta-item", track);
-        if (!cards.length) return;
-        const i = Math.floor(Math.random() * Math.min(cards.length, 14));
-        const el = cards[i];
-        el.classList.add("highlight");
-        setTimeout(() => el.classList.remove("highlight"), 1800);
-      }, 2800);
-    });
-  })();
-
-  /* -------------------- GOOGLE YORUMLAR -------------------- */
-  (function initReviews() {
-    const section = $("#reviews");
-    const grid = $("#reviewGrid");
-    if (!section || !grid) return;
-
-    const localJson = section.getAttribute("data-json") || "/assets/data/reviews.json";
-    const fnUrl = section.getAttribute("data-fn") || "/.netlify/functions/google-reviews";
-
-    function starLine(n) {
-      const v = Math.round(Math.max(0, Math.min(5, Number(n) || 5)));
-      return "★".repeat(v) + "☆".repeat(5 - v);
-    }
-
-    function renderPage(list) {
-      grid.innerHTML = "";
-      list.forEach((rv) => {
-        const card = document.createElement("div");
-        card.className = "review-card";
-        card.innerHTML =
-          '<div class="stars">' + starLine(rv.rating) + "</div>" +
-          '<div style="margin-top:8px">' + (rv.text || "") + "</div>" +
-          '<div class="review-author">' + (rv.author || "Ziyaretçi") + "</div>" +
-          '<div class="muted" style="font-size:12px">' + (rv.time || "") + "</div>";
-        grid.appendChild(card);
-        requestAnimationFrame(() => card.classList.add("visible"));
-      });
-    }
-
-    function normalize(arr) {
-      return arr.map((r) => ({
-        author: r.author || r.author_name || "Ziyaretçi",
-        rating: r.rating || r.stars || 5,
-        text: r.text || r.review_text || "",
-        time: r.time || r.relative_time_description || ""
-      }));
-    }
-
-    (async function loadReviews() {
-      let reviews = await fetchJSON(localJson);
-      if (!reviews || !Array.isArray(reviews) || !reviews.length) {
-        const remote = await fetchJSON(fnUrl);
-        if (remote && Array.isArray(remote.reviews)) reviews = remote.reviews;
-      }
-      if (!reviews || !reviews.length) {
-        grid.innerHTML = '<div class="muted">Şimdilik yorum bulunamadı.</div>';
-        return;
-      }
-      const pages = chunk(normalize(reviews), 6);
-      let page = 0;
-      renderPage(pages[page]);
-      setInterval(() => {
-        page = (page + 1) % pages.length;
-        renderPage(pages[page]);
-      }, 6500);
-    })();
-  })();
-
-  /* -------------------- YOUTUBE -------------------- */
-  (function initYouTube() {
-    const section = $("#youtube");
-    const strip = $("#ytStrip");
-    if (!section || !strip) return;
-
-    async function loadIds() {
-      const idx = await fetchJSON("/assets/data/index.json");
-      if (idx && Array.isArray(idx.youtubeIds) && idx.youtubeIds.length) return idx.youtubeIds;
-      const attr = (section.getAttribute("data-youtube-ids") || "").trim();
-      if (attr) return attr.split(",").map((s) => s.trim()).filter(Boolean);
-      return [];
-    }
-
-    (async function run() {
-      const ids = await loadIds();
-      if (!ids.length) {
-        strip.innerHTML = '<div class="muted">Video bulunamadı.</div>';
-        return;
-      }
-
-      let start = 0;
-
-      function render() {
-        strip.innerHTML = "";
-        const view = [0, 1, 2].map((i) => ids[(start + i) % ids.length]);
-        view.forEach((id) => {
-          const box = document.createElement("div");
-          box.className = "yt-box";
-          box.innerHTML =
-            '<iframe loading="lazy" src="https://www.youtube.com/embed/' + encodeURIComponent(id) + '" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
-          strip.appendChild(box);
-        });
-      }
-
-      render();
-      setInterval(() => {
-        start = (start + 1) % ids.length; // 1-2-3 -> 2-3-4
-        render();
-      }, 7000);
-    })();
-  })();
-
-})(); // IIFE SONU
+  <footer class="site">
+    <div class="container">
+      <div><strong>Elçi Veteriner Kliniği</strong> — Meram / Konya</div>
+      <div class="muted">© <span id="yil"></span> Tüm hakları saklıdır.</div>
+    </div>
+  </footer>
+</body>
+</html>
