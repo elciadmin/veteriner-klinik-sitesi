@@ -1,8 +1,8 @@
 /* =========================================================================
-   Elçi Veteriner — Ana JS (v15)
-   - Instagram şeridi: yavaş akış + rastgele büyütme (JSON/Function destekli)
-   - Google yorumları: sadece yerel reviews.json; hata mesajı gösterir
-   - YouTube: ÖNCE data-fn (RSS Function) → sonra index.json → sonra data-attr
+   Elçi Veteriner — Ana JS (v16)
+   - Instagram: ["ad.jpg"] | [{src}] | [{file}] hepsi desteklenir.
+   - Google Yorumları: Tüm yorumları tek sayfada basar.
+   - YouTube: Önce data-fn (RSS Function) → sonra /assets/data/index.json → sonra data-attr.
    ======================================================================== */
 (function () {
   "use strict";
@@ -19,11 +19,6 @@
       console.warn("fetchJSON fail:", url, e.message);
       return null;
     }
-  }
-  function chunk(arr, size) {
-    const out = [];
-    for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
-    return out;
   }
 
   // Yıl
@@ -42,7 +37,7 @@
     // 1) Yerel JSON
     let data = await fetchJSON(jsonUrl);
 
-    // 2) Function fallback (isteğe bağlı)
+    // 2) (opsiyonel) Function fallback
     if ((!data || (Array.isArray(data) && data.length === 0)) && fnUrl) {
       try {
         const r = await fetch(fnUrl, { cache: "no-cache" });
@@ -55,13 +50,23 @@
       return;
     }
 
-    const toSrc = (it) => typeof it === "string" ? it : (it && it.src ? it.src : null);
-    const toAlt = (it) => (typeof it === "object" && it && it.alt) ? it.alt : "Instagram görseli";
+    // Kabul edilen formatlar:
+    // ["a.webp","b.jpg"]  VEYA  [{src:"a.webp", alt:"..."},{file:"b.jpg"}]
+    const toSrc = (it) => {
+      if (typeof it === "string") return it;
+      if (it && typeof it === "object") {
+        if (it.src) return it.src;
+        if (it.file) return it.file;  // *** Senin JSON’unu destekliyoruz ***
+      }
+      return null;
+    };
+    const toAlt = (it) => (it && typeof it === "object" && it.alt) ? it.alt : "Instagram görseli";
 
     const raw = Array.isArray(data) ? data : (data.items || []);
     const items = raw.map(it => {
       const src = toSrc(it);
       if (!src) return null;
+      // Sadece dosya adıysa /assets/img/insta/ altına oturt
       const absolute = (src.startsWith("/") || src.startsWith("http")) ? src : `/assets/img/insta/${src}`;
       return { src: absolute, alt: toAlt(it) };
     }).filter(Boolean);
@@ -71,6 +76,7 @@
       return;
     }
 
+    // DOM’a bas
     const makeItem = (img) => {
       const d = document.createElement("div");
       d.className = "insta-item";
@@ -91,7 +97,6 @@
     let pos = 0;
     const STEP = 0.25; // yavaş
     let playing = true;
-
     function tick() {
       if (!playing) return;
       pos -= STEP;
@@ -106,7 +111,7 @@
     track.addEventListener("mouseenter", () => { playing = false; });
     track.addEventListener("mouseleave", () => { playing = true; });
 
-    // Rastgele büyütme
+    // Rastgele öne çıkarma
     setInterval(() => {
       const cards = $$(".insta-item", track);
       if (!cards.length) return;
@@ -132,6 +137,7 @@
       return;
     }
 
+    // Hepsini tek sayfada gösterelim
     const norm = reviews.map((r) => ({
       author: r.author || r.author_name || "Ziyaretçi",
       rating: r.rating || r.stars || 5,
@@ -139,32 +145,23 @@
       time: r.time || r.relative_time_description || ""
     }));
 
-    const pages = chunk(norm, 6);
-    let page = 0;
-
     function starLine(n) {
       const v = Math.round(Math.max(0, Math.min(5, Number(n) || 5)));
       return "★".repeat(v) + "☆".repeat(5 - v);
     }
-    function renderPage(list) {
-      grid.innerHTML = "";
-      list.forEach((rv) => {
-        const card = document.createElement("div");
-        card.className = "review-card";
-        card.innerHTML =
-          `<div class="stars">${starLine(rv.rating)}</div>` +
-          `<div style="margin-top:8px">${rv.text || ""}</div>` +
-          `<div class="review-author">${rv.author}</div>` +
-          `<div class="muted" style="font-size:12px">${rv.time || ""}</div>`;
-        grid.appendChild(card);
-        requestAnimationFrame(() => card.classList.add("visible"));
-      });
-    }
-    renderPage(pages[page]);
-    setInterval(() => {
-      page = (page + 1) % pages.length;
-      renderPage(pages[page]);
-    }, 6500);
+
+    grid.innerHTML = "";
+    norm.forEach((rv) => {
+      const card = document.createElement("div");
+      card.className = "review-card";
+      card.innerHTML =
+        `<div class="stars">${starLine(rv.rating)}</div>` +
+        `<div style="margin-top:8px">${rv.text || ""}</div>` +
+        `<div class="review-author">${rv.author}</div>` +
+        `<div class="muted" style="font-size:12px">${rv.time || ""}</div>`;
+      grid.appendChild(card);
+      requestAnimationFrame(() => card.classList.add("visible"));
+    });
   })();
 
   /* -------------------- YOUTUBE -------------------- */
@@ -182,6 +179,8 @@
           if (r.ok) {
             const j = await r.json();
             if (j && Array.isArray(j.youtubeIds) && j.youtubeIds.length) return j.youtubeIds;
+          } else {
+            console.warn("YouTube function HTTP", r.status);
           }
         } catch (e) {
           console.warn("YouTube function hatası:", e.message);
@@ -198,7 +197,7 @@
 
     const ids = await loadIds();
     if (!ids.length) {
-      strip.innerHTML = `<div class="muted">Video bulunamadı. Function veya <code>/assets/data/index.json</code> kontrol edin.</div>`;
+      strip.innerHTML = `<div class="muted">Video bulunamadı. <code>/.netlify/functions/youtube-latest?limit=9</code> veya <code>/assets/data/index.json</code> kontrol edin.</div>`;
       console.warn("YouTube ID listesi boş.");
       return;
     }
@@ -227,4 +226,4 @@
     }, 7000);
   })();
 
-})(); // v15 SONU
+})(); // v16 SONU
