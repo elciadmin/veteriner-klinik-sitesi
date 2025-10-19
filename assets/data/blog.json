@@ -1,22 +1,52 @@
 {
   "posts": [
     {
-      "title": "Hoş geldiniz",
+      "title": "Hoş Geldiniz: Kliniğimizin Resmî Web Sitesi Yayında",
       "date": "2025-09-18T10:00:00+03:00",
-      "summary": "Site yayında.",
+      "summary": "Elçi Veteriner Kliniği’nin yeni web sitesi yayında. Randevu, hizmetler ve iletişim artık çok daha hızlı.",
       "cover": "/assets/img/uploads/sample1.webp",
-      "content": "<p>Klinigim web sitemiz yayında.</p>"
+      "content": "<p>Yeni web sitemizle randevu almak, hizmetlerimizi incelemek ve duyurularımızı takip etmek çok daha kolay. Görüş ve önerileriniz için bize yazın.</p>",
+      "url": "/blog.html#hos-geldiniz"
     },
     {
-      "title": "fajgshdksjş",
-      "date": "2025-09-19T15:53:00.000+03:00",
-      "summary": "dvsaöm cxdkm"
+      "title": "Kedilerde Aşı Takvimi: 2025 Rehberi",
+      "date": "2025-09-28T09:30:00+03:00",
+      "summary": "Kedi dostlarımız için temel/opsiyonel aşılar, zamanlama ve sık yapılan hatalar.",
+      "cover": "/assets/img/uploads/kedi-asi.jpg",
+      "content": "<p>Karma, kuduz ve lösemi aşılarının planlanması bağışıklık için kritiktir. İlk yıl ve sonrasında hatırlatma dozlarını aksatmayın.</p>",
+      "url": "/blog.html#kedi-asi-2025"
     },
     {
-      "title": "dasfdbgn",
-      "date": "2025-09-19T16:07:00.000+03:00",
-      "summary": "dSAFSDGFHGJ",
-      "content": "AFDSGDGFN"
+      "title": "Köpeklerde Diş Taşı Temizliği Neden Önemli?",
+      "date": "2025-08-14T14:00:00+03:00",
+      "summary": "Ağız kokusu, diş eti çekilmesi ve sistemik hastalık riskini azaltmanın anahtarı: düzenli dental bakım.",
+      "cover": "/assets/img/uploads/kopek-dis.jpg",
+      "content": "<p>Diş taşı; bakterilerin tutunmasına, diş eti iltihabına ve ağrıya yol açar. Periyodik muayene ve profesyonel temizlik önerilir.</p>",
+      "url": "/blog.html#kopek-dis-tasi"
+    },
+    {
+      "title": "Sıcak Havalarda Serin Kalma İpuçları",
+      "date": "2025-07-02T11:00:00+03:00",
+      "summary": "Sıcak çarpmasına karşı su tüketimi, gölgeleme ve yürüyüş saatleri ayarı.",
+      "cover": "/assets/img/uploads/yaz-ipuclari.jpg",
+      "content": "<p>Gündüz saatlerinde egzersizi azaltın, asfalttan kaçının ve su kabını her zaman dolu tutun. Sıcak çarpması acil durumdur.</p>",
+      "url": "/blog.html#sicak-ipuclari"
+    },
+    {
+      "title": "Acil Durumlarda İlk Yardım: Evde Yapabilecekleriniz",
+      "date": "2025-06-10T17:45:00+03:00",
+      "summary": "Kanama, zehirlenme veya travma şüphesinde temel adımlar ve kliniğe ulaşana kadar yapılacaklar.",
+      "cover": "/assets/img/uploads/acil-ilk-yardim.jpg",
+      "content": "<p>Panik yapmayın, güvenli taşıyın ve hemen bizi arayın: 0332 322 32 20. Evde yanlış müdahale durumu kötüleştirebilir.</p>",
+      "url": "/blog.html#acil-ilk-yardim"
+    },
+    {
+      "title": "Kısırlaştırma (Sterilizasyon) Hakkında Merak Edilenler",
+      "date": "2025-05-05T13:20:00+03:00",
+      "summary": "Operasyon süreci, iyileşme dönemi ve uzun vadeli sağlık faydaları.",
+      "cover": "/assets/img/uploads/sterilizasyon.jpg",
+      "content": "<p>Kısırlaştırma; bazı tümör risklerini düşürür, istenmeyen gebelikleri önler ve davranışsal faydalar sağlayabilir.</p>",
+      "url": "/blog.html#kisirlastirma"
     }
   ]
 }
