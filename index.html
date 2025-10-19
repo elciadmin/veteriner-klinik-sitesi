@@ -4,60 +4,87 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Elçi Veteriner Kliniği | Konya'da 7/24 Acil, Cerrahi, Görüntüleme</title>
-  <meta name="description" content="Konya Meram Elçi Veteriner Kliniği: 7/24 acil, koruyucu hekimlik, cerrahi, diş sağlığı, röntgen, ultrason, laboratuvar."/>
+  <meta name="description" content="Konya Meram Elçi Veteriner Kliniği: 7/24 acil, koruyucu hekimlik, cerrahi, diş sağlığı, diş temizliği, röntgen, ultrason, laboratuvar."/>
   <link rel="stylesheet" href="/assets/css/styles.css"/>
   <style>
-    :root { --brand:#0c4e54; --muted:#6b7a7c; --gap:14px; }
+    :root { --brand:#0c4e54; --brand2:#0f5960; --ink:#112; --muted:#6b7a7c; --bg:#f5fbfc; --gap:14px; }
+    *{box-sizing:border-box}
+    body{color:var(--ink); background:#fff; margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
     .container{max-width:1200px;margin:0 auto;padding:0 16px}
-    header.topbar{background:var(--brand);color:#fff;font-size:14px}
+    .muted{color:var(--muted)}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:12px;border:1px solid var(--brand);font-weight:700;cursor:pointer;text-decoration:none}
+    .btn.primary{background:var(--brand);color:#fff;border-color:transparent}
+    .btn.ghost{background:transparent;color:var(--brand)}
+    .chip{display:inline-block;padding:6px 10px;border-radius:999px;background:#e9f4f5;color:#0a4348;font-weight:700;font-size:12px}
+    .grid{display:grid;gap:var(--gap)}
+    /* Topbar & Nav */
+    header.topbar{background:var(--brand2);color:#fff;font-size:14px}
     header.topbar .container{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;padding:8px 16px}
-    nav.site-nav{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #eee}
+    nav.site-nav{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #edf2f2}
     nav.site-nav .container{display:flex;align-items:center;justify-content:space-between;padding:10px 16px}
-    .brand{font-weight:800;font-size:20px;color:var(--brand);text-decoration:none}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;color:var(--brand);text-decoration:none}
     .menu{display:flex;gap:16px;align-items:center}
     .menu a{text-decoration:none;color:#1a1a1a;font-weight:600}
-    .btn{padding:10px 16px;border-radius:10px;border:1px solid var(--brand);font-weight:700;cursor:pointer}
-    .btn.primary{background:var(--brand);color:#fff}
-    .hero{background:#f3fbfc url('/assets/img/uploads/clinic-hero.jpg') center/cover no-repeat}
-    .hero .container{padding:64px 16px}
-    .hero h1{font-size:clamp(28px,4vw,44px);color:var(--brand);margin:0 0 8px}
-    .hero p{max-width:840px;font-size:18px;line-height:1.55;color:#133}
-    .hero-cta{display:flex;gap:10px;margin-top:14px}
-    section#services{padding:32px 0;background:#fff}
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
-    .card{background:#fff;border:1px solid #e9eff0;border-radius:14px;padding:16px;box-shadow:0 4px 10px rgba(0,0,0,.04)}
-    .card h3{margin:0 0 6px;font-size:18px}
+    /* Hero */
+    .hero{
+      background:
+        linear-gradient(180deg, rgba(12,78,84,.10) 0%, rgba(12,78,84,.00) 60%),
+        linear-gradient(180deg,#f3fbfc 0%,#eaf6f7 100%),
+        url('/assets/img/uploads/clinic-hero.jpg') center/cover no-repeat;
+    }
+    .hero .container{padding:56px 16px}
+    .hero-wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center}
+    .hero h1{font-size:clamp(30px,4.6vw,48px);line-height:1.15;color:#073a3e;margin:0 0 10px}
+    .hero p{font-size:18px;line-height:1.6;margin:0;color:#123;max-width:720px}
+    .hero-cta{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+    .highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+    .kpi{background:#fff;border:1px solid #e8f1f2;border-radius:14px;padding:12px;text-align:center}
+    .kpi b{display:block;font-size:22px;color:#0d4f55}
+    /* Trust bar */
+    .trust{background:#fff;border:1px dashed #c9e1e3;border-radius:14px;padding:10px;display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:10px}
+    .trust .badges{display:flex;gap:10px;flex-wrap:wrap}
+    .badge{padding:8px 10px;border-radius:10px;background:#f2fafb;border:1px solid #e1f0f1;font-weight:700;font-size:12px}
+    /* Services */
+    section#services{padding:36px 0;background:#fff}
+    .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
+    .card{background:#fff;border:1px solid #e9eff0;border-radius:16px;padding:18px;box-shadow:0 6px 14px rgba(0,0,0,.04)}
+    .card h3{margin:0 0 8px;font-size:18px}
     .card p{margin:0;color:#223}
-    @media(max-width:900px){.grid{grid-template-columns:1fr}}
-    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap);margin-top:14px}
-    .stat{background:#0f5960;color:#fff;padding:14px;border-radius:12px;text-align:center}
-    .stat b{font-size:22px}
-    section#insta{padding:28px 0;background:#fff}
+    .card .icon{width:28px;height:28px;border-radius:8px;background:#e8f5f6;display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px}
+    @media(max-width:960px){.services-grid{grid-template-columns:1fr}}
+    /* Instagram / Reviews / YouTube */
+    section#insta{padding:30px 0;background:#fff}
     .insta-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
     .insta-track-wrap{overflow:hidden}
     .insta-track{display:flex;gap:12px;will-change:transform}
-    .insta-item{flex:0 0 auto;width:160px;height:160px;border-radius:12px;overflow:hidden;position:relative}
+    .insta-item{flex:0 0 auto;width:160px;height:160px;border-radius:14px;overflow:hidden;position:relative}
     .insta-item img{width:100%;height:100%;object-fit:cover;display:block}
     .insta-item.highlight{transform:scale(1.12);transition:transform .6s;box-shadow:0 10px 24px rgba(0,0,0,.15);z-index:2}
-    section#reviews{padding:32px 0;background:#f7fbfb}
+    section#reviews{padding:34px 0;background:#f7fbfb}
     .review-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
-    .review-card{background:#fff;border:1px solid #e9eff0;border-radius:14px;padding:16px;box-shadow:0 4px 10px rgba(0,0,0,.04);opacity:0;transform:translateY(6px);transition:opacity .5s, transform .5s}
+    .review-card{background:#fff;border:1px solid #e9eff0;border-radius:16px;padding:16px;box-shadow:0 6px 14px rgba(0,0,0,.04);opacity:0;transform:translateY(6px);transition:opacity .5s, transform .5s}
     .review-card.visible{opacity:1;transform:none}
     .stars{font-size:18px;color:#fff;text-shadow:0 0 2px #f5a800,0 0 6px #f5a800}
     .review-author{font-weight:700;margin-top:8px}
-    section#youtube{padding:32px 0;background:#fff}
+    section#youtube{padding:34px 0;background:#fff}
     .yt-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
-    .yt-box{aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000}
+    .yt-box{aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#000}
     .yt-box iframe{width:100%;height:100%;border:0;display:block}
-    @media(max-width:768px){.yt-strip{grid-template-columns:1fr}.insta-item{width:130px;height:130px}}
-    .cta-bar{background:#e9f4f5;border:1px dashed #a8cacc;padding:16px;border-radius:14px;display:flex;gap:10px;align-items:center;justify-content:space-between;margin:24px 0}
-    footer.site{padding:24px 0;background:var(--brand);color:#fff;margin-top:32px}
-    .muted{color:var(--muted)}
+    @media(max-width:768px){.hero-wrap{grid-template-columns:1fr}.yt-strip{grid-template-columns:1fr}.insta-item{width:130px;height:130px}}
+    /* CTA section */
+    .cta-bar{background:#e9f4f5;border:1px dashed #a8cacc;padding:18px;border-radius:16px;display:flex;gap:10px;align-items:center;justify-content:space-between;margin:24px 0}
+    /* FAQ */
+    section#faq{padding:34px 0;background:#fff}
+    details.faq{border:1px solid #e9eff0;border-radius:12px;padding:12px;margin-bottom:10px;background:#fbfefe}
+    details.faq[open]{background:#f5fbfc}
+    details.faq summary{cursor:pointer;font-weight:700}
+    /* Footer */
+    footer.site{padding:26px 0;background:var(--brand2);color:#fff;margin-top:32px}
   </style>
- <script defer src="/assets/js/main.js?v=16"></script>
-
+  <script defer src="/assets/js/main.js?v=16"></script>
 </head>
 <body>
+  <!-- Top Bar -->
   <header class="topbar">
     <div class="container">
       <div>Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</div>
@@ -65,9 +92,10 @@
     </div>
   </header>
 
+  <!-- Nav -->
   <nav class="site-nav">
     <div class="container">
-      <a class="brand" href="/">Elçi Veteriner</a>
+      <a class="brand" href="/">🐾 Elçi Veteriner</a>
       <div class="menu">
         <a href="/about.html">Hakkımızda</a>
         <a href="/hizmetler.html">Hizmetler</a>
@@ -79,52 +107,90 @@
     </div>
   </nav>
 
+  <!-- HERO -->
   <section class="hero">
     <div class="container">
-      <h1>Konya’da 7/24 Acil ve Kapsamlı Veterinerlik</h1>
-      <p>Koruyucu hekimlikten ileri cerrahiye, diş sağlığından görüntüleme & laboratuvara: evcil dostlarınız için güven, şeffaflık ve etik yaklaşım.</p>
-      <div class="hero-cta">
-        <a class="btn primary" href="tel:03323223220">Hemen Ara</a>
-        <a class="btn" href="/contact.html">Randevu Al</a>
-      </div>
+      <div class="hero-wrap">
+        <div>
+          <span class="chip">Konya • Meram</span>
+          <h1>Konya’da 7/24 Acil ve Kapsamlı Veterinerlik</h1>
+          <p>Koruyucu hekimlikten ileri cerrahiye, diş sağlığından görüntüleme & laboratuvara: evcil dostlarınız için güven, şeffaflık ve etik yaklaşım.</p>
+          <div class="hero-cta">
+            <a class="btn primary" href="tel:03323223220">Hemen Ara</a>
+            <a class="btn ghost" href="/contact.html">Randevu Al</a>
+          </div>
 
-      <div class="stats">
-        <div class="stat"><b>7/24</b><br><small>Nöbet & Acil</small></div>
-        <div class="stat"><b>+1,500</b><br><small>Hasta/Yıl</small></div>
-        <div class="stat"><b>+10</b><br><small>Hizmet Başlığı</small></div>
-        <div class="stat"><b>4.9/5</b><br><small>Google Puanı</small></div>
+          <div class="highlights">
+            <div class="kpi"><b>7/24</b><small>Nöbet & Acil</small></div>
+            <div class="kpi"><b>+1,500</b><small>Hasta/Yıl</small></div>
+            <div class="kpi"><b>4.9/5</b><small>Google Puanı</small></div>
+          </div>
+
+          <div class="trust">
+            <div class="badges">
+              <span class="badge">Röntgen • Ultrason</span>
+              <span class="badge">Laboratuvar</span>
+              <span class="badge">Sterilizasyon</span>
+              <span class="badge">Aşı • Parazit</span>
+              <span class="badge">Mikroçip</span>
+            </div>
+            <a class="btn" href="/hizmetler.html">Tüm Hizmetler</a>
+          </div>
+        </div>
+        <div></div>
       </div>
     </div>
   </section>
 
+  <!-- SERVICES -->
   <section id="services">
     <div class="container">
       <h2>Hizmetlerimiz</h2>
-      <div class="grid">
+      <div class="services-grid">
         <div class="card">
+          <div class="icon">🆘</div>
           <h3>Acil & Yoğun Bakım</h3>
           <p>Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat takip.</p>
         </div>
         <div class="card">
-          <h3>Cerrahi</h3>
-          <p>Yumuşak doku, ortopedi, sterilizasyon ve operasyon sonrası ağrı yönetimi.</p>
+          <div class="icon">🩺</div>
+          <h3>Muayene & Koruyucu</h3>
+          <p>Aşı programı, parazit kontrolü, mikroçip ve düzenli check-up.</p>
         </div>
         <div class="card">
+          <div class="icon">🛠️</div>
+          <h3>Cerrahi</h3>
+          <p>Yumuşak doku, ortopedi, sterilizasyon ve ağrı yönetimi.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🦷</div>
+          <h3>Ağız & Diş Sağlığı</h3>
+          <p>Diş taşı temizliği, çekim ve ağız içi muayene.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🖥️</div>
           <h3>Görüntüleme & Lab</h3>
-          <p>Röntgen, ultrason, kan tahlilleri, mikroskobik muayeneler.</p>
+          <p>Röntgen, ultrason, tam kan tahlilleri ve mikroskobik inceleme.</p>
+        </div>
+        <div class="card">
+          <div class="icon">❤️</div>
+          <h3>Kardiyoloji</h3>
+          <p>Kalp muayenesi, EKG değerlendirmesi ve tedavi takibi.</p>
         </div>
       </div>
+
       <div class="cta-bar">
         <strong>Evcil dostunuz için hızlı randevu alın.</strong>
         <div>
-          <a class="btn" href="/services.html">Tüm Hizmetler</a>
+          <a class="btn" href="/hizmetler.html">Tüm Hizmetler</a>
           <a class="btn primary" href="/contact.html">Randevu Al</a>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="insta" data-json="/assets/data/instagram.json">
+  <!-- INSTAGRAM -->
+  <section id="insta" data-json="/assets/data/instagram.json" data-fn="/.netlify/functions/instagram">
     <div class="container">
       <div class="insta-head">
         <h2>Instagram’dan</h2>
@@ -136,6 +202,7 @@
     </div>
   </section>
 
+  <!-- REVIEWS -->
   <section id="reviews" data-json="/assets/data/reviews.json">
     <div class="container">
       <h2>Google Yorumları</h2>
@@ -143,6 +210,7 @@
     </div>
   </section>
 
+  <!-- YOUTUBE -->
   <section id="youtube" data-fn="/.netlify/functions/youtube-latest?limit=9">
     <div class="container">
       <h2>YouTube</h2>
@@ -151,11 +219,45 @@
     </div>
   </section>
 
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <h2>Sık Sorulan Sorular</h2>
+      <details class="faq">
+        <summary>Acil durumlarda ne yapmalıyım?</summary>
+        <p>Önce 0332 322 32 20 numarasını arayın. Ekibimiz yönlendirsin; güvenli taşıma için kedi/köpek taşıma çantası öneririz.</p>
+      </details>
+      <details class="faq">
+        <summary>Randevu gerekli mi?</summary>
+        <p>Genel muayene için randevu önerilir; acil vakalarda 7/24 kabulümüz vardır.</p>
+      </details>
+      <details class="faq">
+        <summary>Hangi aşıları yapıyorsunuz?</summary>
+        <p>Karma, kuduz, lösemi (kediler), parvovirüs ve diğer koruyucu aşılar. Plan kişiselleştirilir.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
   <footer class="site">
     <div class="container">
       <div><strong>Elçi Veteriner Kliniği</strong> — Meram / Konya</div>
       <div class="muted">© <span id="yil"></span> Tüm hakları saklıdır.</div>
     </div>
   </footer>
+
+  <!-- SEO: Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"VeterinaryCare",
+    "name":"Elçi Veteriner Kliniği",
+    "address":{"@type":"PostalAddress","addressLocality":"Meram","addressRegion":"Konya","streetAddress":"Havzan Mah. Yeni Meram Cad. 17/1","addressCountry":"TR"},
+    "telephone":"+903323223220",
+    "areaServed":"Konya",
+    "openingHours":["Mo-Su 00:00-23:59"],
+    "url":"https://elciveteriner.com/"
+  }
+  </script>
 </body>
 </html>
