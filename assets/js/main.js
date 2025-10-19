@@ -1,6 +1,6 @@
 /* =======================
    Elçi Veteriner - main.js
-   v20
+   v23
    ======================= */
 
 (function initYear(){
@@ -25,7 +25,7 @@ function fmtTR(d){
   const grid = document.getElementById("blogGrid");
   if(!sec || !grid) return;
 
-  const src = sec.getAttribute("data-json") || "assets/data/blog.json";
+  const src = sec.getAttribute("data-json") || "/assets/data/blog.json";
 
   (async () => {
     try{
@@ -61,59 +61,72 @@ function fmtTR(d){
   })();
 })();
 
-/* ---------- INSTAGRAM: json veya function, highlight döngüsü ---------- */
+/* ---------- INSTAGRAM: function -> json fallback, esnek yol, onerror yedek ---------- */
 (function initInstagram(){
   const sec = document.querySelector("#insta");
   const track = document.getElementById("instaTrack");
   if(!sec || !track) return;
 
-  const jsonSrc = sec.getAttribute("data-json");
-  const fnSrc   = sec.getAttribute("data-fn");
+  const jsonSrc = sec.getAttribute("data-json");         // /assets/data/instagram.json
+  const fnSrc   = sec.getAttribute("data-fn");           // /.netlify/functions/instagram
 
-  async function loadLocal(){
-    const r = await fetch(jsonSrc,{cache:"no-cache"});
-    if(!r.ok) throw new Error("INSTA JSON "+r.status);
-    const arr = await r.json(); // [{file:"xxx.webp"}]
-    return arr.map(x => ({thumb: "/assets/img/insta/"+x.file, link: "/assets/img/insta/"+x.file}));
-  }
+  const baseDir = "/assets/img/insta/";
+  const fallbackImg = baseDir + "sample1.webp";
+
+  const toUrl = (val) => {
+    if (!val) return "";
+    if (/^https?:\/\//i.test(val) || val.startsWith("/")) return val; // tam URL/absolute path
+    return baseDir + val.split("/").pop();                             // sadece dosya adı
+  };
+
   async function loadFn(){
+    if (!fnSrc) return [];
     const r = await fetch(fnSrc,{cache:"no-cache"});
-    if(!r.ok) throw new Error("INSTA FN "+r.status);
-    const data = await r.json(); // beklenen: [{thumbnail,url}] benzeri
-    return (Array.isArray(data)?data:(data.items||[])).map(x => ({
-      thumb: x.thumbnail || x.media_url || x.url,
-      link:  x.permalink || x.link || x.url || "#"
-    }));
+    if(!r.ok) return [];
+    const data = await r.json();
+    const arr = Array.isArray(data) ? data : (data.items || data.data || []);
+    return arr.map(x => ({
+      thumb: toUrl(x.thumbnail || x.media_url || x.url || x.permalink),
+      link : x.permalink || x.link || x.url || "#"
+    })).filter(i => i.thumb);
+  }
+
+  async function loadJson(){
+    if (!jsonSrc) return [];
+    const r = await fetch(jsonSrc,{cache:"no-cache"});
+    if(!r.ok) return [];
+    const arr = await r.json(); // [{file:"xxx.webp"}] veya [{url:"/assets/..."}]
+    return arr.map(x => {
+      const u = toUrl(x.file || x.url);
+      return { thumb: u, link: u };
+    }).filter(i => i.thumb);
   }
 
   (async () => {
-    try{
-      let items = [];
-      if (fnSrc) {
-        try { items = await loadFn(); } catch(_) { /* düşerse json'a geç */ }
-      }
-      if (!items.length && jsonSrc) items = await loadLocal();
+    let items = [];
+    try { items = await loadFn(); } catch(_) {}
+    if (!items.length) { try { items = await loadJson(); } catch(_) {} }
 
-      if (!items.length){ track.innerHTML = `<div class="muted">Instagram içeriği bulunamadı.</div>`; return; }
-
-      track.innerHTML = items.map(it => `
-        <a class="insta-item" href="${it.link}" target="_blank" rel="noopener">
-          <img loading="lazy" src="${it.thumb}" alt="Instagram gönderisi">
-        </a>`).join("");
-
-      // Highlight döngüsü (tüm kart)
-      let idx = -1;
-      setInterval(()=>{
-        const els = [...track.querySelectorAll(".insta-item")];
-        if(!els.length) return;
-        if(idx>=0 && els[idx]) els[idx].classList.remove("highlight");
-        idx = Math.floor(Math.random()*els.length);
-        els[idx].classList.add("highlight");
-      }, 5000);
-    }catch(e){
-      console.warn(e);
-      track.innerHTML = `<div class="muted">Instagram yüklenemedi.</div>`;
+    if (!items.length){
+      track.innerHTML = `<div class="muted">Instagram içeriği bulunamadı.</div>`;
+      return;
     }
+
+    track.innerHTML = items.map(it => `
+      <a class="insta-item" href="${it.link}" target="_blank" rel="noopener">
+        <img loading="lazy" src="${it.thumb}" alt="Instagram gönderisi"
+             onerror="this.onerror=null; this.src='${fallbackImg}'">
+      </a>`).join("");
+
+    // Öne çıkarma: kartın tamamı parlasın
+    let idx = -1;
+    setInterval(()=>{
+      const els = [...track.querySelectorAll(".insta-item")];
+      if(!els.length) return;
+      if(idx>=0 && els[idx]) els[idx].classList.remove("highlight");
+      idx = Math.floor(Math.random()*els.length);
+      els[idx].classList.add("highlight");
+    }, 5000);
   })();
 })();
 
@@ -178,57 +191,65 @@ function fmtTR(d){
   })();
 })();
 
-/* ---------- YOUTUBE: function varsa ordan; yoksa data-youtube-ids ---------- */
+/* ---------- YOUTUBE: function -> data-youtube-ids -> local fallback ---------- */
 (function initYouTube(){
   const sec = document.querySelector("#youtube");
   const strip = document.getElementById("ytStrip");
   if (!sec || !strip) return;
 
   const fn = sec.getAttribute("data-fn");
-  const idsAttr = sec.getAttribute("data-youtube-ids") || "";
+  const idsAttr = (sec.getAttribute("data-youtube-ids") || "").trim();
+  const localFallback = "/assets/data/youtube.json"; // opsiyonel: { "videoIds":[... ] }
 
-  async function loadFn(){
+  async function tryFn(){
+    if(!fn) return [];
     const r = await fetch(fn,{cache:"no-cache"});
-    if(!r.ok) throw new Error("YTFN "+r.status);
+    if(!r.ok) return [];
     const j = await r.json();
-    // beklenen: {videoIds:[...]} veya dizi
-    const list = (j && Array.isArray(j.videoIds)) ? j.videoIds
-               : (Array.isArray(j) ? j : (j.items ? j.items.map(x=>x.id || x.videoId) : []));
-    return list.filter(Boolean);
+    if (Array.isArray(j)) return j.filter(Boolean);
+    if (Array.isArray(j.videoIds)) return j.videoIds.filter(Boolean);
+    if (Array.isArray(j.items)) return j.items.map(x=>x.id || x.videoId).filter(Boolean);
+    return [];
+  }
+
+  async function tryLocal(){
+    try{
+      const r = await fetch(localFallback,{cache:"no-cache"});
+      if(!r.ok) return [];
+      const j = await r.json();
+      return Array.isArray(j?.videoIds) ? j.videoIds.filter(Boolean) : [];
+    }catch{ return []; }
   }
 
   function render(ids){
     if(!ids.length){
-      strip.innerHTML = `<div class="muted">YouTube video bulunamadı. Function veya /assets/data/index.json kontrol edin.</div>`;
+      strip.innerHTML = `<div class="muted">YouTube video bulunamadı.</div>`;
       return;
     }
-    strip.innerHTML = ids.slice(0,3).map(v => `
+    const frame = id => `
       <div class="yt-box">
-        <iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/${v}" title="YouTube video" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-      </div>`).join("");
-    // Kaydırma (2-3-4 şeklinde)
-    let p = 0;
-    setInterval(()=>{
-      p = (p+1) % Math.max(ids.length-2, 1);
-      const next3 = ids.slice(p, p+3);
-      strip.innerHTML = next3.map(v => `
-        <div class="yt-box">
-          <iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/${v}" title="YouTube video" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>`).join("");
-    }, 7000);
+        <iframe loading="lazy"
+          src="https://www.youtube-nocookie.com/embed/${id}"
+          title="YouTube video" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>`;
+
+    let start = 0;
+    const paint = () => {
+      const view = ids.slice(start, start+3);
+      while (view.length < 3 && ids.length > 0) view.push(ids[(view.length+start)%ids.length]);
+      strip.innerHTML = view.map(frame).join("");
+      start = (start+1) % Math.max(ids.length-2, 1);
+    };
+    paint();
+    setInterval(paint, 7000);
   }
 
   (async () => {
-    try{
-      let ids = [];
-      if (fn) {
-        try { ids = await loadFn(); } catch(_) { /* yedek olarak idsAttr */ }
-      }
-      if (!ids.length && idsAttr) ids = idsAttr.split(",").map(s=>s.trim()).filter(Boolean);
-      render(ids);
-    }catch(e){
-      console.warn(e);
-      render([]);
-    }
+    let ids = [];
+    try { ids = await tryFn(); } catch(_) {}
+    if(!ids.length && idsAttr) ids = idsAttr.split(",").map(s=>s.trim()).filter(Boolean);
+    if(!ids.length) ids = await tryLocal();
+    render(ids);
   })();
 })();
