@@ -1,6 +1,6 @@
 /* =======================
    Elçi Veteriner - main.js
-   v25
+   v26
    ======================= */
 
 (function initYear(){
@@ -70,11 +70,20 @@ function fmtTR(d){
   const jsonSrc = sec.getAttribute("data-json");
   const fnSrc   = sec.getAttribute("data-fn");
 
+  const fileToUrl = (file) => {
+    if (!file) return "";
+    // absolute (zaten / ile başlıyorsa) dokunma, değilse uploads klasörünü kullan
+    return file.startsWith("/") ? file : "/assets/img/uploads/" + file;
+  };
+
   async function loadLocal(){
     const r = await fetch(jsonSrc,{cache:"no-cache"});
     if(!r.ok) throw new Error("INSTA JSON "+r.status);
     const arr = await r.json(); // [{file:"xxx.webp"}]
-    return arr.map(x => ({thumb: "/assets/img/insta/"+x.file, link: "/assets/img/insta/"+x.file}));
+    return arr.map(x => {
+      const url = fileToUrl(x.file);
+      return { thumb: url, link: url };
+    });
   }
   async function loadFn(){
     const r = await fetch(fnSrc,{cache:"no-cache"});
@@ -133,7 +142,7 @@ function fmtTR(d){
 
   function cardHTML(r){
     const rating = r.rating ?? r.stars ?? 5;
-    const name = r.author_name || r.author || "Ziyaretçi";
+       const name = r.author_name || r.author || "Ziyaretçi";
     const text = r.text || r.review || "";
     const when = r.relative_time || r.time || "";
     return `
@@ -178,13 +187,18 @@ function fmtTR(d){
   })();
 })();
 
-/* ---------- YOUTUBE: ÖNCE data-youtube-ids (sadece sizin videolar) ---------- */
+/* ---------- YOUTUBE: SADECE data-youtube-ids (modest branding + rel=0) ---------- */
 (function initYouTube(){
   const sec = document.querySelector("#youtube");
   const strip = document.getElementById("ytStrip");
   if (!sec || !strip) return;
 
   const idsAttr = (sec.getAttribute("data-youtube-ids") || "").trim();
+
+  function embedURL(id){
+    // rel=0 -> aynı kanaldan öneriler; modestbranding: YouTube logosu minimal
+    return `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1&iv_load_policy=3&color=white&playsinline=1`;
+  }
 
   function render(ids){
     if(!ids.length){
@@ -194,7 +208,7 @@ function fmtTR(d){
     const tpl = (arr)=> arr.map(v => `
       <div class="yt-box">
         <iframe loading="lazy"
-          src="https://www.youtube-nocookie.com/embed/${v}"
+          src="${embedURL(v)}"
           title="YouTube video"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
