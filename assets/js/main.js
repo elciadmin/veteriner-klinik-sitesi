@@ -1,6 +1,6 @@
 /* =======================
    Elçi Veteriner - main.js
-   v23
+   v24
    ======================= */
 
 (function initYear(){
@@ -61,11 +61,12 @@ function fmtTR(d){
   })();
 })();
 
-/* ---------- INSTAGRAM: function -> json fallback, esnek yol, onerror yedek ---------- */
+/* ---------- INSTAGRAM: sürekli kayma + highlight, function→json fallback ---------- */
 (function initInstagram(){
   const sec = document.querySelector("#insta");
+  const wrap = document.querySelector(".insta-track-wrap");
   const track = document.getElementById("instaTrack");
-  if(!sec || !track) return;
+  if(!sec || !wrap || !track) return;
 
   const jsonSrc = sec.getAttribute("data-json");         // /assets/data/instagram.json
   const fnSrc   = sec.getAttribute("data-fn");           // /.netlify/functions/instagram
@@ -102,6 +103,47 @@ function fmtTR(d){
     }).filter(i => i.thumb);
   }
 
+  function buildItems(items){
+    track.innerHTML = items.map(it => `
+      <a class="insta-item" href="${it.link}" target="_blank" rel="noopener">
+        <img loading="lazy" src="${it.thumb}" alt="Instagram gönderisi"
+             onerror="this.onerror=null; this.src='${fallbackImg}'">
+      </a>`).join("");
+  }
+
+  function enableMarquee(){
+    // içerikleri iki kez kopyala -> kesintisiz döngü
+    track.innerHTML = track.innerHTML + track.innerHTML;
+    let x = 0;
+    let speed = 0.3; // px/frame
+    let running = true;
+
+    const animate = () => {
+      if (!running) return requestAnimationFrame(animate);
+      x -= speed;
+      const w = track.scrollWidth / 2; // tek set genişliği
+      if (-x >= w) x = 0;              // başa sar
+      track.style.transform = `translateX(${x}px)`;
+      requestAnimationFrame(animate);
+    };
+    requestAnimationFrame(animate);
+
+    // hover’da durdur / başlat
+    wrap.addEventListener("mouseenter", ()=> running = false);
+    wrap.addEventListener("mouseleave", ()=> { running = true; requestAnimationFrame(()=>{}); });
+  }
+
+  function enableHighlight(){
+    let idx = -1;
+    setInterval(()=>{
+      const els = [...track.querySelectorAll(".insta-item")];
+      if(!els.length) return;
+      if(idx>=0 && els[idx]) els[idx].classList.remove("highlight");
+      idx = Math.floor(Math.random()*Math.min(els.length/2, 50)); // kopyalı setin ilk yarısından seç
+      els[idx].classList.add("highlight");
+    }, 5000);
+  }
+
   (async () => {
     let items = [];
     try { items = await loadFn(); } catch(_) {}
@@ -112,21 +154,13 @@ function fmtTR(d){
       return;
     }
 
-    track.innerHTML = items.map(it => `
-      <a class="insta-item" href="${it.link}" target="_blank" rel="noopener">
-        <img loading="lazy" src="${it.thumb}" alt="Instagram gönderisi"
-             onerror="this.onerror=null; this.src='${fallbackImg}'">
-      </a>`).join("");
+    // En az 8 görsel yoksa tekrar ederek doldur
+    while (items.length < 8) items = items.concat(items);
+    items = items.slice(0, 12); // çok uzamasın
 
-    // Öne çıkarma: kartın tamamı parlasın
-    let idx = -1;
-    setInterval(()=>{
-      const els = [...track.querySelectorAll(".insta-item")];
-      if(!els.length) return;
-      if(idx>=0 && els[idx]) els[idx].classList.remove("highlight");
-      idx = Math.floor(Math.random()*els.length);
-      els[idx].classList.add("highlight");
-    }, 5000);
+    buildItems(items);
+    enableMarquee();
+    enableHighlight();
   })();
 })();
 
@@ -177,7 +211,7 @@ function fmtTR(d){
       if(!data.length) throw new Error("Boş review listesi");
 
       renderSlice();
-      timer = setInterval(()=>{
+      setInterval(()=>{
         [...grid.children].forEach(el => {
           el.classList.remove("visible");
           el.style.transition = `opacity ${ANIM_MS}ms, transform ${ANIM_MS}ms`;
