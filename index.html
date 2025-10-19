@@ -137,8 +137,7 @@
     footer.site{padding:26px 0;background:var(--brand2);color:#fff;margin-top:32px}
   </style>
 
-  <!-- ÖNBELLEK KIRMA -->
-  <script defer src="/assets/js/main.js?v=20"></script>
+  <!-- ÖNBELLEK KIRMA --><script defer src="/assets/js/main.js?v=22"></script>
 </head>
 <body>
   <!-- Top Bar -->
@@ -218,18 +217,20 @@
     </div>
   </section>
 
-  <!-- INSTAGRAM -->
-  <section id="insta" data-json="/assets/data/instagram.json" data-fn="/.netlify/functions/instagram">
-    <div class="container">
-      <div class="insta-head">
-        <h2>Instagram’dan</h2>
-        <small class="muted">Yavaş akış • Rastgele öne çıkma efekti</small>
-      </div>
-      <div class="insta-track-wrap">
-        <div class="insta-track" id="instaTrack" aria-live="polite"></div>
-      </div>
+ <!-- INSTAGRAM -->
+<section id="insta"
+  data-json="/assets/data/instagram.json"
+  data-fn="/.netlify/functions/instagram">
+  <div class="container">
+    <div class="insta-head">
+      <h2>Instagram’dan</h2>
+      <small class="muted">Yavaş akış • Rastgele öne çıkma efekti</small>
     </div>
-  </section>
+    <div class="insta-track-wrap">
+      <div class="insta-track" id="instaTrack" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
 
   <!-- REVIEWS -->
   <section id="reviews" data-json="/assets/data/reviews.json">
@@ -251,13 +252,15 @@
   </section>
 
   <!-- YOUTUBE -->
-  <section id="youtube" data-fn="/.netlify/functions/youtube-latest?limit=9" data-youtube-ids="">
-    <div class="container">
-      <h2>YouTube</h2>
-      <div class="yt-strip" id="ytStrip"></div>
-      <small class="muted">3 video görünür; 7 sn sonra 2-3-4 şeklinde kayar.</small>
-    </div>
-  </section>
+<section id="youtube"
+  data-fn="/.netlify/functions/youtube-latest?limit=9"
+  data-youtube-ids="">
+  <div class="container">
+    <h2>YouTube</h2>
+    <div class="yt-strip" id="ytStrip"></div>
+    <small class="muted">3 video görünür; 7 sn sonra 2-3-4 şeklinde kayar.</small>
+  </div>
+</section>
 
   <!-- FAQ -->
   <section id="faq">
