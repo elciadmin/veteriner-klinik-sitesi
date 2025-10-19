@@ -1,229 +1,234 @@
-/* =========================================================================
-   Elçi Veteriner — Ana JS (v16)
-   - Instagram: ["ad.jpg"] | [{src}] | [{file}] hepsi desteklenir.
-   - Google Yorumları: Tüm yorumları tek sayfada basar.
-   - YouTube: Önce data-fn (RSS Function) → sonra /assets/data/index.json → sonra data-attr.
-   ======================================================================== */
-(function () {
-  "use strict";
+/* =======================
+   Elçi Veteriner - main.js
+   v20
+   ======================= */
 
-  const $ = (s, r = document) => r.querySelector(s);
-  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+(function initYear(){
+  const y = document.getElementById("yil");
+  if (y) y.textContent = new Date().getFullYear();
+})();
 
-  async function fetchJSON(url) {
-    try {
-      const res = await fetch(url, { cache: "no-cache" });
-      if (!res.ok) throw new Error("HTTP " + res.status);
-      return await res.json();
-    } catch (e) {
-      console.warn("fetchJSON fail:", url, e.message);
-      return null;
+/* ---------- UTIL ---------- */
+function htmlToText(h){
+  const d = document.createElement("div");
+  d.innerHTML = h || "";
+  return d.textContent || d.innerText || "";
+}
+function fmtTR(d){
+  const dt = new Date(d);
+  return isNaN(dt) ? "" : dt.toLocaleDateString("tr-TR",{year:"numeric",month:"long",day:"numeric"});
+}
+
+/* ---------- BLOG: son 3 yazı ---------- */
+(function initBlog(){
+  const sec = document.querySelector("#blog");
+  const grid = document.getElementById("blogGrid");
+  if(!sec || !grid) return;
+
+  const src = sec.getAttribute("data-json") || "assets/data/blog.json";
+
+  (async () => {
+    try{
+      const r = await fetch(src,{cache:"no-cache"});
+      if(!r.ok) throw new Error("BLOG "+r.status);
+      const raw = await r.json();
+      const items = Array.isArray(raw) ? raw : (Array.isArray(raw.posts) ? raw.posts : []);
+      if(!items.length){ grid.innerHTML = `<div class="muted">Blog içeriği yok.</div>`; return; }
+
+      const posts = items.map(p => ({
+        title: p.title || "Başlık Yok",
+        date:  p.date  || "",
+        excerpt: p.excerpt ?? p.summary ?? (p.content ? htmlToText(p.content).slice(0,160) : ""),
+        image: p.image || p.cover || "",
+        url:   p.url   || "/blog.html"
+      }))
+      .sort((a,b)=>new Date(b.date||0)-new Date(a.date||0))
+      .slice(0,3);
+
+      grid.innerHTML = posts.map(p => `
+        <a class="blog-card" href="${p.url}">
+          <div class="blog-thumb">${p.image ? `<img src="${p.image}" alt="${p.title.replace(/"/g,"&quot;")}">` : ""}</div>
+          <div class="blog-body">
+            <div class="blog-meta">${fmtTR(p.date)}</div>
+            <h3 class="blog-title">${p.title}</h3>
+            <p class="blog-excerpt">${p.excerpt}</p>
+          </div>
+        </a>`).join("");
+    }catch(e){
+      console.warn(e);
+      grid.innerHTML = `<div class="muted">Blog verisi yüklenemedi.</div>`;
     }
+  })();
+})();
+
+/* ---------- INSTAGRAM: json veya function, highlight döngüsü ---------- */
+(function initInstagram(){
+  const sec = document.querySelector("#insta");
+  const track = document.getElementById("instaTrack");
+  if(!sec || !track) return;
+
+  const jsonSrc = sec.getAttribute("data-json");
+  const fnSrc   = sec.getAttribute("data-fn");
+
+  async function loadLocal(){
+    const r = await fetch(jsonSrc,{cache:"no-cache"});
+    if(!r.ok) throw new Error("INSTA JSON "+r.status);
+    const arr = await r.json(); // [{file:"xxx.webp"}]
+    return arr.map(x => ({thumb: "/assets/img/insta/"+x.file, link: "/assets/img/insta/"+x.file}));
+  }
+  async function loadFn(){
+    const r = await fetch(fnSrc,{cache:"no-cache"});
+    if(!r.ok) throw new Error("INSTA FN "+r.status);
+    const data = await r.json(); // beklenen: [{thumbnail,url}] benzeri
+    return (Array.isArray(data)?data:(data.items||[])).map(x => ({
+      thumb: x.thumbnail || x.media_url || x.url,
+      link:  x.permalink || x.link || x.url || "#"
+    }));
   }
 
-  // Yıl
-  const yilEl = $("#yil");
-  if (yilEl) yilEl.textContent = new Date().getFullYear();
-
-  /* -------------------- INSTAGRAM -------------------- */
-  (async function initInstagram() {
-    const section = $("#insta");
-    const track = $("#instaTrack");
-    if (!section || !track) return;
-
-    const jsonUrl = section.getAttribute("data-json") || "/assets/data/instagram.json";
-    const fnUrl = section.getAttribute("data-fn") || null;
-
-    // 1) Yerel JSON
-    let data = await fetchJSON(jsonUrl);
-
-    // 2) (opsiyonel) Function fallback
-    if ((!data || (Array.isArray(data) && data.length === 0)) && fnUrl) {
-      try {
-        const r = await fetch(fnUrl, { cache: "no-cache" });
-        if (r.ok) data = await r.json();
-      } catch (_) {}
-    }
-
-    if (!data) {
-      console.warn("Instagram verisi bulunamadı / okunamadı:", jsonUrl, fnUrl || "");
-      return;
-    }
-
-    // Kabul edilen formatlar:
-    // ["a.webp","b.jpg"]  VEYA  [{src:"a.webp", alt:"..."},{file:"b.jpg"}]
-    const toSrc = (it) => {
-      if (typeof it === "string") return it;
-      if (it && typeof it === "object") {
-        if (it.src) return it.src;
-        if (it.file) return it.file;  // *** Senin JSON’unu destekliyoruz ***
+  (async () => {
+    try{
+      let items = [];
+      if (fnSrc) {
+        try { items = await loadFn(); } catch(_) { /* düşerse json'a geç */ }
       }
-      return null;
-    };
-    const toAlt = (it) => (it && typeof it === "object" && it.alt) ? it.alt : "Instagram görseli";
+      if (!items.length && jsonSrc) items = await loadLocal();
 
-    const raw = Array.isArray(data) ? data : (data.items || []);
-    const items = raw.map(it => {
-      const src = toSrc(it);
-      if (!src) return null;
-      // Sadece dosya adıysa /assets/img/insta/ altına oturt
-      const absolute = (src.startsWith("/") || src.startsWith("http")) ? src : `/assets/img/insta/${src}`;
-      return { src: absolute, alt: toAlt(it) };
-    }).filter(Boolean);
+      if (!items.length){ track.innerHTML = `<div class="muted">Instagram içeriği bulunamadı.</div>`; return; }
 
-    if (!items.length) {
-      console.warn("Instagram listesi boş görünüyor. instagram.json içeriğini kontrol et.");
-      return;
+      track.innerHTML = items.map(it => `
+        <a class="insta-item" href="${it.link}" target="_blank" rel="noopener">
+          <img loading="lazy" src="${it.thumb}" alt="Instagram gönderisi">
+        </a>`).join("");
+
+      // Highlight döngüsü (tüm kart)
+      let idx = -1;
+      setInterval(()=>{
+        const els = [...track.querySelectorAll(".insta-item")];
+        if(!els.length) return;
+        if(idx>=0 && els[idx]) els[idx].classList.remove("highlight");
+        idx = Math.floor(Math.random()*els.length);
+        els[idx].classList.add("highlight");
+      }, 5000);
+    }catch(e){
+      console.warn(e);
+      track.innerHTML = `<div class="muted">Instagram yüklenemedi.</div>`;
     }
-
-    // DOM’a bas
-    const makeItem = (img) => {
-      const d = document.createElement("div");
-      d.className = "insta-item";
-      const im = document.createElement("img");
-      im.loading = "lazy"; im.decoding = "async";
-      im.src = img.src; im.alt = img.alt;
-      d.appendChild(im);
-      return d;
-    };
-
-    track.innerHTML = "";
-    const STRIP_MIN = 18;
-    const repeated = [];
-    while (repeated.length < STRIP_MIN) repeated.push(...items);
-    repeated.slice(0, STRIP_MIN + 6).forEach((im) => track.appendChild(makeItem(im)));
-
-    // Yavaş akış
-    let pos = 0;
-    const STEP = 0.25; // yavaş
-    let playing = true;
-    function tick() {
-      if (!playing) return;
-      pos -= STEP;
-      track.style.transform = `translate3d(${pos}px,0,0)`;
-      const first = track.firstElementChild;
-      if (!first) return;
-      const firstW = first.getBoundingClientRect().width + 12;
-      if (Math.abs(pos) >= firstW) { track.appendChild(first); pos += firstW; }
-    }
-    (function loop(){ tick(); requestAnimationFrame(loop); })();
-
-    track.addEventListener("mouseenter", () => { playing = false; });
-    track.addEventListener("mouseleave", () => { playing = true; });
-
-    // Rastgele öne çıkarma
-    setInterval(() => {
-      const cards = $$(".insta-item", track);
-      if (!cards.length) return;
-      const i = Math.floor(Math.random() * Math.min(cards.length, 14));
-      const el = cards[i];
-      el.classList.add("highlight");
-      setTimeout(() => el.classList.remove("highlight"), 1800);
-    }, 2800);
   })();
+})();
 
-  /* -------------------- GOOGLE YORUMLAR -------------------- */
-  (async function initReviews() {
-    const section = $("#reviews");
-    const grid = $("#reviewGrid");
-    if (!section || !grid) return;
+/* ---------- GOOGLE REVIEWS: 8'li, 10sn döngü ---------- */
+(function initReviewsRotating(){
+  const sec = document.querySelector("#reviews");
+  const grid = document.getElementById("reviewGrid");
+  if (!sec || !grid) return;
 
-    const localJson = section.getAttribute("data-json") || "/assets/data/reviews.json";
+  const src = sec.getAttribute("data-json") || "/assets/data/reviews.json";
+  const VISIBLE = 8;          // aynı anda kaç kart
+  const INTERVAL = 10000;     // 10 sn
+  const ANIM_MS = 500;
 
-    let reviews = await fetchJSON(localJson);
-    if (!reviews || !Array.isArray(reviews) || !reviews.length) {
-      grid.innerHTML = `<div class="muted">Yorum verisi bulunamadı. <code>${localJson}</code> dosyasını kontrol edin.</div>`;
-      console.warn("reviews.json okunamadı/boş:", localJson, reviews);
-      return;
+  const star = (n=5)=>"★".repeat(Math.round(n)) + "☆".repeat(5-Math.round(n));
+  let data = [], ptr = 0, timer = null;
+
+  function cardHTML(r){
+    const rating = r.rating ?? r.stars ?? 5;
+    const name = r.author_name || r.author || "Ziyaretçi";
+    const text = r.text || r.review || "";
+    const when = r.relative_time || r.time || "";
+    return `
+      <div class="review-card">
+        <div class="stars" aria-hidden="true">${star(rating)}</div>
+        <p>${text}</p>
+        <div class="review-author">${name}</div>
+        <small class="muted">${when}</small>
+      </div>`;
+  }
+
+  function renderSlice(){
+    const slice = [];
+    for (let i=0;i<Math.min(VISIBLE, data.length);i++){
+      slice.push(data[(ptr+i) % data.length]);
     }
+    grid.innerHTML = slice.map(cardHTML).join("");
+    requestAnimationFrame(()=>{ [...grid.children].forEach(el => el.classList.add("visible")); });
+    ptr = (ptr + Math.min(VISIBLE, data.length)) % data.length;
+  }
 
-    // Hepsini tek sayfada gösterelim
-    const norm = reviews.map((r) => ({
-      author: r.author || r.author_name || "Ziyaretçi",
-      rating: r.rating || r.stars || 5,
-      text: r.text || r.review_text || "",
-      time: r.time || r.relative_time_description || ""
-    }));
+  (async () => {
+    try{
+      const r = await fetch(src,{cache:"no-cache"});
+      if(!r.ok) throw new Error("REVIEWS "+r.status);
+      const raw = await r.json();
+      data = Array.isArray(raw) ? raw : (raw.reviews || raw.results || []);
+      if(!data.length) throw new Error("Boş review listesi");
 
-    function starLine(n) {
-      const v = Math.round(Math.max(0, Math.min(5, Number(n) || 5)));
-      return "★".repeat(v) + "☆".repeat(5 - v);
+      renderSlice();
+      timer = setInterval(()=>{
+        [...grid.children].forEach(el => {
+          el.classList.remove("visible");
+          el.style.transition = `opacity ${ANIM_MS}ms, transform ${ANIM_MS}ms`;
+        });
+        setTimeout(renderSlice, ANIM_MS+60);
+      }, INTERVAL);
+    }catch(e){
+      console.warn(e);
+      grid.innerHTML = `<div class="muted">Yorumlar yüklenemedi.</div>`;
     }
-
-    grid.innerHTML = "";
-    norm.forEach((rv) => {
-      const card = document.createElement("div");
-      card.className = "review-card";
-      card.innerHTML =
-        `<div class="stars">${starLine(rv.rating)}</div>` +
-        `<div style="margin-top:8px">${rv.text || ""}</div>` +
-        `<div class="review-author">${rv.author}</div>` +
-        `<div class="muted" style="font-size:12px">${rv.time || ""}</div>`;
-      grid.appendChild(card);
-      requestAnimationFrame(() => card.classList.add("visible"));
-    });
   })();
+})();
 
-  /* -------------------- YOUTUBE -------------------- */
-  (async function initYouTube() {
-    const section = $("#youtube");
-    const strip = $("#ytStrip");
-    if (!section || !strip) return;
+/* ---------- YOUTUBE: function varsa ordan; yoksa data-youtube-ids ---------- */
+(function initYouTube(){
+  const sec = document.querySelector("#youtube");
+  const strip = document.getElementById("ytStrip");
+  if (!sec || !strip) return;
 
-    async function loadIds() {
-      // 1) Netlify function (varsa en güncel)
-      const fn = section.getAttribute("data-fn");
-      if (fn) {
-        try {
-          const r = await fetch(fn, { cache: "no-cache" });
-          if (r.ok) {
-            const j = await r.json();
-            if (j && Array.isArray(j.youtubeIds) && j.youtubeIds.length) return j.youtubeIds;
-          } else {
-            console.warn("YouTube function HTTP", r.status);
-          }
-        } catch (e) {
-          console.warn("YouTube function hatası:", e.message);
-        }
-      }
-      // 2) /assets/data/index.json
-      const idx = await fetchJSON("/assets/data/index.json");
-      if (idx && Array.isArray(idx.youtubeIds) && idx.youtubeIds.length) return idx.youtubeIds;
-      // 3) data-youtube-ids attribute
-      const attr = (section.getAttribute("data-youtube-ids") || "").trim();
-      if (attr) return attr.split(",").map((s) => s.trim()).filter(Boolean);
-      return [];
-    }
+  const fn = sec.getAttribute("data-fn");
+  const idsAttr = sec.getAttribute("data-youtube-ids") || "";
 
-    const ids = await loadIds();
-    if (!ids.length) {
-      strip.innerHTML = `<div class="muted">Video bulunamadı. <code>/.netlify/functions/youtube-latest?limit=9</code> veya <code>/assets/data/index.json</code> kontrol edin.</div>`;
-      console.warn("YouTube ID listesi boş.");
+  async function loadFn(){
+    const r = await fetch(fn,{cache:"no-cache"});
+    if(!r.ok) throw new Error("YTFN "+r.status);
+    const j = await r.json();
+    // beklenen: {videoIds:[...]} veya dizi
+    const list = (j && Array.isArray(j.videoIds)) ? j.videoIds
+               : (Array.isArray(j) ? j : (j.items ? j.items.map(x=>x.id || x.videoId) : []));
+    return list.filter(Boolean);
+  }
+
+  function render(ids){
+    if(!ids.length){
+      strip.innerHTML = `<div class="muted">YouTube video bulunamadı. Function veya /assets/data/index.json kontrol edin.</div>`;
       return;
     }
-
-    let start = 0;
-    function render() {
-      strip.innerHTML = "";
-      const view = [0, 1, 2].map((i) => ids[(start + i) % ids.length]);
-      view.forEach((id) => {
-        const box = document.createElement("div");
-        box.className = "yt-box";
-        box.innerHTML =
-          `<iframe loading="lazy"
-              src="https://www.youtube.com/embed/${encodeURIComponent(id)}"
-              title="YouTube video"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen></iframe>`;
-        strip.appendChild(box);
-      });
-    }
-    render();
-    setInterval(() => {
-      start = (start + 1) % ids.length; // 1-2-3 -> 2-3-4
-      render();
+    strip.innerHTML = ids.slice(0,3).map(v => `
+      <div class="yt-box">
+        <iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/${v}" title="YouTube video" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>`).join("");
+    // Kaydırma (2-3-4 şeklinde)
+    let p = 0;
+    setInterval(()=>{
+      p = (p+1) % Math.max(ids.length-2, 1);
+      const next3 = ids.slice(p, p+3);
+      strip.innerHTML = next3.map(v => `
+        <div class="yt-box">
+          <iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/${v}" title="YouTube video" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>`).join("");
     }, 7000);
-  })();
+  }
 
-})(); // v16 SONU
+  (async () => {
+    try{
+      let ids = [];
+      if (fn) {
+        try { ids = await loadFn(); } catch(_) { /* yedek olarak idsAttr */ }
+      }
+      if (!ids.length && idsAttr) ids = idsAttr.split(",").map(s=>s.trim()).filter(Boolean);
+      render(ids);
+    }catch(e){
+      console.warn(e);
+      render([]);
+    }
+  })();
+})();
