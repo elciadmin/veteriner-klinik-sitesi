@@ -75,4 +75,366 @@
     /* Quick Links ikonları */
     .q .icon{ width:var(--icon-size); height:var(--icon-size); display:inline-block; opacity:var(--icon-opacity); }
     .q .icon svg{ width:100%; height:100%; color:var(--icon-color); }
-    .q:hover .icon{ transform: translateY(-2px) scale(1
+    .q:hover .icon{ transform: translateY(-2px) scale(1.03); }
+
+    @media(max-width:960px){ .quick-links{ grid-template-columns:repeat(3,1fr) } }
+
+    /* Services */
+    section#services{padding:36px 0;background:#fff}
+    .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
+    .card{background:#fff;border:1px solid #e9eff0;border-radius:16px;padding:18px;box-shadow:0 6px 14px rgba(0,0,0,.04)}
+    .card h3{margin:0 0 8px;font-size:18px}
+    .card p{margin:0;color:#223}
+    .card .icon{width:28px;height:28px;border-radius:8px;background:#e8f5f6;display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px}
+    @media(max-width:960px){.services-grid{grid-template-columns:1fr}}
+
+    /* Instagram */
+    section#insta{padding:30px 0;background:#fff}
+    .insta-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .insta-track-wrap{overflow:hidden}
+    .insta-track{display:flex;gap:12px;will-change:transform}
+    .insta-item{
+      flex:0 0 auto;width:160px;height:160px;border-radius:14px;overflow:hidden;position:relative;
+      background:#f6fbfc;border:1px solid #e6f1f2;transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+    }
+    .insta-item img{width:100%;height:100%;object-fit:cover;display:block}
+    .insta-item.highlight{
+      transform:scale(1.08);
+      border-color:#7fd2d9;
+      box-shadow:0 14px 30px rgba(12,78,84,.25);
+    }
+    .insta-item.highlight::after{
+      content:"Öne Çıkan";
+      position:absolute; left:8px; top:8px;
+      background:linear-gradient(135deg,#0c4e54,#0f5960);
+      color:#fff; font-size:10px; padding:4px 8px; border-radius:999px;
+      letter-spacing:.3px;
+    }
+    @media(max-width:768px){.insta-item{width:130px;height:130px}}
+
+    /* Reviews */
+    section#reviews{padding:34px 0;background:#f7fbfb}
+    .review-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+    .review-card{background:#fff;border:1px solid #e9eff0;border-radius:16px;padding:16px;box-shadow:0 6px 14px rgba(0,0,0,.04);opacity:0;transform:translateY(8px) scale(.98)}
+    .review-card.visible{opacity:1;transform:none;transition:opacity .5s ease, transform .5s ease}
+    .stars{font-size:18px;color:#fff;text-shadow:0 0 2px #f5a800,0 0 6px #f5a800}
+    .review-author{font-weight:700;margin-top:8px}
+
+    /* Blog */
+    section#blog{padding:34px 0;background:#fff}
+    .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .blog-card{background:#fff;border:1px solid #e9eff0;border-radius:16px;overflow:hidden;box-shadow:0 6px 14px rgba(0,0,0,.04)}
+    .blog-thumb{aspect-ratio:16/9;background:#f2f6f9}
+    .blog-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .blog-body{padding:14px}
+    .blog-meta{font-size:12px;color:#667;margin-bottom:6px}
+    .blog-title{font-weight:700;margin:0 0 6px;font-size:18px;line-height:1.25}
+    .blog-excerpt{margin:0;color:#233}
+    @media(max-width:960px){.blog-grid{grid-template-columns:1fr}}
+
+    /* YouTube */
+    section#youtube{padding:34px 0;background:#fff}
+    .yt-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
+    .yt-box{aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#000}
+    .yt-box iframe{width:100%;height:100%;border:0;display:block}
+    @media(max-width:768px){.yt-strip{grid-template-columns:1fr}}
+
+    /* CTA */
+    .cta-bar{background:#e9f4f5;border:1px dashed #a8cacc;padding:18px;border-radius:16px;display:flex;gap:10px;align-items:center;justify-content:space-between;margin:24px 0}
+
+    /* FAQ */
+    section#faq{padding:34px 0;background:#fff}
+    details.faq{border:1px solid #e9eff0;border-radius:12px;padding:12px;margin-bottom:10px;background:#fbfefe}
+    details.faq[open]{background:#f5fbfc}
+    details.faq summary{cursor:pointer;font-weight:700}
+
+    /* Footer */
+    footer.site{padding:26px 0;background:var(--brand2);color:#fff;margin-top:32px}
+  </style>
+
+  <!-- ÖNBELLEK KIRMA -->
+  <script defer src="/assets/js/main.js?v=16"></script>
+</head>
+<body>
+  <!-- Top Bar -->
+  <header class="topbar">
+    <div class="container">
+      <div>Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</div>
+      <div>☎ 0332 322 32 20 &nbsp;•&nbsp; 📧 elcivetklinig@gmail.com</div>
+    </div>
+  </header>
+
+  <!-- Nav -->
+  <nav class="site-nav">
+    <div class="container">
+      <a class="brand" href="/">🐾 Elçi Veteriner</a>
+      <div class="menu">
+        <a href="/about.html">Hakkımızda</a>
+        <a href="/hizmetler.html">Hizmetler</a>
+        <a href="/blog.html">Blog</a>
+        <a href="/sss.html">SSS</a>
+        <a href="/hasta-iliskileri.html">Hasta İlişkileri</a>
+        <a class="btn primary" href="tel:03323223220">Acil Ara</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-center">
+        <!-- LOGO: dosya yoluyla -->
+        <div class="hero-icon">
+          <picture>
+            <source type="image/webp" srcset="assets/img/uploads/elci-logo.webp?v=1">
+            <img class="hero-logo" src="assets/img/uploads/elci-logo.png?v=1" alt="Elçi Veteriner Kliniği Logosu" width="96" height="96" loading="eager" decoding="async">
+          </picture>
+        </div>
+
+        <h1>Konya’da 7/24 Acil ve Kapsamlı Veterinerlik</h1>
+        <div class="hero-divider" role="presentation"></div>
+        <p class="hero-sub">Teknolojik ve modern cihazlarla; acil, cerrahi, görüntüleme ve koruyucu hekimlikte güvenilir hizmet.</p>
+
+        <div class="hero-cta">
+          <a class="btn primary" href="tel:03323223220">Hemen Ara</a>
+          <a class="btn ghost" href="/contact.html">Randevu Al</a>
+        </div>
+
+        <!-- QUICK LINKS -->
+        <div class="quick-links" aria-label="Hızlı bağlantılar">
+          <a class="q" href="/hizmetler.html#koruyucu" title="Branşlarımız">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><use href="#i-paw"/></svg>
+            </span>
+            <span>Branşlarımız</span>
+          </a>
+          <a class="q" href="/contact.html" title="Hızlı Randevu">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><use href="#i-stethoscope"/></svg>
+            </span>
+            <span>Hızlı Randevu</span>
+          </a>
+          <a class="q" href="/hasta-iliskileri.html" title="Tahlil Sonuçları">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><use href="#i-microscope"/></svg>
+            </span>
+            <span>Tahlil Sonuçları</span>
+          </a>
+          <a class="q" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" title="YouTube">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><use href="#i-article"/></svg>
+            </span>
+            <span>Elçi TV</span>
+          </a>
+          <a class="q" href="/contact.html#konum" title="İletişim">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><use href="#i-phone-bubble"/></svg>
+            </span>
+            <span>İletişim</span>
+          </a>
+          <a class="q" href="tel:03323223220" title="Acil Hattı">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><use href="#i-ambulance"/></svg>
+            </span>
+            <span>Acil</span>
+          </a>
+        </div>
+        <!-- /QUICK LINKS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="container">
+      <h2>Hizmetlerimiz</h2>
+      <div class="services-grid">
+        <div class="card"><div class="icon">🆘</div><h3>Acil & Yoğun Bakım</h3><p>Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat takip.</p></div>
+        <div class="card"><div class="icon">🩺</div><h3>Muayene & Koruyucu</h3><p>Aşı programı, parazit kontrolü, mikroçip ve düzenli check-up.</p></div>
+        <div class="card"><div class="icon">🛠️</div><h3>Cerrahi</h3><p>Yumuşak doku, ortopedi, sterilizasyon ve ağrı yönetimi.</p></div>
+        <div class="card"><div class="icon">🦷</div><h3>Ağız & Diş Sağlığı</h3><p>Diş taşı temizliği, çekim ve ağız içi muayene.</p></div>
+        <div class="card"><div class="icon">🖥️</div><h3>Görüntüleme & Lab</h3><p>Röntgen, ultrason, tam kan tahlilleri ve mikroskobik inceleme.</p></div>
+        <div class="card"><div class="icon">❤️</div><h3>Kardiyoloji</h3><p>Kalp muayenesi, EKG değerlendirmesi ve tedavi takibi.</p></div>
+      </div>
+
+      <div class="cta-bar">
+        <strong>Evcil dostunuz için hızlı randevu alın.</strong>
+        <div>
+          <a class="btn" href="/hizmetler.html">Tüm Hizmetler</a>
+          <a class="btn primary" href="/contact.html">Randevu Al</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTAGRAM -->
+  <section id="insta" data-json="/assets/data/instagram.json" data-fn="/.netlify/functions/instagram">
+    <div class="container">
+      <div class="insta-head">
+        <h2>Instagram’dan</h2>
+        <small class="muted">Yavaş akış • Rastgele öne çıkma efekti</small>
+      </div>
+      <div class="insta-track-wrap">
+        <div class="insta-track" id="instaTrack" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section id="reviews" data-json="/assets/data/reviews.json">
+    <div class="container">
+      <h2>Google Yorumları</h2>
+      <div class="review-grid" id="reviewGrid" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- BLOG -->
+  <section id="blog" data-json="assets/data/blog.json">
+    <div class="container">
+      <h2>Blogdan</h2>
+      <div class="blog-grid" id="blogGrid"></div>
+      <div style="margin-top:10px">
+        <a class="btn" href="/blog.html">Tüm Yazılar</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- YOUTUBE -->
+  <section id="youtube" data-fn="/.netlify/functions/youtube-latest?limit=9" data-youtube-ids="">
+    <div class="container">
+      <h2>YouTube</h2>
+      <div class="yt-strip" id="ytStrip"></div>
+      <small class="muted">3 video görünür; 7 sn sonra 2-3-4 şeklinde kayar.</small>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <h2>Sık Sorulan Sorular</h2>
+      <details class="faq"><summary>Acil durumlarda ne yapmalıyım?</summary><p>Önce 0332 322 32 20 numarasını arayın. Ekibimiz yönlendirsin; güvenli taşıma için kedi/köpek taşıma çantası öneririz.</p></details>
+      <details class="faq"><summary>Randevu gerekli mi?</summary><p>Genel muayene için randevu önerilir; acil vakalarda 7/24 kabulümüz vardır.</p></details>
+      <details class="faq"><summary>Hangi aşıları yapıyorsunuz?</summary><p>Karma, kuduz, lösemi (kediler), parvovirüs ve diğer koruyucu aşılar. Plan kişiselleştirilir.</p></details>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site">
+    <div class="container">
+      <div><strong>Elçi Veteriner Kliniği</strong> — Meram / Konya</div>
+      <div class="muted">© <span id="yil"></span> Tüm hakları saklıdır.</div>
+    </div>
+  </footer>
+
+  <!-- SEO: Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"VeterinaryCare",
+    "name":"Elçi Veteriner Kliniği",
+    "address":{"@type":"PostalAddress","addressLocality":"Meram","addressRegion":"Konya","streetAddress":"Havzan Mah. Yeni Meram Cad. 17/1","addressCountry":"TR"},
+    "telephone":"+903323223220",
+    "areaServed":"Konya",
+    "openingHours":["Mo-Su 00:00-23:59"],
+    "url":"https://elciveteriner.com/"
+  }
+  </script>
+
+  <!-- SVG ICON SPRITE (kütüphanesiz) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="i-stethoscope" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 4v4a4 4 0 0 0 8 0V4"/>
+        <path d="M10 14a4 4 0 0 0 8 0v-2"/>
+        <circle cx="18" cy="8" r="2.2"/>
+      </g>
+    </symbol>
+    <symbol id="i-ambulance" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="8" width="12" height="7" rx="2"></rect>
+        <rect x="16" y="10" width="5" height="5" rx="1"></rect>
+        <circle cx="7" cy="17" r="2"></circle>
+        <circle cx="15" cy="17" r="2"></circle>
+        <path d="M5.2 10.8h3.6M7 9v3.6" />
+      </g>
+    </symbol>
+    <symbol id="i-scissors" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="7" cy="7" r="2.4"></circle>
+        <circle cx="7" cy="17" r="2.4"></circle>
+        <path d="M20 4L9 12M20 20L9 12" />
+      </g>
+    </symbol>
+    <symbol id="i-xray" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="5" width="16" height="14" rx="2"></rect>
+        <path d="M10 9h4M9 12h6M10 15h4" />
+        <circle cx="12" cy="12" r="0.6" />
+      </g>
+    </symbol>
+    <symbol id="i-microscope" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="10.5" y="4" width="3" height="5" rx="0.6"></rect>
+        <path d="M9 9h6l-0.8 1.6a6 6 0 1 1-8.8 6.4" />
+        <path d="M4 20h12" />
+      </g>
+    </symbol>
+    <symbol id="i-tooth-clean" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 14a5 5 0 0 0 10 0" />
+        <path d="M16.8 7.2l.6-1.6l.6 1.6l1.6.6l-1.6.6l-.6 1.6l-.6-1.6l-1.6-.6z"/>
+      </g>
+    </symbol>
+    <symbol id="i-syringe" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 16l6-6l6 6l-2 2l-6-6M16 8l2-2M18 6l2-2" />
+        <path d="M12 10l2-2" />
+        <path d="M6 18l2-2" />
+      </g>
+    </symbol>
+    <symbol id="i-shield-cross" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3l7 3v5c0 5-4 8-7 10c-3-2-7-5-7-10V6l7-3z" />
+        <path d="M10 11h4M12 9v4" />
+      </g>
+    </symbol>
+    <symbol id="i-shower" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 5h6" />
+        <rect x="6" y="5" width="8" height="3" rx="1.5"></rect>
+        <path d="M14 8c3 0 4 1.5 4 3" />
+        <path d="M10 12v0M12 13v0M14 14v0M16 15v0" />
+      </g>
+    </symbol>
+    <symbol id="i-clipboard" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="6" y="5" width="12" height="15" rx="2"></rect>
+        <rect x="9" y="3" width="6" height="4" rx="1"></rect>
+        <path d="M9 11h6M9 14h6M9 17h4" />
+      </g>
+    </symbol>
+    <symbol id="i-article" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+        <path d="M8 8h8M8 11h8M8 14h6M8 17h5" />
+      </g>
+    </symbol>
+    <symbol id="i-phone-bubble" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="4" width="16" height="12" rx="3"></rect>
+        <path d="M8 19l3-3h5a4 4 0 0 0 4-4" opacity=".9"/>
+      </g>
+    </symbol>
+    <symbol id="i-paw" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="8" cy="8" r="2"></circle>
+        <circle cx="16" cy="8" r="2"></circle>
+        <circle cx="10" cy="13.5" r="2.2"></circle>
+        <path d="M12 14c2.5 0 4 1.2 4 3c0 1.2-1 2-3 2h-2c-2 0-3-.8-3-2c0-1.8 1.5-3 4-3z"/>
+      </g>
+    </symbol>
+  </svg>
+  <!-- /SVG ICON SPRITE -->
+
+</body>
+</html>
