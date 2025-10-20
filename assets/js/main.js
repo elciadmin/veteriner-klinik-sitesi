@@ -1,6 +1,6 @@
 /* =======================
    Elçi Veteriner - main.js
-   v19 (index ile uyumlu)
+   v20 (index ile uyumlu)
    ======================= */
 
 /* ---------- Yıl ---------- */
@@ -9,7 +9,7 @@
   if (y) y.textContent = new Date().getFullYear();
 })();
 
-/* ---------- Küçük yardımcılar ---------- */
+/* ---------- Yardımcılar ---------- */
 function htmlToText(h){
   const d = document.createElement("div");
   d.innerHTML = h || "";
@@ -22,15 +22,14 @@ function fmtTR(dateLike){
 
 /* ========================================
    BLOG (Ana sayfa “Blogdan” kutusu)
-   Not: index’te ayrıca bir “fallback” var.
    ======================================== */
 (function initBlog(){
   const sec  = document.querySelector("#blog");
   const grid = document.getElementById("blogGrid");
-  if (!sec || !grid) return;                     // sayfada yoksa atla
-  if (grid.dataset.filled === "1") return;       // index fallback zaten yazmışsa
+  if (!sec || !grid) return;
+  if (grid.dataset.filled === "1") return; // başka bir fallback önceden yazdıysa
 
-  const src = sec.getAttribute("data-json") || "/assets/data/blog.json";
+  const src = sec.getAttribute("data-json") || "assets/data/blog.json";
 
   (async () => {
     try{
@@ -38,7 +37,7 @@ function fmtTR(dateLike){
       if (!r.ok) throw new Error("BLOG "+r.status);
       const raw = await r.json();
       const items = Array.isArray(raw) ? raw : (Array.isArray(raw.posts) ? raw.posts : []);
-      if (!items.length) { grid.innerHTML = `<div class="muted">Blog içeriği yok.</div>`; return; }
+      if (!items.length){ grid.innerHTML = `<div class="muted">Blog içeriği yok.</div>`; return; }
 
       const posts = items.map(p => ({
         title:   p.title || "Başlık Yok",
@@ -63,16 +62,16 @@ function fmtTR(dateLike){
 
       grid.dataset.filled = "1";
     }catch(e){
-      // Sessiz kal; index’teki fallback devreye girer.
       console.warn("[BLOG] Yüklenemedi:", e.message);
+      // sessiz kal; index’te fallback yoksa sadece console
     }
   })();
 })();
 
 /* ========================================
    INSTAGRAM (json veya function)
-   - Önce function (data-fn), düşerse data-json
-   - Öne çıkarma etkisi: tüm kart (.insta-item)
+   - Önce function (data-fn), olmazsa data-json
+   - Öne çıkarma: tüm kart (.insta-item) üzerinde
    ======================================== */
 (function initInstagram(){
   const sec   = document.querySelector("#insta");
@@ -87,7 +86,6 @@ function fmtTR(dateLike){
     if (!r.ok) throw new Error("INSTA_FN "+r.status);
     const data = await r.json();
     const arr = Array.isArray(data) ? data : (data.items || []);
-    // Beklenen alanlar: thumbnail/media_url/permalink/url
     return arr.map(x => ({
       thumb: x.thumbnail || x.media_url || x.url,
       link:  x.permalink || x.link || x.url || "#"
@@ -98,9 +96,10 @@ function fmtTR(dateLike){
     const r = await fetch(jsonSrc, {cache:"no-cache"});
     if (!r.ok) throw new Error("INSTA_JSON "+r.status);
     const data = await r.json(); // [{file:"xxx.webp"}]
+    const base = "/assets/img/insta/";
     return (Array.isArray(data) ? data : []).map(x => ({
-      thumb: "/assets/img/insta/" + x.file,
-      link:  "/assets/img/insta/" + x.file
+      thumb: base + x.file,
+      link:  base + x.file
     }));
   }
 
@@ -111,7 +110,7 @@ function fmtTR(dateLike){
         try { items = await loadFromFn(); } catch(e){ console.warn(e.message); }
       }
       if ((!items || !items.length) && jsonSrc) {
-        items = await loadFromJson();
+        try { items = await loadFromJson(); } catch(e){ console.warn(e.message); }
       }
 
       if (!items.length){
@@ -119,14 +118,13 @@ function fmtTR(dateLike){
         return;
       }
 
-      // Kartları bas
       track.innerHTML = items.map(it => `
         <a class="insta-item" href="${it.link}" target="_blank" rel="noopener">
           <img loading="lazy" src="${it.thumb}" alt="Instagram gönderisi">
         </a>
       `).join("");
 
-      // Rastgele “highlight” döngüsü (tüm kart büyür)
+      // Rastgele highlight (tüm kart büyür)
       let idx = -1;
       setInterval(()=>{
         const els = track.querySelectorAll(".insta-item");
@@ -144,7 +142,7 @@ function fmtTR(dateLike){
 
 /* ========================================
    GOOGLE REVIEWS (8’li, 10 sn’de bir yenile)
-   Kaynak: section#reviews data-json="/assets/data/reviews.json"
+   Kaynak: #reviews data-json="/assets/data/reviews.json"
    ======================================== */
 (function initReviewsRotating(){
   const sec  = document.querySelector("#reviews");
@@ -157,7 +155,7 @@ function fmtTR(dateLike){
   const ANIM_MS  = 500;
 
   const star = (n=5)=>"★".repeat(Math.round(n)) + "☆".repeat(5-Math.round(n));
-  let data = [], ptr = 0, timer = null;
+  let data = [], ptr = 0;
 
   function cardHTML(r){
     const rating = r.rating ?? r.stars ?? 5;
@@ -174,8 +172,8 @@ function fmtTR(dateLike){
   }
 
   function renderSlice(){
-    const slice = [];
     const count = Math.min(VISIBLE, data.length);
+    const slice = [];
     for (let i=0;i<count;i++){
       slice.push(data[(ptr+i) % data.length]);
     }
@@ -192,11 +190,9 @@ function fmtTR(dateLike){
       data = Array.isArray(raw) ? raw : (raw.reviews || raw.results || []);
       if (!data.length) throw new Error("Boş review listesi");
 
-      // İlk render
       renderSlice();
 
-      // Döngü
-      timer = setInterval(()=>{
+      setInterval(()=>{
         [...grid.children].forEach(el => {
           el.classList.remove("visible");
           el.style.transition = `opacity ${ANIM_MS}ms, transform ${ANIM_MS}ms`;
@@ -212,28 +208,22 @@ function fmtTR(dateLike){
 
 /* ========================================
    YOUTUBE
-   - Sadece function’dan (data-fn) doldurur.
-   - Function başarısızsa RASTGELE veya başka kanal doldurmaz.
+   - Önce function (data-fn) denenir.
+   - Function boş/hatalı ise data-youtube-ids (virgüllü) kullanılır.
+   - Hiçbiri yoksa mesaj gösterir; rastgele/başka kanal yok.
    ======================================== */
 (function initYouTube(){
   const sec   = document.querySelector("#youtube");
   const strip = document.getElementById("ytStrip");
   if (!sec || !strip) return;
 
-  const fn = sec.getAttribute("data-fn"); // /.netlify/functions/youtube-latest?limit=9
-  if (!fn){
-    strip.innerHTML = `<div class="muted">YouTube yapılandırması eksik.</div>`;
-    return;
-  }
+  const fn    = sec.getAttribute("data-fn");           // /.netlify/functions/youtube-latest?limit=9
+  const idsAt = (sec.getAttribute("data-youtube-ids") || "").trim();
 
   async function loadFn(){
     const r = await fetch(fn,{cache:"no-cache"});
     if (!r.ok) throw new Error("YTFN "+r.status);
     const j = await r.json();
-    // Beklenen formatlar:
-    // - { videoIds: ["abc","def",...] }
-    // - [{id:"abc"}, {videoId:"def"}]
-    // - { items: [{id:"abc"},{videoId:"def"}] }
     if (Array.isArray(j)) {
       return j.map(x => x.id || x.videoId).filter(Boolean);
     } else if (j && Array.isArray(j.videoIds)) {
@@ -244,12 +234,11 @@ function fmtTR(dateLike){
     return [];
   }
 
-  function paint(ids){
+  function render(ids){
     if (!ids.length){
-      strip.innerHTML = `<div class="muted">YouTube video bulunamadı. Function’ı kontrol edin.</div>`;
+      strip.innerHTML = `<div class="muted">YouTube video bulunamadı.</div>`;
       return;
     }
-    // İlk 3’ü bas
     const render3 = arr => arr.slice(0,3).map(v => `
       <div class="yt-box">
         <iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/${v}"
@@ -261,7 +250,7 @@ function fmtTR(dateLike){
 
     strip.innerHTML = render3(ids);
 
-    // 7 sn’de bir kaydır (2-3-4…)
+    // 7 sn'de bir ileri kaydır (2-3-4…)
     let p = 0;
     const maxShift = Math.max(ids.length - 2, 1);
     setInterval(()=>{
@@ -273,12 +262,17 @@ function fmtTR(dateLike){
 
   (async () => {
     try{
-      const ids = await loadFn();
-      // Sadece function’dan gelenleri kullan; boşsa sessizce mesaj ver.
-      paint(ids);
+      let ids = [];
+      if (fn) {
+        try { ids = await loadFn(); } catch(e){ console.warn("[YOUTUBE] FN:", e.message); }
+      }
+      if ((!ids || !ids.length) && idsAt){
+        ids = idsAt.split(",").map(s=>s.trim()).filter(Boolean);
+      }
+      render(ids || []);
     }catch(e){
-      console.warn("[YOUTUBE] Function hatası:", e.message);
-      strip.innerHTML = `<div class="muted">YouTube videosu yüklenemedi.</div>`;
+      console.warn("[YOUTUBE] Hata:", e.message);
+      render([]);
     }
   })();
 })();
