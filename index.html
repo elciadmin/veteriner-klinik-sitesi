@@ -8,10 +8,6 @@
 
   <link rel="stylesheet" href="/assets/css/styles.css"/>
 
-  <!-- Favicon (inline, 404 olmaz) -->
-  <link rel="icon" type="image/svg+xml"
-        href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="%230c4e54"/><path d="M32 52s-17-9.6-21.5-18.6C6 24 9 18 16 18c4.5 0 7 2.5 8.6 4.8C26.2 21 28.7 18 33 18c7 0 10 6 6.5 15.4C49 42.4 32 52 32 52z" fill="%23fff"/></svg>'>
-
   <style>
     :root { --brand:#0c4e54; --brand2:#0f5960; --ink:#112; --muted:#6b7a7c; --bg:#f5fbfc; --gap:14px; }
     *{box-sizing:border-box}
@@ -29,35 +25,26 @@
     header.topbar .container{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;padding:8px 16px}
     nav.site-nav{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #edf2f2}
     nav.site-nav .container{display:flex;align-items:center;justify-content:space-between;padding:10px 16px}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;color:#0c4e54;text-decoration:none}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;color:var(--brand);text-decoration:none}
     .menu{display:flex;gap:16px;align-items:center}
     .menu a{text-decoration:none;color:#1a1a1a;font-weight:600}
 
-    /* HERO */
+    /* Hero (404 olmasın diye sample1.webp) */
     .hero{
       background:
         linear-gradient(180deg, rgba(12,78,84,.10) 0%, rgba(12,78,84,.00) 60%),
         linear-gradient(180deg,#f3fbfc 0%,#eaf6f7 100%),
-        url('/assets/img/uploads/sample1.webp') center/cover no-repeat; /* var olan dosya */
+        url('/assets/img/uploads/sample1.webp') center/cover no-repeat;
     }
     .hero .container{padding:56px 16px}
-    .hero-center{max-width:880px;margin:0 auto;text-align:center}
-    .hero-icon{display:flex;align-items:center;justify-content:center;color:#0d4f55;margin-bottom:8px}
-    .hero h1{font-size:clamp(30px,4.6vw,48px);line-height:1.15;color:#073a3e;margin:6px 0 10px}
-    .hero-divider{width:120px;height:4px;border-radius:4px;background:#0d4f55;margin:14px auto}
-    .hero-sub{font-size:18px;line-height:1.6;margin:0 auto 8px;color:#123;max-width:760px}
-    .hero-cta{display:flex;justify-content:center;gap:10px;margin-top:16px;flex-wrap:wrap}
-
-    /* Partner logos (inline svg) */
-    .partner-logos{display:flex;gap:20px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:16px;opacity:.9}
-    .partner-logos svg{height:24px;width:80px;opacity:.9;filter:grayscale(100%);transition:.2s}
-    .partner-logos svg:hover{filter:none;opacity:1}
-
-    /* KPI & trust */
-    .highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px auto 0;max-width:720px}
+    .hero-wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center}
+    .hero h1{font-size:clamp(30px,4.6vw,48px);line-height:1.15;color:#073a3e;margin:0 0 10px}
+    .hero p{font-size:18px;line-height:1.6;margin:0;color:#123;max-width:720px}
+    .hero-cta{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+    .highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
     .kpi{background:#fff;border:1px solid #e8f1f2;border-radius:14px;padding:12px;text-align:center}
     .kpi b{display:block;font-size:22px;color:#0d4f55}
-    .trust{background:#fff;border:1px dashed #c9e1e3;border-radius:14px;padding:10px;display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:12px}
+    .trust{background:#fff;border:1px dashed #c9e1e3;border-radius:14px;padding:10px;display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:10px}
     .trust .badges{display:flex;gap:10px;flex-wrap:wrap}
     .badge{padding:8px 10px;border-radius:10px;background:#f2fafb;border:1px solid #e1f0f1;font-weight:700;font-size:12px}
 
@@ -75,7 +62,7 @@
     .insta-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
     .insta-track-wrap{overflow:hidden}
     .insta-track{display:flex;gap:12px;will-change:transform}
-    .insta-item{flex:0 0 auto;width:140px;height:140px;border-radius:14px;overflow:hidden;position:relative}
+    .insta-item{flex:0 0 auto;width:160px;height:160px;border-radius:14px;overflow:hidden;position:relative}
     .insta-item img{width:100%;height:100%;object-fit:cover;display:block}
     .insta-item.highlight{transform:scale(1.12);transition:transform .6s;box-shadow:0 10px 24px rgba(0,0,0,.15);z-index:2}
 
@@ -104,20 +91,23 @@
     .yt-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
     .yt-box{aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#000}
     .yt-box iframe{width:100%;height:100%;border:0;display:block}
-    @media(max-width:768px){.yt-strip{grid-template-columns:1fr}.insta-item{width:130px;height:130px}}
+    @media(max-width:768px){.hero-wrap{grid-template-columns:1fr}.yt-strip{grid-template-columns:1fr}.insta-item{width:130px;height:130px}}
 
-    /* CTA / FAQ / Footer */
+    /* CTA */
     .cta-bar{background:#e9f4f5;border:1px dashed #a8cacc;padding:18px;border-radius:16px;display:flex;gap:10px;align-items:center;justify-content:space-between;margin:24px 0}
+
+    /* FAQ */
     section#faq{padding:34px 0;background:#fff}
     details.faq{border:1px solid #e9eff0;border-radius:12px;padding:12px;margin-bottom:10px;background:#fbfefe}
     details.faq[open]{background:#f5fbfc}
     details.faq summary{cursor:pointer;font-weight:700}
+
+    /* Footer */
     footer.site{padding:26px 0;background:var(--brand2);color:#fff;margin-top:32px}
   </style>
 
-  <!-- JS (cache-bust) -->
-  <script defer src="/assets/js/main.js?v=26"></script>
-
+  <!-- JS v27 -->
+  <script defer src="/assets/js/main.js?v=27"></script>
 </head>
 <body>
   <!-- Top Bar -->
@@ -146,46 +136,34 @@
   <!-- HERO -->
   <section class="hero">
     <div class="container">
-      <div class="hero-center">
-        <div class="hero-icon" aria-hidden="true">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
-            <path d="M12 21s-7.5-4.35-9.5-8.4C.9 9.05 2.2 6 5.2 6c2 0 3.1 1.1 3.8 2.1C9.7 7.1 10.8 6 12.8 6c3 0 4.3 3.05 2.7 6.6C19.5 16.65 12 21 12 21z" stroke="currentColor" stroke-width="1.5"/>
-            <circle cx="12" cy="11" r="1.5" fill="#e74c3c"/>
-          </svg>
-        </div>
-        <span class="chip">Konya • Meram</span>
-        <h1>Konya’da 7/24 Acil ve Kapsamlı Veterinerlik</h1>
-        <div class="hero-divider" role="presentation"></div>
-        <p class="hero-sub">Koruyucu hekimlikten ileri cerrahiye, diş sağlığından görüntüleme & laboratuvara: evcil dostlarınız için güven, şeffaflık ve etik yaklaşım.</p>
-        <div class="hero-cta">
-          <a class="btn primary" href="tel:03323223220">Hemen Ara</a>
-          <a class="btn ghost" href="/contact.html">Randevu Al</a>
-        </div>
-
-        <div class="highlights">
-          <div class="kpi"><b>7/24</b><small>Nöbet & Acil</small></div>
-          <div class="kpi"><b>+1,500</b><small>Hasta/Yıl</small></div>
-          <div class="kpi"><b>4.9/5</b><small>Google Puanı</small></div>
-        </div>
-
-        <div class="trust">
-          <div class="badges">
-            <span class="badge">Röntgen • Ultrason</span>
-            <span class="badge">Laboratuvar</span>
-            <span class="badge">Sterilizasyon</span>
-            <span class="badge">Aşı • Parazit</span>
-            <span class="badge">Mikroçip</span>
+      <div class="hero-wrap">
+        <div>
+          <span class="chip">Konya • Meram</span>
+          <h1>Konya’da 7/24 Acil ve Kapsamlı Veterinerlik</h1>
+          <p>Koruyucu hekimlikten ileri cerrahiye, diş sağlığından görüntüleme & laboratuvara: evcil dostlarınız için güven, şeffaflık ve etik yaklaşım.</p>
+          <div class="hero-cta">
+            <a class="btn primary" href="tel:03323223220">Hemen Ara</a>
+            <a class="btn ghost" href="/contact.html">Randevu Al</a>
           </div>
-          <a class="btn" href="/hizmetler.html">Tüm Hizmetler</a>
-        </div>
 
-        <!-- HERO LOGOS (inline, dosya yok) -->
-        <div class="partner-logos" aria-label="Partnerler ve teknolojiler">
-          <svg viewBox="0 0 24 24"><path d="M6 3v6a4 4 0 0 0 8 0V3" fill="none" stroke="#0d4f55" stroke-width="1.6" stroke-linecap="round"/><circle cx="19" cy="15" r="2.5" fill="none" stroke="#0d4f55" stroke-width="1.6"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.35-9.5-8.4C.9 9.05 2.2 6 5.2 6c2 0 3.1 1.1 3.8 2.1C9.7 7.1 10.8 6 12.8 6c3 0 4.3 3.05 2.7 6.6C19.5 16.65 12 21 12 21z" fill="none" stroke="#0d4f55" stroke-width="1.6"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M9 3v6l-5 8a2 2 0 0 0 2 3h12a2 2 0 0 0 2-3l-5-8V3" fill="none" stroke="#0d4f55" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <svg viewBox="0 0 24 24"><circle cx="7" cy="8" r="2" fill="#0d4f55"/><circle cx="12" cy="6.5" r="1.8" fill="#0d4f55"/><circle cx="17" cy="8" r="2" fill="#0d4f55"/><path d="M6 16c2-3 10-3 12 0-1 3-5 4-6 4s-5-1-6-4z" fill="#0d4f55"/></svg>
+          <div class="highlights">
+            <div class="kpi"><b>7/24</b><small>Nöbet & Acil</small></div>
+            <div class="kpi"><b>+1,500</b><small>Hasta/Yıl</small></div>
+            <div class="kpi"><b>4.9/5</b><small>Google Puanı</small></div>
+          </div>
+
+          <div class="trust">
+            <div class="badges">
+              <span class="badge">Röntgen • Ultrason</span>
+              <span class="badge">Laboratuvar</span>
+              <span class="badge">Sterilizasyon</span>
+              <span class="badge">Aşı • Parazit</span>
+              <span class="badge">Mikroçip</span>
+            </div>
+            <a class="btn" href="/hizmetler.html">Tüm Hizmetler</a>
+          </div>
         </div>
+        <div></div>
       </div>
     </div>
   </section>
@@ -195,12 +173,36 @@
     <div class="container">
       <h2>Hizmetlerimiz</h2>
       <div class="services-grid">
-        <div class="card"><div class="icon">🆘</div><h3>Acil & Yoğun Bakım</h3><p>Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat takip.</p></div>
-        <div class="card"><div class="icon">🩺</div><h3>Muayene & Koruyucu</h3><p>Aşı programı, parazit kontrolü, mikroçip ve düzenli check-up.</p></div>
-        <div class="card"><div class="icon">🛠️</div><h3>Cerrahi</h3><p>Yumuşak doku, ortopedi, sterilizasyon ve ağrı yönetimi.</p></div>
-        <div class="card"><div class="icon">🦷</div><h3>Ağız & Diş Sağlığı</h3><p>Diş taşı temizliği, çekim ve ağız içi muayene.</p></div>
-        <div class="card"><div class="icon">🖥️</div><h3>Görüntüleme & Lab</h3><p>Röntgen, ultrason, tam kan tahlilleri ve mikroskobik inceleme.</p></div>
-        <div class="card"><div class="icon">❤️</div><h3>Kardiyoloji</h3><p>Kalp muayenesi, EKG değerlendirmesi ve tedavi takibi.</p></div>
+        <div class="card">
+          <div class="icon">🆘</div>
+          <h3>Acil & Yoğun Bakım</h3>
+          <p>Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat takip.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🩺</div>
+          <h3>Muayene & Koruyucu</h3>
+          <p>Aşı programı, parazit kontrolü, mikroçip ve düzenli check-up.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🛠️</div>
+          <h3>Cerrahi</h3>
+          <p>Yumuşak doku, ortopedi, sterilizasyon ve ağrı yönetimi.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🦷</div>
+          <h3>Ağız & Diş Sağlığı</h3>
+          <p>Diş taşı temizliği, çekim ve ağız içi muayene.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🖥️</div>
+          <h3>Görüntüleme & Lab</h3>
+          <p>Röntgen, ultrason, tam kan tahlilleri ve mikroskobik inceleme.</p>
+        </div>
+        <div class="card">
+          <div class="icon">❤️</div>
+          <h3>Kardiyoloji</h3>
+          <p>Kalp muayenesi, EKG değerlendirmesi ve tedavi takibi.</p>
+        </div>
       </div>
 
       <div class="cta-bar">
@@ -213,8 +215,8 @@
     </div>
   </section>
 
-  <!-- INSTAGRAM -->
-  <section id="insta" data-json="/assets/data/instagram.json" data-fn="/.netlify/functions/instagram">
+  <!-- INSTAGRAM (yerel json) -->
+  <section id="insta" data-json="/assets/data/instagram.json">
     <div class="container">
       <div class="insta-head">
         <h2>Instagram’dan</h2>
@@ -226,10 +228,12 @@
     </div>
   </section>
 
-  <!-- GOOGLE REVIEWS -->
+  <!-- REVIEWS -->
   <section id="reviews" data-json="/assets/data/reviews.json">
     <div class="container">
       <h2>Google Yorumları</h2>
+    </div>
+    <div class="container">
       <div class="review-grid" id="reviewGrid" aria-live="polite"></div>
     </div>
   </section>
@@ -245,13 +249,12 @@
     </div>
   </section>
 
-  <!-- YOUTUBE (yalnızca kendi ID'lerin) -->
-  <section id="youtube"
-    data-youtube-ids="c-HfgEQ_BYY,Rsu9OU6wSks,2Gby1ZXTLc8,fWO3-dKcDSQ,vxoQXRYrL7o,6y4xaRTNi3c,xcg3juBb81E,ELtH_lNFB90,d-oC-mjUqTc,u3WJLFUNi1k">
+  <!-- YOUTUBE (yalnızca verilen ID’ler) -->
+  <section id="youtube" data-youtube-ids="c-HfgEQ_BYY,Rsu9OU6wSks,2Gby1ZXTLc8,fWO3-dKcDSQ,vxoQXRYrL7o,6y4xaRTNi3c,xcg3juBb81E,ELtH_lNFB90,d-oC-mjUqTc,u3WJLFUNi1k">
     <div class="container">
       <h2>YouTube</h2>
       <div class="yt-strip" id="ytStrip"></div>
-      <small class="muted">3 video görünür; 7 sn sonra kayar.</small>
+      <small class="muted">3 video görünür; 7 sn sonra 2-3-4 şeklinde kayar.</small>
     </div>
   </section>
 
@@ -259,9 +262,18 @@
   <section id="faq">
     <div class="container">
       <h2>Sık Sorulan Sorular</h2>
-      <details class="faq"><summary>Acil durumlarda ne yapmalıyım?</summary><p>Önce 0332 322 32 20 numarasını arayın. Ekibimiz yönlendirsin; güvenli taşıma için kedi/köpek taşıma çantası öneririz.</p></details>
-      <details class="faq"><summary>Randevu gerekli mi?</summary><p>Genel muayene için randevu önerilir; acil vakalarda 7/24 kabulümüz vardır.</p></details>
-      <details class="faq"><summary>Hangi aşıları yapıyorsunuz?</summary><p>Karma, kuduz, lösemi (kediler), parvovirüs ve diğer koruyucu aşılar. Plan kişiselleştirilir.</p></details>
+      <details class="faq">
+        <summary>Acil durumlarda ne yapmalıyım?</summary>
+        <p>Önce 0332 322 32 20 numarasını arayın. Ekibimiz yönlendirsin; güvenli taşıma için kedi/köpek taşıma çantası öneririz.</p>
+      </details>
+      <details class="faq">
+        <summary>Randevu gerekli mi?</summary>
+        <p>Genel muayene için randevu önerilir; acil vakalarda 7/24 kabulümüz vardır.</p>
+      </details>
+      <details class="faq">
+        <summary>Hangi aşıları yapıyorsunuz?</summary>
+        <p>Karma, kuduz, lösemi (kediler), parvovirüs ve diğer koruyucu aşılar. Plan kişiselleştirilir.</p>
+      </details>
     </div>
   </section>
 
