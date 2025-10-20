@@ -1,8 +1,9 @@
 /* =======================
    Elçi Veteriner - main.js
-   v26
+   v27
    ======================= */
 
+/* ---------- YIL ---------- */
 (function initYear(){
   const y = document.getElementById("yil");
   if (y) y.textContent = new Date().getFullYear();
@@ -18,13 +19,21 @@ function fmtTR(d){
   const dt = new Date(d);
   return isNaN(dt) ? "" : dt.toLocaleDateString("tr-TR",{year:"numeric",month:"long",day:"numeric"});
 }
+function safeAttr(s){ return String(s||"").replace(/"/g,"&quot;"); }
+function placeholderImg(){
+  return "data:image/svg+xml;utf8,"+encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 68" width="120" height="68">'+
+    '<rect width="120" height="68" fill="#eef3f4"/>'+
+    '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="10" fill="#99a6a8">Görsel yok</text>'+
+    '</svg>'
+  );
+}
 
-/* ---------- BLOG: son 3 yazı ---------- */
+/* ---------- BLOG ---------- */
 (function initBlog(){
   const sec = document.querySelector("#blog");
   const grid = document.getElementById("blogGrid");
   if(!sec || !grid) return;
-
   const src = sec.getAttribute("data-json") || "/assets/data/blog.json";
 
   (async () => {
@@ -46,8 +55,10 @@ function fmtTR(d){
       .slice(0,3);
 
       grid.innerHTML = posts.map(p => `
-        <a class="blog-card" href="${p.url}">
-          <div class="blog-thumb">${p.image ? `<img src="${p.image}" alt="${p.title.replace(/"/g,"&quot;")}">` : ""}</div>
+        <a class="blog-card" href="${safeAttr(p.url)}">
+          <div class="blog-thumb">
+            ${p.image ? `<img loading="lazy" src="${safeAttr(p.image)}" alt="${safeAttr(p.title)}" onerror="this.src='${placeholderImg()}'">` : ""}
+          </div>
           <div class="blog-body">
             <div class="blog-meta">${fmtTR(p.date)}</div>
             <h3 class="blog-title">${p.title}</h3>
@@ -61,56 +72,31 @@ function fmtTR(d){
   })();
 })();
 
-/* ---------- INSTAGRAM: json veya function, highlight döngüsü ---------- */
+/* ---------- INSTAGRAM ---------- */
 (function initInstagram(){
   const sec = document.querySelector("#insta");
   const track = document.getElementById("instaTrack");
   if(!sec || !track) return;
-
-  const jsonSrc = sec.getAttribute("data-json");
-  const fnSrc   = sec.getAttribute("data-fn");
-
-  const fileToUrl = (file) => {
-    if (!file) return "";
-    // absolute (zaten / ile başlıyorsa) dokunma, değilse uploads klasörünü kullan
-    return file.startsWith("/") ? file : "/assets/img/uploads/" + file;
-  };
-
-  async function loadLocal(){
-    const r = await fetch(jsonSrc,{cache:"no-cache"});
-    if(!r.ok) throw new Error("INSTA JSON "+r.status);
-    const arr = await r.json(); // [{file:"xxx.webp"}]
-    return arr.map(x => {
-      const url = fileToUrl(x.file);
-      return { thumb: url, link: url };
-    });
-  }
-  async function loadFn(){
-    const r = await fetch(fnSrc,{cache:"no-cache"});
-    if(!r.ok) throw new Error("INSTA FN "+r.status);
-    const data = await r.json(); // beklenen: [{thumbnail,url}] benzeri
-    return (Array.isArray(data)?data:(data.items||[])).map(x => ({
-      thumb: x.thumbnail || x.media_url || x.url,
-      link:  x.permalink || x.link || x.url || "#"
-    }));
-  }
+  const jsonSrc = sec.getAttribute("data-json") || "/assets/data/instagram.json";
 
   (async () => {
     try{
-      let items = [];
-      if (fnSrc) {
-        try { items = await loadFn(); } catch(_) { /* düşerse json'a geç */ }
-      }
-      if (!items.length && jsonSrc) items = await loadLocal();
+      const r = await fetch(jsonSrc,{cache:"no-cache"});
+      if(!r.ok) throw new Error("INSTA JSON "+r.status);
+      const arr = await r.json();
+      const items = (Array.isArray(arr) ? arr : []).map(x => {
+        const file = (x && x.file) ? String(x.file) : "";
+        const path = "/assets/img/uploads/" + file;
+        return {thumb: path, link: path};
+      }).filter(x => x.thumb);
 
       if (!items.length){ track.innerHTML = `<div class="muted">Instagram içeriği bulunamadı.</div>`; return; }
 
       track.innerHTML = items.map(it => `
-        <a class="insta-item" href="${it.link}" target="_blank" rel="noopener">
-          <img loading="lazy" src="${it.thumb}" alt="Instagram gönderisi">
+        <a class="insta-item" href="${safeAttr(it.link)}" target="_blank" rel="noopener">
+          <img loading="lazy" src="${safeAttr(it.thumb)}" alt="Instagram gönderisi" onerror="this.src='${placeholderImg()}'">
         </a>`).join("");
 
-      // Highlight döngüsü (tüm kart)
       let idx = -1;
       setInterval(()=>{
         const els = [...track.querySelectorAll(".insta-item")];
@@ -126,31 +112,30 @@ function fmtTR(d){
   })();
 })();
 
-/* ---------- GOOGLE REVIEWS: 8'li, 10sn döngü ---------- */
+/* ---------- GOOGLE REVIEWS ---------- */
 (function initReviewsRotating(){
   const sec = document.querySelector("#reviews");
   const grid = document.getElementById("reviewGrid");
   if (!sec || !grid) return;
 
   const src = sec.getAttribute("data-json") || "/assets/data/reviews.json";
-  const VISIBLE = 8;          // aynı anda kaç kart
-  const INTERVAL = 10000;     // 10 sn
+  const VISIBLE = 8;
+  const INTERVAL = 10000;
   const ANIM_MS = 500;
-
   const star = (n=5)=>"★".repeat(Math.round(n)) + "☆".repeat(5-Math.round(n));
   let data = [], ptr = 0;
 
   function cardHTML(r){
     const rating = r.rating ?? r.stars ?? 5;
-       const name = r.author_name || r.author || "Ziyaretçi";
+    const name = r.author_name || r.author || "Ziyaretçi";
     const text = r.text || r.review || "";
     const when = r.relative_time || r.time || "";
     return `
       <div class="review-card">
-        <div class="stars" aria-hidden="true">${star(rating)}</div>
-        <p>${text}</p>
-        <div class="review-author">${name}</div>
-        <small class="muted">${when}</small>
+        <div class="stars">${star(rating)}</div>
+        <p>${safeAttr(text)}</p>
+        <div class="review-author">${safeAttr(name)}</div>
+        <small class="muted">${safeAttr(when)}</small>
       </div>`;
   }
 
@@ -187,47 +172,39 @@ function fmtTR(d){
   })();
 })();
 
-/* ---------- YOUTUBE: SADECE data-youtube-ids (modest branding + rel=0) ---------- */
+/* ---------- YOUTUBE ---------- */
 (function initYouTube(){
   const sec = document.querySelector("#youtube");
   const strip = document.getElementById("ytStrip");
   if (!sec || !strip) return;
 
-  const idsAttr = (sec.getAttribute("data-youtube-ids") || "").trim();
+  const idsAttr = sec.getAttribute("data-youtube-ids") || "";
+  const ids = idsAttr.split(",").map(s=>s.trim()).filter(Boolean);
 
-  function embedURL(id){
-    // rel=0 -> aynı kanaldan öneriler; modestbranding: YouTube logosu minimal
-    return `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1&iv_load_policy=3&color=white&playsinline=1`;
-  }
-
-  function render(ids){
-    if(!ids.length){
-      strip.innerHTML = `<div class="muted">YouTube video bulunamadı.</div>`;
-      return;
-    }
-    const tpl = (arr)=> arr.map(v => `
+  function renderThree(arr){
+    strip.innerHTML = arr.map(v => `
       <div class="yt-box">
         <iframe loading="lazy"
-          src="${embedURL(v)}"
+          src="https://www.youtube-nocookie.com/embed/${safeAttr(v)}"
           title="YouTube video"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
       </div>`).join("");
-
-    strip.innerHTML = tpl(ids.slice(0,3));
-
-    let p = 0;
-    setInterval(()=>{
-      p = (p+1) % Math.max(ids.length-2,1);
-      strip.innerHTML = tpl(ids.slice(p, p+3));
-    }, 7000);
   }
 
-  try{
-    const ids = idsAttr ? idsAttr.split(",").map(s=>s.trim()).filter(Boolean) : [];
-    render(ids);
-  }catch(e){
-    console.warn(e);
-    render([]);
+  if(!ids.length){
+    strip.innerHTML = `<div class="muted">YouTube video bulunamadı. data-youtube-ids kontrol edin.</div>`;
+    return;
   }
+
+  let p = 0;
+  const windowSize = Math.min(3, ids.length);
+  renderThree(ids.slice(p, p+windowSize));
+
+  setInterval(()=>{
+    if (ids.length <= windowSize) return;
+    p = (p + 1) % (ids.length - windowSize + 1);
+    renderThree(ids.slice(p, p+windowSize));
+  }, 7000);
 })();
