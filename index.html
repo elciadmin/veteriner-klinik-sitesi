@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Elçi Veteriner Kliniği | Konya'da 7/24 Acil, Cerrahi, Görüntüleme</title>
   <meta name="description" content="Konya Meram Elçi Veteriner Kliniği: 7/24 acil, koruyucu hekimlik, cerrahi, diş sağlığı, diş temizliği, röntgen, ultrason, laboratuvar."/>
-
   <link rel="stylesheet" href="/assets/css/styles.css"/>
-
   <style>
     :root { --brand:#0c4e54; --brand2:#0f5960; --ink:#112; --muted:#6b7a7c; --bg:#f5fbfc; --gap:14px; }
     *{box-sizing:border-box}
@@ -19,7 +17,6 @@
     .btn.ghost{background:transparent;color:var(--brand)}
     .chip{display:inline-block;padding:6px 10px;border-radius:999px;background:#e9f4f5;color:#0a4348;font-weight:700;font-size:12px}
     .grid{display:grid;gap:var(--gap)}
-
     /* Topbar & Nav */
     header.topbar{background:var(--brand2);color:#fff;font-size:14px}
     header.topbar .container{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;padding:8px 16px}
@@ -28,13 +25,12 @@
     .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;color:var(--brand);text-decoration:none}
     .menu{display:flex;gap:16px;align-items:center}
     .menu a{text-decoration:none;color:#1a1a1a;font-weight:600}
-
-    /* Hero (404 olmasın diye sample1.webp) */
+    /* Hero */
     .hero{
       background:
         linear-gradient(180deg, rgba(12,78,84,.10) 0%, rgba(12,78,84,.00) 60%),
         linear-gradient(180deg,#f3fbfc 0%,#eaf6f7 100%),
-        url('/assets/img/uploads/sample1.webp') center/cover no-repeat;
+        url('/assets/img/uploads/clinic-hero.jpg') center/cover no-repeat;
     }
     .hero .container{padding:56px 16px}
     .hero-wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center}
@@ -44,10 +40,10 @@
     .highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
     .kpi{background:#fff;border:1px solid #e8f1f2;border-radius:14px;padding:12px;text-align:center}
     .kpi b{display:block;font-size:22px;color:#0d4f55}
+    /* Trust bar */
     .trust{background:#fff;border:1px dashed #c9e1e3;border-radius:14px;padding:10px;display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:10px}
     .trust .badges{display:flex;gap:10px;flex-wrap:wrap}
     .badge{padding:8px 10px;border-radius:10px;background:#f2fafb;border:1px solid #e1f0f1;font-weight:700;font-size:12px}
-
     /* Services */
     section#services{padding:36px 0;background:#fff}
     .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
@@ -56,8 +52,7 @@
     .card p{margin:0;color:#223}
     .card .icon{width:28px;height:28px;border-radius:8px;background:#e8f5f6;display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px}
     @media(max-width:960px){.services-grid{grid-template-columns:1fr}}
-
-    /* Instagram */
+    /* Instagram / Reviews / YouTube */
     section#insta{padding:30px 0;background:#fff}
     .insta-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
     .insta-track-wrap{overflow:hidden}
@@ -65,16 +60,13 @@
     .insta-item{flex:0 0 auto;width:160px;height:160px;border-radius:14px;overflow:hidden;position:relative}
     .insta-item img{width:100%;height:100%;object-fit:cover;display:block}
     .insta-item.highlight{transform:scale(1.12);transition:transform .6s;box-shadow:0 10px 24px rgba(0,0,0,.15);z-index:2}
-
-    /* Reviews */
     section#reviews{padding:34px 0;background:#f7fbfb}
     .review-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
     .review-card{background:#fff;border:1px solid #e9eff0;border-radius:16px;padding:16px;box-shadow:0 6px 14px rgba(0,0,0,.04);opacity:0;transform:translateY(6px);transition:opacity .5s, transform .5s}
     .review-card.visible{opacity:1;transform:none}
     .stars{font-size:18px;color:#fff;text-shadow:0 0 2px #f5a800,0 0 6px #f5a800}
     .review-author{font-weight:700;margin-top:8px}
-
-    /* Blog */
+    /* BLOG */
     section#blog{padding:34px 0;background:#fff}
     .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
     .blog-card{background:#fff;border:1px solid #e9eff0;border-radius:16px;overflow:hidden;box-shadow:0 6px 14px rgba(0,0,0,.04)}
@@ -85,29 +77,24 @@
     .blog-title{font-weight:700;margin:0 0 6px;font-size:18px;line-height:1.25}
     .blog-excerpt{margin:0;color:#233}
     @media(max-width:960px){.blog-grid{grid-template-columns:1fr}}
-
     /* YouTube */
     section#youtube{padding:34px 0;background:#fff}
     .yt-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
     .yt-box{aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#000}
     .yt-box iframe{width:100%;height:100%;border:0;display:block}
     @media(max-width:768px){.hero-wrap{grid-template-columns:1fr}.yt-strip{grid-template-columns:1fr}.insta-item{width:130px;height:130px}}
-
-    /* CTA */
+    /* CTA section */
     .cta-bar{background:#e9f4f5;border:1px dashed #a8cacc;padding:18px;border-radius:16px;display:flex;gap:10px;align-items:center;justify-content:space-between;margin:24px 0}
-
     /* FAQ */
     section#faq{padding:34px 0;background:#fff}
     details.faq{border:1px solid #e9eff0;border-radius:12px;padding:12px;margin-bottom:10px;background:#fbfefe}
     details.faq[open]{background:#f5fbfc}
     details.faq summary{cursor:pointer;font-weight:700}
-
     /* Footer */
     footer.site{padding:26px 0;background:var(--brand2);color:#fff;margin-top:32px}
   </style>
-
-  <!-- JS v27 -->
-  <script defer src="/assets/js/main.js?v=27"></script>
+  <!-- ÖNBELLEK KIRMA: v19 -->
+  <script defer src="/assets/js/main.js?v=19"></script>
 </head>
 <body>
   <!-- Top Bar -->
@@ -215,8 +202,8 @@
     </div>
   </section>
 
-  <!-- INSTAGRAM (yerel json) -->
-  <section id="insta" data-json="/assets/data/instagram.json">
+  <!-- INSTAGRAM -->
+  <section id="insta" data-json="/assets/data/instagram.json" data-fn="/.netlify/functions/instagram">
     <div class="container">
       <div class="insta-head">
         <h2>Instagram’dan</h2>
@@ -232,14 +219,12 @@
   <section id="reviews" data-json="/assets/data/reviews.json">
     <div class="container">
       <h2>Google Yorumları</h2>
-    </div>
-    <div class="container">
       <div class="review-grid" id="reviewGrid" aria-live="polite"></div>
     </div>
   </section>
 
   <!-- BLOG -->
-  <section id="blog" data-json="/assets/data/blog.json">
+  <section id="blog" data-json="assets/data/blog.json">
     <div class="container">
       <h2>Blogdan</h2>
       <div class="blog-grid" id="blogGrid"></div>
@@ -249,8 +234,8 @@
     </div>
   </section>
 
-  <!-- YOUTUBE (yalnızca verilen ID’ler) -->
-  <section id="youtube" data-youtube-ids="c-HfgEQ_BYY,Rsu9OU6wSks,2Gby1ZXTLc8,fWO3-dKcDSQ,vxoQXRYrL7o,6y4xaRTNi3c,xcg3juBb81E,ELtH_lNFB90,d-oC-mjUqTc,u3WJLFUNi1k">
+  <!-- YOUTUBE -->
+  <section id="youtube" data-fn="/.netlify/functions/youtube-latest?limit=9">
     <div class="container">
       <h2>YouTube</h2>
       <div class="yt-strip" id="ytStrip"></div>
@@ -297,6 +282,67 @@
     "openingHours":["Mo-Su 00:00-23:59"],
     "url":"https://elciveteriner.com/"
   }
+  </script>
+
+  <!-- BLOG FALLBACK: main.js çalışmasa bile son 3 yazıyı basar -->
+  <script>
+  (async () => {
+    const section = document.querySelector("#blog");
+    const grid = document.querySelector("#blogGrid");
+    if (!section || !grid || grid.dataset.filled === "1") return;
+
+    const src = section.getAttribute("data-json") || "assets/data/blog.json";
+
+    function stripHtml(html){
+      const d = document.createElement("div");
+      d.innerHTML = html || "";
+      return d.textContent || d.innerText || "";
+    }
+    function fmtDate(d){
+      const dt = new Date(d);
+      return isNaN(dt) ? "" : dt.toLocaleDateString("tr-TR",{year:"numeric",month:"long",day:"numeric"});
+    }
+
+    try{
+      const r = await fetch(src, { cache: "no-cache" });
+      if (!r.ok) {
+        console.warn("BLOG FALLBACK: JSON açılamadı", r.status, src);
+        grid.innerHTML = `<div class="muted">Blog verisi açılamadı (${r.status}). <code>${src}</code></div>`;
+        return;
+      }
+      const raw = await r.json();
+      const items = Array.isArray(raw) ? raw : (Array.isArray(raw.posts) ? raw.posts : []);
+      if (!items.length){
+        grid.innerHTML = `<div class="muted">Blog içeriği yok.</div>`;
+        return;
+      }
+      const posts = items.map(p => ({
+        title: p.title || "Başlık Yok",
+        date:  p.date  || "",
+        excerpt: p.excerpt ?? p.summary ?? (p.content ? stripHtml(p.content).slice(0,160) : ""),
+        image: p.image || p.cover || "",
+        url:   p.url   || "/blog.html"
+      }))
+      .sort((a,b)=> new Date(b.date||0) - new Date(a.date||0))
+      .slice(0,3);
+
+      grid.innerHTML = posts.map(p => `
+        <a class="blog-card" href="${p.url}">
+          <div class="blog-thumb">${p.image ? `<img src="${p.image}" alt="${p.title.replace(/"/g,"&quot;")}">` : ""}</div>
+          <div class="blog-body">
+            <div class="blog-meta">${fmtDate(p.date)}</div>
+            <h3 class="blog-title">${p.title}</h3>
+            <p class="blog-excerpt">${p.excerpt}</p>
+          </div>
+        </a>
+      `).join("");
+
+      grid.dataset.filled = "1";
+    } catch (e) {
+      console.error("BLOG FALLBACK hata:", e);
+      grid.innerHTML = `<div class="muted">Blog verisi okunamadı. <code>${e.message}</code></div>`;
+    }
+  })();
   </script>
 </body>
 </html>
