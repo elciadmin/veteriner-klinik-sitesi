@@ -112,13 +112,73 @@
     }
     @media(max-width:768px){.insta-item{width:130px;height:130px}}
 
-    /* Reviews */
-    section#reviews{padding:34px 0;background:#f7fbfb}
-    .review-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
-    .review-card{background:#fff;border:1px solid #e9eff0;border-radius:16px;padding:16px;box-shadow:0 6px 14px rgba(0,0,0,.04);opacity:0;transform:translateY(8px) scale(.98)}
-    .review-card.visible{opacity:1;transform:none;transition:opacity .5s ease, transform .5s ease}
-    .stars{font-size:18px;color:#fff;text-shadow:0 0 2px #f5a800,0 0 6px #f5a800}
-    .review-author{font-weight:700;margin-top:8px}
+    /* ===== REVIEWS (Yeni tasarım + animasyon) ===== */
+    section#reviews{
+      position:relative;
+      padding:40px 0;
+      background:linear-gradient(180deg,#f7fbfb 0%, #f3fafb 100%);
+      overflow:hidden;
+    }
+    section#reviews::before{
+      content:"";
+      position:absolute; inset:-20%;
+      background:radial-gradient(40% 30% at 20% 10%, rgba(12,78,84,.08), transparent 60%),
+                 radial-gradient(40% 30% at 80% 90%, rgba(15,89,96,.08), transparent 60%);
+      animation:reviewsGlow 16s ease-in-out infinite alternate;
+      pointer-events:none;
+    }
+    @keyframes reviewsGlow{
+      0%{ transform:translateY(-6px) }
+      100%{ transform:translateY(6px) }
+    }
+
+    .review-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+      gap:16px;
+    }
+
+    .review-card{
+      position:relative;
+      background:#fff;
+      border-radius:16px;
+      padding:16px;
+      box-shadow:0 6px 14px rgba(0,0,0,.04);
+      isolation:isolate;
+      opacity:0; transform:translateY(8px) scale(.98);
+      transition:opacity .5s ease, transform .5s ease;
+      border:1px solid rgba(233,239,240,.9);
+    }
+    .review-card::before{
+      content:"";
+      position:absolute; inset:-1px;
+      border-radius:inherit;
+      background:linear-gradient(135deg, rgba(127,210,217,.5), rgba(12,78,84,.15));
+      z-index:-1;
+      mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      padding:1px;
+      -webkit-mask-composite:xor; mask-composite:exclude;
+      opacity:.7;
+    }
+
+    .review-card.visible{ opacity:1; transform:none }
+    .review-card.leaving{ opacity:0; transform:translateY(6px) scale(.985); transition:opacity .35s ease, transform .35s ease }
+    .review-card.entering{ opacity:0; transform:translateY(8px) scale(.98) }
+    .review-card.entering.visible{ opacity:1; transform:none }
+
+    .stars{display:flex; gap:2px; font-size:18px; line-height:1}
+    .stars .s{ color:#f5a800; text-shadow:0 0 2px #f5a80066 }
+    .review-text{ color:#223; margin:6px 0 0 }
+    .review-author{ font-weight:700; margin-top:10px; color:#0c4e54 }
+    .review-meta{ font-size:12px; color:#6b7a7c; margin-top:2px }
+
+    @media (prefers-reduced-motion: reduce){
+      section#reviews::before{ animation:none }
+      .review-card, .review-card.leaving, .review-card.entering, .review-card.entering.visible{
+        transition:none !important; transform:none !important; opacity:1 !important;
+      }
+    }
 
     /* Blog */
     section#blog{padding:34px 0;background:#fff}
@@ -438,5 +498,96 @@
   </svg>
   <!-- /SVG ICON SPRITE -->
 
+  <!-- === Reviews döngü scripti (8 kart, 10sn’de geçiş) === -->
+  <script>
+  (function(){
+    const section = document.querySelector('section#reviews');
+    const grid = document.getElementById('reviewGrid');
+    if(!section || !grid) return;
+
+    const SRC = section.getAttribute('data-json') || '/assets/data/reviews.json';
+    const VISIBLE_COUNT = 8;
+    const INTERVAL_MS = 10000;
+    const STAGGER = 50; // kart kart giriş gecikmesi (ms)
+
+    let all = [];
+    let idx = 0;
+    let timer = null;
+
+    function renderStars(n){
+      const full = Math.round(Math.max(0, Math.min(5, Number(n) || 5)));
+      return '<div class="stars" aria-label="'+full+' yıldız">'+
+        Array.from({length:5}).map((_,i)=>'<span class="s" aria-hidden="true">'+(i<full?'★':'☆')+'</span>').join('')+
+      '</div>';
+    }
+
+    function cardHTML(item){
+      const text = (item.text || item.comment || '').toString().trim();
+      const author = (item.author || item.name || 'Ziyaretçi').toString().trim();
+      const rating = item.rating || item.stars || 5;
+      const when = (item.date || item.when || '').toString().trim();
+
+      return `
+        <article class="review-card entering" role="article">
+          ${renderStars(rating)}
+          <p class="review-text">${text}</p>
+          <div class="review-author">— ${author}</div>
+          ${when ? `<div class="review-meta">${when}</div>` : ``}
+        </article>
+      `;
+    }
+
+    function sliceData(start){
+      if(all.length === 0) return [];
+      const out = [];
+      for(let i=0;i<VISIBLE_COUNT;i++){
+        out.push(all[(start + i) % all.length]);
+      }
+      return out;
+    }
+
+    function swapTo(startIndex){
+      const currentCards = Array.from(grid.children);
+      currentCards.forEach(el => el.classList.add('leaving'));
+      setTimeout(()=>{
+        const items = sliceData(startIndex);
+        grid.innerHTML = items.map(cardHTML).join('');
+        const newCards = Array.from(grid.children);
+        newCards.forEach((el, i)=>{
+          setTimeout(()=>{ el.classList.add('visible'); el.classList.remove('entering'); }, i*STAGGER);
+        });
+      }, 180);
+    }
+
+    function startLoop(){
+      if(timer) clearInterval(timer);
+      timer = setInterval(()=>{
+        idx = (idx + VISIBLE_COUNT) % all.length;
+        swapTo(idx);
+      }, INTERVAL_MS);
+    }
+
+    fetch(SRC, {cache:'no-store'})
+      .then(r => r.json())
+      .then(json => {
+        all = Array.isArray(json) ? json : (json.items || json.data || []);
+        if(!Array.isArray(all) || all.length === 0){
+          grid.innerHTML = '<p class="muted">Henüz yorum eklenmedi.</p>';
+          return;
+        }
+        swapTo(idx);
+        if(all.length > VISIBLE_COUNT) startLoop();
+      })
+      .catch(err => {
+        console.warn('Yorumlar yüklenemedi:', err);
+        grid.innerHTML = '<p class="muted">Yorumlar yüklenirken bir sorun oluştu.</p>';
+      });
+
+    document.addEventListener('visibilitychange', ()=>{
+      if(document.hidden){ if(timer) clearInterval(timer); }
+      else if(all.length > VISIBLE_COUNT){ startLoop(); }
+    });
+  })();
+  </script>
 </body>
 </html>
