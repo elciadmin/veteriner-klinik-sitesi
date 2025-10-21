@@ -79,14 +79,62 @@
 
     @media(max-width:960px){ .quick-links{ grid-template-columns:repeat(3,1fr) } }
 
-    /* Services */
-    section#services{padding:36px 0;background:#fff}
-    .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
-    .card{background:#fff;border:1px solid #e9eff0;border-radius:16px;padding:18px;box-shadow:0 6px 14px rgba(0,0,0,.04)}
-    .card h3{margin:0 0 8px;font-size:18px}
-    .card p{margin:0;color:#223}
-    .card .icon{width:28px;height:28px;border-radius:8px;background:#e8f5f6;display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px}
-    @media(max-width:960px){.services-grid{grid-template-columns:1fr}}
+    /* ===== SERVICES (Modern cam efekt + animasyon) ===== */
+    section#services{
+      padding:48px 0; background:#fff; position:relative; overflow:hidden;
+    }
+    .services-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+    }
+    .s-card{
+      position:relative;
+      border-radius:18px;
+      padding:18px;
+      background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.6));
+      border:1px solid rgba(12,78,84,.10);
+      box-shadow:0 10px 30px rgba(12,78,84,.08);
+      backdrop-filter:saturate(1.2) blur(6px);
+      transform:translateY(6px) scale(.99);
+      opacity:.0;
+      transition:transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s, opacity .45s;
+      isolation:isolate;
+    }
+    .s-card::before{
+      content:"";
+      position:absolute; inset:-1px; border-radius:inherit;
+      background:linear-gradient(135deg, rgba(127,210,217,.55), rgba(12,78,84,.18));
+      z-index:-1;
+      mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      padding:1px;
+      -webkit-mask-composite:xor; mask-composite:exclude;
+      opacity:.7;
+    }
+    .s-card.show{ opacity:1; transform:none }
+    .s-card:hover{
+      transform:translateY(-6px) scale(1.01);
+      box-shadow:0 18px 40px rgba(12,78,84,.15);
+    }
+    .s-icon{
+      width:44px; height:44px; border-radius:12px;
+      display:inline-flex; align-items:center; justify-content:center;
+      background:linear-gradient(135deg,#0c4e54,#0f5960);
+      color:#fff; margin-bottom:10px;
+      box-shadow:0 8px 16px rgba(12,78,84,.25), inset 0 0 0 1px rgba(255,255,255,.18);
+      position:relative; overflow:hidden;
+    }
+    .s-icon svg{ width:24px; height:24px; }
+    .s-icon::after{
+      content:""; position:absolute; inset:0;
+      background:radial-gradient(60% 60% at 30% 20%, rgba(255,255,255,.22), transparent 60%);
+      mix-blend-mode:screen;
+    }
+    .s-title{ margin:0 0 6px; font-size:18px; font-weight:800; color:#113 }
+    .s-text{ margin:0; color:#223; line-height:1.6 }
+    @media (max-width:1100px){ .services-grid{ grid-template-columns:repeat(2,1fr) } }
+    @media (max-width:640px){ .services-grid{ grid-template-columns:1fr } }
 
     /* Instagram */
     section#insta{padding:30px 0;background:#fff}
@@ -352,13 +400,43 @@
   <section id="services">
     <div class="container">
       <h2>Hizmetlerimiz</h2>
-      <div class="services-grid">
-        <div class="card"><div class="icon">🆘</div><h3>Acil & Yoğun Bakım</h3><p>Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat takip.</p></div>
-        <div class="card"><div class="icon">🩺</div><h3>Muayene & Koruyucu</h3><p>Aşı programı, parazit kontrolü, mikroçip ve düzenli check-up.</p></div>
-        <div class="card"><div class="icon">🛠️</div><h3>Cerrahi</h3><p>Yumuşak doku, ortopedi, sterilizasyon ve ağrı yönetimi.</p></div>
-        <div class="card"><div class="icon">🦷</div><h3>Ağız & Diş Sağlığı</h3><p>Diş taşı temizliği, çekim ve ağız içi muayene.</p></div>
-        <div class="card"><div class="icon">🖥️</div><h3>Görüntüleme & Lab</h3><p>Röntgen, ultrason, tam kan tahlilleri ve mikroskobik inceleme.</p></div>
-        <div class="card"><div class="icon">❤️</div><h3>Kardiyoloji</h3><p>Kalp muayenesi, EKG değerlendirmesi ve tedavi takibi.</p></div>
+
+      <div class="services-grid" id="servicesGrid">
+        <article class="s-card">
+          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-shield-cross"/></svg></span>
+          <h3 class="s-title">Acil & Yoğun Bakım</h3>
+          <p class="s-text">Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat takip.</p>
+        </article>
+
+        <article class="s-card">
+          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-stethoscope"/></svg></span>
+          <h3 class="s-title">Muayene & Koruyucu</h3>
+          <p class="s-text">Aşı programı, parazit kontrolü, mikroçip ve düzenli check-up.</p>
+        </article>
+
+        <article class="s-card">
+          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-scissors"/></svg></span>
+          <h3 class="s-title">Cerrahi</h3>
+          <p class="s-text">Yumuşak doku, ortopedi, sterilizasyon ve ağrı yönetimi.</p>
+        </article>
+
+        <article class="s-card">
+          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-tooth-clean"/></svg></span>
+          <h3 class="s-title">Ağız & Diş Sağlığı</h3>
+          <p class="s-text">Diş taşı temizliği, çekim ve ağız içi muayene.</p>
+        </article>
+
+        <article class="s-card">
+          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-xray"/></svg></span>
+          <h3 class="s-title">Görüntüleme & Lab</h3>
+          <p class="s-text">Röntgen, ultrason, tam kan tahlilleri ve mikroskobik inceleme.</p>
+        </article>
+
+        <article class="s-card">
+          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-ecg"/></svg></span>
+          <h3 class="s-title">Kardiyoloji</h3>
+          <p class="s-text">Kalp muayenesi, EKG değerlendirmesi ve tedavi takibi.</p>
+        </article>
       </div>
 
       <div class="cta-bar">
@@ -605,6 +683,13 @@
         <path d="M12 14c2.5 0 4 1.2 4 3c0 1.2-1 2-3 2h-2c-2 0-3-.8-3-2c0-1.8 1.5-3 4-3z"/>
       </g>
     </symbol>
+    <!-- YENİ: Kardiyoloji için EKG ikonu -->
+    <symbol id="i-ecg" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12h4l2.2-5.5L12 16l2.2-4H21"/>
+        <rect x="3" y="5" width="18" height="14" rx="3" opacity=".25"/>
+      </g>
+    </symbol>
   </svg>
   <!-- /SVG ICON SPRITE -->
 
@@ -693,13 +778,30 @@
         grid.innerHTML = '<p class="muted">Yorumlar yüklenirken bir sorun oluştu.</p>';
       });
 
-    document.addEventListener('visibilitychange', ()=>{
-      if(document.hidden){ if(timer) clearInterval(timer); }
-      else if(all.length > VISIBLE_COUNT){ startLoop(); }
-    });
-
     // Footer yıl
     document.getElementById('yil').textContent=new Date().getFullYear();
+  })();
+  </script>
+
+  <!-- Services kartlarına scroll-in animasyonu -->
+  <script>
+  (function(){
+    const cards = document.querySelectorAll('#servicesGrid .s-card');
+    if(cards.length===0) return;
+
+    if(!('IntersectionObserver' in window)){
+      cards.forEach(c=>c.classList.add('show'));
+      return;
+    }
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach((e,i)=>{
+        if(e.isIntersecting){
+          setTimeout(()=>e.target.classList.add('show'), (i%3)*80);
+          io.unobserve(e.target);
+        }
+      });
+    }, {threshold:.12});
+    cards.forEach(c=>io.observe(c));
   })();
   </script>
 </body>
