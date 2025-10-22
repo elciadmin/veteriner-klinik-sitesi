@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sıkça Sorulan Sorular | Elçi Veteriner Kliniği</title>
   <meta name="description" content="Elçi Veteriner Kliniği SSS: Muayene ücretleri, ödeme seçenekleri, randevu, ameliyat hazırlıkları, konaklama ve acil durumlara dair yanıtlar." />
-  <link rel="canonical" href="https://www.ornekalanadi.com/sss.html" />
+  <link rel="canonical" href="https://elciveteriner.com/sss.html" />
   <meta property="og:title" content="Sıkça Sorulan Sorular | Elçi Veteriner Kliniği" />
   <meta property="og:description" content="Muayene, ücret, randevu, konaklama ve acil durumlar hakkında sıkça sorulan sorular." />
   <meta property="og:type" content="website" />
@@ -13,184 +13,151 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
     :root{
-      --primary-color:#6a0ea1;--secondary-color:#10b3d1;--accent-color:#f39c12;--light-color:#f8f9fa;--dark-color:#343a40;--white:#fff;--gray:#6c757d;--emergency-red:#e74c3c;--success-green:#2ecc71;--ai-blue:#3498db
+      /* Elçi tema renkleri */
+      --brand:#0c4e54;         /* koyu teal */
+      --brand2:#0f5960;        /* ikinci ton */
+      --accent:#10b3d1;        /* vurgu */
+      --ink:#112;              /* yazı */
+      --muted:#6b7a7c;         /* ikincil yazı */
+      --bg:#f5fbfc;            /* açık arka plan */
+      --gap:14px;
     }
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Roboto',sans-serif;line-height:1.6;color:#333;background:var(--light-color);overflow-x:hidden}
-    h1,h2,h3,h4,h5,h6{font-family:'Montserrat',sans-serif;font-weight:600;color:var(--dark-color)}
-    a{color:var(--primary-color);text-decoration:none;transition:.3s}
-    a:hover{color:var(--secondary-color)}
-    .container{width:100%;max-width:1200px;margin:0 auto;padding:0 15px}
+    *{box-sizing:border-box}
+    html,body{margin:0; padding:0}
+    body{color:var(--ink); background:#fff; font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif; line-height:1.6}
+    a{color:var(--brand); text-decoration:none; transition:.25s}
+    a:hover{color:var(--accent)}
+    .container{max-width:1200px; margin:0 auto; padding:0 16px}
+    .muted{color:var(--muted)}
 
-    /* Header */
-    header{background:var(--white);box-shadow:0 2px 10px rgba(0,0,0,.1);position:fixed;inset-inline:0;top:0;z-index:1000}
-    .header-top{background:var(--primary-color);color:var(--white);padding:5px 0;font-size:14px}
-    .header-top .container{display:flex;justify-content:space-between;align-items:center}
-    .header-contact{display:flex;align-items:center;gap:15px}
-    .header-contact i{margin-right:5px}
-    .header-contact a{color:#fff}
-    .header-contact a:hover{color:var(--secondary-color)}
-    .header-main{padding:10px 0}
-    .header-main .container{display:flex;justify-content:space-between;align-items:center}
-    .logo-text h1{color:var(--primary-color);font-size:24px;margin-bottom:0}
-    .logo-text span{color:var(--secondary-color);font-size:14px;display:block}
+    /* Butonlar (site geneli ile aynı) */
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:12px;border:1px solid var(--brand);font-weight:700;cursor:pointer;text-decoration:none;color:var(--brand)}
+    .btn.primary{background:var(--brand);color:#fff;border-color:transparent}
+    .btn.ghost{background:transparent;color:var(--brand)}
+    .btn:focus{outline:2px solid var(--accent); outline-offset:2px}
+    .btn.primary:hover{filter:brightness(1.05)}
+    .btn.ghost:hover{background:rgba(12,78,84,.06)}
 
-    /* Nav */
-    nav ul{list-style:none;display:flex}
-    nav li{margin-left:20px;position:relative}
-    nav a{color:var(--dark-color);font-weight:500;padding:5px 0;position:relative;display:flex;align-items:center}
-    nav a:after{content:'';position:absolute;width:0;height:2px;background:var(--secondary-color);bottom:0;left:0;transition:width .3s}
-    nav a:hover:after{width:100%}
-    nav a.active{color:var(--primary-color);font-weight:600}
-    nav a.active:after{width:100%;background:var(--primary-color)}
-    .mobile-menu-btn{display:none;background:none;border:0;font-size:24px;color:var(--primary-color);cursor:pointer}
+    /* Top bar & Nav (ana siteyle aynı yapı) */
+    header.topbar{background:var(--brand2);color:#fff;font-size:14px}
+    header.topbar .container{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;padding:8px 16px}
+    nav.site-nav{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #edf2f2}
+    nav.site-nav .container{display:flex;align-items:center;justify-content:space-between;padding:10px 16px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;color:var(--brand);text-decoration:none}
+    .menu{display:flex;gap:16px;align-items:center}
+    .menu a{text-decoration:none;color:#1a1a1a;font-weight:600}
+    .menu a.active{color:var(--brand); text-decoration:underline; text-underline-offset:4px}
 
-    .dropdown{position:relative}
-    .dropdown-content{display:none;position:absolute;background:var(--white);min-width:250px;box-shadow:0 10px 25px rgba(0,0,0,.1);border-radius:5px;z-index:1;padding:10px 0;top:100%;left:0;opacity:0;transform:translateY(10px);transition:.3s}
-    .dropdown:hover .dropdown-content{display:block;opacity:1;transform:translateY(0)}
-    .dropdown-content a{color:var(--dark-color);padding:12px 20px;display:block;font-size:14px;transition:.3s;border-left:3px solid transparent}
-    .dropdown-content a:hover{background:#f0f7ff;color:var(--primary-color);padding-left:25px;border-left-color:var(--secondary-color)}
-    .dropdown> a::after{content:'\f078';font-family:'Font Awesome 5 Free';font-weight:900;margin-left:8px;font-size:12px;transition:transform .3s}
-    .dropdown:hover> a::after{transform:rotate(180deg)}
-
-    /* Page Header */
-    .page-header{background:linear-gradient(rgba(106,14,161,.85),rgba(106,14,161,.85)),url('https://images.unsplash.com/photo-1596272875729-ed2ff7e6d9b5?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;padding:160px 0 80px;color:#fff;text-align:center;position:relative;margin-top:80px}
-    .page-header h1{font-size:48px;color:#fff;margin-bottom:20px;text-shadow:0 2px 4px rgba(0,0,0,.3)}
-    .page-header p{font-size:20px;max-width:700px;margin:0 auto;opacity:.9;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+    /* Page Header (hero) */
+    .page-header{
+      background:
+        radial-gradient(1200px 600px at 80% -100px, rgba(255,255,255,.06) 0%, rgba(255,255,255,0) 60%),
+        linear-gradient(120deg, rgba(7,58,62,.95), rgba(15,89,96,.92)),
+        url('/assets/img/uploads/clinic-hero.jpg') center/cover no-repeat;
+      color:#fff;
+      padding:120px 0 60px;
+      text-align:center;
+    }
+    .page-header h1{font-size:clamp(28px,4.8vw,48px); margin:0}
+    .page-header .hero-divider{ width:90px; height:4px; border-radius:4px; background:#fff; opacity:.85; margin:10px auto }
+    .page-header p{max-width:800px; margin:0 auto; opacity:.92}
 
     /* Breadcrumb */
-    .breadcrumb{padding:15px 0;font-size:14px;background:#f0f7ff}
-    .breadcrumb a{color:var(--gray)}
-    .breadcrumb a:hover{color:var(--primary-color)}
-    .breadcrumb span{margin:0 5px;color:var(--gray)}
+    .breadcrumb{padding:12px 0;font-size:14px;background:#f0f7f8;border-top:1px solid #e6f1f2;border-bottom:1px solid #e6f1f2}
+    .breadcrumb a{color:#4b5b5d}
 
     /* SSS */
-    .sss-section{padding:60px 0}
+    .sss-section{padding:48px 0}
     .sss-container{max-width:900px;margin:0 auto}
-    .sss-intro{text-align:center;margin-bottom:50px}
-    .sss-intro h2{font-size:36px;color:var(--primary-color);margin-bottom:15px}
-    .sss-intro p{font-size:18px;color:#555;max-width:700px;margin:0 auto}
-    .sss-category{margin-bottom:50px}
-    .sss-category h3{font-size:28px;color:var(--primary-color);margin-bottom:25px;padding-bottom:10px;border-bottom:2px solid var(--secondary-color)}
-    .accordion-item{background:#fff;border-radius:8px;margin-bottom:15px;box-shadow:0 3px 10px rgba(0,0,0,.05);overflow:hidden}
-    .accordion-header{padding:20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:500;background:#f8f9fa;transition:.3s}
-    .accordion-header:hover{background:#e6f2ff}
-    .accordion-header[aria-expanded="true"]{background:var(--primary-color);color:#fff}
-    .accordion-header h4{margin:0;font-size:18px}
-    .accordion-header i{transition:transform .3s}
+    .sss-intro{text-align:center;margin-bottom:34px}
+    .sss-intro h2{font-size:32px;color:#113;margin:0 0 10px}
+    .sss-intro p{color:#233}
+    .sss-category{margin-bottom:40px}
+    .sss-category h3{font-size:22px;color:#113;margin:0 0 16px;padding-bottom:10px;border-bottom:2px solid rgba(12,78,84,.2)}
+
+    .accordion-item{background:#fff;border-radius:12px;margin-bottom:12px;box-shadow:0 6px 14px rgba(0,0,0,.04);overflow:hidden;border:1px solid #e6f1f2}
+    .accordion-header{padding:16px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:700;background:#fbfefe;transition:.25s;color:#113}
+    .accordion-header:hover{background:#f5fbfc}
+    .accordion-header[aria-expanded="true"]{background:linear-gradient(135deg,#0c4e54,#0f5960);color:#fff}
+    .accordion-header h4{margin:0;font-size:17px}
+    .accordion-header i{transition:transform .25s}
     .accordion-header[aria-expanded="true"] i{transform:rotate(180deg);color:#fff}
-    .accordion-content{padding:0 20px;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease}
-    .accordion-content.show{padding:20px;max-height:1000px}
-    .accordion-content p{color:#555;line-height:1.8}
+    .accordion-content{padding:0 18px;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease}
+    .accordion-content.show{padding:16px 18px;max-height:1000px}
+    .accordion-content p{color:#233;line-height:1.8;margin:0 0 6px}
 
-    .sss-cta{background:linear-gradient(135deg,var(--primary-color),#4a0c7a);color:#fff;text-align:center;padding:50px 30px;border-radius:15px;margin-top:50px}
-    .sss-cta h3{color:#fff;font-size:32px;margin-bottom:20px}
-    .sss-cta p{font-size:18px;max-width:700px;margin:0 auto 30px;opacity:.9}
-    .cta-buttons{display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
-    .cta-button{display:inline-block;padding:15px 30px;border-radius:50px;font-weight:500;font-size:16px;transition:.3s;text-align:center}
-    .cta-button.primary{background:var(--secondary-color);color:#fff}
-    .cta-button.secondary{background:#fff;color:var(--primary-color)}
-    .cta-button:hover{transform:translateY(-5px);box-shadow:0 8px 20px rgba(0,0,0,.2)}
+    /* CTA */
+    .sss-cta{background:#e9f4f5;border:1px dashed #a8cacc;padding:18px;border-radius:16px;display:flex;gap:10px;align-items:center;justify-content:space-between;margin:24px 0;flex-wrap:wrap}
+    .sss-cta h3{margin:0;color:#0c4e54}
+    .cta-buttons{display:flex;gap:10px;flex-wrap:wrap}
 
-    /* Footer */
-    footer{background:linear-gradient(135deg,#1a3a52,var(--primary-color));color:#fff;padding:60px 0 0}
-    .footer-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-bottom:40px}
-    .footer-col h3{color:#fff;font-size:20px;margin-bottom:20px;position:relative;padding-bottom:10px}
-    .footer-col h3:after{content:'';position:absolute;width:40px;height:2px;background:var(--secondary-color);bottom:0;left:0}
-    .footer-col p{margin-bottom:15px;opacity:.8}
-    .footer-contact li{display:flex;align-items:flex-start;margin-bottom:15px}
-    .footer-contact i{margin-right:10px;color:var(--secondary-color)}
-    .footer-links li{margin-bottom:10px}
-    .footer-links a{color:#fff;opacity:.8;transition:.3s}
-    .footer-links a:hover{opacity:1;color:var(--secondary-color);padding-left:5px}
-    .social-links{display:flex;margin-top:20px}
-    .social-links a{display:flex;align-items:center;justify-content:center;width:40px;height:40px;background:rgba(255,255,255,.1);border-radius:50%;margin-right:10px;color:#fff;transition:.3s}
-    .social-links a:hover{background:var(--secondary-color);transform:translateY(-3px)}
-    .footer-bottom{background:rgba(0,0,0,.3);padding:20px 0;text-align:center}
-    .footer-bottom p{margin:0;opacity:.8;font-size:14px}
+    /* Footer (modern sürüm) */
+    :root{--footer-start:#1c3952;--footer-end:#5a2ea6}
+    footer.footer-new{background:linear-gradient(135deg,var(--footer-start),var(--footer-end));color:#fff; padding:60px 0 0}
+    .footer-new .footer-container{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:30px; margin-bottom:40px}
+    .footer-new h3{color:#fff; font-size:20px; margin:0 0 20px; position:relative; padding-bottom:10px}
+    .footer-new h3:after{content:""; position:absolute; left:0; bottom:0; width:44px; height:3px; background:#10b3d1; border-radius:2px}
+    .footer-links, .footer-contact{ list-style:disc; padding-left:18px; margin:0 }
+    .footer-links li, .footer-contact li{ margin:10px 0 }
+    .footer-links a{ color:#fff; opacity:.85; text-decoration:none; transition:.25s }
+    .footer-links a:hover{ opacity:1; color:#10b3d1; padding-left:6px }
+    .footer-contact li{ display:flex; gap:10px; align-items:flex-start; list-style:none; padding-left:0 }
+    .footer-contact svg{ width:18px; height:18px; flex:0 0 18px; color:#10b3d1 }
+    .footer-contact a, .footer-contact span{ color:#e9f4ff; opacity:.9; text-decoration:none }
+    .social-links{ display:flex; gap:10px; margin-top:16px }
+    .social-links a{ width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,.12); color:#fff; text-decoration:none; transition:.25s }
+    .social-links a:hover{ background:#10b3d1; transform:translateY(-3px) }
+    .footer-bottom{ background:rgba(0,0,0,.28); padding:18px 0; text-align:center }
+    .footer-bottom p{ margin:0; opacity:.85; font-size:14px }
 
-    /* Floating Buttons */
-    .emergency-call{position:fixed;bottom:70px;right:30px;background:linear-gradient(135deg,#e74c3c,#c0392b);color:#fff;width:65px;height:65px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 5px 20px rgba(231,76,60,.4);z-index:999;cursor:pointer;transition:.3s;animation:pulse 2s infinite}
-    .emergency-call:hover{transform:scale(1.1)}
+    /* Yüzen butonlar (temaya uyumlu) */
+    .emergency-call{position:fixed;bottom:70px;right:30px;background:linear-gradient(135deg,#e74c3c,#c0392b);color:#fff;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 5px 20px rgba(231,76,60,.3);z-index:999;cursor:pointer;transition:.3s;animation:pulse 2s infinite}
+    .emergency-call:hover{transform:scale(1.07)}
     .emergency-call::after{content:'Ara: 0332 322 32 20';position:absolute;top:-35px;left:50%;transform:translateX(-50%);background:#e74c3c;color:#fff;padding:5px 10px;border-radius:20px;font-size:12px;white-space:nowrap;opacity:0;transition:opacity .3s}
     .emergency-call:hover::after{opacity:1}
 
-    .back-to-top{position:fixed;bottom:150px;right:30px;width:50px;height:50px;background:linear-gradient(135deg,#f39c12,#e67e22);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;z-index:999;cursor:pointer;opacity:0;transform:translateY(20px);transition:.4s;box-shadow:0 5px 15px rgba(0,0,0,.2)}
+    .back-to-top{position:fixed;bottom:150px;right:30px;width:50px;height:50px;background:linear-gradient(135deg,#f39c12,#e67e22);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;z-index:999;cursor:pointer;opacity:0;transform:translateY(20px);transition:.35s;box-shadow:0 5px 15px rgba(0,0,0,.2)}
     .back-to-top.show{opacity:1;transform:translateY(0)}
-    .back-to-top:hover{transform:translateY(-5px)}
 
-    .chat-bubble{position:fixed;bottom:150px;right:30px;background:linear-gradient(135deg,var(--ai-blue),#1f6fa5);color:#fff;width:65px;height:65px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 5px 20px rgba(52,152,219,.4);z-index:999;cursor:pointer;transition:.3s;animation:pulse-blue 2s infinite}
-    .chat-bubble:hover{transform:scale(1.1)}
-    .chat-bubble::after{content:'Canlı Destek';position:absolute;top:-35px;left:50%;transform:translateX(-50%);background:var(--ai-blue);color:#fff;padding:5px 10px;border-radius:20px;font-size:12px;white-space:nowrap;opacity:0;transition:opacity .3s}
-    .chat-bubble:hover::after{opacity:1}
+    .chat-bubble{position:fixed;bottom:150px;right:30px;background:linear-gradient(135deg,#0c4e54,#0f5960);color:#fff;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 5px 20px rgba(12,78,84,.35);z-index:999;cursor:pointer;transition:.3s}
+    .chat-bubble:hover{transform:scale(1.07)}
 
     .chat-container{position:fixed;bottom:230px;right:30px;width:350px;height:450px;background:#fff;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.2);z-index:1000;display:flex;flex-direction:column;overflow:hidden;transform:translateY(20px);opacity:0;visibility:hidden;transition:.3s}
     .chat-container.open{transform:translateY(0);opacity:1;visibility:visible}
-    .chat-header{background:linear-gradient(135deg,var(--ai-blue),#1f6fa5);color:#fff;padding:15px 20px;display:flex;align-items:center;justify-content:space-between}
-    .chat-header h3{color:#fff;font-size:18px;margin:0;display:flex;align-items:center;gap:10px}
-    .close-chat{background:none;border:0;color:#fff;font-size:20px;cursor:pointer}
-    .chat-messages{flex:1;padding:20px;overflow-y:auto;display:flex;flex-direction:column;gap:15px}
-    .message{max-width:80%;padding:12px 15px;border-radius:18px;font-size:14px;line-height:1.5;position:relative;animation:fadeIn .3s ease}
-    .message.user{background:#e6f7ff;color:#333;align-self:flex-end;border-bottom-right-radius:5px}
-    .message.ai{background:#f0f4f8;color:#333;align-self:flex-start;border-bottom-left-radius:5px}
-    .message.vet{background:#e6ffe6;color:#333;align-self:flex-start;border-bottom-left-radius:5px;border-left:3px solid var(--success-green)}
-    .message.vet::before{content:"Veteriner";display:block;font-size:10px;font-weight:bold;color:var(--success-green);margin-bottom:5px}
-    .chat-input{display:flex;padding:15px;background:#f8f9fa;border-top:1px solid #eee}
-    .chat-input input{flex:1;padding:12px 15px;border:1px solid #ddd;border-radius:30px;outline:0;font-size:14px}
-    .chat-input button{background:var(--ai-blue);color:#fff;border:0;border-radius:50%;width:40px;height:40px;margin-left:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.3s}
-    .chat-input button:hover{background:#1f6fa5;transform:scale(1.05)}
-    .vet-transfer{background:#f9f9f9;border-top:1px solid #eee;padding:15px;text-align:center}
-    .vet-transfer p{font-size:14px;color:#666;margin-bottom:10px}
-    .vet-transfer button{background:linear-gradient(135deg,var(--success-green),#27ae60);color:#fff;border:0;border-radius:30px;padding:8px 20px;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:.3s}
+    .chat-header{background:linear-gradient(135deg,#0c4e54,#0f5960);color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+    .chat-header h3{color:#fff;font-size:16px;margin:0;display:flex;align-items:center;gap:10px}
+    .close-chat{background:none;border:0;color:#fff;font-size:18px;cursor:pointer}
+    .chat-messages{flex:1;padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+    .message{max-width:80%;padding:12px 14px;border-radius:16px;font-size:14px;line-height:1.5;position:relative}
+    .message.user{background:#e6f7ff;color:#123;align-self:flex-end;border-bottom-right-radius:5px}
+    .message.ai{background:#f0f4f8;color:#123;align-self:flex-start;border-bottom-left-radius:5px}
+    .message.vet{background:#e6ffe6;color:#123;align-self:flex-start;border-bottom-left-radius:5px;border-left:3px solid #2ecc71}
+    .message.vet::before{content:"Veteriner";display:block;font-size:10px;font-weight:bold;color:#2ecc71;margin-bottom:5px}
+    .chat-input{display:flex;padding:12px;background:#f8f9fa;border-top:1px solid #eee}
+    .chat-input input{flex:1;padding:10px 14px;border:1px solid #ddd;border-radius:30px;outline:0;font-size:14px}
+    .chat-input button{background:var(--brand);color:#fff;border:0;border-radius:50%;width:40px;height:40px;margin-left:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.25s}
+    .chat-input button:hover{background:var(--brand2);transform:scale(1.04)}
+    .vet-transfer{background:#f9f9f9;border-top:1px solid #eee;padding:12px;text-align:center}
+    .vet-transfer p{font-size:13px;color:#666;margin-bottom:8px}
+    .vet-transfer button{background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;border:0;border-radius:30px;padding:8px 16px;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:.25s}
     .vet-transfer button:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(46,204,113,.3)}
 
-    .typing-indicator{display:flex;align-items:center;gap:5px;margin-top:5px;opacity:.7;font-size:12px}
-    .typing-indicator span{display:inline-block;width:6px;height:6px;background:#777;border-radius:50%;animation:typing 1.4s infinite ease-in-out}
-    .typing-indicator span:nth-child(2){animation-delay:.2s}
-    .typing-indicator span:nth-child(3){animation-delay:.4s}
-
-    @keyframes typing{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
-    @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(231,76,60,.7)}70%{box-shadow:0 0 0 15px rgba(231,76,60,0)}100%{box-shadow:0 0 0 0 rgba(231,76,60,0)}}
-    @keyframes pulse-blue{0%{box-shadow:0 0 0 0 rgba(52,152,219,.7)}70%{box-shadow:0 0 0 15px rgba(52,152,219,0)}100%{box-shadow:0 0 0 0 rgba(52,152,219,0)}}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(231,76,60,.6)}70%{box-shadow:0 0 0 15px rgba(231,76,60,0)}100%{box-shadow:0 0 0 0 rgba(231,76,60,0)}}
 
     /* Responsive */
-    @media (max-width:992px){
-      nav ul{display:none;position:absolute;top:100%;left:0;width:100%;background:var(--white);flex-direction:column;box-shadow:0 10px 20px rgba(0,0,0,.1);padding:20px 0}
-      nav ul.show{display:flex}
-      nav li{margin:0;padding:10px 20px;border-bottom:1px solid #eee}
-      .mobile-menu-btn{display:block}
-      .page-header h1{font-size:36px}
-      .page-header{padding:140px 0 60px}
-      .dropdown> a::after{position:absolute;right:20px;top:50%;transform:translateY(-50%)}
-      .dropdown-content{position:static;display:none;box-shadow:none;padding-left:20px;opacity:1;transform:none}
-      .dropdown.active .dropdown-content{display:block}
-      .dropdown.active> a::after{transform:rotate(180deg) translateY(50%)}
+    @media (max-width:960px){ .menu{display:none} }
+    @media (max-width:768px){
+      .page-header{padding:96px 0 44px}
       .chat-container{width:300px;height:400px;right:15px}
     }
-    @media (max-width:768px){
-      .header-contact{flex-direction:column;align-items:flex-start}
-      .header-contact a{margin:5px 0 0}
-      .page-header{padding:120px 0 50px}
-      .page-header h1{font-size:32px}
-      .page-header p{font-size:18px}
-      .emergency-call{bottom:60px;right:20px;width:55px;height:55px;font-size:22px}
-      .chat-bubble{bottom:130px;right:20px;width:55px;height:55px;font-size:22px}
-      .back-to-top{bottom:200px;right:20px;width:45px;height:45px;font-size:18px}
-      .cta-buttons{flex-direction:column}
-      .cta-button{width:100%}
-    }
-    /* Skip link */
-    .skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
-    .skip-link:focus{left:10px;top:10px;width:auto;height:auto;background:#000;color:#fff;padding:8px 12px;border-radius:6px;z-index:10000}
   </style>
 
-  <!-- Structured Data -->
+  <!-- Schema.org -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -198,7 +165,7 @@
     "name":"Elçi Veteriner Kliniği",
     "address":{
       "@type":"PostalAddress",
-      "streetAddress":"Yeni Meram Caddesi No:17/1",
+      "streetAddress":"Havzan Mah. Yeni Meram Cad. 17/1",
       "addressLocality":"Meram",
       "addressRegion":"Konya",
       "addressCountry":"TR"
@@ -206,111 +173,49 @@
     "telephone":"+90-332-322-32-20",
     "email":"mailto:elcivetklinig@gmail.com",
     "areaServed":"Konya",
-    "url":"https://www.ornekalanadi.com/sss.html"
+    "url":"https://elciveteriner.com/sss.html"
   }
   </script>
 </head>
 <body>
   <a class="skip-link" href="#maincontent">İçeriğe atla</a>
 
-  <!-- Header -->
-  <header>
-    <div class="header-top" role="contentinfo">
-      <div class="container">
-        <div class="header-contact">
-          <span><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</span>
-        </div>
-        <div class="header-contact">
-          <a href="tel:03323223220"><i class="fas fa-phone-alt" aria-hidden="true"></i> 0332 322 32 20</a>
-          <a href="mailto:elcivetklinig@gmail.com"><i class="fas fa-envelope" aria-hidden="true"></i> elcivetklinig@gmail.com</a>
-        </div>
-      </div>
-    </div>
-    <div class="header-main">
-      <div class="container">
-        <div class="logo" aria-label="Elçi Veteriner">
-          <div class="logo-text">
-            <h1 style="font-size:24px">Elçi Veteriner</h1>
-            <span>Hayvan Sağlığında Mükemmellik</span>
-          </div>
-        </div>
-        <nav aria-label="Ana menü">
-          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Mobil menüyü aç/kapat" aria-expanded="false" aria-controls="mainMenu">
-            <i class="fas fa-bars"></i>
-          </button>
-          <ul id="mainMenu">
-            <li><a href="index.html">Ana Sayfa</a></li>
-
-            <li class="dropdown">
-              <a href="hakkimizda.html">Hakkımızda</a>
-              <div class="dropdown-content" role="menu">
-                <a href="hakkimizda.html#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
-                <a href="hakkimizda.html#ekibimiz" role="menuitem">Ekibimiz</a>
-                <a href="hakkimizda.html#klinigimiz" role="menuitem">Kliniğimiz</a>
-                <a href="hakkimizda.html#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
-                <a href="hakkimizda.html#degerlerimiz" role="menuitem">Değerlerimiz</a>
-              </div>
-            </li>
-
-            <li class="dropdown">
-              <a href="hizmetler.html">Hizmetlerimiz</a>
-              <div class="dropdown-content" role="menu">
-                <a href="hizmetler.html#acil" role="menuitem">Acil Veteriner Hizmetleri</a>
-                <a href="hizmetler.html#koruyucu" role="menuitem">Koruyucu Hekimlik</a>
-                <a href="hizmetler.html#cerrahi" role="menuitem">Cerrahi Operasyonlar</a>
-                <a href="hizmetler.html#agiz-dis" role="menuitem">Ağız ve Diş Sağlığı</a>
-                <a href="hizmetler.html#ic-hastaliklari" role="menuitem">İç Hastalıkları</a>
-                <a href="hizmetler.html#dogum" role="menuitem">Doğum ve Jinekoloji</a>
-                <a href="hizmetler.html#fizik-tedavi" role="menuitem">Fizik Tedavi</a>
-                <a href="hizmetler.html#konaklama" role="menuitem">Konaklama Hizmetleri</a>
-              </div>
-            </li>
-
-            <li class="dropdown">
-              <a href="blog.html">Blog</a>
-              <div class="dropdown-content" role="menu">
-                <a href="blog.html" role="menuitem">Evcil Hayvan Rehberleri</a>
-                <a href="blog.html" role="menuitem">Sağlık &amp; Tedavi Rehberi</a>
-                <a href="blog.html" role="menuitem">Kliniğimizden Haberler</a>
-              </div>
-            </li>
-
-            <li class="dropdown">
-              <a href="sss.html" class="active" aria-current="page">SSS</a>
-              <div class="dropdown-content" role="menu">
-                <a href="#fiyat" role="menuitem">Fiyat &amp; Ödeme Programlarımız</a>
-                <a href="#surec" role="menuitem">Hizmet Süreçleri</a>
-                <a href="#acil" role="menuitem">Acil Durumlar</a>
-              </div>
-            </li>
-
-            <li class="dropdown">
-              <a href="hasta_iliskileri.html">Hasta İlişkileri</a>
-              <div class="dropdown-content" role="menu">
-                <a href="hasta_iliskileri.html#randevu" role="menuitem">Online Randevu</a>
-                <a href="hasta_iliskileri.html#anket" role="menuitem">Memnuniyet Anketi</a>
-                <a href="hasta_iliskileri.html#hikayeler" role="menuitem">Başarı Hikayeleri</a>
-                <a href="hasta_iliskileri.html#sikayet" role="menuitem">Şikayet &amp; Öneri</a>
-              </div>
-            </li>
-          </ul>
-        </nav>
-      </div>
+  <!-- Top Bar -->
+  <header class="topbar">
+    <div class="container">
+      <div>Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</div>
+      <div>☎ 0332 322 32 20 &nbsp;•&nbsp; 📧 elcivetklinig@gmail.com</div>
     </div>
   </header>
+
+  <!-- Nav -->
+  <nav class="site-nav" aria-label="Ana menü">
+    <div class="container">
+      <a class="brand" href="/">🐾 Elçi Veteriner Kliniği</a>
+      <div class="menu">
+        <a href="/about.html">Hakkımızda</a>
+        <a href="/hizmetler.html">Hizmetler</a>
+        <a href="/blog.html">Blog</a>
+        <a href="/sss.html" class="active" aria-current="page">SSS</a>
+        <a href="/hasta-iliskileri.html">Hasta İlişkileri</a>
+        <a class="btn primary" href="tel:03323223220">Acil Ara</a>
+      </div>
+    </div>
+  </nav>
 
   <!-- Page Header -->
   <section class="page-header">
     <div class="container">
       <h1>Sıkça Sorulan Sorular</h1>
-      <p>Elçi Veteriner Kliniği hakkında merak ettikleriniz ve hayvan sağlığı ile ilgili önemli bilgiler</p>
+      <div class="hero-divider" aria-hidden="true"></div>
+      <p>Elçi Veteriner Kliniği hakkında merak ettikleriniz ve hayvan sağlığıyla ilgili önemli bilgiler.</p>
     </div>
   </section>
 
   <!-- Breadcrumb -->
   <nav class="breadcrumb" aria-label="İçerik yolu">
     <div class="container">
-      <a href="index.html">Ana Sayfa</a> <span aria-hidden="true">&gt;</span> <span>SSS</span>
+      <a href="/index.html">Ana Sayfa</a> <span aria-hidden="true">›</span> <span>SSS</span>
     </div>
   </nav>
 
@@ -320,7 +225,7 @@
       <div class="sss-container">
         <div class="sss-intro">
           <h2>Merak Ettikleriniz</h2>
-          <p>Aşağıda Elçi Veteriner Kliniği ile ilgili en sık sorulan soruları ve cevaplarını bulabilirsiniz. Eğer aradığınızı bulamazsanız bize ulaşın.</p>
+          <p>En sık sorulan sorular ve kısa yanıtlar. Aradığınızı bulamazsanız bize yazın.</p>
         </div>
 
         <!-- Fiyat ve Ödeme -->
@@ -333,14 +238,14 @@
                 <i class="fas fa-chevron-down" aria-hidden="true"></i>
               </button>
               <div class="accordion-content" role="region" id="acc-content-1" aria-labelledby="acc-header-1">
-                <p>Muayene ücretlerimiz hayvan türüne ve muayenenin kapsamına göre değişiklik göstermektedir. Genel muayene ücretleri:</p>
+                <p>Muayene ücretleri hayvan türü ve kapsamına göre değişir. Genel muayene ücretleri:</p>
                 <ul>
                   <li>Kedi/Köpek Genel Muayene: 350₺</li>
                   <li>Kanatlı Hayvan Muayenesi: 250₺</li>
                   <li>Egzotik Hayvan Muayenesi: 350₺</li>
                   <li>Kontrol Muayenesi: 200₺</li>
                 </ul>
-                <p>Detaylı fiyat bilgisi için lütfen kliniğimizi arayınız.</p>
+                <p>Detaylı bilgi için lütfen arayınız.</p>
               </div>
             </div>
 
@@ -350,7 +255,7 @@
                 <i class="fas fa-chevron-down" aria-hidden="true"></i>
               </button>
               <div class="accordion-content" role="region" id="acc-content-2" aria-labelledby="acc-header-2">
-                <p>Evet, 1000₺ ve üzeri işlemlerde 3-6-9 taksit imkanı sunmaktayız. Taksit seçenekleri kredi kartınıza ve bankanıza göre değişiklik gösterebilir.</p>
+                <p>Evet. 1000₺ ve üzeri işlemlerde 3–6–9 taksit seçenekleri mevcuttur (banka/karta göre değişebilir).</p>
               </div>
             </div>
 
@@ -360,7 +265,7 @@
                 <i class="fas fa-chevron-down" aria-hidden="true"></i>
               </button>
               <div class="accordion-content" role="region" id="acc-content-3" aria-labelledby="acc-header-3">
-                <p>Cerrahi operasyonlar, diş tedavileri, fizik tedavi gibi özel hizmetlerimizin ücretleri tedavinin kapsamına göre değişmektedir. Size özel fiyat teklifi için lütfen kliniğimizle iletişime geçin.</p>
+                <p>Cerrahi, diş tedavisi, fizik tedavi gibi işlemler kapsamına göre fiyatlandırılır. Size özel teklif için iletişime geçin.</p>
               </div>
             </div>
           </div>
@@ -376,12 +281,12 @@
                 <i class="fas fa-chevron-down" aria-hidden="true"></i>
               </button>
               <div class="accordion-content" role="region" id="acc-content-4" aria-labelledby="acc-header-4">
-                <p>Randevu almak için şu yöntemlerden birini kullanabilirsiniz:</p>
+                <p>Şu yöntemlerden biriyle hızlıca randevu alabilirsiniz:</p>
                 <ul>
-                  <li>Online randevu: <a href="hasta_iliskileri.html#randevu">Randevu Al</a></li>
+                  <li>Online: <a href="/hasta-iliskileri.html#randevu">Randevu Al</a></li>
                   <li>Telefon: <a href="tel:03323223220">0332 322 32 20</a></li>
                   <li>WhatsApp: <a href="https://wa.me/905532621670" target="_blank" rel="noopener">0553 262 16 70</a></li>
-                  <li>Kliniğimize gelerek</li>
+                  <li>Kliniğe gelerek</li>
                 </ul>
               </div>
             </div>
@@ -392,12 +297,12 @@
                 <i class="fas fa-chevron-down" aria-hidden="true"></i>
               </button>
               <div class="accordion-content" role="region" id="acc-content-5" aria-labelledby="acc-header-5">
-                <p>Cerrahi operasyon öncesi süreç:</p>
+                <p>Standart akış:</p>
                 <ol>
                   <li>Ön muayene ve preoperatif değerlendirme</li>
                   <li>Kan testleri ve gerekli tetkikler</li>
                   <li>Operasyon öncesi 8–12 saat açlık</li>
-                  <li>Anestezi öncesi hazırlık</li>
+                  <li>Anestezi hazırlığı</li>
                   <li>Operasyon sonrası bakım talimatları</li>
                 </ol>
               </div>
@@ -409,13 +314,13 @@
                 <i class="fas fa-chevron-down" aria-hidden="true"></i>
               </button>
               <div class="accordion-content" role="region" id="acc-content-6" aria-labelledby="acc-header-6">
-                <p>Evet, günlük ve uzun süreli konaklama hizmeti sunuyoruz. Konaklama ücretleri:</p>
+                <p>Evet, günlük/uzun süreli konaklama vardır. Konaklama ücretleri:</p>
                 <ul>
                   <li>Kedi/Köpek Standart: 150₺/gün</li>
                   <li>Lüks Suite: 250₺/gün</li>
                   <li>Kanatlı Hayvan: 100₺/gün</li>
                 </ul>
-                <p>Rezervasyon için lütfen önceden arayın.</p>
+                <p>Rezervasyon için önceden aramanızı öneririz.</p>
               </div>
             </div>
           </div>
@@ -431,14 +336,14 @@
                 <i class="fas fa-chevron-down" aria-hidden="true"></i>
               </button>
               <div class="accordion-content" role="region" id="acc-content-7" aria-labelledby="acc-header-7">
-                <p>Acil durumlarda:</p>
+                <p>Acilde şu adımları izleyin:</p>
                 <ol>
-                  <li>Sakin kalın ve hayvanı sakinleştirin.</li>
-                  <li>Güvenli şekilde taşıyın.</li>
+                  <li>Sakin kalın ve dostunuzu güvenle sabitleyin.</li>
+                  <li>Güvenli taşıma kutusu/kemer kullanın.</li>
                   <li>Hemen <a href="tel:03323223220">0332 322 32 20</a> numarasını arayın.</li>
-                  <li>Yolda veteriner hekimimizin talimatlarına uyun.</li>
+                  <li>Yolda hekim talimatlarına uyun.</li>
                 </ol>
-                <p>Acil servisimiz 7/24 hizmet vermektedir.</p>
+                <p>Acil servisimiz 7/24 açıktır.</p>
               </div>
             </div>
 
@@ -448,13 +353,12 @@
                 <i class="fas fa-chevron-down" aria-hidden="true"></i>
               </button>
               <div class="accordion-content" role="region" id="acc-content-8" aria-labelledby="acc-header-8">
-                <p>Zehirlenme şüphesinde:</p>
+                <p>Şüphede iseniz:</p>
                 <ul>
-                  <li>Hemen veteriner hekimi arayın.</li>
-                  <li>Zehirin ne olduğunu öğrenmeye çalışın (ilaç, bitki, kimyasal vb.).</li>
-                  <li>Kusmaya zorlamayın (bazı durumlarda tehlikelidir).</li>
-                  <li>Hayvanı sakinleştirin ve hareketini kısıtlayın.</li>
-                  <li>En kısa sürede kliniğimize getirin.</li>
+                  <li>Vakit kaybetmeden veterineri arayın.</li>
+                  <li>Maddeyi belirlemeye çalışın (ilaç, bitki, kimyasal).</li>
+                  <li>Kusmaya zorlamayın (bazı maddelerde tehlikelidir).</li>
+                  <li>Hareketi kısıtlayın, hızla kliniğe getirin.</li>
                 </ul>
               </div>
             </div>
@@ -465,106 +369,93 @@
                 <i class="fas fa-chevron-down" aria-hidden="true"></i>
               </button>
               <div class="accordion-content" role="region" id="acc-content-9" aria-labelledby="acc-header-9">
-                <p>Aşağıdaki durumlarda hemen veterinerle iletişime geçin:</p>
+                <p>Şu durumlarda hemen iletişim kurun:</p>
                 <ul>
-                  <li>Sancılar başladıktan 2 saat sonra yavru gelmemişse,</li>
+                  <li>Sancıdan 2 saat sonra yavru gelmiyorsa,</li>
                   <li>Yeşilimsi/kanlı akıntı varsa,</li>
-                  <li>Anne aşırı halsizse ya da bilinci dalgalanıyorsa,</li>
+                  <li>Anne aşırı halsiz/bilinci dalgalıysa,</li>
                   <li>Yavru yarı çıkmış ve ilerleme yoksa,</li>
-                  <li>Doğumdan 24 saat sonra plasenta atılmamışsa.</li>
+                  <li>Doğumdan 24 saat sonra plasenta atılmadıysa.</li>
                 </ul>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- CTA -->
+        <!-- CTA bar (site stiline uygun) -->
         <div class="sss-cta">
-          <h3>Hâlâ Sorularınız mı Var?</h3>
-          <p>Ekibimiz her zaman yardımcı olmaya hazır. Aşağıdaki seçeneklerden bize ulaşabilirsiniz.</p>
+          <strong>Hâlâ sorularınız mı var?</strong>
           <div class="cta-buttons">
-            <a href="tel:03323223220" class="cta-button primary"><i class="fas fa-phone-alt" aria-hidden="true"></i> Hemen Ara: 0332 322 32 20</a>
-            <a href="hasta_iliskileri.html#randevu" class="cta-button secondary"><i class="fas fa-calendar-check" aria-hidden="true"></i> Online Randevu Al</a>
+            <a href="tel:03323223220" class="btn primary"><i class="fas fa-phone-alt" aria-hidden="true"></i> Hemen Ara</a>
+            <a href="/hasta-iliskileri.html#randevu" class="btn ghost"><i class="fas fa-calendar-check" aria-hidden="true"></i> Online Randevu</a>
           </div>
         </div>
       </div>
     </div>
   </main>
 
-  <!-- Footer -->
-  <footer>
+  <!-- Footer (ana sitenin modern sürümü) -->
+  <footer class="footer-new">
     <div class="container footer-container">
       <div class="footer-col">
         <h3>Elçi Veteriner Kliniği</h3>
-        <p>Konya'nın Meram ilçesinde, hayvan sağlığı alanında uzman ekibimizle hizmet veriyoruz. 7/24 acil veteriner hizmeti.</p>
+        <p>Konya’nın Meram ilçesinde, hayvan sağlığı alanında uzman ekibimizle hizmet veriyoruz. 7/24 acil veteriner hizmeti.</p>
         <div class="social-links">
-          <a href="https://www.facebook.com/elciveteriner" aria-label="Facebook" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/elciveteriner" aria-label="Instagram" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-          <a href="https://twitter.com/elciveteriner" aria-label="Twitter" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
-          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" aria-label="YouTube" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
         </div>
       </div>
+
       <div class="footer-col">
         <h3>Hızlı Linkler</h3>
         <ul class="footer-links">
-          <li><a href="index.html">Ana Sayfa</a></li>
-          <li><a href="hakkimizda.html">Hakkımızda</a></li>
-          <li><a href="hizmetler.html">Hizmetlerimiz</a></li>
-          <li><a href="blog.html">Blog</a></li>
-          <li><a href="sss.html">SSS</a></li>
-          <li><a href="hasta_iliskileri.html">Hasta İlişkileri</a></li>
+          <li><a href="/index.html">Ana Sayfa</a></li>
+          <li><a href="/about.html">Hakkımızda</a></li>
+          <li><a href="/hizmetler.html">Hizmetlerimiz</a></li>
+          <li><a href="/blog.html">Blog</a></li>
+          <li><a href="/sss.html">SSS</a></li>
+          <li><a href="/hasta-iliskileri.html">Hasta İlişkileri</a></li>
         </ul>
       </div>
+
       <div class="footer-col">
         <h3>Konya Veteriner Hizmetlerimiz</h3>
         <ul class="footer-links">
-          <li><a href="hizmetler.html#acil">Konya Acil Veteriner</a></li>
-          <li><a href="hizmetler.html#cerrahi">Konya'da Cerrahi Operasyonlar</a></li>
-          <li><a href="hizmetler.html#agiz-dis">Konya'da Ağız ve Diş Sağlığı</a></li>
-          <li><a href="hizmetler.html#ic-hastaliklari">Konya'da İç Hastalıkları</a></li>
+          <li><a href="/hizmetler.html#acil">Konya Acil Veteriner</a></li>
+          <li><a href="/hizmetler.html#cerrahi">Konya’da Cerrahi Operasyonlar</a></li>
+          <li><a href="/hizmetler.html#agiz-dis">Konya’da Ağız ve Diş Sağlığı</a></li>
+          <li><a href="/hizmetler.html#ic-hastaliklari">Konya’da İç Hastalıkları</a></li>
+          <li><a href="/hizmetler.html#fizik-tedavi">Konya’da Fizik Tedavi</a></li>
         </ul>
       </div>
+
       <div class="footer-col">
         <h3>Konya İletişim</h3>
         <ul class="footer-contact">
-          <li>
-            <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
-            <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mahallesi, Yeni Meram Caddesi No:17/1, Meram/Konya</a>
-          </li>
-          <li>
-            <i class="fas fa-phone-alt" aria-hidden="true"></i>
-            <a href="tel:03323223220">0332 322 32 20</a>
-          </li>
-          <li>
-            <i class="fas fa-envelope" aria-hidden="true"></i>
-            <a href="mailto:elcivetklinig@gmail.com">elcivetklinig@gmail.com</a>
-          </li>
-          <li>
-            <i class="fas fa-clock" aria-hidden="true"></i>
-            <span>Pazartesi–Cumartesi: 08:00–19:00<br>Pazar: Acil Hizmet</span>
-          </li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"/><circle cx="12" cy="11" r="2.5"/></svg>
+            <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18"><path d="M22 16.5v2a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3.1 19 19 0 0 1-6-6A2 2 0 0 1 7.5 9h2l2 3-1.5 1.5a16 16 0 0 0 6 6L18 18l3 2.5z"/></svg>
+            <a href="tel:03323223220">0332 322 32 20</a></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+            <a href="mailto:elcivetklinig@gmail.com">elcivetklinig@gmail.com</a></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
+            <span>Pazartesi–Cumartesi: 08:00–19:00<br>Pazar: Acil Hizmet</span></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <div class="container">
-        <p>&copy; 2023 Elçi Veteriner Kliniği - Konya. Tüm hakları saklıdır.</p>
+        <p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p>
       </div>
     </div>
   </footer>
 
   <!-- Floating Buttons -->
-  <button class="emergency-call" id="emergencyCall" aria-label="Acil arama: 0332 322 32 20">
-    <i class="fas fa-phone-alt" aria-hidden="true"></i>
-  </button>
-
-  <button class="back-to-top" id="backToTop" aria-label="Sayfanın başına dön">
-    <i class="fas fa-arrow-up" aria-hidden="true"></i>
-  </button>
-
-  <button class="chat-bubble" id="chatBubble" aria-label="Canlı destek sohbetini aç">
-    <i class="fas fa-comment-dots" aria-hidden="true"></i>
-  </button>
+  <button class="emergency-call" id="emergencyCall" aria-label="Acil arama: 0332 322 32 20"><i class="fas fa-phone-alt" aria-hidden="true"></i></button>
+  <button class="back-to-top" id="backToTop" aria-label="Sayfanın başına dön"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
+  <button class="chat-bubble" id="chatBubble" aria-label="Canlı destek sohbetini aç"><i class="fas fa-comment-dots" aria-hidden="true"></i></button>
 
   <!-- Chat -->
   <div class="chat-container" id="chatContainer" role="dialog" aria-labelledby="chatTitle" aria-modal="true">
@@ -575,12 +466,10 @@
     <div class="chat-messages" id="chatMessages">
       <div class="message ai">
         Merhaba! Ben Elçi Veteriner'in sanal asistanıyım. Size nasıl yardımcı olabilirim? 😊<br><br>
-        Aşağıdaki konularda bilgi alabilirsiniz:<br>
         • Muayene ücretleri<br>
         • Randevu alma<br>
         • Acil durumlar<br>
-        • Konaklama hizmetleri<br>
-        • Diğer sorularınız
+        • Konaklama hizmetleri
       </div>
     </div>
     <div class="chat-input">
@@ -588,33 +477,14 @@
       <button id="sendMessage" aria-label="Mesaj gönder"><i class="fas fa-paper-plane" aria-hidden="true"></i></button>
     </div>
     <div class="vet-transfer">
-      <p>Yapay zeka sorunuzu yanıtlayamazsa veteriner hekimimize bağlanabilirsiniz</p>
-      <button id="transferToVet" aria-label="Veteriner hekimle WhatsApp üzerinden konuş">
-        <i class="fab fa-whatsapp" aria-hidden="true"></i> Veteriner Hekimle Konuş
-      </button>
+      <p>Gerekirse sizi doğrudan veteriner hekimimize bağlayabilirim.</p>
+      <button id="transferToVet" aria-label="Veteriner hekimle WhatsApp üzerinden konuş"><i class="fab fa-whatsapp" aria-hidden="true"></i> Veteriner Hekimle Konuş</button>
     </div>
   </div>
 
   <script>
-    // Mobile Menu
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const mainMenu = document.getElementById('mainMenu');
-    mobileMenuBtn.addEventListener('click', () => {
-      mainMenu.classList.toggle('show');
-      const expanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
-      mobileMenuBtn.setAttribute('aria-expanded', String(!expanded));
-    });
-
-    // Mobile dropdown open/close
-    const dropdownToggles = document.querySelectorAll('#mainMenu .dropdown > a');
-    dropdownToggles.forEach(toggle => {
-      toggle.addEventListener('click', function(e){
-        if (window.innerWidth <= 992){
-          e.preventDefault();
-          this.parentElement.classList.toggle('active');
-        }
-      });
-    });
+    // Footer yıl
+    document.getElementById('yil').textContent=new Date().getFullYear();
 
     // Emergency Call
     document.getElementById('emergencyCall').addEventListener('click', () => {
@@ -629,24 +499,6 @@
     });
     backToTopBtn.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // Accordion
-    const accordionHeaders = document.querySelectorAll('.accordion-header');
-    accordionHeaders.forEach((header) => {
-      const content = header.nextElementSibling;
-      header.addEventListener('click', () => {
-        const isOpen = header.getAttribute('aria-expanded') === 'true';
-        // Close all others
-        accordionHeaders.forEach(h => {
-          h.setAttribute('aria-expanded','false');
-          h.nextElementSibling.classList.remove('show');
-        });
-        // Toggle this
-        header.setAttribute('aria-expanded', String(!isOpen));
-        if (!isOpen) content.classList.add('show');
-        else content.classList.remove('show');
-      });
     });
 
     // Chat
@@ -665,12 +517,11 @@
       const messageDiv = document.createElement('div');
       messageDiv.className = `message ${sender}`;
       if (trustedHTML){ messageDiv.innerHTML = text; }
-      else { messageDiv.textContent = text; } // user content stays safe
+      else { messageDiv.textContent = text; }
       chatMessages.appendChild(messageDiv);
       chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    // Linkify helper for AI messages (simple)
     function linkify(text){
       const urlRegex = /(https?:\/\/[^\s]+)/g;
       return text.replace(urlRegex, function(url){
@@ -681,19 +532,19 @@
     function sendMessageToChat(){
       const message = chatInput.value.trim();
       if (!message) return;
-      addMessage(message, 'user'); // user -> textContent only
+      addMessage(message, 'user');
       chatInput.value = '';
 
-      const typingIndicator = document.createElement('div');
-      typingIndicator.className = 'typing-indicator';
-      typingIndicator.innerHTML = 'Elçi Veteriner yazıyor... <span></span><span></span><span></span>';
-      chatMessages.appendChild(typingIndicator);
+      const typing = document.createElement('div');
+      typing.className = 'message ai';
+      typing.style.opacity = '.65';
+      typing.textContent = 'Yazıyor...';
+      chatMessages.appendChild(typing);
       chatMessages.scrollTop = chatMessages.scrollHeight;
 
       setTimeout(() => {
-        chatMessages.removeChild(typingIndicator);
+        chatMessages.removeChild(typing);
         const aiResponse = getAIResponse(message);
-        // AI response may contain links -> trustedHTML true
         addMessage(linkify(aiResponse), 'ai', true);
       }, 900);
     }
@@ -704,19 +555,18 @@
     transferToVet.addEventListener('click', () => {
       addMessage('Sizi veteriner hekimimizle WhatsApp üzerinden görüşmeye yönlendiriyorum...', 'ai', true);
       setTimeout(() => {
-        addMessage('Merhaba, ben Veteriner Hekim Ahmet Elçi. Size nasıl yardımcı olabilirim?', 'vet', true);
         window.open('https://wa.me/905532621670', '_blank');
-      }, 800);
+      }, 600);
     });
 
-    // Simple AI responses (metinler sayfadaki bilgilerle uyumlu)
+    // Basit AI yanıtları (sayfadaki bilgilere uygun)
     function getAIResponse(message){
       const m = message.toLowerCase();
       if (m.includes('fiyat') || m.includes('ücret')){
         return "Genel muayene ücretleri: Kedi/Köpek 350₺, Kanatlı 250₺, Egzotik 350₺, Kontrol 200₺. Net bilgi için lütfen 0332 322 32 20 numarasını arayın.";
       }
       if (m.includes('randevu') || m.includes('rezervasyon')){
-        return "Randevu için: Online form (hasta_iliskileri.html#randevu), Telefon: 0332 322 32 20, WhatsApp: https://wa.me/905532621670";
+        return "Randevu için: Online form (/hasta-iliskileri.html#randevu), Telefon: 0332 322 32 20, WhatsApp: https://wa.me/905532621670";
       }
       if (m.includes('acil')){
         return "Acil durumlarda 7/24 hizmet veriyoruz. Lütfen hemen arayın: 0332 322 32 20.";
@@ -732,6 +582,21 @@
       }
       return "Sorunuzu tam anlayamadım. Dilerseniz WhatsApp üzerinden veteriner hekimimize bağlanabilirim.";
     }
+
+    // Accordion davranışı
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+    accordionHeaders.forEach((header) => {
+      const content = header.nextElementSibling;
+      header.addEventListener('click', () => {
+        const isOpen = header.getAttribute('aria-expanded') === 'true';
+        accordionHeaders.forEach(h => {
+          h.setAttribute('aria-expanded','false');
+          h.nextElementSibling.classList.remove('show');
+        });
+        header.setAttribute('aria-expanded', String(!isOpen));
+        if (!isOpen) content.classList.add('show');
+      });
+    });
   </script>
 </body>
 </html>
