@@ -1,161 +1,148 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Elçi Veteriner Kliniği | Konya’da 7/24 Acil, Cerrahi, Görüntüleme</title>
-  <meta name="description" content="Konya Meram Elçi Veteriner Kliniği: 7/24 acil, koruyucu hekimlik, cerrahi, diş sağlığı, röntgen, ultrason, laboratuvar. Hızlı randevu ve güvenilir bakım."/>
-  <link rel="canonical" href="https://www.ornekalanadi.com/"/>
-  <meta property="og:title" content="Elçi Veteriner Kliniği | Konya’da 7/24 Acil, Cerrahi, Görüntüleme"/>
-  <meta property="og:description" content="Koruyucu hekimlikten ileri cerrahiye; röntgen, ultrason ve laboratuvar ile kapsamlı veterinerlik hizmetleri."/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:locale" content="tr_TR"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hizmetlerimiz | Elçi Veteriner Kliniği</title>
+  <meta name="description" content="Elçi Veteriner Kliniği: Acil & yoğun bakım, muayene ve koruyucu hekimlik, cerrahi, ağız ve diş sağlığı, kardiyoloji, görüntüleme & laboratuvar, doğum-jinekoloji, fizik tedavi ve konaklama hizmetleri." />
+  <link rel="canonical" href="https://elciveteriner.com/hizmetler.html" />
+  <meta property="og:title" content="Hizmetlerimiz | Elçi Veteriner Kliniği" />
+  <meta property="og:description" content="Konya’da 7/24 acil ve kapsamlı veterinerlik: cerrahi, diş sağlığı, görüntüleme & laboratuvar, doğum-jinekoloji ve daha fazlası." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="tr_TR" />
 
-  <!-- Yazı tipleri / ikonlar (SSS sayfasıyla tutarlı) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+  <!-- Global stylesheet (site-wide) -->
+  <link rel="stylesheet" href="/assets/css/styles.css" />
 
   <style>
     :root{
-      --primary-color:#6a0ea1; --secondary-color:#10b3d1; --accent-color:#f39c12;
-      --light-color:#f8f9fa; --dark-color:#1c2430; --white:#fff; --gray:#6c757d;
-      --brand:#0c4e54; --ink:#112; --muted:#6b7a7c; --ai-blue:#3498db;
-      --bg-soft:#f5fbfc
+      --brand:#0c4e54; --brand2:#0f5960; --ink:#112; --muted:#6b7a7c; --bg:#f5fbfc; --gap:14px; --accent:#10b3d1;
     }
     *{box-sizing:border-box}
-    body{margin:0;font-family:'Roboto',system-ui,Segoe UI,Arial,sans-serif;color:var(--dark-color);background:#fff;overflow-x:hidden}
-    h1,h2,h3{font-family:'Montserrat',sans-serif}
-    a{color:var(--primary-color);text-decoration:none;transition:.25s}
-    a:hover{color:var(--secondary-color)}
+    body{color:var(--ink); background:#fff; margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
     .container{max-width:1200px;margin:0 auto;padding:0 16px}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 16px;border-radius:12px;border:1px solid var(--primary-color);font-weight:700}
-    .btn.primary{background:var(--primary-color);color:#fff;border-color:transparent}
-    .btn.ghost{background:transparent;color:var(--primary-color)}
-    .chip{display:inline-block;padding:6px 10px;border-radius:999px;background:#efe7f7;color:#4c0b7b;font-weight:700;font-size:12px}
+    .muted{color:var(--muted)}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:12px;border:1px solid var(--brand);font-weight:700;cursor:pointer;text-decoration:none;color:var(--brand)}
+    .btn.primary{background:var(--brand);color:#fff;border-color:transparent}
+    .btn.ghost{background:transparent;color:var(--brand)}
 
-    /* Header */
-    header.topbar{background:var(--primary-color);color:#fff;font-size:14px}
-    header.topbar .container{display:flex;justify-content:space-between;align-items:center;padding:6px 16px;gap:8px}
-    nav.site-nav{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #eef1f4}
-    nav.site-nav .container{display:flex;justify-content:space-between;align-items:center;padding:10px 16px}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;color:var(--primary-color)}
+    /* Topbar & Nav (match index.html) */
+    header.topbar{background:var(--brand2);color:#fff;font-size:14px}
+    header.topbar .container{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;padding:8px 16px}
+    nav.site-nav{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #edf2f2}
+    nav.site-nav .container{display:flex;align-items:center;justify-content:space-between;padding:10px 16px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;color:var(--brand);text-decoration:none}
     .menu{display:flex;gap:16px;align-items:center}
-    .menu a{color:#111;font-weight:600}
-    .menu .cta{margin-left:6px}
+    .menu a{text-decoration:none;color:#1a1a1a;font-weight:600}
+    .menu a.active{color:var(--brand); text-decoration:underline; text-underline-offset:4px}
+    .btn:focus{outline:2px solid var(--accent); outline-offset:2px}
+    .btn.primary:hover{filter:brightness(1.05)}
+    .btn.ghost:hover{background:rgba(12,78,84,.06)}
 
-    /* Hero */
-    .hero{
-      background:
-        linear-gradient(180deg, rgba(106,14,161,.10) 0%, rgba(106,14,161,0) 60%),
-        linear-gradient(180deg,#f3fbfc 0%,#eaf6f7 100%),
-        url('/assets/img/uploads/clinic-hero.jpg') center/cover no-repeat;
-    }
-    .hero .container{padding:60px 16px}
-    .hero-wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:center}
-    .hero h1{font-size:clamp(30px,4.8vw,50px);line-height:1.1;margin:8px 0 10px;color:#0d2440}
-    .hero p{font-size:18px;line-height:1.65;color:#203044;max-width:760px;margin:0}
-    .hero-cta{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
-    .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
-    .kpi{background:#fff;border:1px solid #e8eef2;border-radius:14px;padding:12px;text-align:center}
-    .kpi b{display:block;font-size:22px;color:#0d4f55}
+    /* Page hero */
+    .hero{background:linear-gradient(120deg, rgba(7,58,62,.95), rgba(15,89,96,.92)), url('/assets/img/uploads/clinic-hero.jpg') center/cover no-repeat; color:#fff}
+    .hero .container{display:flex;gap:24px;align-items:center;justify-content:space-between;padding:52px 16px}
+    .hero-text{max-width:760px}
+    .hero h1{margin:0 0 8px;font-size:clamp(28px,4.2vw,46px)}
+    .hero p{margin:0;opacity:.92;font-size:18px}
 
-    /* Trust strip */
-    .trust{margin-top:14px;background:#fff;border:1px dashed #cfe7f2;border-radius:14px;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-    .badges{display:flex;gap:10px;flex-wrap:wrap}
-    .badge{padding:8px 10px;border-radius:10px;background:#f2fafb;border:1px solid #e1f0f1;font-weight:700;font-size:12px}
+    /* Local TOC (side navigator) */
+    .toc{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);border-radius:14px;padding:14px;backdrop-filter:saturate(1.1) blur(2px)}
+    .toc h3{margin:0 0 10px;font-size:14px;opacity:.95}
+    .toc a{display:flex;align-items:center;gap:8px;color:#fff;text-decoration:none;padding:6px 8px;border-radius:8px;opacity:.92}
+    .toc a:hover{background:rgba(255,255,255,.14)}
 
-    /* Services */
-    section#services{padding:36px 0}
-    .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .card{background:#fff;border:1px solid #e9eff0;border-radius:16px;padding:18px;box-shadow:0 6px 14px rgba(0,0,0,.04)}
-    .card h3{margin:6px 0 8px;font-size:18px}
-    .card p{margin:0;color:#233}
-    .card .icon{width:32px;height:32px;border-radius:10px;background:#eef7ff;display:inline-flex;align-items:center;justify-content:center}
+    /* Sections */
+    .section{scroll-margin-top:90px;padding:40px 0;border-bottom:1px solid #edf2f2}
+    .section:last-of-type{border-bottom:0}
+    .s-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+    .s-left{display:flex;align-items:center;gap:10px}
+    .s-icon{width:44px;height:44px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0c4e54,#0f5960);color:#fff;box-shadow:0 8px 16px rgba(12,78,84,.25), inset 0 0 0 1px rgba(255,255,255,.18)}
+    .s-icon svg{width:24px;height:24px}
+    .s-title{margin:0;font-size:22px}
+    .s-grid{display:grid;grid-template-columns:2fr 1.2fr;gap:18px}
+    .s-card{background:#fff;border:1px solid #e9eff0;border-radius:16px;padding:16px;box-shadow:0 6px 14px rgba(0,0,0,.04)}
+    .s-card h4{margin:0 0 8px;font-size:16px}
+    .s-list{margin:0;padding-left:18px}
+    .s-list li{margin:8px 0}
+    .note{display:flex;gap:8px;align-items:flex-start;background:#fbfefe;border:1px dashed #cfe9eb;border-radius:12px;padding:12px}
 
-    /* Split CTA (Hizmet + Randevu) */
-    .split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
-    .panel{background:linear-gradient(135deg,#f8fcff,#f3f9ff);border:1px solid #e4eef7;border-radius:16px;padding:18px}
-    .panel h3{margin:0 0 6px}
-    .panel p{margin:0 0 12px;color:#344}
-    .panel .btn{margin-top:6px}
+    .cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
 
-    /* Insta / Reviews / YT */
-    section#insta{padding:30px 0;background:#fff}
-    .insta-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-    .insta-track-wrap{overflow:hidden}
-    .insta-track{display:flex;gap:12px;will-change:transform}
-    .insta-item{flex:0 0 auto;width:160px;height:160px;border-radius:14px;overflow:hidden}
-    .insta-item img{width:100%;height:100%;object-fit:cover;display:block}
-    .insta-item.highlight{transform:scale(1.12);transition:transform .6s;box-shadow:0 10px 24px rgba(0,0,0,.15)}
-    section#reviews{padding:34px 0;background:#f7fbfb}
-    .review-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
-    .review-card{background:#fff;border:1px solid #e9eff0;border-radius:16px;padding:16px;box-shadow:0 6px 14px rgba(0,0,0,.04);opacity:0;transform:translateY(6px);transition:opacity .5s, transform .5s}
-    .review-card.visible{opacity:1;transform:none}
-    .stars{font-size:18px;color:#fff;text-shadow:0 0 2px #f5a800,0 0 6px #f5a800}
-    .review-author{font-weight:700;margin-top:8px}
-    section#youtube{padding:34px 0;background:#fff}
-    .yt-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .yt-box{aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#000}
-    .yt-box iframe{width:100%;height:100%;border:0;display:block}
+    /* Gallery */
+    .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .gallery .ph{aspect-ratio:16/10;border-radius:12px;overflow:hidden;background:#f2f6f9;border:1px solid #e6f1f2}
+    .gallery .ph img{width:100%;height:100%;object-fit:cover;display:block}
 
-    /* FAQ teaser + Map */
-    .teaser{padding:34px 0;background:#fff}
-    .teaser-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:start}
-    .faq-mini details{border:1px solid #e9eff0;border-radius:12px;padding:12px;margin-bottom:10px;background:#fbfefe}
-    .faq-mini details[open]{background:#f5fbfc}
-    .faq-mini summary{cursor:pointer;font-weight:700}
-    .map-embed{border:0;width:100%;height:340px;border-radius:14px;box-shadow:0 6px 14px rgba(0,0,0,.06)}
-
-    /* Footer */
-    footer.site{padding:26px 0;background:linear-gradient(135deg,#1a3a52,var(--primary-color));color:#fff;margin-top:32px}
-
-    /* Responsive */
     @media(max-width:960px){
-      .hero-wrap{grid-template-columns:1fr}
-      .services-grid{grid-template-columns:1fr}
-      .teaser-grid{grid-template-columns:1fr}
+      .hero .container{flex-direction:column;align-items:stretch}
+      .s-grid{grid-template-columns:1fr}
+      .gallery{grid-template-columns:1fr 1fr}
     }
+
+    /* Footer (modern) – same palette as index */
+    :root{--footer-start:#1c3952; --footer-end:#5a2ea6}
+    footer.footer-new{background:linear-gradient(135deg,var(--footer-start),var(--footer-end));color:#fff;padding:60px 0 0}
+    .footer-new .footer-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-bottom:40px}
+    .footer-new h3{color:#fff;font-size:20px;margin:0 0 20px;position:relative;padding-bottom:10px}
+    .footer-new h3:after{content:"";position:absolute;left:0;bottom:0;width:44px;height:3px;background:#10b3d1;border-radius:2px}
+    .footer-new p{margin:0 0 14px;opacity:.85}
+    .footer-links, .footer-contact{list-style:disc;padding-left:18px;margin:0}
+    .footer-links li, .footer-contact li{margin:10px 0}
+    .footer-links a{color:#fff;opacity:.85;text-decoration:none;transition:.25s}
+    .footer-links a:hover{opacity:1;color:#10b3d1;padding-left:6px}
+    .footer-contact li{display:flex;gap:10px;align-items:flex-start;list-style:none;padding-left:0}
+    .footer-contact svg{width:18px;height:18px;flex:0 0 18px;color:#10b3d1}
+    .footer-contact a, .footer-contact span{color:#e9f4ff;opacity:.9;text-decoration:none}
+    .social-links{display:flex;gap:10px;margin-top:16px}
+    .social-links a{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.12);color:#fff;text-decoration:none;transition:.25s}
+    .social-links a:hover{background:#10b3d1;transform:translateY(-3px)}
+    .footer-bottom{background:rgba(0,0,0,.28);padding:18px 0;text-align:center}
+    .footer-bottom p{margin:0;opacity:.85;font-size:14px}
   </style>
 
-  <!-- Ana JS (v16) — mevcut dosyanla uyumlu -->
-  <script defer src="/assets/js/main.js?v=16"></script>
-
-  <!-- Schema.org -->
+  <!-- JSON-LD Service List -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
-    "@type":"VeterinaryCare",
-    "name":"Elçi Veteriner Kliniği",
-    "address":{"@type":"PostalAddress","streetAddress":"Yeni Meram Caddesi No:17/1","addressLocality":"Meram","addressRegion":"Konya","addressCountry":"TR"},
-    "telephone":"+90-332-322-32-20",
-    "areaServed":"Konya",
-    "openingHours":["Mo-Su 00:00-23:59"],
-    "url":"https://www.ornekalanadi.com/"
+    "@type":"ItemList",
+    "name":"Elçi Veteriner Kliniği Hizmetleri",
+    "itemListElement":[
+      {"@type":"Service","name":"Acil ve Yoğun Bakım","areaServed":"Konya","serviceType":"Emergency & ICU"},
+      {"@type":"Service","name":"Muayene ve Koruyucu Hekimlik","serviceType":"Preventive Care"},
+      {"@type":"Service","name":"Cerrahi","serviceType":"Soft tissue & Ortopedi"},
+      {"@type":"Service","name":"Ağız ve Diş Sağlığı","serviceType":"Dentistry"},
+      {"@type":"Service","name":"Görüntüleme ve Laboratuvar","serviceType":"X-ray, Ultrason, Hemogram"},
+      {"@type":"Service","name":"Kardiyoloji","serviceType":"EKG & Kalp muayenesi"},
+      {"@type":"Service","name":"Doğum ve Jinekoloji","serviceType":"Obstetri & Reprodüksiyon"},
+      {"@type":"Service","name":"Fizik Tedavi","serviceType":"Fizyoterapi & Rehabilitasyon"},
+      {"@type":"Service","name":"Konaklama","serviceType":"Boarding"}
+    ]
   }
   </script>
+
+  <!-- Page JS (scroll spy + small helpers) will be at bottom -->
 </head>
 <body>
-  <!-- Topbar -->
+  <!-- Top Bar -->
   <header class="topbar">
     <div class="container">
-      <div><i class="fa-solid fa-location-dot"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</div>
-      <div><a href="tel:03323223220" style="color:#fff"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a> &nbsp;•&nbsp; <a href="mailto:elcivetklinig@gmail.com" style="color:#fff"><i class="fa-solid fa-envelope"></i> elcivetklinig@gmail.com</a></div>
+      <div>Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</div>
+      <div>☎ 0332 322 32 20 • 📧 elcivetklinig@gmail.com</div>
     </div>
   </header>
 
   <!-- Nav -->
   <nav class="site-nav" aria-label="Ana menü">
     <div class="container">
-      <a class="brand" href="/">🐾 Elçi Veteriner</a>
+      <a class="brand" href="/">🐾 Elçi Veteriner Kliniği</a>
       <div class="menu">
         <a href="/about.html">Hakkımızda</a>
-        <a href="/hizmetler.html">Hizmetler</a>
+        <a class="active" href="/hizmetler.html" aria-current="page">Hizmetler</a>
         <a href="/blog.html">Blog</a>
         <a href="/sss.html">SSS</a>
         <a href="/hasta-iliskileri.html">Hasta İlişkileri</a>
-        <a class="btn primary cta" href="tel:03323223220">Acil Ara</a>
+        <a class="btn primary" href="tel:03323223220">Acil Ara</a>
       </div>
     </div>
   </nav>
@@ -163,154 +150,457 @@
   <!-- HERO -->
   <section class="hero">
     <div class="container">
-      <div class="hero-wrap">
+      <div class="hero-text">
+        <h1>Hizmetlerimiz</h1>
+        <p>Konya’da 7/24 acil destekten ileri görüntüleme ve cerrahiye, doğum ve jinekolojiden fizik tedaviye kadar kapsamlı bakım.</p>
+        <div class="cta-row" style="margin-top:12px">
+          <a class="btn primary" href="/contact.html">Randevu Al</a>
+          <a class="btn ghost" href="tel:03323223220">Hemen Ara</a>
+        </div>
+      </div>
+      <nav class="toc" aria-label="Sayfa içi hızlı menü">
+        <h3>Hızlı Erişim</h3>
+        <div class="toc-links">
+          <a href="#acil"><span aria-hidden="true">🚑</span> Acil & Yoğun Bakım</a>
+          <a href="#koruyucu"><span aria-hidden="true">🩺</span> Muayene & Koruyucu</a>
+          <a href="#cerrahi"><span aria-hidden="true">✂️</span> Cerrahi</a>
+          <a href="#agiz-dis"><span aria-hidden="true">🦷</span> Ağız & Diş</a>
+          <a href="#goruntuleme-lab"><span aria-hidden="true">🧪</span> Görüntüleme & Lab</a>
+          <a href="#kardiyoloji"><span aria-hidden="true">📈</span> Kardiyoloji</a>
+          <a href="#dogum"><span aria-hidden="true">👶</span> Doğum & Jinekoloji</a>
+          <a href="#fizik-tedavi"><span aria-hidden="true">🧘</span> Fizik Tedavi</a>
+          <a href="#konaklama"><span aria-hidden="true">🏠</span> Konaklama</a>
+        </div>
+      </nav>
+    </div>
+  </section>
+
+  <!-- SECTION: Acil & Yoğun Bakım -->
+  <section id="acil" class="section" aria-labelledby="acil-title">
+    <div class="container">
+      <div class="s-head">
+        <div class="s-left">
+          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-ambulance" /></svg></span>
+          <h2 id="acil-title" class="s-title">Acil & Yoğun Bakım</h2>
+        </div>
+        <div class="cta-row">
+          <a class="btn primary" href="tel:03323223220">Acil Hattı</a>
+          <a class="btn ghost" href="/contact.html">Randevu</a>
+        </div>
+      </div>
+
+      <div class="s-grid">
+        <article class="s-card">
+          <h4>Şok Yönetimi ve Stabilizasyon</h4>
+          <ul class="s-list">
+            <li>ABC değerlendirme, oksijen ve damar yolu</li>
+            <li>Hızlı ultrason (FAST), EKG ve kan gazı</li>
+            <li>Ağrı, travma ve nöbet yönetimi</li>
+          </ul>
+          <div class="note" role="note"><strong>Not:</strong> Acil servisimiz 7/24 açıktır; lütfen önceden arayarak bilgi verin.</div>
+        </article>
+        <aside class="s-card">
+          <h4>Yoğun Bakım İmkanlarımız</h4>
+          <ul class="s-list">
+            <li>Oksijen kafesi ve ısı kontrollü üniteler</li>
+            <li>İnfüzyon pompaları, sürekli monitorizasyon</li>
+            <li>İleri laboratuvar ve görüntüleme desteği</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: Muayene & Koruyucu -->
+  <section id="koruyucu" class="section" aria-labelledby="koruyucu-title">
+    <div class="container">
+      <div class="s-head">
+        <div class="s-left">
+          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-stethoscope" /></svg></span>
+          <h2 id="koruyucu-title" class="s-title">Muayene & Koruyucu Hekimlik</h2>
+        </div>
+        <div class="cta-row">
+          <a class="btn ghost" href="/hasta-iliskileri.html#randevu">Aşı Takvimi İçin Yazın</a>
+        </div>
+      </div>
+
+      <div class="s-grid">
+        <article class="s-card">
+          <h4>Temel Hizmetler</h4>
+          <ul class="s-list">
+            <li>Aşı planı, parazit kontrolü, mikroçip</li>
+            <li>Yıllık genel muayene ve kan tetkikleri</li>
+            <li>Beslenme ve kilo yönetimi danışmanlığı</li>
+          </ul>
+        </article>
+        <aside class="s-card">
+          <h4>Avantajlı Paketler</h4>
+          <ul class="s-list">
+            <li>Yavru sağlığı başlangıç paketi</li>
+            <li>Yaşlı dost bakım paketi</li>
+            <li>Rutin check-up & diş temizliği kombin</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: Cerrahi -->
+  <section id="cerrahi" class="section" aria-labelledby="cerrahi-title">
+    <div class="container">
+      <div class="s-head">
+        <div class="s-left">
+          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-scissors" /></svg></span>
+          <h2 id="cerrahi-title" class="s-title">Cerrahi</h2>
+        </div>
+        <div class="cta-row">
+          <a class="btn ghost" href="/sss.html#surec">Ameliyat Süreçleri</a>
+          <a class="btn primary" href="/contact.html">Ön Muayene</a>
+        </div>
+      </div>
+
+      <div class="s-grid">
+        <article class="s-card">
+          <h4>Yumuşak Doku & Ortopedi</h4>
+          <ul class="s-list">
+            <li>Spay/kastrasyon, kitle çıkarımı</li>
+            <li>Gastrointestinal, ürogenital cerrahiler</li>
+            <li>Temel ortopedik müdahaleler</li>
+          </ul>
+        </article>
+        <aside class="s-card">
+          <h4>Anestezi ve Ağrı Yönetimi</h4>
+          <ul class="s-list">
+            <li>Preop risk analizi ve güvenli anestezi</li>
+            <li>Multimodal analjezi protokolleri</li>
+            <li>Postop ev bakım talimatları</li>
+          </ul>
+        </aside>
+      </div>
+
+      <div class="gallery" style="margin-top:12px">
+        <figure class="ph"><img src="/assets/img/uploads/cerrahi-1.jpg" alt="Steril ameliyathane görüntüsü"></figure>
+        <figure class="ph"><img src="/assets/img/uploads/cerrahi-2.jpg" alt="Cerrahi ekip ve monitörizasyon"></figure>
+        <figure class="ph"><img src="/assets/img/uploads/cerrahi-3.jpg" alt="Ameliyat sonrası bakım alanı"></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: Ağız ve Diş -->
+  <section id="agiz-dis" class="section" aria-labelledby="agiz-title">
+    <div class="container">
+      <div class="s-head">
+        <div class="s-left">
+          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-tooth-clean" /></svg></span>
+          <h2 id="agiz-title" class="s-title">Ağız & Diş Sağlığı</h2>
+        </div>
+        <div class="cta-row">
+          <a class="btn primary" href="/contact.html">Diş Temizliği Randevusu</a>
+        </div>
+      </div>
+
+      <div class="s-grid">
+        <article class="s-card">
+          <h4>Hizmetler</h4>
+          <ul class="s-list">
+            <li>Diş taşı temizliği ve parlatma</li>
+            <li>Çekimler, periodontal tedaviler</li>
+            <li>Ağız içi muayene ve röntgen</li>
+          </ul>
+        </article>
+        <aside class="s-card">
+          <h4>Evde Bakım Önerileri</h4>
+          <ul class="s-list">
+            <li>Diş fırçalama alışkanlığı</li>
+            <li>Uygun mamalar ve çiğneme oyuncakları</li>
+            <li>Yıllık kontrol planı</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: Görüntüleme & Lab -->
+  <section id="goruntuleme-lab" class="section" aria-labelledby="lab-title">
+    <div class="container">
+      <div class="s-head">
+        <div class="s-left">
+          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-xray" /></svg></span>
+          <h2 id="lab-title" class="s-title">Görüntüleme & Laboratuvar</h2>
+        </div>
+      </div>
+
+      <div class="s-grid">
+        <article class="s-card">
+          <h4>Tanısal Görüntüleme</h4>
+          <ul class="s-list">
+            <li>Dijital röntgen ve ultrason</li>
+            <li>FAST ultrason ve EKG</li>
+            <li>Doğru tanı için konsültasyon</li>
+          </ul>
+        </article>
+        <aside class="s-card">
+          <h4>Laboratuvar</h4>
+          <ul class="s-list">
+            <li>Hemogram, biyokimya, hormon</li>
+            <li>İdrar analizi, parazit ve sitoloji</li>
+            <li>Hızlı testler (parvo, giardia vb.)</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: Kardiyoloji -->
+  <section id="kardiyoloji" class="section" aria-labelledby="kard-title">
+    <div class="container">
+      <div class="s-head">
+        <div class="s-left">
+          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-ecg" /></svg></span>
+          <h2 id="kard-title" class="s-title">Kardiyoloji</h2>
+        </div>
+      </div>
+
+      <div class="s-grid">
+        <article class="s-card">
+          <h4>Kalp Sağlığı</h4>
+          <ul class="s-list">
+            <li>Kalp muayenesi ve steteskopik değerlendirme</li>
+            <li>EKG ve gerekirse kardiyak ilaç düzeni</li>
+            <li>Riskli hastalarda düzenli takip</li>
+          </ul>
+        </article>
+        <aside class="s-card">
+          <h4>Belirti Takibi</h4>
+          <ul class="s-list">
+            <li>Öksürük, egzersiz intoleransı</li>
+            <li>Hızlı nefes alma, bayılma atakları</li>
+            <li>Ödem ve kilo değişiklikleri</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: Doğum & Jinekoloji -->
+  <section id="dogum" class="section" aria-labelledby="dogum-title">
+    <div class="container">
+      <div class="s-head">
+        <div class="s-left">
+          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-clipboard" /></svg></span>
+          <h2 id="dogum-title" class="s-title">Doğum & Jinekoloji</h2>
+        </div>
+        <div class="cta-row">
+          <a class="btn primary" href="/contact.html">Doğum Öncesi Değerlendirme</a>
+        </div>
+      </div>
+
+      <div class="s-grid">
+        <article class="s-card">
+          <h4>Üreme Sağlığı</h4>
+          <ul class="s-list">
+            <li>Gebelik takibi ve ultrason</li>
+            <li>Doğum desteği, sezaryen endikasyonları</li>
+            <li>Jinekolojik muayene ve tedavi</li>
+          </ul>
+        </article>
+        <aside class="s-card">
+          <h4>Riskli Vakalarda Yaklaşım</h4>
+          <ul class="s-list">
+            <li>Düşük risk takibi ve enfeksiyon yönetimi</li>
+            <li>Pre/postpartum komplikasyonlar</li>
+            <li>Beslenme ve yavru bakım rehberi</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: Fizik Tedavi -->
+  <section id="fizik-tedavi" class="section" aria-labelledby="fzt-title">
+    <div class="container">
+      <div class="s-head">
+        <div class="s-left">
+          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-shower" /></svg></span>
+          <h2 id="fzt-title" class="s-title">Fizik Tedavi</h2>
+        </div>
+      </div>
+
+      <div class="s-grid">
+        <article class="s-card">
+          <h4>Rehabilitasyon</h4>
+          <ul class="s-list">
+            <li>Ortopedik ve nörolojik hastalarda egzersiz</li>
+            <li>Ağrı kontrolü ve mobilite artırma</li>
+            <li>Bireysel program planlama</li>
+          </ul>
+        </article>
+        <aside class="s-card">
+          <h4>Ev Programı</h4>
+          <ul class="s-list">
+            <li>Evde uygulanabilir basit egzersizler</li>
+            <li>Yatak, zemin ve çevre düzeni önerileri</li>
+            <li>İlerlemenin periyodik değerlendirmesi</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: Konaklama -->
+  <section id="konaklama" class="section" aria-labelledby="stay-title">
+    <div class="container">
+      <div class="s-head">
+        <div class="s-left">
+          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-paw" /></svg></span>
+          <h2 id="stay-title" class="s-title">Konaklama</h2>
+        </div>
+        <div class="cta-row">
+          <a class="btn ghost" href="/contact.html">Müsaitlik Sor</a>
+        </div>
+      </div>
+
+      <div class="s-grid">
+        <article class="s-card">
+          <h4>Seçenekler</h4>
+          <ul class="s-list">
+            <li>Standart ve lüks odalar</li>
+            <li>Günlük foto/video bilgilendirme</li>
+            <li>Veteriner hekim gözetimi</li>
+          </ul>
+        </article>
+        <aside class="s-card">
+          <h4>Koşullar</h4>
+          <ul class="s-list">
+            <li>Güncel aşı ve parazit koruması</li>
+            <li>Özel diyet ve ilaç uygulaması</li>
+            <li>Güvenli alan ve stres azaltma</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA bar -->
+  <section class="section" aria-label="Randevu çağrısı">
+    <div class="container">
+      <div class="s-card" style="display:flex;align-items:center;justify-content:space-between;gap:12px">
         <div>
-          <span class="chip">Konya • Meram</span>
-          <h1>Konya’da 7/24 Acil ve Kapsamlı Veterinerlik</h1>
-          <p>Koruyucu hekimlikten ileri cerrahiye, diş sağlığından görüntüleme & laboratuvara: evcil dostlarınız için güven, şeffaflık ve etik yaklaşım.</p>
-          <div class="hero-cta">
-            <a class="btn primary" href="tel:03323223220"><i class="fa-solid fa-phone"></i> Hemen Ara</a>
-            <a class="btn ghost" href="/contact.html"><i class="fa-solid fa-calendar-check"></i> Randevu Al</a>
-          </div>
-          <div class="kpi-row">
-            <div class="kpi"><b>7/24</b><small>Nöbet & Acil</small></div>
-            <div class="kpi"><b>+1,500</b><small>Hasta/Yıl</small></div>
-            <div class="kpi"><b>4.9/5</b><small>Google Puanı</small></div>
-          </div>
-          <div class="trust">
-            <div class="badges">
-              <span class="badge">Röntgen • Ultrason</span>
-              <span class="badge">Laboratuvar</span>
-              <span class="badge">Sterilizasyon</span>
-              <span class="badge">Aşı • Parazit</span>
-              <span class="badge">Mikroçip</span>
-            </div>
-            <a class="btn" href="/hizmetler.html">Tüm Hizmetler</a>
-          </div>
+          <strong>Evcil dostunuz için hızlı randevu alın.</strong>
+          <div class="muted">Acil durumlar için 7/24: 0332 322 32 20</div>
         </div>
-        <div><!-- istenirse hero görseli/slider alanı --></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- HİZMETLER -->
-  <section id="services">
-    <div class="container">
-      <h2>Hizmetlerimiz</h2>
-      <div class="services-grid">
-        <div class="card">
-          <div class="icon">🆘</div>
-          <h3>Acil & Yoğun Bakım</h3>
-          <p>Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat takip.</p>
-        </div>
-        <div class="card">
-          <div class="icon">🩺</div>
-          <h3>Muayene & Koruyucu</h3>
-          <p>Aşı programı, parazit kontrolü, mikroçip ve düzenli check-up.</p>
-        </div>
-        <div class="card">
-          <div class="icon">🛠️</div>
-          <h3>Cerrahi</h3>
-          <p>Yumuşak doku, ortopedi, sterilizasyon ve ağrı yönetimi.</p>
-        </div>
-        <div class="card">
-          <div class="icon">🦷</div>
-          <h3>Ağız & Diş Sağlığı</h3>
-          <p>Diş taşı temizliği, çekim ve ağız içi muayene.</p>
-        </div>
-        <div class="card">
-          <div class="icon">🖥️</div>
-          <h3>Görüntüleme & Lab</h3>
-          <p>Röntgen, ultrason, tam kan tahlilleri ve mikroskobik inceleme.</p>
-        </div>
-        <div class="card">
-          <div class="icon">❤️</div>
-          <h3>Kardiyoloji</h3>
-          <p>Kalp muayenesi, EKG değerlendirmesi ve tedavi takibi.</p>
-        </div>
-      </div>
-
-      <div class="split">
-        <div class="panel">
-          <h3>Hızlı Randevu</h3>
-          <p>Dakikalar içinde randevu oluşturun; ekibimiz onaylasın.</p>
-          <a class="btn primary" href="/contact.html"><i class="fa-solid fa-calendar-check"></i> Randevu Al</a>
-        </div>
-        <div class="panel">
-          <h3>Hizmet Rehberi</h3>
-          <p>Her hizmetin ayrıntılarını ve hazırlık süreçlerini öğrenin.</p>
-          <a class="btn" href="/hizmetler.html"><i class="fa-solid fa-list-check"></i> Tüm Hizmetler</a>
+        <div class="cta-row">
+          <a class="btn ghost" href="/hizmetler.html">Tüm Hizmetler</a>
+          <a class="btn primary" href="/contact.html">Randevu Al</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- INSTAGRAM -->
-  <section id="insta" data-json="/assets/data/instagram.json" data-fn="/.netlify/functions/instagram">
-    <div class="container">
-      <div class="insta-head">
-        <h2>Instagram’dan</h2>
-        <small class="muted">Yavaş akış • Rastgele öne çıkma efekti</small>
-      </div>
-      <div class="insta-track-wrap">
-        <div class="insta-track" id="instaTrack" aria-live="polite"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- GOOGLE YORUMLARI -->
-  <section id="reviews" data-json="/assets/data/reviews.json">
-    <div class="container">
-      <h2>Google Yorumları</h2>
-      <div class="review-grid" id="reviewGrid" aria-live="polite"></div>
-    </div>
-  </section>
-
-  <!-- YOUTUBE -->
-  <section id="youtube" data-fn="/.netlify/functions/youtube-latest?limit=9">
-    <div class="container">
-      <h2>YouTube</h2>
-      <div class="yt-strip" id="ytStrip"></div>
-      <small class="muted">3 video görünür; 7 sn sonra 2-3-4 şeklinde kayar.</small>
-    </div>
-  </section>
-
-  <!-- FAQ TEASER + HARİTA -->
-  <section class="teaser">
-    <div class="container">
-      <div class="teaser-grid">
-        <div class="faq-mini">
-          <h2>Sık Sorulanlar</h2>
-          <details>
-            <summary>Muayene ücretleri nedir?</summary>
-            <p>Kedi/Köpek 350₺, Kanatlı 250₺, Egzotik 350₺, Kontrol 200₺. Ayrıntı için <a href="/sss.html#fiyat">SSS</a>.</p>
-          </details>
-          <details>
-            <summary>Randevu nasıl alırım?</summary>
-            <p><a href="/contact.html">Online form</a> veya <a href="tel:03323223220">0332 322 32 20</a>. WhatsApp: 0553 262 16 70.</p>
-          </details>
-          <details>
-            <summary>Acil durumlarda ne yapmalıyım?</summary>
-            <p>Hemen <a href="tel:03323223220">0332 322 32 20</a>’yi arayın. 7/24 acil kabulümüz var.</p>
-          </details>
-          <a class="btn" href="/sss.html"><i class="fa-solid fa-circle-question"></i> Tüm SSS</a>
-        </div>
-        <div>
-          <h2>Konum</h2>
-          <iframe class="map-embed"
-            src="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya&output=embed"
-            loading="lazy" referrerpolicy="strict-origin-when-cross-origin" aria-label="Elçi Veteriner Konum Haritası"></iframe>
+  <!-- FOOTER (Modern) -->
+  <footer class="footer-new">
+    <div class="container footer-container">
+      <div class="footer-col">
+        <h3>Elçi Veteriner Kliniği</h3>
+        <p>Konya’nın Meram ilçesinde, hayvan sağlığı alanında uzman ekibimizle hizmet veriyoruz. 7/24 acil veteriner hizmeti.</p>
+        <div class="social-links">
+          <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 10h3l.5-3H13V5.5c0-.9.3-1.5 1.7-1.5H17V1h-3c-3 0-4.5 1.6-4.5 4.4V7H7v3h2.5v9h3v-9z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><path d="M17.5 6.5h.01" stroke-width="2"/></svg>
+          </a>
+          <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.8c-.8.4-1.6.6-2.5.7.9-.6 1.5-1.4 1.8-2.4-.8.5-1.8.9-2.8 1.1A3.7 3.7 0 0 0 12 8.4c0 .3 0 .7.1 1A10.5 10.5 0 0 1 3 5.2a3.7 3.7 0 0 0 1.1 5 3.6 3.6 0 0 1-1.7-.5v.1c0 1.8 1.3 3.3 3 3.7-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1.5 1.5 1.9 2.6 3.6 2.6A7.5 7.5 0 0 1 3 19.5 10.6 10.6 0 0 0 9.7 21c6.3 0 9.7-5.2 9.7-9.7v-.4c.8-.6 1.5-1.4 2-2.3z"/></svg>
+          </a>
+          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5a4 4 0 0 0-3-3.1C18.3 4 12 4 12 4s-6.3 0-8 .4A4 4 0 0 0 1 7.5 41 41 0 0 0 1 16.5a4 4 0 0 0 3 3.1c1.7.4 8 .4 8 .4s6.3 0 8-.4a4 4 0 0 0 3-3.1 41 41 0 0 0 0-9zM10 15.5v-7l6 3.5-6 3.5z"/></svg>
+          </a>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- FOOTER -->
-  <footer class="site">
-    <div class="container">
-      <div><strong>Elçi Veteriner Kliniği</strong> — Meram / Konya</div>
-      <div style="opacity:.85">© <span id="yil"></span> Tüm hakları saklıdır.</div>
+      <div class="footer-col">
+        <h3>Hızlı Linkler</h3>
+        <ul class="footer-links">
+          <li><a href="/index.html">Ana Sayfa</a></li>
+          <li><a href="/about.html">Hakkımızda</a></li>
+          <li><a href="/hizmetler.html">Hizmetlerimiz</a></li>
+          <li><a href="/blog.html">Blog</a></li>
+          <li><a href="/sss.html">SSS</a></li>
+          <li><a href="/hasta-iliskileri.html">Hasta İlişkileri</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Konya Veteriner Hizmetlerimiz</h3>
+        <ul class="footer-links">
+          <li><a href="#acil">Konya Acil Veteriner</a></li>
+          <li><a href="#cerrahi">Konya’da Cerrahi Operasyonlar</a></li>
+          <li><a href="#agiz-dis">Konya’da Ağız ve Diş Sağlığı</a></li>
+          <li><a href="#goruntuleme-lab">Konya’da Görüntüleme & Lab</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Konya İletişim</h3>
+        <ul class="footer-contact">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"/><circle cx="12" cy="11" r="2.5"/></svg>
+            <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.5v2a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3.1 19 19 0 0 1-6-6A2 2 0 0 1 7.5 9h2l2 3-1.5 1.5a16 16 0 0 0 6 6L18 18l3 2.5z"/></svg>
+            <a href="tel:03323223220">0332 322 32 20</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+            <a href="mailto:elcivetklinig@gmail.com">elcivetklinig@gmail.com</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
+            <span>Pazartesi–Cumartesi: 08:00–19:00<br>Pazar: Acil Hizmet</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p>
+      </div>
     </div>
   </footer>
+
+  <!-- SVG ICON SPRITE (subset for this page) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="i-stethoscope" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4v4a4 4 0 0 0 8 0V4"/><path d="M10 14a4 4 0 0 0 8 0v-2"/><circle cx="18" cy="8" r="2.2"/></g></symbol>
+    <symbol id="i-ambulance" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="12" height="7" rx="2"></rect><rect x="16" y="10" width="5" height="5" rx="1"></rect><circle cx="7" cy="17" r="2"></circle><circle cx="15" cy="17" r="2"></circle><path d="M5.2 10.8h3.6M7 9v3.6" /></g></symbol>
+    <symbol id="i-scissors" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="2.4"></circle><circle cx="7" cy="17" r="2.4"></circle><path d="M20 4L9 12M20 20L9 12" /></g></symbol>
+    <symbol id="i-xray" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="14" rx="2"></rect><path d="M10 9h4M9 12h6M10 15h4" /><circle cx="12" cy="12" r="0.6" /></g></symbol>
+    <symbol id="i-tooth-clean" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14a5 5 0 0 0 10 0" /><path d="M16.8 7.2l.6-1.6l.6 1.6l1.6.6l-1.6.6l-.6 1.6l-.6-1.6l-1.6-.6z"/></g></symbol>
+    <symbol id="i-clipboard" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="5" width="12" height="15" rx="2"></rect><rect x="9" y="3" width="6" height="4" rx="1"></rect><path d="M9 11h6M9 14h6M9 17h4" /></g></symbol>
+    <symbol id="i-ecg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2.2-5.5L12 16l2.2-4H21"/><rect x="3" y="5" width="18" height="14" rx="3" opacity=".25"/></g></symbol>
+    <symbol id="i-shower" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5h6" /><rect x="6" y="5" width="8" height="3" rx="1.5"></rect><path d="M14 8c3 0 4 1.5 4 3" /><path d="M10 12v0M12 13v0M14 14v0M16 15v0" /></g></symbol>
+    <symbol id="i-paw" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="2"></circle><circle cx="16" cy="8" r="2"></circle><circle cx="10" cy="13.5" r="2.2"></circle><path d="M12 14c2.5 0 4 1.2 4 3c0 1.2-1 2-3 2h-2c-2 0-3-.8-3-2c0-1.8 1.5-3 4-3z"/></g></symbol>
+  </svg>
+
+  <!-- Page JS -->
+  <script>
+    // Footer year
+    document.getElementById('yil').textContent = new Date().getFullYear();
+
+    // Simple scroll spy to highlight current section in TOC (optional highlight via underline)
+    (function(){
+      const links = Array.from(document.querySelectorAll('.toc a'));
+      const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+      const onScroll = () => {
+        const y = window.scrollY + 120;
+        let active = 0;
+        sections.forEach((sec, i) => { if(sec.offsetTop <= y) active = i; });
+        links.forEach((a, i) => { a.style.textDecoration = i===active ? 'underline' : 'none'; });
+      };
+      window.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    })();
+  </script>
 </body>
 </html>
