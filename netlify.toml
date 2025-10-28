@@ -20,23 +20,59 @@
     # X-Frame-Options = "SAMEORIGIN"
     # Ama modern ve esnek kontrol için CSP 'frame-ancestors' kullanıyoruz (aşağıda).
 
-    # CSP — YouTube ve fontlar/görseller için izinler güncellendi.
+    # CSP — YouTube ve fontlar/görseller için izinler güncel.
     # Notlar:
-    # - script-src: sadece kendi JS'in ve inline (main.js + inline <style>) için.
+    # - script-src: kendi JS'in ve inline (main.js + inline <script>) için.
     # - frame-src: YouTube gömülerine izin verir.
-    # - img-src: yerel, data:, YouTube küçük resimleri ve Google avatarları (lh3.googleusercontent.com).
-    # - font-src/style-src: Google Fonts ve cdnjs'e izin verildi (kullandığın şablona göre).
-    # - connect-src: kendi alanın yeterli (/.netlify/functions istekleri 'self'); gerekirse dış API eklenir.
+    # - img-src: yerel, data:, Unsplash, YouTube küçük resimleri, Google/RU avatarları.
+    # - font-src/style-src: Google Fonts ve cdnjs'e izin verildi.
+    # - connect-src: kendi alanın + (gerekirse) Supabase.
     Content-Security-Policy = """
       default-src 'self';
       script-src 'self' 'unsafe-inline';
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
-      img-src 'self' data: https://images.unsplash.com https://i.ytimg.com https://img.youtube.com https://lh3.googleusercontent.com;
+      img-src 'self' data: https://images.unsplash.com https://i.ytimg.com https://img.youtube.com https://lh3.googleusercontent.com https://randomuser.me;
       font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
       frame-src https://*.youtube.com https://*.youtube-nocookie.com;
-      connect-src 'self';
+      connect-src 'self' https://*.supabase.co;
       frame-ancestors 'self';
     """
+
+# ---------- HTML: cache kapalı (her deploy’da güncel içerik) ----------
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "no-store, must-revalidate"
+
+# ---------- Statik varlıklar: uzun süreli cache ----------
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ---------- Functions (isteğe bağlı CORS) ----------
+# Dış domainlerden çağırmak istersen aşağıyı aç.
+# [[headers]]
+#   for = "/.netlify/functions/*"
+#   [headers.values]
+#     Access-Control-Allow-Origin = "*"
+#     Access-Control-Allow-Headers = "Content-Type, Authorization"
+#     Access-Control-Allow-Methods = "GET, POST, OPTIONS"
 
 # ---------- Redirects ----------
 [[redirects]]
@@ -84,6 +120,7 @@
   to = "/hizmetler.html"
   status = 301
 
+# ---------- Ortam Değişkenleri (şablon) ----------
 [template.environment]
   GOOGLE_PLACES_API_KEY = ""
   GOOGLE_PLACE_ID = ""
