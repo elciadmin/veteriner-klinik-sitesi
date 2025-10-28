@@ -11,8 +11,10 @@
   <meta property="og:description" content="Konya Elçi Veteriner: Hayvan sağlığında mükemmellik. Ekibimiz, tesislerimiz ve değerlerimiz.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=1200&q=80">
+  <meta property="og:locale" content="tr_TR">
 
   <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
@@ -60,6 +62,7 @@
     nav a{color:#1a1a1a;font-weight:600;position:relative;padding:6px 0}
     nav a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:2px;background:var(--secondary-color);transition:width .25s}
     nav a:hover::after{width:100%}
+    nav a.active{color:var(--secondary-color)}
     .mobile-menu-btn{display:none;background:none;border:0;font-size:22px;color:var(--primary-color);cursor:pointer}
     .dropdown{position:relative}
     .dropdown-content{position:absolute;top:100%;left:0;min-width:250px;background:#fff;border:1px solid #e8f1f2;border-radius:10px;box-shadow:var(--shadow);padding:10px 8px;display:none}
@@ -67,42 +70,8 @@
     .dropdown-content a{display:block;padding:10px 12px;border-radius:8px;color:#233}
     .dropdown-content a:hover{background:#f0f7f7;color:var(--primary-color)}
 
-    /* === BAŞARILAR / İSTATİSTİKLER BLOĞU (metrics-) === */
-    .metrics{padding:56px 0;background:linear-gradient(180deg,#f5fbfc 0%, #f1f9f8 100%)}
-    .metrics .container{max-width:1200px;margin:auto;padding:0 16px}
-    .metrics-head h2{margin:0;font:700 clamp(22px,3.6vw,34px)/1.2 Montserrat,system-ui}
-    .metrics-head p{margin:6px 0 0;color:var(--m-muted)}
-    .metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:22px}
-    .m-card{background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.76));
-            border:1px solid rgba(12,78,84,.12); border-radius:16px; padding:16px;
-            box-shadow:0 8px 20px rgba(12,78,84,.08); transition:.35s; opacity:0; transform:translateY(12px)}
-    .m-card.show{opacity:1;transform:none}
-    .m-card:hover{transform:translateY(-6px);box-shadow:0 16px 36px rgba(12,78,84,.15)}
-    .m-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-    .m-title{font-weight:800;color:#143}
-    .m-ico{width:36px;height:36px;border-radius:10px;color:#fff;display:grid;place-items:center;
-          background:linear-gradient(135deg,var(--m-brand),var(--m-brand2));position:relative;overflow:hidden}
-    .m-ico:after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,.5),transparent);
-                transform:translateX(-120%);animation:metricsShine 3.2s infinite}
-    @keyframes metricsShine{to{transform:translateX(120%)}}
-    .m-num{font:900 clamp(22px,4vw,32px)/1 Roboto,system-ui;color:var(--m-brand)}
-    .m-unit{font-weight:700;color:var(--m-muted);margin-left:4px}
-    .m-progress{height:8px;border-radius:8px;background:#eaf3f3;overflow:hidden;margin-top:10px}
-    .m-bar{height:100%;width:0;border-radius:8px;background:linear-gradient(90deg,var(--m-brand),var(--m-mint));transition:width 1s ease}
-    .m-donut,.m-gauge{display:flex;justify-content:center;margin-top:8px}
-    .m-donut svg,.m-gauge svg{width:110px;height:110px}
-    .m-bg{stroke:#e6f0f1}
-    .m-fg{stroke:url(#m-grad);stroke-linecap:round;transition:stroke-dashoffset 1.2s ease}
-
     /* === HERO (About için sakin & güven verici) === */
-    .hero{
-      margin-top:86px;
-      background:
-        radial-gradient(1200px 600px at 80% -120px, rgba(255,255,255,.1), transparent 60%),
-        linear-gradient(120deg, rgba(7,58,62,.92), rgba(15,89,96,.9)),
-        url('https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
-      color:#fff;
-    }
+    .hero{margin-top:86px;background:radial-gradient(1200px 600px at 80% -120px, rgba(255,255,255,.1), transparent 60%),linear-gradient(120deg, rgba(7,58,62,.92), rgba(15,89,96,.9)),url('https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;color:#fff}
     .hero-inner{display:grid;grid-template-columns:.9fr 1.1fr;gap:24px;align-items:center;padding:70px 0}
     .hero-copy{padding:0 6px}
     .hero h1{font-size:clamp(28px,4.4vw,48px);margin:0 0 10px}
@@ -113,11 +82,7 @@
     .btn.primary{background:#69c7b3;border-color:transparent;color:#08383c}
     .btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.6)}
     .btn:hover{transform:translateY(-2px)}
-    .hero-card{
-      background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,.66));
-      border:1px solid rgba(12,78,84,.12);
-      border-radius:16px;padding:18px;box-shadow:var(--shadow);color:#17353a
-    }
+    .hero-card{background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,.66));border:1px solid rgba(12,78,84,.12);border-radius:16px;padding:18px;box-shadow:var(--shadow);color:#17353a}
     .hc-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;font-weight:800}
     .hc-bullets{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .hc-bullets li{list-style:none;display:flex;gap:8px;align-items:baseline}
@@ -137,7 +102,7 @@
     .section-title h2::after{content:"";position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:90px;height:4px;background:var(--secondary-color);border-radius:3px}
 
     /* Elçi Kimdir */
-    .about-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:center}
+    #elci-kimdir .about-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:center}
     .about-img{border-radius:16px;overflow:hidden;box-shadow:var(--shadow);border:1px solid rgba(12,78,84,.12)}
     .about-img img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.01);transition:transform .5s}
     .about-img:hover img{transform:scale(1.05)}
@@ -145,45 +110,58 @@
     .about-features{display:grid;gap:12px;margin-top:14px}
     .feature{display:flex;gap:12px;align-items:flex-start;background:#fbfefe;border:1px solid #e6f1f2;border-radius:12px;padding:12px}
     .feature .ic{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#0c4e54,#0f5960);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
-    @media(max-width:980px){.about-wrap{grid-template-columns:1fr}}
+    @media(max-width:980px){#elci-kimdir .about-wrap{grid-template-columns:1fr}}
 
-    /* Başarı istatistikleri (küçük stat kutuları – bu sayfada kullanılmıyor ama kalsın) */
-    .stats{background:linear-gradient(180deg,#f7fbfb,#f3fafb)}
-    .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-    .stat{background:#fff;border:1px solid #e9f1f2;border-radius:14px;padding:18px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.04)}
-    .stat .num{font-size:40px;font-weight:800;color:var(--primary-color)}
-    .stat .label{color:var(--muted)}
-    @media(max-width:980px){.stat-grid{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:560px){.stat-grid{grid-template-columns:1fr}}
+    /* Başarı istatistikleri (metrics) */
+    .metrics{padding:56px 0;background:linear-gradient(180deg,#f5fbfc 0%, #f1f9f8 100%)}
+    .metrics-head h2{margin:0;font:700 clamp(22px,3.6vw,34px)/1.2 Montserrat,system-ui}
+    .metrics-head p{margin:6px 0 0;color:var(--m-muted)}
+    .metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:22px}
+    .m-card{background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.76));border:1px solid rgba(12,78,84,.12); border-radius:16px; padding:16px;box-shadow:0 8px 20px rgba(12,78,84,.08); transition:.35s; opacity:0; transform:translateY(12px)}
+    .m-card.show{opacity:1;transform:none}
+    .m-card:hover{transform:translateY(-6px);box-shadow:0 16px 36px rgba(12,78,84,.15)}
+    .m-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+    .m-title{font-weight:800;color:#143}
+    .m-ico{width:36px;height:36px;border-radius:10px;color:#fff;display:grid;place-items:center;background:linear-gradient(135deg,var(--m-brand),var(--m-brand2));position:relative;overflow:hidden}
+    .m-ico:after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,.5),transparent);transform:translateX(-120%);animation:metricsShine 3.2s infinite}
+    @keyframes metricsShine{to{transform:translateX(120%)}}
+    .m-num{font:900 clamp(22px,4vw,32px)/1 Roboto,system-ui;color:var(--m-brand)}
+    .m-unit{font-weight:700;color:var(--m-muted);margin-left:4px}
+    .m-progress{height:8px;border-radius:8px;background:#eaf3f3;overflow:hidden;margin-top:10px}
+    .m-bar{height:100%;width:0;border-radius:8px;background:linear-gradient(90deg,var(--m-brand),var(--m-mint));transition:width 1s ease}
+    .m-donut,.m-gauge{display:flex;justify-content:center;margin-top:8px}
+    .m-donut svg,.m-gauge svg{width:110px;height:110px}
+    .m-bg{stroke:#e6f0f1}
+    .m-fg{stroke:url(#m-grad);stroke-linecap:round;transition:stroke-dashoffset 1.2s ease}
 
     /* Ekip */
-    .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    #ekibimiz .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
     .member{background:#fff;border:1px solid #e9f1f2;border-radius:16px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.04);transition:transform .25s}
     .member:hover{transform:translateY(-6px)}
     .member .ph{aspect-ratio:4/3;background:#f3f7f8}
     .member .ph img{width:100%;height:100%;object-fit:cover;display:block}
     .member .info{padding:14px}
     .member .role{color:var(--secondary-color);font-weight:700;margin-bottom:4px}
-    @media(max-width:980px){.team-grid{grid-template-columns:1fr}}
+    @media(max-width:980px){#ekibimiz .team-grid{grid-template-columns:1fr}}
 
     /* Klinik */
-    .clinic-wrap{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center}
+    #klinik .clinic-wrap{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center}
     .clinic-list{display:grid;gap:10px}
     .pill{display:flex;gap:10px;align-items:center;background:#fbfefe;border:1px solid #e6f1f2;padding:10px 12px;border-radius:999px;width:max-content}
     .pill i{color:var(--secondary-color)}
-    @media(max-width:980px){.clinic-wrap{grid-template-columns:1fr}}
+    @media(max-width:980px){#klinik .clinic-wrap{grid-template-columns:1fr}}
 
     /* Misyon & Vizyon kartları */
-    .mv-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    #misyon-vizyon .mv-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
     .mv-card{background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;box-shadow:0 8px 20px rgba(0,0,0,.04);text-align:center}
     .mv-card i{color:var(--secondary-color);font-size:32px;margin-bottom:8px}
-    @media(max-width:980px){.mv-grid{grid-template-columns:1fr}}
+    @media(max-width:980px){#misyon-vizyon .mv-grid{grid-template-columns:1fr}}
 
     /* Değerler */
-    .values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    #degerler .values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
     .value{position:relative;background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.04)}
     .value .vi{width:56px;height:56px;border-radius:50%;margin:0 auto 10px;background:#e7f3f4;color:#0b4a50;display:flex;align-items:center;justify-content:center;font-size:22px}
-    @media(max-width:980px){.values-grid{grid-template-columns:1fr}}
+    @media(max-width:980px){#degerler .values-grid{grid-template-columns:1fr}}
 
     /* Yorumlar */
     .testimonials{background:linear-gradient(180deg,#f7fbfb,#f3fafb)}
@@ -246,9 +224,8 @@
           <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç/kapat"><i class="fa-solid fa-bars"></i></button>
           <ul id="mainMenu">
             <li><a href="index.html">Ana Sayfa</a></li>
-
             <li class="dropdown">
-              <a href="about.html" class="active">Hakkımızda</a>
+              <a href="about.html" class="active" aria-current="page">Hakkımızda</a>
               <div class="dropdown-content">
                 <a href="#elci-kimdir">Elçi Kimdir?</a>
                 <a href="#ekibimiz">Ekibimiz</a>
@@ -257,7 +234,6 @@
                 <a href="#degerler">Değerlerimiz</a>
               </div>
             </li>
-
             <li class="dropdown">
               <a href="hizmetler.html">Hizmetlerimiz</a>
               <div class="dropdown-content">
@@ -270,9 +246,7 @@
                 <a href="hizmetler.html#konaklama">Konaklama</a>
               </div>
             </li>
-
             <li><a href="blog.html">Blog</a></li>
-
             <li class="dropdown">
               <a href="sss.html">SSS</a>
               <div class="dropdown-content">
@@ -281,7 +255,6 @@
                 <a href="sss.html#acil">Acil Durumlar</a>
               </div>
             </li>
-
             <li class="dropdown">
               <a href="hasta-iliskileri.html">Hasta İlişkileri</a>
               <div class="dropdown-content">
@@ -291,7 +264,6 @@
                 <a href="hasta-iliskileri.html#sikayet-oneri">Şikayet & Öneri</a>
               </div>
             </li>
-
           </ul>
         </nav>
       </div>
@@ -304,9 +276,7 @@
       <div class="hero-copy">
         <h1>Biz Kimiz? Güvenilir, Şefkatli ve Bilimsel.</h1>
         <div class="hero-divider" role="presentation"></div>
-        <p class="hero-sub">
-          2013’ten bu yana Konya’da evcil dostlarınız için; etik ilkelere bağlı, teknolojik altyapılı ve şeffaf bir veterinerlik yaklaşımı sunuyoruz.
-        </p>
+        <p class="hero-sub">2013’ten bu yana Konya’da evcil dostlarınız için; etik ilkelere bağlı, teknolojik altyapılı ve şeffaf bir veterinerlik yaklaşımı sunuyoruz.</p>
         <div class="hero-cta">
           <a class="btn primary" href="hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i> Randevu Al</a>
           <a class="btn ghost" href="#elci-kimdir"><i class="fa-solid fa-paw"></i> Elçi Kimdir?</a>
@@ -341,7 +311,7 @@
 
       <div class="about-wrap">
         <figure class="about-img">
-          <img src="https://images.unsplash.com/photo-1583339793403-3b0338094d19?auto=format&fit=crop&w=1000&q=80" alt="Veteriner Hekim Mehmet Elçi — Elçi Veteriner Kliniği">
+          <img loading="lazy" src="https://images.unsplash.com/photo-1583339793403-3b0338094d19?auto=format&fit=crop&w=1000&q=80" alt="Veteriner Hekim Mehmet Elçi — Elçi Veteriner Kliniği">
         </figure>
 
         <div class="about-content">
@@ -494,7 +464,7 @@
 
       <div class="team-grid">
         <article class="member">
-          <div class="ph"><img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=60" alt="Dr. Ayşe Yılmaz"></div>
+          <div class="ph"><img loading="lazy" src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=60" alt="Dr. Ayşe Yılmaz"></div>
           <div class="info">
             <div class="role">Cerrahi Uzmanı</div>
             <h3>Dr. Ayşe Yılmaz</h3>
@@ -502,7 +472,7 @@
           </div>
         </article>
         <article class="member">
-          <div class="ph"><img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=900&q=60" alt="Dr. Mehmet Kaya"></div>
+          <div class="ph"><img loading="lazy" src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=900&q=60" alt="Dr. Mehmet Kaya"></div>
           <div class="info">
             <div class="role">İç Hastalıkları Uzmanı</div>
             <h3>Dr. Mehmet Kaya</h3>
@@ -510,7 +480,7 @@
           </div>
         </article>
         <article class="member">
-          <div class="ph"><img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=900&q=60" alt="Dr. Zeynep Demir"></div>
+          <div class="ph"><img loading="lazy" src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=900&q=60" alt="Dr. Zeynep Demir"></div>
           <div class="info">
             <div class="role">Dermatoloji & Diş</div>
             <h3>Dr. Zeynep Demir</h3>
@@ -548,7 +518,7 @@
           </div>
         </div>
         <figure class="about-img">
-          <img src="https://images.unsplash.com/photo-1583336663277-620dc1996580?auto=format&fit=crop&w=1200&q=70" alt="Elçi Veteriner Kliniği — Modern alanlar">
+          <img loading="lazy" src="https://images.unsplash.com/photo-1583336663277-620dc1996580?auto=format&fit=crop&w=1200&q=70" alt="Elçi Veteriner Kliniği — Modern alanlar">
         </figure>
       </div>
     </div>
@@ -617,27 +587,79 @@
         <article class="t-card">
           <p>"Gece acil müdahale gerektiren durumda anında yardımcı oldular. Profesyonel ve çok ilgili ekip."</p>
           <div class="t-author">
-            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="">
+            <img loading="lazy" src="https://randomuser.me/api/portraits/women/32.jpg" alt="Ayşe Kaya">
             <div><strong>Ayşe Kaya</strong><div class="muted">Kedi Sahibi</div></div>
           </div>
         </article>
         <article class="t-card">
           <p>"Diş tedavisi sonrası kedimizin iştahı geri geldi. Süreci şeffaf anlattılar."</p>
           <div class="t-author">
-            <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="">
+            <img loading="lazy" src="https://randomuser.me/api/portraits/men/54.jpg" alt="Mehmet Yılmaz">
             <div><strong>Mehmet Yılmaz</strong><div class="muted">Köpek Sahibi</div></div>
           </div>
         </article>
         <article class="t-card">
           <p>"İlk muayeneden ameliyat sonrasına kadar müthiş ilgi. Gönül rahatlığıyla öneririm."</p>
           <div class="t-author">
-            <img src="https://randomuser.me/api/portraits/women/67.jpg" alt="">
+            <img loading="lazy" src="https://randomuser.me/api/portraits/women/67.jpg" alt="Zeynep Demir">
             <div><strong>Zeynep Demir</strong><div class="muted">Kuş Sahibi</div></div>
           </div>
         </article>
       </div>
     </div>
   </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-container">
+      <div class="footer-col">
+        <h3>Elçi Veteriner Kliniği</h3>
+        <p>Konya Meram’da 7/24 acil, cerrahi ve tanısal hizmetler.</p>
+        <div class="social-links" style="display:flex;gap:10px;margin-top:10px">
+          <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h3>Hızlı Linkler</h3>
+        <ul class="footer-links">
+          <li><a href="index.html">Ana Sayfa</a></li>
+          <li><a href="about.html">Hakkımızda</a></li>
+          <li><a href="hizmetler.html">Hizmetlerimiz</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="sss.html">SSS</a></li>
+          <li><a href="hasta-iliskileri.html">Hasta İlişkileri</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Konya Veteriner Hizmetlerimiz</h3>
+        <ul class="footer-links">
+          <li><a href="hizmetler.html#acil">Konya Acil Veteriner</a></li>
+          <li><a href="hizmetler.html#cerrahi">Cerrahi Operasyonlar</a></li>
+          <li><a href="hizmetler.html#agiz-dis">Ağız ve Diş Sağlığı</a></li>
+          <li><a href="hizmetler.html#ic-hastaliklari">İç Hastalıkları</a></li>
+          <li><a href="hizmetler.html#fizik-tedavi">Fizik Tedavi</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Konya İletişim</h3>
+        <ul class="footer-contact">
+          <li><i class="fa-solid fa-location-dot"></i> <a href="https://www.google.com/maps?q=Havzan+Mah.+Yeni+Meram+Cad.+17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a></li>
+          <li><i class="fa-solid fa-phone"></i> <a href="tel:03323223220">0332 322 32 20</a></li>
+          <li><i class="fa-solid fa-envelope"></i> <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></li>
+          <li><i class="fa-solid fa-clock"></i> <span>Pazartesi–Cumartesi: 08:00–19:00 • Pazar: Acil</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</div>
+    </div>
+  </footer>
 
   <!-- METRICS JS -->
   <script>
@@ -648,12 +670,12 @@
     // Fallback değerler (backend cevap vermezse kullanılır)
     const FALLBACK = {
       avg_wait_time: 12,                 // dk
-      monthly_exams_total: 2448,         // günlük 0-6 artışı backend'de kurgulanır
+      monthly_exams_total: 2448,         // örnek
       vaccine_completion_rate: 96,       // %
       satisfaction_score: 4.8,           // /5
       first_visit_resolution_rate: 93,   // %
       lab_result_time: 20,               // dk
-      outreach_animals_total: 220,       // 3/13/24/29 günleri +1 (backend)
+      outreach_animals_total: 220,       // örnek
       avg_recovery_days: 6.3             // gün
     };
 
@@ -721,10 +743,9 @@
     const io = new IntersectionObserver(entries=>{
       entries.forEach(e=>{
         if(e.isIntersecting){
-          // Önce backend'ten çek, olmazsa fallback
           fetch('/.netlify/functions/get-stats', {cache:'no-store'})
             .then(r=>r.ok?r.json():Promise.reject('HTTP '+r.status))
-            .then(json=>applyData({...FALLBACK, ...json})) // backend → fallback üstüne yaz
+            .then(json=>applyData({...FALLBACK, ...json}))
             .catch(()=>applyData(FALLBACK));
           io.disconnect();
         }
@@ -734,65 +755,14 @@
   })();
   </script>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="container footer-container">
-      <div class="footer-col">
-        <h3>Elçi Veteriner Kliniği</h3>
-        <p>Konya Meram’da 7/24 acil, cerrahi ve tanısal hizmetler.</p>
-        <div class="social-links" style="display:flex;gap:10px;margin-top:10px">
-          <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-        </div>
-      </div>
-
-      <div class="footer-col">
-        <h3>Hızlı Linkler</h3>
-        <ul class="footer-links">
-          <li><a href="index.html">Ana Sayfa</a></li>
-          <li><a href="about.html">Hakkımızda</a></li>
-          <li><a href="hizmetler.html">Hizmetlerimiz</a></li>
-          <li><a href="blog.html">Blog</a></li>
-          <li><a href="sss.html">SSS</a></li>
-          <li><a href="hasta-iliskileri.html">Hasta İlişkileri</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h3>Konya Veteriner Hizmetlerimiz</h3>
-        <ul class="footer-links">
-          <li><a href="hizmetler.html#acil">Konya Acil Veteriner</a></li>
-          <li><a href="hizmetler.html#cerrahi">Cerrahi Operasyonlar</a></li>
-          <li><a href="hizmetler.html#agiz-dis">Ağız ve Diş Sağlığı</a></li>
-          <li><a href="hizmetler.html#ic-hastaliklari">İç Hastalıkları</a></li>
-          <li><a href="hizmetler.html#fizik-tedavi">Fizik Tedavi</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h3>Konya İletişim</h3>
-        <ul class="footer-contact">
-          <li><i class="fa-solid fa-location-dot"></i> <a href="https://www.google.com/maps?q=Havzan+Mah.+Yeni+Meram+Cad.+17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a></li>
-          <li><i class="fa-solid fa-phone"></i> <a href="tel:03323223220">0332 322 32 20</a></li>
-          <li><i class="fa-solid fa-envelope"></i> <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></li>
-          <li><i class="fa-solid fa-clock"></i> <span>Pazartesi–Cumartesi: 08:00–19:00 • Pazar: Acil</span></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="container">© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</div>
-    </div>
-  </footer>
-
   <!-- JS: Menü, yıl ve küçük stat sayaçları -->
   <script>
     // Mobile menu
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mainMenu = document.getElementById('mainMenu');
     mobileMenuBtn?.addEventListener('click',()=> mainMenu.classList.toggle('show'));
-    // Mobile dropdown tap
+
+    // Mobile dropdown tap (yalnızca mobilde tıkla → aç/kapat)
     document.querySelectorAll('#mainMenu .dropdown > a').forEach(a=>{
       a.addEventListener('click',e=>{
         if(window.innerWidth<=992){ e.preventDefault(); a.parentElement.classList.toggle('active'); }
@@ -801,31 +771,6 @@
 
     // Yıl
     document.getElementById('yil').textContent = new Date().getFullYear();
-
-    // Eski küçük .stat sayaçları (bu şablonda kullanılmıyor ama kalsın)
-    const nums = document.querySelectorAll('.stat .num');
-    function animate(el){
-      const target = +el.getAttribute('data-target');
-      const dur = 1200; // ms
-      const start = performance.now();
-      function tick(t){
-        const p = Math.min(1, (t-start)/dur);
-        const val = Math.floor(p*target);
-        el.textContent = val.toLocaleString('tr-TR');
-        if(p<1) requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
-    }
-    if('IntersectionObserver' in window){
-      const io = new IntersectionObserver((entries,obs)=>{
-        entries.forEach(e=>{
-          if(e.isIntersecting){ animate(e.target.querySelector('.num')); obs.unobserve(e.target); }
-        });
-      },{threshold:.3});
-      document.querySelectorAll('.stat').forEach(s=>io.observe(s));
-    }else{
-      nums.forEach(n=>animate(n));
-    }
   </script>
 </body>
 </html>
