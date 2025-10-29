@@ -309,7 +309,15 @@
     .social-links a:hover{ background:#10b3d1; transform:translateY(-3px) }
     .footer-bottom{ background:rgba(0,0,0,.28); padding:18px 0; text-align:center }
     .footer-bottom p{ margin:0; opacity:.85; font-size:14px }
-    /* ============================================================ */
+
+    /* ====== EK: Dropdown görünürlüğünü doğru sırayla override et ======
+       Not: Yukarıda .dropdown-content içinde "display:flex" satırı var.
+       Aşağıdaki GEÇ (source-order) kurallar, onu ezerek varsayılanı kapalı yapar. */
+    header .dropdown .dropdown-content{ display:none; }
+    /* Masaüstünde başlığa gelince aç */
+    .dropdown:hover > .dropdown-content{ display:flex; }
+    /* Mobilde aktifken aç */
+    @media(max-width:992px){ .dropdown.active > .dropdown-content{ display:flex; } }
   </style>
 
   <!-- ÖNBELLEK KIRMA -->
@@ -318,7 +326,7 @@
 <body>
 
   <!-- ======= YENİ SABİT HEADER ======= -->
-  <header>
+  <header id="siteHeader">
     <div class="header-top">
       <div class="container">
         <div class="header-contact">
@@ -930,7 +938,7 @@
   })();
   </script>
 
-  <!-- ===== Header’ın küçük JS’i ===== -->
+  <!-- ===== Header’ın küçük JS’i + masaüstünde uzaklaşınca kapat ===== -->
   <script>
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mainMenu = document.getElementById('mainMenu');
@@ -946,10 +954,27 @@
           a.setAttribute('aria-expanded', open ? 'true' : 'false');
         }
       });
-      // Masaüstünde hover ile aria-expanded kontrolü (isteğe bağlı)
+      // Masaüstünde hover ile aria-expanded kontrolü
       a.parentElement.addEventListener('mouseenter',()=>{ if(window.innerWidth>992) a.setAttribute('aria-expanded','true'); });
       a.parentElement.addEventListener('mouseleave',()=>{ if(window.innerWidth>992) a.setAttribute('aria-expanded','false'); });
     });
+
+    // Header dışına/uzaklaşınca menüleri kapat (masaüstü)
+    (function(){
+      const header = document.getElementById('siteHeader');
+      let closeTimer=null;
+      header?.addEventListener('mouseleave', ()=>{
+        if(window.innerWidth<=992) return;
+        if(closeTimer) clearTimeout(closeTimer);
+        closeTimer = setTimeout(()=>{
+          document.querySelectorAll('#mainMenu .dropdown > a[aria-expanded="true"]')
+            .forEach(a=> a.setAttribute('aria-expanded','false'));
+        }, 120);
+      });
+      header?.addEventListener('mouseenter', ()=>{
+        if(closeTimer) clearTimeout(closeTimer);
+      });
+    })();
   </script>
 </body>
 </html>
