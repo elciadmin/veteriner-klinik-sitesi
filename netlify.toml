@@ -6,7 +6,7 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
-# ---------- Cache Kontrol Header'ları ----------
+# ---------- HTML: her deploy'da güncellensin ----------
 [[headers]]
   for = "/*.html"
   [headers.values]
@@ -16,49 +16,6 @@
   for = "/"
   [headers.values]
     Cache-Control = "no-cache, no-store, must-revalidate"
-
-[[headers]]
-  for = "/assets/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-# ---------- Güvenlik Başlıkları (CSP + izinler) ----------
-[[headers]]
-  for = "/*"
-  [headers.values]
-    # Temel sertleştirme
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-
-    # ÖNEMLİ: X-Frame-Options 'ALLOW-FROM' DEPRECEATED → kaldırıldı.
-    # Eğer sitenin başka domainler tarafından çerçeve içine alınmasını tamamen engellemek istersen:
-    # X-Frame-Options = "SAMEORIGIN"
-    # Ama modern ve esnek kontrol için CSP 'frame-ancestors' kullanıyoruz (aşağıda).
-
-    # CSP — YouTube ve fontlar/görseller için izinler güncel.
-    # Notlar:
-    # - script-src: kendi JS'in ve inline (main.js + inline <script>) için.
-    # - frame-src: YouTube gömülerine izin verir.
-    # - img-src: yerel, data:, Unsplash, YouTube küçük resimleri, Google/RU avatarları.
-    # - font-src/style-src: Google Fonts ve cdnjs'e izin verildi.
-    # - connect-src: kendi alanın + (gerekirse) Supabase.
-    Content-Security-Policy = """
-      default-src 'self';
-      script-src 'self' 'unsafe-inline';
-      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
-      img-src 'self' data: https://images.unsplash.com https://i.ytimg.com https://img.youtube.com https://lh3.googleusercontent.com https://randomuser.me;
-      font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
-      frame-src https://*.youtube.com https://*.youtube-nocookie.com;
-      connect-src 'self' https://*.supabase.co;
-      frame-ancestors 'self';
-    """
-
-# ---------- HTML: cache kapalı (her deploy'da güncel içerik) ----------
-[[headers]]
-  for = "/*.html"
-  [headers.values]
-    Cache-Control = "no-store, must-revalidate"
 
 # ---------- Statik varlıklar: uzun süreli cache ----------
 [[headers]]
@@ -81,8 +38,25 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# ---------- Functions (isteğe bağlı CORS) ----------
-# Dış domainlerden çağırmak istersen aşağıyı aç.
+# ---------- Güvenlik Başlıkları + CSP ----------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Content-Security-Policy = """
+      default-src 'self';
+      script-src 'self' 'unsafe-inline';
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+      img-src 'self' data: https://images.unsplash.com https://i.ytimg.com https://img.youtube.com https://lh3.googleusercontent.com https://randomuser.me https://*.cdninstagram.com https://*.fbcdn.net;
+      font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
+      frame-src https://*.youtube.com https://*.youtube-nocookie.com;
+      connect-src 'self' https://*.supabase.co https://graph.instagram.com https://graph.facebook.com https://www.googleapis.com https://youtube.googleapis.com;
+      frame-ancestors 'self';
+    """
+
+# ---------- (İsteğe bağlı) Functions için CORS ----------
 # [[headers]]
 #   for = "/.netlify/functions/*"
 #   [headers.values]
@@ -136,9 +110,11 @@
   to = "/hizmetler.html"
   status = 301
 
-# ---------- Ortam Değişkenleri (şablon) ----------
+# ---------- Ortam Değişkenleri (şablon / UI'de doldur) ----------
 [template.environment]
-  GOOGLE_PLACES_API_KEY = ""
-  GOOGLE_PLACE_ID = ""
   INSTAGRAM_ACCESS_TOKEN = ""
   INSTAGRAM_USER_ID = ""
+  YT_API_KEY = ""
+  YT_CHANNEL_ID = ""
+  GOOGLE_PLACES_API_KEY = ""
+  GOOGLE_PLACE_ID = ""
