@@ -1,5 +1,4 @@
 // netlify/functions/get-stats.js
-const { createClient } = require('@supabase/supabase-js');
 
 const headers = {
   'Content-Type': 'application/json; charset=utf-8',
@@ -8,6 +7,9 @@ const headers = {
 };
 
 exports.handler = async (event, context) => {
+  // ESM-only paketi CJS içinde böyle içeri alıyoruz:
+  const { createClient } = await import('@supabase/supabase-js');
+
   try {
     const SUPABASE_URL = process.env.SUPABASE_URL;
     const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
