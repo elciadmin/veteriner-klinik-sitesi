@@ -1,602 +1,102 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Hasta İlişkileri | Elçi Veteriner Kliniği</title>
+  <meta name="description" content="Online randevu, memnuniyet anketi, başarı hikayeleri ve şikayet-öneri."/>
+  <link rel="canonical" href="https://elciveteriner.com/hasta-iliskileri.html"/>
   <link rel="stylesheet" href="/assets/css/styles.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Elçi Veteriner | Hasta İlişkileri</title>
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Hasta İlişkileri | Elçi Veteriner Kliniği" />
-  <meta property="og:description" content="En iyi hizmet deneyimi: Online randevu, memnuniyet anketi, başarı hikayeleri ve geri bildirim tek sayfada." />
-  <meta property="og:type" content="website" />
-  <meta property="og:locale" content="tr_TR" />
-
-  <!-- Icons & Fonts -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-
-  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-  <!-- Header -->
+
+  <!-- Header (index ile aynı, Hasta İlişkileri aktif) -->
+  <!-- ... -->
   <header>
-    <div class="header-top">
+    <div class="header-top"><div class="container"><div class="header-contact"><span><i class="fa-solid fa-location-dot"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</span></div><div class="header-contact"><a href="tel:03323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a><a href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> elcivetklinik@gmail.com</a></div></div></div>
+    <div class="header-main">
       <div class="container">
-        <div class="header-contact">
-          <span><i class="fas fa-map-marker-alt"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</span>
-        </div>
-        <div class="header-contact">
-          <a href="tel:03323223220"><i class="fas fa-phone-alt"></i> 0332 322 32 20</a>
-          <a href="mailto:elcivetklinig@gmail.com"><i class="fas fa-envelope"></i> elcivetklinig@gmail.com</a>
-        </div>
-      </div>
-    </div>
-    <div class="header-main" role="navigation" aria-label="Birincil">
-      <div class="container">
-        <div class="logo">
-          <div class="logo-text">
-            <h1>Elçi Veteriner</h1>
-            <span>Hayvan Sağlığında Mükemmellik</span>
-          </div>
-        </div>
-        <nav>
-          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç/kapat"><i class="fas fa-bars"></i></button>
+        <div class="logo-text"><h1>Elçi Veteriner Kliniği</h1><span>Sağlığın Elçileri’yiz</span></div>
+        <nav aria-label="Birincil">
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç/kapat"><i class="fa-solid fa-bars"></i></button>
           <ul id="mainMenu">
-            <li><a href="index.html">Ana Sayfa</a></li>
-            <li class="dropdown">
-              <a href="about.html">Hakkımızda</a>
-              <div class="dropdown-content">
-                <a href="about.html#elci-kimdir">Elçi Kimdir?</a>
-                <a href="about.html#ekibimiz">Ekibimiz</a>
-                <a href="about.html#klinik">Kliniğimiz</a>
-                <a href="about.html#misyon-vizyon">Misyon & Vizyon</a>
-                <a href="about.html#degerler">Değerlerimiz</a>
-              </div>
-            </li>
-            <li class="dropdown">
-              <a href="hizmetler.html">Hizmetlerimiz</a>
-              <div class="dropdown-content">
-                <a href="hizmetler.html#acil">Acil Veteriner Hizmetleri</a>
-                <a href="hizmetler.html#koruyucu">Koruyucu Hekimlik</a>
-                <a href="hizmetler.html#cerrahi">Cerrahi Operasyonlar</a>
-                <a href="hizmetler.html#agiz-dis">Ağız ve Diş Sağlığı</a>
-                <a href="hizmetler.html#ic-hastaliklari">İç Hastalıkları</a>
-                <a href="hizmetler.html#dogum">Doğum ve Jinekoloji</a>
-                <a href="hizmetler.html#fizik-tedavi">Fizik Tedavi ve Rehabilitasyon Hizmetleri</a>
-                <a href="hizmetler.html#konaklama">Konaklama Hizmetleri</a>
-              </div>
-            </li>
-            <li class="dropdown">
-              <a href="blog.html">Blog</a>
-              <div class="dropdown-content">
-                <a href="blog.html">Evcil Hayvan Rehberleri</a>
-                <a href="blog.html">Sağlık & Tedavi Rehberi</a>
-                <a href="blog.html">Kliniğimizden Haberler</a>
-              </div>
-            </li>
-            <li class="dropdown">
-              <a href="sss.html">SSS</a>
-              <div class="dropdown-content">
-                <a href="sss.html#fiyat">Fiyat & Ödeme Programlarımız</a>
-                <a href="sss.html#surec">Hizmet Süreçleri</a>
-                <a href="sss.html#acil">Acil Durumlar</a>
-              </div>
-            </li>
-            <li class="dropdown">
-              <a href="hasta-iliskileri.html" class="active" aria-current="page">Hasta İlişkileri</a>
-              <div class="dropdown-content">
-                <a href="#online-randevu">Online Randevu</a>
-                <a href="#memnuniyet-anketi">Memnuniyet Anketi</a>
-                <a href="#basari-hikayeleri">Başarı Hikayeleri</a>
-                <a href="#sikayet-oneri">Şikayet & Öneri</a>
-              </div>
-            </li>
+            <li><a href="/index.html">Ana Sayfa</a></li>
+            <li class="dropdown"><a href="/about.html">Hakkımızda</a></li>
+            <li class="dropdown"><a href="/hizmetler.html">Hizmetlerimiz</a></li>
+            <li><a href="/blog.html">Blog</a></li>
+            <li class="dropdown"><a href="/sss.html">SSS</a></li>
+            <li class="dropdown"><a href="/hasta-iliskileri.html" class="active">Hasta İlişkileri</a></li>
           </ul>
         </nav>
       </div>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section class="page-header">
+  <!-- SAYFA İÇERİĞİ -->
+  <section class="page-hero">
     <div class="container">
-      <span class="hero-badge"><i class="fa-solid fa-hand-holding-heart"></i> Hasta İlişkileri</span>
-      <h1>Evcil Dostunuz İçin En İyi Hizmet Deneyimi</h1>
-      <p class="hero-sub">Online randevu, memnuniyet anketi, başarı hikayeleri ve geri bildirim — hepsi tek sayfada.</p>
-      <div class="hero-cta">
-        <a class="btn primary" href="#online-randevu"><i class="fa-solid fa-calendar-check"></i> Randevu Al</a>
-        <a class="btn ghost" href="#sikayet-oneri"><i class="fa-solid fa-comments"></i> Şikayet & Öneri</a>
-      </div>
-      <ul class="hero-metrics" aria-label="Güven rozetleri">
-        <li><i class="fa-solid fa-shield-heart"></i> KVKK Uyumlu</li>
-        <li><i class="fa-solid fa-clock"></i> Ortalama Dönüş: 30 dk</li>
-        <li><i class="fa-solid fa-star"></i> %98 Memnuniyet</li>
-      </ul>
+      <h1>Hasta İlişkileri</h1>
+      <p class="muted">Online randevu, memnuniyet anketi, başarı hikayeleri ve öneri-şikâyet.</p>
     </div>
   </section>
 
-  <!-- Breadcrumb -->
-  <div class="breadcrumb" aria-label="İçerik yolu">
+  <section class="section" id="online-randevu">
     <div class="container">
-      <a href="index.html">Ana Sayfa</a> <span>&gt;</span> <a href="hasta-iliskileri.html">Hasta İlişkileri</a>
-    </div>
-  </div>
-
-  <!-- Hızlı Erişim -->
-  <section class="quick-access" aria-label="Hızlı Erişim">
-    <div class="container">
-      <div class="qa-head"><h2 class="qa-title">Hızlı Erişim</h2></div>
-      <nav class="qa-grid">
-        <a class="qa-item" href="#online-randevu" title="Online Randevu">
-          <span class="qa-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-cal"/></svg></span>
-          <span class="qa-text">Online Randevu</span>
-        </a>
-        <a class="qa-item" href="#memnuniyet-anketi" title="Memnuniyet Anketi">
-          <span class="qa-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-clipboard-check"/></svg></span>
-          <span class="qa-text">Memnuniyet Anketi</span>
-        </a>
-        <a class="qa-item" href="#basari-hikayeleri" title="Başarı Hikayeleri">
-          <span class="qa-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-star-solid"/></svg></span>
-          <span class="qa-text">Başarı Hikayeleri</span>
-        </a>
-        <a class="qa-item" href="#sikayet-oneri" title="Şikayet & Öneri">
-          <span class="qa-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-chat-dots"/></svg></span>
-          <span class="qa-text">Şikayet & Öneri</span>
-        </a>
-        <a class="qa-item" href="#sss" title="Sık Sorulan Sorular">
-          <span class="qa-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-question"/></svg></span>
-          <span class="qa-text">SSS</span>
-        </a>
-      </nav>
+      <h2>Online Randevu</h2>
+      <form name="online-randevu" class="form" method="POST" data-netlify="true">
+        <input type="hidden" name="form-name" value="online-randevu"/>
+        <input type="text" name="ad" placeholder="Ad Soyad" required/>
+        <input type="tel" name="tel" placeholder="Telefon" required/>
+        <input type="text" name="pet" placeholder="Evcil Hayvan (Kedi/Köpek vb.)" required/>
+        <input type="date" name="tarih" required/>
+        <textarea name="not" placeholder="Not" rows="4"></textarea>
+        <button class="btn primary" type="submit">Randevu Talep Et</button>
+      </form>
     </div>
   </section>
 
-  <!-- Services -->
-  <section class="services-section">
+  <section class="section" id="memnuniyet-anketi">
     <div class="container">
-      <div class="section-title">
-        <h2>Hasta Hizmetlerimiz</h2>
-        <p>Evcil dostunuz için sunduğumuz özel hizmetler</p>
-      </div>
-
-      <div class="services-grid">
-        <div class="service-card">
-          <div class="service-icon"><i class="fas fa-calendar-check"></i></div>
-          <div class="service-content">
-            <h3>Online Randevu</h3>
-            <p>Kliniğimize gelmeden önce kolayca randevu alın, zaman kaybetmeyin. 7/24 randevu sistemimizle istediğiniz zaman randevu oluşturabilirsiniz.</p>
-            <a href="#online-randevu" class="service-btn">Randevu Al</a>
-          </div>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon"><i class="fas fa-file-medical"></i></div>
-          <div class="service-content">
-            <h3>Hasta Takip Sistemi</h3>
-            <p>Evcil dostunuzun tüm sağlık bilgileri dijital ortamda saklanır. Tedavi süreçlerini ve aşı takvimlerini online olarak takip edebilirsiniz.</p>
-            <a href="#" class="service-btn">Hasta Takip</a>
-          </div>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon"><i class="fas fa-headset"></i></div>
-          <div class="service-content">
-            <h3>7/24 Destek Hattı</h3>
-            <p>Acil durumlarda veya sorularınız için 7/24 ulaşabileceğiniz destek hattımız. Veteriner hekimlerimiz sizlere en hızlı şekilde yardımcı olur.</p>
-            <a href="tel:03323223220" class="service-btn">Ara: 0332 322 32 20</a>
-          </div>
-        </div>
-      </div>
+      <h2>Memnuniyet Anketi</h2>
+      <form name="memnuniyet" class="form" method="POST" data-netlify="true">
+        <input type="hidden" name="form-name" value="memnuniyet"/>
+        <select name="puan" required>
+          <option value="">Memnuniyet Puanınız</option>
+          <option>5 - Çok Memnunum</option>
+          <option>4</option>
+          <option>3</option>
+          <option>2</option>
+          <option>1 - Memnun Değilim</option>
+        </select>
+        <textarea name="yorum" placeholder="Görüşünüz" rows="4"></textarea>
+        <button class="btn" type="submit">Gönder</button>
+      </form>
     </div>
   </section>
 
-  <!-- Online Randevu -->
-  <section class="appointment-section" id="online-randevu">
+  <section class="section" id="basari-hikayeleri">
     <div class="container">
-      <div class="section-title">
-        <h2>Online Randevu</h2>
-        <p>Hızlı ve kolay randevu almak için formu doldurun</p>
-      </div>
-
-      <div class="form-container">
-        <div class="alert" id="randevuAlert" role="status">Teşekkürler! Randevu talebiniz alındı. Ekibimiz en kısa sürede sizi arayacaktır.</div>
-
-        <form name="randevu" method="POST" data-netlify="true" netlify-honeypot="bot-field"
-              accept-charset="UTF-8"
-              action="/hasta-iliskileri.html?tesekkur=randevu#online-randevu"
-              id="appointmentForm">
-          <input type="hidden" name="form-name" value="randevu">
-          <input type="hidden" name="subject" value="Elçi Veteriner - Yeni Randevu">
-          <p hidden><label>Bot: <input name="bot-field"></label></p>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="adsoyad">Adınız Soyadınız</label>
-              <input type="text" id="adsoyad" name="adsoyad" required>
-            </div>
-            <div class="form-group">
-              <label for="telefon">Telefon Numaranız</label>
-              <input type="tel" id="telefon" name="telefon" required>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="email">E-posta Adresiniz</label>
-              <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-              <label for="tur">Evcil Hayvan Türü</label>
-              <select id="tur" name="tur" required>
-                <option value="">Seçiniz</option>
-                <option value="Köpek">Köpek</option>
-                <option value="Kedi">Kedi</option>
-                <option value="Kuş">Kuş</option>
-                <option value="Diğer">Diğer</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="hayvan_adi">Evcil Hayvan Adı</label>
-              <input type="text" id="hayvan_adi" name="hayvan_adi" required>
-            </div>
-            <div class="form-group">
-              <label for="hizmet">İlgilendiğiniz Hizmet</label>
-              <select id="hizmet" name="hizmet" required>
-                <option value="">Seçiniz</option>
-                <option value="Genel Muayene">Genel Muayene</option>
-                <option value="Aşı">Aşı</option>
-                <option value="Cerrahi Operasyon">Cerrahi Operasyon</option>
-                <option value="Diş Tedavisi">Diş Tedavisi</option>
-                <option value="Tıraş & Bakım">Tıraş & Bakım</option>
-                <option value="Diğer">Diğer</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="tarih">Tercih Ettiğiniz Tarih</label>
-              <input type="date" id="tarih" name="tarih" required>
-            </div>
-            <div class="form-group">
-              <label for="saat">Tercih Ettiğiniz Saat</label>
-              <input type="time" id="saat" name="saat" required>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="not">Ek Bilgiler (İsteğe bağlı)</label>
-            <textarea id="not" name="not" rows="4"></textarea>
-          </div>
-
-          <button type="submit" class="submit-btn">Randevu Oluştur</button>
-        </form>
-      </div>
+      <h2>Başarı Hikayeleri</h2>
+      <p class="muted">Yakında: Kliniğimizde tedavi olan dostlarımızın iyileşme yolculukları.</p>
     </div>
   </section>
 
-  <!-- Memnuniyet Anketi -->
-  <section class="survey-section" id="memnuniyet-anketi">
+  <section class="section" id="sikayet-oneri">
     <div class="container">
-      <div class="section-title">
-        <h2>Memnuniyet Anketi</h2>
-        <p>Deneyiminizi bizimle paylaşın, hizmet kalitemizi artıralım</p>
-      </div>
-
-      <div class="survey-container">
-        <div class="alert" id="memnuniyetAlert" role="status">Teşekkürler! Anket yanıtlarınız kaydedildi.</div>
-
-        <form name="memnuniyet" method="POST" data-netlify="true" netlify-honeypot="bot-field"
-              action="/hasta-iliskileri.html?tesekkur=memnuniyet#memnuniyet-anketi" id="satisfactionSurvey">
-          <input type="hidden" name="form-name" value="memnuniyet">
-          <p hidden><label>Bot <input name="bot-field"></label></p>
-
-          <div class="form-group">
-            <label for="surveyName">Adınız Soyadınız (İsteğe Bağlı)</label>
-            <input type="text" id="surveyName" name="surveyName">
-          </div>
-
-          <div class="survey-question">
-            <h4>1. Kliniğimizdeki genel deneyiminizi nasıl değerlendirirsiniz?</h4>
-            <div class="options-grid">
-              <label class="option-label"><input type="radio" name="experience" value="1" required><span class="option-text">Çok Kötü</span></label>
-              <label class="option-label"><input type="radio" name="experience" value="2"><span class="option-text">Kötü</span></label>
-              <label class="option-label"><input type="radio" name="experience" value="3"><span class="option-text">Orta</span></label>
-              <label class="option-label"><input type="radio" name="experience" value="4"><span class="option-text">İyi</span></label>
-              <label class="option-label"><input type="radio" name="experience" value="5"><span class="option-text">Mükemmel</span></label>
-            </div>
-          </div>
-
-          <div class="survey-question">
-            <h4>2. Veteriner hekimimizin bilgi ve ilgisi nasıldı?</h4>
-            <div class="options-grid">
-              <label class="option-label"><input type="radio" name="knowledge" value="1" required><span class="option-text">Çok Kötü</span></label>
-              <label class="option-label"><input type="radio" name="knowledge" value="2"><span class="option-text">Kötü</span></label>
-              <label class="option-label"><input type="radio" name="knowledge" value="3"><span class="option-text">Orta</span></label>
-              <label class="option-label"><input type="radio" name="knowledge" value="4"><span class="option-text">İyi</span></label>
-              <label class="option-label"><input type="radio" name="knowledge" value="5"><span class="option-text">Mükemmel</span></label>
-            </div>
-          </div>
-
-          <div class="survey-question">
-            <h4>3. Personelimizin ilgisi ve yardımseverliği nasıldı?</h4>
-            <div class="options-grid">
-              <label class="option-label"><input type="radio" name="staff" value="1" required><span class="option-text">Çok Kötü</span></label>
-              <label class="option-label"><input type="radio" name="staff" value="2"><span class="option-text">Kötü</span></label>
-              <label class="option-label"><input type="radio" name="staff" value="3"><span class="option-text">Orta</span></label>
-              <label class="option-label"><input type="radio" name="staff" value="4"><span class="option-text">İyi</span></label>
-              <label class="option-label"><input type="radio" name="staff" value="5"><span class="option-text">Mükemmel</span></label>
-            </div>
-          </div>
-
-          <div class="survey-question">
-            <h4>4. Kliniğimizin temizliği ve hijyen standartları nasıldı?</h4>
-            <div class="options-grid">
-              <label class="option-label"><input type="radio" name="cleanliness" value="1" required><span class="option-text">Çok Kötü</span></label>
-              <label class="option-label"><input type="radio" name="cleanliness" value="2"><span class="option-text">Kötü</span></label>
-              <label class="option-label"><input type="radio" name="cleanliness" value="3"><span class="option-text">Orta</span></label>
-              <label class="option-label"><input type="radio" name="cleanliness" value="4"><span class="option-text">İyi</span></label>
-              <label class="option-label"><input type="radio" name="cleanliness" value="5"><span class="option-text">Mükemmel</span></label>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="suggestions">Geliştirmemizi istediğiniz noktalar (İsteğe bağlı)</label>
-            <textarea id="suggestions" name="suggestions" rows="4"></textarea>
-          </div>
-
-          <button type="submit" class="submit-btn">Anketi Gönder</button>
-        </form>
-      </div>
+      <h2>Şikayet & Öneri</h2>
+      <form name="sikayet-oneri" class="form" method="POST" data-netlify="true">
+        <input type="hidden" name="form-name" value="sikayet-oneri"/>
+        <input type="text" name="ad" placeholder="Ad Soyad" required/>
+        <input type="email" name="email" placeholder="E-posta" required/>
+        <textarea name="mesaj" placeholder="Mesajınız" rows="5" required></textarea>
+        <button class="btn" type="submit">Gönder</button>
+      </form>
     </div>
   </section>
 
-  <!-- Başarı Hikayeleri -->
-  <section class="success-stories-section" id="basari-hikayeleri">
-    <div class="container">
-      <div class="section-title">
-        <h2>Başarı Hikayeleri</h2>
-        <p>Evcil dostlarımızın sağlığına kavuşma öyküleri</p>
-      </div>
-
-      <div class="stories-grid">
-        <div class="story-card">
-          <div class="story-img"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=1074&q=80" alt="Başarı Hikayesi"></div>
-          <div class="story-content">
-            <h3>Karabaş'ın Kurtuluş Öyküsü</h3>
-            <div class="pet-info">
-              <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=1169&q=80" alt="Karabaş">
-              <span>Karabaş, 5 yaşında Golden Retriever</span>
-            </div>
-            <p>Karabaş, yutmuş olduğu yabancı cisim nedeniyle acil olarak kliniğimize getirildi. Endoskopik müdahale ile cisim başarıyla çıkarıldı ve Karabaş ertesi gün sağlığına kavuştu.</p>
-          </div>
-        </div>
-
-        <div class="story-card">
-          <div class="story-img"><img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=687&q=80" alt="Başarı Hikayesi"></div>
-          <div class="story-content">
-            <h3>Pamuk'un Mucizevi İyileşmesi</h3>
-            <div class="pet-info">
-              <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=1470&q=80" alt="Pamuk">
-              <span>Pamuk, 3 yaşında British Shorthair</span>
-            </div>
-            <p>Şiddetli diş eti iltihabı nedeniyle yemek yiyemeyen Pamuk'a uyguladığımız periodontal tedavi sonrası ağrıları sona erdi ve iştahı geri geldi.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Şikayet & Öneri -->
-  <section class="feedback-section" id="sikayet-oneri">
-    <div class="container">
-      <div class="feedback-container">
-        <div class="feedback-tabs" role="tablist" aria-label="Geri Bildirim Sekmeleri">
-          <div class="feedback-tab active" data-tab="sikayet" role="tab" aria-selected="true" tabindex="0">Şikayet</div>
-          <div class="feedback-tab" data-tab="oneri" role="tab" aria-selected="false" tabindex="0">Öneri</div>
-        </div>
-
-        <div class="feedback-content active" id="tab-sikayet" role="tabpanel">
-          <form class="feedback-form" name="sikayet" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/hasta-iliskileri.html#sikayet-oneri">
-            <input type="hidden" name="form-name" value="sikayet"/>
-            <p hidden><label>Bot <input name="bot-field"></label></p>
-            <div class="form-group">
-              <label>Ad Soyad</label>
-              <input type="text" name="adsoyad" required>
-            </div>
-            <div class="form-group">
-              <label>Mesajınız</label>
-              <textarea name="mesaj" rows="4" required></textarea>
-            </div>
-            <button class="submit-btn" type="submit">Gönder</button>
-          </form>
-        </div>
-
-        <div class="feedback-content" id="tab-oneri" role="tabpanel" hidden>
-          <form class="feedback-form" name="oneri" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/hasta-iliskileri.html#sikayet-oneri">
-            <input type="hidden" name="form-name" value="oneri"/>
-            <p hidden><label>Bot <input name="bot-field"></label></p>
-            <div class="form-group">
-              <label>Ad Soyad</label>
-              <input type="text" name="adsoyad" required>
-            </div>
-            <div class="form-group">
-              <label>Öneriniz</label>
-              <textarea name="mesaj" rows="4" required></textarea>
-            </div>
-            <button class="submit-btn" type="submit">Gönder</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SSS -->
-  <section class="faq-section" id="sss">
-    <div class="container faq-container">
-      <div class="section-title" style="text-align:center;margin-bottom:30px">
-        <h2>Sık Sorulan Sorular</h2>
-      </div>
-      <div class="faq-item">
-        <div class="faq-question">Acil durumlarda ne yapmalıyım?</div>
-        <div class="faq-answer"><p>Önce 0332 322 32 20 numarasını arayın. Ekibimiz yönlendirsin; güvenli taşıma için kedi/köpek taşıma çantası öneririz.</p></div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-question">Randevu gerekli mi?</div>
-        <div class="faq-answer"><p>Genel muayene için randevu önerilir; acil vakalarda 7/24 kabulümüz vardır.</p></div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-question">Hangi aşıları yapıyorsunuz?</div>
-        <div class="faq-answer"><p>Karma, kuduz, lösemi (kediler), parvovirüs ve diğer koruyucu aşılar. Plan kişiselleştirilir.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container footer-container">
-      <div class="footer-col">
-        <h3>Elçi Veteriner Kliniği</h3>
-        <p>Konya’nın Meram ilçesinde, hayvan sağlığı alanında uzman ekibimizle hizmet veriyoruz. 7/24 acil veteriner hizmeti.</p>
-        <div class="social-links">
-          <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-        </div>
-      </div>
-      <div class="footer-col">
-        <h3>Hızlı Linkler</h3>
-        <ul class="footer-links">
-          <li><a href="/index.html">Ana Sayfa</a></li>
-          <li><a href="/about.html">Hakkımızda</a></li>
-          <li><a href="/hizmetler.html">Hizmetlerimiz</a></li>
-          <li><a href="/blog.html">Blog</a></li>
-          <li><a href="/sss.html">SSS</a></li>
-          <li><a href="/hasta-iliskileri.html">Hasta İlişkileri</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h3>Konya Veteriner Hizmetlerimiz</h3>
-        <ul class="footer-links">
-          <li><a href="hizmetler.html#acil">Konya Acil Veteriner</a></li>
-          <li><a href="hizmetler.html#cerrahi">Konya’da Cerrahi Operasyonlar</a></li>
-          <li><a href="hizmetler.html#agiz-dis">Konya’da Ağız ve Diş Sağlığı</a></li>
-          <li><a href="hizmetler.html#ic-hastaliklari">Konya’da İç Hastalıkları</a></li>
-          <li><a href="hizmetler.html#fizik-tedavi">Konya’da Fizik Tedavi</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h3>Konya İletişim</h3>
-        <ul class="footer-contact">
-          <li><i class="fas fa-map-marker-alt"></i>
-            <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a>
-          </li>
-          <li><i class="fas fa-phone-alt"></i> <a href="tel:03323223220">0332 322 32 20</a></li>
-          <li><i class="fas fa-envelope"></i> <a href="mailto:elcivetklinig@gmail.com">elcivetklinig@gmail.com</a></li>
-          <li><i class="fas fa-clock"></i> <span>Pazartesi–Cumartesi: 08:00–19:00<br>Pazar: Acil Hizmet</span></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="container"><p>&copy; <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p></div>
-    </div>
-  </footer>
-
-  <!-- SVG ICON SPRITE (Hızlı Erişim ikonları) -->
-  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
-    <symbol id="i-cal" viewBox="0 0 24 24">
-      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="4" width="18" height="17" rx="2"/>
-        <path d="M8 2v4M16 2v4M3 9h18"/>
-        <circle cx="8" cy="13.5" r="1.2"/><circle cx="12" cy="13.5" r="1.2"/><circle cx="16" cy="13.5" r="1.2"/>
-      </g>
-    </symbol>
-    <symbol id="i-clipboard-check" viewBox="0 0 24 24">
-      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="6" y="5" width="12" height="15" rx="2"/>
-        <rect x="9" y="3" width="6" height="4" rx="1"/>
-        <path d="M9 12l2.2 2.2L15 10.4"/>
-      </g>
-    </symbol>
-    <symbol id="i-star-solid" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3.4l2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.8l6.1-.9L12 3.4z"/></symbol>
-    <symbol id="i-chat-dots" viewBox="0 0 24 24">
-      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="4" width="18" height="12" rx="3"/><path d="M8 20l3-3h6"/>
-        <circle cx="9" cy="10" r="1"/><circle cx="12" cy="10" r="1"/><circle cx="15" cy="10" r="1"/>
-      </g>
-    </symbol>
-    <symbol id="i-question" viewBox="0 0 24 24">
-      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="9"/>
-        <path d="M9.5 9.5a2.5 2.5 0 1 1 3.2 2.4c-.8.3-1.2.8-1.2 1.6v.4"/>
-        <circle cx="12" cy="17" r=".9"/>
-      </g>
-    </symbol>
-  </svg>
-
-  <script>
-    // Mobile menu
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const mainMenu = document.getElementById('mainMenu');
-    mobileMenuBtn?.addEventListener('click', () => {
-      const open = mainMenu.classList.toggle('show');
-      mobileMenuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-
-    // Mobile dropdown touch open
-    document.querySelectorAll('#mainMenu .dropdown > a').forEach(a=>{
-      a.addEventListener('click',e=>{
-        if(window.innerWidth<=992){ e.preventDefault(); a.parentElement.classList.toggle('active') }
-      });
-    });
-
-    // FAQ accordion
-    document.querySelectorAll('.faq-item').forEach(item=>{
-      const q=item.querySelector('.faq-question');
-      q.addEventListener('click',()=>{
-        item.classList.toggle('active');
-        const ans=item.querySelector('.faq-answer');
-        const open=item.classList.contains('active');
-        ans.style.maxHeight = open ? ans.scrollHeight+'px' : '0';
-        if(!open) ans.style.paddingBottom='0';
-      });
-    });
-
-    // Tabs
-    const tabs=document.querySelectorAll('.feedback-tab');
-    const panes={sikayet:document.getElementById('tab-sikayet'), oneri:document.getElementById('tab-oneri')};
-    tabs.forEach(t=>{
-      t.addEventListener('click',()=>{
-        tabs.forEach(x=>{x.classList.remove('active'); x.setAttribute('aria-selected','false')});
-        t.classList.add('active'); t.setAttribute('aria-selected','true');
-        Object.values(panes).forEach(p=>{p.classList.remove('active'); p.hidden=true});
-        const target=panes[t.getAttribute('data-tab')]; target.classList.add('active'); target.hidden=false;
-      });
-    });
-
-    // Footer year
-    document.getElementById('yil').textContent=new Date().getFullYear();
-
-    // Show success alerts if redirected with ?tesekkur=...
-    (function(){
-      const params = new URLSearchParams(location.search);
-      const t = params.get('tesekkur');
-      if(t==='randevu'){
-        const el = document.getElementById('randevuAlert');
-        if(el){ el.classList.add('show'); el.scrollIntoView({behavior:'smooth', block:'center'}); }
-      }
-      if(t==='memnuniyet'){
-        const el = document.getElementById('memnuniyetAlert');
-        if(el){ el.classList.add('show'); el.scrollIntoView({behavior:'smooth', block:'center'}); }
-      }
-    })();
-  </script>
+  <!-- Footer + Schema.org + Sprite + JS -->
+  <!-- ... footer bloğunu aynen kopyala ... -->
+  <script defer src="/assets/js/main.js?v=17"></script>
 </body>
 </html>
