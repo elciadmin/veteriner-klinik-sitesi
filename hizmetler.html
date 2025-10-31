@@ -1,522 +1,494 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Hizmetlerimiz | Elçi Veteriner Kliniği — Konya’da 7/24 Acil, Cerrahi, Görüntüleme</title>
+  <meta name="description" content="Elçi Veteriner Kliniği (Konya Meram): 7/24 acil, yoğun bakım, iç hastalıkları, cerrahi, ağız-diș sağlığı, görüntüleme & laboratuvar, kardiyoloji, doğum & jinekoloji, fizik tedavi, konaklama."/>
+  <link rel="canonical" href="https://elciveteriner.com/hizmetler.html"/>
   <link rel="stylesheet" href="/assets/css/styles.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hizmetlerimiz | Elçi Veteriner Kliniği</title>
-  <meta name="description" content="Elçi Veteriner Kliniği: Acil & yoğun bakım, muayene ve koruyucu hekimlik, cerrahi, ağız ve diş sağlığı, kardiyoloji, görüntüleme & laboratuvar, doğum-jinekoloji, fizik tedavi ve konaklama hizmetleri." />
-  <link rel="canonical" href="https://elciveteriner.com/hizmetler.html" />
-  <meta property="og:title" content="Hizmetlerimiz | Elçi Veteriner Kliniği" />
-  <meta property="og:description" content="Konya’da 7/24 acil ve kapsamlı veterinerlik: cerrahi, diş sağlığı, görüntüleme & laboratuvar, doğum-jinekoloji ve daha fazlası." />
-  <meta property="og:type" content="website" />
-  <meta property="og:locale" content="tr_TR" />
-
-  <!-- Global stylesheet (site-wide) -->
-  <link rel="stylesheet" href="/assets/css/styles.css" />
-
-   <!-- JSON-LD Service List -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"ItemList",
-    "name":"Elçi Veteriner Kliniği Hizmetleri",
-    "itemListElement":[
-      {"@type":"Service","name":"Acil ve Yoğun Bakım","areaServed":"Konya","serviceType":"Emergency & ICU"},
-      {"@type":"Service","name":"Muayene ve Koruyucu Hekimlik","serviceType":"Preventive Care"},
-      {"@type":"Service","name":"Cerrahi","serviceType":"Soft tissue & Ortopedi"},
-      {"@type":"Service","name":"Ağız ve Diş Sağlığı","serviceType":"Dentistry"},
-      {"@type":"Service","name":"Görüntüleme ve Laboratuvar","serviceType":"X-ray, Ultrason, Hemogram"},
-      {"@type":"Service","name":"Kardiyoloji","serviceType":"EKG & Kalp muayenesi"},
-      {"@type":"Service","name":"Doğum ve Jinekoloji","serviceType":"Obstetri & Reprodüksiyon"},
-      {"@type":"Service","name":"Fizik Tedavi","serviceType":"Fizyoterapi & Rehabilitasyon"},
-      {"@type":"Service","name":"Konaklama","serviceType":"Boarding"}
-    ]
-  }
-  </script>
-
-  <!-- Page JS (scroll spy + small helpers) will be at bottom -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-  <!-- Top Bar -->
-  <header class="topbar">
-    <div class="container">
-      <div>Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</div>
-      <div>☎ 0332 322 32 20 • 📧 elcivetklinig@gmail.com</div>
+
+  <!-- SABİT HEADER (index ile aynı yapı) -->
+  <header>
+    <div class="header-top">
+      <div class="container">
+        <div class="header-contact">
+          <span><i class="fa-solid fa-location-dot"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</span>
+        </div>
+        <div class="header-contact">
+          <a href="tel:03323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a>
+          <a href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> elcivetklinik@gmail.com</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-main">
+      <div class="container">
+        <div class="logo-text">
+          <h1>Elçi Veteriner Kliniği</h1>
+          <span>Sağlığın Elçileri’yiz</span>
+        </div>
+
+        <nav aria-label="Birincil">
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç/kapat">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <ul id="mainMenu">
+            <li><a href="/index.html">Ana Sayfa</a></li>
+            <li class="dropdown">
+              <a href="/about.html" aria-haspopup="true" aria-expanded="false">Hakkımızda</a>
+              <div class="dropdown-content" role="menu">
+                <a href="/about.html#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
+                <a href="/about.html#ekibimiz" role="menuitem">Ekibimiz</a>
+                <a href="/about.html#klinik" role="menuitem">Kliniğimiz</a>
+                <a href="/about.html#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
+                <a href="/about.html#degerler" role="menuitem">Değerlerimiz</a>
+              </div>
+            </li>
+            <li class="dropdown">
+              <a href="/hizmetler.html" class="active" aria-haspopup="true" aria-expanded="true">Hizmetlerimiz</a>
+              <div class="dropdown-content" role="menu">
+                <a href="#acil" role="menuitem">Acil Veteriner</a>
+                <a href="#koruyucu" role="menuitem">Koruyucu Hekimlik</a>
+                <a href="#cerrahi" role="menuitem">Cerrahi Operasyonlar</a>
+                <a href="#agiz-dis" role="menuitem">Ağız ve Diş Sağlığı</a>
+                <a href="#ic-hastaliklari" role="menuitem">İç Hastalıkları</a>
+                <a href="#goruntuleme-lab" role="menuitem">Görüntüleme &amp; Lab</a>
+                <a href="#kardiyoloji" role="menuitem">Kardiyoloji</a>
+                <a href="#dogum-jinekoloji" role="menuitem">Doğum &amp; Jinekoloji</a>
+                <a href="#fizik-tedavi" role="menuitem">Fizik Tedavi</a>
+                <a href="#konaklama" role="menuitem">Konaklama</a>
+              </div>
+            </li>
+            <li><a href="/blog.html">Blog</a></li>
+            <li class="dropdown">
+              <a href="/sss.html" aria-haspopup="true" aria-expanded="false">SSS</a>
+              <div class="dropdown-content" role="menu">
+                <a href="/sss.html#fiyat" role="menuitem">Fiyat &amp; Ödeme</a>
+                <a href="/sss.html#surec" role="menuitem">Hizmet Süreçleri</a>
+                <a href="/sss.html#acil" role="menuitem">Acil Durumlar</a>
+              </div>
+            </li>
+            <li class="dropdown">
+              <a href="/hasta-iliskileri.html" aria-haspopup="true" aria-expanded="false">Hasta İlişkileri</a>
+              <div class="dropdown-content" role="menu">
+                <a href="/hasta-iliskileri.html#online-randevu" role="menuitem">Online Randevu</a>
+                <a href="/hasta-iliskileri.html#memnuniyet-anketi" role="menuitem">Memnuniyet Anketi</a>
+                <a href="/hasta-iliskileri.html#basari-hikayeleri" role="menuitem">Başarı Hikayeleri</a>
+                <a href="/hasta-iliskileri.html#sikayet-oneri" role="menuitem">Şikayet &amp; Öneri</a>
+              </div>
+            </li>
+          </ul>
+        </nav>
+
+      </div>
     </div>
   </header>
 
-  <!-- Nav -->
-  <nav class="site-nav" aria-label="Ana menü">
-    <div class="container">
-      <a class="brand" href="/">🐾 Elçi Veteriner Kliniği</a>
-      <div class="menu">
-        <a href="/about.html">Hakkımızda</a>
-        <a class="active" href="/hizmetler.html" aria-current="page">Hizmetler</a>
-        <a href="/blog.html">Blog</a>
-        <a href="/sss.html">SSS</a>
-        <a href="/hasta-iliskileri.html">Hasta İlişkileri</a>
-        <a class="btn primary" href="tel:03323223220">Acil Ara</a>
-      </div>
-    </div>
-  </nav>
-
-  <!-- HERO -->
+  <!-- SAYFA HERO / BAŞLIK -->
   <section class="hero">
     <div class="container">
-      <div class="hero-text">
-        <h1>Hizmetlerimiz</h1>
-        <p>Konya’da 7/24 acil destekten ileri görüntüleme ve cerrahiye, doğum ve jinekolojiden fizik tedaviye kadar kapsamlı bakım.</p>
-        <div class="cta-row" style="margin-top:12px">
-          <a class="btn primary" href="/contact.html">Randevu Al</a>
-          <a class="btn ghost" href="tel:03323223220">Hemen Ara</a>
+      <div class="hero-center" style="padding-bottom:20px;">
+        <h1 style="margin-top:6px">Hizmetlerimiz</h1>
+        <div class="hero-divider" role="presentation"></div>
+        <p class="hero-sub">Acilden cerrahiye, tanı ve tedaviden rehabilitasyona kadar kapsamlı ve etik veterinerlik hizmetleri.</p>
+        <div class="hero-cta">
+          <a class="btn primary" href="tel:03323223220"><i class="fa-solid fa-phone"></i> Hemen Ara</a>
+          <a class="btn ghost" href="/contact.html"><i class="fa-solid fa-calendar-check"></i> Randevu Al</a>
         </div>
       </div>
-      <nav class="toc" aria-label="Sayfa içi hızlı menü">
-        <h3>Hızlı Erişim</h3>
-        <div class="toc-links">
-          <a href="#acil"><span aria-hidden="true">🚑</span> Acil & Yoğun Bakım</a>
-          <a href="#koruyucu"><span aria-hidden="true">🩺</span> Muayene & Koruyucu</a>
-          <a href="#cerrahi"><span aria-hidden="true">✂️</span> Cerrahi</a>
-          <a href="#agiz-dis"><span aria-hidden="true">🦷</span> Ağız & Diş</a>
-          <a href="#goruntuleme-lab"><span aria-hidden="true">🧪</span> Görüntüleme & Lab</a>
-          <a href="#kardiyoloji"><span aria-hidden="true">📈</span> Kardiyoloji</a>
-          <a href="#dogum"><span aria-hidden="true">👶</span> Doğum & Jinekoloji</a>
-          <a href="#fizik-tedavi"><span aria-hidden="true">🧘</span> Fizik Tedavi</a>
-          <a href="#konaklama"><span aria-hidden="true">🏠</span> Konaklama</a>
-        </div>
-      </nav>
     </div>
   </section>
 
-  <!-- SECTION: Acil & Yoğun Bakım -->
-  <section id="acil" class="section" aria-labelledby="acil-title">
-    <div class="container">
-      <div class="s-head">
-        <div class="s-left">
-          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-ambulance" /></svg></span>
-          <h2 id="acil-title" class="s-title">Acil & Yoğun Bakım</h2>
+  <!-- İÇERİK: YAN MENÜ + BÖLÜMLER -->
+  <main class="container" style="margin-top:26px;">
+    <div class="svc-layout">
+      <!-- Sol: Sticky içerik menüsü -->
+      <aside class="svc-toc" aria-label="Hizmet menüsü">
+        <h3 class="svc-toc-title">Hızlı Erişim</h3>
+        <nav>
+          <ol class="svc-links">
+            <li><a href="#acil">Acil &amp; Yoğun Bakım</a></li>
+            <li><a href="#koruyucu">Muayene &amp; Koruyucu</a></li>
+            <li><a href="#ic-hastaliklari">İç Hastalıkları</a></li>
+            <li><a href="#cerrahi">Cerrahi</a></li>
+            <li><a href="#agiz-dis">Ağız &amp; Diş Sağlığı</a></li>
+            <li><a href="#goruntuleme-lab">Görüntüleme &amp; Lab</a></li>
+            <li><a href="#kardiyoloji">Kardiyoloji</a></li>
+            <li><a href="#dogum-jinekoloji">Doğum &amp; Jinekoloji</a></li>
+            <li><a href="#fizik-tedavi">Fizik Tedavi</a></li>
+            <li><a href="#konaklama">Konaklama &amp; Özel Bakım</a></li>
+          </ol>
+        </nav>
+        <div class="svc-help">
+          <p class="muted" style="margin:0">Aradığınızı bulamıyor musunuz?</p>
+          <a class="btn" href="/contact.html">Bize Yazın</a>
         </div>
-        <div class="cta-row">
-          <a class="btn primary" href="tel:03323223220">Acil Hattı</a>
-          <a class="btn ghost" href="/contact.html">Randevu</a>
-        </div>
-      </div>
+      </aside>
 
-      <div class="s-grid">
-        <article class="s-card">
-          <h4>Şok Yönetimi ve Stabilizasyon</h4>
-          <ul class="s-list">
-            <li>ABC değerlendirme, oksijen ve damar yolu</li>
-            <li>Hızlı ultrason (FAST), EKG ve kan gazı</li>
-            <li>Ağrı, travma ve nöbet yönetimi</li>
-          </ul>
-          <div class="note" role="note"><strong>Not:</strong> Acil servisimiz 7/24 açıktır; lütfen önceden arayarak bilgi verin.</div>
+      <!-- Sağ: Bölüm içerikleri -->
+      <section class="svc-content">
+
+        <!-- ACİL -->
+        <article id="acil" class="svc-section">
+          <header class="svc-head">
+            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-shield-cross"/></svg></span>
+            <div>
+              <h2>Acil &amp; Yoğun Bakım</h2>
+              <p class="muted">Şok yönetimi, resüsitasyon, oksijen kafesi, damar içi sıvı ve 24 saat takip.</p>
+            </div>
+          </header>
+          <div class="svc-body">
+            <div class="svc-grid2">
+              <div>
+                <ul class="svc-ul">
+                  <li>Triyaj ve ilk stabilizasyon (A-B-C yaklaşımı)</li>
+                  <li>Oksijen tedavisi (kafes/maske), nebülizasyon</li>
+                  <li>İntravenöz sıvı, vazopressör, analjezi/antiemetik</li>
+                  <li>Toksite/zehirlenme protokolleri</li>
+                  <li>Hızlı görüntüleme (FAST USG, direkt grafi)</li>
+                </ul>
+                <details class="faq"><summary>Hangi durumlar acildir?</summary>
+                  <p>Travma, solunum sıkıntısı, tekrarlayan kusma/ishal, ani halsizlik, zehirlenme şüphesi, idrar yapamama, nöbet vb.</p>
+                </details>
+              </div>
+              <div class="svc-cta">
+                <div class="chip">7/24</div>
+                <a class="btn primary" href="tel:03323223220"><i class="fa-solid fa-phone"></i> Acil Hattı</a>
+                <a class="btn ghost" href="/sss.html#acil">Acil SSS</a>
+              </div>
+            </div>
+          </div>
         </article>
-        <aside class="s-card">
-          <h4>Yoğun Bakım İmkanlarımız</h4>
-          <ul class="s-list">
-            <li>Oksijen kafesi ve ısı kontrollü üniteler</li>
-            <li>İnfüzyon pompaları, sürekli monitorizasyon</li>
-            <li>İleri laboratuvar ve görüntüleme desteği</li>
-          </ul>
-        </aside>
-      </div>
-    </div>
-  </section>
 
-  <!-- SECTION: Muayene & Koruyucu -->
-  <section id="koruyucu" class="section" aria-labelledby="koruyucu-title">
-    <div class="container">
-      <div class="s-head">
-        <div class="s-left">
-          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-stethoscope" /></svg></span>
-          <h2 id="koruyucu-title" class="s-title">Muayene & Koruyucu Hekimlik</h2>
-        </div>
-        <div class="cta-row">
-          <a class="btn ghost" href="/hasta-iliskileri.html#randevu">Aşı Takvimi İçin Yazın</a>
-        </div>
-      </div>
-
-      <div class="s-grid">
-        <article class="s-card">
-          <h4>Temel Hizmetler</h4>
-          <ul class="s-list">
-            <li>Aşı planı, parazit kontrolü, mikroçip</li>
-            <li>Yıllık genel muayene ve kan tetkikleri</li>
-            <li>Beslenme ve kilo yönetimi danışmanlığı</li>
-          </ul>
+        <!-- KORUYUCU -->
+        <article id="koruyucu" class="svc-section">
+          <header class="svc-head">
+            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-stethoscope"/></svg></span>
+            <div>
+              <h2>Muayene &amp; Koruyucu Hekimlik</h2>
+              <p class="muted">Aşı programı, parazit kontrolü, mikroçip ve düzenli check-up.</p>
+            </div>
+          </header>
+          <div class="svc-body">
+            <div class="svc-grid2">
+              <div>
+                <ul class="svc-ul">
+                  <li>Yaşa ve yaşam tarzına uygun <strong>aşı takvimleri</strong></li>
+                  <li><strong>İç/dış parazit</strong> kontrol ve önleme</li>
+                  <li>Mikroçip ve pasaport işlemleri</li>
+                  <li>Beslenme, obezite ve dental profilaksi danışmanlığı</li>
+                </ul>
+                <details class="faq"><summary>Aşı sonrası nelere dikkat etmeliyim?</summary>
+                  <p>Hafif halsizlik/iştahsızlık olabilir; 24 saat sürerse bizi arayın. Banyo/yoğun egzersizi aynı gün önermiyoruz.</p>
+                </details>
+              </div>
+              <div class="svc-cta">
+                <div class="chip">Randevu ile</div>
+                <a class="btn primary" href="/contact.html"><i class="fa-solid fa-calendar-check"></i> Randevu Al</a>
+                <a class="btn ghost" href="/blog.html">Bilgi Yazıları</a>
+              </div>
+            </div>
+          </div>
         </article>
-        <aside class="s-card">
-          <h4>Avantajlı Paketler</h4>
-          <ul class="s-list">
-            <li>Yavru sağlığı başlangıç paketi</li>
-            <li>Yaşlı dost bakım paketi</li>
-            <li>Rutin check-up & diş temizliği kombin</li>
-          </ul>
-        </aside>
-      </div>
-    </div>
-  </section>
 
-  <!-- SECTION: Cerrahi -->
-  <section id="cerrahi" class="section" aria-labelledby="cerrahi-title">
-    <div class="container">
-      <div class="s-head">
-        <div class="s-left">
-          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-scissors" /></svg></span>
-          <h2 id="cerrahi-title" class="s-title">Cerrahi</h2>
-        </div>
-        <div class="cta-row">
-          <a class="btn ghost" href="/sss.html#surec">Ameliyat Süreçleri</a>
-          <a class="btn primary" href="/contact.html">Ön Muayene</a>
-        </div>
-      </div>
-
-      <div class="s-grid">
-        <article class="s-card">
-          <h4>Yumuşak Doku & Ortopedi</h4>
-          <ul class="s-list">
-            <li>Spay/kastrasyon, kitle çıkarımı</li>
-            <li>Gastrointestinal, ürogenital cerrahiler</li>
-            <li>Temel ortopedik müdahaleler</li>
-          </ul>
+        <!-- İÇ HASTALIKLARI -->
+        <article id="ic-hastaliklari" class="svc-section">
+          <header class="svc-head">
+            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-clipboard"/></svg></span>
+            <div>
+              <h2>İç Hastalıkları</h2>
+              <p class="muted">Hemogram, biyokimya, hormon, idrar analizi ve tanısal yaklaşım.</p>
+            </div>
+          </header>
+          <div class="svc-body">
+            <div class="svc-grid2">
+              <div>
+                <ul class="svc-ul">
+                  <li>Akut/kronik gastrointestinal, hepatik, renal vakalar</li>
+                  <li>Endokrin (DM, hipertiroidi/hipotiroidi, Cushing vb.)</li>
+                  <li>Hematoloji, koagülasyon ve immünoloji değerlendirmeleri</li>
+                  <li>İdrar tahlili &amp; USG ile alt üriner yol yaklaşımı</li>
+                </ul>
+                <details class="faq"><summary>Kan tahliline aç gelmeli mi?</summary>
+                  <p>Çoğu biyokimya için 8–10 saat açlık idealdir; su serbest. Kronik hastalıklarda doktor önerisine uyunuz.</p>
+                </details>
+              </div>
+              <div class="svc-cta">
+                <div class="chip">Aynı gün sonuç*</div>
+                <a class="btn primary" href="/contact.html">Kontrol Planla</a>
+                <a class="btn ghost" href="#goruntuleme-lab">Görüntüleme &amp; Lab</a>
+              </div>
+            </div>
+          </div>
         </article>
-        <aside class="s-card">
-          <h4>Anestezi ve Ağrı Yönetimi</h4>
-          <ul class="s-list">
-            <li>Preop risk analizi ve güvenli anestezi</li>
-            <li>Multimodal analjezi protokolleri</li>
-            <li>Postop ev bakım talimatları</li>
-          </ul>
-        </aside>
-      </div>
 
-      <div class="gallery" style="margin-top:12px">
-        <figure class="ph"><img src="/assets/img/uploads/cerrahi-1.jpg" alt="Steril ameliyathane görüntüsü"></figure>
-        <figure class="ph"><img src="/assets/img/uploads/cerrahi-2.jpg" alt="Cerrahi ekip ve monitörizasyon"></figure>
-        <figure class="ph"><img src="/assets/img/uploads/cerrahi-3.jpg" alt="Ameliyat sonrası bakım alanı"></figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION: Ağız ve Diş -->
-  <section id="agiz-dis" class="section" aria-labelledby="agiz-title">
-    <div class="container">
-      <div class="s-head">
-        <div class="s-left">
-          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-tooth-clean" /></svg></span>
-          <h2 id="agiz-title" class="s-title">Ağız & Diş Sağlığı</h2>
-        </div>
-        <div class="cta-row">
-          <a class="btn primary" href="/contact.html">Diş Temizliği Randevusu</a>
-        </div>
-      </div>
-
-      <div class="s-grid">
-        <article class="s-card">
-          <h4>Hizmetler</h4>
-          <ul class="s-list">
-            <li>Diş taşı temizliği ve parlatma</li>
-            <li>Çekimler, periodontal tedaviler</li>
-            <li>Ağız içi muayene ve röntgen</li>
-          </ul>
+        <!-- CERRAHİ -->
+        <article id="cerrahi" class="svc-section">
+          <header class="svc-head">
+            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-scissors"/></svg></span>
+            <div>
+              <h2>Cerrahi Operasyonlar</h2>
+              <p class="muted">Yumuşak doku, ortopedi, sterilizasyon ve ağrı yönetimi.</p>
+            </div>
+          </header>
+          <div class="svc-body">
+            <div class="svc-grid2">
+              <div>
+                <ul class="svc-ul">
+                  <li>OVH/Kastrasyon, tümör eksizyonları, herni onarımları</li>
+                  <li>Gastrointestinal ve ürogenital cerrahiler</li>
+                  <li>Temiz, steril sahada modern anestezi ve monitorizasyon</li>
+                  <li>Yara yönetimi ve ağrı protokolleri</li>
+                </ul>
+                <details class="faq"><summary>Ameliyat öncesi hazırlık?</summary>
+                  <p>12 saat açlık, su serbest; düzenli ilaçlarınızı hekiminize bildiriniz. Check-list’i randevu öncesi iletiriz.</p>
+                </details>
+              </div>
+              <div class="svc-cta">
+                <div class="chip">Planlı / Acil</div>
+                <a class="btn primary" href="/contact.html">Ön Muayene</a>
+                <a class="btn ghost" href="/sss.html#surec">Süreç &amp; İyileşme</a>
+              </div>
+            </div>
+          </div>
         </article>
-        <aside class="s-card">
-          <h4>Evde Bakım Önerileri</h4>
-          <ul class="s-list">
-            <li>Diş fırçalama alışkanlığı</li>
-            <li>Uygun mamalar ve çiğneme oyuncakları</li>
-            <li>Yıllık kontrol planı</li>
-          </ul>
-        </aside>
-      </div>
-    </div>
-  </section>
 
-  <!-- SECTION: Görüntüleme & Lab -->
-  <section id="goruntuleme-lab" class="section" aria-labelledby="lab-title">
-    <div class="container">
-      <div class="s-head">
-        <div class="s-left">
-          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-xray" /></svg></span>
-          <h2 id="lab-title" class="s-title">Görüntüleme & Laboratuvar</h2>
-        </div>
-      </div>
-
-      <div class="s-grid">
-        <article class="s-card">
-          <h4>Tanısal Görüntüleme</h4>
-          <ul class="s-list">
-            <li>Dijital röntgen ve ultrason</li>
-            <li>FAST ultrason ve EKG</li>
-            <li>Doğru tanı için konsültasyon</li>
-          </ul>
+        <!-- AĞIZ & DİŞ -->
+        <article id="agiz-dis" class="svc-section">
+          <header class="svc-head">
+            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-tooth-clean"/></svg></span>
+            <div>
+              <h2>Ağız &amp; Diş Sağlığı</h2>
+              <p class="muted">Diş taşı temizliği, çekimler, periodontal tedaviler ve dental röntgen.</p>
+            </div>
+          </header>
+          <div class="svc-body">
+            <div class="svc-grid2">
+              <div>
+                <ul class="svc-ul">
+                  <li>Ultrasonik scaling &amp; parlatma</li>
+                  <li>Periodontal tedaviler, basit/komplike çekimler</li>
+                  <li>Dental radyografi ile kök değerlendirmesi</li>
+                  <li>Evde bakım eğitimi ve diyetsel öneriler</li>
+                </ul>
+                <details class="faq"><summary>Genel anestezi şart mı?</summary>
+                  <p>Evet, güvenli ve ağrısız dental prosedürler için kontrollü anestezi ve hava yolu korunumu gereklidir.</p>
+                </details>
+              </div>
+              <div class="svc-cta">
+                <a class="btn primary" href="/contact.html">Ağız Diş Muayenesi</a>
+                <a class="btn ghost" href="/blog.html">Evde Bakım Rehberi</a>
+              </div>
+            </div>
+          </div>
         </article>
-        <aside class="s-card">
-          <h4>Laboratuvar</h4>
-          <ul class="s-list">
-            <li>Hemogram, biyokimya, hormon</li>
-            <li>İdrar analizi, parazit ve sitoloji</li>
-            <li>Hızlı testler (parvo, giardia vb.)</li>
-          </ul>
-        </aside>
-      </div>
-    </div>
-  </section>
 
-  <!-- SECTION: Kardiyoloji -->
-  <section id="kardiyoloji" class="section" aria-labelledby="kard-title">
-    <div class="container">
-      <div class="s-head">
-        <div class="s-left">
-          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-ecg" /></svg></span>
-          <h2 id="kard-title" class="s-title">Kardiyoloji</h2>
-        </div>
-      </div>
-
-      <div class="s-grid">
-        <article class="s-card">
-          <h4>Kalp Sağlığı</h4>
-          <ul class="s-list">
-            <li>Kalp muayenesi ve steteskopik değerlendirme</li>
-            <li>EKG ve gerekirse kardiyak ilaç düzeni</li>
-            <li>Riskli hastalarda düzenli takip</li>
-          </ul>
+        <!-- GÖRÜNTÜLEME & LAB -->
+        <article id="goruntuleme-lab" class="svc-section">
+          <header class="svc-head">
+            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-xray"/></svg></span>
+            <div>
+              <h2>Görüntüleme &amp; Laboratuvar</h2>
+              <p class="muted">Röntgen, ultrason, FAST, EKG, sitoloji ve hızlı testler.</p>
+            </div>
+          </header>
+          <div class="svc-body">
+            <div class="svc-grid2">
+              <div>
+                <ul class="svc-ul">
+                  <li>Dijital direkt grafi, kontrast çalışmaları</li>
+                  <li>USG/FAST, gebelik ve abdomen değerlendirmeleri</li>
+                  <li>EKG ve kardiyak monitorizasyon</li>
+                  <li>Hızlı testler (parvo, giardia, FeLV/FIV vb.) ve sitoloji</li>
+                </ul>
+                <details class="faq"><summary>USG için açlık gerekir mi?</summary>
+                  <p>Abdominal USG için 8 saat açlık görüntü kalitesini artırır. Acil durumlarda hekiminiz yönlendirecektir.</p>
+                </details>
+              </div>
+              <div class="svc-cta">
+                <a class="btn primary" href="/contact.html">Görüntüleme Randevusu</a>
+                <a class="btn ghost" href="#kardiyoloji">Kardiyoloji</a>
+              </div>
+            </div>
+          </div>
         </article>
-        <aside class="s-card">
-          <h4>Belirti Takibi</h4>
-          <ul class="s-list">
-            <li>Öksürük, egzersiz intoleransı</li>
-            <li>Hızlı nefes alma, bayılma atakları</li>
-            <li>Ödem ve kilo değişiklikleri</li>
-          </ul>
-        </aside>
-      </div>
-    </div>
-  </section>
 
-  <!-- SECTION: Doğum & Jinekoloji -->
-  <section id="dogum" class="section" aria-labelledby="dogum-title">
-    <div class="container">
-      <div class="s-head">
-        <div class="s-left">
-          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-clipboard" /></svg></span>
-          <h2 id="dogum-title" class="s-title">Doğum & Jinekoloji</h2>
-        </div>
-        <div class="cta-row">
-          <a class="btn primary" href="/contact.html">Doğum Öncesi Değerlendirme</a>
-        </div>
-      </div>
-
-      <div class="s-grid">
-        <article class="s-card">
-          <h4>Üreme Sağlığı</h4>
-          <ul class="s-list">
-            <li>Gebelik takibi ve ultrason</li>
-            <li>Doğum desteği, sezaryen endikasyonları</li>
-            <li>Jinekolojik muayene ve tedavi</li>
-          </ul>
+        <!-- KARDİYOLOJİ -->
+        <article id="kardiyoloji" class="svc-section">
+          <header class="svc-head">
+            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-ecg"/></svg></span>
+            <div>
+              <h2>Kardiyoloji</h2>
+              <p class="muted">Kalp muayenesi, EKG değerlendirmesi ve tedavi takibi.</p>
+            </div>
+          </header>
+          <div class="svc-body">
+            <div class="svc-grid2">
+              <div>
+                <ul class="svc-ul">
+                  <li>Üfürüm ve aritmilerin EKG ile taranması</li>
+                  <li>Kronik kalp yetmezliği yönetimi</li>
+                  <li>Egzersiz intoleransı/öksürük değerlendirmesi</li>
+                </ul>
+                <details class="faq"><summary>Evde takip nasıl yapılır?</summary>
+                  <p>İlaç saatlerine uyum, solunum sayımı ve egzersiz toleransı kaydı önemlidir; kontrol aralıklarını belirleriz.</p>
+                </details>
+              </div>
+              <div class="svc-cta">
+                <a class="btn primary" href="/contact.html">Randevu Al</a>
+                <a class="btn ghost" href="/blog.html">Kalp Sağlığı</a>
+              </div>
+            </div>
+          </div>
         </article>
-        <aside class="s-card">
-          <h4>Riskli Vakalarda Yaklaşım</h4>
-          <ul class="s-list">
-            <li>Düşük risk takibi ve enfeksiyon yönetimi</li>
-            <li>Pre/postpartum komplikasyonlar</li>
-            <li>Beslenme ve yavru bakım rehberi</li>
-          </ul>
-        </aside>
-      </div>
-    </div>
-  </section>
 
-  <!-- SECTION: Fizik Tedavi -->
-  <section id="fizik-tedavi" class="section" aria-labelledby="fzt-title">
-    <div class="container">
-      <div class="s-head">
-        <div class="s-left">
-          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-shower" /></svg></span>
-          <h2 id="fzt-title" class="s-title">Fizik Tedavi</h2>
-        </div>
-      </div>
-
-      <div class="s-grid">
-        <article class="s-card">
-          <h4>Rehabilitasyon</h4>
-          <ul class="s-list">
-            <li>Ortopedik ve nörolojik hastalarda egzersiz</li>
-            <li>Ağrı kontrolü ve mobilite artırma</li>
-            <li>Bireysel program planlama</li>
-          </ul>
+        <!-- DOĞUM & JİNEKOLOJİ -->
+        <article id="dogum-jinekoloji" class="svc-section">
+          <header class="svc-head">
+            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-repro"/></svg></span>
+            <div>
+              <h2>Doğum &amp; Jinekoloji</h2>
+              <p class="muted">Gebelik takibi, doğum desteği, sezaryen ve jinekolojik tedaviler.</p>
+            </div>
+          </header>
+          <div class="svc-body">
+            <div class="svc-grid2">
+              <div>
+                <ul class="svc-ul">
+                  <li>Gebelik ultrasonu ve takip planı</li>
+                  <li>Distrozi yönetimi, sezaryen endikasyonları</li>
+                  <li>Pyometra, mastitis ve fertilite danışmanlığı</li>
+                </ul>
+                <details class="faq"><summary>Doğum ne zaman acildir?</summary>
+                  <p>Şiddetli ıkınmaya rağmen yavru gelmemesi (20–30 dk), yeşil/kanlı akıntı, halsizlik/ateş gibi bulgularda acildir.</p>
+                </details>
+              </div>
+              <div class="svc-cta">
+                <div class="chip">Acil Başvuru</div>
+                <a class="btn primary" href="tel:03323223220">Acil Doğum Hattı</a>
+                <a class="btn ghost" href="/sss.html#surec">Doğum Süreci</a>
+              </div>
+            </div>
+          </div>
         </article>
-        <aside class="s-card">
-          <h4>Ev Programı</h4>
-          <ul class="s-list">
-            <li>Evde uygulanabilir basit egzersizler</li>
-            <li>Yatak, zemin ve çevre düzeni önerileri</li>
-            <li>İlerlemenin periyodik değerlendirmesi</li>
-          </ul>
-        </aside>
-      </div>
-    </div>
-  </section>
 
-  <!-- SECTION: Konaklama -->
-  <section id="konaklama" class="section" aria-labelledby="stay-title">
-    <div class="container">
-      <div class="s-head">
-        <div class="s-left">
-          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-paw" /></svg></span>
-          <h2 id="stay-title" class="s-title">Konaklama</h2>
-        </div>
-        <div class="cta-row">
-          <a class="btn ghost" href="/contact.html">Müsaitlik Sor</a>
-        </div>
-      </div>
-
-      <div class="s-grid">
-        <article class="s-card">
-          <h4>Seçenekler</h4>
-          <ul class="s-list">
-            <li>Standart ve lüks odalar</li>
-            <li>Günlük foto/video bilgilendirme</li>
-            <li>Veteriner hekim gözetimi</li>
-          </ul>
+        <!-- FİZİK TEDAVİ -->
+        <article id="fizik-tedavi" class="svc-section">
+          <header class="svc-head">
+            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-pt"/></svg></span>
+            <div>
+              <h2>Fizik Tedavi &amp; Rehabilitasyon</h2>
+              <p class="muted">Ortopedik/nörolojik rehabilitasyon, ağrı kontrolü, ev egzersiz planı.</p>
+            </div>
+          </header>
+          <div class="svc-body">
+            <div class="svc-grid2">
+              <div>
+                <ul class="svc-ul">
+                  <li>Travma/ameliyat sonrası rehabilitasyon protokolleri</li>
+                  <li>Eklem hareket açıklığı ve kas güçlendirme</li>
+                  <li>Ev egzersiz programı ve yeniden değerlendirme</li>
+                </ul>
+                <details class="faq"><summary>Seans sıklığı ne olmalı?</summary>
+                  <p>Vakanın tipine göre haftada 1–3; ilerleme durumuna göre süreç birlikte planlanır.</p>
+                </details>
+              </div>
+              <div class="svc-cta">
+                <a class="btn primary" href="/contact.html">FTR Değerlendirme</a>
+                <a class="btn ghost" href="/blog.html">Ev Egzersizleri</a>
+              </div>
+            </div>
+          </div>
         </article>
-        <aside class="s-card">
-          <h4>Koşullar</h4>
-          <ul class="s-list">
-            <li>Güncel aşı ve parazit koruması</li>
-            <li>Özel diyet ve ilaç uygulaması</li>
-            <li>Güvenli alan ve stres azaltma</li>
-          </ul>
-        </aside>
-      </div>
-    </div>
-  </section>
 
-  <!-- CTA bar -->
-  <section class="section" aria-label="Randevu çağrısı">
-    <div class="container">
-      <div class="s-card" style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-        <div>
-          <strong>Evcil dostunuz için hızlı randevu alın.</strong>
-          <div class="muted">Acil durumlar için 7/24: 0332 322 32 20</div>
+        <!-- KONAKLAMA -->
+        <article id="konaklama" class="svc-section">
+          <header class="svc-head">
+            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-boarding"/></svg></span>
+            <div>
+              <h2>Konaklama &amp; Özel Bakım</h2>
+              <p class="muted">Veteriner gözetiminde konaklama, izole ünite ve yoğun destek.</p>
+            </div>
+          </header>
+          <div class="svc-body">
+            <div class="svc-grid2">
+              <div>
+                <ul class="svc-ul">
+                  <li>Hastalık/immünsüpresyon durumlarında <em>izole</em> alanlar</li>
+                  <li>İlaç uygulamaları ve beslenme planları</li>
+                  <li>Günlük raporlama ve kontrol muayeneleri</li>
+                </ul>
+                <details class="faq"><summary>Konaklama ön koşulları?</summary>
+                  <p>Aşı/parazit durumunun güncel olması tercih edilir; özel durumlarda hekim kararıyla planlanır.</p>
+                </details>
+              </div>
+              <div class="svc-cta">
+                <a class="btn primary" href="/contact.html">Yer Durumu Sor</a>
+                <a class="btn ghost" href="/hasta-iliskileri.html">Hasta İlişkileri</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- GENEL CTA -->
+        <div class="cta-bar" style="margin-top:8px;">
+          <strong>Uygun hizmeti buldunuz mu? Hemen randevu planlayalım.</strong>
+          <div>
+            <a class="btn" href="/sss.html">SSS</a>
+            <a class="btn primary" href="/contact.html">Randevu Al</a>
+          </div>
         </div>
-        <div class="cta-row">
-          <a class="btn ghost" href="/hizmetler.html">Tüm Hizmetler</a>
-          <a class="btn primary" href="/contact.html">Randevu Al</a>
-        </div>
-      </div>
+
+      </section>
     </div>
-  </section>
+  </main>
 
-  <!-- FOOTER (Modern) -->
-  <footer class="footer-new">
-    <div class="container footer-container">
-      <div class="footer-col">
-        <h3>Elçi Veteriner Kliniği</h3>
-        <p>Konya’nın Meram ilçesinde, hayvan sağlığı alanında uzman ekibimizle hizmet veriyoruz. 7/24 acil veteriner hizmeti.</p>
-        <div class="social-links">
-          <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 10h3l.5-3H13V5.5c0-.9.3-1.5 1.7-1.5H17V1h-3c-3 0-4.5 1.6-4.5 4.4V7H7v3h2.5v9h3v-9z"/></svg>
-          </a>
-          <a href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><path d="M17.5 6.5h.01" stroke-width="2"/></svg>
-          </a>
-          <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.8c-.8.4-1.6.6-2.5.7.9-.6 1.5-1.4 1.8-2.4-.8.5-1.8.9-2.8 1.1A3.7 3.7 0 0 0 12 8.4c0 .3 0 .7.1 1A10.5 10.5 0 0 1 3 5.2a3.7 3.7 0 0 0 1.1 5 3.6 3.6 0 0 1-1.7-.5v.1c0 1.8 1.3 3.3 3 3.7-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1.5 1.5 1.9 2.6 3.6 2.6A7.5 7.5 0 0 1 3 19.5 10.6 10.6 0 0 0 9.7 21c6.3 0 9.7-5.2 9.7-9.7v-.4c.8-.6 1.5-1.4 2-2.3z"/></svg>
-          </a>
-          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5a4 4 0 0 0-3-3.1C18.3 4 12 4 12 4s-6.3 0-8 .4A4 4 0 0 0 1 7.5 41 41 0 0 0 1 16.5a4 4 0 0 0 3 3.1c1.7.4 8 .4 8 .4s6.3 0 8-.4a4 4 0 0 0 3-3.1 41 41 0 0 0 0-9zM10 15.5v-7l6 3.5-6 3.5z"/></svg>
-          </a>
-        </div>
-      </div>
+  <!-- SEO: Service şemaları (örnek) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"LocalBusiness",
+    "name":"Elçi Veteriner Kliniği",
+    "telephone":"+903323223220",
+    "address":{"@type":"PostalAddress","addressLocality":"Meram","addressRegion":"Konya","streetAddress":"Havzan Mah. Yeni Meram Cad. 17/1","addressCountry":"TR"},
+    "department":[
+      {"@type":"MedicalBusiness","name":"Acil & Yoğun Bakım","medicalSpecialty":"Emergency"},
+      {"@type":"MedicalBusiness","name":"İç Hastalıkları"},
+      {"@type":"MedicalBusiness","name":"Cerrahi"},
+      {"@type":"MedicalBusiness","name":"Ağız & Diş Sağlığı","medicalSpecialty":"Dentistry"},
+      {"@type":"MedicalBusiness","name":"Görüntüleme & Laboratuvar"},
+      {"@type":"MedicalBusiness","name":"Kardiyoloji","medicalSpecialty":"Cardiovascular"},
+      {"@type":"MedicalBusiness","name":"Doğum & Jinekoloji","medicalSpecialty":"Obstetrics"},
+      {"@type":"MedicalBusiness","name":"Fizik Tedavi & Rehabilitasyon"},
+      {"@type":"MedicalBusiness","name":"Konaklama & Özel Bakım"}
+    ],
+    "url":"https://elciveteriner.com/hizmetler.html"
+  }
+  </script>
 
-      <div class="footer-col">
-        <h3>Hızlı Linkler</h3>
-        <ul class="footer-links">
-          <li><a href="/index.html">Ana Sayfa</a></li>
-          <li><a href="/about.html">Hakkımızda</a></li>
-          <li><a href="/hizmetler.html">Hizmetlerimiz</a></li>
-          <li><a href="/blog.html">Blog</a></li>
-          <li><a href="/sss.html">SSS</a></li>
-          <li><a href="/hasta-iliskileri.html">Hasta İlişkileri</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h3>Konya Veteriner Hizmetlerimiz</h3>
-        <ul class="footer-links">
-          <li><a href="#acil">Konya Acil Veteriner</a></li>
-          <li><a href="#cerrahi">Konya’da Cerrahi Operasyonlar</a></li>
-          <li><a href="#agiz-dis">Konya’da Ağız ve Diş Sağlığı</a></li>
-          <li><a href="#goruntuleme-lab">Konya’da Görüntüleme & Lab</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h3>Konya İletişim</h3>
-        <ul class="footer-contact">
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"/><circle cx="12" cy="11" r="2.5"/></svg>
-            <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.5v2a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3.1 19 19 0 0 1-6-6A2 2 0 0 1 7.5 9h2l2 3-1.5 1.5a16 16 0 0 0 6 6L18 18l3 2.5z"/></svg>
-            <a href="tel:03323223220">0332 322 32 20</a>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
-            <a href="mailto:elcivetklinig@gmail.com">elcivetklinig@gmail.com</a>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
-            <span>Pazartesi–Cumartesi: 08:00–19:00<br>Pazar: Acil Hizmet</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="container">
-        <p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- SVG ICON SPRITE (subset for this page) -->
+  <!-- ICON SPRITE (index’teki ile aynı kalsın) -->
   <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
     <symbol id="i-stethoscope" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4v4a4 4 0 0 0 8 0V4"/><path d="M10 14a4 4 0 0 0 8 0v-2"/><circle cx="18" cy="8" r="2.2"/></g></symbol>
     <symbol id="i-ambulance" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="12" height="7" rx="2"></rect><rect x="16" y="10" width="5" height="5" rx="1"></rect><circle cx="7" cy="17" r="2"></circle><circle cx="15" cy="17" r="2"></circle><path d="M5.2 10.8h3.6M7 9v3.6" /></g></symbol>
     <symbol id="i-scissors" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="2.4"></circle><circle cx="7" cy="17" r="2.4"></circle><path d="M20 4L9 12M20 20L9 12" /></g></symbol>
     <symbol id="i-xray" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="14" rx="2"></rect><path d="M10 9h4M9 12h6M10 15h4" /><circle cx="12" cy="12" r="0.6" /></g></symbol>
+    <symbol id="i-microscope" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="10.5" y="4" width="3" height="5" rx="0.6"></rect><path d="M9 9h6l-0.8 1.6a6 6 0 1 1-8.8 6.4" /><path d="M4 20h12" /></g></symbol>
     <symbol id="i-tooth-clean" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14a5 5 0 0 0 10 0" /><path d="M16.8 7.2l.6-1.6l.6 1.6l1.6.6l-1.6.6l-.6 1.6l-.6-1.6l-1.6-.6z"/></g></symbol>
     <symbol id="i-clipboard" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="5" width="12" height="15" rx="2"></rect><rect x="9" y="3" width="6" height="4" rx="1"></rect><path d="M9 11h6M9 14h6M9 17h4" /></g></symbol>
-    <symbol id="i-ecg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2.2-5.5L12 16l2.2-4H21"/><rect x="3" y="5" width="18" height="14" rx="3" opacity=".25"/></g></symbol>
-    <symbol id="i-shower" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5h6" /><rect x="6" y="5" width="8" height="3" rx="1.5"></rect><path d="M14 8c3 0 4 1.5 4 3" /><path d="M10 12v0M12 13v0M14 14v0M16 15v0" /></g></symbol>
+    <symbol id="i-article" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"></rect><path d="M8 8h8M8 11h8M8 14h6M8 17h5" /></g></symbol>
+    <symbol id="i-phone-bubble" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="12" rx="3"></rect><path d="M8 19l3-3h5a4 4 0 0 0 4-4" opacity=".9"/></g></symbol>
     <symbol id="i-paw" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="2"></circle><circle cx="16" cy="8" r="2"></circle><circle cx="10" cy="13.5" r="2.2"></circle><path d="M12 14c2.5 0 4 1.2 4 3c0 1.2-1 2-3 2h-2c-2 0-3-.8-3-2c0-1.8 1.5-3 4-3z"/></g></symbol>
+    <symbol id="i-ecg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2.2-5.5L12 16l2.2-4H21"/><rect x="3" y="5" width="18" height="14" rx="3" opacity=".25"/></g></symbol>
+    <symbol id="i-repro" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6.5"/><circle cx="14.6" cy="11" r="2.2"/><path d="M9 15.2c1.2 1 2.6 1.3 4 .8"/></g></symbol>
+    <symbol id="i-pt" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v4M17 10v4M9 9h6M9 15h6"/><rect x="4.5" y="9" width="3" height="6" rx="1"></rect><rect x="16.5" y="9" width="3" height="6" rx="1"></rect></g></symbol>
+    <symbol id="i-boarding" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7l9 7v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8z"/><path d="M10 21v-6a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v6"/></g></symbol>
   </svg>
 
-  <!-- Page JS -->
-  <script>
-    // Footer year
-    document.getElementById('yil').textContent = new Date().getFullYear();
-
-    // Simple scroll spy to highlight current section in TOC (optional highlight via underline)
-    (function(){
-      const links = Array.from(document.querySelectorAll('.toc a'));
-      const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
-      const onScroll = () => {
-        const y = window.scrollY + 120;
-        let active = 0;
-        sections.forEach((sec, i) => { if(sec.offsetTop <= y) active = i; });
-        links.forEach((a, i) => { a.style.textDecoration = i===active ? 'underline' : 'none'; });
-      };
-      window.addEventListener('scroll', onScroll, {passive:true});
-      onScroll();
-    })();
-  </script>
+  <!-- JS -->
+  <script defer src="/assets/js/main.js?v=17"></script>
 </body>
 </html>
