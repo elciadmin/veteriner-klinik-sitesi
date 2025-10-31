@@ -1,7 +1,8 @@
 /* =========================================================================
-   Elçi Veteriner — Ana JS (v16)
+   Elçi Veteriner — Ana JS (v17)
    - Instagram: ["ad.jpg"] | [{src}] | [{file}] hepsi desteklenir.
-   - Google Yorumları: Tüm yorumları tek sayfada basar.
+   - Google Yorumları: 8 kart göster + animasyonla döndür (rotator).
+   - Hizmetler: Stabil sayfalama (deck) + yumuşak giriş animasyonu.
    - YouTube: Önce data-fn (RSS Function) → sonra /assets/data/index.json → sonra data-attr.
    ======================================================================== */
 (function () {
@@ -25,7 +26,7 @@
   const yilEl = $("#yil");
   if (yilEl) yilEl.textContent = new Date().getFullYear();
 
-  /* -------------------- INSTAGRAM -------------------- */
+  /* -------------------- INSTAGRAM (mevcut davranış korunur) -------------------- */
   (async function initInstagram() {
     const section = $("#insta");
     const track = $("#instaTrack");
@@ -56,7 +57,7 @@
       if (typeof it === "string") return it;
       if (it && typeof it === "object") {
         if (it.src) return it.src;
-        if (it.file) return it.file;  // *** Senin JSON’unu destekliyoruz ***
+        if (it.file) return it.file;  // *** Senin JSON’unu da destekler ***
       }
       return null;
     };
@@ -122,46 +123,176 @@
     }, 2800);
   })();
 
-  /* -------------------- GOOGLE YORUMLAR -------------------- */
-  (async function initReviews() {
+  /* -------------------- GOOGLE YORUMLAR (8'li rotator) -------------------- */
+  (async function initReviews8() {
     const section = $("#reviews");
     const grid = $("#reviewGrid");
     if (!section || !grid) return;
 
-    const localJson = section.getAttribute("data-json") || "/assets/data/reviews.json";
+    const SRC = section.getAttribute("data-json") || "/assets/data/reviews.json";
+    const VISIBLE_COUNT = 8;      // Aynı anda 8 kart
+    const INTERVAL_MS = 10000;    // 10 sn'de bir değiştir
+    const STAGGER = 50;           // Kart girişlerinde küçük gecikme
 
-    let reviews = await fetchJSON(localJson);
-    if (!reviews || !Array.isArray(reviews) || !reviews.length) {
-      grid.innerHTML = `<div class="muted">Yorum verisi bulunamadı. <code>${localJson}</code> dosyasını kontrol edin.</div>`;
-      console.warn("reviews.json okunamadı/boş:", localJson, reviews);
+    function renderStars(n){
+      const v = Math.round(Math.max(0, Math.min(5, Number(n) || 5)));
+      // CSS içindeki .stars .s rengi uygular
+      return '<div class="stars" aria-label="'+v+' yıldız">'+
+             Array.from({length:5}).map((_,i)=>'<span class="s" aria-hidden="true">'+(i<v?'★':'☆')+'</span>').join('')+
+             '</div>';
+    }
+
+    function cardHTML(item){
+      const text = (item.text || item.review_text || "").toString().trim();
+      const author = (item.author || item.author_name || "Ziyaretçi").toString().trim();
+      const rating = item.rating || item.stars || 5;
+      const when = (item.time || item.relative_time_description || "").toString().trim();
+
+      return `
+        <article class="review-card entering" role="article">
+          ${renderStars(rating)}
+          <p class="review-text">${text}</p>
+          <div class="review-author">— ${author}</div>
+          ${when ? `<div class="review-meta">${when}</div>` : ``}
+        </article>
+      `;
+    }
+
+    function sliceData(array, start){
+      if(array.length === 0) return [];
+      const out = [];
+      for(let i=0;i<VISIBLE_COUNT;i++){
+        out.push(array[(start + i) % array.length]);
+      }
+      return out;
+    }
+
+    let all = [];
+    let idx = 0;
+    let timer = null;
+    let paused = false;
+
+    function swapTo(startIndex){
+      // Çıkış animasyonu
+      const currentCards = Array.from(grid.children);
+      currentCards.forEach(el => el.classList.add('leaving'));
+
+      setTimeout(()=>{
+        const items = sliceData(all, startIndex);
+        grid.innerHTML = items.map(cardHTML).join('');
+        const newCards = Array.from(grid.children);
+        newCards.forEach((el, i)=>{
+          setTimeout(()=>{ el.classList.add('visible'); el.classList.remove('entering'); }, i*STAGGER);
+        });
+      }, 180);
+    }
+
+    function startLoop(){
+      if(timer) clearInterval(timer);
+      timer = setInterval(()=>{
+        if (paused || all.length <= VISIBLE_COUNT) return;
+        idx = (idx + VISIBLE_COUNT) % all.length;
+        swapTo(idx);
+      }, INTERVAL_MS);
+    }
+
+    // Hover ile durdur/başlat
+    grid.addEventListener('mouseenter', ()=>{ paused = true; });
+    grid.addEventListener('mouseleave', ()=>{ paused = false; });
+
+    try{
+      const json = await fetchJSON(SRC);
+      const arr = Array.isArray(json) ? json : (json?.items || json?.data || []);
+      all = Array.isArray(arr) ? arr : [];
+    }catch(e){
+      console.warn("Yorumlar alınamadı:", e.message);
+      all = [];
+    }
+
+    if(!all.length){
+      grid.innerHTML = '<p class="muted">Henüz yorum eklenmedi.</p>';
       return;
     }
 
-    // Hepsini tek sayfada gösterelim
-    const norm = reviews.map((r) => ({
-      author: r.author || r.author_name || "Ziyaretçi",
-      rating: r.rating || r.stars || 5,
-      text: r.text || r.review_text || "",
-      time: r.time || r.relative_time_description || ""
-    }));
+    // İlk render
+    swapTo(idx);
+    // Yeterince yorum varsa döngü başlasın
+    if(all.length > VISIBLE_COUNT) startLoop();
+  })();
 
-    function starLine(n) {
-      const v = Math.round(Math.max(0, Math.min(5, Number(n) || 5)));
-      return "★".repeat(v) + "☆".repeat(5 - v);
+  /* -------------------- HİZMETLER (sayfalama / deck) -------------------- */
+  (function initServicesDeck(){
+    const grid = $("#servicesGrid");
+    if(!grid) return;
+
+    const cards = $$(".s-card", grid);
+    if(cards.length === 0) return;
+
+    // Kontroller var mı? Yoksa oluştur.
+    let controls = grid.previousElementSibling;
+    if (!controls || !controls.classList || !controls.classList.contains("svc-controls")) {
+      controls = document.createElement("div");
+      controls.className = "svc-controls";
+      controls.innerHTML = `
+        <button class="btn" data-prev>&laquo; Önceki</button>
+        <button class="btn" data-next>Sonraki &raquo;</button>
+      `;
+      // Grid'in hemen üstüne ekle
+      grid.parentElement.insertBefore(controls, grid);
     }
 
-    grid.innerHTML = "";
-    norm.forEach((rv) => {
-      const card = document.createElement("div");
-      card.className = "review-card";
-      card.innerHTML =
-        `<div class="stars">${starLine(rv.rating)}</div>` +
-        `<div style="margin-top:8px">${rv.text || ""}</div>` +
-        `<div class="review-author">${rv.author}</div>` +
-        `<div class="muted" style="font-size:12px">${rv.time || ""}</div>`;
-      grid.appendChild(card);
-      requestAnimationFrame(() => card.classList.add("visible"));
-    });
+    const prevBtn = controls.querySelector("[data-prev]");
+    const nextBtn = controls.querySelector("[data-next]");
+
+    function perPageByWidth(){
+      const w = window.innerWidth;
+      if (w > 1100) return 6; // 3x2 görünüm hissi
+      if (w > 640)  return 4; // 2x2
+      return 3;               // 1x3
+    }
+
+    let perPage = perPageByWidth();
+    let page = 0;
+    const total = cards.length;
+    const totalPages = () => Math.max(1, Math.ceil(total / perPage));
+
+    function applyPage(p){
+      perPage = perPageByWidth();
+      const tp = totalPages();
+      page = Math.min(Math.max(0, p), tp - 1);
+
+      // Hepsini gizle
+      cards.forEach(c => { c.style.display = "none"; c.classList.remove("show"); });
+
+      // Bu sayfayı göster
+      const start = page * perPage;
+      const end = Math.min(total, start + perPage);
+      const visible = cards.slice(start, end);
+
+      visible.forEach((c, i) => {
+        c.style.display = "";
+        // yumuşak giriş animasyonu (.show CSS’te var)
+        setTimeout(()=> c.classList.add("show"), i * 80);
+      });
+
+      // Buton durumları
+      if (prevBtn) prevBtn.disabled = (page === 0);
+      if (nextBtn) nextBtn.disabled = (page >= tp - 1);
+    }
+
+    // İlk uygulama
+    applyPage(0);
+
+    // Clickler
+    prevBtn && prevBtn.addEventListener("click", ()=> applyPage(page - 1));
+    nextBtn && nextBtn.addEventListener("click", ()=> applyPage(page + 1));
+
+    // Resize’da perPage değişebilir → sayfayı yeniden uygula
+    let rAF = null;
+    window.addEventListener("resize", ()=>{
+      if (rAF) cancelAnimationFrame(rAF);
+      rAF = requestAnimationFrame(()=> applyPage(page));
+    }, { passive:true });
   })();
 
   /* -------------------- YOUTUBE -------------------- */
@@ -226,4 +357,4 @@
     }, 7000);
   })();
 
-})(); // v16 SONU
+})(); // v17 SONU
