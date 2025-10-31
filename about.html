@@ -4,15 +4,118 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Hakkımızda | Elçi Veteriner Kliniği</title>
-  <meta name="description" content="Elçi Veteriner: Ekibimiz, kliniğimiz, misyon-vizyon ve değerlerimiz."/>
+  <meta name="description" content="Elçi Kimdir, Ekibimiz, Kliniğimiz, Misyon & Vizyon ve Değerlerimiz. Konya Meram Elçi Veteriner Kliniği."/>
   <link rel="canonical" href="https://elciveteriner.com/about.html"/>
-  <!-- Sadece bu iki CSS -->
+
+  <!-- Global CSS -->
   <link rel="stylesheet" href="/assets/css/styles.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <!-- Bu sayfaya özgü küçük dokunuşlar -->
+  <style>
+    /* Hero */
+    .ab-hero{
+      background:
+        radial-gradient(1200px 600px at 80% -120px, rgba(255,255,255,.10), transparent 60%),
+        linear-gradient(120deg, rgba(7,58,62,.96), rgba(15,89,96,.93));
+      color:#fff; padding:72px 0 32px;
+    }
+    .ab-hero h1{margin:0; font-size:clamp(30px,4.8vw,56px)}
+    .ab-sub{max-width:900px; margin:10px auto 0; opacity:.92; font-size:18px}
+    .ab-badges{display:flex; gap:8px; flex-wrap:wrap; margin-top:14px}
+    .ab-badges .chip{background:rgba(255,255,255,.1); color:#fff; border:1px solid rgba(255,255,255,.22)}
+
+    /* Yapboz / Puzzle Grid */
+    .pz{
+      display:grid; gap:16px; margin:22px 0;
+      grid-template-columns: repeat(6, 1fr);
+      grid-auto-rows: 140px;
+    }
+    /* Farklı ebatta parçalar */
+    .pz-a{ grid-column: span 3; grid-row: span 2; }
+    .pz-b{ grid-column: span 2; grid-row: span 2; }
+    .pz-c{ grid-column: span 2; grid-row: span 1; }
+    .pz-d{ grid-column: span 3; grid-row: span 1; }
+    .pz-e{ grid-column: span 4; grid-row: span 2; }
+
+    @media(max-width:1100px){
+      .pz{ grid-template-columns: repeat(4, 1fr); grid-auto-rows: 130px; }
+      .pz-e{ grid-column: span 4 }
+      .pz-a,.pz-b{ grid-column: span 2 }
+    }
+    @media(max-width:720px){
+      .pz{ grid-template-columns: repeat(2, 1fr); grid-auto-rows: 130px; }
+      .pz-a,.pz-b,.pz-c,.pz-d,.pz-e{ grid-column: span 2 }
+    }
+
+    .pz-card{
+      position:relative; overflow:hidden; border-radius:18px;
+      border:1px solid rgba(12,78,84,.10);
+      background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,.66));
+      box-shadow:0 10px 30px rgba(12,78,84,.06);
+      display:flex; align-items:flex-end; padding:16px;
+      transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+      isolation:isolate;
+    }
+    .pz-card:hover{ transform:translateY(-4px); box-shadow:0 16px 36px rgba(12,78,84,.12); border-color:#d9ecee }
+
+    /* Görsel arkaplanlı kart */
+    .pz-img{
+      background:#eef3f5 center/cover no-repeat;
+      color:#fff; border:1px solid rgba(255,255,255,.22);
+    }
+    .pz-img::after{
+      content:""; position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,.0), rgba(0,0,0,.35) 60%);
+      z-index:0;
+    }
+    .pz-body{ position:relative; z-index:1 }
+    .pz-title{ margin:0; font-size:18px; font-weight:800; color:#113 }
+    .pz-text{ margin:6px 0 0; color:#223 }
+    .pz-ghost{ color:#fff; font-weight:800; text-decoration:none; padding:8px 12px; border-radius:999px; border:1px solid rgba(255,255,255,.65); display:inline-flex; gap:8px; align-items:center; }
+    .pz-ghost:hover{ background:rgba(255,255,255,.1) }
+
+    /* İçerik bölümleri */
+    .section-head{display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:10px}
+    .section-head h2{margin:0}
+    .section-muted{background:linear-gradient(180deg,#f7fbfb, #f3fafb)}
+    .section-plain{background:#fff}
+
+    /* Ekibimiz kartları */
+    .team-grid{display:grid; gap:16px; grid-template-columns:repeat(3,1fr)}
+    @media(max-width:960px){ .team-grid{grid-template-columns:1fr} }
+    .team{
+      background:#fff; border:1px solid #e9eff0; border-radius:16px; overflow:hidden;
+      box-shadow:0 6px 14px rgba(0,0,0,.04); display:grid; grid-template-columns:160px 1fr;
+    }
+    .team .ph{ background:#f2f6f9; min-height:160px; background-position:center; background-size:cover }
+    .team .bd{ padding:14px }
+    .team h3{ margin:0 0 6px }
+    .team small{ color:#6b7a7c; font-weight:700 }
+    .team p{ margin:8px 0 0; color:#223 }
+
+    /* Misyon/Vizyon “yarım-yapboz” */
+    .mv{
+      display:grid; gap:16px; grid-template-columns:1.2fr .8fr;
+    }
+    @media(max-width:960px){ .mv{grid-template-columns:1fr} }
+    .mv-card{
+      border:1px solid #e0edef; border-radius:16px; padding:16px; background:#fff; box-shadow:0 8px 18px rgba(12,78,84,.06)
+    }
+    .mv strong{ display:inline-block; padding:6px 10px; border-radius:999px; background:#e9f4f5; color:#0a4348; margin-bottom:8px }
+
+    /* Değerler listesi */
+    .vals{ display:grid; gap:12px; grid-template-columns:repeat(2,1fr) }
+    @media(max-width:720px){ .vals{grid-template-columns:1fr} }
+    .val{
+      border:1px solid #e9eff0; border-radius:16px; padding:14px; background:#fff; box-shadow:0 6px 14px rgba(0,0,0,.04)
+    }
+    .val h4{ margin:0 0 6px }
+  </style>
 </head>
 <body>
 
-  <!-- ===== SABİT HEADER ===== -->
+  <!-- ===== HEADER (index ile aynı, Hakkımızda aktif) ===== -->
   <header>
     <div class="header-top">
       <div class="container">
@@ -41,13 +144,13 @@
             <li><a href="/index.html">Ana Sayfa</a></li>
 
             <li class="dropdown">
-              <a href="/about.html" aria-haspopup="true" aria-expanded="false" class="active">Hakkımızda</a>
+              <a href="/about.html" class="active" aria-haspopup="true" aria-expanded="false">Hakkımızda</a>
               <div class="dropdown-content" role="menu">
-                <a href="/about.html#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
-                <a href="/about.html#ekibimiz" role="menuitem">Ekibimiz</a>
-                <a href="/about.html#klinik" role="menuitem">Kliniğimiz</a>
-                <a href="/about.html#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
-                <a href="/about.html#degerler" role="menuitem">Değerlerimiz</a>
+                <a href="#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
+                <a href="#ekibimiz" role="menuitem">Ekibimiz</a>
+                <a href="#klinik" role="menuitem">Kliniğimiz</a>
+                <a href="#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
+                <a href="#degerler" role="menuitem">Değerlerimiz</a>
               </div>
             </li>
 
@@ -91,54 +194,173 @@
     </div>
   </header>
 
-  <!-- SAYFA İÇERİĞİ -->
-  <section class="page-hero">
+  <!-- ===== HERO ===== -->
+  <section class="ab-hero">
     <div class="container">
       <h1>Hakkımızda</h1>
-      <p class="muted">Elçi’nin hikâyesi, ekibimiz, kliniğimiz ve değerlerimiz.</p>
+      <p class="ab-sub">Konya’da **kanıta dayalı**, şeffaf ve etik veterinerlik. Acil & yoğun bakımdan koruyucu hekimliğe uzanan tam kapsamlı hizmet anlayışı.</p>
+
+      <div class="ab-badges">
+        <a class="chip" href="#elci-kimdir">Elçi Kimdir?</a>
+        <a class="chip" href="#ekibimiz">Ekibimiz</a>
+        <a class="chip" href="#klinik">Kliniğimiz</a>
+        <a class="chip" href="#misyon-vizyon">Misyon & Vizyon</a>
+        <a class="chip" href="#degerler">Değerlerimiz</a>
+      </div>
     </div>
   </section>
 
-  <section class="section" id="elci-kimdir">
-    <div class="container grid">
-      <h2>Elçi Kimdir?</h2>
-      <p>Konya’da hayvan sağlığına adanmış, şeffaf ve etik yaklaşımı benimseyen bir veteriner kliniğiyiz. Acil, cerrahi, görüntüleme ve koruyucu hekimlikte kapsamlı hizmet veriyoruz.</p>
+  <!-- ===== PUZZLE GRID ===== -->
+  <section class="section section-plain">
+    <div class="container">
+      <div class="pz">
+
+        <!-- Büyük görsel - Elçi kimdir -->
+        <article id="elci-kimdir" class="pz-card pz-a pz-img" style="background-image:url('/assets/img/uploads/klinik-ekip-hero.jpg');">
+          <div class="pz-body">
+            <h2 class="pz-title" style="color:#fff">Elçi Kimdir?</h2>
+            <p style="margin:8px 0 12px; color:#eef7f8">Hayvan sağlığında güven, şeffaf iletişim ve etik ilkeler. Kedi-köpek acil, cerrahi, görüntüleme ve koruyucu hekimlikte deneyim.</p>
+            <a class="pz-ghost" href="#misyon-vizyon"><i class="fa-solid fa-arrow-right"></i> Misyon & Vizyon</a>
+          </div>
+        </article>
+
+        <!-- Kliniğimiz – cihaz/alanlar -->
+        <article id="klinik" class="pz-card pz-b">
+          <div class="pz-body">
+            <h3 class="pz-title">Kliniğimiz</h3>
+            <p class="pz-text">Dijital röntgen, USG/FAST, EKG, oksijen kafesi, steril ameliyathane ve izole ünite.</p>
+          </div>
+        </article>
+
+        <!-- Değerler kısası -->
+        <article class="pz-card pz-c">
+          <div class="pz-body">
+            <h3 class="pz-title">Değerler</h3>
+            <p class="pz-text">Şeffaflık • Etik • Kanıta dayalı yaklaşım • Sürekli eğitim</p>
+          </div>
+        </article>
+
+        <!-- Ekibimiz görsel -->
+        <article id="ekibimiz" class="pz-card pz-d pz-img" style="background-image:url('/assets/img/uploads/ekibimiz.jpg')">
+          <div class="pz-body">
+            <h3 class="pz-title" style="color:#fff">Ekibimiz</h3>
+            <p style="margin:6px 0 0; color:#e9f4ff">Acil, iç hastalıkları, cerrahi ve diş sağlığı alanlarında tecrübeli ekip.</p>
+          </div>
+        </article>
+
+        <!-- Misyon & Vizyon kutusu -->
+        <article id="misyon-vizyon" class="pz-card pz-e">
+          <div class="pz-body">
+            <h3 class="pz-title">Misyon & Vizyon</h3>
+            <p class="pz-text">Her hastaya güvenli, saygılı ve bilimsel temelli yaklaşmak; Konya’da referans klinik standartlarını sürdürülebilir kılmak.</p>
+          </div>
+        </article>
+
+      </div>
     </div>
   </section>
 
-  <section class="section" id="ekibimiz">
-    <div class="container grid">
-      <h2>Ekibimiz</h2>
-      <p>Deneyimli veteriner hekimler ve yardımcı sağlık personelinden oluşan ekibimiz; sürekli eğitim ve güncel protokollerle çalışır.</p>
+  <!-- ===== EKİBİMİZ (kartlar) ===== -->
+  <section class="section section-muted">
+    <div class="container">
+      <div class="section-head">
+        <h2>Ekibimiz</h2>
+        <span class="muted">Acil • İç Hastalıkları • Cerrahi • Diş Sağlığı • Reprodüksiyon</span>
+      </div>
+
+      <div class="team-grid">
+        <article class="team">
+          <div class="ph" style="background-image:url('/assets/img/uploads/ekip1.jpg')"></div>
+          <div class="bd">
+            <h3>Dr. Elif Tuğba Bilim Kaya</h3>
+            <small>Vet. Hekim — Reprodüksiyon & İç Hastalıkları</small>
+            <p>Gebelik takibi, doğum yönetimi, metabolik hastalıklar ve tanısal yaklaşım. Kanıta dayalı protokoller ve şeffaf bilgilendirme.</p>
+          </div>
+        </article>
+
+        <article class="team">
+          <div class="ph" style="background-image:url('/assets/img/uploads/ekip2.jpg')"></div>
+          <div class="bd">
+            <h3>Vet. Hekim — Cerrahi</h3>
+            <small>Yumuşak doku & Ortopedi</small>
+            <p>Pre-op değerlendirme, steril ortam, anestezi monitorizasyonu ve ağrı kontrolü ile güvenli cerrahi.</p>
+          </div>
+        </article>
+
+        <article class="team">
+          <div class="ph" style="background-image:url('/assets/img/uploads/ekip3.jpg')"></div>
+          <div class="bd">
+            <h3>Vet. Hekim — Diş Sağlığı</h3>
+            <small>Dental Radyografi & Periodontal Tedavi</small>
+            <p>Ultrasonik temizlik, çekimler ve ev bakım protokolleri ile ağız sağlığının sürdürülebilir yönetimi.</p>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
-  <section class="section" id="klinik">
-    <div class="container grid">
-      <h2>Kliniğimiz</h2>
-      <p>Röntgen, ultrason, EKG, laboratuvar ve yoğun bakım ekipmanlarıyla donatılmıştır. Hijyen ve hasta güvenliği standartlarımız yüksektir.</p>
+  <!-- ===== MİSYON & VİZYON (yarım yapboz) ===== -->
+  <section class="section section-plain">
+    <div class="container">
+      <div class="mv">
+        <div class="mv-card">
+          <strong>Misyon</strong>
+          <h2>Güven, Şeffaflık ve Bilimsellik</h2>
+          <p class="muted">Her hastaya etik, nazik ve kanıta dayalı hizmet vermek; sahipleri anlaşılır bir dille bilgilendirmek ve tedavi sürecine aktif katmak.</p>
+          <ul style="margin:10px 0 0 18px">
+            <li>Standartlaştırılmış acil & yoğun bakım protokolleri</li>
+            <li>Modern görüntüleme ve laboratuvar desteği</li>
+            <li>Yazılı taburcu planı ve kontrol randevusu</li>
+          </ul>
+        </div>
+
+        <div class="mv-card">
+          <strong>Vizyon</strong>
+          <h2>Konya’da Referans Klinik</h2>
+          <p class="muted">Veteriner hekimlikte hasta güvenliği, sonuç odaklılık ve eğitim kültürü ile bölgesel bir referans merkezi olmak.</p>
+          <div class="cta-bar" style="margin-top:10px">
+            <strong>Randevu için hızlı ulaşın.</strong>
+            <div>
+              <a class="btn" href="/contact.html#konum"><i class="fa-solid fa-map-location-dot"></i> Konum</a>
+              <a class="btn primary" href="tel:03323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <section class="section" id="misyon-vizyon">
-    <div class="container grid">
-      <h2>Misyon & Vizyon</h2>
-      <p>Misyonumuz; evcil dostların yaşam kalitesini yükseltmek. Vizyonumuz; Konya’da güvenin ve bilimsel yaklaşımın adresi olmaktır.</p>
+  <!-- ===== DEĞERLER ===== -->
+  <section id="degerler" class="section section-muted">
+    <div class="container">
+      <div class="section-head">
+        <h2>Değerlerimiz</h2>
+        <span class="muted">Her kararda etik, her adımda şeffaflık.</span>
+      </div>
+
+      <div class="vals">
+        <div class="val">
+          <h4>Etik & Şeffaflık</h4>
+          <p class="muted">Tanı ve tedavi seçeneklerini fayda-maliyet dengesiyle açıkça paylaşırız.</p>
+        </div>
+        <div class="val">
+          <h4>Kanıta Dayalı Yaklaşım</h4>
+          <p class="muted">Protokollerimizi güncel literatüre göre düzenler, sonuçları takip ederiz.</p>
+        </div>
+        <div class="val">
+          <h4>Güvenlik & Sterilite</h4>
+          <p class="muted">Ameliyathaneden yoğun bakıma; ISO prensipleriyle standartlaştırılmış süreçler.</p>
+        </div>
+        <div class="val">
+          <h4>Sürekli Eğitim</h4>
+          <p class="muted">Ekip içi eğitim ve vaka toplantıları ile sürekli gelişim.</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="section" id="degerler">
-    <div class="container grid">
-      <h2>Değerlerimiz</h2>
-      <ul>
-        <li>Hayvan refahı ve etik değerler</li>
-        <li>Şeffaf iletişim ve bilgilendirme</li>
-        <li>Bilimsel kanıta dayalı tıp</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
+  <!-- ===== FOOTER (index ile aynı) ===== -->
   <footer class="footer-new">
     <div class="container footer-container">
       <div class="footer-col">
@@ -217,20 +439,19 @@
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
-    "@type":"VeterinaryCare",
+    "@type":"Organization",
     "name":"Elçi Veteriner Kliniği",
-    "address":{"@type":"PostalAddress","addressLocality":"Meram","addressRegion":"Konya","streetAddress":"Havzan Mah. Yeni Meram Cad. 17/1","addressCountry":"TR"},
-    "telephone":"+903323223220",
-    "areaServed":"Konya",
-    "openingHours":["Mo-Su 00:00-23:59"],
-    "url":"https://elciveteriner.com/"
+    "url":"https://elciveteriner.com/about.html",
+    "logo":"https://elciveteriner.com/assets/img/uploads/elci-logo.png",
+    "address":{"@type":"PostalAddress","streetAddress":"Havzan Mah. Yeni Meram Cad. 17/1","addressLocality":"Meram","addressRegion":"Konya","addressCountry":"TR"},
+    "contactPoint":[{"@type":"ContactPoint","telephone":"+90-332-322-32-20","contactType":"customer service","areaServed":"TR","availableLanguage":["tr","en"]}]
   }
   </script>
 
-  <!-- SVG ICON SPRITE (INDEX’TEKİ BLOĞU BURAYA DA YAPIŞTIR) -->
-  <!-- ... -->
+  <!-- SVG ICON SPRITE (index’teki bloğu buraya da koy) -->
+  <!-- ... sprite blokların ... -->
 
-  <!-- Tek JS dosyası -->
+  <!-- Sayfa JS’in -->
   <script defer src="/assets/js/main.js?v=17"></script>
 </body>
 </html>
