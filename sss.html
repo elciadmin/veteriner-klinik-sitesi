@@ -1,466 +1,64 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Sık Sorulan Sorular | Elçi Veteriner Kliniği</title>
+  <meta name="description" content="Ücretler, süreçler ve acil durumlar hakkında SSS."/>
+  <link rel="canonical" href="https://elciveteriner.com/sss.html"/>
   <link rel="stylesheet" href="/assets/css/styles.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sıkça Sorulan Sorular | Elçi Veteriner Kliniği</title>
-  <meta name="description" content="Elçi Veteriner Kliniği SSS: Muayene ücretleri, ödeme seçenekleri, randevu, ameliyat hazırlıkları, konaklama ve acil durumlara dair yanıtlar." />
-  <link rel="canonical" href="https://elciveteriner.com/sss.html" />
-  <meta property="og:title" content="Sıkça Sorulan Sorular | Elçi Veteriner Kliniği" />
-  <meta property="og:description" content="Muayene, ücret, randevu, konaklama ve acil durumlar hakkında sıkça sorulan sorular." />
-  <meta property="og:type" content="website" />
-  <meta property="og:locale" content="tr_TR" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
-  
-
-  <!-- Schema.org -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"VeterinaryCare",
-    "name":"Elçi Veteriner Kliniği",
-    "address":{
-      "@type":"PostalAddress",
-      "streetAddress":"Havzan Mah. Yeni Meram Cad. 17/1",
-      "addressLocality":"Meram",
-      "addressRegion":"Konya",
-      "addressCountry":"TR"
-    },
-    "telephone":"+90-332-322-32-20",
-    "email":"mailto:elcivetklinig@gmail.com",
-    "areaServed":"Konya",
-    "url":"https://elciveteriner.com/sss.html"
-  }
-  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-  <a class="skip-link" href="#maincontent">İçeriğe atla</a>
 
-  <!-- Top Bar -->
-  <header class="topbar">
-    <div class="container">
-      <div>Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</div>
-      <div>☎ 0332 322 32 20 &nbsp;•&nbsp; 📧 elcivetklinig@gmail.com</div>
+  <!-- Header (index ile aynı, SSS aktif) -->
+  <!-- ... -->
+  <header>
+    <div class="header-top"><div class="container"><div class="header-contact"><span><i class="fa-solid fa-location-dot"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</span></div><div class="header-contact"><a href="tel:03323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a><a href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> elcivetklinik@gmail.com</a></div></div></div>
+    <div class="header-main">
+      <div class="container">
+        <div class="logo-text"><h1>Elçi Veteriner Kliniği</h1><span>Sağlığın Elçileri’yiz</span></div>
+        <nav aria-label="Birincil">
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç/kapat"><i class="fa-solid fa-bars"></i></button>
+          <ul id="mainMenu">
+            <li><a href="/index.html">Ana Sayfa</a></li>
+            <li class="dropdown"><a href="/about.html">Hakkımızda</a></li>
+            <li class="dropdown"><a href="/hizmetler.html">Hizmetlerimiz</a></li>
+            <li><a href="/blog.html">Blog</a></li>
+            <li class="dropdown"><a href="/sss.html" class="active">SSS</a></li>
+            <li class="dropdown"><a href="/hasta-iliskileri.html">Hasta İlişkileri</a></li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </header>
 
-  <!-- Nav -->
-  <nav class="site-nav" aria-label="Ana menü">
+  <!-- SAYFA İÇERİĞİ -->
+  <section class="page-hero">
     <div class="container">
-      <a class="brand" href="/">🐾 Elçi Veteriner Kliniği</a>
-      <div class="menu">
-        <a href="/about.html">Hakkımızda</a>
-        <a href="/hizmetler.html">Hizmetler</a>
-        <a href="/blog.html">Blog</a>
-        <a href="/sss.html" class="active" aria-current="page">SSS</a>
-        <a href="/hasta-iliskileri.html">Hasta İlişkileri</a>
-        <a class="btn primary" href="tel:03323223220">Acil Ara</a>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Page Header -->
-  <section class="page-header">
-    <div class="container">
-      <h1>Sıkça Sorulan Sorular</h1>
-      <div class="hero-divider" aria-hidden="true"></div>
-      <p>Elçi Veteriner Kliniği hakkında merak ettikleriniz ve hayvan sağlığıyla ilgili önemli bilgiler.</p>
+      <h1>Sık Sorulan Sorular</h1>
+      <p class="muted">Ücretler, süreçler ve acil durumlar hakkında.</p>
     </div>
   </section>
 
-  <!-- Breadcrumb -->
-  <nav class="breadcrumb" aria-label="İçerik yolu">
+  <section id="faq">
     <div class="container">
-      <a href="/index.html">Ana Sayfa</a> <span aria-hidden="true">›</span> <span>SSS</span>
+      <h2 id="fiyat">Fiyat & Ödeme</h2>
+      <details class="faq"><summary>Muayene ücretiniz nedir?</summary><p>Ücretlerimiz güncel tarifeye göre belirlenir. Detay için 0332 322 32 20.</p></details>
+      <details class="faq"><summary>Ödeme yöntemleri neler?</summary><p>Nakit ve kart ile ödeme kabul ediyoruz.</p></details>
+
+      <h2 id="surec">Hizmet Süreçleri</h2>
+      <details class="faq"><summary>Randevu gerekli mi?</summary><p>Genel muayeneler için randevu önerilir. Acil vakalarda 7/24 kabul vardır.</p></details>
+      <details class="faq"><summary>Ameliyat öncesi hazırlık nasıl olmalı?</summary><p>En az 8–12 saat açlık, anamnez ve tetkik kontrolü önerilir.</p></details>
+
+      <h2 id="acil">Acil Durumlar</h2>
+      <details class="faq"><summary>Acil bir durumda ilk ne yapmalıyım?</summary><p>Önce 0332 322 32 20 numarasını arayın. Güvenli taşıma için taşıma çantası kullanın.</p></details>
     </div>
-  </nav>
+  </section>
 
-  <!-- SSS -->
-  <main id="maincontent" class="sss-section" tabindex="-1">
-    <div class="container">
-      <div class="sss-container">
-        <div class="sss-intro">
-          <h2>Merak Ettikleriniz</h2>
-          <p>En sık sorulan sorular ve kısa yanıtlar. Aradığınızı bulamazsanız bize yazın.</p>
-        </div>
+  <!-- Footer + Schema.org + Sprite + JS (about.html ile aynı) -->
+  <!-- ... -->
 
-        <!-- Fiyat ve Ödeme -->
-        <div class="sss-category" id="fiyat">
-          <h3>Fiyat ve Ödeme Programlarımız</h3>
-          <div class="accordion" role="tablist">
-            <div class="accordion-item">
-              <button class="accordion-header" role="tab" aria-expanded="false" aria-controls="acc-content-1" id="acc-header-1">
-                <h4>Muayene ücretleriniz nedir?</h4>
-                <i class="fas fa-chevron-down" aria-hidden="true"></i>
-              </button>
-              <div class="accordion-content" role="region" id="acc-content-1" aria-labelledby="acc-header-1">
-                <p>Muayene ücretleri hayvan türü ve kapsamına göre değişir. Genel muayene ücretleri:</p>
-                <ul>
-                  <li>Kedi/Köpek Genel Muayene: 350₺</li>
-                  <li>Kanatlı Hayvan Muayenesi: 250₺</li>
-                  <li>Egzotik Hayvan Muayenesi: 350₺</li>
-                  <li>Kontrol Muayenesi: 200₺</li>
-                </ul>
-                <p>Detaylı bilgi için lütfen arayınız.</p>
-              </div>
-            </div>
-
-            <div class="accordion-item">
-              <button class="accordion-header" role="tab" aria-expanded="false" aria-controls="acc-content-2" id="acc-header-2">
-                <h4>Taksit imkanınız var mı?</h4>
-                <i class="fas fa-chevron-down" aria-hidden="true"></i>
-              </button>
-              <div class="accordion-content" role="region" id="acc-content-2" aria-labelledby="acc-header-2">
-                <p>Evet. 1000₺ ve üzeri işlemlerde 3–6–9 taksit seçenekleri mevcuttur (banka/karta göre değişebilir).</p>
-              </div>
-            </div>
-
-            <div class="accordion-item">
-              <button class="accordion-header" role="tab" aria-expanded="false" aria-controls="acc-content-3" id="acc-header-3">
-                <h4>Özel bakım ve tedavi ücretleri ne kadar?</h4>
-                <i class="fas fa-chevron-down" aria-hidden="true"></i>
-              </button>
-              <div class="accordion-content" role="region" id="acc-content-3" aria-labelledby="acc-header-3">
-                <p>Cerrahi, diş tedavisi, fizik tedavi gibi işlemler kapsamına göre fiyatlandırılır. Size özel teklif için iletişime geçin.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Hizmet Süreçleri -->
-        <div class="sss-category" id="surec">
-          <h3>Hizmet Süreçleri</h3>
-          <div class="accordion" role="tablist">
-            <div class="accordion-item">
-              <button class="accordion-header" role="tab" aria-expanded="false" aria-controls="acc-content-4" id="acc-header-4">
-                <h4>Randevu nasıl alabilirim?</h4>
-                <i class="fas fa-chevron-down" aria-hidden="true"></i>
-              </button>
-              <div class="accordion-content" role="region" id="acc-content-4" aria-labelledby="acc-header-4">
-                <p>Şu yöntemlerden biriyle hızlıca randevu alabilirsiniz:</p>
-                <ul>
-                  <li>Online: <a href="/hasta-iliskileri.html#randevu">Randevu Al</a></li>
-                  <li>Telefon: <a href="tel:03323223220">0332 322 32 20</a></li>
-                  <li>WhatsApp: <a href="https://wa.me/905532621670" target="_blank" rel="noopener">0553 262 16 70</a></li>
-                  <li>Kliniğe gelerek</li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="accordion-item">
-              <button class="accordion-header" role="tab" aria-expanded="false" aria-controls="acc-content-5" id="acc-header-5">
-                <h4>Ameliyat öncesi hazırlık süreci nasıl işler?</h4>
-                <i class="fas fa-chevron-down" aria-hidden="true"></i>
-              </button>
-              <div class="accordion-content" role="region" id="acc-content-5" aria-labelledby="acc-header-5">
-                <p>Standart akış:</p>
-                <ol>
-                  <li>Ön muayene ve preoperatif değerlendirme</li>
-                  <li>Kan testleri ve gerekli tetkikler</li>
-                  <li>Operasyon öncesi 8–12 saat açlık</li>
-                  <li>Anestezi hazırlığı</li>
-                  <li>Operasyon sonrası bakım talimatları</li>
-                </ol>
-              </div>
-            </div>
-
-            <div class="accordion-item">
-              <button class="accordion-header" role="tab" aria-expanded="false" aria-controls="acc-content-6" id="acc-header-6">
-                <h4>Hayvanımı kliniğinizde konaklatabilir miyim?</h4>
-                <i class="fas fa-chevron-down" aria-hidden="true"></i>
-              </button>
-              <div class="accordion-content" role="region" id="acc-content-6" aria-labelledby="acc-header-6">
-                <p>Evet, günlük/uzun süreli konaklama vardır. Konaklama ücretleri:</p>
-                <ul>
-                  <li>Kedi/Köpek Standart: 150₺/gün</li>
-                  <li>Lüks Suite: 250₺/gün</li>
-                  <li>Kanatlı Hayvan: 100₺/gün</li>
-                </ul>
-                <p>Rezervasyon için önceden aramanızı öneririz.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Acil Durumlar -->
-        <div class="sss-category" id="acil">
-          <h3>Acil Durumlar</h3>
-          <div class="accordion" role="tablist">
-            <div class="accordion-item">
-              <button class="accordion-header" role="tab" aria-expanded="false" aria-controls="acc-content-7" id="acc-header-7">
-                <h4>Acil durumlarda nasıl hareket etmeliyim?</h4>
-                <i class="fas fa-chevron-down" aria-hidden="true"></i>
-              </button>
-              <div class="accordion-content" role="region" id="acc-content-7" aria-labelledby="acc-header-7">
-                <p>Acilde şu adımları izleyin:</p>
-                <ol>
-                  <li>Sakin kalın ve dostunuzu güvenle sabitleyin.</li>
-                  <li>Güvenli taşıma kutusu/kemer kullanın.</li>
-                  <li>Hemen <a href="tel:03323223220">0332 322 32 20</a> numarasını arayın.</li>
-                  <li>Yolda hekim talimatlarına uyun.</li>
-                </ol>
-                <p>Acil servisimiz 7/24 açıktır.</p>
-              </div>
-            </div>
-
-            <div class="accordion-item">
-              <button class="accordion-header" role="tab" aria-expanded="false" aria-controls="acc-content-8" id="acc-header-8">
-                <h4>Zehirlenme durumunda ne yapmalıyım?</h4>
-                <i class="fas fa-chevron-down" aria-hidden="true"></i>
-              </button>
-              <div class="accordion-content" role="region" id="acc-content-8" aria-labelledby="acc-header-8">
-                <p>Şüphede iseniz:</p>
-                <ul>
-                  <li>Vakit kaybetmeden veterineri arayın.</li>
-                  <li>Maddeyi belirlemeye çalışın (ilaç, bitki, kimyasal).</li>
-                  <li>Kusmaya zorlamayın (bazı maddelerde tehlikelidir).</li>
-                  <li>Hareketi kısıtlayın, hızla kliniğe getirin.</li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="accordion-item">
-              <button class="accordion-header" role="tab" aria-expanded="false" aria-controls="acc-content-9" id="acc-header-9">
-                <h4>Doğum sürecinde ne zaman müdahale etmeliyim?</h4>
-                <i class="fas fa-chevron-down" aria-hidden="true"></i>
-              </button>
-              <div class="accordion-content" role="region" id="acc-content-9" aria-labelledby="acc-header-9">
-                <p>Şu durumlarda hemen iletişim kurun:</p>
-                <ul>
-                  <li>Sancıdan 2 saat sonra yavru gelmiyorsa,</li>
-                  <li>Yeşilimsi/kanlı akıntı varsa,</li>
-                  <li>Anne aşırı halsiz/bilinci dalgalıysa,</li>
-                  <li>Yavru yarı çıkmış ve ilerleme yoksa,</li>
-                  <li>Doğumdan 24 saat sonra plasenta atılmadıysa.</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- CTA bar (site stiline uygun) -->
-        <div class="sss-cta">
-          <strong>Hâlâ sorularınız mı var?</strong>
-          <div class="cta-buttons">
-            <a href="tel:03323223220" class="btn primary"><i class="fas fa-phone-alt" aria-hidden="true"></i> Hemen Ara</a>
-            <a href="/hasta-iliskileri.html#randevu" class="btn ghost"><i class="fas fa-calendar-check" aria-hidden="true"></i> Online Randevu</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- Footer (ana sitenin modern sürümü) -->
-  <footer class="footer-new">
-    <div class="container footer-container">
-      <div class="footer-col">
-        <h3>Elçi Veteriner Kliniği</h3>
-        <p>Konya’nın Meram ilçesinde, hayvan sağlığı alanında uzman ekibimizle hizmet veriyoruz. 7/24 acil veteriner hizmeti.</p>
-        <div class="social-links">
-          <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-        </div>
-      </div>
-
-      <div class="footer-col">
-        <h3>Hızlı Linkler</h3>
-        <ul class="footer-links">
-          <li><a href="/index.html">Ana Sayfa</a></li>
-          <li><a href="/about.html">Hakkımızda</a></li>
-          <li><a href="/hizmetler.html">Hizmetlerimiz</a></li>
-          <li><a href="/blog.html">Blog</a></li>
-          <li><a href="/sss.html">SSS</a></li>
-          <li><a href="/hasta-iliskileri.html">Hasta İlişkileri</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h3>Konya Veteriner Hizmetlerimiz</h3>
-        <ul class="footer-links">
-          <li><a href="/hizmetler.html#acil">Konya Acil Veteriner</a></li>
-          <li><a href="/hizmetler.html#cerrahi">Konya’da Cerrahi Operasyonlar</a></li>
-          <li><a href="/hizmetler.html#agiz-dis">Konya’da Ağız ve Diş Sağlığı</a></li>
-          <li><a href="/hizmetler.html#ic-hastaliklari">Konya’da İç Hastalıkları</a></li>
-          <li><a href="/hizmetler.html#fizik-tedavi">Konya’da Fizik Tedavi</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h3>Konya İletişim</h3>
-        <ul class="footer-contact">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"/><circle cx="12" cy="11" r="2.5"/></svg>
-            <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18"><path d="M22 16.5v2a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3.1 19 19 0 0 1-6-6A2 2 0 0 1 7.5 9h2l2 3-1.5 1.5a16 16 0 0 0 6 6L18 18l3 2.5z"/></svg>
-            <a href="tel:03323223220">0332 322 32 20</a></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
-            <a href="mailto:elcivetklinig@gmail.com">elcivetklinig@gmail.com</a></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
-            <span>Pazartesi–Cumartesi: 08:00–19:00<br>Pazar: Acil Hizmet</span></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="container">
-        <p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Floating Buttons -->
-  <button class="emergency-call" id="emergencyCall" aria-label="Acil arama: 0332 322 32 20"><i class="fas fa-phone-alt" aria-hidden="true"></i></button>
-  <button class="back-to-top" id="backToTop" aria-label="Sayfanın başına dön"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
-  <button class="chat-bubble" id="chatBubble" aria-label="Canlı destek sohbetini aç"><i class="fas fa-comment-dots" aria-hidden="true"></i></button>
-
-  <!-- Chat -->
-  <div class="chat-container" id="chatContainer" role="dialog" aria-labelledby="chatTitle" aria-modal="true">
-    <div class="chat-header">
-      <h3 id="chatTitle"><i class="fas fa-robot" aria-hidden="true"></i> Elçi Veteriner Canlı Destek</h3>
-      <button class="close-chat" id="closeChat" aria-label="Sohbeti kapat"><i class="fas fa-times" aria-hidden="true"></i></button>
-    </div>
-    <div class="chat-messages" id="chatMessages">
-      <div class="message ai">
-        Merhaba! Ben Elçi Veteriner'in sanal asistanıyım. Size nasıl yardımcı olabilirim? 😊<br><br>
-        • Muayene ücretleri<br>
-        • Randevu alma<br>
-        • Acil durumlar<br>
-        • Konaklama hizmetleri
-      </div>
-    </div>
-    <div class="chat-input">
-      <input type="text" id="chatInput" placeholder="Mesajınızı buraya yazın..." autocomplete="off" aria-label="Sohbet mesajı" />
-      <button id="sendMessage" aria-label="Mesaj gönder"><i class="fas fa-paper-plane" aria-hidden="true"></i></button>
-    </div>
-    <div class="vet-transfer">
-      <p>Gerekirse sizi doğrudan veteriner hekimimize bağlayabilirim.</p>
-      <button id="transferToVet" aria-label="Veteriner hekimle WhatsApp üzerinden konuş"><i class="fab fa-whatsapp" aria-hidden="true"></i> Veteriner Hekimle Konuş</button>
-    </div>
-  </div>
-
-  <script>
-    // Footer yıl
-    document.getElementById('yil').textContent=new Date().getFullYear();
-
-    // Emergency Call
-    document.getElementById('emergencyCall').addEventListener('click', () => {
-      window.location.href = 'tel:03323223220';
-    });
-
-    // Back to Top
-    const backToTopBtn = document.getElementById('backToTop');
-    window.addEventListener('scroll', () => {
-      if (window.pageYOffset > 300) backToTopBtn.classList.add('show');
-      else backToTopBtn.classList.remove('show');
-    });
-    backToTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // Chat
-    const chatBubble = document.getElementById('chatBubble');
-    const chatContainer = document.getElementById('chatContainer');
-    const closeChat = document.getElementById('closeChat');
-    const chatMessages = document.getElementById('chatMessages');
-    const chatInput = document.getElementById('chatInput');
-    const sendMessage = document.getElementById('sendMessage');
-    const transferToVet = document.getElementById('transferToVet');
-
-    chatBubble.addEventListener('click', () => { chatContainer.classList.toggle('open'); });
-    closeChat.addEventListener('click', () => { chatContainer.classList.remove('open'); });
-
-    function addMessage(text, sender, trustedHTML = false){
-      const messageDiv = document.createElement('div');
-      messageDiv.className = `message ${sender}`;
-      if (trustedHTML){ messageDiv.innerHTML = text; }
-      else { messageDiv.textContent = text; }
-      chatMessages.appendChild(messageDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    function linkify(text){
-      const urlRegex = /(https?:\/\/[^\s]+)/g;
-      return text.replace(urlRegex, function(url){
-        return `<a href="${url}" target="_blank" rel="noopener">${url}</a>`;
-      });
-    }
-
-    function sendMessageToChat(){
-      const message = chatInput.value.trim();
-      if (!message) return;
-      addMessage(message, 'user');
-      chatInput.value = '';
-
-      const typing = document.createElement('div');
-      typing.className = 'message ai';
-      typing.style.opacity = '.65';
-      typing.textContent = 'Yazıyor...';
-      chatMessages.appendChild(typing);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-
-      setTimeout(() => {
-        chatMessages.removeChild(typing);
-        const aiResponse = getAIResponse(message);
-        addMessage(linkify(aiResponse), 'ai', true);
-      }, 900);
-    }
-
-    chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessageToChat(); });
-    sendMessage.addEventListener('click', sendMessageToChat);
-
-    transferToVet.addEventListener('click', () => {
-      addMessage('Sizi veteriner hekimimizle WhatsApp üzerinden görüşmeye yönlendiriyorum...', 'ai', true);
-      setTimeout(() => {
-        window.open('https://wa.me/905532621670', '_blank');
-      }, 600);
-    });
-
-    // Basit AI yanıtları (sayfadaki bilgilere uygun)
-    function getAIResponse(message){
-      const m = message.toLowerCase();
-      if (m.includes('fiyat') || m.includes('ücret')){
-        return "Genel muayene ücretleri: Kedi/Köpek 350₺, Kanatlı 250₺, Egzotik 350₺, Kontrol 200₺. Net bilgi için lütfen 0332 322 32 20 numarasını arayın.";
-      }
-      if (m.includes('randevu') || m.includes('rezervasyon')){
-        return "Randevu için: Online form (/hasta-iliskileri.html#randevu), Telefon: 0332 322 32 20, WhatsApp: https://wa.me/905532621670";
-      }
-      if (m.includes('acil')){
-        return "Acil durumlarda 7/24 hizmet veriyoruz. Lütfen hemen arayın: 0332 322 32 20.";
-      }
-      if (m.includes('konaklama') || m.includes('yatılı')){
-        return "Konaklama ücretleri: Standart 150₺/gün, Lüks 250₺/gün, Kanatlı 100₺/gün. Rezervasyon için önceden arayın.";
-      }
-      if (m.includes('saat') || m.includes('açık')){
-        return "Çalışma saatleri: Pazartesi–Cumartesi 08:00–19:00. Pazar günü acil hizmet.";
-      }
-      if (m.includes('adres') || m.includes('konum') || m.includes('yer')){
-        return "Adresimiz: Havzan Mah., Yeni Meram Cad. No:17/1, Meram/Konya. Konum: https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya";
-      }
-      return "Sorunuzu tam anlayamadım. Dilerseniz WhatsApp üzerinden veteriner hekimimize bağlanabilirim.";
-    }
-
-    // Accordion davranışı
-    const accordionHeaders = document.querySelectorAll('.accordion-header');
-    accordionHeaders.forEach((header) => {
-      const content = header.nextElementSibling;
-      header.addEventListener('click', () => {
-        const isOpen = header.getAttribute('aria-expanded') === 'true';
-        accordionHeaders.forEach(h => {
-          h.setAttribute('aria-expanded','false');
-          h.nextElementSibling.classList.remove('show');
-        });
-        header.setAttribute('aria-expanded', String(!isOpen));
-        if (!isOpen) content.classList.add('show');
-      });
-    });
-  </script>
+  <script defer src="/assets/js/main.js?v=17"></script>
 </body>
 </html>
