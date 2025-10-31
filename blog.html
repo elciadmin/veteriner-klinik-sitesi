@@ -1,378 +1,72 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <link rel="stylesheet" href="/assets/css/styles.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Blog | Elçi Veteriner Kliniği</title>
-  <meta name="description" content="Elçi Veteriner Blog: kedi-köpek sağlığı, beslenme, diş sağlığı, acil bakım ve güncel klinik rehberler." />
-  <link rel="canonical" href="https://elciveteriner.com/blog.html" />
-  <meta property="og:title" content="Elçi Veteriner Blog" />
-  <meta property="og:description" content="Hayvan sağlığı üzerine güncel rehberler ve kliniğimizden haberler." />
-  <meta property="og:type" content="website" />
-  <meta property="og:locale" content="tr_TR" />
-
-  <!-- Global stylesheet (site-wide) -->
-  <link rel="stylesheet" href="/assets/css/styles.css" />
-
-  
+  <meta name="description" content="Evcil hayvan sağlığı üzerine rehber yazılar ve kliniğimizden haberler."/>
+  <link rel="canonical" href="https://elciveteriner.com/blog.html"/>
+  <link rel="stylesheet" href="/assets/css/styles.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-  <!-- Top Bar -->
-  <header class="topbar">
-    <div class="container">
-      <div>Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</div>
-      <div>☎ 0332 322 32 20 • 📧 elcivetklinig@gmail.com</div>
+
+  <!-- Header (index ile aynı) -->
+  <!-- ... about.html üst kısmıyla birebir aynı, sadece Blog linkine class="active" ver -->
+  <header>
+    <div class="header-top">
+      <div class="container">
+        <div class="header-contact">
+          <span><i class="fa-solid fa-location-dot"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</span>
+        </div>
+        <div class="header-contact">
+          <a href="tel:03323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a>
+          <a href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> elcivetklinik@gmail.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="header-main">
+      <div class="container">
+        <div class="logo-text">
+          <h1>Elçi Veteriner Kliniği</h1>
+          <span>Sağlığın Elçileri’yiz</span>
+        </div>
+        <nav aria-label="Birincil">
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç/kapat"><i class="fa-solid fa-bars"></i></button>
+          <ul id="mainMenu">
+            <li><a href="/index.html">Ana Sayfa</a></li>
+            <li class="dropdown"><a href="/about.html">Hakkımızda</a> <!-- alt menü bloğu --> </li>
+            <li class="dropdown"><a href="/hizmetler.html">Hizmetlerimiz</a> <!-- alt menü bloğu --> </li>
+            <li><a href="/blog.html" class="active">Blog</a></li>
+            <li class="dropdown"><a href="/sss.html">SSS</a> <!-- alt menü bloğu --> </li>
+            <li class="dropdown"><a href="/hasta-iliskileri.html">Hasta İlişkileri</a> <!-- alt menü bloğu --> </li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </header>
 
-  <!-- Nav -->
-  <nav class="site-nav" aria-label="Ana menü">
+  <!-- SAYFA İÇERİĞİ -->
+  <section class="page-hero">
     <div class="container">
-      <a class="brand" href="/">🐾 Elçi Veteriner Kliniği</a>
-      <div class="menu">
-        <a href="/about.html">Hakkımızda</a>
-        <a href="/hizmetler.html">Hizmetler</a>
-        <a class="active" href="/blog.html" aria-current="page">Blog</a>
-        <a href="/sss.html">SSS</a>
-        <a href="/hasta-iliskileri.html">Hasta İlişkileri</a>
-        <a class="btn primary" href="tel:03323223220">Acil Ara</a>
-      </div>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-text">
-        <h1>Elçi Veteriner Blog</h1>
-        <p>Hayvan sağlığı, beslenme ve tedavi üzerine pratik, güvenilir içerikler. Kliniğimizden haberler ve rehberler burada.</p>
-        <div style="margin-top:12px" class="cta-row">
-          <a class="btn primary" href="#yazilar">Son Yazılar</a>
-          <a class="btn ghost" href="/contact.html">Soru Sor</a>
-        </div>
-      </div>
+      <h1>Blog</h1>
+      <p class="muted">Evcil hayvan sağlığı rehberleri, tedavi süreçleri ve kliniğimizden haberler.</p>
     </div>
   </section>
 
-  <!-- BREADCRUMB -->
-  <div class="breadcrumb" aria-label="Konum izleme">
+  <section id="blog" data-json="/assets/data/blog.json">
     <div class="container">
-      <a href="/index.html">Ana Sayfa</a>
-      <span aria-hidden="true">›</span>
-      <a href="/blog.html" aria-current="page">Blog</a>
-    </div>
-  </div>
-
-  <!-- SEARCH -->
-  <section class="search-wrap" aria-label="Blog içi arama">
-    <div class="container">
-      <div class="search-card">
-        <div class="search-row" role="search">
-          <input id="q" type="search" placeholder="Makale, konu veya kategori ara…" aria-label="Blogda ara" />
-          <a class="btn" id="clearBtn" href="javascript:void(0)">Temizle</a>
-        </div>
-      </div>
+      <div class="blog-grid" id="blogGrid"></div>
+      <div style="margin-top:10px"><a class="btn" href="/blog.html">Tüm Yazılar</a></div>
     </div>
   </section>
 
-  <!-- BLOG GRID -->
-  <main class="blog" id="yazilar">
-    <div class="container grid">
-      <!-- CONTENT -->
-      <div id="posts">
+  <!-- Footer + Schema.org (about.html ile aynı) -->
+  <!-- ... footer bloğunu aynen kopyala ... -->
 
-        <!-- Post 1 -->
-        <article class="post" data-tags="köpek sağlığı yaz" data-cat="Köpek Sağlığı">
-          <div class="cover"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=1600&q=80" alt="Yazın köpek bakımı görseli"></div>
-          <div class="body">
-            <div class="meta">
-              <span class="chip" aria-label="Kategori">Köpek Sağlığı</span>
-              <span>15 Haziran 2023</span>
-              <span>•</span>
-              <span>4 dk</span>
-              <span>•</span>
-              <span>Dr. Mehmet Elçi</span>
-            </div>
-            <h2>Yaz Aylarında Köpek Bakımı: Sıcak Havalarda Dikkat Edilecekler</h2>
-            <p>Sıcak çarpması, dehidrasyon ve sıcak zemin yanıkları yazın en sık karşılaşılan sorunlar. Bu rehberde pratik korunma önerilerini bulacaksınız.</p>
-            <a class="more" href="#">Devamını Oku</a>
-          </div>
-        </article>
+  <!-- SVG ICON SPRITE (INDEX’TEKİ BLOĞU BURAYA DA YAPIŞTIR) -->
+  <!-- ... -->
 
-        <!-- Post 2 -->
-        <article class="post" data-tags="kedi bakımı beslenme" data-cat="Kedi Bakımı">
-          <div class="cover"><img src="https://images.unsplash.com/photo-1591946614720-90a587da4a36?auto=format&fit=crop&w=1600&q=80" alt="Kedi beslenmesi görseli"></div>
-          <div class="body">
-            <div class="meta">
-              <span class="chip">Kedi Bakımı</span>
-              <span>8 Haziran 2023</span>
-              <span>•</span>
-              <span>5 dk</span>
-              <span>•</span>
-              <span>Dr. Ayşe Kaya</span>
-            </div>
-            <h2>Kedilerde Doğru Beslenme: Yaşa Göre Programlar</h2>
-            <p>Yavru, yetişkin ve yaşlı kediler için enerji ve protein dengesi nasıl olmalı? İpuçları ve örnek menüler içeride.</p>
-            <a class="more" href="#">Devamını Oku</a>
-          </div>
-        </article>
-
-        <!-- Post 3 -->
-        <article class="post" data-tags="kuş sağlığı bakım" data-cat="Kuş Sağlığı">
-          <div class="cover"><img src="https://images.unsplash.com/photo-1553284965-5dd8352ff1bd?auto=format&fit=crop&w=1600&q=80" alt="Muhabbet kuşu bakımı görseli"></div>
-          <div class="body">
-            <div class="meta">
-              <span class="chip">Kuş Sağlığı</span>
-              <span>1 Haziran 2023</span>
-              <span>•</span>
-              <span>3 dk</span>
-              <span>•</span>
-              <span>Dr. Can Yılmaz</span>
-            </div>
-            <h2>Muhabbet Kuşu Bakımı: Sağlıklı ve Mutlu Bir Kuş İçin</h2>
-            <p>Ortam ısısı, kafes düzeni, beslenme ve hijyen: en önemli başlıkları kısa bir rehberde topladık.</p>
-            <a class="more" href="#">Devamını Oku</a>
-          </div>
-        </article>
-
-        <!-- Post 4 -->
-        <article class="post" data-tags="diş sağlığı tartar kedi" data-cat="Diş Sağlığı">
-          <div class="cover"><img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=1600&q=80" alt="Kedi diş sağlığı görseli"></div>
-          <div class="body">
-            <div class="meta">
-              <span class="chip">Diş Sağlığı</span>
-              <span>24 Mayıs 2023</span>
-              <span>•</span>
-              <span>6 dk</span>
-              <span>•</span>
-              <span>Dr. Zeynep Demir</span>
-            </div>
-            <h2>Kedilerde Diş Taşı Temizliği ve Koruyucu İpuçları</h2>
-            <p>Ağız kokusu ve diş taşı yalnızca dişleri etkilemez; sistemik sağlık için düzenli bakım kritik önemde.</p>
-            <a class="more" href="#">Devamını Oku</a>
-          </div>
-        </article>
-
-        <!-- Pagination -->
-        <nav class="pagination" aria-label="Sayfalandırma">
-          <a class="active" href="#" aria-current="page">1</a>
-          <a href="#">2</a>
-          <a href="#">3</a>
-          <a href="#" aria-label="Sonraki sayfa">›</a>
-        </nav>
-      </div>
-
-      <!-- SIDEBAR -->
-      <aside>
-        <section class="widget">
-          <h3 class="w-title">Kategoriler</h3>
-          <ul class="cat-list" id="catList">
-            <li><a href="#" data-cat="Köpek Sağlığı">Köpek Sağlığı</a><span>24</span></li>
-            <li><a href="#" data-cat="Kedi Bakımı">Kedi Bakımı</a><span>18</span></li>
-            <li><a href="#" data-cat="Kuş Sağlığı">Kuş Sağlığı</a><span>12</span></li>
-            <li><a href="#" data-cat="Egzotik Hayvanlar">Egzotik Hayvanlar</a><span>8</span></li>
-            <li><a href="#" data-cat="Beslenme Rehberi">Beslenme Rehberi</a><span>15</span></li>
-            <li><a href="#" data-cat="Aşı Takvimi">Aşı Takvimi</a><span>7</span></li>
-            <li><a href="#" data-cat="Cerrahi İşlemler">Cerrahi İşlemler</a><span>9</span></li>
-            <li><a href="#" data-cat="Davranış Problemleri">Davranış Problemleri</a><span>6</span></li>
-          </ul>
-        </section>
-
-        <section class="widget">
-          <h3 class="w-title">Popüler Yazılar</h3>
-          <div class="pop-list">
-            <article class="pop-item">
-              <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=300&q=80" alt="Kedi Diş Sağlığı" />
-              <div>
-                <h4><a href="#">Kedilerde Diş Sağlığı ve Bakım</a></h4>
-                <div class="date">24 Mayıs 2023</div>
-              </div>
-            </article>
-            <article class="pop-item">
-              <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=300&q=80" alt="Köpek Bakımı" />
-              <div>
-                <h4><a href="#">Yaz Aylarında Köpek Bakımı</a></h4>
-                <div class="date">15 Haziran 2023</div>
-              </div>
-            </article>
-            <article class="pop-item">
-              <img src="https://images.unsplash.com/photo-1553284965-5dd8352ff1bd?auto=format&fit=crop&w=300&q=80" alt="Kuş Bakımı" />
-              <div>
-                <h4><a href="#">Muhabbet Kuşu Bakım Rehberi</a></h4>
-                <div class="date">1 Haziran 2023</div>
-              </div>
-            </article>
-          </div>
-        </section>
-
-        <section class="widget">
-          <h3 class="w-title">Etiketler</h3>
-          <div class="tag-cloud" id="tagCloud">
-            <a href="#" class="tag" data-tag="Kedi Sağlığı">Kedi Sağlığı</a>
-            <a href="#" class="tag" data-tag="Köpek Bakımı">Köpek Bakımı</a>
-            <a href="#" class="tag" data-tag="Beslenme">Beslenme</a>
-            <a href="#" class="tag" data-tag="Aşı">Aşı</a>
-            <a href="#" class="tag" data-tag="Diş Sağlığı">Diş Sağlığı</a>
-            <a href="#" class="tag" data-tag="Kuş Bakımı">Kuş Bakımı</a>
-            <a href="#" class="tag" data-tag="Yaz Bakımı">Yaz Bakımı</a>
-            <a href="#" class="tag" data-tag="Egzotik Hayvanlar">Egzotik Hayvanlar</a>
-            <a href="#" class="tag" data-tag="Cerrahi">Cerrahi</a>
-            <a href="#" class="tag" data-tag="Davranış">Davranış</a>
-          </div>
-        </section>
-
-        <section class="widget" aria-label="Bülten">
-          <h3 class="w-title">Bültene Abone Olun</h3>
-          <p class="muted" style="margin:0 0 10px">Yeni yazılar ve duyurular için e-posta alın.</p>
-          <form onsubmit="event.preventDefault(); alert('Abonelik alındı.');">
-            <div class="search-row">
-              <input type="email" placeholder="E-posta adresiniz" required aria-label="E-posta adresiniz" />
-              <button class="btn primary" type="submit">Abone Ol</button>
-            </div>
-          </form>
-        </section>
-      </aside>
-    </div>
-  </main>
-
-  <!-- FOOTER (Modern) -->
-  <footer class="footer-new">
-    <div class="container footer-container">
-      <div class="footer-col">
-        <h3>Elçi Veteriner Kliniği</h3>
-        <p>Konya’nın Meram ilçesinde, hayvan sağlığı alanında uzman ekibimizle hizmet veriyoruz. 7/24 acil veteriner hizmeti.</p>
-        <div class="social-links">
-          <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 10h3l.5-3H13V5.5c0-.9.3-1.5 1.7-1.5H17V1h-3c-3 0-4.5 1.6-4.5 4.4V7H7v3h2.5v9h3v-9z"/></svg>
-          </a>
-          <a href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><path d="M17.5 6.5h.01" stroke-width="2"/></svg>
-          </a>
-          <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.8c-.8.4-1.6.6-2.5.7.9-.6 1.5-1.4 1.8-2.4-.8.5-1.8.9-2.8 1.1A3.7 3.7 0 0 0 12 8.4c0 .3 0 .7.1 1A10.5 10.5 0 0 1 3 5.2a3.7 3.7 0 0 0 1.1 5 3.6 3.6 0 0 1-1.7-.5v.1c0 1.8 1.3 3.3 3 3.7-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1.5 1.5 1.9 2.6 3.6 2.6A7.5 7.5 0 0 1 3 19.5 10.6 10.6 0 0 0 9.7 21c6.3 0 9.7-5.2 9.7-9.7v-.4c.8-.6 1.5-1.4 2-2.3z"/></svg>
-          </a>
-          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5a4 4 0 0 0-3-3.1C18.3 4 12 4 12 4s-6.3 0-8 .4A4 4 0 0 0 1 7.5 41 41 0 0 0 1 16.5a4 4 0 0 0 3 3.1c1.7.4 8 .4 8 .4s6.3 0 8-.4a4 4 0 0 0 3-3.1 41 41 0 0 0 0-9zM10 15.5v-7l6 3.5-6 3.5z"/></svg>
-          </a>
-        </div>
-      </div>
-
-      <div class="footer-col">
-        <h3>Hızlı Linkler</h3>
-        <ul class="footer-links">
-          <li><a href="/index.html">Ana Sayfa</a></li>
-          <li><a href="/about.html">Hakkımızda</a></li>
-          <li><a href="/hizmetler.html">Hizmetlerimiz</a></li>
-          <li><a href="/blog.html">Blog</a></li>
-          <li><a href="/sss.html">SSS</a></li>
-          <li><a href="/hasta-iliskileri.html">Hasta İlişkileri</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h3>Konya Veteriner Hizmetlerimiz</h3>
-        <ul class="footer-links">
-          <li><a href="/hizmetler.html#acil">Konya Acil Veteriner</a></li>
-          <li><a href="/hizmetler.html#cerrahi">Konya’da Cerrahi Operasyonlar</a></li>
-          <li><a href="/hizmetler.html#agiz-dis">Konya’da Ağız ve Diş Sağlığı</a></li>
-          <li><a href="/hizmetler.html#goruntuleme-lab">Konya’da Görüntüleme & Lab</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h3>Konya İletişim</h3>
-        <ul class="footer-contact">
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"/><circle cx="12" cy="11" r="2.5"/></svg>
-            <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.5v2a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3.1 19 19 0 0 1-6-6A2 2 0 0 1 7.5 9h2l2 3-1.5 1.5a16 16 0 0 0 6 6L18 18l3 2.5z"/></svg>
-            <a href="tel:03323223220">0332 322 32 20</a>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
-            <a href="mailto:elcivetklinig@gmail.com">elcivetklinig@gmail.com</a>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
-            <span>Pazartesi–Cumartesi: 08:00–19:00<br>Pazar: Acil Hizmet</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="container">
-        <p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    // Footer year
-    document.getElementById('yil').textContent = new Date().getFullYear();
-
-    // Simple live search + filters (kategori & etiket)
-    (function(){
-      const q = document.getElementById('q');
-      const clearBtn = document.getElementById('clearBtn');
-      const posts = Array.from(document.querySelectorAll('.post'));
-      const catList = document.getElementById('catList');
-      const tagCloud = document.getElementById('tagCloud');
-
-      function applyFilter(){
-        const term = (q.value||'').trim().toLowerCase();
-        const activeCat = document.querySelector('.cat-list a.active')?.dataset.cat || '';
-        const activeTag = document.querySelector('.tag-cloud .tag.active')?.dataset.tag || '';
-
-        posts.forEach(p=>{
-          const title = p.querySelector('h2')?.textContent.toLowerCase()||'';
-          const body = p.querySelector('p')?.textContent.toLowerCase()||'';
-          const cat = (p.dataset.cat||'').toLowerCase();
-          const tags = (p.dataset.tags||'').toLowerCase();
-
-          const matchesText = !term || title.includes(term) || body.includes(term) || cat.includes(term) || tags.includes(term);
-          const matchesCat = !activeCat || cat === activeCat.toLowerCase();
-          const matchesTag = !activeTag || tags.includes(activeTag.toLowerCase());
-
-          p.style.display = (matchesText && matchesCat && matchesTag) ? '' : 'none';
-        });
-      }
-
-      q.addEventListener('input', applyFilter);
-      clearBtn.addEventListener('click', ()=>{ q.value=''; document.querySelectorAll('.active').forEach(el=>el.classList.remove('active')); applyFilter(); });
-
-      if(catList){
-        catList.addEventListener('click', e=>{
-          const a = e.target.closest('a[data-cat]');
-          if(!a) return;
-          e.preventDefault();
-          catList.querySelectorAll('a').forEach(x=>x.classList.remove('active'));
-          a.classList.add('active');
-          // Etiket seçimi varsa sıfırla
-          tagCloud?.querySelectorAll('.tag').forEach(x=>x.classList.remove('active'));
-          applyFilter();
-        });
-      }
-
-      if(tagCloud){
-        tagCloud.addEventListener('click', e=>{
-          const a = e.target.closest('a.tag');
-          if(!a) return;
-          e.preventDefault();
-          tagCloud.querySelectorAll('.tag').forEach(x=>x.classList.remove('active'));
-          a.classList.add('active');
-          // Kategori seçimi varsa sıfırla
-          catList?.querySelectorAll('a').forEach(x=>x.classList.remove('active'));
-          applyFilter();
-        });
-      }
-
-      applyFilter();
-    })();
-  </script>
+  <script defer src="/assets/js/main.js?v=17"></script>
 </body>
 </html>
