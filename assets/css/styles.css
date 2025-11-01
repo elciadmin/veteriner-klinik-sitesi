@@ -127,10 +127,13 @@ nav a:focus-visible{outline:2px solid #10b3d1; outline-offset:3px; border-radius
    HİZMETLER (Ana & İç Sayfa)
    ========================= */
 section#services{ padding:48px 0; background:#fff; position:relative; overflow:hidden }
+
+/* Varsayılan ızgara (JS sayfalama yoksa) */
 .services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px }
 @media (max-width:1100px){ .services-grid{ grid-template-columns:repeat(2,1fr) } }
 @media (max-width:640px){ .services-grid{ grid-template-columns:1fr } }
 
+/* Kart */
 .s-card{
   position:relative;border-radius:var(--radius-lg);padding:18px;background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.6));
   border:1px solid rgba(12,78,84,.10); box-shadow:0 10px 30px rgba(12,78,84,.08);
@@ -160,6 +163,32 @@ section#services{ padding:48px 0; background:#fff; position:relative; overflow:h
 .cta-bar{
   background:#e9f4f5;border:1px dashed #a8cacc;padding:18px;border-radius:16px;
   display:flex;gap:10px;align-items:center;justify-content:space-between;margin:24px 0
+}
+
+/* === (YENİ) Hizmetler: 6'lı sayfalı kaydırma === */
+#services .services-viewport{position:relative; overflow:hidden}
+#services .services-rail{display:flex; transition:transform .35s ease}
+#services .services-page{
+  min-width:100%;
+  display:grid; gap:16px;
+  grid-template-columns:repeat(3, minmax(0,1fr));
+}
+#services .svc-nav{
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:42px; height:42px; border:0; border-radius:50%;
+  background:#0f5960; color:#fff; cursor:pointer;
+  box-shadow:0 6px 18px rgba(0,0,0,.15); display:grid; place-items:center;
+}
+#services .svc-prev{left:-6px}
+#services .svc-next{right:-6px}
+#services .svc-nav:disabled{opacity:.35; cursor:default}
+
+/* Responsive kolonlar (sayfa başına 6 kart kalır, satır sayısı artar/azalır) */
+@media (max-width: 1100px){
+  #services .services-page{grid-template-columns:repeat(2, minmax(0,1fr))}
+}
+@media (max-width: 640px){
+  #services .services-page{grid-template-columns:1fr}
 }
 
 /* =========================
