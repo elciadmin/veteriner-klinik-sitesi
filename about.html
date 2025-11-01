@@ -6,11 +6,10 @@
   <title>Elçi Veteriner Kliniği | Hakkımızda</title>
 
   <!-- SEO -->
-  <meta name="description" content="Konya Elçi Veteriner Kliniği: 7/24 acil, cerrahi, diş sağlığı, iç hastalıkları ve koruyucu hekimlik. Ekibimiz, tesislerimiz ve değerlerimiz.">
+  <meta name="description" content="Elçi Veteriner Kliniği: 7/24 acil, cerrahi, diş sağlığı, iç hastalıkları ve koruyucu hekimlik. Ekibimiz, ilkelerimiz ve kalite metriklerimiz.">
   <meta property="og:title" content="Elçi Veteriner Kliniği | Hakkımızda">
-  <meta property="og:description" content="Konya Elçi Veteriner: Hayvan sağlığında mükemmellik. Ekibimiz, tesislerimiz ve değerlerimiz.">
+  <meta property="og:description" content="Konya Meram’da şeffaf ve kanıta dayalı veterinerlik. Ekibimiz, ilkelerimiz ve kalite metriklerimiz.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=1200&q=80">
 
   <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
@@ -18,126 +17,123 @@
 
   <style>
     :root{
-      --primary-color:#0c4e54; --secondary-color:#0f5960; --accent-color:#69c7b3;
-      --light-color:#f5fbfc; --dark-color:#163036; --white:#fff; --muted:#6b7a7c; --ink:#112;
-      --shadow:0 12px 28px rgba(12,78,84,.14);
-      /* metrics renkleri */
-      --m-brand:#0c4e54; --m-brand2:#0f5960; --m-mint:#69c7b3; --m-ink:#0e2124; --m-muted:#6b7a7c;
+      --brand:#0c4e54; --brand2:#0f5960; --mint:#69c7b3;
+      --ink:#0f1f22; --muted:#6b7a7c; --panel:#ffffff; --bg:#f6fbfc;
+      --line:rgba(12,78,84,.12); --shadow:0 10px 30px rgba(12,78,84,.12);
+      /* Metrics */
+      --m-brand:#0c4e54; --m-brand2:#0f5960; --m-mint:#69c7b3; --m-muted:#6b7a7c;
     }
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:Roboto,system-ui,Segoe UI,Arial,sans-serif;background:#fff;color:#233;line-height:1.6;overflow-x:hidden}
-    h1,h2,h3,h4{font-family:Montserrat,system-ui,Segoe UI,Arial,sans-serif;color:var(--dark-color)}
-    a{color:var(--primary-color);text-decoration:none;transition:.25s}
-    a:hover{color:var(--secondary-color)}
+    html,body{height:100%}
+    body{
+      font-family:Roboto,system-ui,Segoe UI,Arial,sans-serif;
+      color:var(--ink); background:#fff; line-height:1.6; -webkit-font-smoothing:antialiased;
+    }
+    h1,h2,h3,h4{font-family:Montserrat,system-ui,Segoe UI,Arial,sans-serif}
+    a{color:var(--brand); text-decoration:none; transition:color .2s,opacity .2s}
+    a:hover{color:var(--brand2)}
     .container{max-width:1200px;margin:0 auto;padding:0 16px}
 
-    /* === HEADER === */
-    header{position:fixed;inset:0 0 auto 0;z-index:60;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.06)}
-    .header-top{background:var(--primary-color);color:#fff;font-size:14px}
+    /* ===== HEADER ===== */
+    header{position:fixed; inset:0 0 auto 0; z-index:60; background:#fff; border-bottom:1px solid #eef4f4}
+    .header-top{background:var(--brand); color:#fff; font-size:14px}
     .header-top .container{display:flex;justify-content:space-between;align-items:center;padding:6px 16px}
     .header-contact{display:flex;gap:14px;align-items:center}
     .header-contact a{color:#fff;opacity:.95}
     .header-main{padding:12px 0}
-    .header-main .container{display:flex;align-items:center;justify-content:space-between}
-    .logo-text h1{font-size:22px;color:var(--primary-color);margin-bottom:2px}
-    .logo-text span{color:var(--secondary-color);font-size:13px}
+    .header-main .container{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .logo-text h1{font-size:22px;color:var(--brand);margin-bottom:2px;letter-spacing:.2px}
+    .logo-text span{color:var(--brand2);font-size:13px}
     nav ul{display:flex;list-style:none;align-items:center;gap:18px}
-    nav a{color:#1a1a1a;font-weight:600;position:relative;padding:6px 0}
-    nav a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:2px;background:var(--secondary-color);transition:width .25s}
-    nav a:hover::after{width:100%}
-    .mobile-menu-btn{display:none;background:none;border:0;font-size:22px;color:var(--primary-color);cursor:pointer}
+    nav a{color:#0f1f22;font-weight:600;position:relative;padding:6px 0}
+    nav a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--brand2);transition:width .2s}
+    nav a:hover::after, nav a.active::after{width:100%}
+    .mobile-menu-btn{display:none;background:none;border:0;font-size:22px;color:var(--brand);cursor:pointer}
     .dropdown{position:relative}
-    .dropdown-content{position:absolute;top:100%;left:0;min-width:250px;background:#fff;border:1px solid #e8f1f2;border-radius:10px;box-shadow:var(--shadow);padding:10px 8px;display:none}
+    .dropdown-content{
+      position:absolute; top:100%; left:0; min-width:240px; background:#fff;
+      border:1px solid #e8f1f2; border-radius:12px; box-shadow:var(--shadow); padding:8px; display:none
+    }
     .dropdown:hover .dropdown-content{display:block}
-    .dropdown-content a{display:block;padding:10px 12px;border-radius:8px;color:#233}
-    .dropdown-content a:hover{background:#f0f7f7;color:var(--primary-color)}
+    .dropdown-content a{display:block;padding:10px 12px;border-radius:8px;color:#223}
+    .dropdown-content a:hover{background:#eef7f6;color:var(--brand)}
 
-    /* === HERO (fotoğrafsız, sade degrade) === */
-    .hero{ margin-top:86px;
+    /* ===== HERO (fotoğrafsız — kurumsal degrade) ===== */
+    .hero{
+      margin-top:86px;
       background:
-        radial-gradient(1200px 600px at 80% -120px, rgba(255,255,255,.08), transparent 60%),
-        linear-gradient(120deg, rgba(7,58,62,.95), rgba(15,89,96,.92));
+        radial-gradient(1200px 600px at 75% -120px, rgba(255,255,255,.06), transparent 60%),
+        linear-gradient(120deg, #08383c, #0f5960);
       color:#fff;
     }
-    .hero-inner{display:grid;grid-template-columns:1fr;gap:18px;align-items:center;padding:70px 0}
-    .hero h1{font-size:clamp(28px,4.4vw,48px);margin:0 0 10px}
-    .hero-sub{opacity:.92;max-width:720px}
-    .hero-divider{width:90px;height:4px;border-radius:4px;background:#fff;opacity:.85;margin:12px 0}
-    .hero-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:12px;font-weight:700;cursor:pointer;text-decoration:none;border:1px solid var(--primary-color)}
-    .btn.primary{background:#69c7b3;border-color:transparent;color:#08383c}
-    .btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.6)}
+    .hero-inner{display:grid;grid-template-columns:1fr;gap:10px;align-items:center;padding:72px 0}
+    .hero h1{font-size:clamp(28px,4.2vw,46px);letter-spacing:.2px}
+    .hero-sub{opacity:.95;max-width:760px}
+    .hero-divider{width:92px;height:4px;border-radius:4px;background:#ffffff;opacity:.9;margin:14px 0}
+    .hero-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;padding:12px 16px;border-radius:12px;font-weight:700;cursor:pointer;
+      text-decoration:none;border:1px solid rgba(255,255,255,.36); color:#0b3c40; background:#e9f7f3;
+    }
+    .btn.primary{background:#69c7b3; border-color:transparent; color:#08383c}
+    .btn.ghost{background:transparent; color:#fff; border-color:rgba(255,255,255,.45)}
     .btn:hover{transform:translateY(-2px)}
 
-    /* === BREADCRUMB === */
-    .breadcrumb{background:#eaf6f7;border-top:1px solid #d8ecee;border-bottom:1px solid #d8ecee}
+    /* ===== BREADCRUMB ===== */
+    .breadcrumb{background:#f1f8f9; border-top:1px solid #e5f0f1; border-bottom:1px solid #e5f0f1}
     .breadcrumb .container{padding:10px 0}
-    .breadcrumb a{color:#557}
-    .breadcrumb span{color:#7a8}
+    .breadcrumb a{color:#4d6670}
+    .breadcrumb span{color:#81979d}
 
-    /* === BÖLÜMLER === */
-    section{padding:60px 0}
-    .section-title{text-align:center;margin-bottom:34px}
-    .section-title h2{display:inline-block;padding-bottom:12px;position:relative}
-    .section-title h2::after{content:"";position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:90px;height:4px;background:var(--secondary-color);border-radius:3px}
+    /* ===== BASE SECTIONS ===== */
+    section{padding:64px 0}
+    .section-title{text-align:center;margin-bottom:36px}
+    .section-title h2{
+      display:inline-block; padding-bottom:12px; position:relative; letter-spacing:.2px
+    }
+    .section-title h2::after{
+      content:""; position:absolute; left:50%; bottom:0; transform:translateX(-50%);
+      width:88px; height:3px; background:linear-gradient(90deg,var(--brand),var(--mint)); border-radius:3px
+    }
+    .lead{color:#425b61}
 
-    /* Elçi Kimdir (fotoğraf çıkarıldı → tek sütun) */
-    .about-wrap{display:block}
-    .about-content h3{margin:0 0 8px}
-    .about-features{display:grid;gap:12px;margin-top:14px}
-    .feature{display:flex;gap:12px;align-items:flex-start;background:#fbfefe;border:1px solid #e6f1f2;border-radius:12px;padding:12px}
-    .feature .ic{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#0c4e54,#0f5960);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+    /* ===== ELÇİ KİMDİR (fotoğrafsız) ===== */
+    .about-wrap{display:block; max-width:900px; margin:0 auto}
+    .about-content h3{margin:0 0 10px}
+    .about-features{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:14px}
+    .feature{
+      display:flex;gap:12px;align-items:flex-start;background:#ffffff;border:1px solid var(--line);
+      border-radius:14px;padding:12px; box-shadow:0 6px 18px rgba(12,78,84,.06)
+    }
+    .feature .ic{
+      width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;
+      background:linear-gradient(135deg,var(--brand),var(--brand2))
+    }
 
-    /* Klinik (fotoğraf çıkarıldı → sola metin) */
-    .clinic-wrap{display:block}
-    .clinic-list{display:grid;gap:10px;margin-top:12px}
-    .pill{display:flex;gap:10px;align-items:center;background:#fbfefe;border:1px solid #e6f1f2;padding:10px 12px;border-radius:999px;width:max-content}
-    .pill i{color:var(--secondary-color)}
-
-    /* Ekip */
-    .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .member{background:#fff;border:1px solid #e9f1f2;border-radius:16px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.04);transition:transform .25s}
-    .member:hover{transform:translateY(-6px)}
-    .member .ph{aspect-ratio:4/3;background:#f3f7f8}
-    .member .info{padding:14px}
-    .member .role{color:var(--secondary-color);font-weight:700;margin-bottom:4px}
-    @media(max-width:980px){.team-grid{grid-template-columns:1fr}}
-
-    /* Misyon & Vizyon */
-    .mv-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    .mv-card{background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;box-shadow:0 8px 20px rgba(0,0,0,.04);text-align:center}
-    .mv-card i{color:var(--secondary-color);font-size:32px;margin-bottom:8px}
-    @media(max-width:980px){.mv-grid{grid-template-columns:1fr}}
-
-    /* Değerler */
-    .values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .value{background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.04)}
-    .value .vi{width:56px;height:56px;border-radius:50%;margin:0 auto 10px;background:#e7f3f4;color:#0b4a50;display:flex;align-items:center;justify-content:center;font-size:22px}
-    @media(max-width:980px){.values-grid{grid-template-columns:1fr}}
-
-    /* Testimonials */
-    .testimonials{background:linear-gradient(180deg,#f7fbfb,#f3fafb)}
-    .t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .t-card{background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:16px;box-shadow:0 8px 20px rgba(0,0,0,.04)}
-    .t-author{display:flex;gap:10px;align-items:center;margin-top:10px}
-    .t-author img{width:42px;height:42px;border-radius:50%;object-fit:cover}
-    @media(max-width:980px){.t-grid{grid-template-columns:1fr}}
-
-    /* === METRICS (ön izleme) === */
-    .metrics{padding:56px 0;background:linear-gradient(180deg,#f5fbfc 0%, #f1f9f8 100%)}
-    .metrics-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
-    .preview-badge{font-weight:700;font-size:12px;color:#0a3b40;background:#d9f3ee;border:1px solid #bfe8dd;border-radius:999px;padding:6px 10px}
-    .metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:22px}
-    .m-card{background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.76));
-      border:1px solid rgba(12,78,84,.12); border-radius:16px; padding:16px; box-shadow:0 8px 20px rgba(12,78,84,.08); transition:.35s; opacity:0; transform:translateY(12px)}
-    .m-card.show{opacity:1;transform:none}
-    .m-card:hover{transform:translateY(-6px);box-shadow:0 16px 36px rgba(12,78,84,.15)}
+    /* ===== METRICS (profesyonel pano) ===== */
+    .metrics{background:linear-gradient(180deg,#f6fbfc 0%, #f1f9f8 100%)}
+    .metrics-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+    .metrics-sub{color:#67848a;margin-top:6px}
+    .metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:22px}
+    .m-card{
+      background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,255,255,.85));
+      border:1px solid var(--line); border-radius:16px; padding:16px;
+      box-shadow:0 8px 24px rgba(12,78,84,.10); transition:transform .25s, box-shadow .25s, opacity .5s, translate .5s;
+      opacity:0; translate:0 10px;
+    }
+    .m-card.show{opacity:1; translate:0 0}
+    .m-card:hover{transform:translateY(-4px); box-shadow:0 14px 36px rgba(12,78,84,.16)}
     .m-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-    .m-title{font-weight:800;color:#143}
-    .m-ico{width:36px;height:36px;border-radius:10px;color:#fff;display:grid;place-items:center;
-      background:linear-gradient(135deg,var(--m-brand),var(--m-brand2));position:relative;overflow:hidden}
-    .m-ico:after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,.5),transparent);transform:translateX(-120%);animation:metricsShine 3.2s infinite}
-    @keyframes metricsShine{to{transform:translateX(120%)}}
+    .m-title{font-weight:800;color:#133b3f}
+    .m-ico{
+      width:36px;height:36px;border-radius:10px;color:#fff;display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--m-brand),var(--m-brand2)); position:relative; overflow:hidden
+    }
+    .m-ico:after{
+      content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,.5),transparent);
+      transform:translateX(-120%); animation:mShine 3.2s linear infinite
+    }
+    @keyframes mShine{to{transform:translateX(120%)}}
     .m-num{font:900 clamp(22px,4vw,32px)/1 Roboto,system-ui;color:var(--m-brand)}
     .m-unit{font-weight:700;color:var(--m-muted);margin-left:4px}
     .m-progress{height:8px;border-radius:8px;background:#eaf3f3;overflow:hidden;margin-top:10px}
@@ -147,7 +143,53 @@
     .m-bg{stroke:#e6f0f1}
     .m-fg{stroke:url(#m-grad);stroke-linecap:round;transition:stroke-dashoffset 1.2s ease}
 
-    /* Footer (kısa) */
+    /* ===== EKİP ===== */
+    .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .member{
+      background:#fff; border:1px solid var(--line); border-radius:16px; overflow:hidden;
+      box-shadow:0 8px 20px rgba(0,0,0,.05); transition:transform .2s, box-shadow .2s
+    }
+    .member:hover{transform:translateY(-6px); box-shadow:0 12px 28px rgba(0,0,0,.08)}
+    .member .ph{aspect-ratio:4/3; background:#f3f7f8}
+    .member .info{padding:14px}
+    .member .role{color:var(--brand2);font-weight:700;margin-bottom:4px}
+    @media(max-width:980px){.team-grid{grid-template-columns:1fr}}
+
+    /* ===== KLİNİK (fotoğrafsız) ===== */
+    .clinic-wrap{display:block; max-width:900px; margin:0 auto}
+    .clinic-list{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .pill{
+      display:flex;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);padding:10px 12px;border-radius:999px
+    }
+    .pill i{color:var(--brand2)}
+
+    /* ===== MİSYON & VİZYON ===== */
+    .mv-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .mv-card{
+      background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 8px 20px rgba(0,0,0,.04);text-align:center
+    }
+    .mv-card i{color:var(--brand2);font-size:32px;margin-bottom:8px}
+    @media(max-width:980px){.mv-grid{grid-template-columns:1fr}}
+
+    /* ===== DEĞERLER ===== */
+    .values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .value{
+      background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.04)
+    }
+    .value .vi{
+      width:56px;height:56px;border-radius:50%;margin:0 auto 10px;background:#e7f3f4;color:#0b4a50;display:flex;align-items:center;justify-content:center;font-size:22px
+    }
+    @media(max-width:980px){.values-grid{grid-template-columns:1fr}}
+
+    /* ===== TESTIMONIALS ===== */
+    .testimonials{background:linear-gradient(180deg,#f7fbfb,#f3fafb)}
+    .t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .t-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 8px 20px rgba(0,0,0,.04)}
+    .t-author{display:flex;gap:10px;align-items:center;margin-top:10px}
+    .t-author img{width:42px;height:42px;border-radius:50%;object-fit:cover}
+    @media(max-width:980px){.t-grid{grid-template-columns:1fr}}
+
+    /* ===== FOOTER ===== */
     footer{background:linear-gradient(135deg,#0c3a42,#0f5960);color:#fff;padding:56px 0 0}
     .footer-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-bottom:40px}
     .footer-col h3{margin:0 0 12px}
@@ -157,7 +199,7 @@
     .footer-links a:hover{opacity:1;color:#69c7b3;padding-left:6px}
     .footer-bottom{background:rgba(0,0,0,.25);padding:16px 0;text-align:center;font-size:14px}
 
-    /* Responsive nav */
+    /* ===== RESPONSIVE NAV ===== */
     @media(max-width:992px){
       .mobile-menu-btn{display:block}
       nav ul{position:absolute;left:0;right:0;top:100%;background:#fff;flex-direction:column;gap:0;display:none;border-top:1px solid #eef4f4}
@@ -172,7 +214,7 @@
 </head>
 <body>
 
-  <!-- Header -->
+  <!-- ===== HEADER ===== -->
   <header>
     <div class="header-top">
       <div class="container">
@@ -244,14 +286,14 @@
     </div>
   </header>
 
-  <!-- HERO (fotoğrafsız) -->
+  <!-- ===== HERO ===== -->
   <section class="hero">
     <div class="container hero-inner">
       <div class="hero-copy">
         <h1>Biz Kimiz? Güvenilir, Şefkatli ve Bilimsel.</h1>
         <div class="hero-divider" role="presentation"></div>
         <p class="hero-sub">
-          2013’ten bu yana Konya’da evcil dostlarınız için; etik ilkelere bağlı, teknolojik altyapılı ve şeffaf bir veterinerlik yaklaşımı sunuyoruz.
+          2013’ten bu yana Konya’da evcil dostlarınız için; etik ilkelere bağlı, teknolojik altyapılı ve şeffaf bir veterinerlik anlayışı sunuyoruz.
         </p>
         <div class="hero-cta">
           <a class="btn primary" href="hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i> Randevu Al</a>
@@ -261,7 +303,7 @@
     </div>
   </section>
 
-  <!-- BREADCRUMB -->
+  <!-- ===== BREADCRUMB ===== -->
   <div class="breadcrumb" aria-label="İçerik yolu">
     <div class="container">
       <a href="index.html">Ana Sayfa</a>
@@ -270,12 +312,12 @@
     </div>
   </div>
 
-  <!-- ELÇİ KİMDİR (fotoğraf yok) -->
+  <!-- ===== ELÇİ KİMDİR ===== -->
   <section id="elci-kimdir">
     <div class="container">
       <div class="section-title">
         <h2>Elçi Kimdir?</h2>
-        <p>Kurucumuz Veteriner Hekim Mehmet Elçi’nin yolculuğu</p>
+        <p class="lead">Kurucumuz Veteriner Hekim Mehmet Elçi’nin yolculuğu</p>
       </div>
 
       <div class="about-wrap">
@@ -303,17 +345,18 @@
     </div>
   </section>
 
-  <!-- BAŞARI İSTATİSTİKLERİ (ÖN İZLEME) -->
+  <!-- ===== BAŞARI METRİKLERİ ===== -->
   <section class="metrics" id="basarilar">
     <div class="container">
       <div class="metrics-head">
-        <h2>Kliniğimizin Başarıları</h2>
-        <span class="preview-badge" title="Ön izleme verileri gösteriliyor">Ön İzleme Verileri</span>
+        <div>
+          <h2>Kalite Metrikleri</h2>
+          <div class="metrics-sub">Klinik performansımızı düzenli izler, şeffaf şekilde paylaşırız.</div>
+        </div>
       </div>
-      <p style="color:var(--m-muted);margin-top:6px">Hasta sahipleri için güncel ve anlaşılır klinik performans verileri.</p>
 
       <div class="metrics-grid" id="metricsGrid">
-        <!-- KPI 1 -->
+        <!-- 1) Ortalama Bekleme Süresi -->
         <article class="m-card" data-kind="kpi" data-key="avg_wait_time" data-suffix=" dk" data-progress="80">
           <div class="m-head">
             <div class="m-title">Ortalama Bekleme Süresi</div>
@@ -323,7 +366,7 @@
           <div class="m-progress"><div class="m-bar"></div></div>
         </article>
 
-        <!-- KPI 2 -->
+        <!-- 2) Bu Ay Sonuçlandırılan Vaka -->
         <article class="m-card" data-kind="kpi" data-key="monthly_exams_total" data-suffix=" vaka" data-progress="60">
           <div class="m-head">
             <div class="m-title">Bu Ay Sonuçlandırılan Vaka</div>
@@ -333,7 +376,7 @@
           <div class="m-progress"><div class="m-bar"></div></div>
         </article>
 
-        <!-- Donut -->
+        <!-- 3) Aşı Programı Tamamlama -->
         <article class="m-card" data-kind="donut" data-key="vaccine_completion_rate" data-suffix="%">
           <div class="m-head">
             <div class="m-title">Aşı Programı Tamamlama</div>
@@ -353,7 +396,7 @@
           </div>
         </article>
 
-        <!-- Gauge -->
+        <!-- 4) Memnuniyet Skoru -->
         <article class="m-card" data-kind="gauge" data-key="satisfaction_score" data-max="5">
           <div class="m-head">
             <div class="m-title">Memnuniyet Skoru</div>
@@ -368,7 +411,7 @@
           </div>
         </article>
 
-        <!-- KPI 3 -->
+        <!-- 5) İlk Ziyarette Çözüm -->
         <article class="m-card" data-kind="kpi" data-key="first_visit_resolution_rate" data-suffix="%" data-progress="93">
           <div class="m-head">
             <div class="m-title">İlk Ziyarette Çözüm</div>
@@ -378,7 +421,7 @@
           <div class="m-progress"><div class="m-bar"></div></div>
         </article>
 
-        <!-- KPI 4 -->
+        <!-- 6) Lab Sonuç Süresi -->
         <article class="m-card" data-kind="kpi" data-key="lab_result_time" data-suffix=" dk" data-progress="80">
           <div class="m-head">
             <div class="m-title">Laboratuvar Sonuç Süresi</div>
@@ -388,7 +431,7 @@
           <div class="m-progress"><div class="m-bar"></div></div>
         </article>
 
-        <!-- KPI 5 -->
+        <!-- 7) El Uzattığımız Hayvanlar -->
         <article class="m-card" data-kind="kpi" data-key="outreach_animals_total" data-suffix=" hayvan" data-progress="50">
           <div class="m-head">
             <div class="m-title">El Uzattığımız Hayvanlar</div>
@@ -398,7 +441,7 @@
           <div class="m-progress"><div class="m-bar"></div></div>
         </article>
 
-        <!-- KPI 6 -->
+        <!-- 8) İyileşme Süresi -->
         <article class="m-card" data-kind="kpi" data-key="avg_recovery_days" data-suffix=" gün" data-progress="70">
           <div class="m-head">
             <div class="m-title">İyileşme Süresi Ortalama</div>
@@ -411,12 +454,12 @@
     </div>
   </section>
 
-  <!-- EKİP -->
+  <!-- ===== EKİP ===== -->
   <section id="ekibimiz">
     <div class="container">
       <div class="section-title">
         <h2>Uzman Ekibimiz</h2>
-        <p>Deneyimli hekimler, koordineli ekip</p>
+        <p class="lead">Deneyimli hekimler, koordineli ekip</p>
       </div>
 
       <div class="team-grid">
@@ -448,12 +491,12 @@
     </div>
   </section>
 
-  <!-- KLİNİK (fotoğraf yok) -->
+  <!-- ===== KLİNİK ===== -->
   <section id="klinik">
     <div class="container">
       <div class="section-title">
         <h2>Kliniğimiz</h2>
-        <p>Modern teknoloji ve hayvan dostu tasarım</p>
+        <p class="lead">Modern teknoloji ve hayvan dostu tasarım</p>
       </div>
 
       <div class="clinic-wrap">
@@ -471,12 +514,12 @@
     </div>
   </section>
 
-  <!-- MİSYON & VİZYON -->
+  <!-- ===== MİSYON & VİZYON ===== -->
   <section id="misyon-vizyon">
     <div class="container">
       <div class="section-title">
         <h2>Misyon & Vizyon</h2>
-        <p>İlkelerimiz ve hedeflerimiz</p>
+        <p class="lead">İlkelerimiz ve hedeflerimiz</p>
       </div>
       <div class="mv-grid">
         <div class="mv-card">
@@ -493,12 +536,12 @@
     </div>
   </section>
 
-  <!-- DEĞERLER -->
+  <!-- ===== DEĞERLER ===== -->
   <section id="degerler">
     <div class="container">
       <div class="section-title">
         <h2>Değerlerimiz</h2>
-        <p>Güven, şeffaflık ve sürekli gelişim</p>
+        <p class="lead">Güven, şeffaflık ve sürekli gelişim</p>
       </div>
       <div class="values-grid">
         <div class="value">
@@ -520,12 +563,12 @@
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
+  <!-- ===== TESTIMONIALS ===== -->
   <section class="testimonials">
     <div class="container">
       <div class="section-title">
         <h2>Müşteri Görüşleri</h2>
-        <p>Hasta sahiplerinden seçili yorumlar</p>
+        <p class="lead">Hasta sahiplerinden seçili yorumlar</p>
       </div>
       <div class="t-grid">
         <article class="t-card">
@@ -553,7 +596,7 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- ===== FOOTER ===== -->
   <footer>
     <div class="container footer-container">
       <div class="footer-col">
@@ -606,7 +649,7 @@
     </div>
   </footer>
 
-  <!-- JS: Menü, yıl, METRICS ÖN İZLEME -->
+  <!-- ===== JS: Menü, Yıl, METRİKLER ===== -->
   <script>
     // Mobile menu
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
@@ -621,12 +664,12 @@
     // Yıl
     document.getElementById('yil').textContent = new Date().getFullYear();
 
-    // === METRICS ÖN İZLEME ===
+    // ===== METRİKLER (animasyon + varsayılan değerler) =====
     (function(){
       const ELs = document.querySelectorAll('.metrics .m-card');
       if(!ELs.length) return;
 
-      // Ön izleme (fallback) veriler
+      // Varsayılan veriler (sonra backend ile üzerine yazılabilir)
       const DATA = {
         avg_wait_time: 12,
         monthly_exams_total: 2448,
@@ -649,17 +692,17 @@
         }
         requestAnimationFrame(step);
       }
-      function fillBar(el, pct){ const bar = el.querySelector('.m-bar'); if(bar) setTimeout(()=>bar.style.width=(pct||0)+'%', 300); }
+      function fillBar(el, pct){ const bar = el.querySelector('.m-bar'); if(bar) setTimeout(()=>bar.style.width=(pct||0)+'%', 260); }
       function donut(el, pct){
         const c = el.querySelector('.m-fg'); if(!c) return;
         const r = +c.getAttribute('r'); const len = 2*Math.PI*r; const txt = el.querySelector('text');
-        setTimeout(()=>{ c.style.strokeDashoffset = (len - (len*(pct||0)/100)); if(txt) txt.textContent = (pct||0)+'%'; }, 350);
+        setTimeout(()=>{ c.style.strokeDashoffset = (len - (len*(pct||0)/100)); if(txt) txt.textContent = (pct||0)+'%'; }, 300);
       }
       function gauge(el, score, max=5){
         const c = el.querySelector('.m-fg'); if(!c) return;
         const r = +c.getAttribute('r'); const arcLen = 2*Math.PI*r*0.75;
         const pct = Math.max(0, Math.min(100, (score/max)*100)); const txt = el.querySelector('text');
-        setTimeout(()=>{ c.style.strokeDashoffset = arcLen - (arcLen*pct/100); if(txt) txt.textContent = score.toFixed(1)+'/'+max; }, 350);
+        setTimeout(()=>{ c.style.strokeDashoffset = arcLen - (arcLen*pct/100); if(txt) txt.textContent = score.toFixed(1)+'/'+max; }, 300);
       }
       function applyData(data){
         ELs.forEach(card=>{
@@ -673,7 +716,8 @@
           else if(kind==='gauge'){ gauge(card, Number(val||0), Number(card.dataset.max||5)); }
         });
       }
-      // Sayfaya girince direkt ön izleme verilerini uygula
+
+      // Sayfa yüklendiğinde uygula (istersen burada fetch ile canlı veri çekebilirsin)
       applyData(DATA);
     })();
   </script>
