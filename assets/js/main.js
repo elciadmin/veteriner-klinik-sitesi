@@ -1,7 +1,7 @@
 /* =========================================================================
-   Elçi Veteriner — Ana JS (v17)
+   Elçi Veteriner — Ana JS (v17→v17.1)
    - Header: mobil menü + aktif link
-   - Services: scroll-in animasyon + sayfalama (gerekirse)
+   - Services: 6'lı sayfa kaydırma + scroll-in animasyon
    - Instagram: yavaş şerit + rastgele highlight (json/fn fallback)
    - Google Yorumları: 8’li rotator
    - YouTube: 3’lü şerit, 7 sn’de 2-3-4
@@ -56,9 +56,81 @@
     });
   })();
 
-  // ---- SERVICES: scroll-in
+  // ---- SERVICES: 6'lı sayfa kaydırma
+  (function initServicesPager(){
+    // Hem id, hem class ile uyumlu olsun
+    const grid = document.getElementById("servicesGrid") || $("#services .services-grid");
+    if(!grid) return;
+
+    const cards = Array.from(grid.children);
+    const perPage = 6;
+    const pages = Math.ceil(cards.length / perPage);
+    if(pages <= 1) return; // 6 veya daha az kart varsa sayfalama yapma
+
+    // Yeni yapı
+    const viewport = document.createElement('div');
+    viewport.className = 'services-viewport';
+
+    const rail = document.createElement('div');
+    rail.className = 'services-rail';
+
+    for(let p=0; p<pages; p++){
+      const page = document.createElement('div');
+      page.className = 'services-page';
+      cards.slice(p*perPage, (p+1)*perPage).forEach(el => page.appendChild(el));
+      rail.appendChild(page);
+    }
+
+    viewport.appendChild(rail);
+    grid.replaceWith(viewport);
+
+    // Navigasyon butonları
+    const prev = document.createElement('button');
+    prev.className = 'svc-nav svc-prev';
+    prev.setAttribute('aria-label','Önceki hizmetler');
+    prev.innerHTML = '<i class="fa-solid fa-chevron-left" aria-hidden="true"></i>';
+
+    const next = document.createElement('button');
+    next.className = 'svc-nav svc-next';
+    next.setAttribute('aria-label','Sonraki hizmetler');
+    next.innerHTML = '<i class="fa-solid fa-chevron-right" aria-hidden="true"></i>';
+
+    viewport.appendChild(prev);
+    viewport.appendChild(next);
+
+    let index = 0;
+    const update = () => {
+      rail.style.transform = `translateX(-${index*100}%)`;
+      prev.disabled = index === 0;
+      next.disabled = index === pages - 1;
+    };
+
+    prev.addEventListener('click', () => { if(index>0){ index--; update(); }});
+    next.addEventListener('click', () => { if(index<pages-1){ index++; update(); }});
+
+    // Dokunmatik/masaüstü sürükle-kaydır
+    let startX = 0, dragging = false, pid = null;
+    viewport.addEventListener('pointerdown', (e)=>{
+      dragging=true; startX=e.clientX; pid=e.pointerId; viewport.setPointerCapture(pid);
+    });
+    viewport.addEventListener('pointerup', (e)=>{
+      if(!dragging) return;
+      dragging=false;
+      const dx = e.clientX - startX;
+      if(Math.abs(dx) > 50){
+        if(dx < 0 && index < pages-1) index++;
+        if(dx > 0 && index > 0) index--;
+        update();
+      }
+      try{ viewport.releasePointerCapture(pid); }catch(_){}
+    });
+
+    update();
+  })();
+
+  // ---- SERVICES: scroll-in (yeni yapıya uyumlu)
   (function initServicesIn(){
-    const cards = $$("#servicesGrid .s-card");
+    const cards = $$("#services .s-card");
     if(!cards.length) return;
     if(!("IntersectionObserver" in window)){ cards.forEach(c=>c.classList.add("show")); return; }
     const io = new IntersectionObserver((entries)=>{
@@ -128,7 +200,7 @@
     function tick(){
       if(!playing) return;
       pos -= STEP;
-      track.style.transform = `translate3d(${pos}px,0,0)`;
+      track.style.transform = `translate3d(${pos}px,0,0)`; 
       const first = track.firstElementChild;
       if(!first) return;
       const firstW = first.getBoundingClientRect().width + 12;
