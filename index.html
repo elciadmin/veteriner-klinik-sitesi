@@ -144,72 +144,99 @@
     </div>
   </section>
 
-  <!-- HİZMETLER (3 ÜSTTE + 3 ALTA) -->
-  <section id="services">
+  <!-- HİZMETLER — GENİŞ KARTLAR + YATAY KAYDIRMA -->
+  <section id="services" class="services">
     <div class="container">
-      <h2>Hizmetlerimiz</h2>
+      <div class="srv-head">
+        <h2>Hizmetlerimiz</h2>
+        <div class="srv-arrows" aria-label="Hizmetler arasında gezin">
+          <button class="srv-btn" id="srvPrev" aria-label="Geri"><i class="fa-solid fa-chevron-left"></i></button>
+          <button class="srv-btn" id="srvNext" aria-label="İleri"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+      </div>
 
-      <div class="services-grid" id="servicesGrid">
-        <article class="s-card" id="acil">
-          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-shield-cross"/></svg></span>
-          <h3 class="s-title">Acil & Yoğun Bakım</h3>
-          <p class="s-text">Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat takip.</p>
-        </article>
+      <div class="srv-view" id="srvView" tabindex="0" aria-label="Yatay kaydırılabilir hizmet kartları">
+        <div class="services-track" id="servicesTrack">
+          <!-- 1 -->
+          <article class="s-card" id="acil">
+            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-shield-cross"/></svg></span>
+            <h3 class="s-title">Acil & Yoğun Bakım</h3>
+            <p class="s-text">Şok yönetimi, sıvı tedavisi, oksijen kafesi, 24 saat monitorizasyon ve ağrı kontrolü. Acil triaj ile hızlı müdahale.</p>
+            <a class="s-link" href="/hizmetler.html#acil">Detaylı Bilgi</a>
+          </article>
 
-        <article class="s-card" id="koruyucu">
-          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-stethoscope"/></svg></span>
-          <h3 class="s-title">Muayene & Koruyucu</h3>
-          <p class="s-text">Aşı programı, parazit kontrolü, mikroçip ve düzenli check-up.</p>
-        </article>
+          <!-- 2 -->
+          <article class="s-card" id="koruyucu">
+            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-stethoscope"/></svg></span>
+            <h3 class="s-title">Muayene & Koruyucu</h3>
+            <p class="s-text">Aşı planı, parazit kontrolü, mikroçip ve check-up paketleri. Erken tanı ile sağlıklı yaşam.</p>
+            <a class="s-link" href="/hizmetler.html#koruyucu">Detaylı Bilgi</a>
+          </article>
 
-        <article class="s-card" id="ic-hastaliklari">
-          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-clipboard"/></svg></span>
-          <h3 class="s-title">İç Hastalıkları</h3>
-          <p class="s-text">Hemogram, biyokimya, hormon, idrar analizi ve tanısal yaklaşım.</p>
-        </article>
+          <!-- 3 -->
+          <article class="s-card" id="ic-hastaliklari">
+            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-clipboard"/></svg></span>
+            <h3 class="s-title">İç Hastalıkları</h3>
+            <p class="s-text">Hemogram, biyokimya, hormon, idrar analizi ve görüntüleme ile sistematik tanı yaklaşımı.</p>
+            <a class="s-link" href="/hizmetler.html#ic-hastaliklari">Detaylı Bilgi</a>
+          </article>
 
-        <article class="s-card" id="cerrahi">
-          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-scissors"/></svg></span>
-          <h3 class="s-title">Cerrahi</h3>
-          <p class="s-text">Yumuşak doku, ortopedi, sterilizasyon ve ağrı yönetimi.</p>
-        </article>
+          <!-- 4 -->
+          <article class="s-card" id="cerrahi">
+            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-scissors"/></svg></span>
+            <h3 class="s-title">Cerrahi</h3>
+            <p class="s-text">Yumuşak doku, ortopedi, sterilizasyon. Pre-op risk değerlendirme ve post-op ağrı yönetimi.</p>
+            <a class="s-link" href="/hizmetler.html#cerrahi">Detaylı Bilgi</a>
+          </article>
 
-        <article class="s-card" id="agiz-dis">
-          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-tooth-clean"/></svg></span>
-          <h3 class="s-title">Ağız & Diş Sağlığı</h3>
-          <p class="s-text">Diş taşı temizliği, çekim, periodontal tedaviler ve dental röntgen.</p>
-        </article>
+          <!-- 5 -->
+          <article class="s-card" id="agiz-dis">
+            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-tooth-clean"/></svg></span>
+            <h3 class="s-title">Ağız & Diş Sağlığı</h3>
+            <p class="s-text">Diş taşı temizliği, çekimler, periodontal tedaviler ve dental röntgen ile kapsamlı ağız bakımı.</p>
+            <a class="s-link" href="/hizmetler.html#agiz-dis">Detaylı Bilgi</a>
+          </article>
 
-        <article class="s-card" id="goruntuleme-lab">
-          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-xray"/></svg></span>
-          <h3 class="s-title">Görüntüleme & Lab</h3>
-          <p class="s-text">Röntgen, ultrason, FAST, EKG, sitoloji ve hızlı testler.</p>
-        </article>
+          <!-- 6 -->
+          <article class="s-card" id="goruntuleme-lab">
+            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-xray"/></svg></span>
+            <h3 class="s-title">Görüntüleme & Lab</h3>
+            <p class="s-text">Röntgen, ultrason, FAST, EKG, sitoloji ve hızlı testler ile aynı gün sonuç.</p>
+            <a class="s-link" href="/hizmetler.html#goruntuleme-lab">Detaylı Bilgi</a>
+          </article>
 
-        <!-- Diğer kartlar HTML'de kalsa da CSS ile gizlenecek -->
-        <article class="s-card" id="kardiyoloji">
-          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-ecg"/></svg></span>
-          <h3 class="s-title">Kardiyoloji</h3>
-          <p class="s-text">Kalp muayenesi, EKG değerlendirmesi ve tedavi takibi.</p>
-        </article>
+          <!-- 7 -->
+          <article class="s-card" id="kardiyoloji">
+            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-ecg"/></svg></span>
+            <h3 class="s-title">Kardiyoloji</h3>
+            <p class="s-text">Kalp muayenesi, EKG değerlendirmesi, tedavi ve düzenli takip planlaması.</p>
+            <a class="s-link" href="/hizmetler.html#kardiyoloji">Detaylı Bilgi</a>
+          </article>
 
-        <article class="s-card" id="dogum-jinekoloji">
-          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-repro"/></svg></span>
-          <h3 class="s-title">Doğum & Jinekoloji</h3>
-          <p class="s-text">Gebelik takibi, doğum desteği, sezaryen ve jinekolojik tedaviler.</p>
-        </article>
+          <!-- 8 -->
+          <article class="s-card" id="dogum-jinekoloji">
+            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-repro"/></svg></span>
+            <h3 class="s-title">Doğum & Jinekoloji</h3>
+            <p class="s-text">Gebelik takibi, doğum desteği, sezaryen; jinekolojik muayene ve tedaviler.</p>
+            <a class="s-link" href="/hizmetler.html#dogum-jinekoloji">Detaylı Bilgi</a>
+          </article>
 
-        <article class="s-card" id="fizik-tedavi">
-          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-pt"/></svg></span>
-          <h3 class="s-title">Fizik Tedavi & Rehabilitasyon</h3>
-          <p class="s-text">Ortopedik/nörolojik rehabilitasyon, ağrı kontrolü, ev egzersiz planı.</p>
-        </article>
+          <!-- 9 -->
+          <article class="s-card" id="fizik-tedavi">
+            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-pt"/></svg></span>
+            <h3 class="s-title">Fizik Tedavi & Rehabilitasyon</h3>
+            <p class="s-text">Ortopedik/nörolojik rehabilitasyon, ağrı kontrolü, ev egzersiz programları.</p>
+            <a class="s-link" href="/hizmetler.html#fizik-tedavi">Detaylı Bilgi</a>
+          </article>
 
-        <article class="s-card" id="konaklama">
-          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-boarding"/></svg></span>
-          <h3 class="s-title">Konaklama & Özel Bakım</h3>
-          <p class="s-text">Veteriner gözetiminde konaklama, izole ünite ve yoğun destek.</p>
-        </article>
+          <!-- 10 -->
+          <article class="s-card" id="konaklama">
+            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-boarding"/></svg></span>
+            <h3 class="s-title">Konaklama & Özel Bakım</h3>
+            <p class="s-text">Veteriner gözetiminde konaklama, izole ünite ve yoğun destek imkanları.</p>
+            <a class="s-link" href="/hizmetler.html#konaklama">Detaylı Bilgi</a>
+          </article>
+        </div>
       </div>
 
       <div class="cta-bar">
@@ -365,34 +392,87 @@
   <!-- Tek JS dosyası -->
   <script defer src="/assets/js/main.js?v=17"></script>
 
-  <!-- === HİZMETLER 3x2 GRID OVERRIDE === -->
+  <!-- ===== HİZMETLER yatay kaydırma için küçük CSS ===== -->
   <style>
-    /* Masaüstünde 3 sütun, tablette 2, mobilde 1 sütun */
-    #services .services-grid{
-      display:grid !important;
-      grid-template-columns: repeat(3, minmax(0,1fr)) !important;
-      gap:18px !important;
-      align-items:stretch;
+    /* Başlık + oklar */
+    .services .srv-head{
+      display:flex;align-items:center;justify-content:space-between;margin-bottom:12px
     }
-    /* Sadece ilk 6 kartı göster (3 üstte + 3 altta) */
-    #services .services-grid .s-card:nth-child(n+7){
-      display:none !important;
+    .services .srv-arrows{display:flex;gap:8px}
+    .services .srv-btn{
+      width:38px;height:38px;border:1px solid rgba(0,0,0,.08);background:#fff;border-radius:10px;
+      display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+      box-shadow:0 2px 8px rgba(0,0,0,.06)
     }
-    @media (max-width: 1024px){
-      #services .services-grid{ grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+    .services .srv-btn:disabled{opacity:.35;cursor:not-allowed}
+
+    /* Görünüm alanı + track */
+    .services .srv-view{
+      position:relative;overflow:auto;scroll-snap-type:x mandatory;
+      -webkit-overflow-scrolling:touch;padding-bottom:6px
     }
+    .services .services-track{
+      display:flex;gap:16px;align-items:stretch;
+    }
+
+    /* Geniş kartlar */
+    .services .s-card{
+      flex:0 0 360px; /* KART ENİ: burayı 340–420px arasında değiştirebiliriz */
+      scroll-snap-align:start;
+      background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:18px;padding:18px;
+      box-shadow:0 6px 24px rgba(0,0,0,.05);display:flex;flex-direction:column;gap:8px
+    }
+    .services .s-icon{font-size:0}
+    .services .s-icon svg{width:28px;height:28px}
+    .services .s-title{font-size:18px;margin:2px 0 4px}
+    .services .s-text{color:#556167;line-height:1.5}
+    .services .s-link{margin-top:auto;font-weight:600;color:var(--accent,#10b3d1);text-decoration:none}
+
+    /* Mobilde biraz daralt */
     @media (max-width: 640px){
-      #services .services-grid{ grid-template-columns: 1fr !important; }
+      .services .s-card{flex-basis:80vw}
     }
   </style>
+
+  <!-- ===== HİZMETLER okları için küçük JS ===== -->
+  <script>
+    (function(){
+      const view = document.getElementById('srvView');
+      const track = document.getElementById('servicesTrack');
+      const prev = document.getElementById('srvPrev');
+      const next = document.getElementById('srvNext');
+
+      if(!view || !track || !prev || !next) return;
+
+      function pageSize(){
+        // Görünür alanın ~%90'ı kadar kaydır
+        return Math.max(240, Math.floor(view.clientWidth * 0.9));
+      }
+      function updateButtons(){
+        const maxScroll = track.scrollWidth - view.clientWidth - 2;
+        prev.disabled = view.scrollLeft <= 4;
+        next.disabled = view.scrollLeft >= maxScroll;
+      }
+      prev.addEventListener('click', ()=>{ view.scrollBy({left:-pageSize(), behavior:'smooth'}); });
+      next.addEventListener('click', ()=>{ view.scrollBy({left: pageSize(), behavior:'smooth'}); });
+      view.addEventListener('scroll', updateButtons);
+      window.addEventListener('resize', updateButtons);
+      // Mouse wheel ile yatay kaydırmayı kolaylaştır
+      view.addEventListener('wheel', (e)=>{
+        if(Math.abs(e.deltaX) < Math.abs(e.deltaY)){
+          view.scrollLeft += e.deltaY;
+          e.preventDefault();
+        }
+      }, {passive:false});
+      // İlk durum
+      updateButtons();
+    })();
+  </script>
 
   <!-- === SVG ICON SPRITE (inline; tüm <use href="#..."> çağrılarını besler) === -->
   <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute; width:0; height:0; overflow:hidden">
     <defs>
-      <style>
-        .i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-        .i-solid{fill:currentColor;stroke:none}
-      </style>
+      <style>.i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.i-solid{fill:currentColor;stroke:none}</style>
     </defs>
 
     <!-- Paws / Branşlar -->
