@@ -11,12 +11,20 @@
   <meta property="og:description" content="Konya Elçi Veteriner: Hayvan sağlığında mükemmellik. Ekibimiz, tesislerimiz ve değerlerimiz.">
   <meta property="og:type" content="website">
 
-  <!-- Yalnız site genel CSS + FA (index ile aynı) -->
+  <!-- Global CSS + Icons -->
   <link rel="stylesheet" href="/assets/css/styles.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <!-- Sayfaya özel: yalnız METRICS ve REVIEWS için küçük stiller (hero/başlık tipografisine karışmaz) -->
+  <!-- Sayfaya özel minik kozmetik -->
   <style>
+    /* Gövde modern dokunuşlar */
+    .breadcrumb{background:linear-gradient(180deg,#f7fbfc,#fff); border-top:1px solid #eaf2f3; border-bottom:1px solid #eaf2f3; font-size:14px}
+    .breadcrumb .container{display:flex; gap:8px; align-items:center; padding:10px 16px}
+    .breadcrumb a{color:#0c4e54; font-weight:700}
+    .section-title{margin:0 0 14px}
+    .section-title h2{margin:0; font-size:clamp(22px,3.6vw,30px)}
+    .section-title p{margin:6px 0 0; color:#476265}
+
     /* ====== METRICS (istatistikler) ====== */
     .metrics{padding:56px 0;background:linear-gradient(180deg,#f5fbfc 0%, #f1f9f8 100%)}
     .metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:22px}
@@ -33,7 +41,16 @@
     .m-donut,.m-gauge{display:flex;justify-content:center;margin-top:8px}
     .m-donut svg,.m-gauge svg{width:110px;height:110px}
 
-    /* ====== REVIEWS (Google yorumları 3’lü) ====== */
+    /* ====== ABOUT blokları ufak kozmetik ====== */
+    .about-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:center}
+    .about-img{border-radius:16px;overflow:hidden;box-shadow:0 10px 24px rgba(0,0,0,.08);border:1px solid rgba(12,78,84,.12)}
+    .about-img img{width:100%;height:100%;object-fit:cover;display:block}
+    .about-features{display:grid;gap:12px;margin-top:14px}
+    .feature{display:flex;gap:12px;align-items:flex-start;background:#fbfefe;border:1px solid #e6f1f2;border-radius:12px;padding:12px}
+    .feature .ic{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#0c4e54,#0f5960);color:#fff;display:flex;align-items:center;justify-content:center}
+    @media(max-width:980px){.about-wrap{grid-template-columns:1fr}}
+
+    /* ====== 3'lü review ====== */
     .review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
     .review-card{background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:16px;box-shadow:0 8px 20px rgba(0,0,0,.04);opacity:0;transform:translateY(8px);transition:.3s}
     .review-card.visible{opacity:1;transform:none}
@@ -43,14 +60,8 @@
     .stars{font-size:16px;color:#f5b100}
     @media(max-width:980px){.review-grid{grid-template-columns:1fr}}
 
-    /* ====== Görsel kartlar (About/Klinik/Ekip) — site genel stiline karışmadan ufak kozmetik ====== */
-    .about-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:center}
-    .about-img{border-radius:16px;overflow:hidden;box-shadow:0 10px 24px rgba(0,0,0,.08);border:1px solid rgba(12,78,84,.12)}
-    .about-img img{width:100%;height:100%;object-fit:cover;display:block}
-    .about-features{display:grid;gap:12px;margin-top:14px}
-    .feature{display:flex;gap:12px;align-items:flex-start;background:#fbfefe;border:1px solid #e6f1f2;border-radius:12px;padding:12px}
-    .feature .ic{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#0c4e54,#0f5960);color:#fff;display:flex;align-items:center;justify-content:center}
-    @media(max-width:980px){.about-wrap{grid-template-columns:1fr}}
+    /* Değerler & Klinik grid aralıklarını yumuşat */
+    .mv-grid, .values-grid, .team-grid, .clinic-wrap { row-gap:18px }
   </style>
 </head>
 <body>
@@ -129,23 +140,16 @@
     </div>
   </header>
 
-  <!-- ===== HERO (index’teki yapı: .hero > .container > .hero-center) ===== -->
+  <!-- ===== HERO ===== -->
   <section class="hero">
     <div class="container">
       <div class="hero-center">
         <div class="hero-icon">
-          <img
-            class="hero-logo"
-            src="/assets/img/uploads/elci-logo.png?v=1"
-            alt="Elçi Veteriner Kliniği Logosu"
-            width="96" height="96"
-            loading="eager" decoding="async">
+          <img class="hero-logo" src="/assets/img/uploads/elci-logo.png?v=1" alt="Elçi Veteriner Kliniği Logosu" width="96" height="96" loading="eager" decoding="async">
         </div>
-
         <h1>Hakkımızda</h1>
         <div class="hero-divider" role="presentation"></div>
         <p class="hero-sub">2013’ten bu yana Konya’da evcil dostlarınız için; etik, teknolojik ve şeffaf veterinerlik yaklaşımı.</p>
-
         <div class="hero-cta">
           <a class="btn primary" href="/hasta-iliskileri.html#online-randevu">Randevu Al</a>
           <a class="btn ghost" href="#elci-kimdir">Elçi Kimdir?</a>
@@ -164,7 +168,7 @@
   </div>
 
   <!-- ELÇİ KİMDİR -->
-  <section id="elci-kimdir">
+  <section id="elci-kimdir" class="section">
     <div class="container">
       <div class="section-title">
         <h2>Elçi Kimdir?</h2>
@@ -200,7 +204,7 @@
     </div>
   </section>
 
-  <!-- BAŞARI İSTATİSTİKLERİ -->
+  <!-- BAŞARI İSTATİSTİKLERİ (Animasyonlu) -->
   <section class="metrics" id="basarilar">
     <div class="container">
       <div class="section-title">
@@ -209,39 +213,33 @@
       </div>
 
       <div class="metrics-grid" id="metricsGrid">
-        <!-- 1) Ortalama Bekleme Süresi -->
-        <article class="m-card" data-kind="kpi" data-key="avg_wait_time" data-suffix=" dk" data-progress="80">
+        <!-- data-value alanları düzenlenebilir -->
+        <article class="m-card" data-kind="kpi" data-suffix=" dk" data-progress="80" data-value="12">
           <div class="m-head">
             <div class="m-title">Ortalama Bekleme Süresi</div>
-            <span class="m-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+            <span class="m-ico" aria-hidden="true"><i class="fa-regular fa-clock"></i></span>
           </div>
           <div><span class="m-num">0</span><span class="m-unit"> dk</span></div>
           <div class="m-progress"><div class="m-bar"></div></div>
         </article>
 
-        <!-- 2) Bu Ay Sonuçlandırılan Vaka -->
-        <article class="m-card" data-kind="kpi" data-key="monthly_exams_total" data-suffix=" vaka" data-progress="60">
+        <article class="m-card" data-kind="kpi" data-suffix=" vaka" data-progress="60" data-value="420">
           <div class="m-head">
             <div class="m-title">Bu Ay Sonuçlandırılan Vaka</div>
-            <span class="m-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7h10v10H7z"/><path d="M12 5v14M5 12h14"/></svg></span>
+            <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-clipboard-check"></i></span>
           </div>
           <div><span class="m-num">0</span><span class="m-unit"> vaka</span></div>
           <div class="m-progress"><div class="m-bar"></div></div>
         </article>
 
-        <!-- 3) Aşı Programı Tamamlama -->
-        <article class="m-card" data-kind="donut" data-key="vaccine_completion_rate" data-suffix="%">
+        <article class="m-card" data-kind="donut" data-suffix="%" data-value="86">
           <div class="m-head">
             <div class="m-title">Aşı Programı Tamamlama</div>
-            <span class="m-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 16l6-6 6 6"/></svg></span>
+            <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-syringe"></i></span>
           </div>
           <div class="m-donut">
-            <svg viewBox="0 0 120 120">
-              <defs>
-                <linearGradient id="m-grad" x1="0" x2="1" y1="0" y2="1">
-                  <stop offset="0%" stop-color="#0c4e54"/><stop offset="100%" stop-color="#69c7b3"/>
-                </linearGradient>
-              </defs>
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <defs><linearGradient id="m-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#0c4e54"/><stop offset="100%" stop-color="#69c7b3"/></linearGradient></defs>
               <circle class="m-bg" cx="60" cy="60" r="48" fill="none" stroke="#e6f0f1" stroke-width="12"/>
               <circle class="m-fg" cx="60" cy="60" r="48" fill="none" stroke="url(#m-grad)" stroke-width="12" stroke-dasharray="301.59" stroke-dashoffset="301.59" stroke-linecap="round"/>
               <text x="60" y="66" text-anchor="middle" font-weight="800" font-size="22" fill="#0c4e54">0%</text>
@@ -249,56 +247,52 @@
           </div>
         </article>
 
-        <!-- 4) Memnuniyet Skoru -->
-        <article class="m-card" data-kind="gauge" data-key="satisfaction_score" data-max="5">
+        <article class="m-card" data-kind="gauge" data-max="5" data-value="4.8">
           <div class="m-head">
             <div class="m-title">Memnuniyet Skoru</div>
-            <span class="m-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"/></svg></span>
+            <span class="m-ico" aria-hidden="true"><i class="fa-regular fa-face-smile"></i></span>
           </div>
           <div class="m-gauge">
-            <svg viewBox="0 0 120 120">
-              <circle class="m-bg" cx="60" cy="60" r="48" fill="none" stroke="#e6f0f1" stroke-width="12" stroke-dasharray="301.59" transform="rotate(135 60 60)"/>
-              <circle class="m-fg" cx="60" cy="60" r="48" fill="none" stroke="url(#m-grad)" stroke-width="12" stroke-dasharray="226.19" stroke-dashoffset="226.19" transform="rotate(135 60 60)" stroke-linecap="round"/>
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <defs><linearGradient id="m-grad2" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#0c4e54"/><stop offset="100%" stop-color="#69c7b3"/></linearGradient></defs>
+              <circle class="m-bg" cx="60" cy="60" r="48" fill="none" stroke="#e6f0f1" stroke-width="12" stroke-dasharray="226.19" transform="rotate(135 60 60)"/>
+              <circle class="m-fg" cx="60" cy="60" r="48" fill="none" stroke="url(#m-grad2)" stroke-width="12" stroke-dasharray="226.19" stroke-dashoffset="226.19" transform="rotate(135 60 60)" stroke-linecap="round"/>
               <text x="60" y="66" text-anchor="middle" font-weight="800" font-size="20" fill="#0c4e54">0/5</text>
             </svg>
           </div>
         </article>
 
-        <!-- 5) İlk Ziyarette Çözüm -->
-        <article class="m-card" data-kind="kpi" data-key="first_visit_resolution_rate" data-suffix="%" data-progress="93">
+        <article class="m-card" data-kind="kpi" data-suffix="%" data-progress="93" data-value="92">
           <div class="m-head">
             <div class="m-title">İlk Ziyarette Çözüm</div>
-            <span class="m-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></span>
+            <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-check-double"></i></span>
           </div>
           <div><span class="m-num">0</span><span class="m-unit">%</span></div>
           <div class="m-progress"><div class="m-bar"></div></div>
         </article>
 
-        <!-- 6) Laboratuvar Sonuç Süresi -->
-        <article class="m-card" data-kind="kpi" data-key="lab_result_time" data-suffix=" dk" data-progress="80">
+        <article class="m-card" data-kind="kpi" data-suffix=" dk" data-progress="80" data-value="45">
           <div class="m-head">
             <div class="m-title">Laboratuvar Sonuç Süresi</div>
-            <span class="m-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3v6l6 12 6-12V3"/></svg></span>
+            <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-flask"></i></span>
           </div>
           <div><span class="m-num">0</span><span class="m-unit"> dk</span></div>
           <div class="m-progress"><div class="m-bar"></div></div>
         </article>
 
-        <!-- 7) El Uzattığımız Hayvanlar -->
-        <article class="m-card" data-kind="kpi" data-key="outreach_animals_total" data-suffix=" hayvan" data-progress="50">
+        <article class="m-card" data-kind="kpi" data-suffix=" hayvan" data-progress="50" data-value="150">
           <div class="m-head">
             <div class="m-title">El Uzattığımız Hayvanlar</div>
-            <span class="m-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12c0-2 2-3 4-3s4 1 4 3-2 3-4 3-4-1-4-3z"/><path d="M13 10c.5-1.5 2-2.5 3.5-2.5S20 8.5 20 10s-1.5 2.5-3.5 2.5"/></svg></span>
+            <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-hand-holding-heart"></i></span>
           </div>
           <div><span class="m-num">0</span><span class="m-unit"> hayvan</span></div>
           <div class="m-progress"><div class="m-bar"></div></div>
         </article>
 
-        <!-- 8) İyileşme Süresi Ortalama -->
-        <article class="m-card" data-kind="kpi" data-key="avg_recovery_days" data-suffix=" gün" data-progress="70">
+        <article class="m-card" data-kind="kpi" data-suffix=" gün" data-progress="70" data-value="6">
           <div class="m-head">
             <div class="m-title">İyileşme Süresi Ortalama</div>
-            <span class="m-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8a4 4 0 1 0 4 4"/></svg></span>
+            <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-heart-pulse"></i></span>
           </div>
           <div><span class="m-num">0</span><span class="m-unit"> gün</span></div>
           <div class="m-progress"><div class="m-bar"></div></div>
@@ -308,7 +302,7 @@
   </section>
 
   <!-- EKİP -->
-  <section id="ekibimiz">
+  <section id="ekibimiz" class="section">
     <div class="container">
       <div class="section-title">
         <h2>Uzman Ekibimiz</h2>
@@ -355,7 +349,7 @@
   </section>
 
   <!-- KLİNİK -->
-  <section id="klinik">
+  <section id="klinik" class="section">
     <div class="container">
       <div class="section-title">
         <h2>Kliniğimiz</h2>
@@ -381,7 +375,7 @@
   </section>
 
   <!-- MİSYON & VİZYON -->
-  <section id="misyon-vizyon">
+  <section id="misyon-vizyon" class="section">
     <div class="container">
       <div class="section-title">
         <h2>Misyon &amp; Vizyon</h2>
@@ -404,7 +398,7 @@
   </section>
 
   <!-- DEĞERLER -->
-  <section id="degerler">
+  <section id="degerler" class="section">
     <div class="container">
       <div class="section-title">
         <h2>Değerlerimiz</h2>
@@ -432,7 +426,7 @@
   </section>
 
   <!-- HASTA YAKINI GÖRÜŞLERİ (Google yorumları 3’lü) -->
-  <section class="js-reviews" id="hasta-yakini-gorusleri" data-json="/assets/data/reviews.json" data-count="3" data-interval="9000">
+  <section class="js-reviews section" id="hasta-yakini-gorusleri" data-json="/assets/data/reviews.json" data-count="3" data-interval="9000">
     <div class="container">
       <div class="section-title">
         <h2>Hasta Yakını Görüşleri</h2>
@@ -442,7 +436,7 @@
     </div>
   </section>
 
-  <!-- FOOTER (index ile aynı yapı/stil) -->
+  <!-- FOOTER -->
   <footer class="footer-new">
     <div class="container footer-container">
       <div class="footer-col">
@@ -517,7 +511,7 @@
     </div>
   </footer>
 
-  <!-- Şema -->
+  <!-- Schema -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -531,86 +525,128 @@
   }
   </script>
 
-  <!-- Tek JS (index ile uyumlu sürüm) -->
+  <!-- Ana JS -->
   <script defer src="/assets/js/main.js?v=17.1"></script>
 
-  <!-- Mini Fallback: eğer main.js v17.1 yoksa About’taki 3’lü yorumları yine de doldur -->
+  <!-- Reviews 3'lü mini fallback (main.js olmasa da çalışır) -->
   <script>
-  (function(){
-    const sec = document.querySelector('.js-reviews#hasta-yakini-gorusleri');
-    if(!sec) return;
-    const grid = sec.querySelector('.review-grid');
-    if(!grid) return;
-
-    if (grid.dataset.inited) return;
-    grid.dataset.inited = "1";
-
-    const src = sec.getAttribute('data-json') || '/assets/data/reviews.json';
-    const visible = Math.max(1, Number(sec.getAttribute('data-count')) || 3);
-    const interval = Math.max(3000, Number(sec.getAttribute('data-interval')) || 9000);
-
-    function stars(n){
-      const v = Math.round(Math.max(0, Math.min(5, Number(n)||5)));
-      return '<div class="stars" aria-label="'+v+' yıldız">'+
-        Array.from({length:5}).map((_,i)=>'<span class="s" aria-hidden="true">'+(i<v?'★':'☆')+'</span>').join('')+
-      '</div>';
-    }
-    function card(item){
-      const text = (item.text || item.review_text || item.comment || "").toString().trim();
-      const author = (item.author || item.author_name || item.name || "Ziyaretçi").toString().trim();
-      const rating = item.rating || item.stars || 5;
-      const when = (item.time || item.relative_time_description || item.date || "").toString().trim();
-      return `
-        <article class="review-card visible" role="article">
-          ${stars(rating)}
-          <p class="review-text">${text}</p>
-          <div class="review-author">— ${author}</div>
-          ${when ? `<div class="review-meta">${when}</div>` : ``}
-        </article>`;
-    }
-
-    fetch(src, {cache:'no-cache'})
-      .then(r=>r.ok?r.json():[])
-      .then(j=>{
-        const all = Array.isArray(j) ? j : (j?.items||j?.data||[]);
-        if(!Array.isArray(all) || !all.length){
-          grid.innerHTML = '<p class="muted">Henüz yorum eklenmedi.</p>';
-          return;
-        }
-        let idx=0;
-        function render(){
-          const chunk=[];
-          for(let i=0;i<visible;i++){ chunk.push(all[(idx+i)%all.length]); }
-          grid.innerHTML = chunk.map(card).join('');
-          idx = (idx + visible) % all.length;
-        }
-        render();
-        if(all.length>visible) setInterval(render, interval);
-      })
-      .catch(()=>{ grid.innerHTML = '<p class="muted">Yorumlar yüklenemedi.</p>'; });
-  })();
+    (function(){
+      const sec = document.querySelector('.js-reviews#hasta-yakini-gorusleri'); if(!sec) return;
+      const grid = sec.querySelector('.review-grid'); if(!grid) return;
+      if (grid.dataset.inited) return; grid.dataset.inited = "1";
+      const src = sec.getAttribute('data-json') || '/assets/data/reviews.json';
+      const visible = Math.max(1, Number(sec.getAttribute('data-count')) || 3);
+      const interval = Math.max(3000, Number(sec.getAttribute('data-interval')) || 9000);
+      function stars(n){ const v = Math.round(Math.max(0, Math.min(5, Number(n)||5)));
+        return '<div class="stars" aria-label="'+v+' yıldız">'+Array.from({length:5}).map((_,i)=>'<span class="s" aria-hidden="true">'+(i<v?'★':'☆')+'</span>').join('')+'</div>'; }
+      function card(item){
+        const text=(item.text||item.review_text||item.comment||"").toString().trim();
+        const author=(item.author||item.author_name||item.name||"Ziyaretçi").toString().trim();
+        const rating=item.rating||item.stars||5; const when=(item.time||item.relative_time_description||item.date||"").toString().trim();
+        return `<article class="review-card visible" role="article">${stars(rating)}<p class="review-text">${text}</p><div class="review-author">— ${author}</div>${when?`<div class="review-meta">${when}</div>`:``}</article>`;
+      }
+      fetch(src,{cache:'no-cache'}).then(r=>r.ok?r.json():[]).then(j=>{
+        const all = Array.isArray(j)?j:(j?.items||j?.data||[]);
+        if(!Array.isArray(all)||!all.length){ grid.innerHTML='<p class="muted">Henüz yorum eklenmedi.</p>'; return; }
+        let idx=0; function render(){ const chunk=[]; for(let i=0;i<visible;i++){ chunk.push(all[(idx+i)%all.length]); }
+          grid.innerHTML = chunk.map(card).join(''); idx=(idx+visible)%all.length; }
+        render(); if(all.length>visible) setInterval(render, interval);
+      }).catch(()=>{ grid.innerHTML='<p class="muted">Yorumlar yüklenemedi.</p>'; });
+    })();
   </script>
 
-  <!-- === SVG ICON SPRITE (index ile aynı semboller; gerekiyorsa <use> için) === -->
+  <!-- Metrics animasyonu (donut, gauge, kpi) -->
+  <script>
+    (function(){
+      const root = document.getElementById('metricsGrid'); if(!root) return;
+      const cards = Array.from(root.querySelectorAll('.m-card'));
+      const donutCirc = 2 * Math.PI * 48; // r=48 => 301.59
+      const gaugeArc = 226.19;            // 270° yay
+
+      function count(el, to, suffix){
+        const num = el.querySelector('.m-num'); if(!num) return;
+        const unit = el.querySelector('.m-unit'); if(unit && suffix) unit.textContent = ' ' + suffix.trim();
+        const start = 0; const end = Number(to)||0; const dur = 1200; const t0 = performance.now();
+        function step(t){
+          const k = Math.min(1, (t - t0)/dur);
+          const v = Math.round(start + (end - start)*k);
+          num.textContent = v.toString();
+          if(k<1) requestAnimationFrame(step);
+        } requestAnimationFrame(step);
+      }
+
+      function animateCard(card){
+        const kind = card.dataset.kind || 'kpi';
+        if(kind === 'kpi'){
+          const suffix = (card.dataset.suffix||'').trim();
+          const val = card.dataset.value || '0';
+          const bar = card.querySelector('.m-bar');
+          const prog = Math.max(0, Math.min(100, Number(card.dataset.progress)||0));
+          setTimeout(()=>{ if(bar) bar.style.width = prog + '%'; }, 100);
+          count(card, val, suffix);
+        }
+        if(kind === 'donut'){
+          const val = Math.max(0, Math.min(100, Number(card.dataset.value)||0));
+          const fg = card.querySelector('.m-fg');
+          const txt = card.querySelector('text');
+          if(fg){
+            const target = donutCirc * (1 - val/100);
+            fg.style.transition = 'stroke-dashoffset 1s ease';
+            requestAnimationFrame(()=>{ fg.style.strokeDashoffset = String(target); });
+          }
+          if(txt){
+            const t0 = performance.now(); const dur = 1000;
+            (function step(t){
+              const k = Math.min(1, (t - t0)/dur); const v = Math.round(val*k);
+              txt.textContent = v + '%'; if(k<1) requestAnimationFrame(step);
+            })(t0);
+          }
+        }
+        if(kind === 'gauge'){
+          const val = Number(card.dataset.value) || 0;
+          const max = Number(card.dataset.max) || 5;
+          const pct = Math.max(0, Math.min(1, val/max));
+          const fg = card.querySelector('.m-fg');
+          const txt = card.querySelector('text');
+          if(fg){
+            const target = gaugeArc * (1 - pct);
+            fg.style.transition = 'stroke-dashoffset 1s ease';
+            requestAnimationFrame(()=>{ fg.style.strokeDashoffset = String(target); });
+          }
+          if(txt){
+            const t0 = performance.now(); const dur = 1000;
+            (function step(t){
+              const k = Math.min(1, (t - t0)/dur);
+              const v = (val * k).toFixed(1);
+              txt.textContent = v + '/' + max;
+              if(k<1) requestAnimationFrame(step);
+            })(t0);
+          }
+        }
+      }
+
+      // Görünüme gelince tetikle
+      const io = ('IntersectionObserver' in window) ? new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            e.target.classList.add('show');
+            animateCard(e.target);
+            io.unobserve(e.target);
+          }
+        });
+      }, {threshold:.2}) : null;
+
+      cards.forEach(c=>{
+        if(io) io.observe(c);
+        else { c.classList.add('show'); animateCard(c); }
+      });
+    })();
+  </script>
+
+  <!-- SVG ICON SPRITE (gerekirse) -->
   <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute; width:0; height:0; overflow:hidden">
-    <defs>
-      <style>.i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.i-solid{fill:currentColor;stroke:none}</style>
-    </defs>
+    <defs><style>.i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.i-solid{fill:currentColor;stroke:none}</style></defs>
     <symbol id="i-paw" viewBox="0 0 24 24"><path class="i" d="M7.2 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM16.8 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM10.2 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM13.8 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM6.5 15.2c0-2.6 2.3-4.7 5.5-4.7s5.5 2.1 5.5 4.7c0 1.6-1.5 2.8-3.4 2.8-1 0-1.9-.3-2.1-.8-.3.5-1.1.8-2.1.8-1.9 0-3.4-1.2-3.4-2.8z"/></symbol>
-    <symbol id="i-stethoscope" viewBox="0 0 24 24"><path class="i" d="M6 3v5a4 4 0 1 0 8 0V3M2.5 3H6M10 3h3.5M10 13a6 6 0 0 0 12 0v-1.2"/><circle class="i" cx="22" cy="11.8" r="2"/></symbol>
-    <symbol id="i-microscope" viewBox="0 0 24 24"><path class="i" d="M10 3l4 4-2 2-4-4 2-2zM8 11h6M6 21h12M7 21a6 6 0 1 1 10 0"/></symbol>
-    <symbol id="i-article" viewBox="0 0 24 24"><rect class="i" x="4" y="3" width="16" height="18" rx="2"/><path class="i" d="M8 8h8M8 12h8M8 16h5"/></symbol>
-    <symbol id="i-phone-bubble" viewBox="0 0 24 24"><path class="i" d="M19 15.5v2a2 2 0 0 1-2.2 2 16 16 0 0 1-7-2.7 16 16 0 0 1-5-5A2 2 0 0 1 6.5 9h2l2 3-1.5 1.5a12.5 12.5 0 0 0 5 5L15 17l3 2.5"/><path class="i" d="M7 5h10a2 2 0 0 1 2 2v4"/></symbol>
-    <symbol id="i-ambulance" viewBox="0 0 24 24"><path class="i" d="M3 16V8a2 2 0 0 1 2-2h7l4 4h3a2 2 0 0 1 2 2v4H3z"/><circle class="i" cx="7" cy="18" r="2"/><circle class="i" cx="17" cy="18" r="2"/><path class="i" d="M7 10h3M8.5 8.5v3"/></symbol>
-    <symbol id="i-shield-cross" viewBox="0 0 24 24"><path class="i" d="M12 3l7 3v5c0 5.2-3.6 8.7-7 10-3.4-1.3-7-4.8-7-10V6l7-3z"/><path class="i" d="M9 11h6M12 8v6"/></symbol>
-    <symbol id="i-clipboard" viewBox="0 0 24 24"><rect class="i" x="5" y="4" width="14" height="18" rx="2"/><rect class="i" x="9" y="2" width="6" height="4" rx="1.5"/><path class="i" d="M8 11h8M8 15h8M8 19h5"/></symbol>
-    <symbol id="i-scissors" viewBox="0 0 24 24"><circle class="i" cx="6" cy="6" r="2.5"/><circle class="i" cx="6" cy="18" r="2.5"/><path class="i" d="M8 7l12 10M8 17l5-4"/></symbol>
-    <symbol id="i-tooth-clean" viewBox="0 0 24 24"><path class="i" d="M8 3c-2.5 0-4 2-4 4.5 0 4.5 2.5 7.5 3.5 11 .6 2 3 2 3.5 0 .7-2.4 1.2-3.5 2-3.5s1.3 1.1 2 3.5c.5 2 2.9 2 3.5 0 1-3.5 3.5-6.5 3.5-11C22 5 20.5 3 18 3 15.2 3 14 5 12 5S8.8 3 8 3z"/><path class="i" d="M9 9h6"/></symbol>
-    <symbol id="i-xray" viewBox="0 0 24 24"><rect class="i" x="3" y="3" width="18" height="18" rx="2"/><path class="i" d="M7 7h10M7 12h10M7 17h10M12 7v10"/></symbol>
-    <symbol id="i-ecg" viewBox="0 0 24 24"><path class="i" d="M2 12h4l2-4 4 8 3-6 2 2h5"/></symbol>
-    <symbol id="i-repro" viewBox="0 0 24 24"><circle class="i" cx="12" cy="12" r="3.5"/><path class="i" d="M12 8V4M12 20v-4M8 12H4M20 12h-4M16.5 7.5l2.5-2.5M7.5 16.5 5 19"/></symbol>
-    <symbol id="i-pt" viewBox="0 0 24 24"><path class="i" d="M12 6a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5z"/><path class="i" d="M5 21l3-6 3-1 2 2 3 0 3 5M8 13l-3-1"/></symbol>
-    <symbol id="i-boarding" viewBox="0 0 24 24"><path class="i" d="M4 20V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12"/><path class="i" d="M8 20v-6a4 4 0 0 1 8 0v6M3 20h18"/></symbol>
   </svg>
 </body>
 </html>
