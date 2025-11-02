@@ -7,31 +7,69 @@
   <meta name="description" content="Elçi Veteriner Kliniği blogu: aşı takvimi, acil ilk yardım, diş sağlığı, sıcak havada güvenlik ve kısırlaştırma gibi konularda uzman içerikler."/>
   <link rel="canonical" href="https://elciveteriner.com/blog.html"/>
 
-  <!-- Aynı iki CSS -->
+  <!-- Global CSS -->
   <link rel="stylesheet" href="/assets/css/styles.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <!-- Sayfaya özel minimal ek stil (ana renk değişkenlerini kullanır) -->
+  <!-- Sayfaya özgü ek stil -->
   <style>
     :root{
-      --b-brand: var(--brand, #0c4e54);
       --b-accent: var(--accent, #10b3d1);
-      --b-muted: var(--muted, #6b7a7c);
       --b-ink: var(--ink, #112);
+      --b-muted: var(--muted, #6b7a7c);
       --b-r: 18px;
     }
 
-    /* Ana sayfa hero ile uyumlu, sadece başlık değişti */
+    /* Hero (ana sayfadaki stilin kardeşi) */
     .hero.blog-hero{
       padding-top: clamp(40px, 8vw, 80px);
       padding-bottom: 24px;
       background: linear-gradient(180deg, #eaf6f9 0%, transparent 70%);
     }
-    .hero.blog-hero h1{ margin-bottom: 8px; }
-    .hero-divider{ width: 160px; height: 3px; background: linear-gradient(90deg, transparent, var(--b-accent), transparent); border-radius: 999px; margin: 10px auto; }
+    .hero-divider{ width:160px; height:3px; background:linear-gradient(90deg, transparent, var(--b-accent), transparent); border-radius:999px; margin:10px auto; }
 
-    /* Toolbar (filtre & arama) */
-    .blog-toolbar{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin: 6px 0 16px; }
+    /* Yerleşim: Sidebar + İçerik */
+    .blog-layout{
+      display:grid;
+      grid-template-columns: 280px 1fr; /* Sol sidebar */
+      gap:22px;
+      align-items:start;
+    }
+    @media (max-width: 1024px){
+      .blog-layout{ grid-template-columns: 1fr; }
+    }
+
+    /* Sidebar (sticky) */
+    .blog-sidebar{
+      position: sticky; top: 88px; /* Header altında dursun */
+      background:#fff; border:1px solid rgba(0,0,0,.06); border-radius:16px;
+      box-shadow:0 6px 22px rgba(0,0,0,.05);
+      padding:16px;
+      max-height: calc(100vh - 110px);
+      overflow:auto;
+    }
+    .blog-sidebar h3{
+      font-size:16px; margin:4px 0 10px; color:var(--b-ink);
+    }
+    .sidebar-section{ margin-bottom:16px; }
+    .sidebar-list{ display:flex; flex-direction:column; gap:8px; }
+    .sidebar-list a{
+      display:flex; gap:8px; align-items:center;
+      color:#203038; text-decoration:none; font-size:14px;
+      padding:8px 10px; border-radius:10px;
+      border:1px solid rgba(0,0,0,.05); background:#fff;
+      transition: background .15s, transform .15s, border-color .15s;
+    }
+    .sidebar-list a:hover{ background:#f7fdff; transform: translateY(-1px); border-color: rgba(16,179,209,.25); }
+    .sidebar-pills{ display:flex; flex-wrap:wrap; gap:8px; }
+    .sidebar-pill{
+      border:1px solid rgba(16,179,209,.25); padding:6px 10px; border-radius:999px; font-size:13px; color:#203038; text-decoration:none; background:#fff;
+      transition: background .15s, border-color .15s;
+    }
+    .sidebar-pill:hover{ background:#f0fbfe; border-color: var(--b-accent); }
+
+    /* İçerik alanı */
+    .blog-toolbar{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin: 0 0 16px; }
     #blogFilters{ display:flex; gap:8px; flex-wrap:wrap; }
     .b-chip{
       appearance:none; border:1px solid rgba(16,179,209,.2); background:#fff;
@@ -40,15 +78,12 @@
     }
     .b-chip:hover{ background:#f7fdff; transform: translateY(-1px); }
     .b-chip-active{ background:#f0fbfe; border-color: var(--b-accent); }
-
     #blogSearch{
       border:1px solid rgba(16,179,209,.25); border-radius:12px; padding:10px 12px; min-width:220px; flex:1 1 260px;
     }
 
-    /* Grid ve kartlar: ana sayfa kart estetiğine paralel */
-    .blog-grid{ display:grid; gap:16px; grid-template-columns: repeat(3, minmax(0,1fr)); }
-    @media (max-width: 980px){ .blog-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
-    @media (max-width: 640px){ .blog-grid{ grid-template-columns: 1fr; } }
+    .blog-grid{ display:grid; gap:16px; grid-template-columns: repeat(2, minmax(0,1fr)); }
+    @media (max-width: 860px){ .blog-grid{ grid-template-columns: 1fr; } }
 
     .b-card{
       background:#fff; border:1px solid rgba(0,0,0,.06); border-radius: var(--b-r);
@@ -66,19 +101,26 @@
     .b-body{ padding:16px; display:flex; flex-direction:column; gap:8px; }
     .b-title{ font-size:20px; margin:0; }
     .b-title a{ color: var(--b-ink); text-decoration:none; }
-    .b-title a:hover{ color: var(--b-brand); text-decoration: underline; }
+    .b-title a:hover{ color: var(--b-ink); text-decoration: underline; }
     .b-meta{ color:#43656a; font-size:14px; }
     .b-summary{ color:#2b3a3c; line-height:1.6; }
-
     .b-actions{ margin-top:6px; display:flex; gap:10px; flex-wrap:wrap; }
     .btn{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:12px; border:1px solid #d7eaee; background:#fff; color:#123; text-decoration:none; }
     .btn.primary{ border-color:transparent; background: linear-gradient(180deg,#10b3d1,#0ea2bd); color:#fff; }
-    .muted{ color: var(--b-muted); }
+
+    /* YouTube şeridi (ana sayfadaki stillerin aynısını kullanırsa ek CSS şart değil) */
+    .yt-strip{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:12px; }
+    @media (max-width: 860px){ .yt-strip{ grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px){ .yt-strip{ grid-template-columns: 1fr; } }
+    .yt-card{ border:1px solid rgba(0,0,0,.06); background:#fff; border-radius:14px; overflow:hidden; }
+    .yt-thumb{ aspect-ratio:16/9; background:#eef6f8; }
+    .yt-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .yt-meta{ padding:10px 12px; font-size:14px; }
   </style>
 </head>
 <body>
 
-  <!-- ===== SABİT HEADER (aynı) ===== -->
+  <!-- ===== HEADER (aynı) ===== -->
   <header>
     <div class="header-top">
       <div class="container">
@@ -170,19 +212,60 @@
     </div>
   </section>
 
-  <!-- ===== BLOG LİSTESİ ===== -->
-  <section id="blog" class="section" data-json="/assets/data/blog.json">
-    <div class="container">
-      <!-- Filtre & Arama (blog.js otomatik doldurur) -->
-      <div class="blog-toolbar">
-        <div id="blogFilters" aria-label="Kategoriler"></div>
-        <input id="blogSearch" type="search" placeholder="Yazılarda ara…" aria-label="Yazılarda ara">
+  <!-- ===== BLOG LAYOUT (Sidebar + Liste) ===== -->
+  <section class="section">
+    <div class="container blog-layout">
+
+      <!-- Sidebar -->
+      <aside class="blog-sidebar" aria-label="Blog menüsü">
+        <div class="sidebar-section">
+          <h3><i class="fa-solid fa-compass"></i> Hızlı Menü</h3>
+          <nav class="sidebar-list" id="sidebarQuick">
+            <a href="#blog"><i class="fa-solid fa-list"></i> Tüm Yazılar</a>
+            <a href="#youtube"><i class="fa-brands fa-youtube"></i> YouTube</a>
+            <a href="/hizmetler.html"><i class="fa-solid fa-stethoscope"></i> Hizmetler</a>
+            <a href="/contact.html"><i class="fa-solid fa-phone"></i> Randevu & İletişim</a>
+          </nav>
+        </div>
+
+        <div class="sidebar-section">
+          <h3><i class="fa-solid fa-clock-rotate-left"></i> Son Yazılar</h3>
+          <div class="sidebar-list" id="sidebarRecent"><span class="muted">Yükleniyor…</span></div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3><i class="fa-solid fa-filter"></i> Kategoriler</h3>
+          <div class="sidebar-pills" id="sidebarCats"><span class="muted">Yükleniyor…</span></div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3><i class="fa-solid fa-tags"></i> Etiketler</h3>
+          <div class="sidebar-pills" id="sidebarTags"><span class="muted">Yükleniyor…</span></div>
+        </div>
+      </aside>
+
+      <!-- Blog Liste -->
+      <div>
+        <section id="blog" data-json="/assets/data/blog.json">
+          <div class="blog-toolbar">
+            <div id="blogFilters" aria-label="Kategoriler"></div>
+            <input id="blogSearch" type="search" placeholder="Yazılarda ara…" aria-label="Yazılarda ara">
+          </div>
+          <div class="blog-grid" id="blogGrid">
+            <p class="muted">Yükleniyor…</p>
+          </div>
+        </section>
       </div>
 
-      <!-- Kartlar -->
-      <div class="blog-grid" id="blogGrid">
-        <p class="muted">Yükleniyor…</p>
-      </div>
+    </div>
+  </section>
+
+  <!-- ===== YOUTUBE (ana sayfa gibi) ===== -->
+  <section id="youtube" data-fn="/.netlify/functions/youtube-latest?limit=9" data-youtube-ids="">
+    <div class="container">
+      <h2>YouTube</h2>
+      <div class="yt-strip" id="ytStrip"></div>
+      <small class="muted">3 video görünür; 7 sn sonra 2-3-4 şeklinde kayar.</small>
     </div>
   </section>
 
@@ -276,8 +359,109 @@
   }
   </script>
 
-  <!-- Tek JS dosyaları -->
+  <!-- Global JS -->
   <script defer src="/assets/js/main.js?v=18"></script>
   <script defer src="/assets/js/blog.js?v=1"></script>
+
+  <!-- Yan menüyü dolduran minik yardımcı (blog.json’dan çeker) -->
+  <script>
+    (function(){
+      const EL = (sel) => document.querySelector(sel);
+      const recentBox = EL('#sidebarRecent');
+      const catBox    = EL('#sidebarCats');
+      const tagBox    = EL('#sidebarTags');
+      const blogWrap  = EL('section#blog');
+      if(!blogWrap) return;
+
+      const src = blogWrap.getAttribute('data-json') || '/assets/data/blog.json';
+
+      fetch(src).then(r=>r.json()).then(data=>{
+        const posts = (data.posts || []).slice().sort((a,b)=> new Date(b.date) - new Date(a.date));
+
+        // Son Yazılar (5 adet)
+        recentBox.innerHTML = '';
+        posts.slice(0,5).forEach(p=>{
+          const a = document.createElement('a');
+          a.href = p.url || '#';
+          a.innerHTML = `<i class="fa-regular fa-file-lines"></i> <span>${p.title}</span>`;
+          recentBox.appendChild(a);
+        });
+
+        // Kategoriler ve Etiketler (opsiyonel alanlar yoksa türet)
+        const categories = new Map(); // ad -> count
+        const tags = new Map();
+
+        posts.forEach(p=>{
+          // JSON'da category/labels yoksa başlıktan basit türetme örneği:
+          const cat = p.category || (p.title?.toLowerCase().includes('aşı') ? 'Koruyucu Hekimlik' :
+                                     p.title?.toLowerCase().includes('diş') ? 'Ağız & Diş' :
+                                     p.title?.toLowerCase().includes('acil') ? 'Acil & Yoğun Bakım' :
+                                     'Genel');
+          categories.set(cat, (categories.get(cat)||0)+1);
+
+          (p.tags || []).forEach(t=>{
+            tags.set(t, (tags.get(t)||0)+1);
+          });
+        });
+
+        // Kategoriler
+        catBox.innerHTML = '';
+        [...categories.entries()]
+          .sort((a,b)=> b[1]-a[1])
+          .forEach(([name, count])=>{
+            const a = document.createElement('a');
+            a.href = '#';
+            a.className = 'sidebar-pill';
+            a.textContent = `${name} (${count})`;
+            a.addEventListener('click', (e)=>{
+              e.preventDefault();
+              // Üstteki filtre çiplerinden birini tetikle (blog.js’in filtrelerine uyum)
+              const chips = document.querySelectorAll('.b-chip');
+              let matched = false;
+              chips.forEach(ch=>{
+                if(ch.textContent.trim().toLowerCase() === name.toLowerCase()){
+                  ch.click(); matched = true;
+                }
+              });
+              // Çip yoksa aramaya yaz
+              if(!matched){
+                const search = document.getElementById('blogSearch');
+                if(search){ search.value = name; search.dispatchEvent(new Event('input', {bubbles:true})); }
+              }
+              window.scrollTo({ top: document.querySelector('#blog').offsetTop - 20, behavior:'smooth' });
+            });
+            catBox.appendChild(a);
+          });
+
+        // Etiketler (varsayılan az ise başlıktan 1-2 kelime çek)
+        if(tags.size === 0){
+          posts.slice(0,6).forEach(p=>{
+            (p.title||'').split(' ').slice(0,2).forEach(t=>{
+              const key = t.replace(/[^\p{L}\p{N}]/gu,'').toLowerCase();
+              if(key.length>2) tags.set(key, (tags.get(key)||0)+1);
+            });
+          });
+        }
+        tagBox.innerHTML = '';
+        [...tags.entries()].sort((a,b)=> b[1]-a[1]).slice(0,15).forEach(([t,c])=>{
+          const a = document.createElement('a');
+          a.href = '#'; a.className = 'sidebar-pill';
+          a.textContent = t;
+          a.addEventListener('click', (e)=>{
+            e.preventDefault();
+            const search = document.getElementById('blogSearch');
+            if(search){ search.value = t; search.dispatchEvent(new Event('input', {bubbles:true})); }
+            window.scrollTo({ top: document.querySelector('#blog').offsetTop - 20, behavior:'smooth' });
+          });
+          tagBox.appendChild(a);
+        });
+
+      }).catch(()=> {
+        if(recentBox) recentBox.innerHTML = '<span class="muted">Listeler yüklenemedi.</span>';
+        if(catBox)    catBox.innerHTML    = '<span class="muted">Kategoriler yok.</span>';
+        if(tagBox)    tagBox.innerHTML    = '<span class="muted">Etiket bulunamadı.</span>';
+      });
+    })();
+  </script>
 </body>
 </html>
