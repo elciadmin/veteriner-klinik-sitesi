@@ -15,7 +15,7 @@
   <style>
     /* HERO görünürlük ve düzen */
     .hero.blog-hero{
-      padding-top:clamp(72px,10vw,120px); /* sabit header çakışmasın */
+      padding-top:clamp(72px,10vw,120px);
       padding-bottom:24px;
       background:linear-gradient(180deg,#eaf6f9 0%,transparent 70%);
       text-align:center;
@@ -34,26 +34,33 @@
 
     /* HERO eylemler + hızlı kutular */
     .hero-cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0 6px}
+
     .quick-links{
       display:grid;grid-template-columns:repeat(6, minmax(120px,1fr));
       gap:14px;max-width:980px;margin:14px auto 0
     }
     @media (max-width:980px){.quick-links{grid-template-columns:repeat(3,1fr)}}
     @media (max-width:560px){.quick-links{grid-template-columns:repeat(2,1fr)}}
+
     .quick-links .q{
-      background:rgba(255,255,255,.08);
-      backdrop-filter:saturate(120%) blur(2px);
-      border:1px solid rgba(0,0,0,.06);
-      border-radius:16px;padding:14px 12px;
-      text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:8px;
-      color:inherit;transition:transform .15s ease, box-shadow .2s ease
+      background:#fff;
+      color:var(--ink,#112);
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:16px;
+      padding:14px 12px;
+      text-decoration:none;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:8px; min-height:92px;
+      transition:transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+      box-shadow:0 6px 16px rgba(0,0,0,.04);
     }
-    .quick-links .q:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.08)}
-    .quick-links i{font-size:22px;opacity:.9}
+    .quick-links .q:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.08); border-color:rgba(0,0,0,.12)}
+    .quick-links .q i{font-size:22px; opacity:.95; color:var(--accent,#10b3d1)}
+    .quick-links .q span{font-weight:600; font-size:14px; text-align:center}
 
     /* SSS yerleşim */
     .faq-layout{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
-    @media (max-width: 1024px){.faq-layout{grid-template-columns:1fr}}
+    @media (max-width:1024px){.faq-layout{grid-template-columns:1fr}}
 
     .faq-sidebar{position:sticky;top:88px;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:16px;box-shadow:0 6px 22px rgba(0,0,0,.05);padding:16px;max-height:calc(100vh - 110px);overflow:auto}
     .faq-sidebar h3{font-size:16px;margin:4px 0 10px}
@@ -61,7 +68,6 @@
     .faq-chip{appearance:none;border:1px solid rgba(16,179,209,.25);background:#fff;padding:8px 12px;border-radius:999px;font-size:13px;cursor:pointer}
     .faq-chip[aria-pressed="true"],.faq-chip.active{background:#f0fbfe;border-color:var(--accent,#10b3d1)}
 
-    .faq-tools{display:flex;gap:8px;flex-wrap:wrap}
     #faqSearch{border:1px solid rgba(16,179,209,.25);border-radius:12px;padding:10px 12px;min-width:240px;flex:1 1 280px}
     .faq-utility{display:flex;gap:8px}
     .faq-utility .btn{padding:8px 12px}
@@ -70,7 +76,7 @@
     .faq-group h2{margin:18px 0 8px}
 
     details.faq{position:relative}
-    details.faq summary{list-style:none;cursor:pointer}
+    details.faq summary{list-style:none}
     details.faq summary::-webkit-details-marker{display:none}
     details.faq summary .q{display:flex;gap:10px;align-items:center;font-weight:700}
     details.faq[open] summary .q .dot{background:var(--accent,#10b3d1)}
@@ -128,7 +134,7 @@
     </div>
   </header>
 
-  <!-- ===== HERO (başlık görünür + CTA + hızlı kutular) ===== -->
+  <!-- ===== HERO (başlık + CTA + hızlı kutular) ===== -->
   <section class="hero blog-hero">
     <div class="container">
       <div class="hero-center">
@@ -144,13 +150,14 @@
           <a class="btn ghost" href="/contact.html">Randevu Al</a>
         </div>
 
+        <!-- Hızlı bağlantı kartları -->
         <div class="quick-links" aria-label="Hızlı bağlantılar">
-          <a class="q" href="/hizmetler.html#koruyucu" title="Branşlarımız"><i class="fa-solid fa-paw"></i><span>Branşlarımız</span></a>
-          <a class="q" href="/contact.html" title="Hızlı Randevu"><i class="fa-solid fa-stethoscope"></i><span>Hızlı Randevu</span></a>
-          <a class="q" href="/hasta-iliskileri.html" title="Tahlil Sonuçları"><i class="fa-solid fa-flask"></i><span>Tahlil Sonuçları</span></a>
-          <a class="q" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" title="Elçi TV"><i class="fa-solid fa-newspaper"></i><span>Elçi TV</span></a>
-          <a class="q" href="#location" title="Konum & İletişim"><i class="fa-solid fa-location-dot"></i><span>Konum & İletişim</span></a>
-          <a class="q" href="tel:03323223220" title="Acil Hattı"><i class="fa-solid fa-truck-medical"></i><span>Acil</span></a>
+          <a class="q" href="/hizmetler.html#koruyucu" title="Branşlarımız"><i class="fa-solid fa-paw" aria-hidden="true"></i><span>Branşlarımız</span></a>
+          <a class="q" href="/contact.html" title="Hızlı Randevu"><i class="fa-solid fa-stethoscope" aria-hidden="true"></i><span>Hızlı Randevu</span></a>
+          <a class="q" href="/hasta-iliskileri.html#tahlil" title="Tahlil Sonuçları"><i class="fa-solid fa-flask" aria-hidden="true"></i><span>Tahlil Sonuçları</span></a>
+          <a class="q" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" title="Elçi TV"><i class="fa-brands fa-youtube" aria-hidden="true"></i><span>Elçi TV</span></a>
+          <a class="q" href="#location" title="Konum & İletişim"><i class="fa-solid fa-location-dot" aria-hidden="true"></i><span>Konum &amp; İletişim</span></a>
+          <a class="q" href="tel:03323223220" title="Acil Hattı"><i class="fa-solid fa-truck-medical" aria-hidden="true"></i><span>Acil</span></a>
         </div>
       </div>
     </div>
@@ -192,7 +199,8 @@
 
       <!-- İçerik -->
       <div id="faqContent" aria-live="polite">
-        <!-- Gruplar -->
+
+        <!-- === Fiyat & Ödeme === -->
         <div class="faq-group" data-cat="Fiyat & Ödeme">
           <h2>Fiyat & Ödeme</h2>
 
@@ -215,6 +223,7 @@
           </details>
         </div>
 
+        <!-- === Randevu & Süreç === -->
         <div class="faq-group" data-cat="Randevu & Süreç">
           <h2>Randevu & Süreç</h2>
 
@@ -237,6 +246,7 @@
           </details>
         </div>
 
+        <!-- === Aşı & Koruyucu === -->
         <div class="faq-group" data-cat="Aşı & Koruyucu">
           <h2>Aşı & Koruyucu Hekimlik</h2>
 
@@ -253,6 +263,7 @@
           </details>
         </div>
 
+        <!-- === Ameliyat & Anestezi === -->
         <div class="faq-group" data-cat="Ameliyat & Anestezi">
           <h2>Ameliyat & Anestezi</h2>
 
@@ -275,10 +286,11 @@
           </details>
         </div>
 
+        <!-- === Görüntüleme & Laboratuvar === -->
         <div class="faq-group" data-cat="Görüntüleme & Lab">
           <h2>Görüntüleme & Laboratuvar</h2>
 
-          <details class="faq" id="rontgen-ultrason">
+          <details class="faq" id="röntgen-ultrason">
             <summary><span class="q"><span class="dot"></span>Röntgen ve ultrason için randevu gerekir mi?</span></summary>
             <button class="linkcopy" title="Bağlantıyı kopyala" aria-label="Bağlantıyı kopyala"><i class="fa-solid fa-link"></i></button>
             <p>Günün yoğunluğuna göre değişir; telefondan uygun saat teyidi almanız süreci hızlandırır.</p>
@@ -291,6 +303,7 @@
           </details>
         </div>
 
+        <!-- === Acil Durum === -->
         <div class="faq-group" data-cat="Acil Durum">
           <h2>Acil Durum</h2>
 
@@ -307,6 +320,7 @@
           </details>
         </div>
 
+        <!-- === Bakım & Beslenme === -->
         <div class="faq-group" data-cat="Bakım & Beslenme">
           <h2>Bakım & Beslenme</h2>
 
@@ -332,25 +346,25 @@
     </div>
   </section>
 
-  <!-- ===== KONUM & ULAŞIM (embed + fallback) ===== -->
+  <!-- ===== KONUM & ULAŞIM (Google Maps + OSM fallback) ===== -->
   <section id="location">
     <div class="container">
       <h2>Konum & Ulaşım</h2>
       <div class="loc-grid">
         <div class="map-wrap" aria-label="Harita">
-          <!-- Google Maps (adres ile) -->
+          <!-- Google Maps Embed -->
           <iframe
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps?q=Havzan+Mah.+Yeni+Meram+Cad.+17/1,+Meram/Konya&output=embed"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d0!2d32.489!3d37.864!2m3!1f0!2f0!3f0!3m2!1itr!2str!4v1730520000!5m2!1itr!2str"
             title="Elçi Veteriner Kliniği Harita">
           </iframe>
 
           <!-- Fallback (embed engellenirse) -->
           <div class="map-fallback">
             Harita yüklenmiyorsa <a target="_blank" rel="noopener"
-            href="https://www.google.com/maps?q=Havzan+Mah.+Yeni+Meram+Cad.+17/1,+Meram/Konya">Google Haritalar’da aç</a>
-            ya da aşağıdaki OpenStreetMap haritasını kullanın:
+            href="https://www.google.com/maps?q=Havzan+Mah.+Yeni+Meram+Cad.+17/1+Meram/Konya">Google Haritalar’da aç</a>
+            veya aşağıdaki OpenStreetMap haritasını kullanın:
             <iframe
               loading="lazy"
               src="https://www.openstreetmap.org/export/embed.html?bbox=32.45%2C37.84%2C32.53%2C37.88&layer=mapnik&marker=37.864%2C32.489"
@@ -390,7 +404,7 @@
     </div>
   </section>
 
-  <!-- ===== FOOTER ===== -->
+  <!-- ===== FOOTER (özet) ===== -->
   <footer class="footer-new">
     <div class="container footer-container">
       <div class="footer-col">
@@ -446,10 +460,10 @@
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      { "@type":"Question","name":"Muayene ücretiniz nedir?","acceptedAnswer":{"@type":"Answer","text":"Muayene ücretimiz güncel klini̇k tarifesine göre belirlenir; kapsam (genel muayene, kontrol, acil) ve ek tetkiklere göre değişebilir. En doğru bilgi için 0332 322 32 20 numarasını arayabilirsiniz."}},
+      { "@type":"Question","name":"Muayene ücretiniz nedir?","acceptedAnswer":{"@type":"Answer","text":"Muayene ücretimiz güncel klini̇k tarifesine göre belirlenir; kapsam ve ek tetkiklere göre değişebilir. En doğru bilgi için 0332 322 32 20 numarasını arayabilirsiniz."}},
       { "@type":"Question","name":"Hangi ödeme yöntemlerini kabul ediyorsunuz?","acceptedAnswer":{"@type":"Answer","text":"Nakit ve kredi/banka kartı kabul ediyoruz. Taksit seçenekleri, banka kampanyalarına göre değişebilir."}},
-      { "@type":"Question","name":"Randevu gerekli mi?","acceptedAnswer":{"@type":"Answer","text":"Genel muayeneler için randevu önerilir; acil vakalarda 7/24 kabulümüz vardır. Randevu formu veya telefonla ulaşabilirsiniz."}},
-      { "@type":"Question","name":"Ameliyat öncesi açlık ne kadar olmalı?","acceptedAnswer":{"@type":"Answer","text":"Genellikle 8–12 saat açlık, 2–4 saat su kısıtlaması önerilir. Yavru/özel durumlarda protokol değişebilir; size özel talimat verilir."}},
+      { "@type":"Question","name":"Randevu gerekli mi?","acceptedAnswer":{"@type":"Answer","text":"Genel muayeneler için randevu önerilir; acil vakalarda 7/24 kabulümüz vardır."}},
+      { "@type":"Question","name":"Ameliyat öncesi açlık ne kadar olmalı?","acceptedAnswer":{"@type":"Answer","text":"Genellikle 8–12 saat açlık, 2–4 saat su kısıtlaması önerilir. Yavru/özel durumlarda protokol değişebilir."}},
       { "@type":"Question","name":"Kedilerde aşı takvimi nasıl?","acceptedAnswer":{"@type":"Answer","text":"Temel aşılar: karma, kuduz ve (risk durumunda) lösemi. Yavru dönemi primer seri sonrası yıllık hatırlatma dozları önerilir."}},
       { "@type":"Question","name":"Acil durumda ilk ne yapmalıyım?","acceptedAnswer":{"@type":"Answer","text":"Önce 0332 322 32 20 numarasını arayın. Güvenli taşıyın; zehirlenme şüphesinde kusturmaya çalışmayın."}}
     ]
@@ -459,14 +473,12 @@
   <!-- Global JS + Sayfa JS -->
   <script defer src="/assets/js/main.js?v=18"></script>
   <script>
-  // Yardımcılar
+  // Kısa yardımcılar
   const $$ = (s,root=document)=>[...root.querySelectorAll(s)];
   const $  = (s,root=document)=>root.querySelector(s);
+  const normalize = t => (t||'').toLocaleLowerCase('tr-TR');
+  const setCount = n => { const el = $('#faqCount'); if(el) el.textContent = n; };
 
-  function setCount(n){ const el = $('#faqCount'); if(el) el.textContent = n; }
-  function normalize(t){ return (t||'').toLocaleLowerCase('tr-TR'); }
-
-  // Arama + kategori filtre
   function applyFilters(){
     const q = normalize($('#faqSearch')?.value);
     const activeChip = $('.faq-chip.active');
@@ -475,21 +487,14 @@
     let visible = 0;
     $$('.faq-group').forEach(group=>{
       const groupCat = group.getAttribute('data-cat');
-      let groupHasAny = false;
-
+      let any = false;
       $$('.faq', group).forEach(det=>{
         const txt = normalize(det.textContent);
-        const hitQ = !q || txt.includes(q);
-        const hitC = (cat === 'Tümü') || (groupCat === cat);
-        const match = hitQ && hitC;
-
+        const match = (!q || txt.includes(q)) && (cat==='Tümü' || groupCat===cat);
         det.style.display = match ? '' : 'none';
-        if(match){ groupHasAny = true; visible++; }
-        // Arama varsa eşleşenleri açık getir
-        if(match && q){ det.open = true; }
+        if(match){ any = true; visible++; if(q) det.open = true; }
       });
-
-      group.style.display = groupHasAny ? '' : 'none';
+      group.style.display = any ? '' : 'none';
     });
 
     $('#noResults')?.classList.toggle('hidden', visible>0);
@@ -500,79 +505,41 @@
     $$('.faq-chip').forEach(b=>{ b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
     btn.classList.add('active'); btn.setAttribute('aria-pressed','true');
     applyFilters();
-    // İçeriğe yumuşak kay
-    const contentTop = $('#faqContent')?.getBoundingClientRect().top + window.scrollY - 16 - 70;
-    window.scrollTo({ top: contentTop, behavior:'smooth' });
+    const top = $('#faqContent')?.getBoundingClientRect().top + window.scrollY - 90;
+    window.scrollTo({ top, behavior:'smooth' });
   }
 
   function copyLinkFor(detailsEl){
-    const id = detailsEl.id;
-    if(!id) return;
+    const id = detailsEl.id; if(!id) return;
     const url = `${location.origin}${location.pathname}#${id}`;
     navigator.clipboard.writeText(url).then(()=>{
-      // ufak geri bildirim
       const btn = $('.linkcopy', detailsEl);
       if(btn){ const old = btn.innerHTML; btn.innerHTML = '<i class="fa-solid fa-check"></i>'; setTimeout(()=>btn.innerHTML=old, 900); }
-      history.replaceState(null, '', '#'+id);
+      history.replaceState(null,'','#'+id);
     });
   }
 
   function openFromHash(){
-    const hash = location.hash.replace('#','');
-    if(!hash) return;
-    const det = document.getElementById(hash);
+    const id = location.hash.replace('#',''); if(!id) return;
+    const det = document.getElementById(id);
     if(det){
-      // İlgili kategoriyi aktif et
       const group = det.closest('.faq-group');
-      const groupCat = group?.getAttribute('data-cat');
-      if(groupCat){
-        const chip = $(`.faq-chip[data-cat="${groupCat}"]`);
-        if(chip) activateChip(chip);
-      }
+      const cat = group?.getAttribute('data-cat');
+      if(cat){ const chip = document.querySelector(`.faq-chip[data-cat="${cat}"]`); if(chip) activateChip(chip); }
       det.style.display=''; det.open = true;
       const y = det.getBoundingClientRect().top + window.scrollY - 90;
       window.scrollTo({ top:y, behavior:'smooth' });
     }
   }
 
-  // Footer yıl
   document.addEventListener('DOMContentLoaded', ()=>{
-    const yil = document.getElementById('yil');
-    if (yil) yil.textContent = new Date().getFullYear();
-  });
-
-  // Başlat
-  document.addEventListener('DOMContentLoaded', ()=>{
-    // Sayaç ilk değer
     setCount($$('.faq').length);
-
-    // Chip tıklamaları
-    $$('.faq-chip').forEach(chip=>{
-      chip.addEventListener('click', ()=>activateChip(chip));
-    });
-
-    // Arama
+    $$('.faq-chip').forEach(chip=> chip.addEventListener('click', ()=>activateChip(chip)));
     $('#faqSearch')?.addEventListener('input', applyFilters);
-
-    // Tümünü aç/kapat
-    $('#openAll')?.addEventListener('click', ()=>{
-      $$('.faq').forEach(d=>{ if(d.style.display !== 'none') d.open = true; });
-    });
-    $('#closeAll')?.addEventListener('click', ()=>{
-      $$('.faq').forEach(d=> d.open = false);
-    });
-
-    // Link kopyala
-    $$('.faq .linkcopy').forEach(btn=>{
-      btn.addEventListener('click', (e)=>{
-        const d = e.currentTarget.closest('details.faq');
-        if(d) copyLinkFor(d);
-      });
-    });
-
-    // Hash’ten aç
-    openFromHash();
-    window.addEventListener('hashchange', openFromHash);
+    $('#openAll')?.addEventListener('click', ()=>{ $$('.faq').forEach(d=>{ if(d.style.display!=='none') d.open=true; }); });
+    $('#closeAll')?.addEventListener('click', ()=>{ $$('.faq').forEach(d=> d.open=false); });
+    $$('.faq .linkcopy').forEach(btn=> btn.addEventListener('click', e=>{ const d=e.currentTarget.closest('details.faq'); if(d) copyLinkFor(d); }));
+    openFromHash(); window.addEventListener('hashchange', openFromHash);
 
     // Güncelleme tarihi
     const now = new Date();
