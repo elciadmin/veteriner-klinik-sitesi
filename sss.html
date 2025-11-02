@@ -13,13 +13,31 @@
 
   <!-- Sayfaya özgü stiller -->
   <style>
-    /* Hero kardeşi */
-    .hero.blog-hero{padding-top:clamp(40px,8vw,80px);padding-bottom:24px;background:linear-gradient(180deg,#eaf6f9 0%,transparent 70%)}
-    .hero-divider{width:160px;height:3px;background:linear-gradient(90deg,transparent,var(--accent,#10b3d1),transparent);border-radius:999px;margin:10px auto}
+    /* HERO görünürlük ve düzen */
+    .hero.blog-hero{
+      padding-top:clamp(72px,10vw,120px); /* sabit header çakışmasın */
+      padding-bottom:24px;
+      background:linear-gradient(180deg,#eaf6f9 0%,transparent 70%);
+      text-align:center;
+    }
+    .hero.blog-hero h1{
+      display:block!important;
+      margin:6px 0 4px;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    .hero-divider{
+      width:160px;height:3px;
+      background:linear-gradient(90deg,transparent,var(--accent,#10b3d1),transparent);
+      border-radius:999px;margin:10px auto;
+    }
 
-    /* === HERO EYLEMLER (yeni) === */
+    /* HERO eylemler + hızlı kutular */
     .hero-cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0 6px}
-    .quick-links{display:grid;grid-template-columns:repeat(6, minmax(120px,1fr));gap:14px;max-width:980px;margin:14px auto 0}
+    .quick-links{
+      display:grid;grid-template-columns:repeat(6, minmax(120px,1fr));
+      gap:14px;max-width:980px;margin:14px auto 0
+    }
     @media (max-width:980px){.quick-links{grid-template-columns:repeat(3,1fr)}}
     @media (max-width:560px){.quick-links{grid-template-columns:repeat(2,1fr)}}
     .quick-links .q{
@@ -33,7 +51,7 @@
     .quick-links .q:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.08)}
     .quick-links i{font-size:22px;opacity:.9}
 
-    /* Yerleşim: sol filtre / sağ içerik */
+    /* SSS yerleşim */
     .faq-layout{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
     @media (max-width: 1024px){.faq-layout{grid-template-columns:1fr}}
 
@@ -51,9 +69,8 @@
     .faq-group{margin:18px 0}
     .faq-group h2{margin:18px 0 8px}
 
-    /* details -> styles.css’deki .faq ile uyumlu ama küçük iyileştirme */
     details.faq{position:relative}
-    details.faq summary{list-style:none}
+    details.faq summary{list-style:none;cursor:pointer}
     details.faq summary::-webkit-details-marker{display:none}
     details.faq summary .q{display:flex;gap:10px;align-items:center;font-weight:700}
     details.faq[open] summary .q .dot{background:var(--accent,#10b3d1)}
@@ -63,15 +80,15 @@
 
     .no-results{padding:14px;border:1px dashed #a8cacc;border-radius:12px;background:#f7fcfd}
     .no-results a{font-weight:700}
-
     .faq-footer-note{margin-top:8px;color:#6b7a7c;font-size:13px}
 
-    /* === KONUM & ULAŞIM (yeni) === */
+    /* KONUM & ULAŞIM */
     section#location{padding:34px 0;background:#fff}
     .loc-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
     @media(max-width:980px){.loc-grid{grid-template-columns:1fr}}
     .map-wrap{border:1px solid rgba(0,0,0,.06);border-radius:16px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.06)}
     .map-wrap iframe{width:100%;aspect-ratio:16/10;border:0;display:block}
+    .map-fallback{padding:12px;background:#f7fcfd;border:1px dashed #a8cacc;border-radius:12px;margin-top:10px}
     .loc-card{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.06)}
     .loc-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
     .loc-list li{display:flex;gap:10px;align-items:flex-start;color:#233}
@@ -111,7 +128,7 @@
     </div>
   </header>
 
-  <!-- ===== HERO (güncellendi) ===== -->
+  <!-- ===== HERO (başlık görünür + CTA + hızlı kutular) ===== -->
   <section class="hero blog-hero">
     <div class="container">
       <div class="hero-center">
@@ -122,11 +139,11 @@
         <div class="hero-divider"></div>
         <p class="hero-sub">Ücretler, süreçler, aşılar, ameliyat ve acil durumlar — net ve kısa yanıtlar.</p>
 
-        <!-- Hızlı eylemler -->
         <div class="hero-cta">
           <a class="btn primary" href="tel:03323223220">Hemen Ara</a>
           <a class="btn ghost" href="/contact.html">Randevu Al</a>
         </div>
+
         <div class="quick-links" aria-label="Hızlı bağlantılar">
           <a class="q" href="/hizmetler.html#koruyucu" title="Branşlarımız"><i class="fa-solid fa-paw"></i><span>Branşlarımız</span></a>
           <a class="q" href="/contact.html" title="Hızlı Randevu"><i class="fa-solid fa-stethoscope"></i><span>Hızlı Randevu</span></a>
@@ -139,10 +156,9 @@
     </div>
   </section>
 
-  <!-- ===== LAYOUT ===== -->
+  <!-- ===== LAYOUT (sol filtre / sağ içerik) ===== -->
   <section class="section">
     <div class="container faq-layout">
-
       <!-- Sidebar -->
       <aside class="faq-sidebar" aria-label="SSS menüsü">
         <h3><i class="fa-solid fa-filter"></i> Kategoriye göre</h3>
@@ -262,7 +278,7 @@
         <div class="faq-group" data-cat="Görüntüleme & Lab">
           <h2>Görüntüleme & Laboratuvar</h2>
 
-          <details class="faq" id="röntgen-ultrason">
+          <details class="faq" id="rontgen-ultrason">
             <summary><span class="q"><span class="dot"></span>Röntgen ve ultrason için randevu gerekir mi?</span></summary>
             <button class="linkcopy" title="Bağlantıyı kopyala" aria-label="Bağlantıyı kopyala"><i class="fa-solid fa-link"></i></button>
             <p>Günün yoğunluğuna göre değişir; telefondan uygun saat teyidi almanız süreci hızlandırır.</p>
@@ -316,16 +332,34 @@
     </div>
   </section>
 
-  <!-- ===== KONUM & ULAŞIM (yeni) ===== -->
+  <!-- ===== KONUM & ULAŞIM (embed + fallback) ===== -->
   <section id="location">
     <div class="container">
       <h2>Konum & Ulaşım</h2>
       <div class="loc-grid">
-        <div class="map-wrap" aria-label="Google Harita">
-          <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps?q=Havzan%20Mahallesi,%20Yeni%20Meram%20Caddesi%20No:17/1,%20Meram/Konya&output=embed">
+        <div class="map-wrap" aria-label="Harita">
+          <!-- Google Maps (adres ile) -->
+          <iframe
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=Havzan+Mah.+Yeni+Meram+Cad.+17/1,+Meram/Konya&output=embed"
+            title="Elçi Veteriner Kliniği Harita">
           </iframe>
+
+          <!-- Fallback (embed engellenirse) -->
+          <div class="map-fallback">
+            Harita yüklenmiyorsa <a target="_blank" rel="noopener"
+            href="https://www.google.com/maps?q=Havzan+Mah.+Yeni+Meram+Cad.+17/1,+Meram/Konya">Google Haritalar’da aç</a>
+            ya da aşağıdaki OpenStreetMap haritasını kullanın:
+            <iframe
+              loading="lazy"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=32.45%2C37.84%2C32.53%2C37.88&layer=mapnik&marker=37.864%2C32.489"
+              style="width:100%;aspect-ratio:16/10;border:0;margin-top:8px"
+              title="OpenStreetMap">
+            </iframe>
+          </div>
         </div>
+
         <aside class="loc-card">
           <ul class="loc-list">
             <li><i class="fa-solid fa-location-dot"></i>
@@ -412,10 +446,10 @@
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      { "@type":"Question","name":"Muayene ücretiniz nedir?","acceptedAnswer":{"@type":"Answer","text":"Muayene ücretimiz güncel klini̇k tarifesine göre belirlenir; kapsam ve ek tetkiklere göre değişebilir. En doğru bilgi için 0332 322 32 20 numarasını arayabilirsiniz."}},
+      { "@type":"Question","name":"Muayene ücretiniz nedir?","acceptedAnswer":{"@type":"Answer","text":"Muayene ücretimiz güncel klini̇k tarifesine göre belirlenir; kapsam (genel muayene, kontrol, acil) ve ek tetkiklere göre değişebilir. En doğru bilgi için 0332 322 32 20 numarasını arayabilirsiniz."}},
       { "@type":"Question","name":"Hangi ödeme yöntemlerini kabul ediyorsunuz?","acceptedAnswer":{"@type":"Answer","text":"Nakit ve kredi/banka kartı kabul ediyoruz. Taksit seçenekleri, banka kampanyalarına göre değişebilir."}},
-      { "@type":"Question","name":"Randevu gerekli mi?","acceptedAnswer":{"@type":"Answer","text":"Genel muayeneler için randevu önerilir; acil vakalarda 7/24 kabulümüz vardır."}},
-      { "@type":"Question","name":"Ameliyat öncesi açlık ne kadar olmalı?","acceptedAnswer":{"@type":"Answer","text":"Genellikle 8–12 saat açlık, 2–4 saat su kısıtlaması önerilir. Yavru/özel durumlarda protokol değişebilir."}},
+      { "@type":"Question","name":"Randevu gerekli mi?","acceptedAnswer":{"@type":"Answer","text":"Genel muayeneler için randevu önerilir; acil vakalarda 7/24 kabulümüz vardır. Randevu formu veya telefonla ulaşabilirsiniz."}},
+      { "@type":"Question","name":"Ameliyat öncesi açlık ne kadar olmalı?","acceptedAnswer":{"@type":"Answer","text":"Genellikle 8–12 saat açlık, 2–4 saat su kısıtlaması önerilir. Yavru/özel durumlarda protokol değişebilir; size özel talimat verilir."}},
       { "@type":"Question","name":"Kedilerde aşı takvimi nasıl?","acceptedAnswer":{"@type":"Answer","text":"Temel aşılar: karma, kuduz ve (risk durumunda) lösemi. Yavru dönemi primer seri sonrası yıllık hatırlatma dozları önerilir."}},
       { "@type":"Question","name":"Acil durumda ilk ne yapmalıyım?","acceptedAnswer":{"@type":"Answer","text":"Önce 0332 322 32 20 numarasını arayın. Güvenli taşıyın; zehirlenme şüphesinde kusturmaya çalışmayın."}}
     ]
@@ -451,7 +485,8 @@
 
         det.style.display = match ? '' : 'none';
         if(match){ groupHasAny = true; visible++; }
-        if(match && q){ det.open = true; } // arama varsa açık getir
+        // Arama varsa eşleşenleri açık getir
+        if(match && q){ det.open = true; }
       });
 
       group.style.display = groupHasAny ? '' : 'none';
@@ -465,6 +500,7 @@
     $$('.faq-chip').forEach(b=>{ b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
     btn.classList.add('active'); btn.setAttribute('aria-pressed','true');
     applyFilters();
+    // İçeriğe yumuşak kay
     const contentTop = $('#faqContent')?.getBoundingClientRect().top + window.scrollY - 16 - 70;
     window.scrollTo({ top: contentTop, behavior:'smooth' });
   }
@@ -474,6 +510,7 @@
     if(!id) return;
     const url = `${location.origin}${location.pathname}#${id}`;
     navigator.clipboard.writeText(url).then(()=>{
+      // ufak geri bildirim
       const btn = $('.linkcopy', detailsEl);
       if(btn){ const old = btn.innerHTML; btn.innerHTML = '<i class="fa-solid fa-check"></i>'; setTimeout(()=>btn.innerHTML=old, 900); }
       history.replaceState(null, '', '#'+id);
@@ -485,6 +522,7 @@
     if(!hash) return;
     const det = document.getElementById(hash);
     if(det){
+      // İlgili kategoriyi aktif et
       const group = det.closest('.faq-group');
       const groupCat = group?.getAttribute('data-cat');
       if(groupCat){
@@ -496,6 +534,12 @@
       window.scrollTo({ top:y, behavior:'smooth' });
     }
   }
+
+  // Footer yıl
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const yil = document.getElementById('yil');
+    if (yil) yil.textContent = new Date().getFullYear();
+  });
 
   // Başlat
   document.addEventListener('DOMContentLoaded', ()=>{
