@@ -11,80 +11,36 @@
   <link rel="stylesheet" href="/assets/css/styles.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <!-- Sayfaya özgü stiller -->
+  <!-- Sayfaya özel minik ek stiller -->
   <style>
-    /* ====== PAGE HERO ====== */
-    .page-hero{
-      padding-top:clamp(72px,9vw,120px);
-      padding-bottom:26px;
-      background:linear-gradient(180deg,#eaf6f9 0%,transparent 72%);
-    }
-    .page-hero h1{
-      font-weight:800; letter-spacing:.2px; margin:0 0 8px;
-    }
-    .page-hero .hero-sub{color:var(--muted,#6b7a7c)}
-    .hero-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    .quick-links{
-      display:grid;grid-template-columns:repeat(6,minmax(120px,1fr));
-      gap:14px;max-width:1000px;margin:16px auto 0
-    }
-    @media (max-width:1024px){.quick-links{grid-template-columns:repeat(3,1fr)}}
-    @media (max-width:560px){.quick-links{grid-template-columns:repeat(2,1fr)}}
-    .quick-links .q{
-      background:#fff;border:1px solid rgba(0,0,0,.06);
-      border-radius:16px;padding:14px 12px;text-decoration:none;
-      display:flex;flex-direction:column;align-items:center;gap:8px;
-      color:inherit;box-shadow:0 6px 18px rgba(0,0,0,.05);
-      transition:transform .15s ease, box-shadow .2s ease
-    }
-    .quick-links .q:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.08)}
-    .quick-links .q i{font-size:22px;opacity:.95}
+    /* Sayfa kahramanı */
+    .page-hero{padding-top:clamp(72px,10vw,120px);padding-bottom:16px;background:linear-gradient(180deg,#eaf6f9 0%,transparent 70%)}
+    .page-hero h1{margin:0 0 8px}
+    .chip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(0,0,0,.08);border-radius:999px;text-decoration:none}
+    .chip:hover{background:#f7fcfd}
 
-    /* ====== STEP CARDS ====== */
-    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    @media(max-width:980px){.steps{grid-template-columns:1fr}}
-    .step-card{
-      background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:16px;
-      padding:18px;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:flex-start;
-      box-shadow:0 8px 22px rgba(0,0,0,.06)
-    }
-    .step-icon{
-      width:48px;height:48px;border-radius:12px;display:grid;place-items:center;
-      background:#f1fafc;border:1px solid #cfe9ee
-    }
-    .step-icon svg{width:24px;height:24px}
-    .step-title{margin:2px 0 4px}
-    .step-text{color:#314146}
+    /* Uyarı bandı */
+    .alert{border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:10px 12px;background:#f8fdff}
+    .alert.critical{border-color:#f2c3c3;background:#fff7f7}
+    .alert i{margin-right:8px;color:#c0392b}
 
-    /* ====== FORMS ====== */
-    .form{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:16px;padding:16px;
-      box-shadow:0 8px 22px rgba(0,0,0,.06)}
-    .form .grid{display:grid}
-    .form input,.form select,.form textarea{
-      border:1px solid rgba(16,179,209,.25);border-radius:12px;padding:10px 12px;
-      font:inherit
-    }
-    .form textarea{resize:vertical}
-    .chip{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:8px 12px;border-radius:999px;border:1px solid rgba(16,179,209,.25);text-decoration:none
-    }
+    /* Kart ızgarası (adım şeridi & başarı hikayeleri) */
+    .services-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+    @media(max-width:980px){.services-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:640px){.services-grid{grid-template-columns:1fr}}
+    .s-card{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+    .s-icon{display:inline-flex;width:40px;height:40px;border-radius:12px;align-items:center;justify-content:center;background:#eaf6f9;margin-bottom:8px}
+    .s-title{margin:2px 0 8px}
+    .s-text{margin:0;color:#233}
 
-    /* ====== CTA BAR ====== */
-    .cta-bar{
-      display:flex;justify-content:space-between;align-items:center;gap:12px;
-      background:#f7fcfd;border:1px dashed #a8cacc;border-radius:16px;padding:12px
-    }
-    @media(max-width:720px){.cta-bar{flex-direction:column;align-items:flex-start}}
-
-    /* FOOTER sosyal ikonları svg ile hizalama */
-    .footer-contact li, .footer-col .social-links a{display:inline-flex;gap:8px;align-items:center}
-    .footer-col .social-links a svg{width:18px;height:18px;display:block}
+    /* KVKK modal */
+    dialog#kvkkDialog{max-width:800px;width:92%;border-radius:16px;border:1px solid rgba(0,0,0,.1);padding:0}
+    dialog#kvkkDialog form{padding:18px 18px 12px}
   </style>
 </head>
 <body>
 
-  <!-- ===== HEADER (site ile aynı) ===== -->
+  <!-- ===== SABİT HEADER (site ile aynı) ===== -->
   <header>
     <div class="header-top">
       <div class="container">
@@ -134,9 +90,9 @@
             <li class="dropdown">
               <a href="/sss.html" aria-haspopup="true" aria-expanded="false">SSS</a>
               <div class="dropdown-content" role="menu">
-                <a href="/sss.html#muayene-ucreti" role="menuitem">Fiyat &amp; Ödeme</a>
-                <a href="/sss.html#randevu-gerekli-mi" role="menuitem">Hizmet Süreçleri</a>
-                <a href="/sss.html#acil-ilk" role="menuitem">Acil Durumlar</a>
+                <a href="/sss.html#fiyat" role="menuitem">Fiyat &amp; Ödeme</a>
+                <a href="/sss.html#surec" role="menuitem">Hizmet Süreçleri</a>
+                <a href="/sss.html#acil" role="menuitem">Acil Durumlar</a>
               </div>
             </li>
 
@@ -151,65 +107,44 @@
             </li>
           </ul>
         </nav>
-
       </div>
     </div>
   </header>
 
-  <!-- ===== PAGE HERO ===== -->
+  <!-- ===== SAYFA KAFA ===== -->
   <section class="page-hero">
     <div class="container">
       <h1>Hasta İlişkileri</h1>
-      <p class="hero-sub">Online randevu, memnuniyet anketi, başarı hikayeleri ve öneri-şikâyet formları.</p>
+      <p class="muted">Online randevu, memnuniyet anketi, başarı hikayeleri ve öneri-şikâyet formları.</p>
 
-      <div class="hero-cta">
-        <a class="btn primary" href="tel:03323223220"><i class="fa-solid fa-phone"></i> Hemen Ara</a>
-        <a class="btn ghost" href="/contact.html"><i class="fa-solid fa-calendar-check"></i> İletişim &amp; Rota</a>
-      </div>
-
-      <div class="quick-links" aria-label="Hızlı bağlantılar">
-        <a class="q" href="#online-randevu" title="Randevu Talebi"><i class="fa-solid fa-stethoscope"></i><span>Online Randevu</span></a>
-        <a class="q" href="#memnuniyet-anketi" title="Memnuniyet Anketi"><i class="fa-solid fa-face-smile"></i><span>Memnuniyet</span></a>
-        <a class="q" href="#basari-hikayeleri" title="Başarı Hikayeleri"><i class="fa-solid fa-heart-pulse"></i><span>Başarı Hikayeleri</span></a>
-        <a class="q" href="#sikayet-oneri" title="Şikayet & Öneri"><i class="fa-solid fa-message"></i><span>Şikayet & Öneri</span></a>
-        <a class="q" href="/sss.html" title="SSS"><i class="fa-solid fa-circle-question"></i><span>SSS</span></a>
-        <a class="q" href="tel:03323223220" title="Acil Hattı"><i class="fa-solid fa-truck-medical"></i><span>Acil</span></a>
-      </div>
-
-      <!-- Kısayol chipleri -->
+      <!-- Hızlı kısayollar -->
       <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px">
-        <a class="chip" href="#online-randevu"><i class="fa-solid fa-calendar-plus"></i> Online Randevu</a>
-        <a class="chip" href="#memnuniyet-anketi"><i class="fa-solid fa-star"></i> Memnuniyet</a>
-        <a class="chip" href="#basari-hikayeleri"><i class="fa-solid fa-heart"></i> Başarı</a>
-        <a class="chip" href="#sikayet-oneri"><i class="fa-solid fa-comment-dots"></i> Öneri & Şikayet</a>
+        <a class="chip" href="#online-randevu"><i class="fa-solid fa-calendar-check"></i> Online Randevu</a>
+        <a class="chip" href="#memnuniyet-anketi"><i class="fa-solid fa-face-smile"></i> Memnuniyet</a>
+        <a class="chip" href="#basari-hikayeleri"><i class="fa-solid fa-heart"></i> Başarı Hikayeleri</a>
+        <a class="chip" href="#sikayet-oneri"><i class="fa-solid fa-comment-dots"></i> Şikayet & Öneri</a>
       </div>
     </div>
   </section>
 
-  <!-- ===== ADIM ŞERİDİ ===== -->
+  <!-- ===== ADIM ŞERİDİ (süreç) ===== -->
   <section class="section">
     <div class="container">
-      <div class="steps">
-        <article class="step-card">
-          <span class="step-icon"><svg viewBox="0 0 24 24"><use href="#i-clipboard"/></svg></span>
-          <div>
-            <h3 class="step-title">1) Talep Oluştur</h3>
-            <p class="step-text">Randevu veya geri bildirim formunu doldurun; sistemimize anında düşer.</p>
-          </div>
+      <div class="services-grid">
+        <article class="s-card show">
+          <span class="s-icon"><svg viewBox="0 0 24 24"><use href="#i-clipboard"/></svg></span>
+          <h3 class="s-title">1) Talep Oluştur</h3>
+          <p class="s-text">Randevu ya da geri bildirim formunu doldurun. Ekibimiz kaydınızı anında görür.</p>
         </article>
-        <article class="step-card">
-          <span class="step-icon"><svg viewBox="0 0 24 24"><use href="#i-phone-bubble"/></svg></span>
-          <div>
-            <h3 class="step-title">2) Hızlı Dönüş</h3>
-            <p class="step-text">Uygunluk doğrulaması ve ön bilgilendirme için sizi arayalım.</p>
-          </div>
+        <article class="s-card show">
+          <span class="s-icon"><svg viewBox="0 0 24 24"><use href="#i-phone-bubble"/></svg></span>
+          <h3 class="s-title">2) Hızlı Dönüş</h3>
+          <p class="s-text">Uygunluk doğrulaması ve ön bilgilendirme için sizi arayalım.</p>
         </article>
-        <article class="step-card">
-          <span class="step-icon"><svg viewBox="0 0 24 24"><use href="#i-stethoscope"/></svg></span>
-          <div>
-            <h3 class="step-title">3) Muayene & Takip</h3>
-            <p class="step-text">Şeffaf süreç, yazılı taburcu planı ve gerektiğinde kontrol randevusu.</p>
-          </div>
+        <article class="s-card show">
+          <span class="s-icon"><svg viewBox="0 0 24 24"><use href="#i-stethoscope"/></svg></span>
+          <h3 class="s-title">3) Muayene & Takip</h3>
+          <p class="s-text">Şeffaf süreç, yazılı taburcu planı ve gerektiğinde kontrol randevusu.</p>
         </article>
       </div>
     </div>
@@ -219,30 +154,56 @@
   <section class="section" id="online-randevu">
     <div class="container">
       <h2>Online Randevu</h2>
-      <p class="muted">Uygun zamanınızı iletin; en kısa sürede teyit edelim.</p>
+
+      <!-- Hayati risk uyarısı (FORM ÜSTÜ) -->
+      <div class="alert critical" role="alert" style="margin-bottom:12px">
+        <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+        <strong>Hayati risk varsa hemen arayın: <a href="tel:03323223220">0332 322 32 20</a>.</strong>
+        <br/>Bu form ön bilgi içindir; triyaj için telefon şarttır.
+      </div>
+
+      <p class="muted" style="margin-top:6px">Uygun zamanınızı iletin; en kısa sürede teyit edelim.</p>
 
       <form name="online-randevu" class="form" method="POST" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="online-randevu"/>
         <p style="display:none"><label>Bot alanı: <input name="bot-field"/></label></p>
 
-        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap,14px)">
+        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
           <input type="text" name="ad" placeholder="Ad Soyad" autocomplete="name" required/>
-          <input type="tel" name="tel" placeholder="Telefon" inputmode="tel" autocomplete="tel" required/>
+          <input type="tel" name="tel" placeholder="Telefon" inputmode="tel" autocomplete="tel" required pattern="^[0-9+()\\s-]{7,}$" />
           <input type="text" name="pet" placeholder="Evcil Hayvan (Kedi/Köpek vb.)" required/>
           <input type="date" name="tarih" required/>
         </div>
 
-        <textarea name="not" placeholder="Kısaca şikâyet/istek" rows="4"></textarea>
+        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
+          <select name="hizmet" required>
+            <option value="">Hizmet Türü</option>
+            <option>Genel Muayene</option>
+            <option>Aşı & Koruyucu</option>
+            <option>Diş & Dental</option>
+            <option>Görüntüleme (Röntgen/USG)</option>
+            <option>Laboratuvar (Kan/İdrar)</option>
+            <option>Cerrahi Değerlendirme</option>
+            <option>Diğer</option>
+          </select>
+          <input type="text" name="mikrocip" placeholder="Mikroçip No (varsa)"/>
+          <input type="text" name="irk" placeholder="Irk/Cins (opsiyonel)"/>
+          <input type="number" step="0.1" name="kilo" placeholder="Kilo (kg, opsiyonel)"/>
+        </div>
+
+        <textarea name="not" placeholder="Kısaca şikâyet/istek (son 12 saatte ilaç, kusma/ishal, iştah vb.)" rows="4"></textarea>
 
         <label style="display:flex;gap:8px;align-items:flex-start;margin:8px 0">
           <input type="checkbox" name="kvkk" required/>
-          <span class="muted">KVKK Aydınlatma metnini okudum ve onaylıyorum.</span>
+          <span class="muted">
+            <a href="#kvkk" id="kvkkLink">KVKK Aydınlatma Metni</a>’ni okudum ve onaylıyorum.
+          </span>
         </label>
 
         <!-- reCAPTCHA istersen: <div data-netlify-recaptcha="true"></div> -->
 
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
-          <button class="btn primary" type="submit"><i class="fa-solid fa-check"></i> Randevu Talep Et</button>
+          <button class="btn primary" type="submit">Randevu Talep Et</button>
           <a class="btn ghost" href="/contact.html#konum"><i class="fa-solid fa-map-location-dot"></i> Konum</a>
           <a class="btn ghost" href="tel:03323223220"><i class="fa-solid fa-phone"></i> Ara</a>
         </div>
@@ -260,7 +221,7 @@
         <input type="hidden" name="form-name" value="memnuniyet"/>
         <p style="display:none"><label>Bot alanı: <input name="bot-field"/></label></p>
 
-        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap,14px)">
+        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
           <select name="puan" required>
             <option value="">Memnuniyet Puanınız</option>
             <option>5 - Çok Memnunum</option>
@@ -276,7 +237,7 @@
         <textarea name="yorum" placeholder="Görüşünüz" rows="4"></textarea>
 
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
-          <button class="btn" type="submit"><i class="fa-solid fa-paper-plane"></i> Gönder</button>
+          <button class="btn" type="submit">Gönder</button>
           <a class="btn ghost" href="#basari-hikayeleri"><i class="fa-solid fa-heart"></i> Başarı Hikayeleri</a>
         </div>
       </form>
@@ -319,7 +280,7 @@
         <input type="hidden" name="form-name" value="sikayet-oneri"/>
         <p style="display:none"><label>Bot alanı: <input name="bot-field"/></label></p>
 
-        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap,14px)">
+        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
           <input type="text" name="ad" placeholder="Ad Soyad" autocomplete="name" required/>
           <input type="email" name="email" placeholder="E-posta" autocomplete="email" required/>
           <select name="konu" required>
@@ -335,7 +296,7 @@
         <textarea name="mesaj" placeholder="Mesajınız" rows="5" required></textarea>
 
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
-          <button class="btn" type="submit"><i class="fa-solid fa-paper-plane"></i> Gönder</button>
+          <button class="btn" type="submit">Gönder</button>
           <a class="btn ghost" href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> E-posta</a>
           <a class="btn ghost" href="tel:03323223220"><i class="fa-solid fa-phone"></i> Ara</a>
         </div>
@@ -351,25 +312,17 @@
     </div>
   </section>
 
-  <!-- ===== FOOTER ===== -->
+  <!-- ===== FOOTER (index ile aynı) ===== -->
   <footer class="footer-new">
     <div class="container footer-container">
       <div class="footer-col">
         <h3>Elçi Veteriner Kliniği</h3>
         <p>Konya’nın Meram ilçesinde, hayvan sağlığı alanında uzman ekibimizle hizmet veriyoruz. 7/24 acil veteriner hizmeti.</p>
         <div class="social-links">
-          <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 10h3l.5-3H13V5.5c0-.9.3-1.5 1.7-1.5H17V1h-3c-3 0-4.5 1.6-4.5 4.4V7H7v3h2.5v9h3v-9z"/></svg>
-          </a>
-          <a href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><path d="M17.5 6.5h.01" stroke-width="2"/></svg>
-          </a>
-          <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.8c-.8.4-1.6.6-2.5.7.9-.6 1.5-1.4 1.8-2.4-.8.5-1.8.9-2.8 1.1A3.7 3.7 0 0 0 12 8.4c0 .3 0 .7.1 1A10.5 10.5 0 0 1 3 5.2a3.7 3.7 0 0 0 1.1 5 3.6 3.6 0 0 1-1.7-.5v.1c0 1.8 1.3 3.3 3 3.7-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1.5 1.5 1.9 2.6 3.6 2.6A7.5 7.5 0 0 1 3 19.5 10.6 10.6 0 0 0 9.7 21c6.3 0 9.7-5.2 9.7-9.7v-.4c.8-.6 1.5-1.4 2-2.3z"/></svg>
-          </a>
-          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5a4 4 0 0 0-3-3.1C18.3 4 12 4 12 4s-6.3 0-8 .4A4 4 0 0 0 1 7.5 41 41 0 0 0 1 16.5a4 4 0 0 0 3 3.1c1.7.4 8 .4 8 .4s6.3 0 8-.4a4 4 0 0 0 3-3.1 41 41 0 0 0 0-9zM10 15.5v-7l6 3.5-6 3.5z"/></svg>
-          </a>
+          <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
         </div>
       </div>
 
@@ -399,31 +352,17 @@
       <div class="footer-col">
         <h3>Konya İletişim</h3>
         <ul class="footer-contact">
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"/><circle cx="12" cy="11" r="2.5"/></svg>
+          <li><i class="fa-solid fa-location-dot"></i>
             <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a>
           </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.5v2a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3.1 19 19 0 0 1-6-6A2 2 0 0 1 7.5 9h2l2 3-1.5 1.5a16 16 0 0 0 6 6L18 18l3 2.5z"/></svg>
-            <a href="tel:03323223220">0332 322 32 20</a>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
-            <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
-            <span>Pazartesi–Cumartesi: 08:00–19:00<br>Pazar: Acil Hizmet</span>
-          </li>
+          <li><i class="fa-solid fa-phone"></i> <a href="tel:03323223220">0332 322 32 20</a></li>
+          <li><i class="fa-solid fa-envelope"></i> <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></li>
+          <li><i class="fa-solid fa-clock"></i> <span>Pazartesi–Cumartesi: 08:00–19:00 • Pazar: Acil Hizmet</span></li>
         </ul>
       </div>
     </div>
 
-    <div class="footer-bottom">
-      <div class="container">
-        <p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p>
-      </div>
-    </div>
+    <div class="footer-bottom"><div class="container"><p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p></div></div>
   </footer>
 
   <!-- Schema.org: Organization + ContactPoint -->
@@ -441,49 +380,57 @@
   }
   </script>
 
-  <!-- SVG ICON SPRITE (bu sayfada kullanılan minimal set) -->
-  <svg width="0" height="0" style="position:absolute">
-    <defs>
-      <symbol id="i-clipboard" viewBox="0 0 24 24">
-        <path fill="currentColor" d="M9 2h6a2 2 0 0 1 2 2h1a2 2 0 0 1 2 2v12a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V6a2 2 0 0 1 2-2h1a2 2 0 0 1 2-2Zm0 2v2h6V4H9Z"/>
-      </symbol>
-      <symbol id="i-phone-bubble" viewBox="0 0 24 24">
-        <path fill="currentColor" d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1.7 1.7 0 0 1 1.8-.4c1.3.5 2.7.8 4.1.8a1.7 1.7 0 0 1 1.7 1.7v2.7A2 2 0 0 1 21.7 22C10.7 22 2 13.3 2.1 2.3A2 2 0 0 1 4 0h2.7a1.7 1.7 0 0 1 1.7 1.7c0 1.4.3 2.8.8 4.1.2.6.1 1.3-.4 1.8L6.6 10.8Z"/>
-      </symbol>
-      <symbol id="i-stethoscope" viewBox="0 0 24 24">
-        <path fill="currentColor" d="M7 2v5a5 5 0 0 0 10 0V2h-2v5a3 3 0 1 1-6 0V2H7Zm9 10a4 4 0 1 0 4 4h-2a2 2 0 1 1-2-2 4 4 0 0 0 4-4 3 3 0 1 0-6 0h2a1 1 0 1 1 2 0 2 2 0 1 1-2 2Z"/>
-      </symbol>
-      <symbol id="i-paw" viewBox="0 0 24 24">
-        <path fill="currentColor" d="M5 9c1.1 0 2-.9 2-2S6.1 5 5 5 3 5.9 3 7s.9 2 2 2Zm14 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2Zm-8-3c1.4 0 2.5-1.3 2.5-3S12.4 0 11 0 8.5 1.3 8.5 3 9.6 6 11 6Zm-3.2 7.2C6.2 14.5 6 16 7.2 17.2c2 2 7.6 2 9.6 0 1.2-1.2 1-2.7-.6-4-2.1-1.7-6.5-1.7-8.6 0Z"/>
-      </symbol>
-      <symbol id="i-xray" viewBox="0 0 24 24">
-        <path fill="currentColor" d="M4 3h16a2 2 0 0 1 2 2v3H2V5a2 2 0 0 1 2-2Zm-2 8h20v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6Zm6 2v2h2v-2H8Zm4 0v2h2v-2h-2Zm4 0v2h2v-2h-2Z"/>
-      </symbol>
-      <symbol id="i-tooth-clean" viewBox="0 0 24 24">
-        <path fill="currentColor" d="M7 2c2 0 3 .8 5 .8S15 2 17 2c2.8 0 5 2.2 5 5 0 3-1.5 4.8-3.2 5.9-.9.6-1.4 1.6-1.4 2.7V20c0 .6-.4 1-1 1-.9 0-1.6-.6-1.8-1.4-.5-1.8-.9-3.1-2.6-3.1s-2.1 1.3-2.6 3.1C9.2 20.4 8.5 21 7.6 21c-.6 0-1-.4-1-1v-4.4c0-1-.5-2-1.4-2.6C2.5 11.8 1 10 1 7 1 4.2 3.2 2 6 2h1Z"/>
-      </symbol>
-    </defs>
+  <!-- SVG ICON SPRITE (index’te kullandığın semboller – gereklileri) -->
+  <svg width="0" height="0" style="position:absolute;visibility:hidden" aria-hidden="true" focusable="false">
+    <symbol id="i-clipboard" viewBox="0 0 24 24"><path fill="currentColor" d="M9 2h6a2 2 0 0 1 2 2h2a2 2 0 0 1 2 2v13a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2-2Zm1 3h4V4h-4v1Z"/></symbol>
+    <symbol id="i-phone-bubble" viewBox="0 0 24 24"><path fill="currentColor" d="M20 2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-3l-4 3v-3H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12Z"/></symbol>
+    <symbol id="i-stethoscope" viewBox="0 0 24 24"><path fill="currentColor" d="M6 3h2v6a4 4 0 1 0 8 0V3h2v6a6 6 0 0 1-5 5.92V19a3 3 0 0 0 6 0h2a5 5 0 1 1-10 0v-4.08A6 6 0 0 1 6 9V3Z"/></symbol>
+    <symbol id="i-paw" viewBox="0 0 24 24"><path fill="currentColor" d="M12 13c3 0 6 2 6 4.5S15 22 12 22s-6-1.5-6-4.5S9 13 12 13Zm-5-2a2 2 0 1 1 0-4 2 2 0 0 1 0 4Zm10 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4ZM9 4a2 2 0 1 1-3-2 2 2 0 0 1 3 2Zm9 0a2 2 0 1 1-3-2 2 2 0 0 1 3 2Z"/></symbol>
+    <symbol id="i-xray" viewBox="0 0 24 24"><path fill="currentColor" d="M5 3h14a2 2 0 0 1 2 2v4H3V5a2 2 0 0 1 2-2Zm-2 8h18v6a2 2 0 0 1-2 2h-6v-4h-2v4H5a2 2 0 0 1-2-2v-6Z"/></symbol>
+    <symbol id="i-tooth-clean" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2c4 0 7 3 7 6.5C19 13 16 18 12 22c-4-4-7-9-7-13.5C5 5 8 2 12 2Zm4 6-2 2-2-2"/></symbol>
   </svg>
 
-  <!-- Tek JS dosyası + küçük yardımcılar -->
-  <script defer src="/assets/js/main.js?v=18"></script>
-  <script>
-    // Footer yıl
-    document.addEventListener('DOMContentLoaded', ()=>{
-      const yilEl=document.getElementById('yil');
-      if(yilEl) yilEl.textContent=new Date().getFullYear();
-    });
+  <!-- Tek JS dosyası -->
+  <script defer src="/assets/js/main.js?v=17"></script>
 
-    // Yumuşak kaydırma (aynı sayfa anchor'ları)
-    document.addEventListener('click', (e)=>{
-      const a=e.target.closest('a[href^="#"]');
-      if(!a) return;
-      const id=a.getAttribute('href').slice(1);
-      const el=document.getElementById(id);
-      if(el){
-        e.preventDefault();
-        const y=el.getBoundingClientRect().top+window.scrollY-86;
-        window.scrollTo({top:y,behavior:'smooth'});
+  <!-- KVKK Modal -->
+  <dialog id="kvkkDialog">
+    <form method="dialog">
+      <header style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+        <h3 style="margin:0">KVKK Aydınlatma Metni</h3>
+        <button class="btn" value="cancel" aria-label="Kapat">Kapat</button>
+      </header>
+      <div style="max-height:min(60vh,560px);overflow:auto;margin-top:10px" class="muted">
+        <p>Bu formda paylaştığınız kişisel veriler; randevu oluşturma, kimlik doğrulama ve sağlık hizmeti sunumu amaçlarıyla işlenecektir. Ayrıntılı metin için <a href="/kvkk.html" target="_blank" rel="noopener">/kvkk.html</a>.</p>
+        <ul>
+          <li>Toplanan veriler: Ad-soyad, iletişim bilgisi, evcil hayvan bilgileri, randevu notları.</li>
+          <li>Hukuki dayanak: 6698 sayılı KVKK mad. 5/2 ve sağlık hizmeti istisnaları.</li>
+          <li>Veri saklama: Mevzuat süreleri ve sözleşme ilişkisi boyunca.</li>
+          <li>Haklarınız: Bilgi talebi, düzeltme, silme, itiraz vb.</li>
+        </ul>
+      </div>
+      <footer style="display:flex;justify-content:flex-end;gap:8px;margin-top:10px">
+        <a class="btn ghost" href="/kvkk.html" target="_blank" rel="noopener">Tam Metin</a>
+        <button class="btn primary" value="ok">Okudum</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- KVKK Modal JS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Yıl
+      const yil = document.getElementById('yil'); if(yil){ yil.textContent = new Date().getFullYear(); }
+
+      // KVKK modal
+      const link = document.getElementById('kvkkLink');
+      const dlg  = document.getElementById('kvkkDialog');
+      if(link && dlg){
+        link.addEventListener('click', (e)=>{
+          e.preventDefault();
+          if(typeof dlg.showModal === 'function'){ dlg.showModal(); }
+          else { window.location.href = '/kvkk.html'; }
+        });
       }
     });
   </script>
