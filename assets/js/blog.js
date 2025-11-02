@@ -1,219 +1,164 @@
-/* Elçi Veteriner - Blog motoru (blog.json → kartlar)
-   - Desteklediği şemalar:
-     Minimal: {title, date, summary, cover, content, url}
-     Pro: {title, slug, date, scheduledAt, published, summary, cover, youtubeId, categories, tags, author, readingMinutes, seoTitle, seoDescription, url, content}
-   - Nerede çalışır:
-     1) /blog.html → #blogGrid  (opsiyonel: #blogFilters, #blogSearch)
-     2) /index.html → #blogGrid (son 3 yazı)
-   - Kaynak JSON yolu:
-     <section id="blog" data-json="/assets/data/blog.json"> ... 
-*/
+// assets/js/blog.js  (v2)
+(function(){
+  const PAGE_SIZE = 6;
 
-(function () {
-  const tz = 'Europe/Istanbul';
+  // Elemanlar
+  const blogSection = document.querySelector('section#blog');
+  if(!blogSection) return;
 
-  // === Yardımcılar ===
-  const $ = (sel, root = document) => root.querySelector(sel);
-  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  const src          = blogSection.getAttribute('data-json') || '/assets/data/blog.json';
+  const gridEl       = document.getElementById('blogGrid');
+  const searchEl     = document.getElementById('blogSearch');
+  const paginationEl = document.getElementById('blogPagination');
 
-  const parseDate = (iso) => {
-    try { return iso ? new Date(iso) : null; } catch { return null; }
+  // Durum
+  let allPosts = [];
+  let filtered = [];
+  let currentPage = 1;
+  let totalPages  = 1;
+  let q = '';
+
+  // Yardımcılar
+  const isPublished = iso => {
+    try { return new Date(iso) <= new Date(); }
+    catch { return true; }
+  };
+  const fmtDate = iso => {
+    try { return new Date(iso).toLocaleDateString('tr-TR',{year:'numeric',month:'long',day:'numeric'}); }
+    catch { return iso; }
   };
 
-  const fmtDate = (iso) => {
-    const d = parseDate(iso);
-    if (!d) return '';
-    // Türkçe kısa biçim
-    return d.toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric', timeZone: tz });
-  };
-
-  const now = () => new Date(); // sunucu/istemci saati
-
-  // İçerik uzunluğundan okuma süresi tahmini (yoksa)
-  const calcReadingMin = (html) => {
-    if (!html) return 3;
-    const text = html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-    const words = text.split(' ').filter(Boolean).length;
-    return Math.max(2, Math.round(words / 200)); // ~200 wpm
-  };
-
-  // Pro veya Minimal kaydı normalize et
-  const norm = (p) => {
-    const published = (typeof p.published === 'boolean') ? p.published : true;
-    const scheduledAt = p.scheduledAt || p.date;
-    return {
-      title: p.title || 'Başlıksız',
-      slug: p.slug || (p.url ? String(p.url).split('#').pop() : ''),
-      date: p.date,
-      scheduledAt,
-      published,
-      summary: p.summary || '',
-      cover: p.cover || '',
-      youtubeId: p.youtubeId || '',
-      categories: p.categories || [],
-      tags: p.tags || [],
-      author: p.author || 'Elçi Veteriner',
-      readingMinutes: p.readingMinutes || calcReadingMin(p.content || ''),
-      url: p.url || (p.slug ? `/blog.html#${p.slug}` : '#'),
-      content: p.content || ''
-    };
-  };
-
-  // Yayın filtresi: published = true ve scheduledAt <= now
-  const isLive = (post) => {
-    if (!post.published) return false;
-    const s = parseDate(post.scheduledAt || post.date);
-    return s ? (s.getTime() <= now().getTime()) : true;
-    // date bile yoksa göster
-  };
-
-  // JSON yükleyici (section[data-json] varsa orayı kullanır)
-  async function loadJSONFromSection(sectionId = 'blog', fallbackPath = '/assets/data/blog.json') {
-    const sec = document.getElementById(sectionId);
-    const path = sec?.getAttribute('data-json') || fallbackPath;
-    const res = await fetch(path, { cache: 'no-store' });
-    if (!res.ok) throw new Error(`blog.json yüklenemedi (${res.status})`);
-    const data = await res.json();
-    if (!data || !Array.isArray(data.posts)) throw new Error('Geçersiz blog.json');
-    return data.posts.map(norm);
-  }
-
-  // Kart HTML’i
-  function cardHTML(p) {
-    const hasCover = !!p.cover;
-    const hasVideo = !!p.youtubeId;
-    const cats = p.categories.length ? `<div class="b-cats">${p.categories.map(c => `<span class="b-chip">${c}</span>`).join('')}</div>` : '';
-    const badgeVideo = hasVideo ? `<span class="b-badge b-badge-video" title="Video içerik">▶</span>` : '';
-    const cover = hasCover
-      ? `<div class="b-cover">
-           <img src="${p.cover}" alt="${p.title}" loading="lazy" decoding="async">
-           ${badgeVideo}
-         </div>`
-      : (hasVideo
-         ? `<div class="b-cover b-cover-video">
-              <div class="b-cover-video-ph">${badgeVideo}</div>
-            </div>`
-         : '');
-
+  function postCard(p){
+    const cover = p.cover ? `<img src="${p.cover}" alt="${p.title}">` : '';
     return `
-      <article class="b-card">
-        ${cover}
-        <div class="b-body">
-          ${cats}
-          <h3 class="b-title"><a href="${p.url}">${p.title}</a></h3>
-          <div class="b-meta">
-            <time datetime="${p.date}">${fmtDate(p.date)}</time>
-            <span aria-hidden="true">•</span>
-            <span>${p.readingMinutes} dk</span>
-          </div>
-          <p class="b-summary">${p.summary}</p>
-          <div class="b-actions">
-            <a class="btn ghost" href="${p.url}">Oku</a>
-            ${hasVideo ? `<a class="btn" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=${p.youtubeId}">Videoyu Aç</a>` : ``}
-          </div>
+    <article class="b-card">
+      <a class="b-cover" href="${p.url}">${cover}</a>
+      <div class="b-body">
+        <h3 class="b-title"><a href="${p.url}">${p.title}</a></h3>
+        <div class="b-meta">${fmtDate(p.date)}</div>
+        <p class="b-summary">${p.summary ?? ''}</p>
+        <div class="b-actions">
+          <a class="btn primary" href="${p.url}">Oku</a>
         </div>
-      </article>
-    `;
+      </div>
+    </article>`;
   }
 
-  // Grid’e bas
-  function renderGrid(posts, rootEl) {
-    rootEl.innerHTML = posts.map(cardHTML).join('');
+  function applyFilters(){
+    const term = (q || '').trim().toLowerCase();
+
+    filtered = allPosts.filter(p=>{
+      if(!p || !p.title || !p.date || !p.url) return false;
+      if(!isPublished(p.date)) return false;
+      if(!term) return true;
+      const hay = [
+        p.title, p.summary, p.content,
+        (p.category||''), ...(p.tags||[])
+      ].join(' ').toLowerCase();
+      return hay.includes(term);
+    });
+
+    totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+    if(currentPage > totalPages) currentPage = totalPages;
   }
 
-  // Filtre kurulumu (/blog.html)
-  function setupFilters(allPosts) {
-    const filtWrap = document.getElementById('blogFilters');
-    const grid = document.getElementById('blogGrid');
-    const search = document.getElementById('blogSearch');
+  function renderPage(n){
+    currentPage = Math.max(1, Math.min(n, totalPages));
+    const start = (currentPage - 1) * PAGE_SIZE;
+    const end   = start + PAGE_SIZE;
+    const slice = filtered.slice(start, end);
 
-    if (!grid) return;
+    gridEl.innerHTML = slice.length
+      ? slice.map(postCard).join('')
+      : `<p class="muted">Eşleşen içerik bulunamadı.</p>`;
 
-    // Kategori seti
-    const cats = Array.from(
-      new Set(allPosts.flatMap(p => p.categories || []))
-    ).sort();
+    buildPagination();
+    gridEl.scrollIntoView({behavior:'smooth', block:'start'});
 
-    // Filtre çipleri (Hepsi + kategoriler)
-    if (filtWrap && cats.length) {
-      filtWrap.innerHTML = [
-        `<button class="b-chip b-chip-active" data-cat="*">Hepsi</button>`,
-        ...cats.map(c => `<button class="b-chip" data-cat="${encodeURIComponent(c)}">${c}</button>`)
-      ].join('');
-
-      filtWrap.addEventListener('click', (e) => {
-        const btn = e.target.closest('button[data-cat]');
-        if (!btn) return;
-        $$('.b-chip', filtWrap).forEach(b => b.classList.remove('b-chip-active'));
-        btn.classList.add('b-chip-active');
-
-        const cat = decodeURIComponent(btn.getAttribute('data-cat'));
-        const q = (search?.value || '').toLowerCase();
-
-        const filtered = allPosts.filter(p => {
-          const inCat = cat === '*' || (p.categories || []).includes(cat);
-          const inSearch = !q || (
-            p.title.toLowerCase().includes(q) ||
-            p.summary.toLowerCase().includes(q) ||
-            (p.tags || []).some(t => t.toLowerCase().includes(q))
-          );
-          return inCat && inSearch;
-        });
-
-        renderGrid(filtered, grid);
-      });
-    }
-
-    // Arama
-    if (search) {
-      let t;
-      search.addEventListener('input', () => {
-        clearTimeout(t);
-        t = setTimeout(() => {
-          const activeBtn = $('.b-chip-active', filtWrap) || $('[data-cat="*"]', filtWrap);
-          activeBtn?.click();
-          if (!filtWrap) {
-            const q = search.value.toLowerCase();
-            const filtered = allPosts.filter(p =>
-              p.title.toLowerCase().includes(q) ||
-              p.summary.toLowerCase().includes(q) ||
-              (p.tags || []).some(t => t.toLowerCase().includes(q))
-            );
-            renderGrid(filtered, grid);
-          }
-        }, 150);
-      });
-    }
+    // URL paramlarını güncelle
+    const url = new URL(window.location);
+    if(q) url.searchParams.set('q', q); else url.searchParams.delete('q');
+    url.searchParams.set('page', String(currentPage));
+    window.history.replaceState({}, '', url);
   }
 
-  // Ana giriş noktaları
-  async function setupBlog() {
-    const blogSec = document.getElementById('blog');
-    if (!blogSec) return; // sayfada blog bölümü yoksa çık
+  function buildPagination(){
+    if(!paginationEl) return;
+    if(totalPages <= 1){ paginationEl.innerHTML=''; return; }
 
-    const grid = document.getElementById('blogGrid');
-    if (!grid) return;
+    const parts = [];
+    // Prev
+    parts.push(`<button class="prev" ${currentPage===1?'aria-disabled="true"':''} data-goto="${currentPage-1}" aria-label="Önceki sayfa">‹</button>`);
 
-    try {
-      const all = await loadJSONFromSection('blog');
-      const live = all.filter(isLive).sort((a, b) => (parseDate(b.date) - parseDate(a.date)));
-
-      // blog.html mi, ana sayfa mı? (varsayım: blog.html’de filtre/arama alanları bulunur)
-      const isBlogPage = !!document.getElementById('blogFilters') || location.pathname.endsWith('/blog.html');
-
-      if (isBlogPage) {
-        renderGrid(live, grid);
-        setupFilters(live);
-      } else {
-        // Ana sayfa: son 3 yazı
-        renderGrid(live.slice(0, 3), grid);
+    // Akıllı kısaltma: 1 … k-1 k k+1 … N
+    const windowSize = 1;
+    const pages = [];
+    for(let i=1;i<=totalPages;i++){
+      if(i===1 || i===totalPages || Math.abs(i-currentPage)<=windowSize){
+        pages.push(i);
       }
-    } catch (err) {
-      console.error(err);
-      grid.innerHTML = `<p class="muted">Blog şu an yüklenemedi. Lütfen daha sonra tekrar deneyin.</p>`;
     }
+    let last = 0;
+    const pushPage = n => parts.push(
+      `<button class="page" ${n===currentPage?'aria-current="page"':''} data-goto="${n}">${n}</button>`
+    );
+
+    pages.forEach(p=>{
+      if(p - last > 1) parts.push(`<span class="ellipsis">…</span>`);
+      pushPage(p);
+      last = p;
+    });
+
+    // Next
+    parts.push(`<button class="next" ${currentPage===totalPages?'aria-disabled="true"':''} data-goto="${currentPage+1}" aria-label="Sonraki sayfa">›</button>`);
+
+    paginationEl.innerHTML = parts.join('');
+    paginationEl.querySelectorAll('[data-goto]').forEach(btn=>{
+      btn.addEventListener('click', e=>{
+        const n = Number(e.currentTarget.dataset.goto);
+        if(!Number.isNaN(n)) renderPage(n);
+      });
+    });
+  }
+
+  function readURLParams(){
+    const url = new URL(window.location);
+    const qp  = url.searchParams.get('page');
+    const qq  = url.searchParams.get('q');
+    const n   = Number(qp || '1');
+    if(qq){ q = qq; if(searchEl) searchEl.value = qq; }
+    return (!Number.isNaN(n) && n>=1) ? n : 1;
   }
 
   // Başlat
-  window.addEventListener('DOMContentLoaded', setupBlog);
+  fetch(src, {cache:'no-store'})
+    .then(r=>r.json())
+    .then(data=>{
+      allPosts = (data.posts || [])
+        .slice()
+        .sort((a,b)=> new Date(b.date) - new Date(a.date));
+
+      currentPage = readURLParams();
+      applyFilters();
+      renderPage(currentPage);
+    })
+    .catch(err=>{
+      console.error('Blog verisi yüklenemedi:', err);
+      if(gridEl) gridEl.innerHTML = `<p class="muted">Blog verileri yüklenemedi.</p>`;
+      if(paginationEl) paginationEl.innerHTML = '';
+    });
+
+  // Arama
+  if(searchEl){
+    let t;
+    searchEl.addEventListener('input', ()=>{
+      clearTimeout(t);
+      t = setTimeout(()=>{
+        q = searchEl.value || '';
+        currentPage = 1;
+        applyFilters();
+        renderPage(currentPage);
+      }, 160);
+    });
+  }
 })();
