@@ -4,15 +4,81 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Blog | Elçi Veteriner Kliniği</title>
-  <meta name="description" content="Evcil hayvan sağlığı üzerine rehber yazılar ve kliniğimizden haberler."/>
+  <meta name="description" content="Elçi Veteriner Kliniği blogu: aşı takvimi, acil ilk yardım, diş sağlığı, sıcak havada güvenlik ve kısırlaştırma gibi konularda uzman içerikler."/>
   <link rel="canonical" href="https://elciveteriner.com/blog.html"/>
+
+  <!-- Aynı iki CSS -->
   <link rel="stylesheet" href="/assets/css/styles.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <!-- Sayfaya özel minimal ek stil (ana renk değişkenlerini kullanır) -->
+  <style>
+    :root{
+      --b-brand: var(--brand, #0c4e54);
+      --b-accent: var(--accent, #10b3d1);
+      --b-muted: var(--muted, #6b7a7c);
+      --b-ink: var(--ink, #112);
+      --b-r: 18px;
+    }
+
+    /* Ana sayfa hero ile uyumlu, sadece başlık değişti */
+    .hero.blog-hero{
+      padding-top: clamp(40px, 8vw, 80px);
+      padding-bottom: 24px;
+      background: linear-gradient(180deg, #eaf6f9 0%, transparent 70%);
+    }
+    .hero.blog-hero h1{ margin-bottom: 8px; }
+    .hero-divider{ width: 160px; height: 3px; background: linear-gradient(90deg, transparent, var(--b-accent), transparent); border-radius: 999px; margin: 10px auto; }
+
+    /* Toolbar (filtre & arama) */
+    .blog-toolbar{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin: 6px 0 16px; }
+    #blogFilters{ display:flex; gap:8px; flex-wrap:wrap; }
+    .b-chip{
+      appearance:none; border:1px solid rgba(16,179,209,.2); background:#fff;
+      padding:8px 14px; border-radius:999px; cursor:pointer; font-size:14px;
+      transition: background .15s, border-color .15s, transform .15s;
+    }
+    .b-chip:hover{ background:#f7fdff; transform: translateY(-1px); }
+    .b-chip-active{ background:#f0fbfe; border-color: var(--b-accent); }
+
+    #blogSearch{
+      border:1px solid rgba(16,179,209,.25); border-radius:12px; padding:10px 12px; min-width:220px; flex:1 1 260px;
+    }
+
+    /* Grid ve kartlar: ana sayfa kart estetiğine paralel */
+    .blog-grid{ display:grid; gap:16px; grid-template-columns: repeat(3, minmax(0,1fr)); }
+    @media (max-width: 980px){ .blog-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
+    @media (max-width: 640px){ .blog-grid{ grid-template-columns: 1fr; } }
+
+    .b-card{
+      background:#fff; border:1px solid rgba(0,0,0,.06); border-radius: var(--b-r);
+      box-shadow:0 6px 22px rgba(0,0,0,.05);
+      overflow:hidden; display:flex; flex-direction:column;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .b-card:hover{ transform: translateY(-4px); box-shadow:0 12px 28px rgba(0,0,0,.10); border-color: rgba(0,0,0,.12); background: var(--bg, #f5fbfc); }
+    .b-cover{ position:relative; aspect-ratio:16/9; background:#eef6f8; }
+    .b-cover img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .b-badge{
+      position:absolute; right:10px; bottom:10px; background:#0f172a; color:#fff;
+      padding:6px 10px; border-radius:10px; font-size:12px; opacity:.92;
+    }
+    .b-body{ padding:16px; display:flex; flex-direction:column; gap:8px; }
+    .b-title{ font-size:20px; margin:0; }
+    .b-title a{ color: var(--b-ink); text-decoration:none; }
+    .b-title a:hover{ color: var(--b-brand); text-decoration: underline; }
+    .b-meta{ color:#43656a; font-size:14px; }
+    .b-summary{ color:#2b3a3c; line-height:1.6; }
+
+    .b-actions{ margin-top:6px; display:flex; gap:10px; flex-wrap:wrap; }
+    .btn{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:12px; border:1px solid #d7eaee; background:#fff; color:#123; text-decoration:none; }
+    .btn.primary{ border-color:transparent; background: linear-gradient(180deg,#10b3d1,#0ea2bd); color:#fff; }
+    .muted{ color: var(--b-muted); }
+  </style>
 </head>
 <body>
 
-  <!-- Header (index ile aynı) -->
-  <!-- ... about.html üst kısmıyla birebir aynı, sadece Blog linkine class="active" ver -->
+  <!-- ===== SABİT HEADER (aynı) ===== -->
   <header>
     <div class="header-top">
       <div class="container">
@@ -25,48 +91,193 @@
         </div>
       </div>
     </div>
+
     <div class="header-main">
       <div class="container">
         <div class="logo-text">
           <h1>Elçi Veteriner Kliniği</h1>
           <span>Sağlığın Elçi'leriyiz</span>
         </div>
+
         <nav aria-label="Birincil">
-          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç/kapat"><i class="fa-solid fa-bars"></i></button>
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç/kapat">
+            <i class="fa-solid fa-bars"></i>
+          </button>
           <ul id="mainMenu">
             <li><a href="/index.html">Ana Sayfa</a></li>
-            <li class="dropdown"><a href="/about.html">Hakkımızda</a> <!-- alt menü bloğu --> </li>
-            <li class="dropdown"><a href="/hizmetler.html">Hizmetlerimiz</a> <!-- alt menü bloğu --> </li>
-            <li><a href="/blog.html" class="active">Blog</a></li>
-            <li class="dropdown"><a href="/sss.html">SSS</a> <!-- alt menü bloğu --> </li>
-            <li class="dropdown"><a href="/hasta-iliskileri.html">Hasta İlişkileri</a> <!-- alt menü bloğu --> </li>
+            <li class="dropdown">
+              <a href="/about.html" aria-haspopup="true" aria-expanded="false">Hakkımızda</a>
+              <div class="dropdown-content" role="menu">
+                <a href="/about.html#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
+                <a href="/about.html#ekibimiz" role="menuitem">Ekibimiz</a>
+                <a href="/about.html#klinik" role="menuitem">Kliniğimiz</a>
+                <a href="/about.html#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
+                <a href="/about.html#degerler" role="menuitem">Değerlerimiz</a>
+              </div>
+            </li>
+
+            <li class="dropdown">
+              <a href="/hizmetler.html" aria-haspopup="true" aria-expanded="false">Hizmetlerimiz</a>
+              <div class="dropdown-content" role="menu">
+                <a href="/hizmetler.html#acil" role="menuitem">Acil Veteriner</a>
+                <a href="/hizmetler.html#koruyucu" role="menuitem">Koruyucu Hekimlik</a>
+                <a href="/hizmetler.html#cerrahi" role="menuitem">Cerrahi Operasyonlar</a>
+                <a href="/hizmetler.html#agiz-dis" role="menuitem">Ağız ve Diş Sağlığı</a>
+                <a href="/hizmetler.html#ic-hastaliklari" role="menuitem">İç Hastalıkları</a>
+                <a href="/hizmetler.html#fizik-tedavi" role="menuitem">Fizik Tedavi</a>
+                <a href="/hizmetler.html#konaklama" role="menuitem">Konaklama</a>
+              </div>
+            </li>
+
+            <li><a class="active" href="/blog.html">Blog</a></li>
+
+            <li class="dropdown">
+              <a href="/sss.html" aria-haspopup="true" aria-expanded="false">SSS</a>
+              <div class="dropdown-content" role="menu">
+                <a href="/sss.html#fiyat" role="menuitem">Fiyat &amp; Ödeme</a>
+                <a href="/sss.html#surec" role="menuitem">Hizmet Süreçleri</a>
+                <a href="/sss.html#acil" role="menuitem">Acil Durumlar</a>
+              </div>
+            </li>
+
+            <li class="dropdown">
+              <a href="/hasta-iliskileri.html" aria-haspopup="true" aria-expanded="false">Hasta İlişkileri</a>
+              <div class="dropdown-content" role="menu">
+                <a href="/hasta-iliskileri.html#online-randevu" role="menuitem">Online Randevu</a>
+                <a href="/hasta-iliskileri.html#memnuniyet-anketi" role="menuitem">Memnuniyet Anketi</a>
+                <a href="/hasta-iliskileri.html#basari-hikayeleri" role="menuitem">Başarı Hikayeleri</a>
+                <a href="/hasta-iliskileri.html#sikayet-oneri" role="menuitem">Şikayet &amp; Öneri</a>
+              </div>
+            </li>
           </ul>
         </nav>
+
       </div>
     </div>
   </header>
 
-  <!-- SAYFA İÇERİĞİ -->
-  <section class="page-hero">
+  <!-- ===== BLOG HERO ===== -->
+  <section class="hero blog-hero">
     <div class="container">
-      <h1>Blog</h1>
-      <p class="muted">Evcil hayvan sağlığı rehberleri, tedavi süreçleri ve kliniğimizden haberler.</p>
+      <div class="hero-center">
+        <div class="hero-icon">
+          <img class="hero-logo" src="/assets/img/uploads/elci-logo.png?v=1" alt="Elçi Veteriner Kliniği Logosu" width="96" height="96" loading="eager" decoding="async">
+        </div>
+        <h1>Elçi Veteriner Kliniği Blog</h1>
+        <div class="hero-divider" role="presentation"></div>
+        <p class="hero-sub">Evcil dostlarınız için pratik rehberler, duyurular ve uzman içerikler.</p>
+      </div>
     </div>
   </section>
 
-  <section id="blog" data-json="/assets/data/blog.json">
+  <!-- ===== BLOG LİSTESİ ===== -->
+  <section id="blog" class="section" data-json="/assets/data/blog.json">
     <div class="container">
-      <div class="blog-grid" id="blogGrid"></div>
-      <div style="margin-top:10px"><a class="btn" href="/blog.html">Tüm Yazılar</a></div>
+      <!-- Filtre & Arama (blog.js otomatik doldurur) -->
+      <div class="blog-toolbar">
+        <div id="blogFilters" aria-label="Kategoriler"></div>
+        <input id="blogSearch" type="search" placeholder="Yazılarda ara…" aria-label="Yazılarda ara">
+      </div>
+
+      <!-- Kartlar -->
+      <div class="blog-grid" id="blogGrid">
+        <p class="muted">Yükleniyor…</p>
+      </div>
     </div>
   </section>
 
-  <!-- Footer + Schema.org (about.html ile aynı) -->
-  <!-- ... footer bloğunu aynen kopyala ... -->
+  <!-- ===== FOOTER (aynı) ===== -->
+  <footer class="footer-new">
+    <div class="container footer-container">
+      <div class="footer-col">
+        <h3>Elçi Veteriner Kliniği</h3>
+        <p>Konya’nın Meram ilçesinde, hayvan sağlığı alanında uzman ekibimizle hizmet veriyoruz. 7/24 acil veteriner hizmeti.</p>
+        <div class="social-links">
+          <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 10h3l.5-3H13V5.5c0-.9.3-1.5 1.7-1.5H17V1h-3c-3 0-4.5 1.6-4.5 4.4V7H7v3h2.5v9h3v-9z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/elcivetklinik" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><path d="M17.5 6.5h.01" stroke-width="2"/></svg>
+          </a>
+          <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.8c-.8.4-1.6.6-2.5.7.9-.6 1.5-1.4 1.8-2.4-.8.5-1.8.9-2.8 1.1A3.7 3.7 0 0 0 12 8.4c0 .3 0 .7.1 1A10.5 10.5 0 0 1 3 5.2a3.7 3.7 0 0 0 1.1 5 3.6 3.6 0 0 1-1.7-.5v.1c0 1.8 1.3 3.3 3 3.7-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1.5 1.5 1.9 2.6 3.6 2.6A7.5 7.5 0 0 1 3 19.5 10.6 10.6 0 0 0 9.7 21c6.3 0 9.7-5.2 9.7-9.7v-.4c.8-.6 1.5-1.4 2-2.3z"/></svg>
+          </a>
+          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5a4 4 0 0 0-3-3.1C18.3 4 12 4 12 4s-6.3 0-8 .4A4 4 0 0 0 1 7.5 41 41 0 0 0 1 16.5a4 4 0 0 0 3 3.1c1.7.4 8 .4 8 .4s6.3 0 8-.4a4 4 0 0 0 3-3.1 41 41 0 0 0 0-9zM10 15.5v-7l6 3.5-6 3.5z"/></svg>
+          </a>
+        </div>
+      </div>
 
-  <!-- SVG ICON SPRITE (INDEX’TEKİ BLOĞU BURAYA DA YAPIŞTIR) -->
-  <!-- ... -->
+      <div class="footer-col">
+        <h3>Hızlı Linkler</h3>
+        <ul class="footer-links">
+          <li><a href="/index.html">Ana Sayfa</a></li>
+          <li><a href="/about.html">Hakkımızda</a></li>
+          <li><a href="/hizmetler.html">Hizmetlerimiz</a></li>
+          <li><a href="/blog.html">Blog</a></li>
+          <li><a href="/sss.html">SSS</a></li>
+          <li><a href="/hasta-iliskileri.html">Hasta İlişkileri</a></li>
+        </ul>
+      </div>
 
-  <script defer src="/assets/js/main.js?v=17"></script>
+      <div class="footer-col">
+        <h3>Konya Veteriner Hizmetlerimiz</h3>
+        <ul class="footer-links">
+          <li><a href="/hizmetler.html#acil">Konya Acil Veteriner</a></li>
+          <li><a href="/hizmetler.html#cerrahi">Konya’da Cerrahi Operasyonlar</a></li>
+          <li><a href="/hizmetler.html#agiz-dis">Konya’da Ağız ve Diş Sağlığı</a></li>
+          <li><a href="/hizmetler.html#ic-hastaliklari">Konya’da İç Hastalıkları</a></li>
+          <li><a href="/hizmetler.html#fizik-tedavi">Konya’da Fizik Tedavi</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Konya İletişim</h3>
+        <ul class="footer-contact">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"/><circle cx="12" cy="11" r="2.5"/></svg>
+            <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.5v2a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3.1 19 19 0 0 1-6-6A2 2 0 0 1 7.5 9h2l2 3-1.5 1.5a16 16 0 0 0 6 6L18 18l3 2.5z"/></svg>
+            <a href="tel:03323223220">0332 322 32 20</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+            <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
+            <span>Pazartesi–Cumartesi: 08:00–19:00<br>Pazar: Acil Hizmet</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+        <p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Blog",
+    "name":"Elçi Veteriner Kliniği Blog",
+    "url":"https://elciveteriner.com/blog.html",
+    "publisher":{
+      "@type":"Organization",
+      "name":"Elçi Veteriner Kliniği",
+      "logo":{"@type":"ImageObject","url":"https://elciveteriner.com/assets/img/uploads/elci-logo.png"}
+    }
+  }
+  </script>
+
+  <!-- Tek JS dosyaları -->
+  <script defer src="/assets/js/main.js?v=18"></script>
+  <script defer src="/assets/js/blog.js?v=1"></script>
 </body>
 </html>
