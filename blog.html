@@ -108,7 +108,7 @@
     .btn{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:12px; border:1px solid #d7eaee; background:#fff; color:#123; text-decoration:none; }
     .btn.primary{ border-color:transparent; background: linear-gradient(180deg,#10b3d1,#0ea2bd); color:#fff; }
 
-    /* YouTube şeridi (ana sayfadaki stillerin aynısını kullanırsa ek CSS şart değil) */
+    /* YouTube şeridi */
     .yt-strip{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:12px; }
     @media (max-width: 860px){ .yt-strip{ grid-template-columns: 1fr 1fr; } }
     @media (max-width: 560px){ .yt-strip{ grid-template-columns: 1fr; } }
@@ -116,6 +116,25 @@
     .yt-thumb{ aspect-ratio:16/9; background:#eef6f8; }
     .yt-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
     .yt-meta{ padding:10px 12px; font-size:14px; }
+
+    /* === SAYFALAMA (numaralı) === */
+    .pagination{
+      display:flex;justify-content:center;align-items:center;gap:8px;margin:22px 0 10px
+    }
+    .pagination .page,
+    .pagination .prev,.pagination .next{
+      min-width:40px;height:40px;padding:0 12px;border:1px solid #e5e9ec;border-radius:12px;
+      background:#fff;cursor:pointer;display:inline-flex;justify-content:center;align-items:center;
+      box-shadow:0 2px 10px rgba(0,0,0,.04);text-decoration:none;color:inherit;font-weight:600
+    }
+    .pagination .page[aria-current="page"]{
+      background:var(--bg,#f5fbfc);border-color:#dbe3e7;pointer-events:none
+    }
+    .pagination .ellipsis{padding:0 6px;color:#9aa6ac}
+    .pagination .prev[aria-disabled="true"],
+    .pagination .next[aria-disabled="true"]{
+      opacity:.45;pointer-events:none
+    }
   </style>
 </head>
 <body>
@@ -188,7 +207,7 @@
                 <a href="/hasta-iliskileri.html#online-randevu" role="menuitem">Online Randevu</a>
                 <a href="/hasta-iliskileri.html#memnuniyet-anketi" role="menuitem">Memnuniyet Anketi</a>
                 <a href="/hasta-iliskileri.html#basari-hikayeleri" role="menuitem">Başarı Hikayeleri</a>
-                <a href="/hasta-iliskileri.html#sikayet-oneri" role="menuitem">Şikayet &amp; Öneri</a>
+                <a href="/hasta-iliskileri.html#sikayet-oneri" role="menuitem">Şikayet & Öneri</a>
               </div>
             </li>
           </ul>
@@ -254,6 +273,9 @@
           <div class="blog-grid" id="blogGrid">
             <p class="muted">Yükleniyor…</p>
           </div>
+
+          <!-- 🟦 Sayfalama NAV burada -->
+          <nav id="blogPagination" class="pagination" aria-label="Blog sayfalama"></nav>
         </section>
       </div>
 
@@ -361,7 +383,7 @@
 
   <!-- Global JS -->
   <script defer src="/assets/js/main.js?v=18"></script>
-  <script defer src="/assets/js/blog.js?v=1"></script>
+  <script defer src="/assets/js/blog.js?v=2"></script>
 
   <!-- Yan menüyü dolduran minik yardımcı (blog.json’dan çeker) -->
   <script>
@@ -392,7 +414,6 @@
         const tags = new Map();
 
         posts.forEach(p=>{
-          // JSON'da category/labels yoksa başlıktan basit türetme örneği:
           const cat = p.category || (p.title?.toLowerCase().includes('aşı') ? 'Koruyucu Hekimlik' :
                                      p.title?.toLowerCase().includes('diş') ? 'Ağız & Diş' :
                                      p.title?.toLowerCase().includes('acil') ? 'Acil & Yoğun Bakım' :
@@ -415,7 +436,6 @@
             a.textContent = `${name} (${count})`;
             a.addEventListener('click', (e)=>{
               e.preventDefault();
-              // Üstteki filtre çiplerinden birini tetikle (blog.js’in filtrelerine uyum)
               const chips = document.querySelectorAll('.b-chip');
               let matched = false;
               chips.forEach(ch=>{
@@ -423,7 +443,6 @@
                   ch.click(); matched = true;
                 }
               });
-              // Çip yoksa aramaya yaz
               if(!matched){
                 const search = document.getElementById('blogSearch');
                 if(search){ search.value = name; search.dispatchEvent(new Event('input', {bubbles:true})); }
@@ -433,7 +452,7 @@
             catBox.appendChild(a);
           });
 
-        // Etiketler (varsayılan az ise başlıktan 1-2 kelime çek)
+        // Etiketler (basit türetme)
         if(tags.size === 0){
           posts.slice(0,6).forEach(p=>{
             (p.title||'').split(' ').slice(0,2).forEach(t=>{
