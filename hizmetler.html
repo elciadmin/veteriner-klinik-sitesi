@@ -14,7 +14,6 @@
   <!-- SAYFAYA ÖZEL, İZOLE STİLLER (svc3-) -->
   <style>
     :root{
-      /* markanın değişkenleri varsa onları kullan, yoksa fallback */
       --svc3-brand: var(--brand, #0c4e54);
       --svc3-brand2: var(--brand2, #0f5960);
       --svc3-ink: var(--ink, #112);
@@ -42,9 +41,10 @@
     }
     .svc3-rail a{
       display:grid;place-items:center;width:56px;height:56px;margin:0 auto;border-radius:14px;border:1px solid #dcedf1;
-      background:#fff;color:var(--svc3-brand2);text-decoration:none;transition:.15s;outline:0
+      background:#fff;color:var(--svc3-brand2);text-decoration:none;transition:transform .15s, box-shadow .2s, background .2s, color .2s, border-color .2s;outline:0
     }
     .svc3-rail a:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(0,0,0,.08)}
+    .svc3-rail a:focus-visible{outline:3px solid rgba(16,179,209,.35);outline-offset:2px}
     .svc3-rail svg{width:24px;height:24px}
     .svc3-rail .is-active{background:#eefbff;border-color:#cfeff6;color:var(--svc3-accent)}
 
@@ -52,46 +52,69 @@
     .svc3-filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:6px 0 16px}
     .svc3-chip{
       appearance:none;border:1px solid #d8eef2;background:#fff;border-radius:999px;padding:8px 14px;cursor:pointer;
-      font-size:14px;transition:background .15s ease,border-color .15s ease,transform .15s ease
+      font-size:14px;transition:background .15s, border-color .15s, transform .15s, box-shadow .2s
     }
     .svc3-chip[aria-pressed="true"]{background:#f0fbfe;border-color:var(--svc3-accent)}
     .svc3-chip:hover{background:#f7fdff;transform:translateY(-1px)}
+    .svc3-chip:focus-visible{outline:3px solid rgba(16,179,209,.35);outline-offset:2px}
 
     /* Kart ızgarası */
     .svc3-grid{display:grid;gap:16px;grid-template-columns:repeat(3,minmax(0,1fr))}
     @media (max-width: 980px){ .svc3-grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
     @media (max-width: 640px){ .svc3-grid{grid-template-columns:1fr} }
 
-    /* Büyük kart */
+    /* Büyük kart — profesyonel hover */
     .svc3-card{
       background:#fff;border:1px solid rgba(16,179,209,.16);border-radius:var(--svc3-r);padding:18px;min-height:200px;
-      display:flex;gap:16px;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease,background .2s ease;
-      box-shadow:0 6px 20px rgba(0,0,0,.05)
+      display:flex;gap:16px;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,border-color .35s,background .35s, filter .35s;
+      box-shadow:0 6px 20px rgba(0,0,0,.05); position:relative; overflow:hidden;
     }
-    .svc3-card:hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(0,0,0,.10);background:#fbfeff;border-color:rgba(16,179,209,.36)}
-    .svc3-ico{flex:0 0 56px;height:56px;display:grid;place-items:center;color:var(--svc3-accent);background:#eefbff;border-radius:14px}
-    .svc3-ico svg{width:28px;height:28px}
-    .svc3-card h3{margin:0 0 6px;font-size:20px}
+    /* Parlama katmanı */
+    .svc3-card::after{
+      content:""; position:absolute; inset:-1px; border-radius:inherit;
+      background:linear-gradient(120deg, rgba(16,179,209,.18), transparent 55%);
+      opacity:0; transition:opacity .4s ease;
+      pointer-events:none;
+    }
+    .svc3-card:hover{
+      transform:translateY(-6px) scale(1.015);
+      box-shadow:0 18px 48px rgba(0,0,0,.14);
+      background:#fbfeff;border-color:rgba(16,179,209,.38); filter:saturate(1.05);
+    }
+    .svc3-card:hover::after{ opacity:.9 }
+
+    .svc3-ico{flex:0 0 56px;height:56px;display:grid;place-items:center;color:var(--svc3-accent);background:#eefbff;border-radius:14px;transition:transform .35s}
+    .svc3-ico svg{width:28px;height:28px;transition:transform .35s}
+    .svc3-card:hover .svc3-ico{ transform:translateY(-2px) }
+    .svc3-card:hover .svc3-ico svg{ transform:scale(1.18) rotate(-3deg) }
+
+    .svc3-card h3{margin:0 0 6px;font-size:20px;transition:color .35s}
+    .svc3-card:hover h3{ color:var(--svc3-accent) }
+
     .svc3-card p{margin:0 0 12px;color:#2b3a3c;line-height:1.6}
     .svc3-tag{font-size:12px;background:#eef8fa;border:1px solid #d8eef2;color:#13606a;border-radius:999px;padding:4px 8px}
     .svc3-cta{display:flex;gap:10px;flex-wrap:wrap}
-    .svc3-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;border:1px solid #d7eaee;background:#fff;color:#123;text-decoration:none}
+    .svc3-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;border:1px solid #d7eaee;background:#fff;color:#123;text-decoration:none;transition:transform .2s, box-shadow .2s, background .2s}
+    .svc3-btn:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(0,0,0,.08)}
     .svc3-btn.primary{border-color:transparent;background:linear-gradient(180deg,#10b3d1,#0ea2bd);color:#fff}
+    .svc3-btn:focus-visible{outline:3px solid rgba(16,179,209,.35);outline-offset:2px}
 
     /* SAYFA İÇİ PENCERE (Modal/Diyalog) */
     .svc3-dialog-backdrop{
       position:fixed;inset:0;background:rgba(15,40,46,.28);
       display:none;align-items:center;justify-content:center;padding:16px;z-index:1200
     }
-    .svc3-dialog-backdrop[aria-hidden="false"]{display:flex}
+    .svc3-dialog-backdrop[aria-hidden="false"]{display:flex;animation:svc3-fade .22s ease}
+    @keyframes svc3-fade{from{opacity:0}to{opacity:1}}
     .svc3-dialog{
       width:min(920px, 96vw);max-height:86vh;overflow:auto;background:#fff;border-radius:20px;border:1px solid #dceff3;
-      box-shadow:var(--svc3-shadow);padding:18px 18px 16px
+      box-shadow:var(--svc3-shadow);padding:18px 18px 16px; transform:translateY(10px) scale(.98); animation:svc3-pop .26s ease forwards;
     }
+    @keyframes svc3-pop{to{transform:translateY(0) scale(1)}}
     .svc3-dialog header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:2px 0 10px}
     .svc3-dialog h3{margin:0;font-size:22px;color:var(--svc3-brand)}
-    .svc3-close{border:1px solid #d9e8ec;background:#fff;border-radius:12px;width:38px;height:38px;display:grid;place-items:center;cursor:pointer}
-    .svc3-close:hover{background:#f6fdff}
+    .svc3-close{border:1px solid #d9e8ec;background:#fff;border-radius:12px;width:38px;height:38px;display:grid;place-items:center;cursor:pointer;transition:background .2s, transform .2s}
+    .svc3-close:hover{background:#f6fdff; transform:rotate(-7deg)}
     .svc3-dialog .svc3-body{color:#2b3a3c;line-height:1.65}
     .svc3-dialog .svc3-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
     @media (max-width:760px){.svc3-dialog .svc3-cols{grid-template-columns:1fr}}
@@ -100,21 +123,34 @@
     /* Muayene süreci diyagramı */
     .svc3-flow{margin-top:26px}
     .svc3-flow h2{margin:8px 0 12px}
-    .svc3-steps{
-      display:grid;grid-template-columns:repeat(5, minmax(0,1fr));gap:12px
-    }
+    .svc3-steps{display:grid;grid-template-columns:repeat(5, minmax(0,1fr));gap:12px}
     @media (max-width:960px){.svc3-steps{grid-template-columns:repeat(3,1fr)}}
     @media (max-width:580px){.svc3-steps{grid-template-columns:1fr 1fr}}
     .svc3-step{
-      background:#fff;border:1px solid #e4f1f4;border-radius:16px;padding:14px;position:relative
+      background:#fff;border:1px solid #e4f1f4;border-radius:16px;padding:14px;position:relative;transition:transform .25s, box-shadow .25s, border-color .25s
     }
-    .svc3-step .ico{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:#eefbff;color:var(--svc3-accent);margin-bottom:8px}
+    .svc3-step .ico{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:#eefbff;color:var(--svc3-accent);margin-bottom:8px;transition:transform .25s}
     .svc3-step h4{margin:4px 0 4px;font-size:16px}
     .svc3-step p{margin:0;color:#46565b}
     .svc3-step small{color:#6f8085}
+    .svc3-step:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.08);border-color:rgba(16,179,209,.35)}
+    .svc3-step:hover .ico{transform:translateY(-2px)}
+
     /* CTA bar */
     .svc3-cta-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px}
     @media (max-width:700px){ .svc3-cta-bar{flex-direction:column;align-items:flex-start} }
+
+    /* Reveal (scroll ile görünme) */
+    .svc3-reveal{opacity:0; transform:translateY(20px); transition:opacity .6s ease, transform .6s ease}
+    .svc3-reveal.is-in{opacity:1; transform:none}
+
+    /* Reduced motion desteği */
+    @media (prefers-reduced-motion: reduce){
+      .svc3-card, .svc3-step, .svc3-btn, .svc3-rail a{transition:none}
+      .svc3-reveal{opacity:1; transform:none}
+      .svc3-dialog-backdrop[aria-hidden="false"]{animation:none}
+      .svc3-dialog{animation:none; transform:none}
+    }
   </style>
 </head>
 <body>
@@ -191,7 +227,7 @@
                 <a href="/hasta-iliskileri.html#online-randevu" role="menuitem">Online Randevu</a>
                 <a href="/hasta-iliskileri.html#memnuniyet-anketi" role="menuitem">Memnuniyet Anketi</a>
                 <a href="/hasta-iliskileri.html#basari-hikayeleri" role="menuitem">Başarı Hikayeleri</a>
-                <a href="/hasta-iliskileri.html#sikayet-oneri" role="menuitem">Şikayet &amp; Öneri</a>
+                <a href="/hasta-iliskileri.html#sikayet-oneri" role="menuitem">Şikayet & Öneri</a>
               </div>
             </li>
           </ul>
@@ -244,7 +280,7 @@
 
         <div class="svc3-grid" id="svc3Grid">
           <!-- Kart 1 -->
-          <article class="svc3-card" data-cat="destek" id="acil">
+          <article class="svc3-card svc3-reveal" data-cat="destek" id="acil">
             <div class="svc3-ico"><svg><use href="#i-shield-cross"/></svg></div>
             <div>
               <h3>Acil & Yoğun Bakım</h3>
@@ -277,7 +313,7 @@
           </article>
 
           <!-- Kart 2 -->
-          <article class="svc3-card" data-cat="dahiliye" id="koruyucu">
+          <article class="svc3-card svc3-reveal" data-cat="dahiliye" id="koruyucu">
             <div class="svc3-ico"><svg><use href="#i-stethoscope"/></svg></div>
             <div>
               <h3>Muayene & Koruyucu</h3>
@@ -302,7 +338,7 @@
           </article>
 
           <!-- Kart 3 -->
-          <article class="svc3-card" data-cat="dahiliye" id="ic-hastaliklari">
+          <article class="svc3-card svc3-reveal" data-cat="dahiliye" id="ic-hastaliklari">
             <div class="svc3-ico"><svg><use href="#i-clipboard"/></svg></div>
             <div>
               <h3>İç Hastalıkları</h3>
@@ -321,7 +357,7 @@
           </article>
 
           <!-- Kart 4 -->
-          <article class="svc3-card" data-cat="cerrahi" id="cerrahi">
+          <article class="svc3-card svc3-reveal" data-cat="cerrahi" id="cerrahi">
             <div class="svc3-ico"><svg><use href="#i-scissors"/></svg></div>
             <div>
               <h3>Cerrahi</h3>
@@ -340,7 +376,7 @@
           </article>
 
           <!-- Kart 5 -->
-          <article class="svc3-card" data-cat="tani" id="agiz-dis">
+          <article class="svc3-card svc3-reveal" data-cat="tani" id="agiz-dis">
             <div class="svc3-ico"><svg><use href="#i-tooth-clean"/></svg></div>
             <div>
               <h3>Ağız & Diş Sağlığı</h3>
@@ -359,7 +395,7 @@
           </article>
 
           <!-- Kart 6 -->
-          <article class="svc3-card" data-cat="tani" id="goruntuleme-lab">
+          <article class="svc3-card svc3-reveal" data-cat="tani" id="goruntuleme-lab">
             <div class="svc3-ico"><svg><use href="#i-xray"/></svg></div>
             <div>
               <h3>Görüntüleme & Laboratuvar</h3>
@@ -378,7 +414,7 @@
           </article>
 
           <!-- Kart 7 -->
-          <article class="svc3-card" data-cat="dahiliye" id="kardiyoloji">
+          <article class="svc3-card svc3-reveal" data-cat="dahiliye" id="kardiyoloji">
             <div class="svc3-ico"><svg><use href="#i-ecg"/></svg></div>
             <div>
               <h3>Kardiyoloji</h3>
@@ -397,7 +433,7 @@
           </article>
 
           <!-- Kart 8 -->
-          <article class="svc3-card" data-cat="dahiliye" id="dogum-jinekoloji">
+          <article class="svc3-card svc3-reveal" data-cat="dahiliye" id="dogum-jinekoloji">
             <div class="svc3-ico"><svg><use href="#i-repro"/></svg></div>
             <div>
               <h3>Doğum & Jinekoloji</h3>
@@ -416,7 +452,7 @@
           </article>
 
           <!-- Kart 9 -->
-          <article class="svc3-card" data-cat="destek" id="fizik-tedavi">
+          <article class="svc3-card svc3-reveal" data-cat="destek" id="fizik-tedavi">
             <div class="svc3-ico"><svg><use href="#i-pt"/></svg></div>
             <div>
               <h3>Fizik Tedavi & Rehabilitasyon</h3>
@@ -435,7 +471,7 @@
           </article>
 
           <!-- Kart 10 -->
-          <article class="svc3-card" data-cat="destek" id="konaklama">
+          <article class="svc3-card svc3-reveal" data-cat="destek" id="konaklama">
             <div class="svc3-ico"><svg><use href="#i-boarding"/></svg></div>
             <div>
               <h3>Konaklama & Özel Bakım</h3>
@@ -470,27 +506,27 @@
     <div class="container">
       <h2 id="muayene-sureci">Muayene Süreci — Adım Adım</h2>
       <div class="svc3-steps" role="list">
-        <div class="svc3-step" role="listitem">
+        <div class="svc3-step svc3-reveal" role="listitem">
           <div class="ico"><i class="fa-solid fa-phone"></i></div>
           <h4>1) Karşılama & Kayıt</h4>
           <p>Şikâyet, anamnez ve aşı geçmişi alınır.</p><small>~5 dk</small>
         </div>
-        <div class="svc3-step" role="listitem">
+        <div class="svc3-step svc3-reveal" role="listitem">
           <div class="ico"><i class="fa-solid fa-stethoscope"></i></div>
           <h4>2) Fizik Muayene</h4>
           <p>Genel durum, vital bulgular ve sistemik muayene.</p><small>~10 dk</small>
         </div>
-        <div class="svc3-step" role="listitem">
+        <div class="svc3-step svc3-reveal" role="listitem">
           <div class="ico"><i class="fa-solid fa-vials"></i></div>
           <h4>3) Testler</h4>
           <p>Gerekirse hemogram, biyokimya, görüntüleme.</p><small>~20–40 dk</small>
         </div>
-        <div class="svc3-step" role="listitem">
+        <div class="svc3-step svc3-reveal" role="listitem">
           <div class="ico"><i class="fa-solid fa-notes-medical"></i></div>
           <h4>4) Tanı & Plan</h4>
           <p>Tanı paylaşımı; ilaç, beslenme ve kontrol planı.</p><small>~5 dk</small>
         </div>
-        <div class="svc3-step" role="listitem">
+        <div class="svc3-step svc3-reveal" role="listitem">
           <div class="ico"><i class="fa-solid fa-file-signature"></i></div>
           <h4>5) Taburcu</h4>
           <p>Yazılı talimat, reçete ve randevu takvimi verilir.</p><small>~5 dk</small>
@@ -595,7 +631,7 @@
   <!-- Bu sayfaya özel MİNİ JS (svc3- ile izole) -->
   <script>
     (function(){
-      // Filtreler
+      // --- Filtreler ---
       const chips = document.querySelectorAll('.svc3-chip');
       const cards = document.querySelectorAll('.svc3-card');
       function apply(filter){
@@ -612,7 +648,7 @@
         });
       });
 
-      // Sol ikon şerit aktif vurgusu (küçük scroll-spy)
+      // --- Sol ikon şerit aktif vurgusu (scroll-spy) ---
       const railLinks = document.querySelectorAll('[data-rail]');
       const targets = Array.from(railLinks).map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
       function onScroll(){
@@ -624,7 +660,7 @@
       document.addEventListener('scroll', onScroll, {passive:true});
       onScroll();
 
-      // Modal/diyalog
+      // --- Modal/diyalog ---
       const openBtns = document.querySelectorAll('[data-open]');
       const backdrop = document.createElement('div');
       backdrop.className = 'svc3-dialog-backdrop';
@@ -645,7 +681,6 @@
       function openDialog(sourceSel, fallbackTitle){
         const src = document.querySelector(sourceSel);
         if(!src){ return; }
-        // Başlık: kaynağın en yakınındaki h3
         const h3 = src.closest('.svc3-card')?.querySelector('h3');
         titleEl.textContent = (h3?.textContent || fallbackTitle || 'Detay');
         bodyEl.innerHTML = src.innerHTML;
@@ -659,13 +694,23 @@
         bodyEl.innerHTML = '';
       }
       openBtns.forEach(btn=>{
-        btn.addEventListener('click', ()=>{
-          openDialog(btn.getAttribute('data-open'), btn.textContent.trim());
-        });
+        btn.addEventListener('click', ()=> openDialog(btn.getAttribute('data-open'), btn.textContent.trim()));
       });
       closeBtn.addEventListener('click', closeDialog);
       backdrop.addEventListener('click', (e)=>{ if(e.target === backdrop) closeDialog(); });
       document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDialog(); });
+
+      // --- Scroll reveal (IntersectionObserver) ---
+      const reveals = document.querySelectorAll('.svc3-reveal');
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+            entry.target.classList.add('is-in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, {threshold:.15});
+      reveals.forEach(el=> io.observe(el));
     })();
   </script>
 
