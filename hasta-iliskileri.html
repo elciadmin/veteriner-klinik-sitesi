@@ -87,6 +87,41 @@
       padding:12px 14px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.2);display:none
     }
     .call-pop a{color:#fff;text-decoration:underline}
+
+    /* === Onay (consent) butonu - YENİ === */
+    .consent{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 14px; border:1px solid rgba(0,0,0,.12);
+      border-radius:999px; cursor:pointer; user-select:none;
+      background:#fff; transition:.2s ease;
+      box-shadow:0 2px 10px rgba(0,0,0,.04);
+    }
+    .consent:hover{ box-shadow:0 6px 18px rgba(0,0,0,.08); }
+    .consent:has(input:focus-visible){ outline:2px solid #10b3d133; }
+
+    .consent input{ /* checkbox erişilebilir, görünmez */
+      position:absolute; inline-size:1px; block-size:1px;
+      margin:-1px; padding:0; border:0; clip:rect(0 0 0 0);
+      overflow:hidden; white-space:nowrap;
+    }
+    .consent .icon{
+      inline-size:22px; block-size:22px; border-radius:999px;
+      display:inline-grid; place-items:center;
+      background:#f2f7f6; border:1px solid #cfe7e0;
+      transition:.2s ease; transform:scale(.98);
+    }
+    .consent .icon i{ opacity:0; transform:scale(.6); transition:.18s ease; }
+
+    .consent.is-checked{
+      background:#eaf6f1; border-color:#c9e6d8; color:#0b5137;
+    }
+    .consent.is-checked .icon{
+      background:#16a34a1a; border-color:#8bd1b7; transform:scale(1);
+    }
+    .consent.is-checked .icon i{ opacity:1; transform:scale(1); }
+
+    /* Submit disabled görünümü */
+    button[disabled]{ opacity:.6; cursor:not-allowed; }
   </style>
 </head>
 <body>
@@ -260,8 +295,11 @@
           </p>
           <div class="terms-actions">
             <button type="button" class="btn" id="openTerms">Metni Gör</button>
-            <label class="btn" style="display:inline-flex;align-items:center;gap:8px">
-              <input id="termsCheck" type="checkbox" required/>
+
+            <!-- YENİ onay butonu -->
+            <label class="consent" id="termsConsent">
+              <input id="termsCheck" type="checkbox" required aria-required="true"/>
+              <span class="icon" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
               <span>Okudum, Onaylıyorum</span>
             </label>
           </div>
@@ -443,7 +481,7 @@
     <symbol id="i-phone-bubble" viewBox="0 0 24 24"><path fill="currentColor" d="M20 2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-3l-4 3v-3H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12Z"/></symbol>
     <symbol id="i-stethoscope" viewBox="0 0 24 24"><path fill="currentColor" d="M6 3h2v6a4 4 0 1 0 8 0V3h2v6a6 6 0 0 1-5 5.92V19a3 3 0 0 0 6 0h2a5 5 0 1 1-10 0v-4.08A6 6 0 0 1 6 9V3Z"/></symbol>
     <symbol id="i-paw" viewBox="0 0 24 24"><path fill="currentColor" d="M12 13c3 0 6 2 6 4.5S15 22 12 22s-6-1.5-6-4.5S9 13 12 13Zm-5-2a2 2 0 1 1 0-4 2 2 0 0 1 0 4Zm10 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4ZM9 4a2 2 0 1 1-3-2 2 2 0 0 1 3 2Zm9 0a2 2 0 1 1-3-2 2 2 0 0 1 3 2Z"/></symbol>
-    <symbol id="i-xray" viewBox="0 0 24 24"><path fill="currentColor" d="M5 3h14a2 2 0 0 1 2 2v4H3V5a2 2 0 0 1 2-2Zm-2 8h18v6a2 2 0 0 1-2 2h-6v-4h-2v4H5a2 2 0 0 1-2-2v-6Z"/></symbol>
+    <symbol id="i-xray" viewBox="0 0 24 24"><path fill="currentColor" d="M5 3h14a2 2 0 0 1 2 2v4H3V5a2 2 0 0 1 2-2h12Z"/></symbol>
     <symbol id="i-tooth-clean" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2c4 0 7 3 7 6.5C19 13 16 18 12 22c-4-4-7-9-7-13.5C5 5 8 2 12 2Zm4 6-2 2-2-2"/></symbol>
   </svg>
 
@@ -561,9 +599,26 @@
 
     const openTerms = document.getElementById('openTerms');
     const termsCheck = document.getElementById('termsCheck');
+    const submitBtn  = document.querySelector('form[name="online-randevu"] button[type="submit"]');
+    const consentWrap= document.getElementById('termsConsent');
+
+    function syncConsentUI(){
+      const checked = termsCheck && termsCheck.checked;
+      if (submitBtn) submitBtn.disabled = !checked;
+      if (consentWrap) consentWrap.classList.toggle('is-checked', !!checked);
+    }
+    if (termsCheck){
+      termsCheck.addEventListener('change', syncConsentUI);
+      // İlk yüklemede kilit durumu
+      syncConsentUI();
+    }
+
     openTerms.addEventListener('click', ()=> termsModal.showModal());
     termsModal.addEventListener('close', ()=>{
-      if(termsModal.returnValue==='ok'){ termsCheck.checked = true; }
+      if(termsModal.returnValue==='ok'){
+        termsCheck.checked = true;
+        termsCheck.dispatchEvent(new Event('change', {bubbles:true}));
+      }
     });
 
     /* ===== Ara butonu: mobilde tel:, masaüstünde balon ===== */
@@ -577,13 +632,15 @@
       return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
              (typeof window.orientation !== "undefined");
     }
-    btnAra.addEventListener('click', (e)=>{
-      if(!isMobile()){
-        e.preventDefault();
-        callPop.style.display='block';
-        setTimeout(()=>{ callPop.style.display='none'; }, 4500);
-      }
-    });
+    if (btnAra){
+      btnAra.addEventListener('click', (e)=>{
+        if(!isMobile()){
+          e.preventDefault();
+          callPop.style.display='block';
+          setTimeout(()=>{ callPop.style.display='none'; }, 4500);
+        }
+      });
+    }
 
     /* ===== Konum butonu: yönlendirme hazır (href zaten rota) ===== */
   })();
