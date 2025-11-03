@@ -7,33 +7,36 @@
   <meta name="description" content="Online randevu, memnuniyet anketi, başarı hikayeleri ve şikayet-öneri formları. Konya Meram Elçi Veteriner Kliniği."/>
   <link rel="canonical" href="https://elciveteriner.com/hasta-iliskileri.html"/>
 
+  <!-- Global stil dosyan -->
   <link rel="stylesheet" href="/assets/css/styles.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
+  <!-- Sayfaya özgü eklentiler (sadece gerekli kadar) -->
   <style>
+    /* HERO */
     .page-hero{padding-top:clamp(84px,10vw,130px);padding-bottom:22px;background:linear-gradient(180deg,#eaf6f9 0%,transparent 70%);text-align:center}
     .page-hero h1{margin:0;font-weight:800;letter-spacing:.2px;background:linear-gradient(90deg,#0c4e54 0%,#10b3d1 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
     .hero-divider{width:168px;height:3px;border-radius:999px;background:linear-gradient(90deg,transparent,var(--accent,#10b3d1),transparent);margin:6px auto 10px}
     .chip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(0,0,0,.08);border-radius:999px;text-decoration:none}
     .chip:hover{background:#f7fcfd}
 
+    /* Uyarı bandı */
     .alert{border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:10px 12px;background:#f8fdff}
     .alert.critical{border-color:#f2c3c3;background:#fff7f7}
     .alert i{margin-right:8px;color:#c0392b}
 
+    /* Kartlar */
     .services-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
     @media(max-width:980px){.services-grid{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:640px){.services-grid{grid-template-columns:1fr}}
     .s-card{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.06)}
     .s-icon{display:inline-flex;width:40px;height:40px;border-radius:12px;align-items:center;justify-content:center;background:#eaf6f9;margin-bottom:8px}
 
-    /* Açılır mini takvim */
+    /* Açılır mini takvim (tek) */
     .date-field-wrap{position:relative}
-    .avail-cal { position:absolute; left:0; right:auto; top:calc(100% + 8px);
-      z-index:60; width:min(340px,95vw);
+    .avail-cal { position:absolute; left:0; top:calc(100% + 8px); z-index:60; width:min(340px,95vw);
       border:1px solid rgba(0,0,0,.1); border-radius:14px; padding:12px; background:#fff;
-      box-shadow:0 20px 40px rgba(0,0,0,.15); display:none;
-    }
+      box-shadow:0 20px 40px rgba(0,0,0,.15); display:none; }
     .avail-cal.open{display:block}
     .avail-cal .cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
     .avail-cal .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
@@ -48,13 +51,13 @@
     .avail-cal .chip.free{background:#eefaf1;border-color:#bfe7c9}
     .avail-cal .chip.full{background:#ffecec;border-color:#f4c2c2}
 
-    /* “Ara” numara balonu */
+    /* Masaüstü “Ara” numara balonu */
     .call-pop{display:none;position:absolute;z-index:50;background:#0c4e54;color:#fff;padding:10px 12px;border-radius:12px;box-shadow:0 10px 22px rgba(0,0,0,.18);font-weight:700}
     .call-pop a{color:#fff;text-decoration:none}
     .call-pop .copy{margin-left:8px;font-weight:600;opacity:.9}
     .call-wrap{position:relative;display:inline-block}
 
-    /* Onay kutusu */
+    /* Hizmet Şartları */
     .consent{display:flex;gap:10px;align-items:flex-start;margin-top:8px}
     .consent input[type="checkbox"]{width:22px;height:22px;border-radius:6px;border:1px solid #a8cacc;accent-color:#0f5960}
     .consent .consent-box{flex:1;border:1px solid rgba(0,0,0,.06);border-radius:12px;padding:10px 12px;background:#f9fcfd}
@@ -65,7 +68,7 @@
 </head>
 <body>
 
-  <!-- HEADER -->
+  <!-- ===== SABİT HEADER ===== -->
   <header>
     <div class="header-top">
       <div class="container">
@@ -97,7 +100,7 @@
     </div>
   </header>
 
-  <!-- HERO -->
+  <!-- ===== HERO ===== -->
   <section class="page-hero">
     <div class="container">
       <h1>Hasta İlişkileri</h1>
@@ -113,7 +116,7 @@
     </div>
   </section>
 
-  <!-- ADIMLAR -->
+  <!-- ===== ADIM ŞERİDİ ===== -->
   <section class="section">
     <div class="container">
       <div class="services-grid">
@@ -124,7 +127,7 @@
     </div>
   </section>
 
-  <!-- ONLINE RANDEVU -->
+  <!-- ===== ONLINE RANDEVU ===== -->
   <section class="section" id="online-randevu">
     <div class="container">
       <h2>Online Randevu</h2>
@@ -145,8 +148,10 @@
           <input type="text" name="ad" placeholder="Ad Soyad" autocomplete="name" required/>
           <input type="tel" name="tel" placeholder="Telefon" inputmode="tel" autocomplete="tel" required pattern="^[0-9+()\\s-]{7,}$" />
           <input type="text" name="pet" placeholder="Evcil Hayvan (Kedi/Köpek vb.)" required/>
+
+          <!-- TAKVİM: sadece özel takvim (type=text + readonly) -->
           <div class="date-field-wrap">
-            <input type="date" id="randevuTarih" name="tarih" placeholder="gg-aa-yyyy" required/>
+            <input type="text" id="randevuTarih" name="tarih" placeholder="gg-aa-yyyy" aria-haspopup="dialog" aria-expanded="false" autocomplete="off" inputmode="none" readonly required/>
             <div id="availCalendar" class="avail-cal" aria-label="Müsaitlik Takvimi"></div>
           </div>
         </div>
@@ -154,13 +159,9 @@
         <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap);margin-top:10px">
           <select name="hizmet" required>
             <option value="">Hizmet Türü</option>
-            <option>Genel Muayene</option>
-            <option>Aşı & Koruyucu</option>
-            <option>Diş & Dental</option>
-            <option>Görüntüleme (Röntgen/USG)</option>
-            <option>Laboratuvar (Kan/İdrar)</option>
-            <option>Cerrahi Değerlendirme</option>
-            <option>Diğer</option>
+            <option>Genel Muayene</option><option>Aşı & Koruyucu</option><option>Diş & Dental</option>
+            <option>Görüntüleme (Röntgen/USG)</option><option>Laboratuvar (Kan/İdrar)</option>
+            <option>Cerrahi Değerlendirme</option><option>Diğer</option>
           </select>
           <input type="text" name="mikrocip" placeholder="Mikroçip No (varsa)"/>
           <input type="text" name="irk" placeholder="Irk/Cins (opsiyonel)"/>
@@ -184,9 +185,11 @@
 
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center">
           <button class="btn primary" type="submit">Randevu Talep Et</button>
+
+          <!-- Konum -->
           <a class="btn" id="locBtn"><i class="fa-solid fa-map-location-dot"></i> Konum</a>
 
-          <!-- Ara butonu (form) -->
+          <!-- Ara (masaüstünde balon) -->
           <span class="call-wrap">
             <a class="btn ghost call-trigger" id="callBtn"><i class="fa-solid fa-phone"></i> Ara</a>
             <span class="call-pop" id="callPop">
@@ -199,7 +202,7 @@
     </div>
   </section>
 
-  <!-- MEMNUNİYET -->
+  <!-- ===== MEMNUNİYET ===== -->
   <section class="section" id="memnuniyet-anketi">
     <div class="container">
       <h2>Memnuniyet Anketi</h2>
@@ -223,7 +226,7 @@
     </div>
   </section>
 
-  <!-- BAŞARI HİKAYELERİ -->
+  <!-- ===== BAŞARI HİKAYELERİ ===== -->
   <section class="section" id="basari-hikayeleri">
     <div class="container">
       <h2>Başarı Hikayeleri</h2>
@@ -236,7 +239,7 @@
     </div>
   </section>
 
-  <!-- ŞİKAYET & ÖNERİ -->
+  <!-- ===== ŞİKAYET & ÖNERİ ===== -->
   <section class="section" id="sikayet-oneri">
     <div class="container">
       <h2>Şikayet & Öneri</h2>
@@ -255,7 +258,8 @@
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
           <button class="btn" type="submit">Gönder</button>
           <a class="btn ghost" href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> E-posta</a>
-          <!-- Alt “Ara” butonu -->
+
+          <!-- Alt “Ara” -->
           <span class="call-wrap">
             <a class="btn ghost call-trigger" id="callBtnFooter"><i class="fa-solid fa-phone"></i> Ara</a>
             <span class="call-pop" id="callPopFooter">
@@ -268,7 +272,7 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- ===== FOOTER ===== -->
   <footer class="footer-new">
     <div class="container footer-container">
       <div class="footer-col">
@@ -320,12 +324,12 @@
     <div class="footer-bottom"><div class="container"><p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p></div></div>
   </footer>
 
-  <!-- Schema -->
+  <!-- Schema.org -->
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Organization","name":"Elçi Veteriner Kliniği","url":"https://elciveteriner.com/hasta-iliskileri.html","logo":"https://elciveteriner.com/assets/img/uploads/elci-logo.png","contactPoint":[{"@type":"ContactPoint","telephone":"+90-332-322-32-20","contactType":"customer service","areaServed":"TR","availableLanguage":["tr","en"]}],"address":{"@type":"PostalAddress","streetAddress":"Havzan Mah. Yeni Meram Cad. 17/1","addressLocality":"Meram","addressRegion":"Konya","addressCountry":"TR"}}
   </script>
 
-  <!-- ICONS -->
+  <!-- ICON SPRITE (kullandıklarımız) -->
   <svg width="0" height="0" style="position:absolute;visibility:hidden" aria-hidden="true" focusable="false">
     <symbol id="i-clipboard" viewBox="0 0 24 24"><path fill="currentColor" d="M9 2h6a2 2 0 0 1 2 2h2a2 2 0 0 1 2 2v13a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2-2Zm1 3h4V4h-4v1Z"/></symbol>
     <symbol id="i-phone-bubble" viewBox="0 0 24 24"><path fill="currentColor" d="M20 2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-3l-4 3v-3H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12Z"/></symbol>
@@ -335,6 +339,7 @@
     <symbol id="i-tooth-clean" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2c4 0 7 3 7 6.5C19 13 16 18 12 22c-4-4-7-9-7-13.5C5 5 8 2 12 2Zm4 6-2 2-2-2"/></symbol>
   </svg>
 
+  <!-- İsteğe bağlı ana JS -->
   <script defer src="/assets/js/main.js?v=19"></script>
 
   <!-- Hizmet Şartları Modal -->
@@ -358,12 +363,12 @@
     </form>
   </dialog>
 
-  <!-- Sayfa JS -->
+  <!-- Sayfa JS (takvim + butonlar) -->
   <script>
   (function(){
     const yil=document.getElementById('yil'); if(yil) yil.textContent=new Date().getFullYear();
 
-    // Konum
+    // Konum yönlendirmesi
     const locBtn=document.getElementById('locBtn');
     if(locBtn){
       locBtn.addEventListener('click',e=>{
@@ -372,14 +377,14 @@
       });
     }
 
-    // Hizmet Şartları Modal
+    // Hizmet Şartları modal
     const openTerms=document.getElementById('openTerms');
     const termsDialog=document.getElementById('termsDialog');
     if(openTerms&&termsDialog){
       openTerms.addEventListener('click',()=> typeof termsDialog.showModal==="function" ? termsDialog.showModal() : alert("Tarayıcı desteklemiyor."));
     }
 
-    // “Ara” butonları (form ve alt kısım)
+    // Ara butonları
     function isMobile(){ return /Android|iPhone|iPad|iPod|IEMobile|Opera Mini/i.test(navigator.userAgent) || (window.matchMedia && matchMedia('(max-width: 768px)').matches); }
     function initCall(triggerId, popId, copyId){
       const trigger=document.getElementById(triggerId);
@@ -394,7 +399,7 @@
           pop.style.left='0'; pop.style.top='44px';
         }
       });
-      document.addEventListener('click',ev=>{
+      document.addEventListener('click', ev=>{
         if(pop.style.display==='block' && !pop.contains(ev.target) && !trigger.contains(ev.target)) pop.style.display='none';
       });
       if(copy){
@@ -408,27 +413,28 @@
     initCall('callBtn','callPop','copyTel');
     initCall('callBtnFooter','callPopFooter','copyTelFooter');
 
-    // ===== Takvim (1 ay, min 2 gün sonrası, her gün seçilebilir) =====
+    // ===== Mini Takvim (tek) =====
     const input=document.getElementById('randevuTarih');
     const calWrap=document.getElementById('availCalendar');
     if(input&&calWrap){
-      const fullyBooked=[ /* "2025-11-15", ... */ ];
+      const fullyBooked=[/* örn: "2025-11-15" */];
       const today=new Date();
-      const minDate=addDays(today,2);
-      input.min=formatISO(minDate);
+      const minDate=addDays(today,2); // en erken 2 gün sonrası
+      input.dataset.mindate = formatISO(minDate);
 
-      // input'a tıklayınca aç
+      // alan tıklandığında aç/kapa
+      input.addEventListener('click', toggleCal);
       input.addEventListener('focus', openCal);
-      input.addEventListener('click', openCal);
 
-      // dışarı tıklayınca kapa
+      // dışarı tıkla → kapat
       document.addEventListener('click', (e)=>{
-        if(!calWrap.contains(e.target) && e.target!==input){ calWrap.classList.remove('open'); }
+        if(!calWrap.contains(e.target) && e.target!==input){ calWrap.classList.remove('open'); input.setAttribute('aria-expanded','false'); }
       });
 
       renderMonth(calWrap, today);
 
-      function openCal(){ calWrap.classList.add('open'); }
+      function toggleCal(){ calWrap.classList.toggle('open'); input.setAttribute('aria-expanded', calWrap.classList.contains('open')?'true':'false'); }
+      function openCal(){ calWrap.classList.add('open'); input.setAttribute('aria-expanded','true'); }
 
       function renderMonth(el, base){
         el.innerHTML='';
@@ -447,11 +453,13 @@
         for(let i=0;i<startIndex;i++){ grid.appendChild(document.createElement('div')); }
 
         const dim=new Date(y,mo+1,0).getDate();
+        const mind = new Date(input.dataset.mindate);
+
         for(let d=1; d<=dim; d++){
           const date=new Date(y,mo,d);
           const cell=document.createElement('div'); cell.className='day'; cell.textContent=d;
 
-          const beforeMin=stripTime(date)<stripTime(minDate);
+          const beforeMin=stripTime(date)<stripTime(mind);
           const isBooked=fullyBooked.includes(formatISO(date));
 
           if(beforeMin){ cell.classList.add('unselectable'); }
@@ -459,9 +467,9 @@
           else{
             cell.classList.add('free'); cell.title='Müsait';
             cell.addEventListener('click', ()=>{
-              input.value=formatISO(date);
-              input.dispatchEvent(new Event('input',{bubbles:true}));
-              calWrap.classList.remove('open');
+              input.value=formatTR(date);   // gg-aa-yyyy görünüm
+              input.dataset.iso = formatISO(date); // gönderimde istersen kullan
+              calWrap.classList.remove('open'); input.setAttribute('aria-expanded','false');
             });
           }
           grid.appendChild(cell);
@@ -469,7 +477,7 @@
         el.appendChild(grid);
 
         const legend=document.createElement('div'); legend.className='legend';
-        legend.innerHTML=`<span class="chip free">Müsait</span><span class="chip full">Dolu</span><span class="chip">En erken: ${formatISO(minDate)}</span>`;
+        legend.innerHTML=`<span class="chip free">Müsait</span><span class="chip full">Dolu</span><span class="chip">En erken: ${formatISO(mind)}</span>`;
         el.appendChild(legend);
       }
 
@@ -479,6 +487,7 @@
       function stripTime(dt){ return new Date(dt.getFullYear(), dt.getMonth(), dt.getDate()); }
       function pad(n){ return n<10?('0'+n):n; }
       function formatISO(dt){ return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}`; }
+      function formatTR(dt){ return `${pad(dt.getDate())}-${pad(dt.getMonth()+1)}-${dt.getFullYear()}`; }
       function trMonth(m){ return ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'][m]; }
     }
   })();
