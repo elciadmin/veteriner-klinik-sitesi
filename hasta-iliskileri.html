@@ -13,22 +13,24 @@
 
   <!-- Sayfaya özel ek stiller -->
   <style>
-    /* Sayfa kahramanı */
+    /* Hero */
     .page-hero{
-      padding-top:clamp(72px,10vw,120px);
-      padding-bottom:24px;
+      padding-top:clamp(84px,10vw,130px);
+      padding-bottom:22px;
       background:linear-gradient(180deg,#eaf6f9 0%,transparent 70%);
       text-align:center;
     }
+    .page-hero .title-wrap{
+      display:flex;flex-direction:column;align-items:center;gap:6px;
+      max-width:860px;margin:0 auto;
+    }
     .page-hero h1{
-      margin:0 0 8px;
-      font-weight:800; letter-spacing:.2px;
+      margin:0;font-weight:800;letter-spacing:.2px;
+      background:linear-gradient(90deg,#0c4e54 0%,#10b3d1 100%);
+      -webkit-background-clip:text;background-clip:text;color:transparent;
     }
-    .page-hero .hero-divider{
-      width:180px;height:3px;margin:10px auto 8px;
-      background:linear-gradient(90deg,transparent,var(--accent,#10b3d1),transparent);
-      border-radius:999px;
-    }
+    .hero-divider{width:168px;height:3px;border-radius:999px;
+      background:linear-gradient(90deg,transparent,var(--accent,#10b3d1),transparent);margin:4px auto 8px}
     .chip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(0,0,0,.08);border-radius:999px;text-decoration:none}
     .chip:hover{background:#f7fcfd}
 
@@ -37,7 +39,7 @@
     .alert.critical{border-color:#f2c3c3;background:#fff7f7}
     .alert i{margin-right:8px;color:#c0392b}
 
-    /* Kart ızgaraları */
+    /* Kart ızgarası */
     .services-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
     @media(max-width:980px){.services-grid{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:640px){.services-grid{grid-template-columns:1fr}}
@@ -46,35 +48,39 @@
     .s-title{margin:2px 0 8px}
     .s-text{margin:0;color:#233}
 
-    /* Hizmet Şartları & KVKK onay bloğu */
-    .consent-card{
-      margin-top:12px; padding:12px; border:1px solid rgba(0,0,0,.08); border-radius:14px;
-      background:#fff; display:flex; gap:12px; align-items:flex-start;
-    }
-    .consent-card input[type="checkbox"]{
-      width:20px; height:20px; margin-top:2px; accent-color:var(--brand,#0c4e54);
-    }
-    .consent-card .consent-text a{ text-decoration:underline; }
-    .consent-card.checked{ border-color:#cfe9ee; background:#f8fdff; }
+    /* Mini Takvim */
+    .avail-cal { margin-top:8px; border:1px solid rgba(0,0,0,.08); border-radius:12px; padding:12px; background:#fff; }
+    .avail-cal .cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    .avail-cal .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+    .avail-cal .dow{font-size:12px;color:#6b7a7c;text-align:center}
+    .avail-cal .day{padding:8px 0;border-radius:10px;text-align:center;user-select:none;border:1px solid transparent}
+    .avail-cal .day.unselectable{opacity:.45;cursor:not-allowed;background:#f6f6f6}
+    .avail-cal .day.full{background:#ffecec;border-color:#f4c2c2;color:#a33;cursor:not-allowed}
+    .avail-cal .day.free{background:#eefaf1;border-color:#bfe7c9;color:#0b5d1e;cursor:pointer}
+    .avail-cal .day.free:hover{filter:brightness(.97)}
+    .avail-cal .legend{display:flex;gap:10px;margin-top:10px;font-size:12px;color:#375;flex-wrap:wrap}
+    .avail-cal .chip{display:inline-flex;gap:6px;align-items:center;padding:4px 8px;border-radius:999px;border:1px solid rgba(0,0,0,.08)}
+    .avail-cal .chip.free{background:#eefaf1;border-color:#bfe7c9}
+    .avail-cal .chip.full{background:#ffecec;border-color:#f4c2c2}
 
-    /* Call reveal & tooltip (PC’de numara göster) */
-    .call-reveal { display:none; margin-left:8px; font-weight:700; }
-    .call-reveal.show { display:inline-flex; align-items:center; gap:6px; }
-    .tooltip{
-      display:inline-block; margin-left:8px; font-size:12px; padding:4px 8px;
-      border-radius:8px; border:1px solid rgba(0,0,0,.08); background:#f7fcfd; color:#0a4348;
-    }
+    /* “Ara” butonu için masaüstü numara balonu */
+    .call-pop{display:none;position:absolute;z-index:50;background:#0c4e54;color:#fff;padding:10px 12px;border-radius:12px;box-shadow:0 10px 22px rgba(0,0,0,.18);font-weight:700}
+    .call-pop a{color:#fff;text-decoration:none}
+    .call-pop .copy{margin-left:8px;font-weight:600;opacity:.9}
+    .call-wrap{position:relative;display:inline-block}
 
-    /* “Hizmet Şartları & KVKK” modal */
-    dialog#termsDialog{max-width:900px;width:92%;border-radius:16px;border:1px solid rgba(0,0,0,.1);padding:0}
-    #termsDialog .kvkk-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid rgba(0,0,0,.06)}
-    #termsDialog .kvkk-body{max-height:min(65vh,620px);overflow:auto;padding:16px}
-    #termsDialog .kvkk-foot{display:flex;justify-content:flex-end;gap:10px;padding:12px 16px;border-top:1px solid rgba(0,0,0,.06)}
+    /* Onay kutusu güzelleştirme */
+    .consent{display:flex;gap:10px;align-items:flex-start;margin-top:8px}
+    .consent input[type="checkbox"]{width:22px;height:22px;border-radius:6px;border:1px solid #a8cacc;accent-color:#0f5960}
+    .consent .consent-box{flex:1;border:1px solid rgba(0,0,0,.06);border-radius:12px;padding:10px 12px;background:#f9fcfd}
+    .consent .consent-title{display:flex;align-items:center;gap:8px;font-weight:700}
+    .consent .consent-title i{color:#0f5960}
+    .consent .consent-actions{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
   </style>
 </head>
 <body>
 
-  <!-- ===== SABİT HEADER ===== -->
+  <!-- ===== SABİT HEADER (site ile aynı) ===== -->
   <header>
     <div class="header-top">
       <div class="container">
@@ -148,10 +154,13 @@
   <!-- ===== SAYFA KAFA ===== -->
   <section class="page-hero">
     <div class="container">
-      <h1>Hasta İlişkileri</h1>
-      <div class="hero-divider"></div>
-      <p class="muted">Online randevu, memnuniyet anketi, başarı hikayeleri ve öneri-şikâyet formları.</p>
+      <div class="title-wrap">
+        <h1>Hasta İlişkileri</h1>
+        <div class="hero-divider"></div>
+        <p class="muted">Online randevu, memnuniyet anketi, başarı hikayeleri ve öneri-şikâyet formları.</p>
+      </div>
 
+      <!-- Hızlı kısayollar -->
       <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center">
         <a class="chip" href="#online-randevu"><i class="fa-solid fa-calendar-check"></i> Online Randevu</a>
         <a class="chip" href="#memnuniyet-anketi"><i class="fa-solid fa-face-smile"></i> Memnuniyet</a>
@@ -204,12 +213,14 @@
 
         <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
           <input type="text" name="ad" placeholder="Ad Soyad" autocomplete="name" required/>
-          <input type="tel" name="tel" placeholder="Telefon" inputmode="tel" autocomplete="tel" required pattern="^[0-9+()\\s-]{7,}$"/>
+          <input type="tel" name="tel" placeholder="Telefon" inputmode="tel" autocomplete="tel" required pattern="^[0-9+()\\s-]{7,}$" />
           <input type="text" name="pet" placeholder="Evcil Hayvan (Kedi/Köpek vb.)" required/>
-          <input type="date" name="tarih" required/>
+          <input type="date" id="randevuTarih" name="tarih" required/>
         </div>
 
-        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
+        <div id="availCalendar" class="avail-cal"></div>
+
+        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap);margin-top:10px">
           <select name="hizmet" required>
             <option value="">Hizmet Türü</option>
             <option>Genel Muayene</option>
@@ -225,34 +236,36 @@
           <input type="number" step="0.1" name="kilo" placeholder="Kilo (kg, opsiyonel)"/>
         </div>
 
-        <textarea name="not" placeholder="Kısaca şikâyet/istek (son 12 saatte ilaç, kusma/ishal, iştah vb.)" rows="4"></textarea>
+        <textarea name="not" placeholder="Kısaca şikâyet/istek (son 12 saatte ilaç, kusma/ishal, iştah vb.)" rows="4" style="margin-top:10px"></textarea>
 
-        <!-- Hizmet Şartları & KVKK onayı -->
-        <label class="consent-card" id="consentCard">
-          <input type="checkbox" name="kvkk" required/>
-          <span class="consent-text muted">
-            <a href="#terms" id="termsLink">Hizmet Şartları &amp; KVKK</a> metnini okudum ve onaylıyorum.
-          </span>
-        </label>
+        <!-- Hizmet Şartları (KVKK içerir) -->
+        <div class="consent">
+          <input type="checkbox" id="consent" name="consent" required/>
+          <div class="consent-box">
+            <div class="consent-title"><i class="fa-solid fa-shield-heart"></i> Hizmet Şartları</div>
+            <p class="muted" style="margin:6px 0 8px">
+              Randevu işlemlerinde kişisel verileriniz KVKK kapsamında işlenmektedir. Detayları görmek ve onaylamak için:
+            </p>
+            <div class="consent-actions">
+              <button type="button" class="btn" id="openTerms">Metni Gör</button>
+              <label for="consent" class="btn primary" style="cursor:pointer">Okudum, Onaylıyorum</label>
+            </div>
+          </div>
+        </div>
 
-        <!-- Butonlar -->
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;align-items:center">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center">
           <button class="btn primary" type="submit">Randevu Talep Et</button>
 
-          <!-- Konum: Google Haritalar rota -->
-          <a id="locationBtn" class="btn" target="_blank" rel="noopener"
-             href="https://www.google.com/maps/dir/?api=1&destination=Havzan%20Mah.%20Yeni%20Meram%20Cad.%2017%2F1%20Meram%20Konya&travelmode=driving">
-             <i class="fa-solid fa-map-location-dot"></i> Konum
-          </a>
+          <!-- Konum -->
+          <a class="btn" id="locBtn"><i class="fa-solid fa-map-location-dot"></i> Konum</a>
 
-          <!-- Ara: mobilde arar, PC’de numarayı gösterir -->
-          <button type="button" id="callBtn" class="btn ghost">
-            <i class="fa-solid fa-phone"></i> Ara
-          </button>
-          <span id="callReveal" class="call-reveal">
-            <span>0332 322 32 20</span>
-            <button type="button" id="copyPhone" class="btn" style="padding:4px 8px;font-size:12px">Kopyala</button>
-            <span class="tooltip">PC’de numara gösterilir</span>
+          <!-- Ara (masaüstü: numarayı göster) -->
+          <span class="call-wrap">
+            <a class="btn ghost" id="callBtn"><i class="fa-solid fa-phone"></i> Ara</a>
+            <span class="call-pop" id="callPop">
+              <a href="tel:03323223220">0332 322 32 20</a>
+              <button type="button" class="copy btn" id="copyTel" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:4px 8px;border-radius:8px">Kopyala</button>
+            </span>
           </span>
         </div>
       </form>
@@ -272,7 +285,10 @@
         <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
           <select name="puan" required>
             <option value="">Memnuniyet Puanınız</option>
-            <option>5 - Çok Memnunum</option><option>4</option><option>3</option><option>2</option>
+            <option>5 - Çok Memnunum</option>
+            <option>4</option>
+            <option>3</option>
+            <option>2</option>
             <option>1 - Memnun Değilim</option>
           </select>
           <input type="text" name="ad" placeholder="Adınız (opsiyonel)"/>
@@ -357,7 +373,7 @@
     </div>
   </section>
 
-  <!-- ===== FOOTER ===== -->
+  <!-- ===== FOOTER (index ile aynı) ===== -->
   <footer class="footer-new">
     <div class="container footer-container">
       <div class="footer-col">
@@ -410,7 +426,7 @@
     <div class="footer-bottom"><div class="container"><p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p></div></div>
   </footer>
 
-  <!-- Schema.org -->
+  <!-- Schema.org: Organization + ContactPoint -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -436,102 +452,198 @@
   </svg>
 
   <!-- Tek JS dosyası -->
-  <script defer src="/assets/js/main.js?v=17"></script>
+  <script defer src="/assets/js/main.js?v=18"></script>
 
-  <!-- Hizmet Şartları & KVKK Modal -->
-  <dialog id="termsDialog" aria-labelledby="termsTitle">
-    <form method="dialog">
-      <div class="kvkk-head">
-        <h3 id="termsTitle" style="margin:0">Hizmet Şartları &amp; KVKK</h3>
+  <!-- Hizmet Şartları (KVKK) Modal -->
+  <dialog id="termsDialog">
+    <form method="dialog" style="padding:18px">
+      <header style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+        <h3 style="margin:0">Hizmet Şartları & KVKK Aydınlatma</h3>
         <button class="btn" value="cancel" aria-label="Kapat">Kapat</button>
+      </header>
+      <div style="max-height:min(60vh,560px);overflow:auto;margin-top:10px" class="muted">
+        <p><strong>Veri İşleme Amacı:</strong> Randevu oluşturma, kimlik doğrulama ve sağlık hizmetinin yürütülmesi.</p>
+        <p><strong>Toplanan Veriler:</strong> Ad-soyad, iletişim, evcil hayvan bilgileri (tür, ırk, kilo), randevu notları ve tarih.</p>
+        <p><strong>Hukuki Dayanak:</strong> 6698 sayılı KVKK md.5/2 ve sağlık hizmeti istisnaları.</p>
+        <p><strong>Saklama Süresi:</strong> Mevzuatta öngörülen süreler ve sözleşme ilişkisi boyunca.</p>
+        <p><strong>Haklarınız:</strong> Bilgi talebi, düzeltme, silme, işleme kısıtlama ve itiraz hakları.</p>
+        <p>Daha ayrıntılı metin için <em>klinik sekreterliğimizden yazılı nüsha</em> talep edebilirsiniz.</p>
       </div>
-      <div class="kvkk-body">
-        <h4>1) Hizmet Şartları (Özet)</h4>
-        <ul>
-          <li>Bu form ön bilgilendirme içindir; <strong>triyaj telefonla</strong> yapılır ve randevu onayı ekibimiz tarafından teyit edilir.</li>
-          <li>Randevu saatleri operasyon/acil durumlara göre değişebilir; gerekirse alternatif saat önerilir.</li>
-          <li>Acil ve hayati risk durumlarında lütfen <strong>derhal</strong> arayın: <a href="tel:03323223220">0332 322 32 20</a>.</li>
-        </ul>
-
-        <h4>2) KVKK Aydınlatma (Özet)</h4>
-        <p>6698 sayılı KVKK uyarınca; ad-soyad, iletişim, talep edilen hizmet ve evcil hayvana dair
-        paylaştığınız bilgiler randevu oluşturma, bilgilendirme ve klinik süreçlerin yürütülmesi için işlenir.
-        Mevzuat uyarınca gerekli kişi/kurumlarla sınırlı paylaşım yapılabilir. Tam metin:</p>
-        <p><a href="/kvkk.html" target="_blank" rel="noopener">/kvkk.html</a></p>
-
-        <h4>3) Haklarınız</h4>
-        <ul>
-          <li>Verilerinize erişme, düzeltme, silme (şartlara tabi) talebi,</li>
-          <li>Aktarılanların bilgilendirilmesini isteme,</li>
-          <li>Otomatik işleme itiraz ve zarar halinde tazmin talebi.</li>
-        </ul>
-
-        <p class="muted">Sorumlu: Elçi Veteriner Kliniği • Havzan Mah. Yeni Meram Cad. 17/1, Meram/Konya •
-        Tel: 0332 322 32 20 • E-posta: elcivetklinik@gmail.com</p>
-      </div>
-      <div class="kvkk-foot">
-        <button class="btn ghost" value="cancel">Kapat</button>
-        <button class="btn primary" value="ok"><i class="fa-regular fa-circle-check"></i> Okudum</button>
-      </div>
+      <footer style="display:flex;justify-content:flex-end;gap:8px;margin-top:10px">
+        <button class="btn primary" value="ok">Okudum</button>
+      </footer>
     </form>
   </dialog>
 
-  <!-- Sayfa içi JS -->
+  <!-- Sayfa JS (takvim + buton davranışları + modal) -->
   <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Footer yılı
+  (function(){
+    // ===== Yıl =====
     const yil = document.getElementById('yil'); if(yil){ yil.textContent = new Date().getFullYear(); }
 
-    // Consent kartı stil senkronu
-    const consent = document.querySelector('#consentCard');
-    if(consent){
-      const chk = consent.querySelector('input[type="checkbox"]');
-      const sync = ()=> consent.classList.toggle('checked', chk.checked);
-      chk.addEventListener('change', sync); sync();
-    }
-
-    // Hizmet Şartları & KVKK modal
-    const termsLink = document.getElementById('termsLink');
-    const termsDlg  = document.getElementById('termsDialog');
-    if(termsLink && termsDlg){
-      termsLink.addEventListener('click', (e)=>{
+    // ===== Konum butonu =====
+    const locBtn = document.getElementById('locBtn');
+    if(locBtn){
+      locBtn.addEventListener('click', (e)=>{
         e.preventDefault();
-        if(typeof termsDlg.showModal === 'function'){ termsDlg.showModal(); }
-        else { window.location.href = '/kvkk.html'; }
+        const url = "https://www.google.com/maps/dir/?api=1&destination=Havzan+Mah.+Yeni+Meram+Cad.+17%2F1%2C+Meram%2FKonya";
+        window.open(url, '_blank', 'noopener');
       });
     }
 
-    // Ara butonu: mobilde tel:, PC’de numara göster
+    // ===== Ara butonu =====
     const callBtn = document.getElementById('callBtn');
-    const reveal  = document.getElementById('callReveal');
-    const copyBtn = document.getElementById('copyPhone');
-    const phone   = '03323223220';
-
+    const callPop = document.getElementById('callPop');
+    const copyTel = document.getElementById('copyTel');
     function isMobile(){
-      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-             || (window.matchMedia && window.matchMedia('(max-width: 820px) and (pointer:coarse)').matches);
+      return /Android|iPhone|iPad|iPod|IEMobile|Opera Mini/i.test(navigator.userAgent)
+             || (window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
     }
-
     if(callBtn){
-      callBtn.addEventListener('click', ()=>{
+      callBtn.addEventListener('click',(e)=>{
+        e.preventDefault();
         if(isMobile()){
-          window.location.href = 'tel:'+phone;
+          window.location.href = 'tel:03323223220';
         }else{
-          reveal.classList.add('show');
+          callPop.style.display = (callPop.style.display==='block') ? 'none' : 'block';
+          // konumla
+          const rect = callBtn.getBoundingClientRect();
+          callPop.style.left = '0';
+          callPop.style.top  = '44px';
+        }
+      });
+      document.addEventListener('click',(ev)=>{
+        if(!callPop.contains(ev.target) && !callBtn.contains(ev.target)){
+          callPop.style.display='none';
         }
       });
     }
-
-    if(copyBtn){
-      copyBtn.addEventListener('click', async ()=>{
-        try{
-          await navigator.clipboard.writeText(phone);
-          copyBtn.textContent = 'Kopyalandı!';
-          setTimeout(()=> copyBtn.textContent='Kopyala', 1500);
-        }catch(e){}
+    if(copyTel){
+      copyTel.addEventListener('click', ()=>{
+        navigator.clipboard.writeText('0332 322 32 20').then(()=>{
+          copyTel.textContent='Kopyalandı';
+          setTimeout(()=>copyTel.textContent='Kopyala',1200);
+        });
       });
     }
-  });
+
+    // ===== Hizmet Şartları (KVKK) Modal =====
+    const openTerms = document.getElementById('openTerms');
+    const termsDialog = document.getElementById('termsDialog');
+    if(openTerms && termsDialog){
+      openTerms.addEventListener('click', ()=>{
+        if(typeof termsDialog.showModal === 'function'){ termsDialog.showModal(); }
+        else { alert('Tarayıcınızda açılır pencere desteklenmiyor.'); }
+      });
+    }
+
+    // ===== Randevu Takvimi (min 2 gün sonrası + mini takvim) =====
+    const input = document.getElementById('randevuTarih');
+    const calWrap = document.getElementById('availCalendar');
+    if(input && calWrap){
+      // AYARLAR
+      const fullyBooked = [
+        // Örnek: "2025-11-07", "2025-11-14"
+      ];
+      const closeOnSunday = true;
+      const monthsToShow = 2;
+
+      const today = new Date();
+      const minDate = addDays(today, 2);
+      input.min = formatISO(minDate);
+
+      input.addEventListener('input', () => {
+        if(new Date(input.value) < stripTime(minDate)){
+          input.value = formatISO(minDate);
+        }
+      });
+
+      renderCalendar(calWrap, monthsToShow);
+
+      function renderCalendar(el, months){
+        el.innerHTML = '';
+        const head = document.createElement('div');
+        head.className = 'cal-head';
+        const title = document.createElement('strong');
+        title.textContent = 'Müsaitlik Takvimi (2 ay)';
+        head.appendChild(title);
+        el.appendChild(head);
+
+        const dow = ['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'];
+
+        for(let m=0;m<months;m++){
+          const holder = document.createElement('div');
+          holder.style.marginTop = m? '14px':'4px';
+
+          const first = firstOfMonth(addMonths(today, m));
+          const y = first.getFullYear(), mo = first.getMonth();
+          const monthTitle = document.createElement('div');
+          monthTitle.style.margin = '6px 0';
+          monthTitle.innerHTML = `<strong>${trMonth(mo)} ${y}</strong>`;
+          holder.appendChild(monthTitle);
+
+          const grid = document.createElement('div');
+          grid.className = 'cal-grid';
+
+          for(const d of dow){ const s=document.createElement('div'); s.className='dow'; s.textContent=d; grid.appendChild(s); }
+
+          let startIndex = (first.getDay()+6)%7; // Pzt=0
+          for(let i=0;i<startIndex;i++){ grid.appendChild(document.createElement('div')); }
+
+          const dim = new Date(y, mo+1, 0).getDate();
+          for(let d=1; d<=dim; d++){
+            const date = new Date(y, mo, d);
+            const cell = document.createElement('div');
+            cell.className='day';
+            cell.textContent = d;
+
+            const beforeMin = stripTime(date) < stripTime(minDate);
+            const isSun = date.getDay() === 0;
+            const isBooked = fullyBooked.includes(formatISO(date));
+
+            if(beforeMin){
+              cell.classList.add('unselectable');
+            }else if( (closeOnSunday && isSun) || isBooked ){
+              cell.classList.add('full');
+              cell.title = isBooked ? 'Dolu' : 'Kapalı (Pazar)';
+            }else{
+              cell.classList.add('free');
+              cell.title='Müsait';
+              cell.addEventListener('click', ()=>{
+                input.value = formatISO(date);
+                input.dispatchEvent(new Event('input', {bubbles:true}));
+                cell.style.outline='2px solid #10b3d1';
+                setTimeout(()=>cell.style.outline='',800);
+              });
+            }
+
+            grid.appendChild(cell);
+          }
+
+          holder.appendChild(grid);
+          el.appendChild(holder);
+        }
+
+        const legend = document.createElement('div');
+        legend.className='legend';
+        legend.innerHTML = `
+          <span class="chip free">Müsait</span>
+          <span class="chip full">Dolu/Kapalı</span>
+          <span class="chip">En erken: ${formatISO(minDate)}</span>
+        `;
+        el.appendChild(legend);
+      }
+
+      // Utils
+      function addDays(dt,n){ const d=new Date(dt); d.setDate(d.getDate()+n); return d; }
+      function addMonths(dt,n){ const d=new Date(dt); d.setMonth(d.getMonth()+n); return d; }
+      function firstOfMonth(dt){ return new Date(dt.getFullYear(), dt.getMonth(), 1); }
+      function stripTime(dt){ return new Date(dt.getFullYear(), dt.getMonth(), dt.getDate()); }
+      function pad(n){ return n<10 ? '0'+n : ''+n; }
+      function formatISO(dt){ return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}`; }
+      function trMonth(m){ return ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'][m]; }
+    }
+  })();
   </script>
 </body>
 </html>
