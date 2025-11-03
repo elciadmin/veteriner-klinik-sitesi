@@ -1,0 +1,12 @@
+:root{
+  --primary:#6A0EA1;        /* Mor (ana) */
+  --primary-dark:#4E0C88;   /* Mor (hover/focus) */
+  --secondary:#10B3D1;      /* Turkuaz (ikincil) */
+  --accent:#77D4B2;         /* Mint (vurgular) */
+
+  --success:#2E7D32; --info:#0EA5E9; --warning:#F59E0B; --danger:#DC2626;
+  --surface:#F6FAFC; --surface-2:#EDF3F7; --stroke:#D3DEE6;
+  --text:#334155; --text-muted:#64748B; --white:#FFFFFF;
+
+  --shadow:0 10px 30px rgba(0,0,0,.08);
+}
