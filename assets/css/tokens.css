@@ -1,4 +1,10 @@
+/* ========================================================================
+   Elçi Veteriner - DESIGN TOKENS (Güncel)
+   Not: Eski değişkenler korunuyor + yeni semantik değişkenler eklendi
+   ======================================================================== */
+
 :root{
+  /* ====== ESKİ DEĞİŞKENLER (AYNEN KORUNDU) ====== */
   --primary:#6A0EA1;        /* Mor (ana) */
   --primary-dark:#4E0C88;   /* Mor (hover/focus) */
   --secondary:#10B3D1;      /* Turkuaz (ikincil) */
@@ -9,4 +15,87 @@
   --text:#334155; --text-muted:#64748B; --white:#FFFFFF;
 
   --shadow:0 10px 30px rgba(0,0,0,.08);
+
+  /* ====== YENİ SEMANTİK KÖPRÜ (site geneli bu isimleri kullanacak) ====== */
+  /* Marka/Vurgu */
+  --brand: var(--primary);           /* ana marka rengi */
+  --brand-2: var(--primary-dark);    /* marka koyu/hover */
+  --link: var(--secondary);          /* link/CTA ana */
+  --link-hover: #13c6e8;             /* link hover (secondary varyantı) */
+
+  /* Zemin & Metin */
+  --bg: var(--surface);              /* sayfa zemini */
+  --surface-strong: var(--white);    /* düz beyaz yüzey */
+  --ink: var(--text);                /* ana metin rengi */
+  --muted: var(--text-muted);        /* ikincil metin */
+
+  /* Kart/Bileşen */
+  --card-bg: var(--surface-strong);
+  --card-fg: var(--ink);
+  --card-border: rgba(0,0,0,.06);
+  --card-bg-hover: var(--surface);
+  --line: var(--stroke);
+
+  /* Buton */
+  --btn-bg: var(--secondary);        /* ana buton */
+  --btn-fg: var(--white);
+  --btn-bg-hover: #13c6e8;
+  --btn-ghost-fg: var(--secondary);
+
+  /* Header/Footer */
+  --header-bg: var(--surface-strong);
+  --header-top-bg: var(--brand);
+  --header-fg: var(--ink);
+  --header-top-fg: var(--white);
+
+  --footer-bg: #0e2f32;              /* markaya uyumlu koyu zemin */
+  --footer-fg: #dfe7e8;
+  --footer-link: #e6fbff;
+
+  /* Gölge */
+  --shadow-sm: 0 2px 12px rgba(0,0,0,.06);
+  --shadow-md: 0 6px 22px rgba(0,0,0,.05);
+  --shadow-lg: 0 12px 34px rgba(0,0,0,.08);
+}
+
+/* ====== (İsteğe bağlı) Dark tema — hızlı ön izleme için ====== */
+:root[data-theme="dark"]{
+  --bg:#0e1113;
+  --surface-strong:#171a1d;
+  --ink:#e7edf0;
+  --muted:#9aa6ac;
+  --line:rgba(255,255,255,.12);
+
+  --header-bg:var(--surface-strong);
+  --header-top-bg:#4A0C7A;   /* morun koyusu */
+  --header-fg:var(--ink);
+  --header-top-fg:#f6edff;
+
+  --card-bg:var(--surface-strong);
+  --card-fg:var(--ink);
+  --card-border:rgba(255,255,255,.08);
+  --card-bg-hover:#1d2125;
+
+  --footer-bg:#0b1c1e;
+  --footer-fg:#cfe3e6;
+  --footer-link:#b3f5ff;
+}
+
+/* ====== (İsteğe bağlı) Green varyant — alternatif canlı ön izleme ====== */
+:root[data-theme="green"]{
+  --brand:#0a4a3f;
+  --brand-2:#0c5b4e;
+  --secondary:#15b8a6;      /* link/CTA */
+  --btn-bg: var(--secondary);
+  --btn-bg-hover:#1ddac3;
+
+  --bg:#f2fffc;
+  --surface-strong:#ffffff;
+  --ink:#0d1b1a;
+  --muted:#5f6b6a;
+  --line:rgba(0,0,0,.10);
+
+  --footer-bg:#06312a;
+  --footer-fg:#def7f1;
+  --footer-link:#b4fff4;
 }
