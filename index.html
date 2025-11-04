@@ -3,16 +3,48 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Elçi Veteriner Kliniği · v2025-11-04-19:xx | Konya'da 7/24 Acil, Cerrahi, Görüntüleme</title>
+  <title>Elçi Veteriner Kliniği · v2025-11-04-19:20 | Konya'da 7/24 Acil, Cerrahi, Görüntüleme</title>
 
   <meta name="description" content="Konya Meram Elçi Veteriner Kliniği: 7/24 acil, koruyucu hekimlik, cerrahi, diş sağlığı, röntgen, ultrason, laboratuvar."/>
   <link rel="canonical" href="https://elciveteriner.com/"/>
 
   <!-- Sadece bu iki CSS (cache-bust eklendi) -->
   <!-- 1) TOKENS önce -->
-  <link rel="stylesheet" href="/assets/css/tokens.css?v=20251104a"/>
+  <link rel="stylesheet" href="/assets/css/tokens.css?v=20251104b"/>
   <!-- 2) STYLES sonra -->
-  <link rel="stylesheet" href="/assets/css/styles.css?v=20251104a"/>
+  <link rel="stylesheet" href="/assets/css/styles.css?v=20251104b"/>
+
+  <!-- === INDEX'E ÖZEL: Tema değişkenlerini sabitle (renkleri hemen gör) === -->
+  <style id="theme-vars">
+    :root{
+      --brand:#0c4e54;
+      --brand2:#0f5960;
+      --ink:#112;
+      --muted:#6b7a7c;
+      --bg:#f5fbfc;
+      --accent:#10b3d1;
+    }
+  </style>
+
+  <!-- === INDEX HOTFIX: En sık görünen yerlerde var(--*) kullanımı (gerekirse !important) === -->
+  <style id="index-hotfix">
+    /* Üst şerit rengi (hemen fark edilir) */
+    .header-top{ background:var(--brand)!important; }
+    /* Ana butonlar */
+    .btn.primary{
+      background:var(--accent)!important;
+      color:#fff!important; border-color:transparent!important;
+    }
+    /* Hızlı link ikon zemini */
+    .q .icon{ background:var(--brand2)!important; color:#fff!important; }
+    /* Hero ayırıcı çizgi */
+    .hero-divider{
+      width:140px; height:3px; margin:10px auto 0; border-radius:999px;
+      background:linear-gradient(90deg,transparent,var(--accent),transparent)!important;
+    }
+    /* Hero alt metin okunurluğu */
+    .hero .hero-sub{ color:#24454a!important; }
+  </style>
 
   <!-- İkonlar -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -423,7 +455,7 @@
 
     <div class="footer-bottom">
       <div class="container">
-        <p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır. <small class="muted" style="opacity:.7">build: 2025-11-04 19:xx</small></p>
+        <p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır. <small class="muted" style="opacity:.7">build: 2025-11-04 19:20</small></p>
       </div>
     </div>
   </footer>
@@ -443,7 +475,7 @@
   </script>
 
   <!-- Tek JS dosyası (cache-bust eklendi) -->
-  <script defer src="/assets/js/main.js?v=20251104a"></script>
+  <script defer src="/assets/js/main.js?v=20251104b"></script>
 
   <!-- === HİZMET KARTLARI CSS & SCROLLER === -->
   <style>
