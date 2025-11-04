@@ -1,0 +1,63 @@
+/* ======================================
+   ELÇİ - INDEX OVERRIDES (scope: home)
+   Bu dosya styles.css'i DEĞİŞTİRMEZ, sadece üzerine yazar.
+   Sadece index.html'de <body data-page="home"> ile aktif.
+   ====================================== */
+
+/* Marka gradyanı (footer) morlardan marka renklerine */
+:root{
+  --footer-start: #0f5960; /* brand2 */
+  --footer-end:   #0c4e54; /* brand  */
+}
+
+/* ===== HERO ===== */
+[data-page="home"] .hero{
+  background:
+    linear-gradient(180deg,#ffffff 0%, #f5fbfc 52%),
+    radial-gradient(1200px 600px at 80% -100px, rgba(17,24,34,.06) 0%, rgba(17,24,34,0) 60%),
+    linear-gradient(120deg, var(--brand) 0%, var(--brand2) 100%);
+  color:#0f1b22;
+}
+[data-page="home"] .hero-divider{ background: var(--accent); opacity:1 }
+[data-page="home"] .hero-sub{ color:#17313a; opacity:.95 }
+[data-page="home"] .hero-cta .btn.primary{ background: var(--accent); color:#fff; border-color:transparent }
+[data-page="home"] .hero-cta .btn.ghost{ color: var(--brand2); border-color: rgba(0,0,0,.12); background:#fff }
+
+/* ===== Hızlı linkler ===== */
+:root{ --icon-size:28px; --icon-color:#0f5960; --icon-opacity:.96; }
+[data-page="home"] .quick-links .q{
+  background:#fff;
+  color:#112;
+  border:1px solid #e7eef0;
+  box-shadow:0 6px 18px rgba(0,0,0,.06);
+}
+[data-page="home"] .quick-links .q .icon svg{ color: var(--icon-color) }
+
+/* ===== Hizmet kartları ===== */
+[data-page="home"] .s-card{
+  background:#fff !important;
+  border:1px solid #e9eff0 !important;
+  box-shadow:0 2px 12px rgba(0,0,0,.06) !important;
+}
+[data-page="home"] .s-card:hover{
+  background: var(--bg) !important;
+  border-color: rgba(0,0,0,.10) !important;
+  box-shadow:0 6px 18px rgba(0,0,0,.08) !important;
+}
+[data-page="home"] .s-icon{
+  background: linear-gradient(135deg, var(--accent), var(--brand2)) !important;
+  color:#fff;
+}
+
+/* ===== Butonlar ===== */
+[data-page="home"] .btn{ border-color: rgba(0,0,0,.12); color: var(--brand2); background:#fff }
+[data-page="home"] .btn.primary{ background: var(--accent); color:#fff; border-color:transparent }
+[data-page="home"] .btn.primary:hover{ filter:brightness(.97) }
+
+/* ===== Bölümler beyaz zemin (yeşile kaymasın) ===== */
+[data-page="home"] section{ background:#fff }
+
+/* ===== Footer marka gradyanı ===== */
+[data-page="home"] .footer-new{
+  background:linear-gradient(135deg,var(--footer-start),var(--footer-end));
+}
