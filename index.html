@@ -3,47 +3,75 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Elçi Veteriner Kliniği · v2025-11-04-19:20 | Konya'da 7/24 Acil, Cerrahi, Görüntüleme</title>
+  <title>Elçi Veteriner Kliniği · v2025-11-04-19:xx | Konya'da 7/24 Acil, Cerrahi, Görüntüleme</title>
 
   <meta name="description" content="Konya Meram Elçi Veteriner Kliniği: 7/24 acil, koruyucu hekimlik, cerrahi, diş sağlığı, röntgen, ultrason, laboratuvar."/>
   <link rel="canonical" href="https://elciveteriner.com/"/>
 
   <!-- Sadece bu iki CSS (cache-bust eklendi) -->
   <!-- 1) TOKENS önce -->
-  <link rel="stylesheet" href="/assets/css/tokens.css?v=20251104b"/>
+  <link rel="stylesheet" href="/assets/css/tokens.css?v=20251104a"/>
   <!-- 2) STYLES sonra -->
-  <link rel="stylesheet" href="/assets/css/styles.css?v=20251104b"/>
+  <link rel="stylesheet" href="/assets/css/styles.css?v=20251104a"/>
 
-  <!-- === INDEX'E ÖZEL: Tema değişkenlerini sabitle (renkleri hemen gör) === -->
-  <style id="theme-vars">
+  <!-- === ELÇİ INDEX HOTFIX · 2025-11-04 === -->
+  <style>
+    /* Paleti sayfaya dengeli yay: hero = açık, CTA = accent, kartlar = beyaz */
+
     :root{
-      --brand:#0c4e54;
-      --brand2:#0f5960;
-      --ink:#112;
-      --muted:#6b7a7c;
-      --bg:#f5fbfc;
-      --accent:#10b3d1;
+      /* Footer’ı marka renklerine çek (mor tonları kaldır) */
+      --footer-start: #0f5960;  /* var(--brand2) */
+      --footer-end:   #0c4e54;  /* var(--brand)  */
     }
-  </style>
 
-  <!-- === INDEX HOTFIX: En sık görünen yerlerde var(--*) kullanımı (gerekirse !important) === -->
-  <style id="index-hotfix">
-    /* Üst şerit rengi (hemen fark edilir) */
-    .header-top{ background:var(--brand)!important; }
-    /* Ana butonlar */
-    .btn.primary{
-      background:var(--accent)!important;
-      color:#fff!important; border-color:transparent!important;
+    /* HERO: yeşil baskısını kır, üstte açık zemin + altta marka gradyanı */
+    .hero{
+      background:
+        linear-gradient(180deg,#ffffff 0%, #f5fbfc 45%),
+        radial-gradient(1200px 600px at 80% -100px, rgba(17,24,34,.06) 0%, rgba(17,24,34,0) 60%),
+        linear-gradient(120deg, var(--brand) 0%, var(--brand2) 100%);
+      color:#0f1b22;
     }
-    /* Hızlı link ikon zemini */
-    .q .icon{ background:var(--brand2)!important; color:#fff!important; }
-    /* Hero ayırıcı çizgi */
-    .hero-divider{
-      width:140px; height:3px; margin:10px auto 0; border-radius:999px;
-      background:linear-gradient(90deg,transparent,var(--accent),transparent)!important;
+    .hero-divider{ background: var(--accent); opacity:1 }
+    .hero-sub{ color:#17313a; opacity:.95 }
+    .hero-cta .btn.primary{ background: var(--accent); color:#fff; border-color:transparent }
+    .hero-cta .btn.ghost{ color: var(--brand2); border-color: rgba(0,0,0,.12); background:#fff }
+
+    /* Hızlı linkler: beyaz kart görünümü, ikonlar marka tonunda */
+    .quick-links .q{
+      background:#fff;
+      color:#112;
+      border:1px solid #e7eef0;
+      box-shadow:0 6px 18px rgba(0,0,0,.06);
     }
-    /* Hero alt metin okunurluğu */
-    .hero .hero-sub{ color:#24454a!important; }
+    .quick-links .q .icon svg{ color: var(--brand2) }
+
+    /* Öne çıkan hizmet kartları: beyaz zemin, hover’da hafif vurgular */
+    .s-card{
+      background:#fff !important;
+      border:1px solid #e9eff0 !important;
+      box-shadow: var(--shadow) !important;
+    }
+    .s-card:hover{
+      background: var(--bg) !important;
+      border-color: rgba(0,0,0,.10) !important;
+      box-shadow: var(--shadow-md) !important;
+    }
+    /* Kart ikon kapsülü: accent → brand2 gradyan (daha “clinic” hissi) */
+    .s-icon{
+      background: linear-gradient(135deg, var(--accent), var(--brand2)) !important;
+    }
+
+    /* Genel butonlar: default beyaz çerçeve, primary = accent */
+    .btn{ border-color: rgba(0,0,0,.12); color: var(--brand2); background:#fff }
+    .btn.primary{ background: var(--accent); color:#fff; border-color:transparent }
+    .btn.primary:hover{ filter:brightness(.97) }
+
+    /* Bölümler net beyaz (arkaplan yeşile kaymasın) */
+    section{ background:#fff }
+
+    /* Footer zaten var(--footer-start→end) ile marka gradyanında */
+    .footer-new{ background:linear-gradient(135deg,var(--footer-start),var(--footer-end)) }
   </style>
 
   <!-- İkonlar -->
@@ -455,7 +483,7 @@
 
     <div class="footer-bottom">
       <div class="container">
-        <p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır. <small class="muted" style="opacity:.7">build: 2025-11-04 19:20</small></p>
+        <p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır. <small class="muted" style="opacity:.7">build: 2025-11-04 19:xx</small></p>
       </div>
     </div>
   </footer>
@@ -475,9 +503,9 @@
   </script>
 
   <!-- Tek JS dosyası (cache-bust eklendi) -->
-  <script defer src="/assets/js/main.js?v=20251104b"></script>
+  <script defer src="/assets/js/main.js?v=20251104a"></script>
 
-  <!-- === HİZMET KARTLARI CSS & SCROLLER === -->
+  <!-- === Hizmet Kartları Grid + Scroller (index özel CSS) === -->
   <style>
     /* Bölüm çerçeve kesmesi olmasın */
     #services{background:transparent}
@@ -492,22 +520,16 @@
     @media (max-width: 900px){ .services-grid{grid-template-columns:repeat(2, minmax(0, 1fr))} }
     @media (max-width: 560px){ .services-grid{grid-template-columns:1fr} }
 
-    /* Kart */
+    /* Kart tipi (index’e özel ince ayar) */
     .s-card{
-      background:#fff;
-      border:1px solid rgba(0,0,0,.06);
       border-radius:18px;
       padding:22px;
-      box-shadow:0 6px 22px rgba(0,0,0,.05);
-      display:flex;flex-direction:column;gap:8px;min-width:280px;
+      min-width:280px;
       transition:transform .25s ease, box-shadow .25s ease, background-color .25s ease, border-color .25s ease;
       will-change:transform;
     }
     .s-card:hover{
       transform:translateY(-6px);
-      box-shadow:0 12px 34px rgba(0,0,0,.08);
-      background:var(--bg, #f5fbfc);
-      border-color:rgba(0,0,0,.08);
     }
     .s-icon svg{width:28px;height:28px}
     .s-title{font-size:19px;margin:4px 0 6px}
