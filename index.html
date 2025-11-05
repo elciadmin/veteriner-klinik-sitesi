@@ -74,10 +74,74 @@
     .footer-new{ background:linear-gradient(135deg,var(--footer-start),var(--footer-end)) }
   </style>
 
+  <!-- === MOR OVERRIDE (sadece bu sayfa) === -->
+  <style id="mor-theme-override">
+    /* Mor tonlarını tanımla */
+    :root{
+      --violet:#6a0ea1;
+      --violet2:#8c54cf;
+      --plum:#5a2ea6;
+      /* Footer'ı mora çek (hotfix’teki yeşilleri ezsin) */
+      --footer-start: var(--plum);
+      --footer-end:   var(--violet);
+    }
+
+    /* HERO: mor degrade + açık overlay */
+    body.theme-mor[data-page="home"] .hero{
+      background:
+        radial-gradient(1200px 600px at 80% -100px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 55%),
+        linear-gradient(135deg,
+          color-mix(in srgb, var(--violet) 72%, var(--brand) 28%),
+          color-mix(in srgb, var(--violet2) 72%, var(--brand2) 28%)) !important;
+      color:#fff !important;
+    }
+    body.theme-mor[data-page="home"] .hero-divider{ background: var(--violet2) !important; opacity:1 !important }
+    body.theme-mor[data-page="home"] .hero-sub{ color:#ffffff !important; opacity:.92 !important }
+
+    /* HERO CTA butonları */
+    body.theme-mor[data-page="home"] .hero-cta .btn.primary{
+      background:linear-gradient(180deg, var(--violet2), var(--violet)) !important;
+      color:#fff !important; border-color:transparent !important;
+    }
+    body.theme-mor[data-page="home"] .hero-cta .btn.ghost{
+      color:#fff !important; border-color: rgba(255,255,255,.75) !important; background:transparent !important;
+    }
+
+    /* Quick Links kartları: cam efekti + beyaz ikonlar */
+    body.theme-mor[data-page="home"] .quick-links .q{
+      background:rgba(255,255,255,.08) !important;
+      border:1px solid rgba(255,255,255,.18) !important;
+      color:#fff !important;
+      box-shadow:0 10px 24px rgba(0,0,0,.18) !important;
+    }
+    body.theme-mor[data-page="home"] .quick-links .q .icon svg{ color:#fff !important }
+
+    /* Hizmet kartı ikon kapsülleri: mor gradyan */
+    body.theme-mor[data-page="home"] .s-icon{
+      background:linear-gradient(135deg, var(--violet2), var(--violet)) !important; color:#fff !important;
+    }
+
+    /* Bölüm başlıklarına mor alt çizgi */
+    body.theme-mor[data-page="home"] h2{ position:relative; display:inline-block }
+    body.theme-mor[data-page="home"] h2::after{
+      content:""; position:absolute; left:0; bottom:-6px; width:64px; height:3px;
+      background:linear-gradient(90deg, var(--violet), var(--violet2)); border-radius:6px;
+    }
+
+    /* Link hover’ları mor vurgulu olsun */
+    body.theme-mor[data-page="home"] a:hover{ color: var(--violet) !important }
+
+    /* Footer: mor gradyanı uygula */
+    body.theme-mor[data-page="home"] .footer-new{
+      background:linear-gradient(135deg, var(--footer-start), var(--footer-end)) !important;
+    }
+    body.theme-mor[data-page="home"] .footer-links a:hover{ color: var(--violet2) !important }
+  </style>
+
   <!-- İkonlar -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
-<body>
+<body class="theme-mor" data-page="home">
   <!-- ===== SABİT HEADER ===== -->
   <header>
     <div class="header-top">
