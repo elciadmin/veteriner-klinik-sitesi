@@ -505,3 +505,64 @@ footer.footer-new{ background:linear-gradient(135deg,var(--footer-start),var(--f
     color-mix(in srgb, var(--violet-deep) 92%, #fff 8%),
     color-mix(in srgb, var(--ocean-light) 88%, #fff 12%));
 }
+/* =========================================================
+   ELÇİ PRO — KOYU BAŞLIK + KOYU HERO (safe-append)
+   ========================================================= */
+/* Kullanım: <body class="theme-plumOcean dark-ui"> veya <body class="dark-ui"> */
+
+body.dark-ui header{ box-shadow:0 6px 18px rgba(0,0,0,.22); background:#0b2a2f; }
+body.dark-ui .header-top{ background:#082126; color:#eefbff; }
+body.dark-ui .header-main{ background:#0b2a2f; }
+body.dark-ui .logo-text h1{ color:#ffffff; }
+body.dark-ui .logo-text span{ color:#cfe8eb; }
+
+/* Menü okunaklılığı */
+body.dark-ui nav a{ color:#e6f7f9; }
+body.dark-ui nav a.active{ color:#24c6d5; }
+body.dark-ui nav a:hover::after{ background:#24c6d5; }
+@media (max-width:992px){
+  body.dark-ui nav ul{ background:#0e3338; border-top:1px solid rgba(255,255,255,.15); }
+  body.dark-ui .dropdown-content{ background:#0f3a40; border-color:rgba(255,255,255,.16); }
+  body.dark-ui .dropdown-content a{ color:#e9f7f9; }
+  body.dark-ui .dropdown-content a:hover{ background:rgba(255,255,255,.08); color:#fff; }
+}
+
+/* HERO koyu degrade + beyaz metin */
+body.dark-ui .hero{
+  background:
+    radial-gradient(1400px 700px at 85% -140px, rgba(255,255,255,.08) 0%, rgba(255,255,255,0) 60%),
+    linear-gradient(180deg, #071a1d 0%, #0a2a2e 40%, #0a2124 100%),
+    linear-gradient(120deg, var(--brand) 0%, var(--brand2) 100%);
+  color:#fff;
+}
+body.dark-ui .hero h1{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.18); }
+body.dark-ui .hero-sub{ color:#e6f3f5; opacity:.96; }
+body.dark-ui .hero-divider{ background:linear-gradient(90deg,#25c7d6,#14b6c6); opacity:1; }
+
+/* CTA butonları */
+body.dark-ui .hero-cta .btn.primary{
+  background:#22a8b9; color:#072026; border:0;
+  box-shadow:0 10px 26px rgba(34,168,185,.35);
+}
+body.dark-ui .hero-cta .btn.primary:hover{ filter:brightness(.97); transform:translateY(-1px); }
+body.dark-ui .hero-cta .btn.ghost{
+  background:transparent; border:1px solid rgba(255,255,255,.65); color:#fff;
+}
+body.dark-ui .hero-cta .btn.ghost:hover{ background:rgba(255,255,255,.10); }
+
+/* Hızlı link kartları ve ikonlar */
+body.dark-ui .hero .quick-links .q{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.18);
+  color:#fff; box-shadow:0 10px 24px rgba(0,0,0,.28);
+}
+body.dark-ui .hero .quick-links .q:hover{ background:rgba(255,255,255,.12); transform:translateY(-3px); }
+body.dark-ui .quick-links .icon svg{ color:#ffffff; opacity:.98; }
+
+/* Hizmet kartları koyu hero’dan sonra nötr kalsın */
+body.dark-ui section#services{ background:#fff; }
+
+/* Footer zaten koyu; metin/parlaklık iyileştirmesi */
+body.dark-ui footer.footer-new{ color:#eaf4f5; }
+body.dark-ui .footer-links a{ color:#d9eef0; }
+body.dark-ui .footer-links a:hover{ color:#fff; }
