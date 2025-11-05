@@ -14,134 +14,137 @@
   <!-- 2) STYLES sonra -->
   <link rel="stylesheet" href="/assets/css/styles.css?v=20251104a"/>
 
-  <!-- === ELÇİ INDEX HOTFIX · 2025-11-04 === -->
-  <style>
-    /* Paleti sayfaya dengeli yay: hero = açık, CTA = accent, kartlar = beyaz */
-
+  <!-- === ELÇİ DESIGN SYSTEM v2 · Clinic Pro Palette (index özel) === -->
+  <style id="elci-theme-v2">
+    /* ---------- 1) Palette (çok temalı) ---------- */
     :root{
-      /* Footer’ı marka renklerine çek (mor tonları kaldır) */
-      --footer-start: #0f5960;  /* var(--brand2) */
-      --footer-end:   #0c4e54;  /* var(--brand)  */
+      /* Brand çekirdeği */
+      --brand:#0c4e54;    /* Teal-600  */
+      --brand2:#0f5960;   /* Teal-700  */
+      --accent:#10b3d1;   /* Turkuaz   */
+      --ink:#10161d;      /* Metin     */
+      --muted:#6b7a7c;
+      --bg:#f6fbfc;
+
+      /* Nötr yüzeyler */
+      --surface:#ffffff;
+      --surface-2:#fbfeff;
+      --line:#e6eef0;
+
+      /* Durum */
+      --ok:#2fb176; --warn:#f5a800; --danger:#e5484d;
+
+      /* Gölge & radius */
+      --shadow:0 10px 24px rgba(10,54,60,.08);
+      --shadow-lg:0 20px 50px rgba(10,54,60,.12);
+      --radius-xl:22px; --radius-lg:16px; --radius:12px;
+
+      /* Footer (kurumsal teal gradyan) */
+      --footer-start:#0f5960; --footer-end:#0c4e54;
     }
 
-    /* HERO: yeşil baskısını kır, üstte açık zemin + altta marka gradyanı */
+    /* Alternatif kampanya paletleri (tek satır class ile açılır) */
+    .theme-rose{ --brand:#7a1348; --brand2:#560e34; --accent:#ff7aa2; --footer-start:#560e34; --footer-end:#7a1348 }
+    .theme-sage{ --brand:#15594a; --brand2:#0d463a; --accent:#7dd3b0; --footer-start:#0d463a; --footer-end:#15594a }
+    .theme-violet{ --brand:#4a2c84; --brand2:#3b2268; --accent:#9b7cff; --footer-start:#3b2268; --footer-end:#4a2c84 }
+
+    /* ---------- 2) Kurumsal katmanlar ---------- */
+    body{ background:#fff; }
+    section{ background:var(--surface) }
+    .btn{
+      border:1px solid color-mix(in srgb, var(--brand), #000 6%);
+      background:#fff; color:var(--brand2);
+      border-radius:12px; box-shadow:var(--shadow)
+    }
+    .btn.primary{ background:var(--accent); color:#fff; border-color:transparent }
+    .btn.primary:hover{ filter:brightness(.97) }
+    .chip{
+      background:color-mix(in srgb, var(--accent), #fff 80%);
+      color:var(--brand2); font-weight:700; padding:.35rem .6rem; border-radius:999px
+    }
+
+    /* ---------- 3) HERO — mesh + eğri ayraç + mikro animasyon ---------- */
     .hero{
+      position:relative; isolation:isolate; overflow:hidden; color:#0f1b22;
       background:
+        radial-gradient(1200px 600px at 90% -20%, rgba(16,179,209,.10) 0%, transparent 60%),
         linear-gradient(180deg,#ffffff 0%, #f5fbfc 45%),
-        radial-gradient(1200px 600px at 80% -100px, rgba(17,24,34,.06) 0%, rgba(17,24,34,0) 60%),
-        linear-gradient(120deg, var(--brand) 0%, var(--brand2) 100%);
-      color:#0f1b22;
+        linear-gradient(120deg, color-mix(in srgb, var(--brand) 88%, #ffffff 12%), var(--brand2));
     }
-    .hero-divider{ background: var(--accent); opacity:1 }
-    .hero-sub{ color:#17313a; opacity:.95 }
-    .hero-cta .btn.primary{ background: var(--accent); color:#fff; border-color:transparent }
-    .hero-cta .btn.ghost{ color: var(--brand2); border-color: rgba(0,0,0,.12); background:#fff }
+    .hero .container{ position:relative }
+    .hero::after{ /* yumuşak eğri ayraç */
+      content:""; position:absolute; left:0; right:0; bottom:-1px; height:120px;
+      background:radial-gradient(120% 100% at 50% 0%, rgba(255,255,255,0) 44%, #fff 45%);
+      pointer-events:none;
+    }
+    .hero-mesh{
+      position:absolute; inset:-20% -10% auto -10%; height:460px; z-index:0; filter:saturate(1.1) blur(10px); opacity:.55;
+      background:
+        radial-gradient(600px 260px at 10% 30%, color-mix(in srgb, var(--accent), #fff 30%), transparent 60%),
+        radial-gradient(400px 240px at 80% 20%, color-mix(in srgb, var(--brand), #fff 50%), transparent 60%),
+        radial-gradient(500px 260px at 50% 95%, color-mix(in srgb, var(--brand2), #fff 55%), transparent 60%);
+      animation:floaty 14s ease-in-out infinite alternate;
+    }
+    @keyframes floaty{ 0%{transform:translateY(-6px)} 100%{transform:translateY(6px)} }
 
-    /* Hızlı linkler: beyaz kart görünümü, ikonlar marka tonunda */
+    .hero-center{
+      text-align:center; padding:84px 0 36px; display:flex; flex-direction:column; align-items:center; gap:12px;
+      max-width:980px; margin:0 auto; position:relative; z-index:1
+    }
+    .hero-logo{ width:96px; height:96px; border-radius:50%; filter:drop-shadow(0 6px 18px rgba(0,0,0,.18)) }
+    .hero h1{ font-size:clamp(30px,4.8vw,54px); margin:0; letter-spacing:.2px }
+    .hero-divider{ width:96px; height:4px; background:var(--accent); border-radius:4px; opacity:.95 }
+    .hero-sub{ color:#17313a; max-width:820px }
+
+    /* Trust bar (CTA altında güven göstergeleri) */
+    .trustbar{
+      margin-top:14px; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; width:100%; max-width:960px
+    }
+    .trust{
+      display:flex; gap:10px; align-items:center; justify-content:center;
+      background:var(--surface-2); border:1px solid var(--line); border-radius:12px; padding:10px 12px; box-shadow:var(--shadow)
+    }
+    .trust i{ color:var(--ok) }
+    @media(max-width:820px){ .trustbar{ grid-template-columns:1fr } }
+
+    /* Quick links (hızlı kartlar) */
     .quick-links .q{
-      background:#fff;
-      color:#112;
-      border:1px solid #e7eef0;
-      box-shadow:0 6px 18px rgba(0,0,0,.06);
+      background:#fff; color:#112; border:1px solid var(--line); box-shadow:var(--shadow);
+      transition:transform .18s, box-shadow .18s; backdrop-filter:saturate(1.1) blur(1px)
     }
-    .quick-links .q .icon svg{ color: var(--brand2) }
+    .quick-links .q:hover{ transform:translateY(-3px); box-shadow:var(--shadow-lg) }
+    .quick-links .q .icon svg{ color:var(--brand2) }
 
-    /* Öne çıkan hizmet kartları: beyaz zemin, hover’da hafif vurgular */
+    /* ---------- 4) Hizmet kartları: klinik cam + temiz çizgi ---------- */
     .s-card{
-      background:#fff !important;
-      border:1px solid #e9eff0 !important;
-      box-shadow: var(--shadow) !important;
+      background:#fff !important; border:1px solid var(--line) !important; box-shadow:var(--shadow) !important;
+      border-radius:var(--radius-xl); transition:transform .25s, box-shadow .25s, border-color .25s;
     }
     .s-card:hover{
-      background: var(--bg) !important;
-      border-color: rgba(0,0,0,.10) !important;
-      box-shadow: var(--shadow-md) !important;
+      transform:translateY(-6px); box-shadow:var(--shadow-lg) !important;
+      border-color:color-mix(in srgb, var(--brand), #fff 65%) !important
     }
-    /* Kart ikon kapsülü: accent → brand2 gradyan (daha “clinic” hissi) */
-    .s-icon{
-      background: linear-gradient(135deg, var(--accent), var(--brand2)) !important;
-    }
+    .s-icon{ background: linear-gradient(135deg, var(--accent), var(--brand2)) !important; color:#fff; border-radius:14px }
 
-    /* Genel butonlar: default beyaz çerçeve, primary = accent */
-    .btn{ border-color: rgba(0,0,0,.12); color: var(--brand2); background:#fff }
-    .btn.primary{ background: var(--accent); color:#fff; border-color:transparent }
-    .btn.primary:hover{ filter:brightness(.97) }
+    /* ---------- 5) Reviews ve Blog parıltısı ---------- */
+    section#reviews{ background:linear-gradient(180deg,#f7fbfb 0%, #f3fafb 100%) }
+    .review-card{ outline:1px solid var(--line) }
 
-    /* Bölümler net beyaz (arkaplan yeşile kaymasın) */
-    section{ background:#fff }
-
-    /* Footer zaten var(--footer-start→end) ile marka gradyanında */
+    /* ---------- 6) Footer marka gradyan ---------- */
     .footer-new{ background:linear-gradient(135deg,var(--footer-start),var(--footer-end)) }
-  </style>
+    .footer-links a:hover{ color:var(--accent) }
 
-  <!-- === MOR OVERRIDE (sadece bu sayfa) === -->
-  <style id="mor-theme-override">
-    /* Mor tonlarını tanımla */
-    :root{
-      --violet:#6a0ea1;
-      --violet2:#8c54cf;
-      --plum:#5a2ea6;
-      /* Footer'ı mora çek (hotfix’teki yeşilleri ezsin) */
-      --footer-start: var(--plum);
-      --footer-end:   var(--violet);
+    /* ---------- 7) Erişilebilirlik: hareket azaltma ---------- */
+    @media (prefers-reduced-motion: reduce){
+      .hero-mesh{ animation:none }
+      .quick-links .q, .s-card{ transition:none }
     }
-
-    /* HERO: mor degrade + açık overlay */
-    body.theme-mor[data-page="home"] .hero{
-      background:
-        radial-gradient(1200px 600px at 80% -100px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 55%),
-        linear-gradient(135deg,
-          color-mix(in srgb, var(--violet) 72%, var(--brand) 28%),
-          color-mix(in srgb, var(--violet2) 72%, var(--brand2) 28%)) !important;
-      color:#fff !important;
-    }
-    body.theme-mor[data-page="home"] .hero-divider{ background: var(--violet2) !important; opacity:1 !important }
-    body.theme-mor[data-page="home"] .hero-sub{ color:#ffffff !important; opacity:.92 !important }
-
-    /* HERO CTA butonları */
-    body.theme-mor[data-page="home"] .hero-cta .btn.primary{
-      background:linear-gradient(180deg, var(--violet2), var(--violet)) !important;
-      color:#fff !important; border-color:transparent !important;
-    }
-    body.theme-mor[data-page="home"] .hero-cta .btn.ghost{
-      color:#fff !important; border-color: rgba(255,255,255,.75) !important; background:transparent !important;
-    }
-
-    /* Quick Links kartları: cam efekti + beyaz ikonlar */
-    body.theme-mor[data-page="home"] .quick-links .q{
-      background:rgba(255,255,255,.08) !important;
-      border:1px solid rgba(255,255,255,.18) !important;
-      color:#fff !important;
-      box-shadow:0 10px 24px rgba(0,0,0,.18) !important;
-    }
-    body.theme-mor[data-page="home"] .quick-links .q .icon svg{ color:#fff !important }
-
-    /* Hizmet kartı ikon kapsülleri: mor gradyan */
-    body.theme-mor[data-page="home"] .s-icon{
-      background:linear-gradient(135deg, var(--violet2), var(--violet)) !important; color:#fff !important;
-    }
-
-    /* Bölüm başlıklarına mor alt çizgi */
-    body.theme-mor[data-page="home"] h2{ position:relative; display:inline-block }
-    body.theme-mor[data-page="home"] h2::after{
-      content:""; position:absolute; left:0; bottom:-6px; width:64px; height:3px;
-      background:linear-gradient(90deg, var(--violet), var(--violet2)); border-radius:6px;
-    }
-
-    /* Link hover’ları mor vurgulu olsun */
-    body.theme-mor[data-page="home"] a:hover{ color: var(--violet) !important }
-
-    /* Footer: mor gradyanı uygula */
-    body.theme-mor[data-page="home"] .footer-new{
-      background:linear-gradient(135deg, var(--footer-start), var(--footer-end)) !important;
-    }
-    body.theme-mor[data-page="home"] .footer-links a:hover{ color: var(--violet2) !important }
   </style>
 
   <!-- İkonlar -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
-<body class="theme-mor" data-page="home">
+<body>
   <!-- ===== SABİT HEADER ===== -->
   <header>
     <div class="header-top">
@@ -218,6 +221,7 @@
 
   <!-- HERO -->
   <section class="hero">
+    <div class="hero-mesh" aria-hidden="true"></div><!-- Yeni: arka plan mesh -->
     <div class="container">
       <div class="hero-center">
         <div class="hero-icon">
@@ -256,6 +260,13 @@
             <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-ambulance"/></svg></span>
             <span>Acil</span>
           </a>
+        </div>
+
+        <!-- Yeni: Güven göstergeleri -->
+        <div class="trustbar" aria-label="Güven göstergeleri">
+          <div class="trust"><i class="fa-solid fa-shield-heart"></i> 7/24 Acil & Yoğun Bakım</div>
+          <div class="trust"><i class="fa-solid fa-stethoscope"></i> İleri Cihazlar & Deneyimli Ekip</div>
+          <div class="trust"><i class="fa-solid fa-star"></i> Google ⭐⭐⭐⭐⭐ Memnuniyet</div>
         </div>
       </div>
     </div>
@@ -733,5 +744,21 @@
       }
     });
   </script>
+
+  <!-- Palette Toggle (opsiyonel) -->
+  <style>
+    .palette-toggle{ position:fixed; right:14px; bottom:14px; z-index:80; display:flex; gap:8px }
+    .palette-toggle button{ width:38px; height:38px; border-radius:10px; border:1px solid #e1e9eb; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,.08) }
+    .palette-teal{ background:linear-gradient(135deg,#0f5960,#0c4e54) }
+    .palette-violet{ background:linear-gradient(135deg,#3b2268,#4a2c84) }
+    .palette-rose{ background:linear-gradient(135deg,#560e34,#7a1348) }
+    .palette-sage{ background:linear-gradient(135deg,#0d463a,#15594a) }
+  </style>
+  <div class="palette-toggle" aria-label="Tema paleti">
+    <button class="palette-teal"   title="Clinic (varsayılan)" onclick="document.body.className='';"></button>
+    <button class="palette-violet" title="Violet"              onclick="document.body.className='theme-violet';"></button>
+    <button class="palette-rose"   title="Rose"                onclick="document.body.className='theme-rose';"></button>
+    <button class="palette-sage"   title="Sage"                onclick="document.body.className='theme-sage';"></button>
+  </div>
 </body>
 </html>
