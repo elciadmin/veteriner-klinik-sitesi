@@ -383,3 +383,125 @@ footer.footer-new{ background:linear-gradient(135deg,var(--footer-start),var(--f
 .social-links a:hover{ background:var(--accent); transform:translateY(-3px) }
 .footer-bottom{ background:rgba(0,0,0,.28); padding:18px 0; text-align:center }
 .footer-bottom p{ margin:0; opacity:.85; font-size:14px }
+/* =========================================================
+   PLUM → OCEAN (Morun koyusu → Mavinin açığı) + Divider ailesi
+   ========================================================= */
+
+/* Şeffaf çizgiler için RGB yardımcısı */
+:root{ --accent-rgb: 16 179 209; } /* #10b3d1 */
+
+.theme-plumOcean{
+  /* Moru 1 kademe koyu, maviyi 1 kademe açık yapıyoruz */
+  --violet-deep: #4a138c; /* logonuzun morundan daha koyu */
+  --ocean-light: #38caea; /* mevcut turkuazdan daha açık */
+
+  /* Tema boyunca akacak renkler */
+  --brand:  var(--violet-deep);
+  --brand2: #6a0ea1;
+  --accent: var(--ocean-light);
+
+  /* Hero arka plan geçişi */
+  --hero-start: color-mix(in srgb, var(--violet-deep) 88%, #fff 12%);
+  --hero-end:   color-mix(in srgb, var(--ocean-light) 88%, #fff 12%);
+
+  /* Footer gradyanı */
+  --footer-start: var(--violet-deep);
+  --footer-end:   var(--ocean-light);
+}
+
+/* Header üst şerit: mor → mavi gradyan */
+.theme-plumOcean .header-top{
+  background: linear-gradient(90deg, var(--violet-deep), var(--ocean-light));
+}
+
+/* Menü alt çizgisi & aktif tonu */
+.theme-plumOcean nav a.active{ color: var(--violet-deep); }
+.theme-plumOcean nav a::after{ background: var(--ocean-light); }
+
+/* HERO tipografi ve buton parlatma */
+.theme-plumOcean .hero h1{ text-shadow: 0 2px 18px rgba(0,0,0,.16); }
+.theme-plumOcean .hero-sub{ color:#f6fbff; opacity:.96; }
+.theme-plumOcean .hero-cta .btn.primary{
+  background: linear-gradient(180deg, var(--ocean-light), #18bfe3);
+  color:#00131a; font-weight:800; border-color:transparent;
+  box-shadow:0 12px 26px rgba(24,191,227,.28);
+}
+.theme-plumOcean .hero-cta .btn.primary:hover{ filter:brightness(.98) }
+.theme-plumOcean .hero-cta .btn.ghost{
+  background: rgba(255,255,255,.12);
+  color:#fff; border-color: rgba(255,255,255,.65);
+}
+
+/* Footer link hoverlarını maviye çek */
+.theme-plumOcean .footer-links a:hover{ color: var(--ocean-light); }
+
+/* ==========================================
+   ÇİZGİ / DIVIDER AİLESİ: güçlü, soft, faint
+   ========================================== */
+.divider{
+  --dv-start: rgb(var(--accent-rgb) / .95);
+  --dv-end:   rgb(var(--accent-rgb) / .75);
+  width:120px; height:6px; border-radius:999px; display:block;
+  background: linear-gradient(90deg, var(--dv-start), var(--dv-end));
+  box-shadow: 0 1px 0 rgb(0 0 0 / .04) inset, 0 6px 12px rgb(0 0 0 / .06);
+}
+.divider--soft{
+  --dv-start: rgb(var(--accent-rgb) / .55);
+  --dv-end:   rgb(var(--accent-rgb) / .35);
+  height:5px; box-shadow: 0 1px 0 rgb(0 0 0 / .03) inset;
+}
+.divider--faint{
+  --dv-start: rgb(var(--accent-rgb) / .28);
+  --dv-end:   rgb(var(--accent-rgb) / .16);
+  height:4px; box-shadow: none;
+}
+.divider--sm{ width:88px;  height:4px }
+.divider--md{ width:120px; height:6px }
+.divider--lg{ width:164px; height:8px }
+.divider.is-left{ margin-left:0 }
+.divider.is-center{ margin-inline:auto }
+.divider.is-right{ margin-left:auto }
+
+/* Mor→Mavi temada çizgiyi mor+accent harmanla */
+.theme-plumOcean .divider{
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--violet-deep) 92%, #fff 8%),
+    color-mix(in srgb, var(--ocean-light) 88%, #fff 12%));
+}
+.theme-plumOcean .divider--soft{
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--violet-deep) 48%, #fff 52%),
+    color-mix(in srgb, var(--ocean-light) 40%, #fff 60%));
+}
+.theme-plumOcean .divider--faint{
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--violet-deep) 26%, #fff 74%),
+    color-mix(in srgb, var(--ocean-light) 18%, #fff 82%));
+}
+
+/* Eski .hero-divider'ı yeni mimariye bağla (geriye dönük uyum) */
+.hero-divider{
+  width:120px;height:6px;border-radius:999px;margin:10px auto 14px;
+  background: linear-gradient(90deg,
+              rgb(var(--accent-rgb)/.95),
+              rgb(var(--accent-rgb)/.75));
+}
+.theme-plumOcean .hero-divider{
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--violet-deep) 92%, #fff 8%),
+    color-mix(in srgb, var(--ocean-light) 88%, #fff 12%));
+}
+
+/* Bölüm başlığı altında otomatik ince çizgi istersen */
+.section-title{ position:relative; display:inline-block; margin-bottom:14px; }
+.section-title::after{
+  content:""; display:block; margin-top:10px; width:120px; height:6px; border-radius:999px;
+  background: linear-gradient(90deg,
+    var(--dv-start, rgb(var(--accent-rgb)/.95)),
+    var(--dv-end,   rgb(var(--accent-rgb)/.75)));
+}
+.theme-plumOcean .section-title::after{
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--violet-deep) 92%, #fff 8%),
+    color-mix(in srgb, var(--ocean-light) 88%, #fff 12%));
+}
