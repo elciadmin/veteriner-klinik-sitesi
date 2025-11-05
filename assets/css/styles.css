@@ -1,140 +1,140 @@
-/* =========================
-   ELÇİ VETERİNER - STYLES (Theming-ready)
-   ========================= */
+/* =========================================================
+   ELÇİ VETERİNER — STYLES (Temiz & Modüler)
+   ========================================================= */
 
-/* ---- THEME / TOKENS ---- */
-/* İstersen tokens.css import edebilirsin; yoksa bu blok tek başına da çalışır */
-/* @import url("/assets/css/tokens.css?v=20251104"); */
-
+/* ========================
+   0) TOKENS / VARIABLES
+   ======================== */
 :root{
-  /* Ana paletin (seninkiler) */
+  /* Marka paleti (default = emerald/klinik teal) */
   --brand:#0c4e54;
   --brand2:#0f5960;
-  --accent:#10b3d1;                /* turkuaz vurgular */
-  --ink:#111822;                   /* ana metin */
+  --accent:#10b3d1;
+
+  /* Metin ve zemin */
+  --ink:#111822;
   --muted:#6b7a7c;
   --bg:#f5fbfc;
-  --gap:14px;
 
-  /* Bileşen tabanları */
+  /* Yüzey / kart */
   --card:#ffffff;
   --card-border:#e9eff0;
   --chip:#e6f2ff;
 
-  /* Header/Footer gradyanları (tema ile override edilecek) */
-  --footer-start:#1c3952;
-  --footer-end:#5a2ea6;
+  /* Footer gradyanı (tema override edebilir) */
+  --footer-start: var(--brand2);
+  --footer-end:   var(--brand);
 
-  /* Semantik link & buton */
+  /* Link & Buton */
   --link: var(--accent);
-  --link-hover: #13c6e8;
-
+  --link-hover:#13c6e8;
   --btn-bg: var(--brand);
-  --btn-fg: #fff;
+  --btn-fg:#fff;
   --btn-bg-hover: color-mix(in srgb, var(--brand), #fff 8%);
   --btn-ghost-fg: var(--brand);
 
-  /* Gölge & radius */
+  /* Gölge & radius & spacing */
   --shadow:0 2px 12px rgba(0,0,0,.06);
   --shadow-md:0 6px 18px rgba(0,0,0,.08);
   --shadow-lg:0 12px 28px rgba(0,0,0,.12);
-
   --radius-lg:18px; --radius:14px; --radius-sm:10px;
+  --gap:14px;
+
+  /* Hero vars (tema override eder) */
+  --hero-start: color-mix(in srgb, var(--brand) 88%, #fff 12%);
+  --hero-end:   color-mix(in srgb, var(--brand2) 88%, #fff 12%);
+
+  /* Divider yardımcı (accent rgb) */
+  --accent-rgb: 16 179 209; /* #10b3d1 */
 }
 
-/* === THEME VARS (ekleme) ====================== */
-/* Varsayılan türevler; body/section’a .theme-* verildiğinde override olur */
-:root{
-  --hero-start: color-mix(in srgb, var(--brand) 88%, #ffffff 12%);
-  --hero-end:   color-mix(in srgb, var(--brand2) 88%, #ffffff 12%);
-  --footer-start: var(--brand2);
-  --footer-end:   var(--brand);
-}
-
-/* Klinik teal (varsayılan görünüm) */
+/* ========================
+   1) THEMES (sadece değişken override)
+   ======================== */
 .theme-emerald{
-  --brand:#0c4e54;
-  --brand2:#0f5960;
-  --accent:#10b3d1;
+  --brand:#0c4e54; --brand2:#0f5960; --accent:#10b3d1;
   --hero-start: color-mix(in srgb, #0c4e54 88%, #fff 12%);
   --hero-end:   color-mix(in srgb, #0f5960 88%, #fff 12%);
   --footer-start:#0f5960; --footer-end:#0c4e54;
 }
 
-/* Logo moru */
-.theme-plum{
-  --brand:#5a2ea6;
+/* Mor + medikal turkuaz karışım (GuidingTech vibe → klinik) */
+.theme-plumOcean{
+  --violet-deep:#4a138c;
+  --ocean-light:#38caea;
+
+  --brand: var(--violet-deep);
   --brand2:#6a0ea1;
-  --accent:#8c54cf;
-  --hero-start: color-mix(in srgb, #5a2ea6 88%, #fff 12%);
-  --hero-end:   color-mix(in srgb, #6a0ea1 88%, #fff 12%);
-  --footer-start:#5a2ea6; --footer-end:#6a0ea1;
+  --accent: var(--ocean-light);
+
+  --hero-start: color-mix(in srgb, var(--violet-deep) 88%, #fff 12%);
+  --hero-end:   color-mix(in srgb, var(--ocean-light) 88%, #fff 12%);
+
+  --footer-start: var(--violet-deep);
+  --footer-end:   var(--ocean-light);
 }
 
 /* Kurumsal mavi */
 .theme-ocean{
-  --brand:#0a4aa6;
-  --brand2:#083a86;
-  --accent:#2b8cff;
+  --brand:#0a4aa6; --brand2:#083a86; --accent:#2b8cff;
   --hero-start: color-mix(in srgb, #083a86 88%, #fff 12%);
   --hero-end:   color-mix(in srgb, #0a4aa6 88%, #fff 12%);
   --footer-start:#083a86; --footer-end:#0a4aa6;
 }
 
-/* Nötr/slate */
+/* Slate nötr */
 .theme-slate{
-  --brand:#2e3a46;
-  --brand2:#1f2a33;
-  --accent:#4aa3b7;
+  --brand:#2e3a46; --brand2:#1f2a33; --accent:#4aa3b7;
   --hero-start: color-mix(in srgb, #2e3a46 88%, #fff 12%);
   --hero-end:   color-mix(in srgb, #1f2a33 88%, #fff 12%);
   --footer-start:#1f2a33; --footer-end:#2e3a46;
 }
 
-/* ---- RESET & BASE ---- */
+/* ========================
+   2) RESET & BASE
+   ======================== */
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
-  color:var(--ink); background:#fff; font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+  color:var(--ink); background:#fff;
+  font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
   line-height:1.6; padding-top:138px;
 }
 @media(max-width:992px){ body{padding-top:122px} }
 img{max-width:100%;height:auto;display:block}
-
-/* Link renkleri tamamen değişkenlerden */
 a{text-decoration:none;color:var(--link)}
 a:hover{color:var(--link-hover)}
-
 .container{max-width:1200px;margin:0 auto;padding:0 16px}
 .muted{color:var(--muted)}
 .grid{display:grid;gap:var(--gap)}
-.hidden{display:none !important}
+.hidden{display:none!important}
 
-/* ---- BUTTONS / CHIPS ---- */
+/* ========================
+   3) BUTTONS & CHIPS
+   ======================== */
 .btn{
   display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:12px;
-  border:1px solid var(--btn-ghost-fg);font-weight:700;cursor:pointer;text-decoration:none;color:var(--btn-ghost-fg);
+  border:1px solid var(--btn-ghost-fg);font-weight:700;cursor:pointer;color:var(--btn-ghost-fg);
   background:#fff; box-shadow:var(--shadow);
 }
 .btn.primary{background:var(--btn-bg);color:var(--btn-fg);border-color:transparent}
-.btn.ghost{background:transparent;color:var(--btn-ghost-fg)}
 .btn.primary:hover{background:var(--btn-bg-hover)}
+.btn.ghost{background:transparent;color:var(--btn-ghost-fg)}
 .btn.ghost:hover{background:color-mix(in srgb, var(--btn-ghost-fg), #fff 92%)}
 .chip{
-  display:inline-block;padding:6px 10px;border-radius:999px;background:var(--chip);color:color-mix(in srgb, var(--brand), #000 20%);
-  font-weight:700;font-size:12px
+  display:inline-block;padding:6px 10px;border-radius:999px;background:var(--chip);
+  color:color-mix(in srgb, var(--brand), #000 20%); font-weight:700;font-size:12px
 }
 
-/* =========================
-   HEADER
-   ========================= */
+/* ========================
+   4) HEADER & NAV
+   ======================== */
 header{position:fixed;inset:0 0 auto 0;z-index:60;background:#fff;box-shadow:var(--shadow)}
 .header-top{background:var(--brand);color:#fff;font-size:14px}
 .header-top .container{display:flex;justify-content:space-between;align-items:center;padding:6px 16px;gap:12px;flex-wrap:wrap}
 .header-contact{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
 .header-contact a{color:#fff;opacity:.95}
 .header-contact a:hover{opacity:1}
-
 .header-main{padding:12px 0}
 .header-main .container{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .logo-text h1{font:700 22px/1 Montserrat,system-ui,Segoe UI,Arial,sans-serif;color:var(--brand);margin:0 0 2px}
@@ -148,7 +148,6 @@ nav a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:2px;
 nav a:hover::after{width:100%}
 nav a.active{color:var(--brand)}
 nav a:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:6px}
-
 .mobile-menu-btn{display:none;background:none;border:0;font-size:22px;color:var(--brand);cursor:pointer}
 .dropdown{position:relative}
 .dropdown-content{
@@ -169,9 +168,16 @@ nav a:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-
   .dropdown.active .dropdown-content{display:flex}
 }
 
-/* =========================
-   HERO
-   ========================= */
+/* Tema: plumOcean için daha parlak header şeridi */
+.theme-plumOcean .header-top{
+  background:linear-gradient(90deg, var(--violet-deep), var(--ocean-light));
+}
+.theme-plumOcean nav a.active{ color: var(--violet-deep); }
+.theme-plumOcean nav a:hover::after{background:var(--ocean-light)}
+
+/* ========================
+   5) HERO
+   ======================== */
 .hero{
   background:
     radial-gradient(1200px 600px at 80% -100px, rgba(255,255,255,.06) 0%, rgba(255,255,255,0) 60%),
@@ -182,11 +188,21 @@ nav a:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-
 .hero-center{ text-align:center; padding:80px 0 36px; display:flex;flex-direction:column;align-items:center;gap:12px; max-width:980px }
 .hero-logo{ width:96px;height:96px;object-fit:contain;display:block;filter:drop-shadow(0 4px 10px rgba(0,0,0,.25));border-radius:50% }
 .hero h1{ font-size:clamp(28px,4.8vw,52px); margin:0 }
-.hero-divider{ width:90px;height:4px;border-radius:4px;background:var(--accent);opacity:.95;margin:8px 0 4px }
+.hero-divider{
+  width:120px;height:6px;border-radius:999px;margin:10px auto 14px;
+  background:linear-gradient(90deg, rgb(var(--accent-rgb)/.95), rgb(var(--accent-rgb)/.75));
+}
 .hero-sub{ max-width:820px;font-size:18px;opacity:.92;margin:0 auto }
 .hero-cta{ display:flex;gap:10px;margin-top:14px;flex-wrap:wrap }
 
-/* Quick links ikonları: tek yerden kontrol */
+/* plumOcean’da divider mor→turkuaz harmanı */
+.theme-plumOcean .hero-divider{
+  background:linear-gradient(90deg,
+    color-mix(in srgb, var(--violet-deep) 92%, #fff 8%),
+    color-mix(in srgb, var(--ocean-light) 88%, #fff 12%));
+}
+
+/* Quick links */
 :root{ --icon-size:28px; --icon-color:#fff; --icon-opacity:.96; }
 .quick-links{ display:grid;grid-template-columns:repeat(6,minmax(120px,1fr));gap:10px;margin-top:18px;width:100% }
 .quick-links .q{
@@ -200,27 +216,19 @@ nav a:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-
 .q:hover .icon{ transform: translateY(-2px) scale(1.03) }
 @media(max-width:960px){ .quick-links{ grid-template-columns:repeat(3,1fr) } }
 
-/* =========================
-   PAGE LAYOUTS
-   ========================= */
-.page-hero{padding:48px 0 26px;background:linear-gradient(180deg,#eefbfd,#fff)}
-.page-hero h1{margin:0 0 6px}
-.section{padding:26px 0}
-
-/* =========================
-   HİZMETLER (Ana & İç Sayfa)
-   ========================= */
+/* ========================
+   6) HİZMETLER / CARDS
+   ======================== */
 section#services{ padding:48px 0; background:#fff; position:relative; overflow:hidden }
-
-/* Varsayılan ızgara */
 .services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px }
 @media (max-width:1100px){ .services-grid{ grid-template-columns:repeat(2,1fr) } }
 @media (max-width:640px){ .services-grid{ grid-template-columns:1fr } }
 
-/* Kart */
 .s-card{
-  position:relative;border-radius:var(--radius-lg);padding:18px;background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.6));
-  border:1px solid color-mix(in srgb, var(--brand), #fff 90%); box-shadow:0 10px 30px color-mix(in srgb, var(--brand), #000 92%);
+  position:relative;border-radius:var(--radius-lg);padding:18px;
+  background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.6));
+  border:1px solid color-mix(in srgb, var(--brand), #fff 90%);
+  box-shadow:0 10px 30px color-mix(in srgb, var(--brand), #000 92%);
   backdrop-filter:saturate(1.2) blur(6px); transform:translateY(6px) scale(.99); opacity:0;
   transition:transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s, opacity .45s; isolation:isolate;
 }
@@ -244,31 +252,14 @@ section#services{ padding:48px 0; background:#fff; position:relative; overflow:h
 .s-title{ margin:0 0 6px; font-size:18px; font-weight:800; color:#113 }
 .s-text{ margin:0; color:#223; line-height:1.6 }
 
-/* CTA bar */
 .cta-bar{
   background:color-mix(in srgb, var(--bg), #fff 10%);border:1px dashed color-mix(in srgb, var(--brand), #fff 70%);
   padding:18px;border-radius:16px; display:flex;gap:10px;align-items:center;justify-content:space-between;margin:24px 0
 }
 
-/* (Opsiyonel) Sayfalı kaydırma için class'ların renklerini de değişken yaptık */
-#services .services-viewport{position:relative; overflow:hidden}
-#services .services-rail{display:flex; transition:transform .35s ease}
-#services .services-page{min-width:100%; display:grid; gap:16px; grid-template-columns:repeat(3, minmax(0,1fr));}
-#services .svc-nav{
-  position:absolute; top:50%; transform:translateY(-50%);
-  width:42px; height:42px; border:0; border-radius:50%;
-  background:var(--brand2); color:#fff; cursor:pointer;
-  box-shadow:0 6px 18px rgba(0,0,0,.15); display:grid; place-items:center;
-}
-#services .svc-prev{left:-6px}
-#services .svc-next{right:-6px}
-#services .svc-nav:disabled{opacity:.35; cursor:default}
-@media (max-width: 1100px){ #services .services-page{grid-template-columns:repeat(2, minmax(0,1fr))} }
-@media (max-width: 640px){ #services .services-page{grid-template-columns:1fr} }
-
-/* =========================
-   INSTAGRAM
-   ========================= */
+/* ========================
+   7) INSTAGRAM
+   ======================== */
 section#insta{padding:30px 0;background:#fff}
 .insta-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .insta-track-wrap{overflow:hidden}
@@ -285,9 +276,9 @@ section#insta{padding:30px 0;background:#fff}
 }
 @media(max-width:768px){.insta-item{width:130px;height:130px}}
 
-/* =========================
-   GOOGLE REVIEWS
-   ========================= */
+/* ========================
+   8) GOOGLE REVIEWS
+   ======================== */
 section#reviews{ position:relative; padding:40px 0; background:linear-gradient(180deg,#f7fbfb 0%, #f3fafb 100%); overflow:hidden }
 section#reviews::before{
   content:""; position:absolute; inset:-20%;
@@ -320,9 +311,9 @@ section#reviews::before{
 .review-meta{ font-size:12px; color:#6b7a7c; margin-top:2px }
 #reviewGrid:hover{ cursor:pause }
 
-/* =========================
-   BLOG
-   ========================= */
+/* ========================
+   9) BLOG
+   ======================== */
 section#blog{padding:34px 0;background:#fff}
 .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 @media(max-width:960px){.blog-grid{grid-template-columns:1fr}}
@@ -334,26 +325,26 @@ section#blog{padding:34px 0;background:#fff}
 .blog-title{font-weight:700;margin:0 0 6px;font-size:18px;line-height:1.25}
 .blog-excerpt{margin:0;color:#233}
 
-/* =========================
-   YOUTUBE
-   ========================= */
+/* ========================
+   10) YOUTUBE
+   ======================== */
 section#youtube{padding:34px 0;background:#fff}
 .yt-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
 @media(max-width:768px){.yt-strip{grid-template-columns:1fr}}
 .yt-box{aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#000}
 .yt-box iframe{width:100%;height:100%;border:0;display:block}
 
-/* =========================
-   FAQ
-   ========================= */
+/* ========================
+   11) FAQ
+   ======================== */
 section#faq{padding:34px 0;background:#fff}
 details.faq{border:1px solid var(--card-border);border-radius:12px;padding:12px;margin-bottom:10px;background:#fbfefe}
 details.faq[open]{background:#f5fbfc}
 details.faq summary{cursor:pointer;font-weight:700}
 
-/* =========================
-   CONTACT / FORMS
-   ========================= */
+/* ========================
+   12) FORMS
+   ======================== */
 .form{display:grid;gap:12px}
 .form input,.form select,.form textarea{
   width:100%;height:44px;border:1px solid rgba(0,0,0,.12);border-radius:12px;padding:8px 10px;font:inherit;background:#fff
@@ -363,160 +354,59 @@ details.faq summary{cursor:pointer;font-weight:700}
 .contact-list{list-style:none;padding:0;margin:0;display:grid;gap:10px}
 .contact-list i{width:20px}
 
-/* =========================
-   FOOTER
-   ========================= */
-footer.footer-new{ background:linear-gradient(135deg,var(--footer-start),var(--footer-end)); color:#fff; padding:60px 0 0; margin-top:30px }
+/* ========================
+   13) FOOTER
+   ======================== */
+footer.footer-new{
+  background:linear-gradient(135deg,var(--footer-start),var(--footer-end));
+  color:#fff; padding:60px 0 0; margin-top:30px
+}
 .footer-new .footer-container{ display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:30px; margin-bottom:40px }
 .footer-new h3{ color:#fff; font-size:20px; margin:0 0 20px; position:relative; padding-bottom:10px }
 .footer-new h3:after{ content:""; position:absolute; left:0; bottom:0; width:44px; height:3px; background:var(--accent); border-radius:2px }
 .footer-new p{ margin:0 0 14px; opacity:.85 }
 .footer-links, .footer-contact{ list-style:disc; padding-left:18px; margin:0 }
-.footer-links a{ color:#fff; opacity:.85; text-decoration:none; transition:.25s }
+.footer-links a{ color:#fff; opacity:.85; transition:.25s }
 .footer-links a:hover{ opacity:1; color:var(--accent); padding-left:6px }
 .footer-contact{ list-style:none; padding-left:0 }
 .footer-contact li{ display:flex; gap:10px; align-items:flex-start }
 .footer-contact svg{ width:18px; height:18px; flex:0 0 18px; color:var(--accent) }
 .footer-contact a, .footer-contact span{ color:#e9f4ff; opacity:.9; text-decoration:none }
 .social-links{ display:flex; gap:10px; margin-top:16px }
-.social-links a{ width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,.12); color:#fff; text-decoration:none; transition:.25s }
+.social-links a{ width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,.12); color:#fff; transition:.25s }
 .social-links a:hover{ background:var(--accent); transform:translateY(-3px) }
 .footer-bottom{ background:rgba(0,0,0,.28); padding:18px 0; text-align:center }
 .footer-bottom p{ margin:0; opacity:.85; font-size:14px }
-/* =========================================================
-   PLUM → OCEAN (Morun koyusu → Mavinin açığı) + Divider ailesi
-   ========================================================= */
 
-/* Şeffaf çizgiler için RGB yardımcısı */
-:root{ --accent-rgb: 16 179 209; } /* #10b3d1 */
-
-.theme-plumOcean{
-  /* Moru 1 kademe koyu, maviyi 1 kademe açık yapıyoruz */
-  --violet-deep: #4a138c; /* logonuzun morundan daha koyu */
-  --ocean-light: #38caea; /* mevcut turkuazdan daha açık */
-
-  /* Tema boyunca akacak renkler */
-  --brand:  var(--violet-deep);
-  --brand2: #6a0ea1;
-  --accent: var(--ocean-light);
-
-  /* Hero arka plan geçişi */
-  --hero-start: color-mix(in srgb, var(--violet-deep) 88%, #fff 12%);
-  --hero-end:   color-mix(in srgb, var(--ocean-light) 88%, #fff 12%);
-
-  /* Footer gradyanı */
-  --footer-start: var(--violet-deep);
-  --footer-end:   var(--ocean-light);
-}
-
-/* Header üst şerit: mor → mavi gradyan */
-.theme-plumOcean .header-top{
-  background: linear-gradient(90deg, var(--violet-deep), var(--ocean-light));
-}
-
-/* Menü alt çizgisi & aktif tonu */
-.theme-plumOcean nav a.active{ color: var(--violet-deep); }
-.theme-plumOcean nav a::after{ background: var(--ocean-light); }
-
-/* HERO tipografi ve buton parlatma */
-.theme-plumOcean .hero h1{ text-shadow: 0 2px 18px rgba(0,0,0,.16); }
-.theme-plumOcean .hero-sub{ color:#f6fbff; opacity:.96; }
-.theme-plumOcean .hero-cta .btn.primary{
-  background: linear-gradient(180deg, var(--ocean-light), #18bfe3);
-  color:#00131a; font-weight:800; border-color:transparent;
-  box-shadow:0 12px 26px rgba(24,191,227,.28);
-}
-.theme-plumOcean .hero-cta .btn.primary:hover{ filter:brightness(.98) }
-.theme-plumOcean .hero-cta .btn.ghost{
-  background: rgba(255,255,255,.12);
-  color:#fff; border-color: rgba(255,255,255,.65);
-}
-
-/* Footer link hoverlarını maviye çek */
-.theme-plumOcean .footer-links a:hover{ color: var(--ocean-light); }
-
-/* ==========================================
-   ÇİZGİ / DIVIDER AİLESİ: güçlü, soft, faint
-   ========================================== */
+/* ========================
+   14) DIVIDERS (utility)
+   ======================== */
 .divider{
-  --dv-start: rgb(var(--accent-rgb) / .95);
-  --dv-end:   rgb(var(--accent-rgb) / .75);
+  --dv-start: rgb(var(--accent-rgb)/.95);
+  --dv-end:   rgb(var(--accent-rgb)/.75);
   width:120px; height:6px; border-radius:999px; display:block;
-  background: linear-gradient(90deg, var(--dv-start), var(--dv-end));
-  box-shadow: 0 1px 0 rgb(0 0 0 / .04) inset, 0 6px 12px rgb(0 0 0 / .06);
+  background:linear-gradient(90deg,var(--dv-start),var(--dv-end));
+  box-shadow:0 1px 0 rgb(0 0 0 / .04) inset, 0 6px 12px rgb(0 0 0 / .06);
 }
-.divider--soft{
-  --dv-start: rgb(var(--accent-rgb) / .55);
-  --dv-end:   rgb(var(--accent-rgb) / .35);
-  height:5px; box-shadow: 0 1px 0 rgb(0 0 0 / .03) inset;
-}
-.divider--faint{
-  --dv-start: rgb(var(--accent-rgb) / .28);
-  --dv-end:   rgb(var(--accent-rgb) / .16);
-  height:4px; box-shadow: none;
-}
-.divider--sm{ width:88px;  height:4px }
-.divider--md{ width:120px; height:6px }
-.divider--lg{ width:164px; height:8px }
-.divider.is-left{ margin-left:0 }
-.divider.is-center{ margin-inline:auto }
-.divider.is-right{ margin-left:auto }
-
-/* Mor→Mavi temada çizgiyi mor+accent harmanla */
+.divider--soft{ --dv-start: rgb(var(--accent-rgb)/.55); --dv-end: rgb(var(--accent-rgb)/.35); height:5px; box-shadow:0 1px 0 rgb(0 0 0 / .03) inset }
+.divider--faint{ --dv-start: rgb(var(--accent-rgb)/.28); --dv-end: rgb(var(--accent-rgb)/.16); height:4px; box-shadow:none }
+.divider--sm{ width:88px; height:4px } .divider--md{ width:120px; height:6px } .divider--lg{ width:164px; height:8px }
+.divider.is-left{ margin-left:0 } .divider.is-center{ margin-inline:auto } .divider.is-right{ margin-left:auto }
 .theme-plumOcean .divider{
-  background: linear-gradient(90deg,
-    color-mix(in srgb, var(--violet-deep) 92%, #fff 8%),
-    color-mix(in srgb, var(--ocean-light) 88%, #fff 12%));
-}
-.theme-plumOcean .divider--soft{
-  background: linear-gradient(90deg,
-    color-mix(in srgb, var(--violet-deep) 48%, #fff 52%),
-    color-mix(in srgb, var(--ocean-light) 40%, #fff 60%));
-}
-.theme-plumOcean .divider--faint{
-  background: linear-gradient(90deg,
-    color-mix(in srgb, var(--violet-deep) 26%, #fff 74%),
-    color-mix(in srgb, var(--ocean-light) 18%, #fff 82%));
-}
-
-/* Eski .hero-divider'ı yeni mimariye bağla (geriye dönük uyum) */
-.hero-divider{
-  width:120px;height:6px;border-radius:999px;margin:10px auto 14px;
-  background: linear-gradient(90deg,
-              rgb(var(--accent-rgb)/.95),
-              rgb(var(--accent-rgb)/.75));
-}
-.theme-plumOcean .hero-divider{
-  background: linear-gradient(90deg,
+  background:linear-gradient(90deg,
     color-mix(in srgb, var(--violet-deep) 92%, #fff 8%),
     color-mix(in srgb, var(--ocean-light) 88%, #fff 12%));
 }
 
-/* Bölüm başlığı altında otomatik ince çizgi istersen */
-.section-title{ position:relative; display:inline-block; margin-bottom:14px; }
-.section-title::after{
-  content:""; display:block; margin-top:10px; width:120px; height:6px; border-radius:999px;
-  background: linear-gradient(90deg,
-    var(--dv-start, rgb(var(--accent-rgb)/.95)),
-    var(--dv-end,   rgb(var(--accent-rgb)/.75)));
-}
-.theme-plumOcean .section-title::after{
-  background: linear-gradient(90deg,
-    color-mix(in srgb, var(--violet-deep) 92%, #fff 8%),
-    color-mix(in srgb, var(--ocean-light) 88%, #fff 12%));
-}
-/* =========================================================
-   ELÇİ PRO — KOYU BAŞLIK + KOYU HERO (safe-append)
-   ========================================================= */
-/* Kullanım: <body class="theme-plumOcean dark-ui"> veya <body class="dark-ui"> */
-
+/* ========================
+   15) DARK UI (opsiyonel mod ek katmanı)
+   ======================== */
+/* Kullanım: body.dark-ui (tema ile birlikte çalışır) */
 body.dark-ui header{ box-shadow:0 6px 18px rgba(0,0,0,.22); background:#0b2a2f; }
 body.dark-ui .header-top{ background:#082126; color:#eefbff; }
 body.dark-ui .header-main{ background:#0b2a2f; }
-body.dark-ui .logo-text h1{ color:#ffffff; }
+body.dark-ui .logo-text h1{ color:#fff; }
 body.dark-ui .logo-text span{ color:#cfe8eb; }
-
-/* Menü okunaklılığı */
 body.dark-ui nav a{ color:#e6f7f9; }
 body.dark-ui nav a.active{ color:#24c6d5; }
 body.dark-ui nav a:hover::after{ background:#24c6d5; }
@@ -526,8 +416,6 @@ body.dark-ui nav a:hover::after{ background:#24c6d5; }
   body.dark-ui .dropdown-content a{ color:#e9f7f9; }
   body.dark-ui .dropdown-content a:hover{ background:rgba(255,255,255,.08); color:#fff; }
 }
-
-/* HERO koyu degrade + beyaz metin */
 body.dark-ui .hero{
   background:
     radial-gradient(1400px 700px at 85% -140px, rgba(255,255,255,.08) 0%, rgba(255,255,255,0) 60%),
@@ -538,31 +426,19 @@ body.dark-ui .hero{
 body.dark-ui .hero h1{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.18); }
 body.dark-ui .hero-sub{ color:#e6f3f5; opacity:.96; }
 body.dark-ui .hero-divider{ background:linear-gradient(90deg,#25c7d6,#14b6c6); opacity:1; }
-
-/* CTA butonları */
 body.dark-ui .hero-cta .btn.primary{
-  background:#22a8b9; color:#072026; border:0;
-  box-shadow:0 10px 26px rgba(34,168,185,.35);
+  background:#22a8b9; color:#072026; border:0; box-shadow:0 10px 26px rgba(34,168,185,.35);
 }
 body.dark-ui .hero-cta .btn.primary:hover{ filter:brightness(.97); transform:translateY(-1px); }
-body.dark-ui .hero-cta .btn.ghost{
-  background:transparent; border:1px solid rgba(255,255,255,.65); color:#fff;
-}
+body.dark-ui .hero-cta .btn.ghost{ background:transparent; border:1px solid rgba(255,255,255,.65); color:#fff; }
 body.dark-ui .hero-cta .btn.ghost:hover{ background:rgba(255,255,255,.10); }
-
-/* Hızlı link kartları ve ikonlar */
 body.dark-ui .hero .quick-links .q{
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.18);
   color:#fff; box-shadow:0 10px 24px rgba(0,0,0,.28);
 }
 body.dark-ui .hero .quick-links .q:hover{ background:rgba(255,255,255,.12); transform:translateY(-3px); }
-body.dark-ui .quick-links .icon svg{ color:#ffffff; opacity:.98; }
-
-/* Hizmet kartları koyu hero’dan sonra nötr kalsın */
-body.dark-ui section#services{ background:#fff; }
-
-/* Footer zaten koyu; metin/parlaklık iyileştirmesi */
+body.dark-ui .quick-links .icon svg{ color:#fff; opacity:.98; }
+body.dark-ui section#services{ background:#fff; } /* içerik beyaz kalsın */
 body.dark-ui footer.footer-new{ color:#eaf4f5; }
 body.dark-ui .footer-links a{ color:#d9eef0; }
 body.dark-ui .footer-links a:hover{ color:#fff; }
