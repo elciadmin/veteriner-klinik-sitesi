@@ -3,134 +3,160 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Elçi Veteriner Kliniği · v2025-11-04-19:xx | Konya'da 7/24 Acil, Cerrahi, Görüntüleme</title>
+  <title>Elçi Veteriner Kliniği · Pro Index | Konya'da 7/24 Acil, Cerrahi, Görüntüleme</title>
 
   <meta name="description" content="Konya Meram Elçi Veteriner Kliniği: 7/24 acil, koruyucu hekimlik, cerrahi, diş sağlığı, röntgen, ultrason, laboratuvar."/>
   <link rel="canonical" href="https://elciveteriner.com/"/>
 
-  <!-- 1) TOKENS önce -->
-  <link rel="stylesheet" href="/assets/css/tokens.css?v=20251104a"/>
-  <!-- 2) STYLES sonra -->
-  <link rel="stylesheet" href="/assets/css/styles.css?v=20251104a"/>
+  <!-- Var olan token & styles dosyaların kalsın -->
+  <link rel="stylesheet" href="/assets/css/tokens.css?v=20251105"/>
+  <link rel="stylesheet" href="/assets/css/styles.css?v=20251105"/>
 
-  <!-- === ELÇİ INDEX · SECTION-THEME HARMAN V2 === -->
-  <style id="elci-theme-v2">
-    /* Footer’ı marka renklerine çek (global) */
+  <!-- === PRO THEME: Klinik Premium Palet + Tipografi + Kartlar === -->
+  <style>
+    /*— 1) Klinik premium renkler (daha profesyonel tonlar) —*/
     :root{
-      --footer-start:#0f5960;  /* brand2 */
-      --footer-end:#0c4e54;    /* brand  */
+      /* Ana marka (teal ailesi) */
+      --brand-900:#0a3b41;
+      --brand-800:#0b444b;
+      --brand-700:#0c4e54; /* eski brand */
+      --brand-600:#0f5960; /* eski brand2 */
+      --brand-500:#10656c;
+      --brand:#0c4e54;
+      --brand2:#0f5960;
+
+      /* Accent: cerrahi çelik/teal-mavi, daha sofistike */
+      --accent:#0ea5b3; /* #10b3d1 yerine daha medikal, daha doygun değil */
+      --accent-ink:#0b3c44;
+
+      /* Nötrler (mürekkep & arkaplanlar) */
+      --ink:#0f1b22;             /* başlık/ana metin */
+      --ink-2:#1f2a33;           /* alt başlık */
+      --muted:#61717a;           /* yardımcı metin */
+      --line:#e6edf0;            /* sınır çizgisi */
+      --bg:#f7fbfc;              /* çok açık klinik zemin */
+      --paper:#ffffff;           /* kart zemini */
+
+      /* Gölge ve yarıçaplar */
+      --shadow:0 6px 18px rgba(10,25,35,.08);
+      --shadow-md:0 10px 28px rgba(10,25,35,.10);
+      --radius:18px;
+      --radius-sm:12px;
+
+      /* Footer gradyanı (marka) */
+      --footer-start:var(--brand-600);
+      --footer-end:var(--brand-700);
+
+      /* Section temaları (yalnızca aksan olarak, sayfayı boyamaz) */
+      --violet:#6a58b3;   /* sadece vurgu çizgisi/buton için küçük dokunuş */
+      --rose:#a63f6a;
+      --sage:#19806f;
     }
 
-    /* =========================
-       BÖLÜM-BAZLI TEMA DEĞİŞKENLERİ
-       ========================= */
-    section[data-theme="violet"]{
-      --section-brand:#4a2c84;
-      --section-brand2:#3b2268;
-      --section-accent:#9b7cff;
-    }
-    section[data-theme="rose"]{
-      --section-brand:#7a1348;
-      --section-brand2:#560e34;
-      --section-accent:#ff7aa2;
-    }
-    section[data-theme="sage"]{
-      --section-brand:#15594a;
-      --section-brand2:#0d463a;
-      --section-accent:#7dd3b0;
-    }
+    /*— 2) Tipografi (daha ciddi başlık ağırlıkları) —*/
+    html,body{color:var(--ink)}
+    h1,h2,h3{letter-spacing:.1px}
+    h1{font-weight:800}
+    h2{font-weight:750}
+    h3{font-weight:700}
 
-    /* =========================
-       HERO (bölüm aksanını okur)
-       ========================= */
+    /*— 3) Header ve global düzen —*/
+    header{box-shadow:0 2px 14px rgba(8,20,28,.06)}
+    .header-top{background:var(--brand-700);color:#fff}
+    .header-main{background:#fff}
+    .container{max-width:1180px;margin:0 auto;padding:0 16px}
+
+    /*— 4) HERO: klinik temiz degrade + hafif vinyet —*/
     .hero{
       background:
-        radial-gradient(1200px 600px at 90% -20%, color-mix(in srgb, var(--section-accent, var(--accent)), #fff 70%) 0%, transparent 60%),
-        linear-gradient(180deg,#ffffff 0%, #f5fbfc 45%),
-        linear-gradient(120deg,
-          color-mix(in srgb, var(--section-brand, var(--brand)) 88%, #ffffff 12%),
-          var(--section-brand2, var(--brand2)));
-      color:#0f1b22;
+        radial-gradient(1200px 600px at 90% -120px, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 55%),
+        linear-gradient(180deg,#ffffff 0%, var(--bg) 50%),
+        linear-gradient(120deg, var(--brand-700) 0%, var(--brand-600) 100%);
+      color:var(--ink);
     }
-    .hero-divider{ background: var(--section-accent, var(--accent)); opacity:1 }
-    .hero-sub{ color: color-mix(in srgb, var(--section-brand2, var(--brand2)), #000 25%) }
-    .hero-cta .btn.primary{ background: var(--section-accent, var(--accent)); color:#fff; border-color:transparent }
-    .hero-cta .btn.ghost{ color: var(--brand2); border-color: rgba(0,0,0,.12); background:#fff }
+    .hero-divider{background:var(--accent)}
+    .hero-sub{color:var(--ink-2);opacity:.95}
+    .hero-cta .btn.primary{
+      background:linear-gradient(180deg, var(--accent) 0%, #0b8e9b 100%);
+      color:#fff;border:0;box-shadow:0 6px 18px rgba(14,165,179,.24)
+    }
+    .hero-cta .btn.primary:hover{transform:translateY(-1px);filter:brightness(.98)}
+    .hero-cta .btn.ghost{background:#fff;border:1px solid var(--line);color:var(--brand-700)}
+    .hero .quick-links{gap:10px}
     .hero .quick-links .q{
-      background:#fff;
-      color:#112;
-      border:1px solid #e7eef0;
-      box-shadow:0 6px 18px rgba(0,0,0,.06);
+      background:var(--paper);
+      border:1px solid var(--line);
+      color:var(--ink);
+      border-radius:var(--radius-sm);
+      box-shadow:var(--shadow);
     }
-    .hero .quick-links .q .icon svg{ color: var(--section-brand2, var(--brand2)) }
+    .hero .quick-links .icon svg{color:var(--brand-600)}
 
-    /* =========================
-       HİZMET KARTLARI (clinic temizliği)
-       ========================= */
+    /*— 5) Bölüm başlık alt çizgisi (premium) —*/
+    section h2{position:relative;display:inline-block}
+    section h2::after{
+      content:"";position:absolute;left:0;bottom:-8px;width:72px;height:3px;border-radius:999px;
+      background:linear-gradient(90deg, var(--brand-700), var(--accent));
+    }
+
+    /*— 6) Kartlar —*/
     .s-card{
-      background:#fff !important;
-      border:1px solid #e9eff0 !important;
-      box-shadow: var(--shadow) !important;
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease;
     }
     .s-card:hover{
-      background: var(--bg) !important;
-      border-color: rgba(0,0,0,.10) !important;
-      box-shadow: var(--shadow-md) !important;
       transform:translateY(-6px);
+      box-shadow:var(--shadow-md);
+      border-color:color-mix(in srgb, var(--brand-600) 16%, var(--line));
+      background:#fff;
     }
     .s-icon{
-      background: linear-gradient(135deg, var(--accent), var(--brand2)) !important;
+      display:inline-grid;place-items:center;
+      width:46px;height:46px;border-radius:14px;
+      background:radial-gradient(80% 80% at 30% 20%, #ffffff 0%, #eaf6f8 55%, #d9f0f2 100%);
+      border:1px solid #d8ecef;
     }
+    .s-icon svg{width:26px;height:26px;color:var(--accent-ink)}
 
-    /* Bölüm başlıklarına kurumsal-aksan alt çizgi (varsayılan) */
-    section h2{
-      position:relative; display:inline-block;
+    .s-title{margin:.25rem 0 .35rem}
+    .s-text{color:var(--muted)}
+
+    .s-link{font-weight:650;color:var(--accent);text-decoration:none}
+    .s-link:hover{text-decoration:underline}
+
+    /*— 7) Yatay kaydırmalı “diğer hizmetler” —*/
+    .services-track{scrollbar-width:thin}
+    .services-track::-webkit-scrollbar{height:10px}
+    .services-track::-webkit-scrollbar-thumb{background:rgba(8,35,45,.16);border-radius:999px}
+
+    /*— 8) Bölüm temaları: sadece aksan (ucuz bir boyama yok) —*/
+    #reviews h2::after{background:linear-gradient(90deg, var(--sage), color-mix(in srgb, var(--sage), #fff 25%))}
+    #blog h2::after{background:linear-gradient(90deg, var(--rose), color-mix(in srgb, var(--rose), #fff 25%))}
+
+    /*— 9) Butonlar —*/
+    .btn{border:1px solid var(--line);background:#fff;color:var(--brand-700);border-radius:12px;padding:.7rem 1rem}
+    .btn.primary{border:0}
+    .btn:active{transform:translateY(1px)}
+
+    /*— 10) Footer —*/
+    .footer-new{
+      background:linear-gradient(135deg, var(--footer-start), var(--footer-end));
+      color:#eaf4f5
     }
-    section h2::after{
-      content:""; position:absolute; left:0; bottom:-6px; width:64px; height:3px;
-      background: linear-gradient(90deg,
-        color-mix(in srgb, var(--accent), var(--brand) 40%),
-        color-mix(in srgb, var(--accent), #fff 20%));
-      border-radius:6px;
-    }
+    .footer-links a{color:#d7ecee}
+    .footer-links a:hover{color:#fff}
 
-    /* =========================
-       REVIEWS — SAGE HARMAN
-       ========================= */
-    section#reviews[data-theme="sage"]{
-      background: linear-gradient(180deg,
-        color-mix(in srgb, var(--section-accent), #fff 70%) 0%,
-        #f3fafb 100%);
-    }
-
-    /* =========================
-       BLOG — ROSE AKSAN
-       ========================= */
-    section#blog[data-theme="rose"] h2::after{
-      background: linear-gradient(90deg,
-        var(--section-brand,#7a1348),
-        var(--section-accent,#ff7aa2));
-    }
-
-    /* =========================
-       GENEL BUTON
-       ========================= */
-    .btn{ border-color: rgba(0,0,0,.12); color: var(--brand2); background:#fff }
-    .btn.primary{ background: var(--accent); color:#fff; border-color:transparent }
-    .btn.primary:hover{ filter:brightness(.97) }
-
-    /* Bölümler net beyaz */
-    section{ background:#fff }
-
-    /* Footer marka gradyanı */
-    .footer-new{ background:linear-gradient(135deg,var(--footer-start),var(--footer-end)) }
+    /*— 11) (Varsa) sağ alttaki debug palet/dock’u kapat —*/
+    .palette-dock,.palette-widget{display:none!important}
   </style>
 
-  <!-- İkonlar -->
+  <!-- İkonlar (Font Awesome sadece header’daki menü butonu için) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
-<body data-page="home"><!-- class="theme-mor" KALDIRILDI -->
-
+<body data-page="home">
   <!-- ===== SABİT HEADER ===== -->
   <header>
     <div class="header-top">
@@ -205,8 +231,8 @@
     </div>
   </header>
 
-  <!-- HERO (VIOLET HARMAN) -->
-  <section class="hero" data-theme="violet">
+  <!-- HERO -->
+  <section class="hero" data-theme="clean">
     <div class="container">
       <div class="hero-center">
         <div class="hero-icon">
@@ -250,7 +276,7 @@
     </div>
   </section>
 
-  <!-- HİZMETLER -->
+  <!-- HİZMETLER — ÖNE ÇIKAN 6 + DİĞERLERİ KAYDIRMALI -->
   <section id="services" class="services">
     <div class="container">
       <h2>Hizmetlerimiz</h2>
@@ -299,7 +325,7 @@
         </article>
       </div>
 
-      <!-- Diğer hizmetler — yatay kaydırmalı -->
+      <!-- 2) Diğer hizmetler — yatay kaydırmalı -->
       <div class="services-more">
         <div class="services-more-head">
           <h3>Diğer Hizmetler</h3>
@@ -344,56 +370,56 @@
             </article>
 
             <article class="s-card">
-              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-clipboard"/></svg></span>
+              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-derm"/></svg></span>
               <h3 class="s-title">Dermatoloji</h3>
               <p class="s-text">Alerjiler, paraziter dermatit, mantar ve deri biyopsileri.</p>
               <a class="s-link" href="/hizmetler.html#dermatoloji">Detaylı Bilgi</a>
             </article>
 
             <article class="s-card">
-              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-clipboard"/></svg></span>
+              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-neuro"/></svg></span>
               <h3 class="s-title">Nöroloji</h3>
               <p class="s-text">Nöro muayene, görüntüleme yönlendirmesi ve tedavi protokolleri.</p>
               <a class="s-link" href="/hizmetler.html#noroloji">Detaylı Bilgi</a>
             </article>
 
             <article class="s-card">
-              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-clipboard"/></svg></span>
+              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-onco"/></svg></span>
               <h3 class="s-title">Onkoloji</h3>
               <p class="s-text">Kitle değerlendirmesi, sitoloji, cerrahi ve kemoterapi planlaması.</p>
               <a class="s-link" href="/hizmetler.html#onkoloji">Detaylı Bilgi</a>
             </article>
 
             <article class="s-card">
-              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-clipboard"/></svg></span>
+              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-eye"/></svg></span>
               <h3 class="s-title">Göz Hastalıkları</h3>
               <p class="s-text">Flöresein testi, göz içi basınç ölçümü, entropion/ektropion.</p>
               <a class="s-link" href="/hizmetler.html#goz">Detaylı Bilgi</a>
             </article>
 
             <article class="s-card">
-              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-scissors"/></svg></span>
+              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-ortho"/></svg></span>
               <h3 class="s-title">Ortopedi</h3>
               <p class="s-text">Kırık-çıkık, bağ-yumuşak doku yaralanmaları, rehabilitasyon.</p>
               <a class="s-link" href="/hizmetler.html#ortopedi">Detaylı Bilgi</a>
             </article>
 
             <article class="s-card">
-              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-clipboard"/></svg></span>
+              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-uro"/></svg></span>
               <h3 class="s-title">Nefroloji & Üroloji</h3>
               <p class="s-text">Böbrek ve üriner sistem hastalıklarında tanı-tedavi.</p>
               <a class="s-link" href="/hizmetler.html#uroloji">Detaylı Bilgi</a>
             </article>
 
             <article class="s-card">
-              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-clipboard"/></svg></span>
+              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-endo"/></svg></span>
               <h3 class="s-title">Endokrinoloji</h3>
               <p class="s-text">Diabetes mellitus, hipotiroidi/hipertiroidi, Cushing.</p>
               <a class="s-link" href="/hizmetler.html#endokrinoloji">Detaylı Bilgi</a>
             </article>
 
             <article class="s-card">
-              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-microscope"/></svg></span>
+              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-exotic"/></svg></span>
               <h3 class="s-title">Egzotik Hayvanlar</h3>
               <p class="s-text">Kafes dostları ve egzotik türlerde muayene ve bakım.</p>
               <a class="s-link" href="/hizmetler.html#egzotik">Detaylı Bilgi</a>
@@ -425,16 +451,16 @@
     </div>
   </section>
 
-  <!-- REVIEWS (SAGE) -->
-  <section id="reviews" data-theme="sage" data-json="/assets/data/reviews.json">
+  <!-- REVIEWS -->
+  <section id="reviews" data-json="/assets/data/reviews.json">
     <div class="container">
       <h2>Google Yorumları</h2>
       <div class="review-grid" id="reviewGrid" aria-live="polite"></div>
     </div>
   </section>
 
-  <!-- BLOG (ROSE) -->
-  <section id="blog" data-theme="rose" data-json="/assets/data/blog.json">
+  <!-- BLOG -->
+  <section id="blog" data-json="/assets/data/blog.json">
     <div class="container">
       <h2>Blogdan</h2>
       <div class="blog-grid" id="blogGrid"></div>
@@ -533,7 +559,7 @@
 
     <div class="footer-bottom">
       <div class="container">
-        <p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır. <small class="muted" style="opacity:.7">build: 2025-11-04 19:xx</small></p>
+        <p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır. <small class="muted" style="opacity:.7">build: 2025-11-05</small></p>
       </div>
     </div>
   </footer>
@@ -552,59 +578,158 @@
   }
   </script>
 
-  <!-- Tek JS dosyası -->
-  <script defer src="/assets/js/main.js?v=20251104a"></script>
+  <!-- Tek JS dosyan -->
+  <script defer src="/assets/js/main.js?v=20251105"></script>
 
-  <!-- Hizmet Kartları Grid + Scroller (index özel CSS) -->
+  <!-- Hizmet Grid + Scroller (yerel stiller) -->
   <style>
     #services{background:transparent}
     .services .container{overflow:visible}
     .services-grid{
-      display:grid;
-      grid-template-columns:repeat(3, minmax(0, 1fr));
-      gap:18px;
+      display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:18px
     }
     @media (max-width: 900px){ .services-grid{grid-template-columns:repeat(2, minmax(0, 1fr))} }
     @media (max-width: 560px){ .services-grid{grid-template-columns:1fr} }
-    .s-card{
-      border-radius:18px;
-      padding:22px;
-      min-width:280px;
-      transition:transform .25s ease, box-shadow .25s ease, background-color .25s ease, border-color .25s ease;
-      will-change:transform;
-    }
-    .s-icon svg{width:28px;height:28px}
-    .s-title{font-size:19px;margin:4px 0 6px}
-    .s-text{color:#556167;line-height:1.55}
-    .s-link{margin-top:auto;font-weight:600;color:var(--accent,#10b3d1);text-decoration:none}
-    .s-link:hover{text-decoration:underline}
+    .s-card{padding:22px;min-width:280px}
     .services-more{margin-top:22px}
-    .services-more-head{ display:flex;align-items:center;justify-content:space-between;margin:8px 0 10px }
-    .services-more-head h3{font-size:20px;margin:0}
+    .services-more-head{display:flex;align-items:center;justify-content:space-between;margin:8px 0 10px}
     .more-controls{display:flex;gap:8px}
     .scroll-btn{
-      width:38px;height:38px;border-radius:999px;border:1px solid rgba(0,0,0,.12);
-      background:#fff;cursor:pointer;display:grid;place-items:center;
-      box-shadow:0 2px 10px rgba(0,0,0,.06);transition:transform .15s ease, box-shadow .2s ease
+      width:38px;height:38px;border-radius:999px;border:1px solid var(--line);
+      background:#fff;cursor:pointer;display:grid;place-items:center;box-shadow:0 2px 10px rgba(10,25,35,.06)
     }
-    .scroll-btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.08)}
-    .services-track-wrap{ position:relative;overflow:hidden;border-radius:16px; }
+    .scroll-btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(10,25,35,.08)}
+    .services-track-wrap{position:relative;overflow:hidden;border-radius:16px}
     .services-track{
       display:flex;gap:16px;overflow-x:auto;padding:6px 4px;
-      scroll-snap-type:x mandatory;scroll-behavior:smooth; -webkit-overflow-scrolling:touch;
+      scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch
     }
-    .services-track::-webkit-scrollbar{height:10px}
-    .services-track::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:999px}
-    .services-track > .s-card{ scroll-snap-align:start;flex:0 0 clamp(280px, 30vw, 360px); }
+    .services-track > .s-card{scroll-snap-align:start;flex:0 0 clamp(280px, 30vw, 360px)}
   </style>
 
-  <!-- SVG ICON SPRITE (inline) -->
-  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute; width:0; height:0; overflow:hidden">
-    <defs><style>.i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.i-solid{fill:currentColor;stroke:none}</style></defs>
-    <!-- icons... (senin mevcut sembollerin) -->
+  <!-- === SVG ICON SPRITE (TAM SET) === -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden">
+    <defs><style>
+      .i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+      .i-solid{fill:currentColor;stroke:none}
+    </style></defs>
+
     <!-- Paws -->
-    <symbol id="i-paw" viewBox="0 0 24 24"><path class="i" d="M7.2 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM16.8 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM10.2 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM13.8 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM6.5 15.2c0-2.6 2.3-4.7 5.5-4.7s5.5 2.1 5.5 4.7c0 1.6-1.5 2.8-3.4 2.8-1 0-1.9-.3-2.1-.8-.3.5-1.1.8-2.1.8-1.9 0-3.4-1.2-3.4-2.8z"/></symbol>
-    <!-- ... diğer semboller aynı -->
+    <symbol id="i-paw" viewBox="0 0 24 24">
+      <path class="i" d="M7.2 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM16.8 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM10.2 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM13.8 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM6.5 15.2c0-2.6 2.3-4.7 5.5-4.7s5.5 2.1 5.5 4.7c0 1.6-1.5 2.8-3.4 2.8-1 0-1.9-.3-2.1-.8-.3.5-1.1.8-2.1.8-1.9 0-3.4-1.2-3.4-2.8z"/>
+    </symbol>
+
+    <!-- Stethoscope -->
+    <symbol id="i-stethoscope" viewBox="0 0 24 24">
+      <path class="i" d="M6 3v5a4 4 0 1 0 8 0V3M2.5 3H6M10 3h3.5M10 13a6 6 0 0 0 12 0v-1.2"/>
+      <circle class="i" cx="22" cy="11.8" r="2"/>
+    </symbol>
+
+    <!-- Microscope -->
+    <symbol id="i-microscope" viewBox="0 0 24 24">
+      <path class="i" d="M10 3l4 4-2 2-4-4 2-2zM8 11h6M6 21h12M7 21a6 6 0 1 1 10 0"/>
+    </symbol>
+
+    <!-- Article / Doc -->
+    <symbol id="i-article" viewBox="0 0 24 24">
+      <rect class="i" x="4" y="3" width="16" height="18" rx="2"/>
+      <path class="i" d="M8 8h8M8 12h8M8 16h5"/>
+    </symbol>
+
+    <!-- Phone bubble -->
+    <symbol id="i-phone-bubble" viewBox="0 0 24 24">
+      <path class="i" d="M19 15.5v2a2 2 0 0 1-2.2 2 16 16 0 0 1-7-2.7 16 16 0 0 1-5-5A2 2 0 0 1 6.5 9h2l2 3-1.5 1.5a12.5 12.5 0 0 0 5 5L15 17l3 2.5"/>
+      <path class="i" d="M7 5h10a2 2 0 0 1 2 2v4"/>
+    </symbol>
+
+    <!-- Ambulance -->
+    <symbol id="i-ambulance" viewBox="0 0 24 24">
+      <path class="i" d="M3 16V8a2 2 0 0 1 2-2h7l4 4h3a2 2 0 0 1 2 2v4H3z"/>
+      <circle class="i" cx="7" cy="18" r="2"/>
+      <circle class="i" cx="17" cy="18" r="2"/>
+      <path class="i" d="M7 10h3M8.5 8.5v3"/>
+    </symbol>
+
+    <!-- Shield cross -->
+    <symbol id="i-shield-cross" viewBox="0 0 24 24">
+      <path class="i" d="M12 3l7 3v5c0 5.2-3.6 8.7-7 10-3.4-1.3-7-4.8-7-10V6l7-3z"/>
+      <path class="i" d="M9 11h6M12 8v6"/>
+    </symbol>
+
+    <!-- Clipboard -->
+    <symbol id="i-clipboard" viewBox="0 0 24 24">
+      <rect class="i" x="5" y="4" width="14" height="18" rx="2"/>
+      <rect class="i" x="9" y="2" width="6" height="4" rx="1.5"/>
+      <path class="i" d="M8 11h8M8 15h8M8 19h5"/>
+    </symbol>
+
+    <!-- Scissors -->
+    <symbol id="i-scissors" viewBox="0 0 24 24">
+      <circle class="i" cx="6" cy="6" r="2.5"/><circle class="i" cx="6" cy="18" r="2.5"/>
+      <path class="i" d="M8 7l12 10M8 17l5-4"/>
+    </symbol>
+
+    <!-- Tooth clean -->
+    <symbol id="i-tooth-clean" viewBox="0 0 24 24">
+      <path class="i" d="M8 3c-2.5 0-4 2-4 4.5 0 4.5 2.5 7.5 3.5 11 .6 2 3 2 3.5 0 .7-2.4 1.2-3.5 2-3.5s1.3 1.1 2 3.5c.5 2 2.9 2 3.5 0 1-3.5 3.5-6.5 3.5-11C22 5 20.5 3 18 3 15.2 3 14 5 12 5S8.8 3 8 3z"/>
+      <path class="i" d="M9 9h6"/>
+    </symbol>
+
+    <!-- X-Ray -->
+    <symbol id="i-xray" viewBox="0 0 24 24">
+      <rect class="i" x="3" y="3" width="18" height="18" rx="2"/>
+      <path class="i" d="M7 7h10M7 12h10M7 17h10M12 7v10"/>
+    </symbol>
+
+    <!-- ECG -->
+    <symbol id="i-ecg" viewBox="0 0 24 24">
+      <path class="i" d="M2 12h4l2-4 4 8 3-6 2 2h5"/>
+    </symbol>
+
+    <!-- Reproduction -->
+    <symbol id="i-repro" viewBox="0 0 24 24">
+      <circle class="i" cx="12" cy="12" r="3.5"/>
+      <path class="i" d="M12 8V4M12 20v-4M8 12H4M20 12h-4M16.5 7.5l2.5-2.5M7.5 16.5 5 19"/>
+    </symbol>
+
+    <!-- Phys. Therapy -->
+    <symbol id="i-pt" viewBox="0 0 24 24">
+      <path class="i" d="M12 6a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5z"/>
+      <path class="i" d="M5 21l3-6 3-1 2 2 3 0 3 5M8 13l-3-1"/>
+    </symbol>
+
+    <!-- Boarding -->
+    <symbol id="i-boarding" viewBox="0 0 24 24">
+      <path class="i" d="M4 20V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12"/>
+      <path class="i" d="M8 20v-6a4 4 0 0 1 8 0v6M3 20h18"/>
+    </symbol>
+
+    <!-- Extra klinik ikonları (daha profesyonel görünüm için) -->
+    <symbol id="i-derm" viewBox="0 0 24 24">
+      <path class="i" d="M4 12c4-6 12-6 16 0M6 16c3-4 9-4 12 0M8 20c2-2 6-2 8 0"/>
+    </symbol>
+    <symbol id="i-neuro" viewBox="0 0 24 24">
+      <circle class="i" cx="12" cy="12" r="7"/><path class="i" d="M12 5v14M5 12h14M8 8l8 8M16 8l-8 8"/>
+    </symbol>
+    <symbol id="i-onco" viewBox="0 0 24 24">
+      <circle class="i" cx="12" cy="12" r="9"/><path class="i" d="M6 12a6 6 0 0 0 12 0"/>
+    </symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24">
+      <path class="i" d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle class="i" cx="12" cy="12" r="3.2"/>
+    </symbol>
+    <symbol id="i-ortho" viewBox="0 0 24 24">
+      <path class="i" d="M4 7h16M6 7v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7M9 7v4M15 7v4"/>
+    </symbol>
+    <symbol id="i-uro" viewBox="0 0 24 24">
+      <path class="i" d="M7 5h10a2 2 0 0 1 2 2v4a5 5 0 0 1-5 5h-4a5 5 0 0 1-5-5V7a2 2 0 0 1 2-2z"/>
+      <path class="i" d="M12 16v3a2 2 0 0 1-2 2H8"/>
+    </symbol>
+    <symbol id="i-endo" viewBox="0 0 24 24">
+      <circle class="i" cx="12" cy="8" r="3.2"/><path class="i" d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/>
+    </symbol>
+    <symbol id="i-exotic" viewBox="0 0 24 24">
+      <path class="i" d="M4 18c5-8 11-8 16 0"/><path class="i" d="M12 6l3 3-3 3-3-3 3-3z"/>
+    </symbol>
   </svg>
 
   <!-- Basit scroll kontrol JS -->
@@ -618,6 +743,8 @@
         prev.addEventListener('click', () => track.scrollBy({left: -slideBy(), behavior:'smooth'}));
         next.addEventListener('click', () => track.scrollBy({left: slideBy(), behavior:'smooth'}));
       }
+      // Yıl bas
+      const y=document.getElementById('yil'); if(y) y.textContent=new Date().getFullYear();
     });
   </script>
 </body>
