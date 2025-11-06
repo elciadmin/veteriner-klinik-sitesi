@@ -8,11 +8,11 @@
   <meta name="description" content="Konya Meram Elçi Veteriner Kliniği: 7/24 acil, koruyucu hekimlik, cerrahi, diş sağlığı, röntgen, ultrason, laboratuvar."/>
   <link rel="canonical" href="https://elciveteriner.com/"/>
 
-  <!-- Var olan token & styles -->
-  <link rel="stylesheet" href="/assets/css/tokens.css?v=20251105"/>
-  <link rel="stylesheet" href="/assets/css/styles.css?v=20251105"/>
+  <!-- Mevcut dosyaların (önbellek kıran versiyon ile) -->
+  <link rel="stylesheet" href="/assets/css/tokens.css?v=20251106"/>
+  <link rel="stylesheet" href="/assets/css/styles.css?v=20251106"/>
 
-  <!-- Sayfa bazlı stiller (kartlar vs.) -->
+  <!-- Temel premium tema (kartlar, tipografi, vb.) -->
   <style>
     :root{
       --brand-900:#0a3b41; --brand-800:#0b444b; --brand-700:#0c4e54; --brand-600:#0f5960; --brand-500:#10656c;
@@ -31,37 +31,7 @@
     header{box-shadow:0 2px 14px rgba(8,20,28,.06)}
     .container{max-width:1180px;margin:0 auto;padding:0 16px}
 
-    .hero{
-      background:
-        radial-gradient(1200px 600px at 90% -120px, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 55%),
-        linear-gradient(180deg,#ffffff 0%, var(--bg) 50%),
-        linear-gradient(120deg, var(--brand-700) 0%, var(--brand-600) 100%);
-      color:var(--ink);
-    }
-    .hero-divider{background:var(--accent)}
-    .hero-sub{color:var(--ink-2);opacity:.95}
-    .hero-cta .btn.primary{
-      background:linear-gradient(180deg, var(--accent) 0%, #0b8e9b 100%);
-      color:#fff;border:0;box-shadow:0 6px 18px rgba(14,165,179,.24)
-    }
-    .hero-cta .btn.primary:hover{transform:translateY(-1px);filter:brightness(.98)}
-    .hero-cta .btn.ghost{background:#fff;border:1px solid var(--line);color:var(--brand-700)}
-    .hero .quick-links{gap:10px}
-    .hero .quick-links .q{
-      background:var(--paper);
-      border:1px solid var(--line);
-      color:var(--ink);
-      border-radius:var(--radius-sm);
-      box-shadow:var(--shadow);
-    }
-    .hero .quick-links .icon svg{color:var(--brand-600)}
-
-    section h2{position:relative;display:inline-block}
-    section h2::after{
-      content:"";position:absolute;left:0;bottom:-8px;width:72px;height:3px;border-radius:999px;
-      background:linear-gradient(90deg, var(--brand-700), var(--accent));
-    }
-
+    /* Kart ve servis stilleri */
     .s-card{
       background:var(--paper);
       border:1px solid var(--line);
@@ -98,20 +68,43 @@
     .btn.primary{border:0}
     .btn:active{transform:translateY(1px)}
 
-    .footer-new{
-      background:linear-gradient(135deg, var(--footer-start), var(--footer-end));
-      color:#eaf4f5
+    section h2{position:relative;display:inline-block}
+    section h2::after{
+      content:"";position:absolute;left:0;bottom:-8px;width:72px;height:3px;border-radius:999px;
+      background:linear-gradient(90deg, var(--brand-700), var(--accent));
     }
-    .footer-links a{color:#d7ecee}
-    .footer-links a:hover{color:#fff}
 
-    .palette-dock,.palette-widget{display:none!important}
+    /* Services grid yerel düzen */
+    #services{background:transparent}
+    .services .container{overflow:visible}
+    .services-grid{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:18px}
+    @media (max-width: 900px){ .services-grid{grid-template-columns:repeat(2, minmax(0, 1fr))} }
+    @media (max-width: 560px){ .services-grid{grid-template-columns:1fr} }
+    .s-card{padding:22px;min-width:280px}
+    .services-more{margin-top:22px}
+    .services-more-head{display:flex;align-items:center;justify-content:space-between;margin:8px 0 10px}
+    .more-controls{display:flex;gap:8px}
+    .scroll-btn{
+      width:38px;height:38px;border-radius:999px;border:1px solid var(--line);
+      background:#fff;cursor:pointer;display:grid;place-items:center;box-shadow:0 2px 10px rgba(10,25,35,.06)
+    }
+    .scroll-btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(10,25,35,.08)}
+    .services-track-wrap{position:relative;overflow:hidden;border-radius:16px}
+    .services-track{
+      display:flex;gap:16px;overflow-x:auto;padding:6px 4px;
+      scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch
+    }
+    .services-track > .s-card{scroll-snap-align:start;flex:0 0 clamp(280px, 30vw, 360px)}
+
+    /* Instagram / Blog grid alanları */
+    .insta-head small, #youtube small{ display:none; } /* açıklamaları tamamen kaldır */
   </style>
 
-  <!-- Font Awesome (ikon için) -->
+  <!-- İkonlar -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 
+<!-- Tema sınıfı aktif -->
 <body class="theme-elciRoyal dark-ui" data-page="home">
   <!-- ===== SABİT HEADER ===== -->
   <header>
@@ -532,32 +525,8 @@
   }
   </script>
 
-  <!-- Tek JS -->
-  <script defer src="/assets/js/main.js?v=20251105"></script>
-
-  <!-- Hizmet Grid + Scroller -->
-  <style>
-    #services{background:transparent}
-    .services .container{overflow:visible}
-    .services-grid{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:18px}
-    @media (max-width: 900px){ .services-grid{grid-template-columns:repeat(2, minmax(0, 1fr))} }
-    @media (max-width: 560px){ .services-grid{grid-template-columns:1fr} }
-    .s-card{padding:22px;min-width:280px}
-    .services-more{margin-top:22px}
-    .services-more-head{display:flex;align-items:center;justify-content:space-between;margin:8px 0 10px}
-    .more-controls{display:flex;gap:8px}
-    .scroll-btn{
-      width:38px;height:38px;border-radius:999px;border:1px solid var(--line);
-      background:#fff;cursor:pointer;display:grid;place-items:center;box-shadow:0 2px 10px rgba(10,25,35,.06)
-    }
-    .scroll-btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(10,25,35,.08)}
-    .services-track-wrap{position:relative;overflow:hidden;border-radius:16px}
-    .services-track{
-      display:flex;gap:16px;overflow-x:auto;padding:6px 4px;
-      scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch
-    }
-    .services-track > .s-card{scroll-snap-align:start;flex:0 0 clamp(280px, 30vw, 360px)}
-  </style>
+  <!-- Tek JS dosyan (önbellek kırıcı ile) -->
+  <script defer src="/assets/js/main.js?v=20251106"></script>
 
   <!-- === SVG ICON SPRITE (TAM SET) === -->
   <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden">
@@ -638,13 +607,13 @@
       <path class="i" d="M2 12h4l2-4 4 8 3-6 2 2h5"/>
     </symbol>
 
-    <!-- Reproduction -->
+    <!-- Repro -->
     <symbol id="i-repro" viewBox="0 0 24 24">
       <circle class="i" cx="12" cy="12" r="3.5"/>
       <path class="i" d="M12 8V4M12 20v-4M8 12H4M20 12h-4M16.5 7.5l2.5-2.5M7.5 16.5 5 19"/>
     </symbol>
 
-    <!-- Phys. Therapy -->
+    <!-- PT -->
     <symbol id="i-pt" viewBox="0 0 24 24">
       <path class="i" d="M12 6a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5z"/>
       <path class="i" d="M5 21l3-6 3-1 2 2 3 0 3 5M8 13l-3-1"/>
@@ -656,7 +625,7 @@
       <path class="i" d="M8 20v-6a4 4 0 0 1 8 0v6M3 20h18"/>
     </symbol>
 
-    <!-- Extra klinik ikonları -->
+    <!-- Extra ikonlar -->
     <symbol id="i-derm" viewBox="0 0 24 24">
       <path class="i" d="M4 12c4-6 12-6 16 0M6 16c3-4 9-4 12 0M8 20c2-2 6-2 8 0"/>
     </symbol>
@@ -684,7 +653,7 @@
     </symbol>
   </svg>
 
-  <!-- Basit scroll kontrol JS + yıl + mobil menü -->
+  <!-- JS: scroller + yıl + mobile menü -->
   <script>
     window.addEventListener('DOMContentLoaded', function(){
       const track = document.getElementById('servicesTrack');
@@ -702,78 +671,58 @@
     });
   </script>
 
-  <!-- PALET (mavi + mor) — header/hero/footer/nav tam uygulama -->
+  <!-- ===== MOR → MAVİ RENK GEÇİŞİ (üst şerit + menü + hero) ===== -->
   <style id="hotfix-elciRoyal">
     .theme-elciRoyal{
-      --purple:#6a0ea1;
-      --purple-2:#7b27c4;
-      --blue:#2563eb;
-      --blue-2:#1e40af;
-      --blue-soft:#60a5fa;
+      --purple-700:#5b2bbd;  /* mor */
+      --blue-600:#10b3d1;    /* mavi/teal */
 
-      --brand: var(--purple);
-      --brand2: var(--purple-2);
-      --accent: var(--blue-soft);
-
+      --brand: var(--purple-700);
+      --brand2: var(--blue-600);
+      --accent: var(--blue-600);
       --ink:#0f1b22; --muted:#5e6c74; --line:#e6edf0;
 
-      --hero-start: color-mix(in srgb, var(--purple) 92%, #000 8%);
-      --hero-end:   color-mix(in srgb, var(--blue-2) 92%, #000 8%);
-
-      --footer-start: var(--blue-2);
-      --footer-end:   var(--purple);
+      --footer-start: var(--blue-600);
+      --footer-end:   var(--purple-700);
     }
+
+    /* Üst bar (adres/telefon/e-posta) */
     .theme-elciRoyal .header-top{
-      background:linear-gradient(90deg, var(--purple) 0%, var(--blue) 100%);
+      background:linear-gradient(90deg, var(--purple-700) 0%, var(--blue-600) 100%);
       color:#fff;
     }
+
+    /* Menü bar */
     .theme-elciRoyal .header-main{
-      background:linear-gradient(90deg, var(--purple) 0%, var(--blue) 100%) !important;
+      background:linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--purple-700), #000 8%) 0%,
+        color-mix(in srgb, var(--blue-600), #000 6%) 100%
+      );
       color:#fff;
     }
     .theme-elciRoyal nav a{ color:#eaf6f8; }
-    .theme-elciRoyal nav a:hover,
-    .theme-elciRoyal nav a.active{ color:#fff; }
-    .theme-elciRoyal nav a.active::after{ background: var(--blue-soft); }
+    .theme-elciRoyal nav a:hover, .theme-elciRoyal nav a:focus{ color:#fff; }
+    .theme-elciRoyal nav a.active{ color:#c0f3ff; }
+    .theme-elciRoyal nav a::after{ background:#c0f3ff; }
 
-    .theme-elciRoyal.dark-ui .hero{
+    /* HERO alanı */
+    .theme-elciRoyal .hero{
       background:
-        radial-gradient(1400px 700px at 85% -140px, rgba(255,255,255,.08) 0%, rgba(255,255,255,0) 60%),
-        linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%);
+        radial-gradient(1400px 700px at 85% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
+        linear-gradient(120deg, var(--purple-700) 0%, var(--blue-600) 100%);
       color:#fff;
     }
-    .theme-elciRoyal.dark-ui .hero h1{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.22); }
-    .theme-elciRoyal.dark-ui .hero-sub{ color:#eaf6f8; opacity:.98; }
-    .theme-elciRoyal.dark-ui .hero-divider{
-      background:linear-gradient(90deg, var(--purple), var(--blue-soft)); opacity:1;
+    .theme-elciRoyal .hero h1{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.22); }
+    .theme-elciRoyal .hero-sub{ color:#e8fbff; opacity:.98; }
+    .theme-elciRoyal .hero-divider{
+      background:linear-gradient(90deg, var(--purple-700), var(--blue-600));
     }
     .theme-elciRoyal .hero .quick-links .q{
-      background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.20); color:#fff;
+      background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.22); color:#fff;
     }
     .theme-elciRoyal .hero .quick-links .q:hover{ background:rgba(255,255,255,.14); transform:translateY(-3px); }
-    .theme-elciRoyal .hero .quick-links .icon svg{ color:#fff !important; }
-
-    .theme-elciRoyal.dark-ui .hero-cta .btn.primary{
-      background:linear-gradient(180deg, var(--blue-soft) 0%, color-mix(in srgb, var(--blue), #00315a 22%) 100%);
-      color:#001a28; border:0; box-shadow:0 12px 28px rgba(96,165,250,.32);
-    }
-    .theme-elciRoyal.dark-ui .hero-cta .btn.ghost{
-      background:transparent; border:1px solid rgba(255,255,255,.65); color:#fff;
-    }
-    .theme-elciRoyal.dark-ui .hero-cta .btn.ghost:hover{ background:rgba(255,255,255,.10); }
-
-    .theme-elciRoyal section h2::after{
-      background:linear-gradient(90deg, var(--blue-2), var(--blue-soft));
-    }
-    .s-icon svg{ color: var(--blue-2) !important; }
-
-    .theme-elciRoyal #reviews h2::after{
-      background:linear-gradient(90deg, var(--blue-2), color-mix(in srgb, var(--blue-2), #fff 25%));
-    }
-    .theme-elciRoyal #blog h2::after{
-      background:linear-gradient(90deg, var(--purple), color-mix(in srgb, var(--purple), #fff 25%));
-    }
-    .theme-elciRoyal .footer-links a:hover{ color: var(--blue-soft); }
+    .theme-elciRoyal .hero .quick-links .icon svg{ color:#fff; }
   </style>
 </body>
 </html>
