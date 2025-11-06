@@ -36,7 +36,7 @@
   </style>
 </head>
 
-<!-- Tema sınıfı aktif: MOR + TURKUAZ -->
+<!-- Tema sınıfı aktif: MOR + TURKUAZ (Deep Amethyst · Warm Noir Base) -->
 <body class="theme-elciKonya" data-page="home">
   <!-- ===== SABİT HEADER ===== -->
   <header>
@@ -603,17 +603,17 @@
     });
   </script>
 
-  <!-- ===== THEME OVERRIDE (MOR #6a0ea1 + TURKUAZ #10b3d1) ===== -->
+  <!-- ===== THEME OVERRIDE (Deep Amethyst · Warm Noir Base) ===== -->
   <style id="theme-elciKonya-override">
     :root{
-      --brand:#6a0ea1;      /* Mor (primary) */
-      --brand2:#10b3d1;     /* Turkuaz (secondary) */
-      --accent:#10b3d1;
-      --ink:#0f1b22; --muted:#5f6b74; --line:#e7edf1; --bg:#f7fbfc; --paper:#fff;
+      --brand:#5a1fa8;      /* Derin ametist */
+      --brand2:#36106b;     /* Warm Noir taban ikinci ton */
+      --accent:#27d4e8;     /* Klinik turkuaz */
+      --ink:#0e1218; --muted:#6b7782; --line:#e7edf1; --bg:#f7fbfc; --paper:#fff;
       --footer-start: var(--brand2);
       --footer-end:   var(--brand);
       --hero-start: color-mix(in srgb, var(--brand) 88%, #fff 12%);
-      --hero-end:   color-mix(in srgb, var(--brand2) 88%, #fff 12%);
+      --hero-end:   color-mix(in srgb, var(--accent) 88%, #fff 12%);
     }
 
     /* Üst şerit (adres/telefon/e-posta) */
@@ -638,12 +638,12 @@
     .hero{
       background:
         radial-gradient(1400px 700px at 85% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
-        linear-gradient(120deg, var(--brand) 0%, var(--brand2) 100%);
+        linear-gradient(120deg, var(--brand) 0%, var(--accent) 100%);
       color:#fff;
     }
     .hero h1{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.22); }
     .hero .hero-sub{ color:#e8fbff; opacity:.98; }
-    .hero .hero-divider{ background:linear-gradient(90deg, var(--brand), var(--brand2)); }
+    .hero .hero-divider{ background:linear-gradient(90deg, var(--brand), var(--accent)); }
     .hero .quick-links .q{
       background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.22); color:#fff;
     }
@@ -652,21 +652,21 @@
 
     /* Butonlar */
     .btn.primary{
-      background:linear-gradient(90deg, var(--brand) 0%, var(--brand2) 100%);
-      color:#fff; border:0; box-shadow:0 8px 22px rgba(16,179,209,.22)
+      background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
+      color:#fff; border:0; box-shadow:0 8px 22px rgba(39,212,232,.22)
     }
     .btn{ color:var(--brand); border:1px solid var(--line); background:#fff }
 
     /* Kartlar */
     .s-card{ background:var(--paper); border:1px solid var(--line); border-radius:18px; box-shadow:0 6px 18px rgba(10,25,35,.08) }
-    .s-card:hover{ transform:translateY(-4px); box-shadow:0 10px 28px rgba(10,25,35,.12); border-color:color-mix(in srgb, var(--brand2) 18%, var(--line)) }
+    .s-card:hover{ transform:translateY(-4px); box-shadow:0 10px 28px rgba(10,25,35,.12); border-color:color-mix(in srgb, var(--accent) 18%, var(--line)) }
     .s-icon{
       display:inline-grid;place-items:center;width:46px;height:46px;border-radius:14px;
       background:radial-gradient(80% 80% at 30% 20%, #ffffff 0%, #eaf6f8 55%, #d9f0f2 100%); border:1px solid #d8ecef;
     }
 
     /* Bölüm başlık çizgisi */
-    section h2::after{ background:linear-gradient(90deg, var(--brand), var(--brand2)); }
+    section h2::after{ background:linear-gradient(90deg, var(--brand), var(--accent)); }
 
     /* Footer */
     footer.footer-new{
