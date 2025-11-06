@@ -1,6 +1,5 @@
 /* =========================
    ELÇİ VETERİNER - TOKENS
-   Çoklu tema: emerald (varsayılan), plum, ocean, slate
    ========================= */
 
 /* ----- Temel semantik tokenlar ----- */
@@ -11,19 +10,16 @@
   --shadow-md:0 6px 18px rgba(0,0,0,.08);
   --shadow-lg:0 12px 28px rgba(0,0,0,.12);
 
-  /* Tipografi & yüzeyler */
   --ink:#111822;
   --muted:#6b7a7c;
-  --bg:#f7fafb;              /* sayfa zemin */
+  --bg:#f7fafb;
   --card:#ffffff;
   --card-border:#e9eff0;
 
-  /* Aksiyon renkleri (temadan türeyecek) */
   --brand:#0c4e54;
   --brand2:#0f5960;
   --accent:#10b3d1;
 
-  /* Link & butonlar */
   --link: var(--accent);
   --link-hover: color-mix(in srgb, var(--accent), #fff 12%);
   --btn-bg: var(--brand);
@@ -31,14 +27,13 @@
   --btn-bg-hover: color-mix(in srgb, var(--brand), #fff 8%);
   --btn-ghost-fg: var(--brand);
 
-  /* Bölüm/hero/footer gradyan uçları (tema set eder) */
   --hero-start: var(--brand);
   --hero-end:   var(--brand2);
   --footer-start: var(--brand2);
   --footer-end:   var(--brand);
 }
 
-/* ===== Tema: EMERALD (varsayılan — teal/klinik) ===== */
+/* ===== Varsayılan: EMERALD (teal) ===== */
 .theme-emerald, :root{
   --brand:#0c4e54;
   --brand2:#0f5960;
@@ -49,18 +44,18 @@
   --footer-end:#0c4e54;
 }
 
-/* ===== Tema: PLUM (mor — logondaki morla uyumlu) ===== */
+/* ===== PLUM ===== */
 .theme-plum{
-  --brand:#5a2ea6;      /* plum */
-  --brand2:#6a0ea1;     /* mor */
-  --accent:#8c54cf;     /* açık mor vurgu */
+  --brand:#5a2ea6;
+  --brand2:#6a0ea1;
+  --accent:#8c54cf;
   --hero-start: color-mix(in srgb, #5a2ea6 88%, #ffffff 12%);
   --hero-end:   color-mix(in srgb, #6a0ea1 88%, #ffffff 12%);
   --footer-start:#5a2ea6;
   --footer-end:#6a0ea1;
 }
 
-/* ===== Tema: OCEAN (mavi — güven/kurumsal) ===== */
+/* ===== OCEAN ===== */
 .theme-ocean{
   --brand:#0a4aa6;
   --brand2:#083a86;
@@ -71,7 +66,7 @@
   --footer-end:#0a4aa6;
 }
 
-/* ===== Tema: SLATE (nötr — gri/cerrahi/pro) ===== */
+/* ===== SLATE ===== */
 .theme-slate{
   --brand:#2e3a46;
   --brand2:#1f2a33;
@@ -80,4 +75,20 @@
   --hero-end:   color-mix(in srgb, #1f2a33 88%, #ffffff 12%);
   --footer-start:#1f2a33;
   --footer-end:#2e3a46;
+}
+
+/* ===== YENİ: ELCI ROYAL (mor + modern mavi) ===== */
+.theme-elciRoyal{
+  --clinic-purple:#6a0ea1;
+  --clinic-blue:#10b3d1;
+
+  --brand: var(--clinic-purple);
+  --brand2: var(--clinic-blue);
+  --accent: var(--clinic-blue);
+
+  --hero-start: color-mix(in srgb, var(--clinic-purple) 90%, #ffffff 10%);
+  --hero-end:   color-mix(in srgb, var(--clinic-blue)  90%, #ffffff 10%);
+
+  --footer-start: var(--clinic-blue);
+  --footer-end:   var(--clinic-purple);
 }
