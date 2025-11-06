@@ -606,14 +606,14 @@
   <!-- ===== THEME OVERRIDE (MOR #6a0ea1 + TURKUAZ #10b3d1) ===== -->
   <style id="theme-elciKonya-override">
     :root{
-      --brand:#6a0ea1;      /* Mor (primary) */
-      --brand2:#10b3d1;     /* Turkuaz (secondary) */
-      --accent:#10b3d1;
+      --brand:#5a1fa8; /* Deep Amethyst (darker) */      /* Mor (primary) */
+      --brand2:#2a0c52; /* Warm Noir base */     /* Turkuaz (secondary) */
+      --accent:#1fbcd1; /* deeper teal */
       --ink:#0f1b22; --muted:#5f6b74; --line:#e7edf1; --bg:#f7fbfc; --paper:#fff;
       --footer-start: var(--brand2);
       --footer-end:   var(--brand);
-      --hero-start: color-mix(in srgb, var(--brand) 88%, #fff 12%);
-      --hero-end:   color-mix(in srgb, var(--brand2) 88%, #fff 12%);
+      --hero-start: color-mix(in srgb, var(--brand) 94%, #fff 6%);
+      --hero-end: color-mix(in srgb, var(--accent) 92%, #fff 8%);
     }
 
     /* Üst şerit (adres/telefon/e-posta) */
@@ -670,7 +670,7 @@
 
     /* Footer */
     footer.footer-new{
-      background:linear-gradient(135deg, var(--footer-start), var(--footer-end));
+      background:linear-gradient(135deg, color-mix(in srgb, var(--footer-start) 92%, #000 8%), color-mix(in srgb, var(--footer-end) 92%, #000 8%));
       color:#eaffff;
     }
     .footer-links a, .footer-contact a{ color:#eaffff }
