@@ -8,123 +8,46 @@
   <!-- SEO -->
   <meta name="description" content="Konya Meram Elçi Veteriner Kliniği: 7/24 acil, koruyucu hekimlik, cerrahi, diş sağlığı, röntgen, ultrason, laboratuvar."/>
   <link rel="canonical" href="https://elciveteriner.com/"/>
-  <meta name="theme-color" content="#0c4e54"/>
 
-  <!-- Favicon (404 olmasın diye inline SVG) -->
-  <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="20" cy="20" r="8" fill="%2310b3d1"/><circle cx="44" cy="20" r="8" fill="%2310b3d1"/><circle cx="24" cy="14" r="7" fill="%230c4e54"/><circle cx="40" cy="14" r="7" fill="%230c4e54"/><path d="M12 40c0-8 7-14 20-14s20 6 20 14c0 5-5 9-12 9-3 0-6-1-8-3-2 2-5 3-8 3-7 0-12-4-12-9z" fill="%230c4e54"/></svg>'/>
-
-  <!-- Fonts (Inter + Montserrat) -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
-
-  <!-- İkon seti -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-
-  <!-- Senin dosyaların (cache-buster ile) -->
+  <!-- Stil dosyaları (cache-bust ile) -->
   <link rel="stylesheet" href="/assets/css/tokens.css?v=20251106"/>
   <link rel="stylesheet" href="/assets/css/styles.css?v=20251106"/>
 
-  <!-- Sayfaya özel küçük stiller -->
+  <!-- İkonlar -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <!-- Sayfaya özgü küçük dokunuşlar (kart/başlık süsleri vb.) -->
   <style>
-    :root{
-      --brand-900:#0a3b41; --brand-800:#0b444b; --brand-700:#0c4e54; --brand-600:#0f5960; --brand-500:#10656c;
-      --brand:#0c4e54; --brand2:#0f5960; --accent:#0ea5b3; --accent-ink:#0b3c44;
-      --ink:#0f1b22; --ink-2:#1f2a33; --muted:#61717a; --line:#e6edf0;
-      --bg:#f7fbfc; --paper:#ffffff;
-      --shadow:0 6px 18px rgba(10,25,35,.08); --shadow-md:0 10px 28px rgba(10,25,35,.10);
-      --radius:18px; --radius-sm:12px;
-      --footer-start:var(--brand-600); --footer-end:var(--brand-700);
-      --violet:#6a58b3; --rose:#a63f6a; --sage:#19806f;
-      --accent-rgb: 16 179 209;
-    }
+    .container{max-width:1180px;margin:0 auto;padding:0 16px}
     h1,h2,h3{letter-spacing:.1px}
-    h1{font-weight:800} h2{font-weight:750} h3{font-weight:700}
-
-    /* Servis kartları (yumuşak hover) */
-    .s-card{
-      background:var(--paper);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease;
-    }
-    .s-card:hover{
-      transform:translateY(-6px);
-      box-shadow:var(--shadow-md);
-      border-color:color-mix(in srgb, var(--brand-600) 16%, var(--line));
-      background:#fff;
-    }
-    .s-icon{
-      display:inline-grid;place-items:center;
-      width:46px;height:46px;border-radius:14px;
-      background:radial-gradient(80% 80% at 30% 20%, #ffffff 0%, #eaf6f8 55%, #d9f0f2 100%);
-      border:1px solid #d8ecef;
-    }
-    .s-icon svg{width:26px;height:26px;color:var(--accent-ink)}
-    .s-title{margin:.25rem 0 .35rem}
-    .s-text{color:var(--muted)}
-    .s-link{font-weight:650;color:var(--accent);text-decoration:none}
-    .s-link:hover{text-decoration:underline}
-
-    /* Kaydırmalı “Diğer Hizmetler” */
+    section h2{position:relative;display:inline-block}
+    section h2::after{content:"";position:absolute;left:0;bottom:-8px;width:72px;height:3px;border-radius:999px;background:linear-gradient(90deg,var(--brand),var(--accent))}
+    .services-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    @media (max-width: 900px){ .services-grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
+    @media (max-width: 560px){ .services-grid{grid-template-columns:1fr} }
+    .s-card{min-width:280px}
     .services-track{scrollbar-width:thin}
     .services-track::-webkit-scrollbar{height:10px}
     .services-track::-webkit-scrollbar-thumb{background:rgba(8,35,45,.16);border-radius:999px}
-
-    /* Bölüm başlık alt çizgileri */
-    #reviews h2::after{background:linear-gradient(90deg, var(--sage), color-mix(in srgb, var(--sage), #fff 25%))}
-    #blog h2::after{background:linear-gradient(90deg, var(--rose), color-mix(in srgb, var(--rose), #fff 25%))}
-
-    .btn{border:1px solid var(--line);background:#fff;color:var(--brand-700);border-radius:12px;padding:.7rem 1rem}
-    .btn.primary{border:0}
+    .cta-bar{display:flex;align-items:center;justify-content:space-between;margin:24px 0;gap:12px}
     .btn:active{transform:translateY(1px)}
-
-    section h2{position:relative;display:inline-block}
-    section h2::after{
-      content:"";position:absolute;left:0;bottom:-8px;width:72px;height:3px;border-radius:999px;
-      background:linear-gradient(90deg, var(--brand-700), var(--accent));
-    }
-
-    /* Services grid kırılımlar */
-    #services{background:transparent}
-    .services .container{overflow:visible}
-    .services-grid{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:18px}
-    @media (max-width: 900px){ .services-grid{grid-template-columns:repeat(2, minmax(0, 1fr))} }
-    @media (max-width: 560px){ .services-grid{grid-template-columns:1fr} }
-    .s-card{padding:22px;min-width:280px}
-
-    .services-more{margin-top:22px}
-    .services-more-head{display:flex;align-items:center;justify-content:space-between;margin:8px 0 10px}
-    .more-controls{display:flex;gap:8px}
-    .scroll-btn{
-      width:38px;height:38px;border-radius:999px;border:1px solid var(--line);
-      background:#fff;cursor:pointer;display:grid;place-items:center;box-shadow:0 2px 10px rgba(10,25,35,.06)
-    }
-    .scroll-btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(10,25,35,.08)}
-    .services-track-wrap{position:relative;overflow:hidden;border-radius:16px}
-    .services-track{
-      display:flex;gap:16px;overflow-x:auto;padding:6px 4px;
-      scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch
-    }
-    .services-track > .s-card{scroll-snap-align:start;flex:0 0 clamp(280px, 30vw, 360px)}
-
-    /* Instagram / Blog küçük başlık satırını kapatalım */
+    /* Insta/Youtube başlık alt notlarını gizle */
     .insta-head small, #youtube small{ display:none; }
   </style>
 </head>
 
-<body class="theme-gt dark-ui" data-page="home">
+<!-- Tema sınıfı aktif: MOR + TURKUAZ -->
+<body class="theme-elciKonya" data-page="home">
   <!-- ===== SABİT HEADER ===== -->
-  <header role="banner">
+  <header>
     <div class="header-top">
       <div class="container">
         <div class="header-contact">
-          <span><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</span>
+          <span><i class="fa-solid fa-location-dot"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</span>
         </div>
         <div class="header-contact">
-          <a href="tel:03323223220"><i class="fa-solid fa-phone" aria-hidden="true"></i> 0332 322 32 20</a>
-          <a href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope" aria-hidden="true"></i> elcivetklinik@gmail.com</a>
+          <a href="tel:03323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a>
+          <a href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> elcivetklinik@gmail.com</a>
         </div>
       </div>
     </div>
@@ -138,7 +61,7 @@
 
         <nav aria-label="Birincil">
           <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç/kapat">
-            <i class="fa-solid fa-bars" aria-hidden="true"></i>
+            <i class="fa-solid fa-bars"></i>
           </button>
           <ul id="mainMenu">
             <li><a href="/index.html" class="active">Ana Sayfa</a></li>
@@ -189,11 +112,11 @@
     </div>
   </header>
 
-  <!-- HERO -->
+  <!-- ===== HERO ===== -->
   <section class="hero" data-theme="clean">
     <div class="container">
       <div class="hero-center">
-        <div class="hero-icon" aria-hidden="true">
+        <div class="hero-icon">
           <img class="hero-logo" src="/assets/img/uploads/elci-logo.png?v=1" alt="Elçi Veteriner Kliniği Logosu" width="96" height="96" loading="eager" decoding="async">
         </div>
         <h1>Konya’da 7/24 Acil ve Kapsamlı Veterinerlik</h1>
@@ -234,7 +157,7 @@
     </div>
   </section>
 
-  <!-- HİZMETLER — ÖNE ÇIKAN 6 + DİĞERLERİ KAYDIRMALI -->
+  <!-- ===== HİZMETLER — ÖNE ÇIKAN 6 + DİĞERLERİ KAYDIRMALI ===== -->
   <section id="services" class="services">
     <div class="container">
       <h2>Hizmetlerimiz</h2>
@@ -289,10 +212,10 @@
           <h3>Diğer Hizmetler</h3>
           <div class="more-controls">
             <button class="scroll-btn" id="svcPrev" aria-label="Sola kaydır">
-              <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+              <i class="fa-solid fa-chevron-left"></i>
             </button>
             <button class="scroll-btn" id="svcNext" aria-label="Sağa kaydır">
-              <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+              <i class="fa-solid fa-chevron-right"></i>
             </button>
           </div>
         </div>
@@ -386,7 +309,7 @@
         </div>
       </div>
 
-      <div class="cta-bar" role="complementary" aria-label="Randevu çağrısı">
+      <div class="cta-bar">
         <strong>Evcil dostunuz için hızlı randevu alın.</strong>
         <div>
           <a class="btn" href="/hizmetler.html">Tüm Hizmetler</a>
@@ -396,7 +319,7 @@
     </div>
   </section>
 
-  <!-- INSTAGRAM -->
+  <!-- ===== INSTAGRAM ===== -->
   <section id="insta" data-json="/assets/data/instagram.json" data-fn="/.netlify/functions/instagram">
     <div class="container">
       <div class="insta-head">
@@ -408,7 +331,7 @@
     </div>
   </section>
 
-  <!-- REVIEWS -->
+  <!-- ===== GOOGLE REVIEWS ===== -->
   <section id="reviews" data-json="/assets/data/reviews.json">
     <div class="container">
       <h2>Google Yorumları</h2>
@@ -416,7 +339,7 @@
     </div>
   </section>
 
-  <!-- BLOG -->
+  <!-- ===== BLOG ===== -->
   <section id="blog" data-json="/assets/data/blog.json">
     <div class="container">
       <h2>Blogdan</h2>
@@ -427,7 +350,7 @@
     </div>
   </section>
 
-  <!-- YOUTUBE -->
+  <!-- ===== YOUTUBE ===== -->
   <section id="youtube" data-fn="/.netlify/functions/youtube-latest?limit=9" data-youtube-ids="">
     <div class="container">
       <h2>YouTube</h2>
@@ -435,7 +358,7 @@
     </div>
   </section>
 
-  <!-- FAQ -->
+  <!-- ===== FAQ ===== -->
   <section id="faq">
     <div class="container">
       <h2>Sık Sorulan Sorular</h2>
@@ -445,7 +368,7 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- ===== FOOTER ===== -->
   <footer class="footer-new">
     <div class="container footer-container">
       <div class="footer-col">
@@ -453,16 +376,16 @@
         <p>Konya’nın Meram ilçesinde, hayvan sağlığı alanında uzman ekibimizle hizmet veriyoruz. 7/24 acil veteriner hizmeti.</p>
         <div class="social-links">
           <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 10h3l.5-3H13V5.5c0-.9.3-1.5 1.7-1.5H17V1h-3c-3 0-4.5 1.6-4.5 4.4V7H7v3h2.5v9h3v-9z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 10h3l.5-3H13V5.5c0-.9.3-1.5 1.7-1.5H17V1h-3c-3 0-4.5 1.6-4.5 4.4V7H7v3h2.5v9h3v-9z"/></svg>
           </a>
           <a href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><path d="M17.5 6.5h.01" stroke-width="2"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><path d="M17.5 6.5h.01" stroke-width="2"/></svg>
           </a>
           <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 5.8c-.8.4-1.6.6-2.5.7.9-.6 1.5-1.4 1.8-2.4-.8.5-1.8.9-2.8 1.1A3.7 3.7 0 0 0 12 8.4c0 .3 0 .7.1 1A10.5 10.5 0 0 1 3 5.2a3.7 3.7 0 0 0 1.1 5 3.6 3.6 0 0 1-1.7-.5v.1c0 1.8 1.3 3.3 3 3.7-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1.5 1.5 1.9 2.6 3.6 2.6A7.5 7.5 0 0 1 3 19.5 10.6 10.6 0 0 0 9.7 21c6.3 0 9.7-5.2 9.7-9.7v-.4c.8-.6 1.5-1.4 2-2.3z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.8c-.8.4-1.6.6-2.5.7.9-.6 1.5-1.4 1.8-2.4-.8.5-1.8.9-2.8 1.1A3.7 3.7 0 0 0 12 8.4c0 .3 0 .7.1 1A10.5 10.5 0 0 1 3 5.2a3.7 3.7 0 0 0 1.1 5 3.6 3.6 0 0 1-1.7-.5v.1c0 1.8 1.3 3.3 3 3.7-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1.5 1.5 1.9 2.6 3.6 2.6A7.5 7.5 0 0 1 3 19.5 10.6 10.6 0 0 0 9.7 21c6.3 0 9.7-5.2 9.7-9.7v-.4c.8-.6 1.5-1.4 2-2.3z"/></svg>
           </a>
           <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 7.5a4 4 0 0 0-3-3.1C18.3 4 12 4 12 4s-6.3 0-8 .4A4 4 0 0 0 1 7.5 41 41 0 0 0 1 16.5a4 4 0 0 0 3 3.1c1.7.4 8 .4 8 .4s6.3 0 8-.4a4 4 0 0 0 3-3.1 41 41 0 0 0 0-9zM10 15.5v-7l6 3.5-6 3.5z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5a4 4 0 0 0-3-3.1C18.3 4 12 4 12 4s-6.3 0-8 .4A4 4 0 0 0 1 7.5 41 41 0 0 0 1 16.5a4 4 0 0 0 3 3.1c1.7.4 8 .4 8 .4s6.3 0 8-.4a4 4 0 0 0 3-3.1 41 41 0 0 0 0-9zM10 15.5v-7l6 3.5-6 3.5z"/></svg>
           </a>
         </div>
       </div>
@@ -494,19 +417,19 @@
         <h3>Konya İletişim</h3>
         <ul class="footer-contact">
           <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"/><circle cx="12" cy="11" r="2.5"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"/><circle cx="12" cy="11" r="2.5"/></svg>
             <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a>
           </li>
           <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 16.5v2a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3.1 19 19 0 0 1-6-6A2 2 0 0 1 7.5 9h2l2 3-1.5 1.5a16 16 0 0 0 6 6L18 18l3 2.5z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.5v2a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3.1 19 19 0 0 1-6-6A2 2 0 0 1 7.5 9h2l2 3-1.5 1.5a16 16 0 0 0 6 6L18 18l3 2.5z"/></svg>
             <a href="tel:03323223220">0332 322 32 20</a>
           </li>
           <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
             <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a>
           </li>
           <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
             <span>Pazartesi–Cumartesi: 08:00–19:00<br>Pazar: Acil Hizmet</span>
           </li>
         </ul>
@@ -520,7 +443,7 @@
     </div>
   </footer>
 
-  <!-- Schema.org -->
+  <!-- ===== Schema.org ===== -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -534,11 +457,11 @@
   }
   </script>
 
-  <!-- Ana JS (senin dosyan) -->
+  <!-- ===== Ana JS (cache-bust ile) ===== -->
   <script defer src="/assets/js/main.js?v=20251106"></script>
 
-  <!-- === SVG ICON SPRITE (TAM SET) === -->
-  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <!-- ===== SVG ICON SPRITE (TAM SET) ===== -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden">
     <defs><style>
       .i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
       .i-solid{fill:currentColor;stroke:none}
@@ -662,150 +585,96 @@
     </symbol>
   </svg>
 
-  <!-- JS: sayfa içi küçük yardımcı (yıl + mobil menü + yatay kaydırma butonları) -->
+  <!-- ===== Küçük başlangıç JS (yıl + mobil menü + kaydırma butonları) ===== -->
   <script>
     window.addEventListener('DOMContentLoaded', function(){
-      const track = document.getElementById('servicesTrack');
-      const prev = document.getElementById('svcPrev');
-      const next = document.getElementById('svcNext');
+      const y=document.getElementById('yil'); if(y) y.textContent=new Date().getFullYear();
+      const btn=document.getElementById('mobileMenuBtn'); const menu=document.getElementById('mainMenu');
+      if(btn && menu){ btn.addEventListener('click', ()=> menu.classList.toggle('show')); }
+
+      const track=document.getElementById('servicesTrack');
+      const prev=document.getElementById('svcPrev');
+      const next=document.getElementById('svcNext');
       if(track && prev && next){
         const slideBy = () => Math.max(track.clientWidth * 0.95, 300);
-        prev.addEventListener('click', () => track.scrollBy({left: -slideBy(), behavior:'smooth'}));
-        next.addEventListener('click', () => track.scrollBy({left:  slideBy(), behavior:'smooth'}));
+        prev.addEventListener('click', ()=> track.scrollBy({left: -slideBy(), behavior:'smooth'}));
+        next.addEventListener('click', ()=> track.scrollBy({left:  slideBy(), behavior:'smooth'}));
       }
-      const y=document.getElementById('yil'); if(y) y.textContent=new Date().getFullYear();
-      const btn = document.getElementById('mobileMenuBtn');
-      const menu = document.getElementById('mainMenu');
-      if(btn && menu){ btn.addEventListener('click', ()=> menu.classList.toggle('show')); }
     });
   </script>
 
-  <!-- === GT Mor Tema (Guiding Tech esintisi) === -->
-  <style id="theme-gt">
-    /* Palet */
-    .theme-gt{
-      --gt-purple-900:#28135a;
-      --gt-purple-800:#3a1f78;
-      --gt-purple-700:#4e28a8;
-      --gt-purple-600:#6a0ea1;
-      --gt-purple-500:#7b3fe4;
-
-      --gt-accent:#9ad1ff;
-      --gt-ink:#0f1220;
-      --gt-ink-soft:#dbe3ff;
-      --gt-line:#e8eaf5;
-
-      --brand: var(--gt-purple-700);
-      --brand2: var(--gt-purple-500);
-      --accent: var(--gt-accent);
-      --ink: var(--gt-ink);
-      --muted:#5e6c74;
-      --line: var(--gt-line);
-      --footer-start: var(--gt-purple-600);
-      --footer-end: var(--gt-purple-800);
+  <!-- ===== THEME OVERRIDE (MOR #6a0ea1 + TURKUAZ #10b3d1) ===== -->
+  <style id="theme-elciKonya-override">
+    :root{
+      --brand:#6a0ea1;      /* Mor (primary) */
+      --brand2:#10b3d1;     /* Turkuaz (secondary) */
+      --accent:#10b3d1;
+      --ink:#0f1b22; --muted:#5f6b74; --line:#e7edf1; --bg:#f7fbfc; --paper:#fff;
+      --footer-start: var(--brand2);
+      --footer-end:   var(--brand);
+      --hero-start: color-mix(in srgb, var(--brand) 88%, #fff 12%);
+      --hero-end:   color-mix(in srgb, var(--brand2) 88%, #fff 12%);
     }
 
-    .theme-gt .header-top{
-      background: linear-gradient(90deg, var(--gt-purple-900), var(--gt-purple-700));
+    /* Üst şerit (adres/telefon/e-posta) */
+    .header-top{
+      background:linear-gradient(90deg, var(--brand) 0%, var(--brand2) 100%);
       color:#fff;
     }
 
-    .theme-gt .header-main{
-      background: linear-gradient(90deg, color-mix(in srgb, var(--gt-purple-800), #000 6%) 0%, var(--gt-purple-600) 100%);
+    /* Menü şeridi */
+    .header-main{
+      background:linear-gradient(90deg,
+        color-mix(in srgb, var(--brand), #000 8%) 0%,
+        color-mix(in srgb, var(--brand2),#000 6%) 100%);
       color:#fff;
-      box-shadow: 0 6px 22px rgba(25, 10, 60, .22);
     }
-    .theme-gt nav a{ color: #e9e3ff }
-    .theme-gt nav a:hover,
-    .theme-gt nav a:focus{ color:#fff }
-    .theme-gt nav a::after{
-      content:""; display:block; height:2px; margin-top:6px;
-      background: currentColor; transform: scaleX(0); transform-origin:left; transition: .2s;
-    }
-    .theme-gt nav a:hover::after{ transform: scaleX(1) }
-    .theme-gt nav a.active{ color:#fff }
-    .theme-gt nav a.active::after{ transform: scaleX(1) }
+    nav a{ color:#eaf6f8 }
+    nav a:hover, nav a:focus{ color:#fff }
+    nav a.active{ color:#c0f3ff }
+    nav a::after{ background:#c0f3ff }
 
-    .theme-gt .hero{
+    /* HERO */
+    .hero{
       background:
-        radial-gradient(1200px 520px at 85% -120px, rgba(255,255,255,.12) 0%, rgba(255,255,255,0) 60%),
-        linear-gradient(115deg, var(--gt-purple-800) 0%, var(--gt-purple-600) 100%);
+        radial-gradient(1400px 700px at 85% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
+        linear-gradient(120deg, var(--brand) 0%, var(--brand2) 100%);
       color:#fff;
     }
-    .theme-gt .hero h1{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.22) }
-    .theme-gt .hero-sub{ color:#f0eaff; opacity:.95 }
-    .theme-gt .hero-divider{
-      height:3px; width:72px; margin:14px auto 6px;
-      background:linear-gradient(90deg, #fff, var(--gt-accent));
-      border-radius:999px;
+    .hero h1{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.22); }
+    .hero .hero-sub{ color:#e8fbff; opacity:.98; }
+    .hero .hero-divider{ background:linear-gradient(90deg, var(--brand), var(--brand2)); }
+    .hero .quick-links .q{
+      background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.22); color:#fff;
     }
-    .theme-gt .hero .btn.primary{
-      background:#fff; color:var(--gt-purple-700); border:0;
-      box-shadow: 0 6px 18px rgba(255,255,255,.18), 0 8px 28px rgba(20,0,60,.22);
-    }
-    .theme-gt .hero .btn.ghost{
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.28);
-      color:#fff;
-    }
-    .theme-gt .hero .quick-links .q{
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.20);
-      color:#fff;
-    }
-    .theme-gt .hero .quick-links .q:hover{ transform: translateY(-3px); background: rgba(255,255,255,.14) }
-    .theme-gt .hero .quick-links .icon svg{ color:#fff }
+    .hero .quick-links .q:hover{ background:rgba(255,255,255,.14); transform:translateY(-3px); }
+    .hero .quick-links .icon svg{ color:#fff; }
 
-    .theme-gt .s-card{
-      border:1px solid var(--line);
-      box-shadow: 0 6px 18px rgba(23, 8, 60, .06);
-      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    /* Butonlar */
+    .btn.primary{
+      background:linear-gradient(90deg, var(--brand) 0%, var(--brand2) 100%);
+      color:#fff; border:0; box-shadow:0 8px 22px rgba(16,179,209,.22)
     }
-    .theme-gt .s-card:hover{
-      transform: translateY(-6px);
-      border-color: color-mix(in srgb, var(--gt-purple-600) 22%, var(--line));
-      box-shadow: 0 12px 34px rgba(23, 8, 60, .16);
-    }
-    .theme-gt .s-icon{
-      background: radial-gradient(80% 80% at 30% 20%, #ffffff 0%, #efe9ff 55%, #e2d6ff 100%);
-      border:1px solid #e3dbff;
-    }
-    .theme-gt .s-icon svg{ color: var(--gt-purple-700) }
-    .theme-gt .s-link{ color: var(--gt-purple-600) }
-    .theme-gt .s-link:hover{ color: var(--gt-purple-700) }
+    .btn{ color:var(--brand); border:1px solid var(--line); background:#fff }
 
-    .theme-gt .scroll-btn{
-      background:#fff; border-color: var(--line);
-      box-shadow: 0 6px 18px rgba(23,8,60,.08);
-    }
-    .theme-gt .scroll-btn:hover{
-      box-shadow: 0 10px 26px rgba(23,8,60,.14);
-    }
-    .theme-gt .services-track::-webkit-scrollbar-thumb{
-      background: color-mix(in srgb, var(--gt-purple-700) 28%, #b7b0ff);
+    /* Kartlar */
+    .s-card{ background:var(--paper); border:1px solid var(--line); border-radius:18px; box-shadow:0 6px 18px rgba(10,25,35,.08) }
+    .s-card:hover{ transform:translateY(-4px); box-shadow:0 10px 28px rgba(10,25,35,.12); border-color:color-mix(in srgb, var(--brand2) 18%, var(--line)) }
+    .s-icon{
+      display:inline-grid;place-items:center;width:46px;height:46px;border-radius:14px;
+      background:radial-gradient(80% 80% at 30% 20%, #ffffff 0%, #eaf6f8 55%, #d9f0f2 100%); border:1px solid #d8ecef;
     }
 
-    .theme-gt section h2::after{
-      background: linear-gradient(90deg, var(--gt-purple-700), var(--gt-accent));
-    }
-    .theme-gt #reviews h2::after{
-      background: linear-gradient(90deg, var(--gt-purple-600), var(--gt-purple-800));
-    }
-    .theme-gt #blog h2::after{
-      background: linear-gradient(90deg, var(--gt-purple-600), var(--gt-accent));
-    }
+    /* Bölüm başlık çizgisi */
+    section h2::after{ background:linear-gradient(90deg, var(--brand), var(--brand2)); }
 
-    .theme-gt .footer-new{
-      background: linear-gradient(180deg, var(--gt-purple-700), var(--gt-purple-900));
-      color:#e9e3ff;
+    /* Footer */
+    footer.footer-new{
+      background:linear-gradient(135deg, var(--footer-start), var(--footer-end));
+      color:#eaffff;
     }
-    .theme-gt .footer-links a{ color:#e9e3ff }
-    .theme-gt .footer-links a:hover{ color:#fff; text-decoration: underline }
-    .theme-gt .footer-bottom{
-      background: linear-gradient(90deg, var(--gt-purple-900), var(--gt-purple-700));
-      color:#d7d1ff;
-    }
+    .footer-links a, .footer-contact a{ color:#eaffff }
+    .footer-bottom{ background:rgba(0,0,0,.18) }
   </style>
-
 </body>
 </html>
