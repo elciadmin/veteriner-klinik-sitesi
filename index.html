@@ -114,7 +114,7 @@
   </style>
 </head>
 
-<body class="theme-elciRoyal dark-ui" data-page="home">
+<body class="theme-gt dark-ui" data-page="home">
   <!-- ===== SABİT HEADER ===== -->
   <header role="banner">
     <div class="header-top">
@@ -680,55 +680,132 @@
     });
   </script>
 
-  <!-- Tema renk geçiş hotfix’i -->
-  <style id="hotfix-elciRoyal">
-    .theme-elciRoyal{
-      --purple-700:#5b2bbd;
-      --blue-600:#10b3d1;
+  <!-- === GT Mor Tema (Guiding Tech esintisi) === -->
+  <style id="theme-gt">
+    /* Palet */
+    .theme-gt{
+      --gt-purple-900:#28135a;
+      --gt-purple-800:#3a1f78;
+      --gt-purple-700:#4e28a8;
+      --gt-purple-600:#6a0ea1;
+      --gt-purple-500:#7b3fe4;
 
-      --brand: var(--purple-700);
-      --brand2: var(--blue-600);
-      --accent: var(--blue-600);
-      --ink:#0f1b22; --muted:#5e6c74; --line:#e6edf0;
+      --gt-accent:#9ad1ff;
+      --gt-ink:#0f1220;
+      --gt-ink-soft:#dbe3ff;
+      --gt-line:#e8eaf5;
 
-      --footer-start: var(--blue-600);
-      --footer-end:   var(--purple-700);
+      --brand: var(--gt-purple-700);
+      --brand2: var(--gt-purple-500);
+      --accent: var(--gt-accent);
+      --ink: var(--gt-ink);
+      --muted:#5e6c74;
+      --line: var(--gt-line);
+      --footer-start: var(--gt-purple-600);
+      --footer-end: var(--gt-purple-800);
     }
-    .theme-elciRoyal .header-top{
-      background:linear-gradient(90deg, var(--purple-700) 0%, var(--blue-600) 100%);
+
+    .theme-gt .header-top{
+      background: linear-gradient(90deg, var(--gt-purple-900), var(--gt-purple-700));
       color:#fff;
     }
-    .theme-elciRoyal .header-main{
-      background:linear-gradient(
-        90deg,
-        color-mix(in srgb, var(--purple-700), #000 8%) 0%,
-        color-mix(in srgb, var(--blue-600), #000 6%) 100%
-      );
-      color:#fff;
-    }
-    .theme-elciRoyal nav a{ color:#eaf6f8; }
-    .theme-elciRoyal nav a:hover, .theme-elciRoyal nav a:focus{ color:#fff; }
-    .theme-elciRoyal nav a.active{ color:#c0f3ff; }
-    .theme-elciRoyal nav a::after{ background:#c0f3ff; }
 
-    .theme-elciRoyal .hero{
+    .theme-gt .header-main{
+      background: linear-gradient(90deg, color-mix(in srgb, var(--gt-purple-800), #000 6%) 0%, var(--gt-purple-600) 100%);
+      color:#fff;
+      box-shadow: 0 6px 22px rgba(25, 10, 60, .22);
+    }
+    .theme-gt nav a{ color: #e9e3ff }
+    .theme-gt nav a:hover,
+    .theme-gt nav a:focus{ color:#fff }
+    .theme-gt nav a::after{
+      content:""; display:block; height:2px; margin-top:6px;
+      background: currentColor; transform: scaleX(0); transform-origin:left; transition: .2s;
+    }
+    .theme-gt nav a:hover::after{ transform: scaleX(1) }
+    .theme-gt nav a.active{ color:#fff }
+    .theme-gt nav a.active::after{ transform: scaleX(1) }
+
+    .theme-gt .hero{
       background:
-        radial-gradient(1400px 700px at 85% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
-        linear-gradient(120deg, var(--purple-700) 0%, var(--blue-600) 100%);
+        radial-gradient(1200px 520px at 85% -120px, rgba(255,255,255,.12) 0%, rgba(255,255,255,0) 60%),
+        linear-gradient(115deg, var(--gt-purple-800) 0%, var(--gt-purple-600) 100%);
       color:#fff;
     }
-    .theme-elciRoyal .hero h1{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.22); }
-    .theme-elciRoyal .hero-sub{ color:#e8fbff; opacity:.98; }
-    .theme-elciRoyal .hero-divider{ background:linear-gradient(90deg, var(--purple-700), var(--blue-600)); }
-    .theme-elciRoyal .hero .quick-links .q{ background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.22); color:#fff; }
-    .theme-elciRoyal .hero .quick-links .q:hover{ background:rgba(255,255,255,.14); transform:translateY(-3px); }
-    .theme-elciRoyal .hero .quick-links .icon svg{ color:#fff; }
+    .theme-gt .hero h1{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.22) }
+    .theme-gt .hero-sub{ color:#f0eaff; opacity:.95 }
+    .theme-gt .hero-divider{
+      height:3px; width:72px; margin:14px auto 6px;
+      background:linear-gradient(90deg, #fff, var(--gt-accent));
+      border-radius:999px;
+    }
+    .theme-gt .hero .btn.primary{
+      background:#fff; color:var(--gt-purple-700); border:0;
+      box-shadow: 0 6px 18px rgba(255,255,255,.18), 0 8px 28px rgba(20,0,60,.22);
+    }
+    .theme-gt .hero .btn.ghost{
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.28);
+      color:#fff;
+    }
+    .theme-gt .hero .quick-links .q{
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.20);
+      color:#fff;
+    }
+    .theme-gt .hero .quick-links .q:hover{ transform: translateY(-3px); background: rgba(255,255,255,.14) }
+    .theme-gt .hero .quick-links .icon svg{ color:#fff }
+
+    .theme-gt .s-card{
+      border:1px solid var(--line);
+      box-shadow: 0 6px 18px rgba(23, 8, 60, .06);
+      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    }
+    .theme-gt .s-card:hover{
+      transform: translateY(-6px);
+      border-color: color-mix(in srgb, var(--gt-purple-600) 22%, var(--line));
+      box-shadow: 0 12px 34px rgba(23, 8, 60, .16);
+    }
+    .theme-gt .s-icon{
+      background: radial-gradient(80% 80% at 30% 20%, #ffffff 0%, #efe9ff 55%, #e2d6ff 100%);
+      border:1px solid #e3dbff;
+    }
+    .theme-gt .s-icon svg{ color: var(--gt-purple-700) }
+    .theme-gt .s-link{ color: var(--gt-purple-600) }
+    .theme-gt .s-link:hover{ color: var(--gt-purple-700) }
+
+    .theme-gt .scroll-btn{
+      background:#fff; border-color: var(--line);
+      box-shadow: 0 6px 18px rgba(23,8,60,.08);
+    }
+    .theme-gt .scroll-btn:hover{
+      box-shadow: 0 10px 26px rgba(23,8,60,.14);
+    }
+    .theme-gt .services-track::-webkit-scrollbar-thumb{
+      background: color-mix(in srgb, var(--gt-purple-700) 28%, #b7b0ff);
+    }
+
+    .theme-gt section h2::after{
+      background: linear-gradient(90deg, var(--gt-purple-700), var(--gt-accent));
+    }
+    .theme-gt #reviews h2::after{
+      background: linear-gradient(90deg, var(--gt-purple-600), var(--gt-purple-800));
+    }
+    .theme-gt #blog h2::after{
+      background: linear-gradient(90deg, var(--gt-purple-600), var(--gt-accent));
+    }
+
+    .theme-gt .footer-new{
+      background: linear-gradient(180deg, var(--gt-purple-700), var(--gt-purple-900));
+      color:#e9e3ff;
+    }
+    .theme-gt .footer-links a{ color:#e9e3ff }
+    .theme-gt .footer-links a:hover{ color:#fff; text-decoration: underline }
+    .theme-gt .footer-bottom{
+      background: linear-gradient(90deg, var(--gt-purple-900), var(--gt-purple-700));
+      color:#d7d1ff;
+    }
   </style>
 
-  <noscript>
-    <div style="background:#ffe7e7;color:#900;padding:12px;text-align:center">
-      Tam deneyim için JavaScript’i etkinleştirin. Statik içerik yine de görüntülenir.
-    </div>
-  </noscript>
 </body>
 </html>
