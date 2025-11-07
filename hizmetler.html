@@ -7,85 +7,68 @@
   <meta name="description" content="Acil & yoğun bakım, muayene & koruyucu hekimlik, iç hastalıkları, cerrahi, ağız ve diş sağlığı, görüntüleme & laboratuvar, kardiyoloji, doğum & jinekoloji, fizik tedavi, konaklama. Standartize ve kanıta dayalı protokoller."/>
   <link rel="canonical" href="https://elciveteriner.com/hizmetler.html"/>
 
-  <!-- Mevcut CSS’lerin -->
+  <!-- SADECE BU İKİ CSS (Senin mevcut düzenin) -->
   <link rel="stylesheet" href="/assets/css/styles.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <!-- === TEMA OVERRIDE (Index paletiyle aynı) === -->
+  <!-- SAYFAYA ÖZEL, İZOLE STİLLER (svc3-) -->
   <style>
     :root{
-      /* Index’teki ana palet */
-      --primary-color:#6a0ea1;   /* mor */
-      --secondary-color:#10b3d1; /* turkuaz */
-      --accent-color:#f39c12;
-      --light-color:#f8f9fa;
-      --dark-color:#343a40;
-      --white:#ffffff;
-      --gray:#6c757d;
-
-      /* Bu sayfanın kullandığı token’lara eşleme */
-      --brand: var(--primary-color);             /* başlıklar, ana vurgu */
-      --brand2: #540b83;                         /* morun daha koyusu */
-      --accent: var(--secondary-color);          /* ikincil vurgu/turkuaz */
-      --bg: var(--light-color);                  /* açık arka plan */
-      --ink: #1f1b24;                            /* koyu metin */
-      --muted: var(--gray);                      /* ikincil metin */
-    }
-  </style>
-
-  <!-- === SAYFAYA ÖZEL, İZOLE STİLLER (svc3-) === -->
-  <style>
-    :root{
-      --svc3-brand: var(--brand);
-      --svc3-brand2: var(--brand2);
-      --svc3-ink: var(--ink);
-      --svc3-accent: var(--accent);
-      --svc3-bg: var(--bg);
-      --svc3-muted: var(--muted);
+      --svc3-brand: var(--brand, #0c4e54);
+      --svc3-brand2: var(--brand2, #0f5960);
+      --svc3-ink: var(--ink, #112);
+      --svc3-accent: var(--accent, #10b3d1);
+      --svc3-bg: var(--bg, #f5fbfc);
+      --svc3-muted: var(--muted, #6b7a7c);
       --svc3-r: 18px;
       --svc3-shadow: 0 8px 28px rgba(0,0,0,.08);
     }
 
     /* HERO */
-    .svc3-hero{
-      background:linear-gradient(180deg,#f5effa 0%,transparent 60%); /* morimsi yumuşak degrade */
-      padding:34px 0 14px
-    }
+    .svc3-hero{background:linear-gradient(180deg,#eaf6f9 0%,transparent 60%);padding:34px 0 14px}
     .svc3-hero h1{margin:6px 0 4px;font-size:clamp(24px,3.2vw,36px);color:var(--svc3-brand)}
-    .svc3-hero .svc3-sub{max-width:900px;margin:8px auto 0;color:#3c2e48}
-    .svc3-divider{width:140px;height:3px;margin:10px auto 0;border-radius:999px;
-      background:linear-gradient(90deg,transparent,var(--svc3-accent),transparent)}
+    .svc3-hero .svc3-sub{max-width:900px;margin:8px auto 0;color:#24454a}
+    .svc3-divider{width:140px;height:3px;margin:10px auto 0;border-radius:999px;background:linear-gradient(90deg,transparent,var(--svc3-accent),transparent)}
 
-    /* ANA YERLEŞİM */
+    /* ANA YERLEŞİM: solda ikon şerit, sağda kartlar */
     .svc3-layout{display:grid;grid-template-columns:100px 1fr;gap:22px;margin-top:14px}
     @media (max-width: 980px){ .svc3-layout{grid-template-columns:1fr} }
 
     /* Sol ikon şerit */
     .svc3-rail{
-      position:sticky;top:92px;align-self:start;border:1px solid #efe6f7;background:#fff;border-radius:16px;padding:10px;
+      position:sticky;top:92px;align-self:start;border:1px solid #e3f0f3;background:#fff;border-radius:16px;padding:10px;
       display:flex;flex-direction:column;gap:8px
     }
     .svc3-rail a{
-      display:grid;place-items:center;width:56px;height:56px;margin:0 auto;border-radius:14px;
-      border:1px solid #eadcf6;background:#fff;color:var(--svc3-brand2);
-      text-decoration:none;transition:transform .15s, box-shadow .2s, background .2s, color .2s, border-color .2s;outline:0
+      display:grid;place-items:center;width:56px;height:56px;margin:0 auto;border-radius:14px;border:1px solid #dcedf1;
+      background:#fff;color:var(--svc3-brand2);text-decoration:none;transition:transform .15s, box-shadow .2s, background .2s, color .2s, border-color .2s;outline:0
     }
     .svc3-rail a:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(0,0,0,.08)}
-    .svc3-rail a:focus-visible{outline:3px solid rgba(106,14,161,.25);outline-offset:2px}
+    .svc3-rail a:focus-visible{outline:3px solid rgba(16,179,209,.35);outline-offset:2px}
     .svc3-rail svg{width:24px;height:24px}
-    .svc3-rail .is-active{
-      background:#f3eafe;border-color:#e2d0fb;
-      color:var(--svc3-accent)
+    .svc3-rail .is-active{background:#eefbff;border-color:#cfeff6;color:var(--svc3-accent)}
+
+    /* Sol ikon şerit — İKON GÖRÜNÜRLÜK DÜZELTMESİ */
+    .svc3-rail a svg{color:currentColor;display:block}
+    .svc3-rail a svg, .svc3-rail a svg *{
+      fill:none !important;                 /* dolgu kapalı */
+      stroke:currentColor !important;        /* çizgi rengi daima currentColor */
+      stroke-width:1.8;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+      vector-effect:non-scaling-stroke;      /* ölçeklenirken incelmeyi engeller */
     }
+    .svc3-rail a:hover{color:inherit}        /* hover’da rengi sabit tut */
+    .svc3-rail a:hover svg{opacity:1;filter:none} /* olası global efektleri iptal et */
 
     /* Filtre çipleri */
     .svc3-filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:6px 0 16px}
     .svc3-chip{
-      appearance:none;border:1px solid #eadcf6;background:#fff;border-radius:999px;padding:8px 14px;cursor:pointer;
+      appearance:none;border:1px solid #d8eef2;background:#fff;border-radius:999px;padding:8px 14px;cursor:pointer;
       font-size:14px;transition:background .15s, border-color .15s, transform .15s, box-shadow .2s
     }
-    .svc3-chip[aria-pressed="true"]{background:#f1fbff;border-color:var(--svc3-accent)}
-    .svc3-chip:hover{background:#faf5ff;transform:translateY(-1px)}
+    .svc3-chip[aria-pressed="true"]{background:#f0fbfe;border-color:var(--svc3-accent)}
+    .svc3-chip:hover{background:#f7fdff;transform:translateY(-1px)}
     .svc3-chip:focus-visible{outline:3px solid rgba(16,179,209,.35);outline-offset:2px}
 
     /* Kart ızgarası */
@@ -93,99 +76,87 @@
     @media (max-width: 980px){ .svc3-grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
     @media (max-width: 640px){ .svc3-grid{grid-template-columns:1fr} }
 
-    /* Kart */
+    /* Büyük kart — profesyonel hover */
     .svc3-card{
-      background:#fff;border:1px solid rgba(106,14,161,.12);border-radius:var(--svc3-r);padding:18px;min-height:200px;
+      background:#fff;border:1px solid rgba(16,179,209,.16);border-radius:var(--svc3-r);padding:18px;min-height:200px;
       display:flex;gap:16px;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,border-color .35s,background .35s, filter .35s;
       box-shadow:0 6px 20px rgba(0,0,0,.05); position:relative; overflow:hidden;
     }
     .svc3-card::after{
       content:""; position:absolute; inset:-1px; border-radius:inherit;
-      background:linear-gradient(120deg, rgba(16,179,209,.18), transparent 55%); /* turkuaz parlama */
-      opacity:0; transition:opacity .4s ease; pointer-events:none;
+      background:linear-gradient(120deg, rgba(16,179,209,.18), transparent 55%);
+      opacity:0; transition:opacity .4s ease;
+      pointer-events:none;
     }
     .svc3-card:hover{
       transform:translateY(-6px) scale(1.015);
       box-shadow:0 18px 48px rgba(0,0,0,.14);
-      background:#fdfbff;border-color:rgba(106,14,161,.35); filter:saturate(1.04);
+      background:#fbfeff;border-color:rgba(16,179,209,.38); filter:saturate(1.05);
     }
     .svc3-card:hover::after{ opacity:.9 }
 
-    .svc3-ico{
-      flex:0 0 56px;height:56px;display:grid;place-items:center;color:var(--svc3-accent);
-      background:#efe9fb;border-radius:14px;transition:transform .35s
-    }
+    .svc3-ico{flex:0 0 56px;height:56px;display:grid;place-items:center;color:var(--svc3-accent);background:#eefbff;border-radius:14px;transition:transform .35s}
     .svc3-ico svg{width:28px;height:28px;transition:transform .35s}
     .svc3-card:hover .svc3-ico{ transform:translateY(-2px) }
     .svc3-card:hover .svc3-ico svg{ transform:scale(1.18) rotate(-3deg) }
 
     .svc3-card h3{margin:0 0 6px;font-size:20px;transition:color .35s}
-    .svc3-card:hover h3{ color:var(--svc3-brand) }
+    .svc3-card:hover h3{ color:var(--svc3-accent) }
 
-    .svc3-card p{margin:0 0 12px;color:#2b2330;line-height:1.6}
-    .svc3-tag{
-      font-size:12px;background:#f4f7ff;border:1px solid #e4ecff;color:#223a66;border-radius:999px;padding:4px 8px
-    }
+    .svc3-card p{margin:0 0 12px;color:#2b3a3c;line-height:1.6}
+    .svc3-tag{font-size:12px;background:#eef8fa;border:1px solid #d8eef2;color:#13606a;border-radius:999px;padding:4px 8px}
     .svc3-cta{display:flex;gap:10px;flex-wrap:wrap}
-    .svc3-btn{
-      display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;border:1px solid #e6d8f6;background:#fff;color:#23192b;
-      text-decoration:none;transition:transform .2s, box-shadow .2s, background .2s
-    }
+    .svc3-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;border:1px solid #d7eaee;background:#fff;color:#123;text-decoration:none;transition:transform .2s, box-shadow .2s, background .2s}
     .svc3-btn:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(0,0,0,.08)}
-    .svc3-btn.primary{
-      border-color:transparent;
-      background:linear-gradient(90deg,var(--svc3-brand),var(--svc3-accent)); /* mor→turkuaz (index tarzı) */
-      color:#fff
-    }
+    .svc3-btn.primary{border-color:transparent;background:linear-gradient(180deg,#10b3d1,#0ea2bd);color:#fff}
     .svc3-btn:focus-visible{outline:3px solid rgba(16,179,209,.35);outline-offset:2px}
 
-    /* Modal/Diyalog */
+    /* SAYFA İÇİ PENCERE (Modal/Diyalog) */
     .svc3-dialog-backdrop{
-      position:fixed;inset:0;background:rgba(36,14,54,.28);
+      position:fixed;inset:0;background:rgba(15,40,46,.28);
       display:none;align-items:center;justify-content:center;padding:16px;z-index:1200
     }
     .svc3-dialog-backdrop[aria-hidden="false"]{display:flex;animation:svc3-fade .22s ease}
     @keyframes svc3-fade{from{opacity:0}to{opacity:1}}
     .svc3-dialog{
-      width:min(920px, 96vw);max-height:86vh;overflow:auto;background:#fff;border-radius:20px;border:1px solid #e9dbf7;
+      width:min(920px, 96vw);max-height:86vh;overflow:auto;background:#fff;border-radius:20px;border:1px solid #dceff3;
       box-shadow:var(--svc3-shadow);padding:18px 18px 16px; transform:translateY(10px) scale(.98); animation:svc3-pop .26s ease forwards;
     }
     @keyframes svc3-pop{to{transform:translateY(0) scale(1)}}
     .svc3-dialog header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:2px 0 10px}
     .svc3-dialog h3{margin:0;font-size:22px;color:var(--svc3-brand)}
-    .svc3-close{border:1px solid #eadcf6;background:#fff;border-radius:12px;width:38px;height:38px;display:grid;place-items:center;cursor:pointer;transition:background .2s, transform .2s}
-    .svc3-close:hover{background:#faf5ff; transform:rotate(-7deg)}
-    .svc3-dialog .svc3-body{color:#2b2330;line-height:1.65}
+    .svc3-close{border:1px solid #d9e8ec;background:#fff;border-radius:12px;width:38px;height:38px;display:grid;place-items:center;cursor:pointer;transition:background .2s, transform .2s}
+    .svc3-close:hover{background:#f6fdff; transform:rotate(-7deg)}
+    .svc3-dialog .svc3-body{color:#2b3a3c;line-height:1.65}
     .svc3-dialog .svc3-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
     @media (max-width:760px){.svc3-dialog .svc3-cols{grid-template-columns:1fr}}
-    .svc3-dialog .svc3-box{border:1px solid #efe3fb;background:#fdfbff;border-radius:16px;padding:12px}
+    .svc3-dialog .svc3-box{border:1px solid #e8f4f7;background:#fcfeff;border-radius:16px;padding:12px}
 
     /* Muayene süreci diyagramı */
     .svc3-flow{margin-top:26px}
-    .svc3-flow h2{margin:8px 0 12px;color:var(--svc3-brand)}
+    .svc3-flow h2{margin:8px 0 12px}
     .svc3-steps{display:grid;grid-template-columns:repeat(5, minmax(0,1fr));gap:12px}
     @media (max-width:960px){.svc3-steps{grid-template-columns:repeat(3,1fr)}}
     @media (max-width:580px){.svc3-steps{grid-template-columns:1fr 1fr}}
     .svc3-step{
-      background:#fff;border:1px solid #eadcf6;border-radius:16px;padding:14px;position:relative;transition:transform .25s, box-shadow .25s, border-color .25s
+      background:#fff;border:1px solid #e4f1f4;border-radius:16px;padding:14px;position:relative;transition:transform .25s, box-shadow .25s, border-color .25s
     }
-    .svc3-step .ico{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:#efe9fb;color:var(--svc3-accent);margin-bottom:8px;transition:transform .25s}
+    .svc3-step .ico{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:#eefbff;color:var(--svc3-accent);margin-bottom:8px;transition:transform .25s}
     .svc3-step h4{margin:4px 0 4px;font-size:16px}
-    .svc3-step p{margin:0;color:#4a4252}
-    .svc3-step small{color:#7a7085}
-    .svc3-step:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.08);border-color:rgba(106,14,161,.35)}
+    .svc3-step p{margin:0;color:#46565b}
+    .svc3-step small{color:#6f8085}
+    .svc3-step:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.08);border-color:rgba(16,179,209,.35)}
     .svc3-step:hover .ico{transform:translateY(-2px)}
 
     /* CTA bar */
     .svc3-cta-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px}
-    .svc3-cta-bar strong{color:var(--svc3-brand)}
     @media (max-width:700px){ .svc3-cta-bar{flex-direction:column;align-items:flex-start} }
 
-    /* Reveal */
+    /* Reveal (scroll ile görünme) */
     .svc3-reveal{opacity:0; transform:translateY(20px); transition:opacity .6s ease, transform .6s ease}
     .svc3-reveal.is-in{opacity:1; transform:none}
 
-    /* Reduced motion */
+    /* Reduced motion desteği */
     @media (prefers-reduced-motion: reduce){
       .svc3-card, .svc3-step, .svc3-btn, .svc3-rail a{transition:none}
       .svc3-reveal{opacity:1; transform:none}
@@ -193,10 +164,138 @@
       .svc3-dialog{animation:none; transform:none}
     }
   </style>
+
+  <!-- === THEME OVERRIDE — İlk sayfadaki görünümle birebir === -->
+  <style id="theme-elciKonya-override">
+    /* Tema değişkenleri */
+    :root{
+      --brand:#5a1fa8;      /* derin ametist */
+      --brand2:#36106b;     /* sıcak noir moru */
+      --accent:#27d4e8;     /* canlı teal */
+      --ink:#0f1b22;
+      --muted:#5f6b74;
+      --line:#e7edf1;
+      --bg:#f7fbfc;
+      --paper:#fff;
+
+      --footer-start:#241043;
+      --footer-end:#5a1fa8;
+
+      --hero-start:#30105f;
+      --hero-end:#27d4e8;
+
+      /* ikon kontrast */
+      --icon-ink: #0a4f60;      /* kart ikonları */
+      --icon-ink-hero: #e5fbff; /* hero hızlı link ikonları */
+    }
+
+    /* Üst şerit */
+    .header-top{
+      background:linear-gradient(90deg, var(--brand) 0%, var(--brand2) 100%);
+      color:#fff;
+    }
+
+    /* Menü şeridi */
+    .header-main{
+      background:linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--brand), #000 8%) 0%,
+        color-mix(in srgb, var(--brand2), #000 6%) 100%
+      );
+      color:#fff;
+    }
+    nav a{ color:#eaf6f8 }
+    nav a:hover, nav a:focus{ color:#fff }
+    nav a.active{ color:#c0f3ff }
+    nav a::after{ background:#c0f3ff }
+
+    /* HEADER METNİ OKUNAKLILIK */
+    .header-main .logo-text{
+      display:flex; flex-direction:column; gap:2px;
+      padding:8px 12px; border-radius:14px;
+      background:linear-gradient(90deg, rgba(0,0,0,.24), rgba(0,0,0,.10));
+      box-shadow:0 6px 18px rgba(0,0,0,.18);
+      -webkit-backdrop-filter:saturate(120%) blur(1px);
+      backdrop-filter:saturate(120%) blur(1px);
+    }
+    .header-main .logo-text h1{
+      color:#fff; margin:0;
+      text-shadow:0 2px 10px rgba(0,0,0,.35);
+      letter-spacing:.2px;
+    }
+    .header-main .logo-text span{
+      color:#e8fbff; opacity:.96;
+      text-shadow:0 1px 8px rgba(0,0,0,.3);
+    }
+
+    /* HERO — ilk sayfadaki gradyan ve metin renkleri */
+    .hero{
+      background:
+        radial-gradient(1400px 700px at 85% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
+        linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%);
+      color:#fff;
+    }
+    .hero h1{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.22); }
+    .hero .hero-sub{ color:#e8fbff; opacity:.98; }
+
+    /* Bu sayfanın hero'sunu da aynı görünüme taşı */
+    .svc3-hero{
+      background:
+        radial-gradient(1400px 700px at 85% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
+        linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%) !important;
+      color:#fff;
+      padding:34px 0 14px;
+    }
+    .svc3-hero h1{ color:#fff !important; text-shadow:0 2px 18px rgba(0,0,0,.22); }
+    .svc3-hero .svc3-sub{ color:#e8fbff !important; }
+    .svc3-divider{ background:linear-gradient(90deg, var(--brand), var(--accent)) !important; }
+
+    /* Hızlı link ikonları (genel tanım; bu sayfada yoksa etkisiz) */
+    .hero .quick-links .q{
+      background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.22); color:#fff;
+    }
+    .hero .quick-links .q:hover{ background:rgba(255,255,255,.14); transform:translateY(-3px); }
+    .hero .quick-links .icon svg{ color: var(--icon-ink-hero); }
+
+    /* Butonlar (ilk sayfadaki gibi) */
+    .btn{ color:var(--brand); border:1px solid var(--line); background:#fff; transition:.18s ease; }
+    .btn:active{ transform:translateY(1px) }
+
+    .btn.primary,
+    .hero .btn.ghost{
+      background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
+      color:#fff !important; border:0;
+      box-shadow:0 8px 22px rgba(16,179,209,.22);
+    }
+    .btn.primary:hover,
+    .hero .btn.ghost:hover{
+      transform:translateY(-2px);
+      box-shadow:0 12px 28px rgba(16,179,209,.28);
+    }
+
+    /* (İlk sayfadaki) Randevu Al akış animasyonu — bu sayfada hero’da buton yoksa etkisiz kalır */
+    .hero .btn.ghost{
+      background-size:200% 100%;
+      background-position:0% 0%;
+      transition:
+        background-position .35s ease,
+        box-shadow .2s ease,
+        transform .2s ease;
+    }
+    .hero .btn.ghost:hover{ background-position:100% 0%; }
+
+    /* Footer */
+    footer.footer-new{
+      background:linear-gradient(135deg, var(--footer-start), var(--footer-end));
+      color:#eaffff;
+    }
+    .footer-links a, .footer-contact a{ color:#eaffff }
+    .footer-bottom{ background:rgba(0,0,0,.18) }
+  </style>
 </head>
 <body>
 
-  <!-- ===== HEADER (global stilin) ===== -->
+  <!-- ===== HEADER (mevcut şablonunla bire bir aynı) ===== -->
   <header>
     <div class="header-top">
       <div class="container">
@@ -292,7 +391,7 @@
     </div>
   </section>
 
-  <!-- ===== ANA İÇERİK ===== -->
+  <!-- ===== ANA İÇERİK: Sol sembol şeridi + sağ büyük kartlar ===== -->
   <section class="section">
     <div class="container svc3-layout">
       <!-- Sol ikon şerit -->
@@ -542,7 +641,7 @@
     </div>
   </section>
 
-  <!-- ===== MUAYENE SÜRECİ ===== -->
+  <!-- ===== MUAYENE SÜRECİ DİYAGRAMI ===== -->
   <section class="section svc3-flow" aria-labelledby="muayene-sureci">
     <div class="container">
       <h2 id="muayene-sureci">Muayene Süreci — Adım Adım</h2>
@@ -576,7 +675,7 @@
     </div>
   </section>
 
-  <!-- ===== FOOTER ===== -->
+  <!-- ===== FOOTER (senin düzenin) ===== -->
   <footer class="footer-new">
     <div class="container footer-container">
       <div class="footer-col">
@@ -666,13 +765,13 @@
   }
   </script>
 
-  <!-- Global JS’in -->
+  <!-- SADECE SENİN TEK JS’İN: main.js (dokunmuyoruz) -->
   <script defer src="/assets/js/main.js?v=18"></script>
 
-  <!-- Sayfa içi mini JS -->
+  <!-- Bu sayfaya özel MİNİ JS (svc3- ile izole) -->
   <script>
     (function(){
-      /* --- Filtreler --- */
+      // --- Filtreler ---
       const chips = document.querySelectorAll('.svc3-chip');
       const cards = document.querySelectorAll('.svc3-card');
       function apply(filter){
@@ -689,7 +788,7 @@
         });
       });
 
-      /* --- Scroll-spy --- */
+      // --- Sol ikon şerit aktif vurgusu (scroll-spy) ---
       const railLinks = document.querySelectorAll('[data-rail]');
       const targets = Array.from(railLinks).map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
       function onScroll(){
@@ -701,7 +800,7 @@
       document.addEventListener('scroll', onScroll, {passive:true});
       onScroll();
 
-      /* --- Modal --- */
+      // --- Modal/diyalog ---
       const openBtns = document.querySelectorAll('[data-open]');
       const backdrop = document.createElement('div');
       backdrop.className = 'svc3-dialog-backdrop';
@@ -741,7 +840,7 @@
       backdrop.addEventListener('click', (e)=>{ if(e.target === backdrop) closeDialog(); });
       document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDialog(); });
 
-      /* --- Scroll reveal --- */
+      // --- Scroll reveal (IntersectionObserver) ---
       const reveals = document.querySelectorAll('.svc3-reveal');
       const io = new IntersectionObserver((entries)=>{
         entries.forEach(entry=>{
@@ -755,7 +854,7 @@
     })();
   </script>
 
-  <!-- Minimal ikonlar -->
+  <!-- Minimal ikonlar (sayfaya gömülü) -->
   <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute; width:0; height:0; overflow:hidden">
     <defs><style>.i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}</style></defs>
     <symbol id="i-shield-cross" viewBox="0 0 24 24"><path class="i" d="M12 3l7 3v5c0 5.2-3.6 8.7-7 10-3.4-1.3-7-4.8-7-10V6l7-3z"/><path class="i" d="M9 11h6M12 8v6"/></symbol>
@@ -769,15 +868,5 @@
     <symbol id="i-pt" viewBox="0 0 24 24"><path class="i" d="M12 6a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5z"/><path class="i" d="M5 21l3-6 3-1 2 2 3 0 3 5M8 13l-3-1"/></symbol>
     <symbol id="i-boarding" viewBox="0 0 24 24"><path class="i" d="M4 20V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12"/><path class="i" d="M8 20v-6a4 4 0 0 1 8 0v6M3 20h18"/></symbol>
   </svg>
-
-  <!-- Hover'da ikon kaybolmasını önleyen mini yama (rail) -->
-  <style id="svc3-rail-hover-fix">
-    .svc3-rail a,
-    .svc3-rail a:hover,
-    .svc3-rail a:focus,
-    .svc3-rail a:active { color: var(--svc3-brand2) !important; }
-    .svc3-rail a.is-active { color: var(--svc3-accent) !important; }
-    .svc3-rail svg, .svc3-rail use { color: currentColor !important; }
-  </style>
 </body>
 </html>
