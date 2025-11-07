@@ -11,30 +11,49 @@
   <link rel="stylesheet" href="/assets/css/styles.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <!-- Sayfaya özgü stiller -->
+  <!-- Marka paleti (index ile tutarlı) -->
   <style>
-    /* HERO görünürlük ve düzen */
-    .hero.blog-hero{
-      padding-top:clamp(72px,10vw,120px); /* sabit header çakışmasın */
-      padding-bottom:24px;
-      background:linear-gradient(180deg,#eaf6f9 0%,transparent 70%);
-      text-align:center;
-    }
-    .hero.blog-hero h1{
-      display:block!important;
-      margin:6px 0 4px;
-      font-weight:800;
-      letter-spacing:.2px;
-    }
-    .hero-divider{
-      width:160px;height:3px;
-      background:linear-gradient(90deg,transparent,var(--accent,#10b3d1),transparent);
-      border-radius:999px;margin:10px auto;
+    :root{
+      --brand:#0c4e54;         /* koyu teal */
+      --brand2:#0f5960;        /* koyu teal 2 */
+      --accent:#10b3d1;        /* canlı mavi-yeşil */
+      --ink:#112;              /* metin */
+      --muted:#6b7a7c;         /* ikincil metin */
+      --bg:#f5fbfc;            /* açık arka plan */
+      --chip-bg:#f0fbfe;
+      --chip-br: rgba(16,179,209,.25);
+      --card-br:rgba(0,0,0,.06);
+      --ring: 0 0 0 3px rgba(16,179,209,.18);
     }
 
-    /* HERO eylemler + hızlı kutular */
+    /* HERO */
+    .hero.blog-hero{
+      padding-top:clamp(72px,10vw,120px);
+      padding-bottom:24px;
+      text-align:center;
+      background:
+        radial-gradient(900px 380px at 50% -120px, rgba(16,179,209,.20), transparent 60%),
+        linear-gradient(180deg, #eaf6f9 0%, transparent 70%);
+    }
+    .hero.blog-hero h1{
+      display:block!important;margin:6px 0 4px;font-weight:800;letter-spacing:.2px;color:var(--brand);
+      text-shadow:0 1px 0 rgba(255,255,255,.6);
+    }
+    .hero-sub{color:#3a575b}
+    .hero-divider{
+      width:160px;height:3px;border-radius:999px;margin:10px auto;
+      background:linear-gradient(90deg,transparent,var(--accent),transparent);
+    }
+
+    /* CTA butonları (global .btn’lerle uyumlu küçük rötuş) */
     .hero-cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0 6px}
     .hero-cta .btn{min-width:140px}
+    .btn.primary{background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#fff; border:1px solid rgba(12,78,84,.25)}
+    .btn.primary:hover{filter:saturate(110%) brightness(1.02)}
+    .btn.ghost{border:1px solid rgba(12,78,84,.25); color:var(--brand)}
+    .btn:focus{outline:none;box-shadow:var(--ring)}
+
+    /* Hızlı kutular */
     .quick-links{
       display:grid;grid-template-columns:repeat(6, minmax(120px,1fr));
       gap:14px;max-width:980px;margin:14px auto 0
@@ -42,57 +61,77 @@
     @media (max-width:980px){.quick-links{grid-template-columns:repeat(3,1fr)}}
     @media (max-width:560px){.quick-links{grid-template-columns:repeat(2,1fr)}}
     .quick-links .q{
-      background:rgba(255,255,255,.08);
+      background:rgba(255,255,255,.85);
       backdrop-filter:saturate(120%) blur(2px);
-      border:1px solid rgba(0,0,0,.06);
+      border:1px solid var(--card-br);
       border-radius:16px;padding:14px 12px;
       text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:8px;
-      color:inherit;transition:transform .15s ease, box-shadow .2s ease
+      color:var(--brand);transition:transform .15s ease, box-shadow .2s ease, border-color .2s ease;
     }
-    .quick-links .q:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.08)}
-    .quick-links i{font-size:22px;opacity:.9}
+    .quick-links .q i{font-size:22px;opacity:.95;color:var(--brand2)}
+    .quick-links .q:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.08); border-color:rgba(16,179,209,.35)}
 
-    /* SSS yerleşim */
+    /* Sayfa düzeni */
     .faq-layout{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
     @media (max-width: 1024px){.faq-layout{grid-template-columns:1fr}}
 
-    .faq-sidebar{position:sticky;top:88px;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:16px;box-shadow:0 6px 22px rgba(0,0,0,.05);padding:16px;max-height:calc(100vh - 110px);overflow:auto}
-    .faq-sidebar h3{font-size:16px;margin:4px 0 10px}
+    /* Sidebar */
+    .faq-sidebar{
+      position:sticky;top:88px;background:#fff;border:1px solid var(--card-br);border-radius:16px;
+      box-shadow:0 6px 22px rgba(0,0,0,.05);padding:16px;max-height:calc(100vh - 110px);overflow:auto
+    }
+    .faq-sidebar h3{font-size:16px;margin:4px 0 10px;color:var(--brand)}
     .faq-chips{display:flex;flex-wrap:wrap;gap:8px}
-    .faq-chip{appearance:none;border:1px solid rgba(16,179,209,.25);background:#fff;padding:8px 12px;border-radius:999px;font-size:13px;cursor:pointer}
-    .faq-chip[aria-pressed="true"],.faq-chip.active{background:#f0fbfe;border-color:var(--accent,#10b3d1)}
+    .faq-chip{
+      appearance:none;border:1px solid var(--chip-br);background:#fff;padding:8px 12px;border-radius:999px;
+      font-size:13px;cursor:pointer;color:var(--brand);transition:background .2s,border-color .2s,transform .1s
+    }
+    .faq-chip:hover{transform:translateY(-1px);border-color:rgba(16,179,209,.45)}
+    .faq-chip[aria-pressed="true"],.faq-chip.active{background:var(--chip-bg);border-color:var(--accent);color:#0a4348}
 
+    /* Araçlar */
     .faq-tools{display:flex;gap:8px;flex-wrap:wrap}
-    #faqSearch{border:1px solid rgba(16,179,209,.25);border-radius:12px;padding:10px 12px;min-width:240px;flex:1 1 280px}
+    #faqSearch{
+      border:1px solid var(--chip-br);border-radius:12px;padding:10px 12px;min-width:240px;flex:1 1 280px
+    }
+    #faqSearch:focus{outline:none;box-shadow:var(--ring)}
     .faq-utility{display:flex;gap:8px}
     .faq-utility .btn{padding:8px 12px}
 
+    /* Gruplar */
     .faq-group{margin:18px 0}
-    .faq-group h2{margin:18px 0 8px}
+    .faq-group h2{margin:18px 0 8px;color:var(--brand2)}
 
-    details.faq{position:relative}
+    /* Soru öğeleri */
+    details.faq{position:relative;border:1px solid var(--card-br);border-radius:14px;padding:10px 12px;margin:10px 0;background:#fff}
+    details.faq[open]{box-shadow:0 6px 16px rgba(12,78,84,.08)}
     details.faq summary{list-style:none;cursor:pointer}
     details.faq summary::-webkit-details-marker{display:none}
-    details.faq summary .q{display:flex;gap:10px;align-items:center;font-weight:700}
-    details.faq[open] summary .q .dot{background:var(--accent,#10b3d1)}
+    details.faq summary .q{display:flex;gap:10px;align-items:center;font-weight:700;color:#093f45}
     .dot{width:10px;height:10px;border-radius:999px;background:#cfe9ee;flex:0 0 10px}
-    .linkcopy{position:absolute;right:12px;top:12px;border:0;background:transparent;cursor:pointer;color:#6b7a7c}
-    .linkcopy:hover{color:#0f5960}
+    details.faq[open] summary .q .dot{background:var(--accent)}
 
-    .no-results{padding:14px;border:1px dashed #a8cacc;border-radius:12px;background:#f7fcfd}
-    .no-results a{font-weight:700}
-    .faq-footer-note{margin-top:8px;color:#6b7a7c;font-size:13px}
+    .linkcopy{
+      position:absolute;right:12px;top:12px;border:0;background:transparent;cursor:pointer;color:#6b7a7c;
+      transition:color .2s, transform .1s
+    }
+    .linkcopy:hover{color:var(--brand2); transform:scale(1.06)}
+
+    /* Sonuç durumu */
+    .no-results{padding:14px;border:1px dashed #a8cacc;border-radius:12px;background:#f7fcfd;color:#0a4348}
+    .no-results a{font-weight:700;color:var(--brand2)}
+    .faq-footer-note{margin-top:8px;color:var(--muted);font-size:13px}
 
     /* KONUM & ULAŞIM */
     section#location{padding:34px 0;background:#fff}
     .loc-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
     @media(max-width:980px){.loc-grid{grid-template-columns:1fr}}
-    .map-wrap{border:1px solid rgba(0,0,0,.06);border-radius:16px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+    .map-wrap{border:1px solid var(--card-br);border-radius:16px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.06)}
     .map-wrap iframe{width:100%;aspect-ratio:16/10;border:0;display:block}
-    .loc-card{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+    .loc-card{background:#fff;border:1px solid var(--card-br);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.06)}
     .loc-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
     .loc-list li{display:flex;gap:10px;align-items:flex-start;color:#233}
-    .loc-list i{color:#10b3d1;margin-top:3px}
+    .loc-list i{color:var(--accent);margin-top:3px}
     .loc-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
     .loc-badge{padding:6px 10px;border-radius:999px;background:#e9f4f5;border:1px solid #a8cacc;font-weight:700;font-size:12px;color:#0a4348}
   </style>
@@ -128,7 +167,7 @@
     </div>
   </header>
 
-  <!-- ===== HERO (başlık görünür + CTA + hızlı kutular) ===== -->
+  <!-- ===== HERO ===== -->
   <section class="hero blog-hero">
     <div class="container">
       <div class="hero-center">
@@ -156,7 +195,7 @@
     </div>
   </section>
 
-  <!-- ===== LAYOUT (sol filtre / sağ içerik) ===== -->
+  <!-- ===== LAYOUT ===== -->
   <section class="section">
     <div class="container faq-layout">
       <!-- Sidebar -->
@@ -192,6 +231,7 @@
 
       <!-- İçerik -->
       <div id="faqContent" aria-live="polite">
+        <!-- (İÇERİK BLOKLARI SENİN GÖNDERDİĞİN GİBİ AYNEN) -->
         <!-- Fiyat & Ödeme -->
         <div class="faq-group" data-cat="Fiyat & Ödeme">
           <h2>Fiyat & Ödeme</h2>
@@ -338,7 +378,7 @@
     </div>
   </section>
 
-  <!-- ===== KONUM & ULAŞIM (tek Google Maps embed) ===== -->
+  <!-- ===== KONUM & ULAŞIM ===== -->
   <section id="location">
     <div class="container">
       <h2>Konum & Ulaşım</h2>
