@@ -25,6 +25,8 @@
       padding-top: clamp(40px, 8vw, 80px);
       padding-bottom: 24px;
       background: linear-gradient(180deg, #eaf6f9 0%, transparent 70%);
+      color: inherit;
+      text-align: center;
     }
     .hero-divider{ width:160px; height:3px; background:linear-gradient(90deg, transparent, var(--b-accent), transparent); border-radius:999px; margin:10px auto; }
 
@@ -58,15 +60,15 @@
       color:#203038; text-decoration:none; font-size:14px;
       padding:8px 10px; border-radius:10px;
       border:1px solid rgba(0,0,0,.05); background:#fff;
-      transition: background .15s, transform .15s, border-color .15s;
+      transition: background .15s, transform .15s, border-color .15s, color .15s;
     }
-    .sidebar-list a:hover{ background:#f7fdff; transform: translateY(-1px); border-color: rgba(16,179,209,.25); }
+    .sidebar-list a:hover{ background:#f7fdff; transform: translateY(-1px); border-color: rgba(16,179,209,.25); color:#0b3140; }
     .sidebar-pills{ display:flex; flex-wrap:wrap; gap:8px; }
     .sidebar-pill{
       border:1px solid rgba(16,179,209,.25); padding:6px 10px; border-radius:999px; font-size:13px; color:#203038; text-decoration:none; background:#fff;
-      transition: background .15s, border-color .15s;
+      transition: background .15s, border-color .15s, color .15s;
     }
-    .sidebar-pill:hover{ background:#f0fbfe; border-color: var(--b-accent); }
+    .sidebar-pill:hover{ background:#f0fbfe; border-color: var(--b-accent); color:#0b3140; }
 
     /* İçerik alanı */
     .blog-toolbar{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin: 0 0 16px; }
@@ -74,10 +76,10 @@
     .b-chip{
       appearance:none; border:1px solid rgba(16,179,209,.2); background:#fff;
       padding:8px 14px; border-radius:999px; cursor:pointer; font-size:14px;
-      transition: background .15s, border-color .15s, transform .15s;
+      transition: background .15s, border-color .15s, transform .15s, color .15s, box-shadow .15s;
     }
-    .b-chip:hover{ background:#f7fdff; transform: translateY(-1px); }
-    .b-chip-active{ background:#f0fbfe; border-color: var(--b-accent); }
+    .b-chip:hover{ background:#f7fdff; transform: translateY(-1px); border-color: var(--b-accent); }
+    .b-chip-active{ background:#f0fbfe; border-color: var(--b-accent); color:#0b3140; box-shadow:0 2px 10px rgba(16,179,209,.18); }
     #blogSearch{
       border:1px solid rgba(16,179,209,.25); border-radius:12px; padding:10px 12px; min-width:220px; flex:1 1 260px;
     }
@@ -105,7 +107,8 @@
     .b-meta{ color:#43656a; font-size:14px; }
     .b-summary{ color:#2b3a3c; line-height:1.6; }
     .b-actions{ margin-top:6px; display:flex; gap:10px; flex-wrap:wrap; }
-    .btn{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:12px; border:1px solid #d7eaee; background:#fff; color:#123; text-decoration:none; }
+    .btn{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:12px; border:1px solid #d7eaee; background:#fff; color:#123; text-decoration:none; transition:transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease; }
+    .btn:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,.08); }
     .btn.primary{ border-color:transparent; background: linear-gradient(180deg,#10b3d1,#0ea2bd); color:#fff; }
 
     /* YouTube şeridi */
@@ -135,6 +138,112 @@
     .pagination .next[aria-disabled="true"]{
       opacity:.45;pointer-events:none
     }
+  </style>
+
+  <!-- === THEME OVERRIDE — Index ile bire bir görünüm === -->
+  <style id="theme-elciKonya-override">
+    :root{
+      --brand:#5a1fa8;
+      --brand2:#36106b;
+      --accent:#27d4e8;
+      --ink:#0f1b22;
+      --muted:#5f6b74;
+      --line:#e7edf1;
+      --bg:#f7fbfc;
+      --paper:#fff;
+
+      --footer-start:#241043;
+      --footer-end:#5a1fa8;
+
+      --hero-start:#30105f;
+      --hero-end:#27d4e8;
+
+      --icon-ink:#0a4f60;
+    }
+
+    /* Üst şerit */
+    .header-top{
+      background:linear-gradient(90deg, var(--brand) 0%, var(--brand2) 100%);
+      color:#fff;
+    }
+
+    /* Menü şeridi */
+    .header-main{
+      background:linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--brand), #000 8%) 0%,
+        color-mix(in srgb, var(--brand2), #000 6%) 100%
+      );
+      color:#fff;
+    }
+    nav a{ color:#eaf6f8 }
+    nav a:hover, nav a:focus{ color:#fff }
+    nav a.active{ color:#c0f3ff }
+    nav a::after{ background:#c0f3ff }
+
+    /* Logo metin okunaklılığı (index ile uyumlu) */
+    .header-main .logo-text{
+      display:flex; flex-direction:column; gap:2px;
+      padding:8px 12px; border-radius:14px;
+      background:linear-gradient(90deg, rgba(0,0,0,.24), rgba(0,0,0,.10));
+      box-shadow:0 6px 18px rgba(0,0,0,.18);
+      -webkit-backdrop-filter:saturate(120%) blur(1px);
+      backdrop-filter:saturate(120%) blur(1px);
+    }
+    .header-main .logo-text h1{
+      color:#fff; margin:0; text-shadow:0 2px 10px rgba(0,0,0,.35);
+      letter-spacing:.2px;
+    }
+    .header-main .logo-text span{
+      color:#e8fbff; opacity:.96; text-shadow:0 1px 8px rgba(0,0,0,.3);
+    }
+
+    /* Blog hero’yu index hero’suna taşı */
+    .hero.blog-hero{
+      background:
+        radial-gradient(1400px 700px at 85% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
+        linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%) !important;
+      color:#fff;
+    }
+    .hero.blog-hero h1{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.22); }
+    .hero.blog-hero .hero-sub{ color:#e8fbff; opacity:.98; }
+
+    /* Blog: buton & chip’ler palete bağlandı */
+    .btn{
+      color:var(--brand);
+      border:1px solid var(--line);
+      background:#fff;
+      transition:background-position .35s ease, box-shadow .2s ease, transform .2s ease, color .15s ease;
+    }
+    .btn:active{ transform:translateY(1px) }
+    .btn.primary{
+      background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
+      color:#fff !important; border:0;
+      box-shadow:0 8px 22px rgba(16,179,209,.22);
+      background-size:200% 100%;
+      background-position:0% 0%;
+    }
+    .btn.primary:hover{
+      transform:translateY(-2px);
+      box-shadow:0 12px 28px rgba(16,179,209,.28);
+      background-position:100% 0%;
+    }
+
+    .b-chip:hover{ border-color: var(--accent); }
+    .b-chip-active{ background:#eaf8fb; border-color: var(--accent); color:#0b3140; }
+
+    /* Footer (index ile aynı degrade) */
+    footer.footer-new{
+      background:linear-gradient(135deg, var(--footer-start), var(--footer-end));
+      color:#eaffff;
+    }
+    .footer-links a, .footer-contact a{ color:#eaffff }
+    .footer-bottom{ background:rgba(0,0,0,.18) }
+
+    /* SVG sosyal ikonları mevcut rengi miras alsın */
+    .social-links a svg{ width:20px; height:20px; display:block; }
+    .social-links a{ color:#eaffff; opacity:.95; }
+    .social-links a:hover{ opacity:1; }
   </style>
 </head>
 <body>
