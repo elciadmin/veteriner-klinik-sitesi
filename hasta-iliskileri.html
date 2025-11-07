@@ -231,6 +231,25 @@
     .footer-links a, .footer-contact a{ color:#eaffff }
     .footer-bottom{ background:rgba(0,0,0,.18) }
   </style>
+
+  <!-- *** YAMA: Şikayet & Öneri bölümündeki ghost butonlarda hover/focus/visited durumda yazı kontrastını sabitle *** -->
+  <style>
+    #sikayet-oneri .btn.ghost,
+    #sikayet-oneri .btn.ghost:hover,
+    #sikayet-oneri .btn.ghost:focus,
+    #sikayet-oneri .btn.ghost:visited,
+    #sikayet-oneri .btn.ghost:active{
+      color:#fff !important;
+      border:0 !important;
+      background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%) !important;
+      text-shadow:0 1px 6px rgba(0,0,0,.25);
+    }
+    #sikayet-oneri .btn.ghost:focus-visible{
+      outline:2px solid color-mix(in srgb, var(--accent), #000 20%);
+      outline-offset:2px;
+    }
+    #sikayet-oneri .btn.ghost i{ color:currentColor !important; }
+  </style>
 </head>
 <body>
 
