@@ -123,6 +123,114 @@
     /* Submit disabled görünümü */
     button[disabled]{ opacity:.6; cursor:not-allowed; }
   </style>
+
+  <!-- === THEME OVERRIDE — Index ile bire bir görünüm === -->
+  <style id="theme-elciKonya-override">
+    :root{
+      --brand:#5a1fa8;
+      --brand2:#36106b;
+      --accent:#27d4e8;
+      --ink:#0f1b22;
+      --muted:#5f6b74;
+      --line:#e7edf1;
+      --bg:#f7fbfc;
+      --paper:#fff;
+
+      --footer-start:#241043;
+      --footer-end:#5a1fa8;
+
+      --hero-start:#30105f;
+      --hero-end:#27d4e8;
+
+      --icon-ink: #0a4f60;
+    }
+
+    /* Üst şerit */
+    .header-top{
+      background:linear-gradient(90deg, var(--brand) 0%, var(--brand2) 100%);
+      color:#fff;
+    }
+
+    /* Menü şeridi */
+    .header-main{
+      background:linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--brand), #000 8%) 0%,
+        color-mix(in srgb, var(--brand2), #000 6%) 100%
+      );
+      color:#fff;
+    }
+    nav a{ color:#eaf6f8 }
+    nav a:hover, nav a:focus{ color:#fff }
+    nav a.active{ color:#c0f3ff }
+    nav a::after{ background:#c0f3ff }
+
+    /* Logo metin okunaklılığı (index ile uyumlu) */
+    .header-main .logo-text{
+      display:flex; flex-direction:column; gap:2px;
+      padding:8px 12px; border-radius:14px;
+      background:linear-gradient(90deg, rgba(0,0,0,.24), rgba(0,0,0,.10));
+      box-shadow:0 6px 18px rgba(0,0,0,.18);
+      -webkit-backdrop-filter:saturate(120%) blur(1px);
+      backdrop-filter:saturate(120%) blur(1px);
+    }
+    .header-main .logo-text h1{
+      color:#fff; margin:0; text-shadow:0 2px 10px rgba(0,0,0,.35);
+      letter-spacing:.2px;
+    }
+    .header-main .logo-text span{
+      color:#e8fbff; opacity:.96; text-shadow:0 1px 8px rgba(0,0,0,.3);
+    }
+
+    /* Bu sayfanın hero'sunu index hero’suna taşı */
+    .page-hero{
+      background:
+        radial-gradient(1400px 700px at 85% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
+        linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%) !important;
+      color:#fff;
+    }
+    .page-hero h1{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.22); }
+    .page-hero .muted{ color:#e8fbff !important; opacity:.98; }
+
+    /* Chip’ler hero içinde cam/ışık efekti */
+    .page-hero .chip{
+      color:#fff; border-color:rgba(255,255,255,.22);
+      background:rgba(255,255,255,.08);
+      box-shadow:0 6px 18px rgba(0,0,0,.08);
+    }
+    .page-hero .chip:hover{ background:rgba(255,255,255,.14); transform:translateY(-2px); }
+
+    /* Kartların ikon rengi ve hover’ı */
+    .s-icon{ background:rgba(39,212,232,.12); color:var(--icon-ink); }
+    .s-card:hover{ border-color:rgba(39,212,232,.28); box-shadow:0 18px 40px rgba(0,0,0,.12); transform:translateY(-2px); transition:.25s ease; }
+
+    /* Butonlar (index ile aynı akış) */
+    .btn{ color:var(--brand); border:1px solid var(--line); background:#fff; transition:.18s ease; }
+    .btn:active{ transform:translateY(1px) }
+    .btn.primary,
+    .btn.ghost{
+      background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
+      color:#fff !important; border:0;
+      box-shadow:0 8px 22px rgba(16,179,209,.22);
+      background-size:200% 100%;
+      background-position:0% 0%;
+      transition:background-position .35s ease, box-shadow .2s ease, transform .2s ease;
+    }
+    .btn.primary:hover,
+    .btn.ghost:hover{
+      transform:translateY(-2px);
+      box-shadow:0 12px 28px rgba(16,179,209,.28);
+      background-position:100% 0%;
+    }
+
+    /* Footer (index ile aynı degrade) */
+    footer.footer-new{
+      background:linear-gradient(135deg, var(--footer-start), var(--footer-end));
+      color:#eaffff;
+    }
+    .footer-links a, .footer-contact a{ color:#eaffff }
+    .footer-bottom{ background:rgba(0,0,0,.18) }
+  </style>
 </head>
 <body>
 
