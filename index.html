@@ -16,7 +16,7 @@
   <!-- İkonlar -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <!-- Sayfaya özgü küçük dokunuşlar (kart/başlık süsleri vb.) -->
+  <!-- Sayfaya özgü küçük dokunuşlar -->
   <style>
     .container{max-width:1180px;margin:0 auto;padding:0 16px}
     h1,h2,h3{letter-spacing:.1px}
@@ -36,7 +36,6 @@
   </style>
 </head>
 
-<!-- Tema sınıfı aktif: MOR + TURKUAZ -->
 <body class="theme-elciKonya" data-page="home">
   <!-- ===== SABİT HEADER ===== -->
   <header>
@@ -421,7 +420,7 @@
             <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a>
           </li>
           <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 6l-10 7L2 6"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.5v2a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3.1 19 19 0 0 1-6-6A2 2 0 0 1 7.5 9h2l2 3-1.5 1.5a16 16 0 0 0 6 6L18 18l3 2.5z"/></svg>
             <a href="tel:03323223220">0332 322 32 20</a>
           </li>
           <li>
@@ -585,7 +584,7 @@
     </symbol>
   </svg>
 
-  <!-- ===== Küçük başlangıç JS (yıl + mobil menü + kaydırma butonları) ===== -->
+  <!-- ===== Küçük başlangıç JS (yıl + mobil menü + kaydırma) ===== -->
   <script>
     window.addEventListener('DOMContentLoaded', function(){
       const y=document.getElementById('yil'); if(y) y.textContent=new Date().getFullYear();
@@ -603,7 +602,7 @@
     });
   </script>
 
-  <!-- ===== THEME OVERRIDE (Deep Amethyst · Warm Noir Base + İKON KONTRAST BOOST) ===== -->
+  <!-- ===== THEME OVERRIDE (Deep Amethyst · Warm Noir Base + İKON KONTRAST BOOST + Header okunaklılık + Randevu Al dolu) ===== -->
   <style id="theme-elciKonya-override">
     /* Tema değişkenleri */
     :root{
@@ -621,6 +620,10 @@
 
       --hero-start:#30105f;
       --hero-end:#27d4e8;
+
+      /* ikon kontrast */
+      --icon-ink: #0a4f60;      /* kart ikonları */
+      --icon-ink-hero: #e5fbff; /* hero hızlı link ikonları */
     }
 
     /* Üst şerit */
@@ -643,6 +646,25 @@
     nav a.active{ color:#c0f3ff }
     nav a::after{ background:#c0f3ff }
 
+    /* === HEADER METNİ OKUNAKLILIK BOOST === */
+    .header-main .logo-text{
+      display:flex; flex-direction:column; gap:2px;
+      padding:8px 12px; border-radius:14px;
+      background:linear-gradient(90deg, rgba(0,0,0,.24), rgba(0,0,0,.10));
+      box-shadow:0 6px 18px rgba(0,0,0,.18);
+      -webkit-backdrop-filter:saturate(120%) blur(1px);
+      backdrop-filter:saturate(120%) blur(1px);
+    }
+    .header-main .logo-text h1{
+      color:#fff; margin:0;
+      text-shadow:0 2px 10px rgba(0,0,0,.35);
+      letter-spacing:.2px;
+    }
+    .header-main .logo-text span{
+      color:#e8fbff; opacity:.96;
+      text-shadow:0 1px 8px rgba(0,0,0,.3);
+    }
+
     /* HERO */
     .hero{
       background:
@@ -653,18 +675,29 @@
     .hero h1{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.22); }
     .hero .hero-sub{ color:#e8fbff; opacity:.98; }
     .hero .hero-divider{ background:linear-gradient(90deg, var(--brand), var(--accent)); }
+
+    /* Hızlı link ikonları (hero) + kart ikonu rengi */
     .hero .quick-links .q{
       background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.22); color:#fff;
     }
     .hero .quick-links .q:hover{ background:rgba(255,255,255,.14); transform:translateY(-3px); }
-    .hero .quick-links .icon svg{ color:#fff; }
+    .hero .quick-links .icon svg{ color: var(--icon-ink-hero); }
 
-    /* Butonlar */
-    .btn.primary{
+    /* Butonlar: hero'da RANDEVU AL da dolu görünsün + CTA efektleri */
+    .btn{ color:var(--brand); border:1px solid var(--line); background:#fff; transition:.18s ease; }
+    .btn:active{ transform:translateY(1px) }
+
+    .btn.primary,
+    .hero .btn.ghost{ /* <— sadece hero içindeki ghost'u da dolduruyoruz */
       background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
-      color:#fff; border:0; box-shadow:0 8px 22px rgba(16,179,209,.22)
+      color:#fff !important; border:0;
+      box-shadow:0 8px 22px rgba(16,179,209,.22);
     }
-    .btn{ color:var(--brand); border:1px solid var(--line); background:#fff }
+    .btn.primary:hover,
+    .hero .btn.ghost:hover{
+      transform:translateY(-2px);
+      box-shadow:0 12px 28px rgba(16,179,209,.28);
+    }
 
     /* Kartlar */
     .s-card{ background:var(--paper); border:1px solid var(--line); border-radius:18px; box-shadow:0 6px 18px rgba(10,25,35,.08) }
@@ -691,25 +724,15 @@
     .footer-bottom{ background:rgba(0,0,0,.18) }
 
     /* === İKON KONTRAST BOOST === */
-    :root{
-      --icon-ink: #0a4f60;      /* daha koyu mavi-yeşil (kart ikonları) */
-      --icon-ink-hero: #e5fbff; /* hero için beyazın hafif koyusu */
-    }
     .s-icon svg{ color: var(--icon-ink); }
-    .hero .quick-links .icon svg{ color: var(--icon-ink-hero); }
-
     .s-icon svg .i,
     .hero .quick-links .icon svg .i{
-      stroke-width: 2.2 !important;             /* 1.8 → 2.2 */
+      stroke-width: 2.2 !important; /* 1.8 → 2.2 */
       vector-effect: non-scaling-stroke;
     }
-    .s-icon svg .i-solid{
-      fill: var(--icon-ink) !important;
-    }
+    .s-icon svg .i-solid{ fill: var(--icon-ink) !important; }
     .s-icon svg,
-    .hero .quick-links .icon svg{
-      filter: drop-shadow(0 0 1px rgba(0,0,0,.18));
-    }
+    .hero .quick-links .icon svg{ filter: drop-shadow(0 0 1px rgba(0,0,0,.18)); }
   </style>
 </body>
 </html>
