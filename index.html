@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="tr">
 <head>
   <meta charset="UTF-8"/>
@@ -139,7 +139,7 @@
             <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-microscope"/></svg></span>
             <span>Tahlil Sonuçları</span>
           </a>
-          <a class="q" href="https://www.youtube.com/@El%C3%87iveterinerklini%C4%9Fi" target="_blank" rel="noopener" title="YouTube">
+          <a class="q" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" title="YouTube">
             <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-article"/></svg></span>
             <span>Elçi TV</span>
           </a>
@@ -383,7 +383,7 @@
           <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.8c-.8.4-1.6.6-2.5.7.9-.6 1.5-1.4 1.8-2.4-.8.5-1.8.9-2.8 1.1A3.7 3.7 0 0 0 12 8.4c0 .3 0 .7.1 1A10.5 10.5 0 0 1 3 5.2a3.7 3.7 0 0 0 1.1 5 3.6 3.6 0 0 1-1.7-.5v.1c0 1.8 1.3 3.3 3 3.7-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1.5 1.5 1.9 2.6 3.6 2.6A7.5 7.5 0 0 1 3 19.5 10.6 10.6 0 0 0 9.7 21c6.3 0 9.7-5.2 9.7-9.7v-.4c.8-.6 1.5-1.4 2-2.3z"/></svg>
           </a>
-          <a href="https://www.youtube.com/@El%C3;çiveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube">
+          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5a4 4 0 0 0-3-3.1C18.3 4 12 4 12 4s-6.3 0-8 .4A4 4 0 0 0 1 7.5 41 41 0 0 0 1 16.5a4 4 0 0 0 3 3.1c1.7.4 8 .4 8 .4s6.3 0 8-.4a4 4 0 0 0 3-3.1 41 41 0 0 0 0-9zM10 15.5v-7l6 3.5-6 3.5z"/></svg>
           </a>
         </div>
@@ -602,7 +602,7 @@
     });
   </script>
 
-  <!-- ===== THEME OVERRIDE (renkler korunur + BUTONLARDA AYNI ANİMASYON) ===== -->
+  <!-- ===== THEME OVERRIDE (Deep Amethyst · Warm Noir Base + İKON KONTRAST BOOST + Header okunaklılık + Randevu Al dolu) ===== -->
   <style id="theme-elciKonya-override">
     /* Tema değişkenleri */
     :root{
@@ -622,8 +622,8 @@
       --hero-end:#27d4e8;
 
       /* ikon kontrast */
-      --icon-ink:#0a4f60;
-      --icon-ink-hero:#e5fbff;
+      --icon-ink: #0a4f60;      /* kart ikonları */
+      --icon-ink-hero: #e5fbff; /* hero hızlı link ikonları */
     }
 
     /* Üst şerit */
@@ -646,7 +646,7 @@
     nav a.active{ color:#c0f3ff }
     nav a::after{ background:#c0f3ff }
 
-    /* HEADER METNİ OKUNAKLILIK BOOST */
+    /* === HEADER METNİ OKUNAKLILIK BOOST === */
     .header-main .logo-text{
       display:flex; flex-direction:column; gap:2px;
       padding:8px 12px; border-radius:14px;
@@ -676,32 +676,24 @@
     .hero .hero-sub{ color:#e8fbff; opacity:.98; }
     .hero .hero-divider{ background:linear-gradient(90deg, var(--brand), var(--accent)); }
 
-    /* Hızlı linkler */
+    /* Hızlı link ikonları (hero) + kart ikonu rengi */
     .hero .quick-links .q{
       background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.22); color:#fff;
     }
     .hero .quick-links .q:hover{ background:rgba(255,255,255,.14); transform:translateY(-3px); }
     .hero .quick-links .icon svg{ color: var(--icon-ink-hero); }
 
-    /* Genel buton temel hali */
+    /* Butonlar: hero'da RANDEVU AL da dolu görünsün + CTA efektleri */
     .btn{ color:var(--brand); border:1px solid var(--line); background:#fff; transition:.18s ease; }
     .btn:active{ transform:translateY(1px) }
 
-    /* === İKİ HERO BUTONU İÇİN AYNI GRADIENT + AYNI RENK AKIŞI ANİMASYONU === */
-    @keyframes gradientFlow {
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    .hero .btn.primary,
-    .hero .btn.ghost{
-      background: linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
-      background-size: 200% 200%;
-      animation: gradientFlow 4s ease-in-out infinite;
+    .btn.primary,
+    .hero .btn.ghost{ /* <— sadece hero içindeki ghost'u da dolduruyoruz */
+      background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
       color:#fff !important; border:0;
       box-shadow:0 8px 22px rgba(16,179,209,.22);
     }
-    .hero .btn.primary:hover,
+    .btn.primary:hover,
     .hero .btn.ghost:hover{
       transform:translateY(-2px);
       box-shadow:0 12px 28px rgba(16,179,209,.28);
@@ -731,7 +723,7 @@
     .footer-links a, .footer-contact a{ color:#eaffff }
     .footer-bottom{ background:rgba(0,0,0,.18) }
 
-    /* İKON KONTRAST BOOST */
+    /* === İKON KONTRAST BOOST === */
     .s-icon svg{ color: var(--icon-ink); }
     .s-icon svg .i,
     .hero .quick-links .icon svg .i{
@@ -741,6 +733,19 @@
     .s-icon svg .i-solid{ fill: var(--icon-ink) !important; }
     .s-icon svg,
     .hero .quick-links .icon svg{ filter: drop-shadow(0 0 1px rgba(0,0,0,.18)); }
+
+    /* === RANDEVU AL (hero .btn.ghost) — akışlı hover efekti === */
+    .hero .btn.ghost{
+      background-size:200% 100%;
+      background-position:0% 0%;
+      transition:
+        background-position .35s ease,
+        box-shadow .2s ease,
+        transform .2s ease;
+    }
+    .hero .btn.ghost:hover{
+      background-position:100% 0%;
+    }
   </style>
 </body>
 </html>
