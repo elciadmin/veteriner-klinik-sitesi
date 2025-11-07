@@ -9,7 +9,7 @@
   <meta name="description" content="Konya Meram Elçi Veteriner Kliniği: 7/24 acil, koruyucu hekimlik, cerrahi, diş sağlığı, röntgen, ultrason, laboratuvar."/>
   <link rel="canonical" href="https://elciveteriner.com/"/>
 
-  <!-- Stil dosyaları -->
+  <!-- Stil dosyaları (cache-bust ile) -->
   <link rel="stylesheet" href="/assets/css/tokens.css?v=20251106"/>
   <link rel="stylesheet" href="/assets/css/styles.css?v=20251106"/>
 
@@ -31,6 +31,7 @@
     .services-track::-webkit-scrollbar-thumb{background:rgba(8,35,45,.16);border-radius:999px}
     .cta-bar{display:flex;align-items:center;justify-content:space-between;margin:24px 0;gap:12px}
     .btn:active{transform:translateY(1px)}
+    /* Insta/Youtube başlık alt notlarını gizle */
     .insta-head small, #youtube small{ display:none; }
   </style>
 </head>
@@ -52,8 +53,7 @@
 
     <div class="header-main">
       <div class="container">
-        <!-- Okunabilirlik için arka plan plakası -->
-        <div class="logo-text logo-plate">
+        <div class="logo-text">
           <h1>Elçi Veteriner Kliniği</h1>
           <span>Sağlığın Elçi'leriyiz</span>
         </div>
@@ -123,7 +123,8 @@
         <p class="hero-sub">Teknolojik ve modern cihazlarla; acil, cerrahi, görüntüleme ve koruyucu hekimlikte güvenilir hizmet.</p>
         <div class="hero-cta">
           <a class="btn primary" href="tel:03323223220">Hemen Ara</a>
-          <a class="btn ghost" href="/contact.html">Randevu Al</a>
+          <!-- Randevu Al butonuna animasyon eklendi -->
+          <a class="btn ghost btn-cta" href="/contact.html">Randevu Al</a>
         </div>
 
         <div class="quick-links" aria-label="Hızlı bağlantılar">
@@ -156,7 +157,7 @@
     </div>
   </section>
 
-  <!-- ===== HİZMETLER ===== -->
+  <!-- ===== HİZMETLER — ÖNE ÇIKAN 6 + DİĞERLERİ KAYDIRMALI ===== -->
   <section id="services" class="services">
     <div class="container">
       <h2>Hizmetlerimiz</h2>
@@ -205,7 +206,7 @@
         </article>
       </div>
 
-      <!-- Kaydırmalı diğer hizmetler -->
+      <!-- 2) Diğer hizmetler — yatay kaydırmalı -->
       <div class="services-more">
         <div class="services-more-head">
           <h3>Diğer Hizmetler</h3>
@@ -456,10 +457,10 @@
   }
   </script>
 
-  <!-- ===== Ana JS ===== -->
+  <!-- ===== Ana JS (cache-bust ile) ===== -->
   <script defer src="/assets/js/main.js?v=20251106"></script>
 
-  <!-- ===== SVG ICON SPRITE ===== -->
+  <!-- ===== SVG ICON SPRITE (TAM SET) ===== -->
   <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden">
     <defs><style>
       .i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
@@ -584,7 +585,7 @@
     </symbol>
   </svg>
 
-  <!-- ===== Başlangıç JS: yıl + menü + hizmet kaydırıcı ===== -->
+  <!-- ===== Küçük başlangıç JS (yıl + mobil menü + kaydırma) ===== -->
   <script>
     window.addEventListener('DOMContentLoaded', function(){
       const y=document.getElementById('yil'); if(y) y.textContent=new Date().getFullYear();
@@ -602,22 +603,28 @@
     });
   </script>
 
-  <!-- ===== THEME OVERRIDE: Deep Amethyst · Warm Noir (Base) + ikon kontrast + Randevu Al efekti ===== -->
+  <!-- ===== THEME OVERRIDE (Deep Amethyst · Warm Noir Base + İKON KONTRAST BOOST + Header okunaklılık + Randevu Al dolu) ===== -->
   <style id="theme-elciKonya-override">
+    /* Tema değişkenleri */
     :root{
-      /* Warm Noir Base (mor + turkuaz) */
-      --brand:#6a0ea1;      /* Mor (primary) */
-      --brand2:#10b3d1;     /* Turkuaz (secondary) */
-      --accent:#10b3d1;
-      --ink:#0f1b22; --muted:#5f6b74; --line:#e7edf1; --bg:#f7fbfc; --paper:#fff;
-      --footer-start: var(--brand2);
-      --footer-end:   var(--brand);
-      --hero-start: color-mix(in srgb, var(--brand) 88%, #fff 12%);
-      --hero-end:   color-mix(in srgb, var(--brand2) 88%, #fff 12%);
+      --brand:#5a1fa8;      /* derin ametist */
+      --brand2:#36106b;     /* sıcak noir moru */
+      --accent:#27d4e8;     /* canlı teal */
+      --ink:#0f1b22; 
+      --muted:#5f6b74; 
+      --line:#e7edf1; 
+      --bg:#f7fbfc; 
+      --paper:#fff;
 
-      /* İkon kontrast tonları (koyu mavi/teal) */
-      --icon-ink: #0a4f60;
-      --icon-ink-hero: #e5fbff;
+      --footer-start:#241043;
+      --footer-end:#5a1fa8;
+
+      --hero-start:#30105f;
+      --hero-end:#27d4e8;
+
+      /* ikon kontrast */
+      --icon-ink: #0a4f60;      /* kart ikonları */
+      --icon-ink-hero: #e5fbff; /* hero hızlı link ikonları */
     }
 
     /* Üst şerit */
@@ -628,27 +635,36 @@
 
     /* Menü şeridi */
     .header-main{
-      background:linear-gradient(90deg,
+      background:linear-gradient(
+        90deg,
         color-mix(in srgb, var(--brand), #000 8%) 0%,
-        color-mix(in srgb, var(--brand2),#000 6%) 100%);
+        color-mix(in srgb, var(--brand2), #000 6%) 100%
+      );
       color:#fff;
-      position: relative;
     }
-
-    /* Logo/başlık plakası: okunabilirlik */
-    .logo-plate{
-      background: linear-gradient( to right, rgba(0,0,0,.28), rgba(0,0,0,.12) );
-      padding:10px 14px; border-radius:12px;
-      box-shadow: 0 6px 18px rgba(0,0,0,.18);
-      backdrop-filter: blur(4px);
-    }
-    .logo-plate h1{ color:#fff; margin:0; text-shadow:0 2px 10px rgba(0,0,0,.35); }
-    .logo-plate span{ color:#eaf6f8; text-shadow:0 1px 8px rgba(0,0,0,.25); }
-
     nav a{ color:#eaf6f8 }
     nav a:hover, nav a:focus{ color:#fff }
     nav a.active{ color:#c0f3ff }
     nav a::after{ background:#c0f3ff }
+
+    /* === HEADER METNİ OKUNAKLILIK BOOST === */
+    .header-main .logo-text{
+      display:flex; flex-direction:column; gap:2px;
+      padding:8px 12px; border-radius:14px;
+      background:linear-gradient(90deg, rgba(0,0,0,.24), rgba(0,0,0,.10));
+      box-shadow:0 6px 18px rgba(0,0,0,.18);
+      -webkit-backdrop-filter:saturate(120%) blur(1px);
+      backdrop-filter:saturate(120%) blur(1px);
+    }
+    .header-main .logo-text h1{
+      color:#fff; margin:0;
+      text-shadow:0 2px 10px rgba(0,0,0,.35);
+      letter-spacing:.2px;
+    }
+    .header-main .logo-text span{
+      color:#e8fbff; opacity:.96;
+      text-shadow:0 1px 8px rgba(0,0,0,.3);
+    }
 
     /* HERO */
     .hero{
@@ -659,52 +675,46 @@
     }
     .hero h1{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.22); }
     .hero .hero-sub{ color:#e8fbff; opacity:.98; }
-    .hero .hero-divider{ background:linear-gradient(90deg, var(--brand), var(--brand2)); }
+    .hero .hero-divider{ background:linear-gradient(90deg, var(--brand), var(--accent)); }
+
+    /* Hızlı link ikonları (hero) + kart ikonu rengi */
     .hero .quick-links .q{
       background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.22); color:#fff;
     }
     .hero .quick-links .q:hover{ background:rgba(255,255,255,.14); transform:translateY(-3px); }
     .hero .quick-links .icon svg{ color: var(--icon-ink-hero); }
 
-    /* Butonlar (genel) */
-    .btn.primary{
-      background:linear-gradient(90deg, var(--brand) 0%, var(--brand2) 100%);
-      color:#fff; border:0; box-shadow:0 8px 22px rgba(16,179,209,.22);
-      transition: transform .18s ease, box-shadow .18s ease;
-    }
-    .btn.primary:hover{ transform: translateY(-2px); box-shadow:0 12px 28px rgba(16,179,209,.28); }
-    .btn{ color:var(--brand); border:1px solid var(--line); background:#fff }
+    /* Butonlar: hero'da RANDEVU AL da dolu görünsün + CTA efektleri */
+    .btn{ color:var(--brand); border:1px solid var(--line); background:#fff; transition:.18s ease; }
+    .btn:active{ transform:translateY(1px) }
 
-    /* “Randevu Al” her yerde dolu/gradient + hover-lift */
-    a.btn[href*="contact"],
-    a.btn.ghost[href*="contact"]{
-      background: linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
-      color: #fff !important;
-      border: 0;
-      box-shadow: 0 8px 22px rgba(16,179,209,.22);
-      transition: transform .18s ease, box-shadow .18s ease;
+    .btn.primary,
+    .hero .btn.ghost{ /* <— sadece hero içindeki ghost'u da dolduruyoruz */
+      background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
+      color:#fff !important; border:0;
+      box-shadow:0 8px 22px rgba(16,179,209,.22);
     }
-    a.btn[href*="contact"]:hover,
-    a.btn.ghost[href*="contact"]:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 12px 28px rgba(16,179,209,.28);
+    .btn.primary:hover,
+    .hero .btn.ghost:hover{
+      transform:translateY(-2px);
+      box-shadow:0 12px 28px rgba(16,179,209,.28);
     }
 
     /* Kartlar */
     .s-card{ background:var(--paper); border:1px solid var(--line); border-radius:18px; box-shadow:0 6px 18px rgba(10,25,35,.08) }
-    .s-card:hover{ transform:translateY(-4px); box-shadow:0 10px 28px rgba(10,25,35,.12); border-color:color-mix(in srgb, var(--brand2) 18%, var(--line)) }
-
-    /* İKON KONTRAST BOOST — daha koyu teal çizgi rengi + kalınlık */
-    .s-icon svg{ color: var(--icon-ink); filter: drop-shadow(0 0 1px rgba(0,0,0,.18)); }
-    .s-icon svg .i,
-    .hero .quick-links .icon svg .i{
-      stroke-width: 2.2 !important;
-      vector-effect: non-scaling-stroke;
+    .s-card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 10px 28px rgba(10,25,35,.12);
+      border-color:color-mix(in srgb, var(--accent) 18%, var(--line));
     }
-    .s-icon svg .i-solid{ fill: var(--icon-ink) !important; }
+    .s-icon{
+      display:inline-grid;place-items:center;width:46px;height:46px;border-radius:14px;
+      background:radial-gradient(80% 80% at 30% 20%, #ffffff 0%, #eaf6f8 55%, #d9f0f2 100%);
+      border:1px solid #d8ecef;
+    }
 
-    /* Başlık alt çizgisi */
-    section h2::after{ background:linear-gradient(90deg, var(--brand), var(--brand2)); }
+    /* Bölüm başlık çizgisi */
+    section h2::after{ background:linear-gradient(90deg, var(--brand), var(--accent)); }
 
     /* Footer */
     footer.footer-new{
@@ -713,6 +723,33 @@
     }
     .footer-links a, .footer-contact a{ color:#eaffff }
     .footer-bottom{ background:rgba(0,0,0,.18) }
+
+    /* === İKON KONTRAST BOOST === */
+    .s-icon svg{ color: var(--icon-ink); }
+    .s-icon svg .i,
+    .hero .quick-links .icon svg .i{
+      stroke-width: 2.2 !important; /* 1.8 → 2.2 */
+      vector-effect: non-scaling-stroke;
+    }
+    .s-icon svg .i-solid{ fill: var(--icon-ink) !important; }
+    .s-icon svg,
+    .hero .quick-links .icon svg{ filter: drop-shadow(0 0 1px rgba(0,0,0,.18)); }
+
+    /* === CTA ANİMASYONU (Hemen Ara ile uyumlu pulse) === */
+    @keyframes ctaPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(39,212,232,.45), 0 8px 22px rgba(16,179,209,.22); }
+      70%  { box-shadow: 0 0 0 14px rgba(39,212,232,0),  0 12px 28px rgba(16,179,209,.28); }
+      100% { box-shadow: 0 0 0 0 rgba(39,212,232,0),    0 8px 22px rgba(16,179,209,.22); }
+    }
+    .btn-cta{
+      position: relative;
+      isolation: isolate;
+      transition: transform .18s ease, box-shadow .18s ease;
+      animation: ctaPulse 2.4s ease-in-out infinite;
+    }
+    .btn-cta:hover{
+      transform: translateY(-2px);
+    }
   </style>
 </body>
 </html>
