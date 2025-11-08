@@ -7,51 +7,12 @@
   <meta name="description" content="Elçi Veteriner Kliniği SSS: muayene ücretleri, randevu, ameliyat hazırlığı, aşılar, laboratuvar, görüntüleme ve acil durumlar hakkında net ve kısa yanıtlar."/>
   <link rel="canonical" href="https://elciveteriner.com/sss.html"/>
 
-  <!-- Global CSS -->
-  <link rel="stylesheet" href="/assets/css/styles.css"/>
+  <!-- Global CSS (cache-bust önerilir) -->
+  <link rel="stylesheet" href="/assets/css/styles.css?v=20251108"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <!-- Sayfaya özgü stiller -->
+  <!-- Sayfaya özgü min. stiller (yerleşim) -->
   <style>
-    /* HERO görünürlük ve düzen */
-    .hero.blog-hero{
-      padding-top:clamp(72px,10vw,120px); /* sabit header çakışmasın */
-      padding-bottom:24px;
-      background:linear-gradient(180deg,#eaf6f9 0%,transparent 70%); /* tema override aşağıda bunu bastırıyor */
-      text-align:center;
-    }
-    .hero.blog-hero h1{
-      display:block!important;
-      margin:6px 0 4px;
-      font-weight:800;
-      letter-spacing:.2px;
-    }
-    .hero-divider{
-      width:160px;height:3px;
-      background:linear-gradient(90deg,transparent,var(--accent,#10b3d1),transparent);
-      border-radius:999px;margin:10px auto;
-    }
-
-    /* HERO eylemler + hızlı kutular */
-    .hero-cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0 6px}
-    .hero-cta .btn{min-width:140px}
-    .quick-links{
-      display:grid;grid-template-columns:repeat(6, minmax(120px,1fr));
-      gap:14px;max-width:980px;margin:14px auto 0
-    }
-    @media (max-width:980px){.quick-links{grid-template-columns:repeat(3,1fr)}}
-    @media (max-width:560px){.quick-links{grid-template-columns:repeat(2,1fr)}}
-    .quick-links .q{
-      background:rgba(255,255,255,.08);
-      backdrop-filter:saturate(120%) blur(2px);
-      border:1px solid rgba(0,0,0,.06);
-      border-radius:16px;padding:14px 12px;
-      text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:8px;
-      color:inherit;transition:transform .15s ease, box-shadow .2s ease
-    }
-    .quick-links .q:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.08)}
-    .quick-links i{font-size:22px;opacity:.9}
-
     /* SSS yerleşim */
     .faq-layout{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
     @media (max-width: 1024px){.faq-layout{grid-template-columns:1fr}}
@@ -97,9 +58,9 @@
     .loc-badge{padding:6px 10px;border-radius:999px;background:#e9f4f5;border:1px solid #a8cacc;font-weight:700;font-size:12px;color:#0a4348}
   </style>
 </head>
-<body class="theme-plumOcean">
 
-  <!-- ===== HEADER (site ile aynı, SSS aktif) ===== -->
+<body class="theme-plumOcean">
+  <!-- ===== HEADER ===== -->
   <header>
     <div class="header-top">
       <div class="container">
@@ -128,7 +89,7 @@
     </div>
   </header>
 
-  <!-- ===== HERO (başlık görünür + CTA + hızlı kutular) ===== -->
+  <!-- ===== HERO ===== -->
   <section class="hero blog-hero">
     <div class="container">
       <div class="hero-center">
@@ -136,7 +97,7 @@
           <img class="hero-logo" src="/assets/img/uploads/elci-logo.png?v=1" alt="Elçi Veteriner Kliniği Logosu" width="96" height="96" loading="eager" decoding="async">
         </div>
         <h1>Sık Sorulan Sorular</h1>
-        <div class="hero-divider"></div>
+        <span class="hero-divider"></span>
         <p class="hero-sub">Ücretler, süreçler, aşılar, ameliyat ve acil durumlar — net ve kısa yanıtlar.</p>
 
         <div class="hero-cta">
@@ -259,23 +220,23 @@
         <div class="faq-group" data-cat="Ameliyat & Anestezi">
           <h2>Ameliyat & Anestezi</h2>
 
-          <details class="faq" id="ameliyat-oncesi-aclik">
-            <summary><span class="q"><span class="dot"></span>Ameliyat öncesi açlık ne kadar olmalı?</span></summary>
-            <button class="linkcopy" title="Bağlantıyı kopyala" aria-label="Bağlantıyı kopyala"><i class="fa-solid fa-link"></i></button>
-            <p>Genellikle 8–12 saat açlık, 2–4 saat su kısıtlaması önerilir. Yavru/özel durumlarda protokol değişebilir; size özel talimat verilir.</p>
-          </details>
+        <details class="faq" id="ameliyat-oncesi-aclik">
+          <summary><span class="q"><span class="dot"></span>Ameliyat öncesi açlık ne kadar olmalı?</span></summary>
+          <button class="linkcopy" title="Bağlantıyı kopyala" aria-label="Bağlantıyı kopyala"><i class="fa-solid fa-link"></i></button>
+          <p>Genellikle 8–12 saat açlık, 2–4 saat su kısıtlaması önerilir. Yavru/özel durumlarda protokol değişebilir; size özel talimat verilir.</p>
+        </details>
 
-          <details class="faq" id="kisirlastirma-sureci">
-            <summary><span class="q"><span class="dot"></span>Kısırlaştırma süreci ve iyileşme nasıl ilerler?</span></summary>
-            <button class="linkcopy" title="Bağlantıyı kopyala" aria-label="Bağlantıyı kopyala"><i class="fa-solid fa-link"></i></button>
-            <p>Pre-op muayene ve kan tahlili sonrası operasyon yapılır. Aynı gün/ertesi gün taburculuk; 10–14 gün dikiş bakımı ve aktivite kısıtlaması önerilir.</p>
-          </details>
+        <details class="faq" id="kisirlastirma-sureci">
+          <summary><span class="q"><span class="dot"></span>Kısırlaştırma süreci ve iyileşme nasıl ilerler?</span></summary>
+          <button class="linkcopy" title="Bağlantıyı kopyala" aria-label="Bağlantıyı kopyala"><i class="fa-solid fa-link"></i></button>
+          <p>Pre-op muayene ve kan tahlili sonrası operasyon yapılır. Aynı gün/ertesi gün taburculuk; 10–14 gün dikiş bakımı ve aktivite kısıtlaması önerilir.</p>
+        </details>
 
-          <details class="faq" id="anestezi-guvenli-mi">
-            <summary><span class="q"><span class="dot"></span>Anestezi güvenli mi?</span></summary>
-            <button class="linkcopy" title="Bağlantıyı kopyala" aria-label="Bağlantıyı kopyala"><i class="fa-solid fa-link"></i></button>
-            <p>ASA risk skorlaması, pre-op tetkikler ve monitörize anestezi ile risk minimize edilir. Operasyon boyunca EKG, SpO₂, sıcaklık ve tansiyon takibi yapılır.</p>
-          </details>
+        <details class="faq" id="anestezi-guvenli-mi">
+          <summary><span class="q"><span class="dot"></span>Anestezi güvenli mi?</span></summary>
+          <button class="linkcopy" title="Bağlantıyı kopyala" aria-label="Bağlantıyı kopyala"><i class="fa-solid fa-link"></i></button>
+          <p>ASA risk skorlaması, pre-op tetkikler ve monitörize anestezi ile risk minimize edilir. Operasyon boyunca EKG, SpO₂, sıcaklık ve tansiyon takibi yapılır.</p>
+        </details>
         </div>
 
         <!-- Görüntüleme & Lab -->
@@ -338,7 +299,7 @@
     </div>
   </section>
 
-  <!-- ===== KONUM & ULAŞIM (tek Google Maps embed) ===== -->
+  <!-- ===== KONUM & ULAŞIM ===== -->
   <section id="location">
     <div class="container">
       <h2>Konum & Ulaşım</h2>
@@ -485,7 +446,7 @@
 
         det.style.display = match ? '' : 'none';
         if(match){ groupHasAny = true; visible++; }
-        if(match && q){ det.open = true; } // Arama varsa eşleşenleri açık getir
+        if(match && q){ det.open = true; }
       });
 
       group.style.display = groupHasAny ? '' : 'none';
@@ -531,6 +492,13 @@
     }
   }
 
+  // Mobil menü
+  document.addEventListener('click',(e)=>{
+    if(e.target.id==='mobileMenuBtn'){
+      document.getElementById('mainMenu')?.classList.toggle('show');
+    }
+  });
+
   document.addEventListener('DOMContentLoaded', ()=>{
     // Sayaç ilk değer
     setCount($$('.faq').length);
@@ -573,121 +541,5 @@
     if(yilEl) yilEl.textContent = new Date().getFullYear();
   });
   </script>
-
-  <!-- ===== Tema override bloğu: mor + turkuazı garanti uygula ===== -->
-  <style id="faq-theme-fix">
-    /* Palet çekirdeği */
-    :root{
-      --brand:#5a1fa8;      /* ametist */
-      --brand2:#36106b;     /* koyu mor */
-      --accent:#27d4e8;     /* canlı turkuaz */
-      --ink:#0f1b22; --muted:#5f6b74; --line:#e7edf1; --bg:#f7fbfc; --paper:#fff;
-      --footer-start:#241043; --footer-end:#5a1fa8;
-      --hero-start:#30105f; --hero-end:#27d4e8;
-      --icon-ink-hero:#e5fbff;
-    }
-
-    /* Header şeritleri */
-    .header-top{
-      background:linear-gradient(90deg, var(--brand) 0%, var(--brand2) 100%);
-      color:#fff;
-    }
-    .header-main{
-      background:linear-gradient(
-        90deg,
-        color-mix(in srgb, var(--brand), #000 8%) 0%,
-        color-mix(in srgb, var(--brand2), #000 6%) 100%
-      );
-      color:#fff;
-    }
-    nav a{ color:#eaf6f8 }
-    nav a:hover, nav a:focus{ color:#fff }
-    nav a.active{ color:#c0f3ff }
-    nav a::after{ background:#c0f3ff }
-
-    /* Body zemin/metin */
-    body{ background:var(--bg); color:var(--ink); }
-
-    /* HERO — mor→turkuaz gradyan; üst ışık */
-    .theme-plumOcean .hero.blog-hero{
-      background:
-        radial-gradient(1200px 520px at 75% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
-        linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%) !important;
-      color:#fff;
-    }
-    .hero.blog-hero h1{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.22); }
-    .hero .hero-sub{ color:#e8fbff; opacity:.98; }
-    .hero-divider{
-      background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%) !important;
-    }
-
-    /* Hızlı link kutuları (cam efekti) */
-    .quick-links .q{
-      background:rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.26);
-      color:#fff;
-      -webkit-backdrop-filter:saturate(120%) blur(2px);
-      backdrop-filter:saturate(120%) blur(2px);
-      box-shadow:0 8px 22px rgba(0,0,0,.12);
-    }
-    .quick-links .q:hover{
-      background:rgba(255,255,255,.16);
-      transform:translateY(-3px);
-      box-shadow:0 10px 26px rgba(0,0,0,.16);
-    }
-    .quick-links .q i{ color:var(--icon-ink-hero); }
-
-    /* Butonlar + akış animasyonu */
-    .btn{
-      color:var(--brand);
-      border:1px solid var(--line);
-      background:#fff;
-      transition:background-position .35s ease, box-shadow .2s ease, transform .2s ease, color .2s ease, border-color .2s ease;
-    }
-    .btn:active{ transform:translateY(1px) }
-    .btn.primary,
-    .hero .btn.ghost{
-      background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
-      background-size:200% 100%;
-      background-position:0% 0%;
-      color:#fff !important; border:0;
-      box-shadow:0 8px 22px rgba(16,179,209,.22);
-    }
-    .btn.primary:hover,
-    .hero .btn.ghost:hover{
-      background-position:100% 0%;
-      transform:translateY(-2px);
-      box-shadow:0 12px 28px rgba(16,179,209,.28);
-    }
-
-    /* SSS: arama ve chip renkleri */
-    .faq-sidebar{ background:#fff; border:1px solid var(--line); }
-    #faqSearch{ border:1px solid color-mix(in srgb, var(--accent), #000 12%); }
-    .faq-chip{ border:1px solid color-mix(in srgb, var(--accent), #000 18%); background:#fff; color:var(--ink); }
-    .faq-chip.active,
-    .faq-chip[aria-pressed="true"]{ background:#f0fbfe; border-color:var(--accent); }
-    details.faq{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:10px 12px; }
-    details.faq summary .q .dot{ background:#cfeff6; }
-    details.faq[open] summary .q .dot{ background:var(--accent); }
-    .linkcopy{ color:#6b7a7c; }
-    .linkcopy:hover{ color:var(--brand2); }
-    .no-results{ border:1px dashed #a8cacc; background:#f7fcfd; }
-    .faq-group h2{ color:color-mix(in srgb, var(--brand), #000 8%); }
-
-    /* Konum/iletişim kartları */
-    .loc-card{ background:#fff; border:1px solid var(--line); }
-    .loc-list li i{ color:var(--accent); }
-    .loc-badge{
-      background:#e9f4f5; border:1px solid #a8cacc; color:#0a4348;
-    }
-
-    /* Footer gradyanı */
-    footer.footer-new{
-      background:linear-gradient(135deg, var(--footer-start), var(--footer-end));
-      color:#eaffff;
-    }
-    .footer-links a, .footer-contact a{ color:#eaffff }
-    .footer-bottom{ background:rgba(0,0,0,.18) }
-  </style>
 </body>
 </html>
