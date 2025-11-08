@@ -17,7 +17,7 @@
     .hero.blog-hero{
       padding-top:clamp(72px,10vw,120px); /* sabit header çakışmasın */
       padding-bottom:24px;
-      background:linear-gradient(180deg,#eaf6f9 0%,transparent 70%);
+      background:linear-gradient(180deg,#eaf6f9 0%,transparent 70%); /* tema override aşağıda bunu bastırıyor */
       text-align:center;
     }
     .hero.blog-hero h1{
@@ -576,28 +576,23 @@
 
   <!-- ===== Tema override bloğu: mor + turkuazı garanti uygula ===== -->
   <style id="faq-theme-fix">
-    /* Tema değişkenleri (plumOcean) */
-    .theme-plumOcean{
-      --violet-deep:#4a138c;
-      --ocean-light:#38caea;
-
-      --brand: var(--violet-deep);
-      --brand2:#6a0ea1;
-      --accent: var(--ocean-light);
-
-      --hero-start: color-mix(in srgb, var(--violet-deep) 88%, #fff 12%);
-      --hero-end:   color-mix(in srgb, var(--ocean-light) 88%, #fff 12%);
-
-      --footer-start: var(--violet-deep);
-      --footer-end:   var(--ocean-light);
+    /* Palet çekirdeği */
+    :root{
+      --brand:#5a1fa8;      /* ametist */
+      --brand2:#36106b;     /* koyu mor */
+      --accent:#27d4e8;     /* canlı turkuaz */
+      --ink:#0f1b22; --muted:#5f6b74; --line:#e7edf1; --bg:#f7fbfc; --paper:#fff;
+      --footer-start:#241043; --footer-end:#5a1fa8;
+      --hero-start:#30105f; --hero-end:#27d4e8;
+      --icon-ink-hero:#e5fbff;
     }
 
-    /* Header (globalin üzerinde okunaklılık garantisi) */
-    .theme-plumOcean .header-top{
+    /* Header şeritleri */
+    .header-top{
       background:linear-gradient(90deg, var(--brand) 0%, var(--brand2) 100%);
       color:#fff;
     }
-    .theme-plumOcean .header-main{
+    .header-main{
       background:linear-gradient(
         90deg,
         color-mix(in srgb, var(--brand), #000 8%) 0%,
@@ -605,87 +600,94 @@
       );
       color:#fff;
     }
-    .theme-plumOcean nav a{ color:#eaf6f8 }
-    .theme-plumOcean nav a:hover,
-    .theme-plumOcean nav a:focus{ color:#fff }
-    .theme-plumOcean nav a.active{ color:#c0f3ff }
-    .theme-plumOcean nav a::after{ background:#c0f3ff }
+    nav a{ color:#eaf6f8 }
+    nav a:hover, nav a:focus{ color:#fff }
+    nav a.active{ color:#c0f3ff }
+    nav a::after{ background:#c0f3ff }
 
-    /* Hero — koyu degrade + radial parıltı */
+    /* Body zemin/metin */
+    body{ background:var(--bg); color:var(--ink); }
+
+    /* HERO — mor→turkuaz gradyan; üst ışık */
     .theme-plumOcean .hero.blog-hero{
       background:
-        radial-gradient(900px 380px at 50% -120px,
-          color-mix(in srgb, var(--accent) 20%, transparent), transparent 60%),
-        linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%);
+        radial-gradient(1200px 520px at 75% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
+        linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%) !important;
       color:#fff;
     }
-    .theme-plumOcean .hero.blog-hero h1{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.22); }
-    .theme-plumOcean .hero.blog-hero .hero-sub{ color:#e8fbff; opacity:.98; }
-
-    /* Divider renk geçişi */
-    .theme-plumOcean .hero-divider{
-      background:linear-gradient(90deg,
-        color-mix(in srgb, var(--violet-deep) 92%, #fff 8%),
-        color-mix(in srgb, var(--ocean-light) 88%, #fff 12%));
+    .hero.blog-hero h1{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.22); }
+    .hero .hero-sub{ color:#e8fbff; opacity:.98; }
+    .hero-divider{
+      background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%) !important;
     }
 
-    /* Quick links — koyu zemin üzerinde yüksek kontrast */
-    .theme-plumOcean .quick-links .q{
-      color:#fff;
-      border-color:rgba(255,255,255,.24);
+    /* Hızlı link kutuları (cam efekti) */
+    .quick-links .q{
       background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.26);
+      color:#fff;
+      -webkit-backdrop-filter:saturate(120%) blur(2px);
+      backdrop-filter:saturate(120%) blur(2px);
+      box-shadow:0 8px 22px rgba(0,0,0,.12);
     }
-    .theme-plumOcean .quick-links .q:hover{
+    .quick-links .q:hover{
       background:rgba(255,255,255,.16);
-      box-shadow:0 12px 24px rgba(0,0,0,.24);
       transform:translateY(-3px);
+      box-shadow:0 10px 26px rgba(0,0,0,.16);
     }
-    .theme-plumOcean .quick-links .q i{ color:#e5fbff; opacity:1; }
+    .quick-links .q i{ color:var(--icon-ink-hero); }
 
-    /* Butonlar — gradient flow animasyonu */
-    .theme-plumOcean .btn{
+    /* Butonlar + akış animasyonu */
+    .btn{
       color:var(--brand);
-      border:1px solid #e7edf1;
+      border:1px solid var(--line);
       background:#fff;
-      transition:.18s ease;
+      transition:background-position .35s ease, box-shadow .2s ease, transform .2s ease, color .2s ease, border-color .2s ease;
     }
-    .theme-plumOcean .btn:active{ transform:translateY(1px) }
-
-    .theme-plumOcean .btn.primary,
-    .theme-plumOcean .hero .btn.ghost{
+    .btn:active{ transform:translateY(1px) }
+    .btn.primary,
+    .hero .btn.ghost{
       background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
-      color:#fff !important; border:0;
-      box-shadow:0 8px 22px rgba(16,179,209,.22);
-
       background-size:200% 100%;
       background-position:0% 0%;
-      transition:
-        background-position .35s ease,
-        box-shadow .2s ease,
-        transform .2s ease;
+      color:#fff !important; border:0;
+      box-shadow:0 8px 22px rgba(16,179,209,.22);
     }
-    .theme-plumOcean .btn.primary:hover,
-    .theme-plumOcean .hero .btn.ghost:hover{
+    .btn.primary:hover,
+    .hero .btn.ghost:hover{
       background-position:100% 0%;
       transform:translateY(-2px);
       box-shadow:0 12px 28px rgba(16,179,209,.28);
     }
 
-    /* Aktif nav ve aktif chip tonları */
-    .theme-plumOcean nav a.active{ color: #c0f3ff; }
-    .theme-plumOcean .faq-chip.active,
-    .theme-plumOcean .faq-chip[aria-pressed="true"]{
-      background:#f0fbfe; border-color:var(--accent);
+    /* SSS: arama ve chip renkleri */
+    .faq-sidebar{ background:#fff; border:1px solid var(--line); }
+    #faqSearch{ border:1px solid color-mix(in srgb, var(--accent), #000 12%); }
+    .faq-chip{ border:1px solid color-mix(in srgb, var(--accent), #000 18%); background:#fff; color:var(--ink); }
+    .faq-chip.active,
+    .faq-chip[aria-pressed="true"]{ background:#f0fbfe; border-color:var(--accent); }
+    details.faq{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:10px 12px; }
+    details.faq summary .q .dot{ background:#cfeff6; }
+    details.faq[open] summary .q .dot{ background:var(--accent); }
+    .linkcopy{ color:#6b7a7c; }
+    .linkcopy:hover{ color:var(--brand2); }
+    .no-results{ border:1px dashed #a8cacc; background:#f7fcfd; }
+    .faq-group h2{ color:color-mix(in srgb, var(--brand), #000 8%); }
+
+    /* Konum/iletişim kartları */
+    .loc-card{ background:#fff; border:1px solid var(--line); }
+    .loc-list li i{ color:var(--accent); }
+    .loc-badge{
+      background:#e9f4f5; border:1px solid #a8cacc; color:#0a4348;
     }
 
-    /* Footer */
-    .theme-plumOcean footer.footer-new{
+    /* Footer gradyanı */
+    footer.footer-new{
       background:linear-gradient(135deg, var(--footer-start), var(--footer-end));
       color:#eaffff;
     }
-    .theme-plumOcean .footer-links a,
-    .theme-plumOcean .footer-contact a{ color:#eaffff }
-    .theme-plumOcean .footer-bottom{ background:rgba(0,0,0,.18) }
+    .footer-links a, .footer-contact a{ color:#eaffff }
+    .footer-bottom{ background:rgba(0,0,0,.18) }
   </style>
 </body>
 </html>
