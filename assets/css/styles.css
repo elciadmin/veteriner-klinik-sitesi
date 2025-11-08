@@ -298,7 +298,7 @@ section#services{ padding:48px 0; background:#fff; position:relative; overflow:h
    ======================== */
 section#insta{padding:30px 0;background:#fff}
 .insta-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.insta-head small{display:none} /* alt yazıları gizle */
+.insta-head small{display:none}
 .insta-track-wrap{overflow:hidden}
 .insta-track{display:flex;gap:12px;will-change:transform}
 .insta-item{
@@ -372,7 +372,7 @@ section#youtube{padding:34px 0;background:#fff}
 .yt-box iframe{width:100%;height:100%;border:0;display:block}
 
 /* ========================
-   11) FAQ
+   11) FAQ (GENEL)
    ======================== */
 section#faq{padding:34px 0;background:#fff}
 details.faq{border:1px solid var(--card-border);border-radius:12px;padding:12px;margin-bottom:10px;background:#fbfefe}
@@ -436,9 +436,8 @@ footer.footer-new{
 }
 
 /* ========================
-   15) DARK UI (opsiyonel mod ek katmanı)
+   15) DARK UI (opsiyonel)
    ======================== */
-/* Kullanım: body.dark-ui (tema ile birlikte çalışır) */
 body.dark-ui header{ box-shadow:0 6px 18px rgba(0,0,0,.22); background:#0b2a2f; }
 body.dark-ui .header-top{ background:#082126; color:#eefbff; }
 body.dark-ui .header-main{ background:#0b2a2f; }
@@ -475,7 +474,7 @@ body.dark-ui .hero .quick-links .q{
 }
 body.dark-ui .hero .quick-links .q:hover{ background:rgba(255,255,255,.12); transform:translateY(-3px); }
 body.dark-ui .quick-links .icon svg{ color:#fff; opacity:.98; }
-body.dark-ui section#services{ background:#fff; } /* içerik beyaz kalsın */
+body.dark-ui section#services{ background:#fff; }
 body.dark-ui footer.footer-new{ color:#eaf4f5; }
 body.dark-ui .footer-links a{ color:#d9eef0; }
 body.dark-ui .footer-links a:hover{ color:#fff; }
@@ -487,7 +486,7 @@ body.dark-ui .footer-links a:hover{ color:#fff; }
 [role="menu"] a:focus-visible{ background:#eef7f8 }
 
 /* ========================
-   17) PRINT TWEAKS (opsiyonel)
+   17) PRINT TWEAKS
    ======================== */
 @media print{
   header, .hero, #insta, #youtube, #reviews, #faq, .footer-new{ display:none!important }
@@ -497,7 +496,6 @@ body.dark-ui .footer-links a:hover{ color:#fff; }
 /* ========================
    18) TEMA OVERRIDE (plumOcean + SSS)
    ======================== */
-/* SSS sayfasındaki hero ve vurguların temadan gelmesini garantile */
 .theme-plumOcean .hero.blog-hero{
   background:
     radial-gradient(900px 380px at 50% -120px,
@@ -510,18 +508,121 @@ body.dark-ui .footer-links a:hover{ color:#fff; }
     color-mix(in srgb, var(--violet-deep) 92%, #fff 8%),
     color-mix(in srgb, var(--ocean-light) 88%, #fff 12%));
 }
-/* SSS chip/aktif link renkleri */
 .theme-plumOcean .faq-chip.active,
 .theme-plumOcean .faq-chip[aria-pressed="true"]{
   background:#f0fbfe; border-color:var(--accent);
 }
 .theme-plumOcean nav a.active{ color: var(--violet-deep); }
 .theme-plumOcean nav a:hover::after{ background: var(--ocean-light); }
-
-/* İsteğe bağlı: “Randevu Al” butonunda hafif akış */
 .theme-plumOcean .btn.primary{
   background: linear-gradient(135deg, var(--brand), var(--brand2));
 }
 .theme-plumOcean .btn.primary:hover{
   filter: brightness(.98);
 }
+
+/* =========================================================
+   THEME PATCH — plumOcean (mor + turkuaz) — EN SONA EKLE
+   ========================================================= */
+body.theme-plumOcean{
+  --violet-deep:#4a138c;
+  --ocean-light:#38caea;
+
+  --brand: var(--violet-deep);
+  --brand2:#6a0ea1;
+  --accent: var(--ocean-light);
+
+  --accent-rgb: 56 202 234; /* #38caea */
+
+  --hero-start: color-mix(in srgb, var(--violet-deep) 88%, #fff 12%);
+  --hero-end:   color-mix(in srgb, var(--ocean-light) 88%, #fff 12%);
+  --footer-start: var(--violet-deep);
+  --footer-end:   var(--ocean-light);
+
+  --link: var(--accent);
+  --link-hover: color-mix(in srgb, var(--accent) 90%, #fff 10%);
+}
+body.theme-plumOcean .header-top{
+  background:linear-gradient(90deg, var(--violet-deep), var(--ocean-light)) !important;
+  color:#fff !important;
+}
+body.theme-plumOcean .logo-text h1{ color:var(--brand) !important; }
+body.theme-plumOcean .logo-text span{ color:var(--brand2) !important; }
+body.theme-plumOcean nav a.active{ color: var(--violet-deep) !important; }
+body.theme-plumOcean nav a:hover::after{ background: var(--ocean-light) !important; }
+body.theme-plumOcean .hero.blog-hero{
+  background:
+    radial-gradient(1200px 520px at 75% -160px, rgba(255,255,255,.12) 0%, rgba(255,255,255,0) 60%),
+    linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%) !important;
+  color:#fff !important;
+}
+body.theme-plumOcean .hero.blog-hero h1{
+  color:#fff !important; text-shadow:0 2px 18px rgba(0,0,0,.22);
+}
+body.theme-plumOcean .hero.blog-hero .hero-divider{
+  background:linear-gradient(90deg,
+    color-mix(in srgb, var(--violet-deep) 92%, #fff 8%),
+    color-mix(in srgb, var(--ocean-light) 88%, #fff 12%)) !important;
+}
+body.theme-plumOcean .hero .quick-links .q{
+  background:rgba(255,255,255,.10) !important;
+  border:1px solid rgba(255,255,255,.26) !important;
+  color:#fff !important;
+  -webkit-backdrop-filter:saturate(120%) blur(2px);
+  backdrop-filter:saturate(120%) blur(2px);
+  box-shadow:0 8px 22px rgba(0,0,0,.12);
+}
+body.theme-plumOcean .hero .quick-links .q:hover{
+  background:rgba(255,255,255,.16) !important;
+}
+body.theme-plumOcean .quick-links i{ color:#e5fbff !important; }
+body.theme-plumOcean .btn{
+  border-color: color-mix(in srgb, var(--accent), #000 18%) !important;
+  color: var(--brand) !important;
+}
+body.theme-plumOcean .btn.primary{
+  background:linear-gradient(90deg, var(--brand), var(--accent)) !important;
+  background-size:200% 100% !important;
+  background-position:0% 0% !important;
+  color:#fff !important; border:0 !important;
+  box-shadow:0 8px 22px rgba(16,179,209,.22) !important;
+}
+body.theme-plumOcean .btn.primary:hover{
+  background-position:100% 0% !important;
+  transform:translateY(-2px);
+  box-shadow:0 12px 28px rgba(16,179,209,.28) !important;
+}
+body.theme-plumOcean .btn.ghost{
+  color:#fff !important; border-color:rgba(255,255,255,.65) !important;
+  background:transparent !important;
+}
+body.theme-plumOcean .btn.ghost:hover{
+  background:rgba(255,255,255,.12) !important;
+}
+body.theme-plumOcean .faq-chip{
+  border:1px solid color-mix(in srgb,var(--accent),#000 18%) !important;
+  background:#fff !important; color:var(--ink) !important;
+}
+body.theme-plumOcean .faq-chip.active,
+body.theme-plumOcean .faq-chip[aria-pressed="true"]{
+  background:#f0fbfe !important; border-color:var(--accent) !important;
+}
+body.theme-plumOcean details.faq{
+  background:#fff !important; border:1px solid var(--card-border) !important;
+}
+body.theme-plumOcean details.faq summary .q .dot{ background:#cfeff6 !important; }
+body.theme-plumOcean details.faq[open] summary .q .dot{ background:var(--accent) !important; }
+body.theme-plumOcean .linkcopy{ color:#6b7a7c !important; }
+body.theme-plumOcean .linkcopy:hover{ color:var(--brand2) !important; }
+body.theme-plumOcean .loc-card{ background:#fff !important; border:1px solid var(--card-border) !important; }
+body.theme-plumOcean .loc-list li i{ color:var(--accent) !important; }
+body.theme-plumOcean .loc-badge{
+  background:#e9f4f5 !important; border:1px solid #a8cacc !important; color:#0a4348 !important;
+}
+body.theme-plumOcean footer.footer-new{
+  background:linear-gradient(135deg,var(--footer-start),var(--footer-end)) !important;
+  color:#eaffff !important;
+}
+body.theme-plumOcean .footer-links a,
+body.theme-plumOcean .footer-contact a{ color:#eaffff !important; }
+body.theme-plumOcean .footer-bottom{ background:rgba(0,0,0,.18) !important; }
