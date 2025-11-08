@@ -7,8 +7,8 @@
   <meta name="description" content="Elçi Veteriner Kliniği SSS: muayene ücretleri, randevu, ameliyat hazırlığı, aşılar, laboratuvar, görüntüleme ve acil durumlar hakkında net ve kısa yanıtlar."/>
   <link rel="canonical" href="https://elciveteriner.com/sss.html"/>
 
-  <!-- Global CSS -->
-  <link rel="stylesheet" href="/assets/css/styles.css?v=sss19"/>
+  <!-- Global CSS (cache-bust) -->
+  <link rel="stylesheet" href="/assets/css/styles.css?v=sss20"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <!-- Sayfaya özgü stiller -->
@@ -97,76 +97,74 @@
     .loc-badge{padding:6px 10px;border-radius:999px;background:#e9f4f5;border:1px solid #a8cacc;font-weight:700;font-size:12px;color:#0a4348}
   </style>
 
-  <!-- 🔒 Zorlayıcı Tema (Palet Uygulaması) -->
-  <style id="sss-force-theme">
-    /* Palet */
-    .sss-page { --brand:#0c4e54; --brand2:#0f5960; --accent:#10b3d1; }
+  <!-- ZORLAYICI TEMA: Renk paleti kesin uygulansın -->
+  <style id="force-elci-theme">
+    :root,
+    html[data-theme="elci"],
+    body.sss-page{
+      /* Palet (index ile aynı aile) */
+      --brand:#0c4e54;
+      --brand2:#0f5960;
+      --accent:#10b3d1;
+      /* Eski adlar da kapsansın */
+      --primary-color:#0c4e54;
+      --secondary-color:#0f5960;
+    }
 
-    /* Header + nav */
-    .sss-page .header-top{ background:#0c4e54 !important; }
-    .sss-page nav a.active,
-    .sss-page nav a:hover{ color:#0f5960 !important; }
+    /* Header */
+    .header-top{ background:#0c4e54 !important; color:#fff !important; }
+    nav a.active, nav a:hover{ color:#0f5960 !important; }
 
-    /* Hero */
-    .sss-page .hero.blog-hero{
+    /* Hero ışık efekti ve başlık renkleri */
+    .hero.blog-hero{
       background:
         radial-gradient(900px 380px at 50% -120px, rgba(16,179,209,.20), transparent 60%),
         linear-gradient(180deg,#eaf6f9 0%,transparent 70%) !important;
     }
-    .sss-page .hero.blog-hero h1{ color:#0c4e54 !important; }
-    .sss-page .hero-sub{ color:#3a575b !important; }
-    .sss-page .hero-divider{
-      background:linear-gradient(90deg,transparent,#10b3d1,transparent) !important;
-    }
+    .hero.blog-hero h1{ color:#0c4e54 !important; }
+    .hero-sub{ color:#3a575b !important; }
+    .hero-divider{ background:linear-gradient(90deg,transparent,#10b3d1,transparent) !important; }
 
     /* Butonlar */
-    .sss-page .btn.primary{
+    .btn.primary{
       background:linear-gradient(135deg,#0c4e54,#0f5960) !important;
       border:1px solid rgba(12,78,84,.25) !important;
       color:#fff !important;
     }
-    .sss-page .btn.ghost{
+    .btn.ghost{
       border:1px solid rgba(12,78,84,.25) !important;
       color:#0c4e54 !important; background:#fff !important;
     }
 
-    /* Hızlı link kartları */
-    .sss-page .quick-links .q{
-      color:#0c4e54 !important; background:rgba(255,255,255,.9) !important;
-      border:1px solid rgba(0,0,0,.06) !important;
-    }
-    .sss-page .quick-links .q i{ color:#0f5960 !important; }
+    /* Hızlı link kutuları */
+    .quick-links .q{ color:#0c4e54 !important; background:#ffffff !important; }
+    .quick-links .q i{ color:#0f5960 !important; }
 
-    /* SSS filtre chip’leri */
-    .sss-page .faq-chip{
-      border-color:rgba(16,179,209,.25) !important; color:#0c4e54 !important;
-      background:#fff !important;
+    /* SSS chip ve detaylar */
+    .faq-chip{
+      border-color:rgba(16,179,209,.25) !important; color:#0c4e54 !important; background:#fff !important;
     }
-    .sss-page .faq-chip.active,
-    .sss-page .faq-chip[aria-pressed="true"]{
+    .faq-chip.active, .faq-chip[aria-pressed="true"]{
       background:#f0fbfe !important; border-color:#10b3d1 !important; color:#0a4348 !important;
     }
+    details.faq{ border:1px solid rgba(0,0,0,.06) !important; background:#fff !important; }
+    details.faq summary .q{ color:#093f45 !important; }
+    details.faq[open] summary .q .dot{ background:#10b3d1 !important; }
 
-    /* SSS kutuları */
-    .sss-page details.faq{ border:1px solid rgba(0,0,0,.06) !important; background:#fff !important; }
-    .sss-page details.faq summary .q{ color:#093f45 !important; }
-    .sss-page details.faq[open] summary .q .dot{ background:#10b3d1 !important; }
-
-    /* Konum ikonları ve footer linki hover */
-    .sss-page #location .loc-list i{ color:#10b3d1 !important; }
-    .sss-page .footer-links a:hover{ color:#0f5960 !important; }
+    /* Konum ve footer küçük dokunuşlar */
+    #location .loc-list i{ color:#10b3d1 !important; }
+    .footer-links a:hover{ color:#0f5960 !important; }
   </style>
 
-  <!-- Body sınıfı garanti -->
+  <!-- Tema bayrağı -->
   <script>
-    document.addEventListener('DOMContentLoaded', function(){
-      if(!document.body.classList.contains('sss-page')){
-        document.body.classList.add('sss-page');
-      }
+    document.documentElement.setAttribute('data-theme','elci');
+    document.addEventListener('DOMContentLoaded', ()=> {
+      document.body.classList.add('sss-page');
     });
   </script>
 </head>
-<body class="sss-page">
+<body>
 
   <!-- ===== HEADER (site ile aynı, SSS aktif) ===== -->
   <header>
@@ -375,7 +373,7 @@
           </details>
 
           <details class="faq" id="sicak-carpmasi">
-            <summary><span class="q"><span class::"dot"></span>Sıcak çarpmasında evde ne yapabilirim?</span></summary>
+            <summary><span class="q"><span class="dot"></span>Sıcak çarpmasında evde ne yapabilirim?</span></summary>
             <button class="linkcopy" title="Bağlantıyı kopyala" aria-label="Bağlantıyı kopyala"><i class="fa-solid fa-link"></i></button>
             <p>Serin, hava akımı olan bir ortama alın; ıslak havlu ile hafif serinletin, buz uygulamayın. En kısa sürede kliniğe ulaşın.</p>
           </details>
