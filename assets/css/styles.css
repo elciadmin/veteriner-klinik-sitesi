@@ -493,3 +493,35 @@ body.dark-ui .footer-links a:hover{ color:#fff; }
   header, .hero, #insta, #youtube, #reviews, #faq, .footer-new{ display:none!important }
   #services{ padding:0 }
 }
+
+/* ========================
+   18) TEMA OVERRIDE (plumOcean + SSS)
+   ======================== */
+/* SSS sayfasındaki hero ve vurguların temadan gelmesini garantile */
+.theme-plumOcean .hero.blog-hero{
+  background:
+    radial-gradient(900px 380px at 50% -120px,
+      color-mix(in srgb, var(--accent) 20%, transparent), transparent 60%),
+    linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%);
+  color:#fff;
+}
+.theme-plumOcean .hero.blog-hero .hero-divider{
+  background:linear-gradient(90deg,
+    color-mix(in srgb, var(--violet-deep) 92%, #fff 8%),
+    color-mix(in srgb, var(--ocean-light) 88%, #fff 12%));
+}
+/* SSS chip/aktif link renkleri */
+.theme-plumOcean .faq-chip.active,
+.theme-plumOcean .faq-chip[aria-pressed="true"]{
+  background:#f0fbfe; border-color:var(--accent);
+}
+.theme-plumOcean nav a.active{ color: var(--violet-deep); }
+.theme-plumOcean nav a:hover::after{ background: var(--ocean-light); }
+
+/* İsteğe bağlı: “Randevu Al” butonunda hafif akış */
+.theme-plumOcean .btn.primary{
+  background: linear-gradient(135deg, var(--brand), var(--brand2));
+}
+.theme-plumOcean .btn.primary:hover{
+  filter: brightness(.98);
+}
