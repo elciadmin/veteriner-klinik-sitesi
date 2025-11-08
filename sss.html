@@ -592,7 +592,26 @@
       --footer-end:   var(--ocean-light);
     }
 
-    /* Hero’yu temayla boyayan güvenli override (sayfa içindeki eski arka planı bastırır) */
+    /* Header (globalin üzerinde okunaklılık garantisi) */
+    .theme-plumOcean .header-top{
+      background:linear-gradient(90deg, var(--brand) 0%, var(--brand2) 100%);
+      color:#fff;
+    }
+    .theme-plumOcean .header-main{
+      background:linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--brand), #000 8%) 0%,
+        color-mix(in srgb, var(--brand2), #000 6%) 100%
+      );
+      color:#fff;
+    }
+    .theme-plumOcean nav a{ color:#eaf6f8 }
+    .theme-plumOcean nav a:hover,
+    .theme-plumOcean nav a:focus{ color:#fff }
+    .theme-plumOcean nav a.active{ color:#c0f3ff }
+    .theme-plumOcean nav a::after{ background:#c0f3ff }
+
+    /* Hero — koyu degrade + radial parıltı */
     .theme-plumOcean .hero.blog-hero{
       background:
         radial-gradient(900px 380px at 50% -120px,
@@ -600,6 +619,8 @@
         linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%);
       color:#fff;
     }
+    .theme-plumOcean .hero.blog-hero h1{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.22); }
+    .theme-plumOcean .hero.blog-hero .hero-sub{ color:#e8fbff; opacity:.98; }
 
     /* Divider renk geçişi */
     .theme-plumOcean .hero-divider{
@@ -608,12 +629,63 @@
         color-mix(in srgb, var(--ocean-light) 88%, #fff 12%));
     }
 
+    /* Quick links — koyu zemin üzerinde yüksek kontrast */
+    .theme-plumOcean .quick-links .q{
+      color:#fff;
+      border-color:rgba(255,255,255,.24);
+      background:rgba(255,255,255,.10);
+    }
+    .theme-plumOcean .quick-links .q:hover{
+      background:rgba(255,255,255,.16);
+      box-shadow:0 12px 24px rgba(0,0,0,.24);
+      transform:translateY(-3px);
+    }
+    .theme-plumOcean .quick-links .q i{ color:#e5fbff; opacity:1; }
+
+    /* Butonlar — gradient flow animasyonu */
+    .theme-plumOcean .btn{
+      color:var(--brand);
+      border:1px solid #e7edf1;
+      background:#fff;
+      transition:.18s ease;
+    }
+    .theme-plumOcean .btn:active{ transform:translateY(1px) }
+
+    .theme-plumOcean .btn.primary,
+    .theme-plumOcean .hero .btn.ghost{
+      background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
+      color:#fff !important; border:0;
+      box-shadow:0 8px 22px rgba(16,179,209,.22);
+
+      background-size:200% 100%;
+      background-position:0% 0%;
+      transition:
+        background-position .35s ease,
+        box-shadow .2s ease,
+        transform .2s ease;
+    }
+    .theme-plumOcean .btn.primary:hover,
+    .theme-plumOcean .hero .btn.ghost:hover{
+      background-position:100% 0%;
+      transform:translateY(-2px);
+      box-shadow:0 12px 28px rgba(16,179,209,.28);
+    }
+
     /* Aktif nav ve aktif chip tonları */
-    .theme-plumOcean nav a.active{ color: var(--violet-deep); }
+    .theme-plumOcean nav a.active{ color: #c0f3ff; }
     .theme-plumOcean .faq-chip.active,
     .theme-plumOcean .faq-chip[aria-pressed="true"]{
       background:#f0fbfe; border-color:var(--accent);
     }
+
+    /* Footer */
+    .theme-plumOcean footer.footer-new{
+      background:linear-gradient(135deg, var(--footer-start), var(--footer-end));
+      color:#eaffff;
+    }
+    .theme-plumOcean .footer-links a,
+    .theme-plumOcean .footer-contact a{ color:#eaffff }
+    .theme-plumOcean .footer-bottom{ background:rgba(0,0,0,.18) }
   </style>
 </body>
 </html>
