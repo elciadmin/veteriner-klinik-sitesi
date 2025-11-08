@@ -4,16 +4,26 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Sık Sorulan Sorular | Elçi Veteriner Kliniği</title>
+
+  <!-- SEO -->
   <meta name="description" content="Elçi Veteriner Kliniği SSS: muayene ücretleri, randevu, ameliyat hazırlığı, aşılar, laboratuvar, görüntüleme ve acil durumlar hakkında net ve kısa yanıtlar."/>
   <link rel="canonical" href="https://elciveteriner.com/sss.html"/>
 
-  <!-- Global CSS (cache-bust önerilir) -->
-  <link rel="stylesheet" href="/assets/css/styles.css?v=20251108"/>
+  <!-- Stil dosyaları (cache-bust ile; index’teki sürümlerle aynı) -->
+  <link rel="stylesheet" href="/assets/css/tokens.css?v=20251106"/>
+  <link rel="stylesheet" href="/assets/css/styles.css?v=20251106"/>
+
+  <!-- İkonlar -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <!-- Sayfaya özgü min. stiller (yerleşim) -->
+  <!-- SSS sayfasına özgü yerleşim (tasarım korunur) -->
   <style>
-    /* SSS yerleşim */
+    .container{max-width:1180px;margin:0 auto;padding:0 16px}
+    h1,h2,h3{letter-spacing:.1px}
+    section h2{position:relative;display:inline-block}
+    section h2::after{content:"";position:absolute;left:0;bottom:-8px;width:72px;height:3px;border-radius:999px;background:linear-gradient(90deg,var(--brand),var(--accent))}
+
+    /* SSS layout (ÖNCEKİ TASARIM AYNEN) */
     .faq-layout{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
     @media (max-width: 1024px){.faq-layout{grid-template-columns:1fr}}
 
@@ -31,12 +41,14 @@
     .faq-group{margin:18px 0}
     .faq-group h2{margin:18px 0 8px}
 
-    details.faq{position:relative}
-    details.faq summary{list-style:none;cursor:pointer}
+    details.faq{position:relative;border:1px solid var(--card-border);border-radius:12px;padding:12px;margin-bottom:10px;background:#fbfefe}
+    details.faq[open]{background:#f5fbfc}
+    details.faq summary{list-style:none;cursor:pointer;font-weight:700}
     details.faq summary::-webkit-details-marker{display:none}
-    details.faq summary .q{display:flex;gap:10px;align-items:center;font-weight:700}
+    details.faq summary .q{display:flex;gap:10px;align-items:center}
     details.faq[open] summary .q .dot{background:var(--accent,#10b3d1)}
     .dot{width:10px;height:10px;border-radius:999px;background:#cfe9ee;flex:0 0 10px}
+
     .linkcopy{position:absolute;right:12px;top:12px;border:0;background:transparent;cursor:pointer;color:#6b7a7c}
     .linkcopy:hover{color:#0f5960}
 
@@ -44,7 +56,7 @@
     .no-results a{font-weight:700}
     .faq-footer-note{margin-top:8px;color:#6b7a7c;font-size:13px}
 
-    /* KONUM & ULAŞIM */
+    /* KONUM & ULAŞIM bloğu (opsiyonel) */
     section#location{padding:34px 0;background:#fff}
     .loc-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
     @media(max-width:980px){.loc-grid{grid-template-columns:1fr}}
@@ -59,45 +71,90 @@
   </style>
 </head>
 
-<body class="theme-plumOcean">
-  <!-- ===== HEADER ===== -->
+<body class="theme-elciKonya" data-page="faq">
+  <!-- ===== SABİT HEADER (index ile bire bir) ===== -->
   <header>
     <div class="header-top">
       <div class="container">
-        <div class="header-contact"><span><i class="fa-solid fa-location-dot"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</span></div>
+        <div class="header-contact">
+          <span><i class="fa-solid fa-location-dot"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</span>
+        </div>
         <div class="header-contact">
           <a href="tel:03323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a>
           <a href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> elcivetklinik@gmail.com</a>
         </div>
       </div>
     </div>
+
     <div class="header-main">
       <div class="container">
-        <div class="logo-text"><h1>Elçi Veteriner Kliniği</h1><span>Sağlığın Elçi'leriyiz</span></div>
+        <div class="logo-text">
+          <h1>Elçi Veteriner Kliniği</h1>
+          <span>Sağlığın Elçi'leriyiz</span>
+        </div>
+
         <nav aria-label="Birincil">
-          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç/kapat"><i class="fa-solid fa-bars"></i></button>
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç/kapat">
+            <i class="fa-solid fa-bars"></i>
+          </button>
           <ul id="mainMenu">
             <li><a href="/index.html">Ana Sayfa</a></li>
-            <li class="dropdown"><a href="/about.html">Hakkımızda</a></li>
-            <li class="dropdown"><a href="/hizmetler.html">Hizmetlerimiz</a></li>
+            <li class="dropdown">
+              <a href="/about.html" aria-haspopup="true" aria-expanded="false">Hakkımızda</a>
+              <div class="dropdown-content" role="menu">
+                <a href="/about.html#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
+                <a href="/about.html#ekibimiz" role="menuitem">Ekibimiz</a>
+                <a href="/about.html#klinik" role="menuitem">Kliniğimiz</a>
+                <a href="/about.html#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
+                <a href="/about.html#degerler" role="menuitem">Değerlerimiz</a>
+              </div>
+            </li>
+            <li class="dropdown">
+              <a href="/hizmetler.html" aria-haspopup="true" aria-expanded="false">Hizmetlerimiz</a>
+              <div class="dropdown-content" role="menu">
+                <a href="/hizmetler.html#acil" role="menuitem">Acil Veteriner</a>
+                <a href="/hizmetler.html#koruyucu" role="menuitem">Koruyucu Hekimlik</a>
+                <a href="/hizmetler.html#cerrahi" role="menuitem">Cerrahi Operasyonlar</a>
+                <a href="/hizmetler.html#agiz-dis" role="menuitem">Ağız ve Diş Sağlığı</a>
+                <a href="/hizmetler.html#ic-hastaliklari" role="menuitem">İç Hastalıkları</a>
+                <a href="/hizmetler.html#fizik-tedavi" role="menuitem">Fizik Tedavi</a>
+                <a href="/hizmetler.html#konaklama" role="menuitem">Konaklama</a>
+              </div>
+            </li>
             <li><a href="/blog.html">Blog</a></li>
-            <li class="dropdown"><a class="active" href="/sss.html">SSS</a></li>
-            <li class="dropdown"><a href="/hasta-iliskileri.html">Hasta İlişkileri</a></li>
+            <li class="dropdown">
+              <a class="active" href="/sss.html" aria-haspopup="true" aria-expanded="false">SSS</a>
+              <div class="dropdown-content" role="menu">
+                <a href="#fiyat" role="menuitem">Fiyat &amp; Ödeme</a>
+                <a href="#surec" role="menuitem">Randevu &amp; Süreç</a>
+                <a href="#acil" role="menuitem">Acil Durumlar</a>
+              </div>
+            </li>
+            <li class="dropdown">
+              <a href="/hasta-iliskileri.html" aria-haspopup="true" aria-expanded="false">Hasta İlişkileri</a>
+              <div class="dropdown-content" role="menu">
+                <a href="/hasta-iliskileri.html#online-randevu" role="menuitem">Online Randevu</a>
+                <a href="/hasta-iliskileri.html#memnuniyet-anketi" role="menuitem">Memnuniyet Anketi</a>
+                <a href="/hasta-iliskileri.html#basari-hikayeleri" role="menuitem">Başarı Hikayeleri</a>
+                <a href="/hasta-iliskileri.html#sikayet-oneri" role="menuitem">Şikayet &amp; Öneri</a>
+              </div>
+            </li>
           </ul>
         </nav>
+
       </div>
     </div>
   </header>
 
-  <!-- ===== HERO ===== -->
-  <section class="hero blog-hero">
+  <!-- ===== HERO (index temasıyla bire bir) ===== -->
+  <section class="hero" data-theme="clean">
     <div class="container">
       <div class="hero-center">
         <div class="hero-icon">
           <img class="hero-logo" src="/assets/img/uploads/elci-logo.png?v=1" alt="Elçi Veteriner Kliniği Logosu" width="96" height="96" loading="eager" decoding="async">
         </div>
         <h1>Sık Sorulan Sorular</h1>
-        <span class="hero-divider"></span>
+        <div class="hero-divider" role="presentation"></div>
         <p class="hero-sub">Ücretler, süreçler, aşılar, ameliyat ve acil durumlar — net ve kısa yanıtlar.</p>
 
         <div class="hero-cta">
@@ -106,18 +163,18 @@
         </div>
 
         <div class="quick-links" aria-label="Hızlı bağlantılar">
-          <a class="q" href="/hizmetler.html#koruyucu" title="Branşlarımız"><i class="fa-solid fa-paw"></i><span>Branşlarımız</span></a>
-          <a class="q" href="/contact.html" title="Hızlı Randevu"><i class="fa-solid fa-stethoscope"></i><span>Hızlı Randevu</span></a>
-          <a class="q" href="/hasta-iliskileri.html" title="Tahlil Sonuçları"><i class="fa-solid fa-flask"></i><span>Tahlil Sonuçları</span></a>
-          <a class="q" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" title="Elçi TV"><i class="fa-solid fa-newspaper"></i><span>Elçi TV</span></a>
-          <a class="q" href="#location" title="Konum & İletişim"><i class="fa-solid fa-location-dot"></i><span>Konum & İletişim</span></a>
-          <a class="q" href="tel:03323223220" title="Acil Hattı"><i class="fa-solid fa-truck-medical"></i><span>Acil</span></a>
+          <a class="q" href="/hizmetler.html#koruyucu" title="Branşlarımız"><span class="icon"><svg viewBox="0 0 24 24"><use href="#i-paw"/></svg></span><span>Branşlarımız</span></a>
+          <a class="q" href="/contact.html" title="Hızlı Randevu"><span class="icon"><svg viewBox="0 0 24 24"><use href="#i-stethoscope"/></svg></span><span>Hızlı Randevu</span></a>
+          <a class="q" href="/hasta-iliskileri.html" title="Tahlil Sonuçları"><span class="icon"><svg viewBox="0 0 24 24"><use href="#i-microscope"/></svg></span><span>Tahlil Sonuçları</span></a>
+          <a class="q" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" title="Elçi TV"><span class="icon"><svg viewBox="0 0 24 24"><use href="#i-article"/></svg></span><span>Elçi TV</span></a>
+          <a class="q" href="#location" title="Konum & İletişim"><span class="icon"><svg viewBox="0 0 24 24"><use href="#i-phone-bubble"/></svg></span><span>Konum & İletişim</span></a>
+          <a class="q" href="tel:03323223220" title="Acil Hattı"><span class="icon"><svg viewBox="0 0 24 24"><use href="#i-ambulance"/></svg></span><span>Acil</span></a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== LAYOUT (sol filtre / sağ içerik) ===== -->
+  <!-- ===== SSS YERLEŞİM (TASARIM KORUNDU) ===== -->
   <section class="section">
     <div class="container faq-layout">
       <!-- Sidebar -->
@@ -154,7 +211,7 @@
       <!-- İçerik -->
       <div id="faqContent" aria-live="polite">
         <!-- Fiyat & Ödeme -->
-        <div class="faq-group" data-cat="Fiyat & Ödeme">
+        <div class="faq-group" data-cat="Fiyat & Ödeme" id="fiyat">
           <h2>Fiyat & Ödeme</h2>
 
           <details class="faq" id="muayene-ucreti">
@@ -177,7 +234,7 @@
         </div>
 
         <!-- Randevu & Süreç -->
-        <div class="faq-group" data-cat="Randevu & Süreç">
+        <div class="faq-group" data-cat="Randevu & Süreç" id="surec">
           <h2>Randevu & Süreç</h2>
 
           <details class="faq" id="randevu-gerekli-mi">
@@ -220,23 +277,23 @@
         <div class="faq-group" data-cat="Ameliyat & Anestezi">
           <h2>Ameliyat & Anestezi</h2>
 
-        <details class="faq" id="ameliyat-oncesi-aclik">
-          <summary><span class="q"><span class="dot"></span>Ameliyat öncesi açlık ne kadar olmalı?</span></summary>
-          <button class="linkcopy" title="Bağlantıyı kopyala" aria-label="Bağlantıyı kopyala"><i class="fa-solid fa-link"></i></button>
-          <p>Genellikle 8–12 saat açlık, 2–4 saat su kısıtlaması önerilir. Yavru/özel durumlarda protokol değişebilir; size özel talimat verilir.</p>
-        </details>
+          <details class="faq" id="ameliyat-oncesi-aclik">
+            <summary><span class="q"><span class="dot"></span>Ameliyat öncesi açlık ne kadar olmalı?</span></summary>
+            <button class="linkcopy" title="Bağlantıyı kopyala" aria-label="Bağlantıyı kopyala"><i class="fa-solid fa-link"></i></button>
+            <p>Genellikle 8–12 saat açlık, 2–4 saat su kısıtlaması önerilir. Yavru/özel durumlarda protokol değişebilir; size özel talimat verilir.</p>
+          </details>
 
-        <details class="faq" id="kisirlastirma-sureci">
-          <summary><span class="q"><span class="dot"></span>Kısırlaştırma süreci ve iyileşme nasıl ilerler?</span></summary>
-          <button class="linkcopy" title="Bağlantıyı kopyala" aria-label="Bağlantıyı kopyala"><i class="fa-solid fa-link"></i></button>
-          <p>Pre-op muayene ve kan tahlili sonrası operasyon yapılır. Aynı gün/ertesi gün taburculuk; 10–14 gün dikiş bakımı ve aktivite kısıtlaması önerilir.</p>
-        </details>
+          <details class="faq" id="kisirlastirma-sureci">
+            <summary><span class="q"><span class="dot"></span>Kısırlaştırma süreci ve iyileşme nasıl ilerler?</span></summary>
+            <button class="linkcopy" title="Bağlantıyı kopyala" aria-label="Bağlantıyı kopyala"><i class="fa-solid fa-link"></i></button>
+            <p>Pre-op muayene ve kan tahlili sonrası operasyon yapılır. Aynı gün/ertesi gün taburculuk; 10–14 gün dikiş bakımı ve aktivite kısıtlaması önerilir.</p>
+          </details>
 
-        <details class="faq" id="anestezi-guvenli-mi">
-          <summary><span class="q"><span class="dot"></span>Anestezi güvenli mi?</span></summary>
-          <button class="linkcopy" title="Bağlantıyı kopyala" aria-label="Bağlantıyı kopyala"><i class="fa-solid fa-link"></i></button>
-          <p>ASA risk skorlaması, pre-op tetkikler ve monitörize anestezi ile risk minimize edilir. Operasyon boyunca EKG, SpO₂, sıcaklık ve tansiyon takibi yapılır.</p>
-        </details>
+          <details class="faq" id="anestezi-guvenli-mi">
+            <summary><span class="q"><span class="dot"></span>Anestezi güvenli mi?</span></summary>
+            <button class="linkcopy" title="Bağlantıyı kopyala" aria-label="Bağlantıyı kopyala"><i class="fa-solid fa-link"></i></button>
+            <p>ASA risk skorlaması, pre-op tetkikler ve monitörize anestezi ile risk minimize edilir. Operasyon boyunca EKG, SpO₂, sıcaklık ve tansiyon takibi yapılır.</p>
+          </details>
         </div>
 
         <!-- Görüntüleme & Lab -->
@@ -257,7 +314,7 @@
         </div>
 
         <!-- Acil Durum -->
-        <div class="faq-group" data-cat="Acil Durum">
+        <div class="faq-group" data-cat="Acil Durum" id="acil">
           <h2>Acil Durum</h2>
 
           <details class="faq" id="acil-ilk">
@@ -299,7 +356,7 @@
     </div>
   </section>
 
-  <!-- ===== KONUM & ULAŞIM ===== -->
+  <!-- ===== KONUM & ULAŞIM (opsiyonel blok) ===== -->
   <section id="location">
     <div class="container">
       <h2>Konum & Ulaşım</h2>
@@ -334,16 +391,16 @@
             <span class="loc-badge">Engelli Erişimi</span>
           </div>
           <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+            <a class="btn" href="/contact.html#konum">İletişime Geç</a>
             <a class="btn primary" target="_blank" rel="noopener"
                href="https://www.google.com/maps/dir//Havzan+Mah.+Yeni+Meram+Cad.+17/1+Meram+Konya">Rota Al</a>
-            <a class="btn" href="/contact.html#konum">İletişime Geç</a>
           </div>
         </aside>
       </div>
     </div>
   </section>
 
-  <!-- ===== FOOTER ===== -->
+  <!-- ===== FOOTER (index ile bire bir) ===== -->
   <footer class="footer-new">
     <div class="container footer-container">
       <div class="footer-col">
@@ -401,145 +458,164 @@
     <div class="footer-bottom"><div class="container"><p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p></div></div>
   </footer>
 
-  <!-- ===== FAQPage Schema.org ===== -->
+  <!-- ===== FAQ Schema.org ===== -->
   <script type="application/ld+json">
   {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      { "@type":"Question","name":"Muayene ücretiniz nedir?","acceptedAnswer":{"@type":"Answer","text":"Muayene ücretimiz güncel klinik tarifesine göre belirlenir; kapsam ve ek tetkiklere göre değişebilir. En doğru bilgi için 0332 322 32 20 numarasını arayabilirsiniz."}},
-      { "@type":"Question","name":"Hangi ödeme yöntemlerini kabul ediyorsunuz?","acceptedAnswer":{"@type":"Answer","text":"Nakit ve kredi/banka kartı kabul ediyoruz. Taksit seçenekleri, banka kampanyalarına göre değişebilir."}},
-      { "@type":"Question","name":"Randevu gerekli mi?","acceptedAnswer":{"@type":"Answer","text":"Genel muayeneler için randevu önerilir; acil vakalarda 7/24 kabulümüz vardır."}},
-      { "@type":"Question","name":"Ameliyat öncesi açlık ne kadar olmalı?","acceptedAnswer":{"@type":"Answer","text":"Genellikle 8–12 saat açlık, 2–4 saat su kısıtlaması önerilir. Yavru/özel durumlarda protokol değişebilir."}},
-      { "@type":"Question","name":"Kedilerde aşı takvimi nasıl?","acceptedAnswer":{"@type":"Answer","text":"Temel aşılar: karma, kuduz ve (risk durumunda) lösemi. Yavru dönemi primer seri sonrası yıllık hatırlatma dozları önerilir."}},
-      { "@type":"Question","name":"Acil durumda ilk ne yapmalıyım?","acceptedAnswer":{"@type":"Answer","text":"Önce 0332 322 32 20 numarasını arayın. Güvenli taşıyın; zehirlenme şüphesinde kusturmaya çalışmayın."}}
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"Muayene ücretiniz nedir?","acceptedAnswer":{"@type":"Answer","text":"Muayene ücretimiz kapsam ve ek tetkiklere göre değişir; en doğru bilgi için 0332 322 32 20."}},
+      {"@type":"Question","name":"Randevu gerekli mi?","acceptedAnswer":{"@type":"Answer","text":"Genel muayene için randevu önerilir; acil vakalarda 7/24 kabulümüz vardır."}},
+      {"@type":"Question","name":"Ameliyat öncesi açlık ne kadar olmalı?","acceptedAnswer":{"@type":"Answer","text":"Genellikle 8–12 saat açlık, 2–4 saat su kısıtlaması önerilir."}}
     ]
   }
   </script>
 
-  <!-- Global JS + Sayfa JS -->
-  <script defer src="/assets/js/main.js?v=18"></script>
+  <!-- Ana JS -->
+  <script defer src="/assets/js/main.js?v=20251106"></script>
+
+  <!-- SSS JS (filtre/arama, hash, yıl) -->
   <script>
-  // Yardımcılar
-  const $$ = (s,root=document)=>[...root.querySelectorAll(s)];
-  const $  = (s,root=document)=>root.querySelector(s);
+  const $$=(s,r=document)=>[...r.querySelectorAll(s)]; const $=(s,r=document)=>r.querySelector(s);
+  function setCount(n){ const el=$('#faqCount'); if(el) el.textContent=n; }
+  const normalize=t=>(t||'').toLocaleLowerCase('tr-TR');
 
-  function setCount(n){ const el = $('#faqCount'); if(el) el.textContent = n; }
-  function normalize(t){ return (t||'').toLocaleLowerCase('tr-TR'); }
-
-  // Arama + kategori filtre
   function applyFilters(){
     const q = normalize($('#faqSearch')?.value);
-    const activeChip = $('.faq-chip.active');
-    const cat = activeChip ? activeChip.dataset.cat : 'Tümü';
-
-    let visible = 0;
+    const active = $('.faq-chip.active'); const cat = active ? active.dataset.cat : 'Tümü';
+    let visible=0;
     $$('.faq-group').forEach(group=>{
-      const groupCat = group.getAttribute('data-cat');
-      let groupHasAny = false;
-
-      $$('.faq', group).forEach(det=>{
-        const txt = normalize(det.textContent);
-        const hitQ = !q || txt.includes(q);
-        const hitC = (cat === 'Tümü') || (groupCat === cat);
-        const match = hitQ && hitC;
-
-        det.style.display = match ? '' : 'none';
-        if(match){ groupHasAny = true; visible++; }
-        if(match && q){ det.open = true; }
+      const groupCat = group.getAttribute('data-cat'); let any=false;
+      $$('.faq',group).forEach(det=>{
+        const txt=normalize(det.textContent); const hitQ=!q || txt.includes(q); const hitC=(cat==='Tümü')||(groupCat===cat);
+        const show = hitQ && hitC; det.style.display = show ? '' : 'none'; if(show){any=true; visible++; if(q) det.open=true;}
       });
-
-      group.style.display = groupHasAny ? '' : 'none';
+      group.style.display = any ? '' : 'none';
     });
-
-    $('#noResults')?.classList.toggle('hidden', visible>0);
-    setCount(visible);
+    $('#noResults')?.classList.toggle('hidden', visible>0); setCount(visible);
   }
 
   function activateChip(btn){
-    $$('.faq-chip').forEach(b=>{ b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
+    $$('.faq-chip').forEach(b=>{b.classList.remove('active'); b.setAttribute('aria-pressed','false');});
     btn.classList.add('active'); btn.setAttribute('aria-pressed','true');
-    applyFilters();
-    const contentTop = $('#faqContent')?.getBoundingClientRect().top + window.scrollY - 86;
-    window.scrollTo({ top: contentTop, behavior:'smooth' });
+    applyFilters(); const top=$('#faqContent')?.getBoundingClientRect().top + scrollY - 86; scrollTo({top,behavior:'smooth'});
   }
 
-  function copyLinkFor(detailsEl){
-    const id = detailsEl.id;
-    if(!id) return;
-    const url = `${location.origin}${location.pathname}#${id}`;
+  function copyLinkFor(d){
+    const id=d.id; if(!id) return; const url=`${location.origin}${location.pathname}#${id}`;
     navigator.clipboard.writeText(url).then(()=>{
-      const btn = $('.linkcopy', detailsEl);
-      if(btn){ const old = btn.innerHTML; btn.innerHTML = '<i class="fa-solid fa-check"></i>'; setTimeout(()=>btn.innerHTML=old, 900); }
-      history.replaceState(null, '', '#'+id);
+      const b=$('.linkcopy',d); if(b){const o=b.innerHTML; b.innerHTML='<i class="fa-solid fa-check"></i>'; setTimeout(()=>b.innerHTML=o,900);}
+      history.replaceState(null,'','#'+id);
     });
   }
 
   function openFromHash(){
-    const hash = location.hash.replace('#','');
-    if(!hash) return;
-    const det = document.getElementById(hash);
-    if(det){
-      const group = det.closest('.faq-group');
-      const groupCat = group?.getAttribute('data-cat');
-      if(groupCat){
-        const chip = $(`.faq-chip[data-cat="${groupCat}"]`);
-        if(chip) activateChip(chip);
-      }
-      det.style.display=''; det.open = true;
-      const y = det.getBoundingClientRect().top + window.scrollY - 90;
-      window.scrollTo({ top:y, behavior:'smooth' });
-    }
+    const id=location.hash.replace('#',''); if(!id) return; const det=document.getElementById(id); if(!det) return;
+    const group=det.closest('.faq-group'); const cat=group?.getAttribute('data-cat');
+    if(cat){ const chip=$(`.faq-chip[data-cat="${cat}"]`); if(chip) activateChip(chip); }
+    det.style.display=''; det.open=true; const y=det.getBoundingClientRect().top + scrollY - 90; scrollTo({top:y,behavior:'smooth'});
   }
 
-  // Mobil menü
-  document.addEventListener('click',(e)=>{
-    if(e.target.id==='mobileMenuBtn'){
-      document.getElementById('mainMenu')?.classList.toggle('show');
-    }
+  document.addEventListener('click',e=>{
+    if(e.target.id==='mobileMenuBtn'){ $('#mainMenu')?.classList.toggle('show'); }
+    if(e.target.closest && e.target.closest('.linkcopy')){ const d=e.target.closest('details.faq'); if(d) copyLinkFor(d); }
   });
 
-  document.addEventListener('DOMContentLoaded', ()=>{
-    // Sayaç ilk değer
+  document.addEventListener('DOMContentLoaded',()=>{
     setCount($$('.faq').length);
-
-    // Chip tıklamaları
-    $$('.faq-chip').forEach(chip=>{
-      chip.addEventListener('click', ()=>activateChip(chip));
-    });
-
-    // Arama
+    $$('.faq-chip').forEach(ch=> ch.addEventListener('click',()=>activateChip(ch)));
     $('#faqSearch')?.addEventListener('input', applyFilters);
-
-    // Tümünü aç/kapat
-    $('#openAll')?.addEventListener('click', ()=>{
-      $$('.faq').forEach(d=>{ if(d.style.display !== 'none') d.open = true; });
-    });
-    $('#closeAll')?.addEventListener('click', ()=>{
-      $$('.faq').forEach(d=> d.open = false);
-    });
-
-    // Link kopyala
-    $$('.faq .linkcopy').forEach(btn=>{
-      btn.addEventListener('click', (e)=>{
-        const d = e.currentTarget.closest('details.faq');
-        if(d) copyLinkFor(d);
-      });
-    });
-
-    // Hash’ten aç
-    openFromHash();
-    window.addEventListener('hashchange', openFromHash);
-
-    // Güncelleme tarihi
-    const now = new Date();
-    const fmt = now.toLocaleDateString('tr-TR', {year:'numeric', month:'long', day:'2-digit'});
-    $('#faqUpdated')?.textContent = fmt;
-
-    // Footer yıl
-    const yilEl = document.getElementById('yil');
-    if(yilEl) yilEl.textContent = new Date().getFullYear();
+    $('#openAll')?.addEventListener('click',()=>{$$('.faq').forEach(d=>{ if(d.style.display!=='none') d.open=true; });});
+    $('#closeAll')?.addEventListener('click',()=>{$$('.faq').forEach(d=> d.open=false);});
+    openFromHash(); addEventListener('hashchange',openFromHash);
+    const y=document.getElementById('yil'); if(y) y.textContent=new Date().getFullYear();
+    const fmt=new Date().toLocaleDateString('tr-TR',{year:'numeric',month:'long',day:'2-digit'}); $('#faqUpdated')?.textContent=fmt;
   });
   </script>
+
+  <!-- ===== SVG ICON SPRITE (index’tekiyle aynı set; hero hızlı linkler için) ===== -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden">
+    <defs><style>.i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.i-solid{fill:currentColor;stroke:none}</style></defs>
+    <symbol id="i-paw" viewBox="0 0 24 24"><path class="i" d="M7.2 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM16.8 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM10.2 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM13.8 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM6.5 15.2c0-2.6 2.3-4.7 5.5-4.7s5.5 2.1 5.5 4.7c0 1.6-1.5 2.8-3.4 2.8-1 0-1.9-.3-2.1-.8-.3.5-1.1.8-2.1.8-1.9 0-3.4-1.2-3.4-2.8z"/></symbol>
+    <symbol id="i-stethoscope" viewBox="0 0 24 24"><path class="i" d="M6 3v5a4 4 0 1 0 8 0V3M2.5 3H6M10 3h3.5M10 13a6 6 0 0 0 12 0v-1.2"/><circle class="i" cx="22" cy="11.8" r="2"/></symbol>
+    <symbol id="i-microscope" viewBox="0 0 24 24"><path class="i" d="M10 3l4 4-2 2-4-4 2-2zM8 11h6M6 21h12M7 21a6 6 0 1 1 10 0"/></symbol>
+    <symbol id="i-article" viewBox="0 0 24 24"><rect class="i" x="4" y="3" width="16" height="18" rx="2"/><path class="i" d="M8 8h8M8 12h8M8 16h5"/></symbol>
+    <symbol id="i-phone-bubble" viewBox="0 0 24 24"><path class="i" d="M19 15.5v2a2 2 0 0 1-2.2 2 16 16 0 0 1-7-2.7 16 16 0 0 1-5-5A2 2 0 0 1 6.5 9h2l2 3-1.5 1.5a12.5 12.5 0 0 0 5 5L15 17l3 2.5"/><path class="i" d="M7 5h10a2 2 0 0 1 2 2v4"/></symbol>
+    <symbol id="i-ambulance" viewBox="0 0 24 24"><path class="i" d="M3 16V8a2 2 0 0 1 2-2h7l4 4h3a2 2 0 0 1 2 2v4H3z"/><circle class="i" cx="7" cy="18" r="2"/><circle class="i" cx="17" cy="18" r="2"/><path class="i" d="M7 10h3M8.5 8.5v3"/></symbol>
+  </svg>
+
+  <!-- ===== THEME OVERRIDE (Pro Index ile aynı renk hissi) ===== -->
+  <style id="theme-elciKonya-override">
+    :root{
+      --brand:#5a1fa8;      /* derin ametist */
+      --brand2:#36106b;     /* sıcak noir moru */
+      --accent:#27d4e8;     /* canlı teal */
+      --ink:#0f1b22; --muted:#5f6b74; --line:#e7edf1; --bg:#f7fbfc; --paper:#fff;
+      --footer-start:#241043; --footer-end:#5a1fa8;
+      --hero-start:#30105f; --hero-end:#27d4e8;
+
+      --icon-ink:#0a4f60;
+      --icon-ink-hero:#e5fbff;
+    }
+
+    .header-top{
+      background:linear-gradient(90deg,var(--brand) 0%,var(--brand2) 100%);
+      color:#fff;
+    }
+    .header-main{
+      background:linear-gradient(90deg,
+        color-mix(in srgb,var(--brand),#000 8%) 0%,
+        color-mix(in srgb,var(--brand2),#000 6%) 100%);
+      color:#fff;
+    }
+    nav a{color:#eaf6f8}
+    nav a:hover,nav a:focus{color:#fff}
+    nav a.active{color:#c0f3ff}
+    nav a::after{background:#c0f3ff}
+
+    .header-main .logo-text{
+      display:flex;flex-direction:column;gap:2px;padding:8px 12px;border-radius:14px;
+      background:linear-gradient(90deg,rgba(0,0,0,.24),rgba(0,0,0,.10));
+      box-shadow:0 6px 18px rgba(0,0,0,.18);
+      -webkit-backdrop-filter:saturate(120%) blur(1px); backdrop-filter:saturate(120%) blur(1px);
+    }
+    .header-main .logo-text h1{color:#fff;margin:0;text-shadow:0 2px 10px rgba(0,0,0,.35);letter-spacing:.2px}
+    .header-main .logo-text span{color:#e8fbff;opacity:.96;text-shadow:0 1px 8px rgba(0,0,0,.3)}
+
+    .hero{
+      background:
+        radial-gradient(1400px 700px at 85% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
+        linear-gradient(120deg,var(--hero-start) 0%,var(--hero-end) 100%);
+      color:#fff;
+    }
+    .hero h1{color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.22)}
+    .hero .hero-sub{color:#e8fbff;opacity:.98}
+    .hero .hero-divider{background:linear-gradient(90deg,var(--brand),var(--accent))}
+    .hero .quick-links .q{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);color:#fff}
+    .hero .quick-links .q:hover{background:rgba(255,255,255,.14);transform:translateY(-3px)}
+    .hero .quick-links .icon svg{color:var(--icon-ink-hero)}
+
+    .btn{color:var(--brand);border:1px solid var(--line);background:#fff;transition:.18s ease}
+    .btn.primary, .hero .btn.ghost{
+      background:linear-gradient(90deg,var(--brand) 0%,var(--accent) 100%);
+      color:#fff !important;border:0;box-shadow:0 8px 22px rgba(16,179,209,.22);
+      background-size:200% 100%; background-position:0% 0%;
+    }
+    .btn.primary:hover, .hero .btn.ghost:hover{
+      transform:translateY(-2px); box-shadow:0 12px 28px rgba(16,179,209,.28); background-position:100% 0%;
+    }
+
+    details.faq{background:#fff;border-color:var(--line)}
+    details.faq[open]{background:#f7fbfc}
+    .linkcopy{color:#6b7a7c}
+    .linkcopy:hover{color:#0f5960}
+
+    footer.footer-new{
+      background:linear-gradient(135deg,var(--footer-start),var(--footer-end));
+      color:#eaffff;
+    }
+    .footer-links a, .footer-contact a{color:#eaffff}
+    .footer-bottom{background:rgba(0,0,0,.18)}
+  </style>
 </body>
 </html>
