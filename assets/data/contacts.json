@@ -1,0 +1,9 @@
+{
+  "address": "Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya",
+  "phone": "+90 332 322 32 20",
+  "email": "elcivetklinik@gmail.com",
+  "hours": [
+    {"day": "Pazartesi–Cumartesi", "time": "08:00–19:00"},
+    {"day": "Pazar", "time": "Acil Hizmet"}
+  ]
+}
