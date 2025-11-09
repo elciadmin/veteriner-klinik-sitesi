@@ -62,6 +62,13 @@
 
     /* Değerler & Klinik grid aralıklarını yumuşat */
     .mv-grid, .values-grid, .team-grid, .clinic-wrap { row-gap:18px }
+
+    /* Klavye odak görünürlüğü */
+    .feature a:focus-visible, .clinic-wrap a:focus-visible, .cta .btn:focus-visible {
+      outline:2px solid color-mix(in srgb, var(--accent), #000 20%);
+      outline-offset:2px;
+      border-radius:12px;
+    }
   </style>
 
   <!-- === THEME OVERRIDE — Elçi Paleti (index/blog ile birebir) === -->
@@ -100,7 +107,7 @@
     }
     nav a{ color:#eaf6f8 }
     nav a:hover, nav a:focus{ color:#fff }
-    nav a.active{ color:#c0f3ff }
+    nav a.active, nav a[aria-current="page"]{ color:#c0f3ff }
     nav a::after{ background:#c0f3ff }
 
     /* Logo paneli okunaklı */
@@ -160,8 +167,6 @@
     .m-progress{ background:#e9f4f7 }
     .m-bar{ background:linear-gradient(90deg, var(--brand), var(--accent)) }
     .metrics .m-card{ border-color: color-mix(in srgb, var(--brand), #fff 85%) }
-
-    /* SVG donut/gauge gradientleri için varsayılan renkler */
     .metrics svg defs stop[offset="0%"]{ stop-color: var(--brand) }
     .metrics svg defs stop[offset="100%"]{ stop-color: var(--accent) }
 
@@ -213,7 +218,7 @@
           <ul id="mainMenu">
             <li><a href="/index.html">Ana Sayfa</a></li>
             <li class="dropdown">
-              <a href="/about.html" class="active" aria-haspopup="true" aria-expanded="true">Hakkımızda</a>
+              <a href="/about.html" class="active" aria-current="page" aria-haspopup="true" aria-expanded="true">Hakkımızda</a>
               <div class="dropdown-content" role="menu">
                 <a href="#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
                 <a href="#ekibimiz" role="menuitem">Ekibimiz</a>
@@ -296,7 +301,7 @@
 
       <div class="about-wrap">
         <figure class="about-img" aria-hidden="true">
-          <img src="https://images.unsplash.com/photo-1583339793403-3b0338094d19?auto=format&fit=crop&w=1000&q=80" alt="">
+          <img src="https://images.unsplash.com/photo-1583339793403-3b0338094d19?auto=format&fit=crop&w=1000&q=80" alt="" loading="lazy" decoding="async">
         </figure>
 
         <div class="about-content">
@@ -430,7 +435,7 @@
 
       <div class="team-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
         <article class="member" style="background:#fff;border:1px solid #e9f1f2;border-radius:16px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.04)">
-          <div class="ph" style="aspect-ratio:4/3;background:#f3f7f8"><img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=60" alt="Dr. Ayşe Yılmaz" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+          <div class="ph" style="aspect-ratio:4/3;background:#f3f7f8"><img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=60" alt="Dr. Ayşe Yılmaz" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy" decoding="async"></div>
           <div class="info" style="padding:14px">
             <div class="role" style="font-weight:700;margin-bottom:4px">Cerrahi Uzmanı</div>
             <h3>Dr. Ayşe Yılmaz</h3>
@@ -439,7 +444,7 @@
         </article>
 
         <article class="member" style="background:#fff;border:1px solid #e9f1f2;border-radius:16px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.04)">
-          <div class="ph" style="aspect-ratio:4/3;background:#f3f7f8"><img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=900&q=60" alt="Dr. Mehmet Kaya" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+          <div class="ph" style="aspect-ratio:4/3;background:#f3f7f8"><img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=900&q=60" alt="Dr. Mehmet Kaya" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy" decoding="async"></div>
           <div class="info" style="padding:14px">
             <div class="role" style="font-weight:700;margin-bottom:4px">İç Hastalıkları Uzmanı</div>
             <h3>Dr. Mehmet Kaya</h3>
@@ -448,7 +453,7 @@
         </article>
 
         <article class="member" style="background:#fff;border:1px solid #e9f1f2;border-radius:16px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.04)">
-          <div class="ph" style="aspect-ratio:4/3;background:#f3f7f8"><img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=900&q=60" alt="Dr. Zeynep Demir" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+          <div class="ph" style="aspect-ratio:4/3;background:#f3f7f8"><img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=900&q=60" alt="Dr. Zeynep Demir" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy" decoding="async"></div>
           <div class="info" style="padding:14px">
             <div class="role" style="font-weight:700;margin-bottom:4px">Dermatoloji &amp; Diş</div>
             <h3>Dr. Zeynep Demir</h3>
@@ -487,7 +492,7 @@
           </div>
         </div>
         <figure class="about-img">
-          <img src="https://images.unsplash.com/photo-1583336663277-620dc1996580?auto=format&fit=crop&w=1200&q=70" alt="Elçi Veteriner Kliniği — Modern alanlar">
+          <img src="https://images.unsplash.com/photo-1583336663277-620dc1996580?auto=format&fit=crop&w=1200&q=70" alt="Elçi Veteriner Kliniği — Modern alanlar" loading="lazy" decoding="async">
         </figure>
       </div>
     </div>
@@ -646,6 +651,9 @@
 
   <!-- Ana JS -->
   <script defer src="/assets/js/main.js?v=17.1"></script>
+
+  <!-- Footer yılı (garanti) -->
+  <script>document.getElementById('yil')?.append(new Date().getFullYear());</script>
 
   <!-- Reviews 3'lü mini fallback (main.js olmasa da çalışır) -->
   <script>
