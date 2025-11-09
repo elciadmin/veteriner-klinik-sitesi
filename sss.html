@@ -9,7 +9,7 @@
   <meta name="description" content="Elçi Veteriner Kliniği SSS: muayene ücretleri, randevu, ameliyat hazırlığı, aşılar, laboratuvar, görüntüleme ve acil durumlar hakkında net ve kısa yanıtlar."/>
   <link rel="canonical" href="https://elciveteriner.com/sss.html"/>
 
-  <!-- Stil dosyaları (cache-bust ile; index’teki sürümlerle aynı) -->
+  <!-- Stil dosyaları (cache-bust: index ile aynı sürüm) -->
   <link rel="stylesheet" href="/assets/css/tokens.css?v=20251106"/>
   <link rel="stylesheet" href="/assets/css/styles.css?v=20251106"/>
 
@@ -22,6 +22,7 @@
     h1,h2,h3{letter-spacing:.1px}
     section h2{position:relative;display:inline-block}
     section h2::after{content:"";position:absolute;left:0;bottom:-8px;width:72px;height:3px;border-radius:999px;background:linear-gradient(90deg,var(--brand),var(--accent))}
+    .hidden{display:none !important}
 
     /* SSS layout (ÖNCEKİ TASARIM AYNEN) */
     .faq-layout{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
@@ -69,10 +70,84 @@
     .loc-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
     .loc-badge{padding:6px 10px;border-radius:999px;background:#e9f4f5;border:1px solid #a8cacc;font-weight:700;font-size:12px;color:#0a4348}
   </style>
+
+  <!-- THEME OVERRIDE (Pro Index ile aynı renk hissi + buton akışı) -->
+  <style id="theme-elciKonya-override">
+    :root{
+      --brand:#5a1fa8;      /* derin ametist */
+      --brand2:#36106b;     /* sıcak noir moru */
+      --accent:#27d4e8;     /* canlı teal */
+      --ink:#0f1b22; --muted:#5f6b74; --line:#e7edf1; --bg:#f7fbfc; --paper:#fff;
+      --footer-start:#241043; --footer-end:#5a1fa8;
+      --hero-start:#30105f; --hero-end:#27d4e8;
+
+      --icon-ink:#0a4f60;
+      --icon-ink-hero:#e5fbff;
+    }
+
+    .header-top{
+      background:linear-gradient(90deg,var(--brand) 0%,var(--brand2) 100%);
+      color:#fff;
+    }
+    .header-main{
+      background:linear-gradient(90deg,
+        color-mix(in srgb,var(--brand),#000 8%) 0%,
+        color-mix(in srgb,var(--brand2),#000 6%) 100%);
+      color:#fff;
+    }
+    nav a{color:#eaf6f8}
+    nav a:hover,nav a:focus{color:#fff}
+    nav a.active{color:#c0f3ff}
+    nav a::after{background:#c0f3ff}
+
+    .header-main .logo-text{
+      display:flex;flex-direction:column;gap:2px;padding:8px 12px;border-radius:14px;
+      background:linear-gradient(90deg,rgba(0,0,0,.24),rgba(0,0,0,.10));
+      box-shadow:0 6px 18px rgba(0,0,0,.18);
+      -webkit-backdrop-filter:saturate(120%) blur(1px); backdrop-filter:saturate(120%) blur(1px);
+    }
+    .header-main .logo-text h1{color:#fff;margin:0;text-shadow:0 2px 10px rgba(0,0,0,.35);letter-spacing:.2px}
+    .header-main .logo-text span{color:#e8fbff;opacity:.96;text-shadow:0 1px 8px rgba(0,0,0,.3)}
+
+    .hero{
+      background:
+        radial-gradient(1400px 700px at 85% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
+        linear-gradient(120deg,var(--hero-start) 0%,var(--hero-end) 100%);
+      color:#fff;
+    }
+    .hero h1{color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.22)}
+    .hero .hero-sub{color:#e8fbff;opacity:.98}
+    .hero .hero-divider{background:linear-gradient(90deg,var(--brand),var(--accent))}
+    .hero .quick-links .q{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);color:#fff}
+    .hero .quick-links .q:hover{background:rgba(255,255,255,.14);transform:translateY(-3px)}
+    .hero .quick-links .icon svg{color:var(--icon-ink-hero)}
+
+    /* Akış animasyonlu buton (index ile aynı his) */
+    .btn{color:var(--brand);border:1px solid var(--line);background:#fff;transition:background-position .35s ease, box-shadow .2s ease, transform .2s ease, color .15s ease}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.08)}
+    .btn.primary, .hero .btn.ghost{
+      background:linear-gradient(90deg,var(--brand) 0%,var(--accent) 100%);
+      color:#fff !important;border:0;box-shadow:0 8px 22px rgba(16,179,209,.22);
+      background-size:200% 100%;background-position:0% 0%;
+    }
+    .btn.primary:hover, .hero .btn.ghost:hover{background-position:100% 0%;box-shadow:0 12px 28px rgba(16,179,209,.28)}
+
+    details.faq{background:#fff;border-color:var(--line)}
+    details.faq[open]{background:#f7fbfc}
+    .linkcopy{color:#6b7a7c}
+    .linkcopy:hover{color:#0f5960}
+
+    footer.footer-new{
+      background:linear-gradient(135deg,var(--footer-start),var(--footer-end));
+      color:#eaffff;
+    }
+    .footer-links a, .footer-contact a{color:#eaffff}
+    .footer-bottom{background:rgba(0,0,0,.18)}
+  </style>
 </head>
 
 <body class="theme-elciKonya" data-page="faq">
-  <!-- ===== SABİT HEADER (index ile bire bir) ===== -->
+  <!-- ===== SABİT HEADER ===== -->
   <header>
     <div class="header-top">
       <div class="container">
@@ -146,7 +221,7 @@
     </div>
   </header>
 
-  <!-- ===== HERO (index temasıyla bire bir) ===== -->
+  <!-- ===== HERO ===== -->
   <section class="hero" data-theme="clean">
     <div class="container">
       <div class="hero-center">
@@ -174,7 +249,7 @@
     </div>
   </section>
 
-  <!-- ===== SSS YERLEŞİM (TASARIM KORUNDU) ===== -->
+  <!-- ===== SSS YERLEŞİM ===== -->
   <section class="section">
     <div class="container faq-layout">
       <!-- Sidebar -->
@@ -319,7 +394,7 @@
 
           <details class="faq" id="acil-ilk">
             <summary><span class="q"><span class="dot"></span>Acil durumda ilk ne yapmalıyım?</span></summary>
-            <button class="linkcopy" title="Bağlantısını kopyala" aria-label="Bağlantıyı kopyala"><i class="fa-solid fa-link"></i></button>
+            <button class="linkcopy" title="Bu sorunun bağlantısını kopyala" aria-label="Bağlantıyı kopyala"><i class="fa-solid fa-link"></i></button>
             <p>Önce <a href="tel:03323223220">0332 322 32 20</a> numarasını arayın. Panik yapmadan güvenli taşıyın; kedi/köpek taşıma çantası kullanın. Zehirlenme şüphesinde kusturmaya çalışmayın.</p>
           </details>
 
@@ -400,7 +475,7 @@
     </div>
   </section>
 
-  <!-- ===== FOOTER (index ile bire bir) ===== -->
+  <!-- ===== FOOTER ===== -->
   <footer class="footer-new">
     <div class="container footer-container">
       <div class="footer-col">
@@ -529,11 +604,11 @@
     $('#closeAll')?.addEventListener('click',()=>{$$('.faq').forEach(d=> d.open=false);});
     openFromHash(); addEventListener('hashchange',openFromHash);
     const y=document.getElementById('yil'); if(y) y.textContent=new Date().getFullYear();
-    const fmt=new Date().toLocaleDateString('tr-TR',{year:'numeric',month:'long',day:'2-digit'}); $('#faqUpdated')?.textContent=fmt;
+    const fmt=new Date().toLocaleDateString('tr-TR',{year:'numeric',month:'long',day:'2-digit'}); document.getElementById('faqUpdated')?.textContent=fmt;
   });
   </script>
 
-  <!-- ===== SVG ICON SPRITE (index’tekiyle aynı set; hero hızlı linkler için) ===== -->
+  <!-- SVG ICON SPRITE (hero hızlı linkler için) -->
   <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden">
     <defs><style>.i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.i-solid{fill:currentColor;stroke:none}</style></defs>
     <symbol id="i-paw" viewBox="0 0 24 24"><path class="i" d="M7.2 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM16.8 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM10.2 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM13.8 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM6.5 15.2c0-2.6 2.3-4.7 5.5-4.7s5.5 2.1 5.5 4.7c0 1.6-1.5 2.8-3.4 2.8-1 0-1.9-.3-2.1-.8-.3.5-1.1.8-2.1.8-1.9 0-3.4-1.2-3.4-2.8z"/></symbol>
@@ -543,79 +618,5 @@
     <symbol id="i-phone-bubble" viewBox="0 0 24 24"><path class="i" d="M19 15.5v2a2 2 0 0 1-2.2 2 16 16 0 0 1-7-2.7 16 16 0 0 1-5-5A2 2 0 0 1 6.5 9h2l2 3-1.5 1.5a12.5 12.5 0 0 0 5 5L15 17l3 2.5"/><path class="i" d="M7 5h10a2 2 0 0 1 2 2v4"/></symbol>
     <symbol id="i-ambulance" viewBox="0 0 24 24"><path class="i" d="M3 16V8a2 2 0 0 1 2-2h7l4 4h3a2 2 0 0 1 2 2v4H3z"/><circle class="i" cx="7" cy="18" r="2"/><circle class="i" cx="17" cy="18" r="2"/><path class="i" d="M7 10h3M8.5 8.5v3"/></symbol>
   </svg>
-
-  <!-- ===== THEME OVERRIDE (Pro Index ile aynı renk hissi) ===== -->
-  <style id="theme-elciKonya-override">
-    :root{
-      --brand:#5a1fa8;      /* derin ametist */
-      --brand2:#36106b;     /* sıcak noir moru */
-      --accent:#27d4e8;     /* canlı teal */
-      --ink:#0f1b22; --muted:#5f6b74; --line:#e7edf1; --bg:#f7fbfc; --paper:#fff;
-      --footer-start:#241043; --footer-end:#5a1fa8;
-      --hero-start:#30105f; --hero-end:#27d4e8;
-
-      --icon-ink:#0a4f60;
-      --icon-ink-hero:#e5fbff;
-    }
-
-    .header-top{
-      background:linear-gradient(90deg,var(--brand) 0%,var(--brand2) 100%);
-      color:#fff;
-    }
-    .header-main{
-      background:linear-gradient(90deg,
-        color-mix(in srgb,var(--brand),#000 8%) 0%,
-        color-mix(in srgb,var(--brand2),#000 6%) 100%);
-      color:#fff;
-    }
-    nav a{color:#eaf6f8}
-    nav a:hover,nav a:focus{color:#fff}
-    nav a.active{color:#c0f3ff}
-    nav a::after{background:#c0f3ff}
-
-    .header-main .logo-text{
-      display:flex;flex-direction:column;gap:2px;padding:8px 12px;border-radius:14px;
-      background:linear-gradient(90deg,rgba(0,0,0,.24),rgba(0,0,0,.10));
-      box-shadow:0 6px 18px rgba(0,0,0,.18);
-      -webkit-backdrop-filter:saturate(120%) blur(1px); backdrop-filter:saturate(120%) blur(1px);
-    }
-    .header-main .logo-text h1{color:#fff;margin:0;text-shadow:0 2px 10px rgba(0,0,0,.35);letter-spacing:.2px}
-    .header-main .logo-text span{color:#e8fbff;opacity:.96;text-shadow:0 1px 8px rgba(0,0,0,.3)}
-
-    .hero{
-      background:
-        radial-gradient(1400px 700px at 85% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
-        linear-gradient(120deg,var(--hero-start) 0%,var(--hero-end) 100%);
-      color:#fff;
-    }
-    .hero h1{color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.22)}
-    .hero .hero-sub{color:#e8fbff;opacity:.98}
-    .hero .hero-divider{background:linear-gradient(90deg,var(--brand),var(--accent))}
-    .hero .quick-links .q{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);color:#fff}
-    .hero .quick-links .q:hover{background:rgba(255,255,255,.14);transform:translateY(-3px)}
-    .hero .quick-links .icon svg{color:var(--icon-ink-hero)}
-
-    .btn{color:var(--brand);border:1px solid var(--line);background:#fff;transition:.18s ease}
-    .btn.primary, .hero .btn.ghost{
-      background:linear-gradient(90deg,var(--brand) 0%,var(--accent) 100%);
-      color:#fff !important;border:0;box-shadow:0 8px 22px rgba(16,179,209,.22);
-      background-size:200% 100%; background-position:0% 0%;
-    }
-    .btn.primary:hover, .hero .btn.ghost:hover{
-      transform:translateY(-2px); box-shadow:0 12px 28px rgba(16,179,209,.28); background-position:100% 0%;
-    }
-
-    details.faq{background:#fff;border-color:var(--line)}
-    details.faq[open]{background:#f7fbfc}
-    .linkcopy{color:#6b7a7c}
-    .linkcopy:hover{color:#0f5960}
-
-    footer.footer-new{
-      background:linear-gradient(135deg,var(--footer-start),var(--footer-end));
-      color:#eaffff;
-    }
-    .footer-links a, .footer-contact a{color:#eaffff}
-    .footer-bottom{background:rgba(0,0,0,.18)}
-  </style>
 </body>
 </html>
