@@ -626,3 +626,23 @@ body.theme-plumOcean footer.footer-new{
 body.theme-plumOcean .footer-links a,
 body.theme-plumOcean .footer-contact a{ color:#eaffff !important; }
 body.theme-plumOcean .footer-bottom{ background:rgba(0,0,0,.18) !important; }
+/* ==== Hover Kontrast Sabitleme (Elçi Tema) — PATCH ==== */
+.btn.primary,
+.hero .btn.ghost { color: #fff !important; }
+.btn.primary:hover,
+.hero .btn.ghost:hover { color: #fff !important; }
+
+/* Koyu header/top şerit üstünde buton metni/ikonları görünür kalsın */
+.header-main .btn,
+.header-top .btn {
+  color: #ffffff !important;
+  border-color: transparent;
+}
+
+/* Açık zeminli bölümlerde hover'da okunurluk */
+.section .btn:hover {
+  color: var(--brand) !important;
+}
+
+/* Quick-links ikonlarının mor/teal temada görünürlüğü */
+.quick-links .q .icon svg { color: var(--icon-ink-hero, #e5fbff); }
