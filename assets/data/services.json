@@ -1,0 +1,8 @@
+{
+  "title": "Hizmetlerimiz",
+  "items": [
+    {"id":"acil","title":"Acil Veteriner","summary":"7/24 acil müdahale ve yoğun bakım","icon":"fa-solid fa-ambulance"},
+    {"id":"koruyucu","title":"Koruyucu Hekimlik","summary":"Aşı, parazit, yıllık kontroller","icon":"fa-solid fa-shield-heart"},
+    {"id":"cerrahi","title":"Cerrahi Operasyonlar","summary":"Yumuşak doku, ortopedi","icon":"fa-solid fa-scalpel"}
+  ]
+}
