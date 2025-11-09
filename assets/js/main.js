@@ -1,11 +1,12 @@
 /* =========================================================================
-   Elçi Veteriner — Ana JS (v17→v17.1)
+   Elçi Veteriner — Ana JS (v17→v17.2)
    - Header: mobil menü + aktif link
    - Services: 6'lı sayfa kaydırma + scroll-in animasyon
    - Instagram: yavaş şerit + rastgele highlight (json/fn fallback)
    - Google Yorumları: 8’li rotator
    - YouTube: 3’lü şerit, 7 sn’de 2-3-4
-   ======================================================================== */
+   - JSON Mini Loader: FAQ & About hydrate (Decap CMS JSON'ları)
+   ========================================================================= */
 (function () {
   "use strict";
 
@@ -336,4 +337,116 @@
     setInterval(()=>{ start = (start+1)%ids.length; render(); }, 7000);
   })();
 
+})(); 
+
+/* ===== JSON Mini Loader (FAQ + About) — ayrı IIFE ===== */
+(function(){
+  const isFAQ   = document.body?.dataset?.page === 'faq';
+  const onAbout = /about\.html$/.test(location.pathname) || document.getElementById('basarilar');
+
+  async function jget(path){
+    try{
+      const r = await fetch(path, {cache:'no-cache'});
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return await r.json();
+    }catch(e){ console.warn('JSON load fail', path, e); return null; }
+  }
+
+  // ---- FAQ hydrate
+  async function hydrateFAQ(){
+    if(!isFAQ) return;
+    const data = await jget('/assets/data/faq.json'); if(!data) return;
+    const root = document.getElementById('faqContent'); if(!root) return;
+
+    const mkDetails = (it)=>`
+      <details class="faq" id="${it.id}">
+        <summary><span class="q"><span class="dot"></span>${it.q}</span></summary>
+        <button class="linkcopy" title="Bağlantıyı kopyala" aria-label="Bağlantıyı kopyala"><i class="fa-solid fa-link"></i></button>
+        <div class="a">${it.a}</div>
+      </details>`;
+
+    const groupsHtml = (data.groups||[]).map(g=>{
+      const gid = (g.category || 'Grup').toLowerCase().replace(/\s+/g,'-');
+      const items = (g.items||[]).map(mkDetails).join('');
+      return `<div class="faq-group" data-cat="${g.category}" id="${gid}">
+        <h2>${g.category}</h2>${items}</div>`;
+    }).join('');
+
+    // noResults ve footer note korunacaksa ekle
+    const noRes = document.getElementById('noResults')?.outerHTML || '';
+    const foot  = root.querySelector('.faq-footer-note')?.outerHTML || '';
+    root.innerHTML = groupsHtml + noRes + foot;
+
+    // chipleri doldur
+    const chips = document.getElementById('faqChips');
+    if(chips){
+      const uniq = ['Tümü', ...(data.groups||[]).map(g=>g.category)];
+      chips.innerHTML = uniq.map((c,i)=>`<button class="faq-chip ${i===0?'active':''}" data-cat="${c}" aria-pressed="${i===0?'true':'false'}">${c}</button>`).join('');
+    }
+
+    // sayaç ve tarih
+    const updated = document.getElementById('faqUpdated');
+    if(updated){ const fmt=new Date().toLocaleDateString('tr-TR',{year:'numeric',month:'long',day:'2-digit'}); updated.textContent=fmt; }
+
+    // mevcut sayfa scriptindeki event’leri tekrar bağlamak için:
+    document.dispatchEvent(new Event('DOMContentLoaded'));
+  }
+
+  // ---- About hydrate (opsiyonel; DOM elemanları varsa işler)
+  async function hydrateAbout(){
+    if(!onAbout) return;
+    const data = await jget('/assets/data/about.json'); if(!data) return;
+
+    const hs = document.querySelector('.hero .hero-sub'); if(hs && data.hero_sub) hs.textContent = data.hero_sub;
+    const h1 = document.querySelector('.hero h1');      if(h1 && data.hero_title) h1.textContent = data.hero_title;
+
+    const aboutWrap = document.querySelector('#elci-kimdir .about-wrap');
+    if(aboutWrap && data.founder){
+      const fig = aboutWrap.querySelector('.about-img img');
+      if(fig && data.founder.photo) fig.src = data.founder.photo;
+      const nameEl = aboutWrap.querySelector('.about-content h3');
+      if(nameEl && data.founder.name) nameEl.textContent = data.founder.name;
+      const p = aboutWrap.querySelector('.about-content p'); if(p && data.founder.bio) p.textContent = data.founder.bio;
+    }
+
+    const grid = document.getElementById('metricsGrid');
+    if(grid && Array.isArray(data.metrics)){
+      grid.innerHTML = data.metrics.map(m=>{
+        if(m.kind==='donut') return `
+          <article class="m-card" data-kind="donut" data-value="${m.value||0}">
+            <div class="m-head"><div class="m-title">${m.title}</div><span class="m-ico" aria-hidden="true"><i class="fa-solid fa-syringe"></i></span></div>
+            <div class="m-donut">
+              <svg viewBox="0 0 120 120" aria-hidden="true">
+                <defs><linearGradient id="m-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0%"/><stop offset="100%"/></linearGradient></defs>
+                <circle class="m-bg" cx="60" cy="60" r="48" fill="none" stroke="#e6f0f1" stroke-width="12"/>
+                <circle class="m-fg" cx="60" cy="60" r="48" fill="none" stroke="url(#m-grad)" stroke-width="12" stroke-dasharray="301.59" stroke-dashoffset="301.59" stroke-linecap="round"/>
+                <text x="60" y="66" text-anchor="middle" font-weight="800" font-size="22" fill="var(--brand)">0%</text>
+              </svg>
+            </div>
+          </article>`;
+        if(m.kind==='gauge') return `
+          <article class="m-card" data-kind="gauge" data-value="${m.value||0}" data-max="${m.max||5}">
+            <div class="m-head"><div class="m-title">${m.title}</div><span class="m-ico" aria-hidden="true"><i class="fa-regular fa-face-smile"></i></span></div>
+            <div class="m-gauge">
+              <svg viewBox="0 0 120 120" aria-hidden="true">
+                <defs><linearGradient id="m-grad2" x1="0" x2="1" y1="0" y2="1"><stop offset="0%"/><stop offset="100%"/></linearGradient></defs>
+                <circle class="m-bg" cx="60" cy="60" r="48" fill="none" stroke="#e6f0f1" stroke-width="12" stroke-dasharray="226.19" transform="rotate(135 60 60)"/>
+                <circle class="m-fg" cx="60" cy="60" r="48" fill="none" stroke="url(#m-grad2)" stroke-width="12" stroke-dasharray="226.19" stroke-dashoffset="226.19" transform="rotate(135 60 60)" stroke-linecap="round"/>
+                <text x="60" y="66" text-anchor="middle" font-weight="800" font-size="20" fill="var(--brand)">0/5</text>
+              </svg>
+            </div>
+          </article>`;
+        return `
+          <article class="m-card" data-kind="kpi" data-suffix="${m.suffix||''}" data-progress="${m.progress||0}" data-value="${m.value||0}">
+            <div class="m-head"><div class="m-title">${m.title}</div><span class="m-ico" aria-hidden="true"><i class="fa-solid fa-clipboard-check"></i></span></div>
+            <div><span class="m-num">0</span><span class="m-unit">${m.suffix||''}</span></div>
+            <div class="m-progress"><div class="m-bar"></div></div>
+          </article>`;
+      }).join('');
+      document.dispatchEvent(new Event('DOMContentLoaded'));
+    }
+  }
+
+  hydrateFAQ();
+  hydrateAbout();
 })();
