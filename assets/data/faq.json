@@ -1,0 +1,125 @@
+{
+  "title": "Sık Sorulan Sorular",
+  "groups": [
+    {
+      "category": "Fiyat & Ödeme",
+      "items": [
+        {
+          "id": "muayene-ucreti",
+          "q": "Muayene ücretiniz nedir?",
+          "a": "Muayene ücretimiz klinik tarifesine göre belirlenir; kapsam (genel, kontrol, acil) ve ek tetkiklere göre değişebilir. En doğru bilgi için <a href=\"tel:03323223220\">0332 322 32 20</a>."
+        },
+        {
+          "id": "odeme-yontemleri",
+          "q": "Hangi ödeme yöntemlerini kabul ediyorsunuz?",
+          "a": "Nakit ve kredi/banka kartı kabul ediyoruz. Taksit seçenekleri banka kampanyalarına göre değişebilir."
+        },
+        {
+          "id": "tahmini-maliyet",
+          "q": "İşlemler için önceden tahmini maliyet veriyor musunuz?",
+          "a": "Evet. Muayene sonrası netleşen tetkik ve tedavi planını yazılı/WhatsApp ile paylaşırız."
+        }
+      ]
+    },
+    {
+      "category": "Randevu & Süreç",
+      "items": [
+        {
+          "id": "randevu-gerekli-mi",
+          "q": "Randevu gerekli mi?",
+          "a": "Genel muayeneler için randevu önerilir; acil vakalarda 7/24 kabulümüz vardır. <a href=\"/contact.html\">Randevu formu</a> veya telefonla ulaşabilirsiniz."
+        },
+        {
+          "id": "sonuclar-ne-zaman",
+          "q": "Tahlil ve görüntüleme sonuçları ne kadar sürede çıkar?",
+          "a": "Hemogram/biyokimya gibi temel testler aynı gün; ileri testler 1–3 iş günü sürebilir."
+        },
+        {
+          "id": "yatis-gerekirse",
+          "q": "Yatış gerekirse nasıl ilerliyor?",
+          "a": "Yoğun bakım/izole ünitelerde izlem yapılır; sıvı tedavisi, ağrı kontrolü, beslenme planı günlük güncellenir ve yakına raporlanır."
+        }
+      ]
+    },
+    {
+      "category": "Aşı & Koruyucu",
+      "items": [
+        {
+          "id": "kedi-asi-takvimi",
+          "q": "Kedilerde aşı takvimi nasıl?",
+          "a": "Temel aşılar: karma, kuduz, (riske göre) lösemi. Yavru primer seri sonrası yıllık hatırlatmalar önerilir. Bireysel risklere göre planlıyoruz."
+        },
+        {
+          "id": "kene-koruma",
+          "q": "Kene ve dış parazit korumasını nasıl planlamalıyım?",
+          "a": "Mevsime ve yaşam tarzına göre spot-on/tablet/tasma seçenekleri var. Genelde 4 hafta–3 ay aralıklarla tekrar gerekir."
+        }
+      ]
+    },
+    {
+      "category": "Ameliyat & Anestezi",
+      "items": [
+        {
+          "id": "ameliyat-oncesi-aclik",
+          "q": "Ameliyat öncesi açlık ne kadar olmalı?",
+          "a": "Genellikle 8–12 saat açlık, 2–4 saat su kısıtlaması önerilir. Yavru/özel durumlarda protokol farklı olabilir."
+        },
+        {
+          "id": "kisirlastirma-sureci",
+          "q": "Kısırlaştırma süreci ve iyileşme nasıl ilerler?",
+          "a": "Pre-op muayene ve kan tahlili sonrası operasyon yapılır. Aynı gün/ertesi gün taburculuk; 10–14 gün dikiş bakımı ve aktivite kısıtlaması."
+        },
+        {
+          "id": "anestezi-guvenli-mi",
+          "q": "Anestezi güvenli mi?",
+          "a": "ASA skorlaması, pre-op tetkikler ve monitörize anestezi ile risk minimize edilir. Operasyon boyunca EKG, SpO₂, sıcaklık ve tansiyon takibi yapılır."
+        }
+      ]
+    },
+    {
+      "category": "Görüntüleme & Lab",
+      "items": [
+        {
+          "id": "rontgen-ultrason",
+          "q": "Röntgen ve ultrason için randevu gerekir mi?",
+          "a": "Günün yoğunluğuna göre değişir; telefondan uygun saat teyidi süreci hızlandırır."
+        },
+        {
+          "id": "laboratuvar-ac",
+          "q": "Kan tahlili için aç gelmeli miyiz?",
+          "a": "Biyokimya gibi metabolik testler için 8–12 saat açlık idealdir; acil ve bazı testlerde gerekmez."
+        }
+      ]
+    },
+    {
+      "category": "Acil Durum",
+      "items": [
+        {
+          "id": "acil-ilk",
+          "q": "Acil durumda ilk ne yapmalıyım?",
+          "a": "Önce <a href=\"tel:03323223220\">0332 322 32 20</a> numarasını arayın. Panik yapmadan güvenli taşıyın; zehirlenme şüphesinde kusturmaya çalışmayın."
+        },
+        {
+          "id": "sicak-carpmasi",
+          "q": "Sıcak çarpmasında evde ne yapabilirim?",
+          "a": "Serin, hava akımı olan ortama alın; ıslak havlu ile hafif serinletin, buz uygulamayın. En kısa sürede kliniğe ulaşın."
+        }
+      ]
+    },
+    {
+      "category": "Bakım & Beslenme",
+      "items": [
+        {
+          "id": "beslenme-gecis",
+          "q": "Yeni mamaya geçişi nasıl yapmalıyım?",
+          "a": "7–10 günlük kademeli geçiş önerilir; her gün eski mamanın oranı azaltılıp yenisi artırılır."
+        },
+        {
+          "id": "dis-bakimi",
+          "q": "Diş taşı temizliği sonrası bakım nasıl olmalı?",
+          "a": "İlk 24–48 saat yumuşak beslenme, düzenli fırçalama ve veteriner önerili dental ürünler ile devam."
+        }
+      ]
+    }
+  ]
+}
