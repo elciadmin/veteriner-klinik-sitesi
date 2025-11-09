@@ -1,0 +1,50 @@
+{
+  "hero_title": "Hakkımızda",
+  "hero_sub": "2013’ten bu yana Konya’da evcil dostlarınız için; etik, teknolojik ve şeffaf veterinerlik yaklaşımı.",
+  "founder": {
+    "name": "Veteriner Hekim Mehmet Elçi",
+    "bio": "1980 Konya doğumlu. Ankara Üni. Veteriner Fakültesi (2003) mezunu. Büyükbaş klinik tecrübesi sonrası evcil hayvana odaklandı. 2013’te Meram’da Elçi Veteriner Kliniği’ni kurdu.",
+    "photo": "https://images.unsplash.com/photo-1583339793403-3b0338094d19?auto=format&fit=crop&w=1000&q=80"
+  },
+  "metrics": [
+    {"kind":"kpi","title":"Ortalama Bekleme Süresi","value":"12","suffix":" dk","progress":80},
+    {"kind":"kpi","title":"Bu Ay Sonuçlandırılan Vaka","value":"420","suffix":" vaka","progress":60},
+    {"kind":"donut","title":"Aşı Programı Tamamlama","value":"86","suffix":"%"},
+    {"kind":"gauge","title":"Memnuniyet Skoru","value":"4.8","max":5},
+    {"kind":"kpi","title":"İlk Ziyarette Çözüm","value":"92","suffix":"%","progress":93},
+    {"kind":"kpi","title":"Laboratuvar Sonuç Süresi","value":"45","suffix":" dk","progress":80},
+    {"kind":"kpi","title":"El Uzattığımız Hayvanlar","value":"150","suffix":" hayvan","progress":50},
+    {"kind":"kpi","title":"İyileşme Süresi Ortalama","value":"6","suffix":" gün","progress":70}
+  ],
+  "team": [
+    {
+      "name":"Dr. Ayşe Yılmaz",
+      "role":"Cerrahi Uzmanı",
+      "desc":"12 yıllık deneyimle yumuşak doku ve ortopedi ameliyatları.",
+      "photo":"https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=60"
+    },
+    {
+      "name":"Dr. Mehmet Kaya",
+      "role":"İç Hastalıkları Uzmanı",
+      "desc":"Endokrinoloji, gastroenteroloji ve tanısal süreç yönetimi.",
+      "photo":"https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=900&q=60"
+    },
+    {
+      "name":"Dr. Zeynep Demir",
+      "role":"Dermatoloji & Diş",
+      "desc":"Periodontal tedavi, diş çekimi ve deri hastalıkları.",
+      "photo":"https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=900&q=60"
+    }
+  ],
+  "clinic": [
+    {"icon":"fa-solid fa-x-ray","text":"Dijital Röntgen"},
+    {"icon":"fa-solid fa-heart-pulse","text":"Oksijen Kafesi"},
+    {"icon":"fa-solid fa-microscope","text":"Hızlı Kan Tahlili"},
+    {"icon":"fa-solid fa-bed-pulse","text":"Yoğun Bakım İzlem"}
+  ],
+  "values": [
+    {"icon":"fa-solid fa-heart","title":"Hayvan Sevgisi","text":"Her hastaya şefkatli ve saygılı yaklaşım."},
+    {"icon":"fa-solid fa-hand-holding-medical","title":"Profesyonellik","text":"Güncel protokoller, kanıta dayalı tedavi."},
+    {"icon":"fa-solid fa-shield-dog","title":"Güvenilirlik","text":"Şeffaf iletişim, net bilgilendirme."}
+  ]
+}
