@@ -2,41 +2,160 @@ backend:
   name: git-gateway
   branch: main
 
+site_url: "https://elciveteriner.com"
+logo_url: "/assets/img/uploads/elci-logo.png"
+
 media_folder: "assets/img/uploads"
 public_folder: "/assets/img/uploads"
 
-site_url: "https://example.com"
-logo_url: "/assets/img/logo.png"
+publish_mode: editorial_workflow
+local_backend: true
 
-publish_mode: simple
-
+slug:
+  encoding: "unicode"
+  clean_accents: true
+  sanitize_replacement: "-"
 
 collections:
-  - name: "icerik"
-    label: "İçerik (Anasayfa)"
+  # ========== GENEL/HEADER-FOOTER ==========
+  - name: "site"
+    label: "Genel Ayarlar"
+    format: "json"
+    editor: { preview: false }
+    files:
+      - file: "assets/data/site.json"
+        name: "site_general"
+        label: "İletişim & Sosyal"
+        fields:
+          - { label: "Adres", name: "address", widget: "string" }
+          - { label: "Telefon", name: "phone", widget: "string" }
+          - { label: "E-posta", name: "email", widget: "string" }
+          - label: "Sosyal Bağlantılar"
+            name: "social"
+            widget: "object"
+            fields:
+              - { label: "Facebook", name: "facebook", widget: "string", required: false }
+              - { label: "Instagram", name: "instagram", widget: "string", required: false }
+              - { label: "X (Twitter)", name: "twitter", widget: "string", required: false }
+              - { label: "YouTube", name: "youtube", widget: "string", required: false }
+
+  # ========== ANASAYFA ==========
+  - name: "index"
+    label: "Anasayfa İçeriği"
+    format: "json"
+    editor: { preview: false }
     files:
       - file: "assets/data/index.json"
-        label: "Anasayfa İçeriği"
-        name: "index"
-        format: "json"
+        name: "index_content"
+        label: "Anasayfa"
         fields:
-          - { label: "Başlık", name: "title", widget: "string" }
-          - { label: "Açıklama", name: "description", widget: "text" }
+          - label: "Hero"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Başlık", name: "title", widget: "string" }
+              - { label: "Alt Başlık", name: "subtitle", widget: "text" }
+              - label: "CTA’lar"
+                name: "ctas"
+                widget: "list"
+                fields:
+                  - { label: "Etiket", name: "label", widget: "string" }
+                  - { label: "URL", name: "url", widget: "string" }
+                  - { label: "Tip (primary/ghost)", name: "variant", widget: "select", options: ["primary","ghost"], default: "primary" }
+          - label: "Hızlı Linkler"
+            name: "quicklinks"
+            widget: "list"
+            summary: "{{fields.label}} → {{fields.url}}"
+            fields:
+              - { label: "Etiket", name: "label", widget: "string" }
+              - { label: "URL", name: "url", widget: "string" }
+              - { label: "SVG Sembol ID (örn: i-paw)", name: "icon", widget: "string", required: false }
+          - label: "Öne Çıkan Hizmetler (6’lı)"
+            name: "featured_services"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Başlık", name: "title", widget: "string" }
+              - { label: "Açıklama", name: "text", widget: "string" }
+              - { label: "Bağlantı", name: "url", widget: "string" }
+              - { label: "SVG Sembol ID", name: "icon", widget: "string" }
+          - label: "Diğer Hizmetler (yatay kaydırmalı)"
+            name: "more_services"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Başlık", name: "title", widget: "string" }
+              - { label: "Açıklama", name: "text", widget: "string" }
+              - { label: "Bağlantı", name: "url", widget: "string" }
+              - { label: "SVG Sembol ID", name: "icon", widget: "string" }
+          - label: "SSS (FAQ)"
+            name: "faq"
+            widget: "list"
+            fields:
+              - { label: "Soru", name: "q", widget: "string" }
+              - { label: "Cevap (HTML kabul eder)", name: "a", widget: "text" }
 
+  # ========== BLOG LİSTESİ (JSON) ==========
   - name: "blog"
     label: "Blog / Duyurular"
+    format: "json"
+    editor: { preview: false }
     files:
       - file: "assets/data/blog.json"
+        name: "blog_list"
         label: "Blog Listesi"
-        name: "bloglist"
-        format: "json"
         fields:
           - label: "Yazılar"
             name: "posts"
             widget: "list"
+            summary: "{{fields.title}} — {{fields.date}}"
             fields:
               - { label: "Başlık", name: "title", widget: "string" }
-              - { label: "Tarih", name: "date", widget: "datetime" }
-              - { label: "Kapak Görseli", name: "cover", widget: "image", required: false }
-              - { label: "Özet", name: "summary", widget: "text", required: false }
-              - { label: "İçerik (HTML)", name: "content", widget: "text", required: false }
+              - { label: "Tarih", name: "date", widget: "datetime", format: "YYYY-MM-DD" }
+              - { label: "Kapak Görseli", name: "thumb", widget: "image", required: false }
+              - { label: "Özet", name: "excerpt", widget: "text", required: false }
+              - { label: "İçerik (HTML veya Markdown)", name: "content", widget: "text", required: false }
+              - { label: "Bağlantı (URL)", name: "url", widget: "string", required: false, hint: "/blog/yazi-adi.html (opsiyonel)" }
+              - { label: "Kategori", name: "category", widget: "string", required: false }
+              - { label: "Etiketler", name: "tags", widget: "list", required: false }
+              - { label: "Öne Çıkar", name: "featured", widget: "boolean", default: false }
+              - { label: "Aktif", name: "active", widget: "boolean", default: true }
+
+  # ========== GOOGLE YORUMLARI ==========
+  - name: "reviews"
+    label: "Google Yorumları"
+    format: "json"
+    editor: { preview: false }
+    files:
+      - file: "assets/data/reviews.json"
+        name: "reviews_list"
+        label: "Yorum Listesi"
+        fields:
+          - label: "Yorumlar"
+            name: "items"
+            widget: "list"
+            summary: "★{{fields.stars}} — {{fields.author}}"
+            fields:
+              - { label: "Yazar", name: "author", widget: "string" }
+              - { label: "Yıldız", name: "stars", widget: "number", value_type: "int", min: 1, max: 5 }
+              - { label: "Metin", name: "text", widget: "text" }
+              - { label: "Tarih", name: "date", widget: "datetime", format: "YYYY-MM-DD", required: false }
+
+  # ========== INSTAGRAM (JSON) ==========
+  - name: "instagram"
+    label: "Instagram Akışı"
+    format: "json"
+    editor: { preview: false }
+    files:
+      - file: "assets/data/instagram.json"
+        name: "instagram_list"
+        label: "Instagram Listesi"
+        fields:
+          - label: "Gönderiler"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.permalink}}"
+            fields:
+              - { label: "Permalink", name: "permalink", widget: "string" }
+              - { label: "Küçük Görsel", name: "thumb", widget: "image", required: false }
+              - { label: "Başlık/Alt", name: "alt", widget: "string", required: false }
