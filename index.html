@@ -587,10 +587,29 @@
   <!-- ===== Küçük başlangıç JS (yıl + mobil menü + kaydırma) ===== -->
   <script>
     window.addEventListener('DOMContentLoaded', function(){
+      // Yıl
       const y=document.getElementById('yil'); if(y) y.textContent=new Date().getFullYear();
-      const btn=document.getElementById('mobileMenuBtn'); const menu=document.getElementById('mainMenu');
-      if(btn && menu){ btn.addEventListener('click', ()=> menu.classList.toggle('show')); }
 
+      // Mobil menü
+      const btn=document.getElementById('mobileMenuBtn'); 
+      const menu=document.getElementById('mainMenu');
+
+      // Scroll lock + menü linkine tıklayınca kapanma
+      if(btn && menu){
+        const toggleMenu = (state) => {
+          menu.classList.toggle('show', state);
+          document.body.classList.toggle('menu-open', state);
+        };
+        btn.addEventListener('click', ()=>{
+          const willOpen = !menu.classList.contains('show');
+          toggleMenu(willOpen);
+        });
+        menu.querySelectorAll('a').forEach(a=>{
+          a.addEventListener('click', ()=> toggleMenu(false));
+        });
+      }
+
+      // "Diğer Hizmetler" yatay kaydırma
       const track=document.getElementById('servicesTrack');
       const prev=document.getElementById('svcPrev');
       const next=document.getElementById('svcNext');
@@ -598,6 +617,14 @@
         const slideBy = () => Math.max(track.clientWidth * 0.95, 300);
         prev.addEventListener('click', ()=> track.scrollBy({left: -slideBy(), behavior:'smooth'}));
         next.addEventListener('click', ()=> track.scrollBy({left:  slideBy(), behavior:'smooth'}));
+
+        // Klavye ile kaydırma (erişilebilirlik)
+        track.setAttribute('tabindex','0');
+        track.addEventListener('keydown', (e)=>{
+          const by = slideBy();
+          if (e.key === 'ArrowLeft') { e.preventDefault(); track.scrollBy({left:-by, behavior:'smooth'}); }
+          if (e.key === 'ArrowRight'){ e.preventDefault(); track.scrollBy({left: by, behavior:'smooth'}); }
+        });
       }
     });
   </script>
@@ -745,6 +772,12 @@
     }
     .hero .btn.ghost:hover{
       background-position:100% 0%;
+    }
+
+    /* === Scroll lock (mobil menü açıkken) === */
+    body.menu-open { overflow: hidden; }
+    @media (max-width: 992px){
+      nav ul.show { box-shadow: 0 10px 28px rgba(0,0,0,.08); }
     }
   </style>
 </body>
