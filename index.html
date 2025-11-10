@@ -9,6 +9,20 @@
   <meta name="description" content="Konya Meram Elçi Veteriner Kliniği: 7/24 acil, koruyucu hekimlik, cerrahi, diş sağlığı, röntgen, ultrason, laboratuvar."/>
   <link rel="canonical" href="https://elciveteriner.com/"/>
 
+  <!-- Netlify Identity hash geldiyse /admin'e yönlendir -->
+  <script>
+    (function () {
+      var h = location.hash || '';
+      if (
+        h.startsWith('#invite_token=') ||
+        h.startsWith('#recovery_token=') ||
+        h.startsWith('#confirmation_token=')
+      ) {
+        location.replace('/admin/' + h);
+      }
+    })();
+  </script>
+
   <!-- Stil dosyaları (cache-bust ile) -->
   <link rel="stylesheet" href="/assets/css/tokens.css?v=20251106"/>
   <link rel="stylesheet" href="/assets/css/styles.css?v=20251106"/>
