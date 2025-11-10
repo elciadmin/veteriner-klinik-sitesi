@@ -450,3 +450,31 @@
   hydrateFAQ();
   hydrateAbout();
 })();
+// ---- Netlify Identity (site geneli) ----
+(function addNetlifyIdentity(){
+  // Widget scriptini dinamik ekle (CSP: identity.netlify.com izinli olmalı)
+  var s = document.createElement('script');
+  s.src = 'https://identity.netlify.com/v1/netlify-identity-widget.js';
+  s.defer = true;
+  s.onload = function(){
+    if (!window.netlifyIdentity) return;
+    // Giriş olunca admin'e yönlendir
+    window.netlifyIdentity.on('init', function(user){
+      if(!user){
+        window.netlifyIdentity.on('login', function(){
+          location.assign('/admin/');
+        });
+      }
+    });
+    // Davet / onay / şifre sıfırlama token’ı geldiyse widget’ı aç
+    var h = location.hash || '';
+    if (
+      h.startsWith('#invite_token=') ||
+      h.startsWith('#recovery_token=') ||
+      h.startsWith('#confirmation_token=')
+    ){
+      window.netlifyIdentity.open();
+    }
+  };
+  document.head.appendChild(s);
+})();
