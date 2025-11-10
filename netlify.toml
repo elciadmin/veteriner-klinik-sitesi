@@ -38,7 +38,7 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# ---------- Güvenlik Başlıkları + CSP ----------
+# ---------- Genel Güvenlik Başlıkları + CSP ----------
 [[headers]]
   for = "/*"
   [headers.values]
@@ -56,13 +56,21 @@
       frame-ancestors 'self';
     """
 
-# ---------- (İsteğe bağlı) Functions için CORS ----------
-# [[headers]]
-#   for = "/.netlify/functions/*"
-#   [headers.values]
-#     Access-Control-Allow-Origin = "*"
-#     Access-Control-Allow-Headers = "Content-Type, Authorization"
-#     Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+# ---------- ADMIN için özel (Decap CMS + Netlify Identity) ----------
+[[headers]]
+  for = "/admin*"
+  [headers.values]
+    Content-Security-Policy = '''
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://identity.netlify.com;
+      style-src  'self' 'unsafe-inline' https://unpkg.com;
+      img-src    'self' data: blob:;
+      font-src   'self' data:;
+      connect-src 'self' https://api.github.com https://github.com https://identity.netlify.com https://veteriner-klinik-sitesi.netlify.app;
+      frame-src  'self' blob: https://identity.netlify.com;
+      worker-src 'self' blob:;
+      frame-ancestors 'self';
+    '''
 
 # ---------- Redirects ----------
 [[redirects]]
@@ -110,7 +118,7 @@
   to = "/hizmetler.html"
   status = 301
 
-# ---------- Ortam Değişkenleri (şablon / UI'de doldur) ----------
+# ---------- Ortam Değişkenleri (Netlify UI'da doldur) ----------
 [template.environment]
   INSTAGRAM_ACCESS_TOKEN = ""
   INSTAGRAM_USER_ID = ""
@@ -118,18 +126,3 @@
   YT_CHANNEL_ID = ""
   GOOGLE_PLACES_API_KEY = ""
   GOOGLE_PLACE_ID = ""
-# --- Only for /admin: allow Decap CMS & Netlify Identity ---
-[[headers]]
-for = "/admin*"
-  [headers.values]
-  Content-Security-Policy = '''
-    default-src 'self';
-    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://identity.netlify.com;
-    style-src  'self' 'unsafe-inline';
-    img-src    'self' data: blob:;
-    font-src   'self' data:;
-    connect-src 'self' https://api.github.com https://github.com https://identity.netlify.com https://veteriner-klinik-sitesi.netlify.app;
-    frame-src  'self' blob:;
-    worker-src 'self' blob:;
-    frame-ancestors 'self';
-  '''
