@@ -1,191 +1,106 @@
 backend:
-  name: git-gateway         # Netlify Identity + Git Gateway
+  name: git-gateway
   branch: main
 
-site_url: https://veteriner-klinik-sitesi.netlify.app
-logo_url: /assets/img/uploads/elci-logo.png
+media_folder: "assets/img/uploads"
+public_folder: "/assets/img/uploads"
 
-local_backend: true         # (İstersen yerelde de çalışır)
-publish_mode: editorial_workflow   # Taslak → İnceleme → Yayınla
-
-media_folder: "assets/img/uploads"   # Repo içindeki dosya yolu
-public_folder: "/assets/img/uploads" # Sitede erişim yolu
-
-i18n:
-  structure: single_file
-  locales: [tr]
+publish_mode: editorial_workflow   # Taslak → İnceleme → Yayınla (ileri tarihli planlama çalışır)
+locale: tr
 
 slug:
   encoding: "ascii"
   clean_accents: true
 
 collections:
-  # ----------------------------
-  # 1) BLOG (Markdown yazılar)
-  # ----------------------------
+  # --- BLOG YAZILARI (ileri tarihli planlama destekli) ---
   - name: "blog"
     label: "Blog Yazıları"
-    label_singular: "Yazı"
-    folder: "blog"
+    label_singular: "Blog Yazısı"
+    folder: "assets/data/blog"
     create: true
-    format: "frontmatter"
-    extension: "md"
+    format: "json"
+    extension: "json"
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    summary: "{{title}} — {{date}}"
+    sortable_fields: ["date", "title"]
+    view_filters:
+      - label: "Taslaklar"
+        field: "draft"
+        pattern: true
     fields:
       - { label: "Başlık", name: "title", widget: "string" }
-      - { label: "Kısa açıklama", name: "excerpt", widget: "text", required: false }
-      - { label: "Kapak görseli", name: "thumbnail", widget: "image", required: false }
-      - { label: "Etiketler", name: "tags", widget: "list", required: false }
-      - { label: "Yayın tarihi", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ss[Z]" }
-      - { label: "Gelecek tarihe planla (ops.)", name: "publish_at", widget: "datetime", required: false, hint: "Sadece tarih bilgisidir. Otomatik zamanlama için Netlify Scheduled Function ekleyeceğiz." }
+      - { label: "Tarih (Yayın tarihi)", name: "date", widget: "datetime", hint: "İleri tarih seçersen o tarihte publish olur" }
       - { label: "Taslak mı?", name: "draft", widget: "boolean", default: false }
-      - { label: "İçerik", name: "body", widget: "markdown" }
+      - { label: "Kısa Özet", name: "excerpt", widget: "text", required: false }
+      - { label: "Kapak Görseli", name: "cover", widget: "image", required: false }
+      - { label: "Etiketler", name: "tags", widget: "list", required: false }
+      - label: "İçerik"
+        name: "body"
+        widget: "markdown"
 
-  # ---------------------------------------------
-  # 2) HİZMETLER (JSON — /assets/data/services.json)
-  #    Bu dosyayı zaten oluşturdun.
-  # ---------------------------------------------
-  - name: "services"
-    label: "Hizmetler"
-    delete: false
-    editor:
-      preview: false
-    files:
-      - file: "assets/data/services.json"
-        label: "Hizmet Kartları"
-        name: "services_json"
-        format: "json"
-        fields:
-          - label: "Hizmetler"
-            name: "items"
-            widget: "list"
-            summary: "{{fields.title}}"
-            fields:
-              - { label: "Başlık", name: "title", widget: "string" }
-              - { label: "Kısa açıklama", name: "desc", widget: "text" }
-              - { label: "Slug", name: "slug", widget: "string", hint: "hizmetler.html#slug" }
-              - label: "İkon"
-                name: "icon"
-                widget: "select"
-                options:
-                  - paw
-                  - stethoscope
-                  - microscope
-                  - article
-                  - phone-bubble
-                  - ambulance
-              - { label: "Öne çıkar", name: "featured", widget: "boolean", default: false }
-
-  # ------------------------------------------------
-  # 3) SSS (JSON — /assets/data/faq.json)
-  #    Sayfada kullanmak için küçük bir fetch bloğu ekleyeceğiz.
-  # ------------------------------------------------
+  # --- SSS (tek JSON dosyası) ---
   - name: "faq"
     label: "Sık Sorulan Sorular"
-    delete: false
-    editor:
-      preview: false
     files:
       - file: "assets/data/faq.json"
-        label: "SSS İçerikleri"
-        name: "faq_json"
+        label: "SSS Listesi"
+        name: "faq"
         format: "json"
         fields:
-          - label: "Gruplar"
-            name: "groups"
-            widget: "list"
-            summary: "{{fields.category}}"
-            fields:
-              - { label: "Kategori", name: "category", widget: "string", hint: "Fiyat & Ödeme, Randevu & Süreç, Aşı & Koruyucu, vb." }
-              - label: "Sorular"
-                name: "items"
-                widget: "list"
-                summary: "{{fields.q}}"
-                fields:
-                  - { label: "ID (link için)", name: "id", widget: "string" }
-                  - { label: "Soru", name: "q", widget: "string" }
-                  - { label: "Yanıt (HTML destekli)", name: "a", widget: "text" }
-
-  # ------------------------------------------------
-  # 4) İLETİŞİM (JSON — /assets/data/contacts.json)
-  #    Bu dosyayı da oluşturdun.
-  # ------------------------------------------------
-  - name: "contacts"
-    label: "İletişim / Konum"
-    delete: false
-    editor:
-      preview: false
-    files:
-      - file: "assets/data/contacts.json"
-        label: "İletişim Bilgileri"
-        name: "contacts_json"
-        format: "json"
-        fields:
-          - { label: "Adres", name: "address", widget: "string" }
-          - { label: "Telefon", name: "phone", widget: "string" }
-          - { label: "E-posta", name: "email", widget: "string" }
-          - { label: "Çalışma Saatleri", name: "hours", widget: "string" }
-          - { label: "Google Maps URL", name: "maps_url", widget: "string", required: false }
-          - { label: "Etiketler", name: "badges", widget: "list", required: false }
-
-  # ------------------------------------------------
-  # 5) INSTAGRAM ŞERİDİ (JSON — /assets/data/instagram.json)
-  # ------------------------------------------------
-  - name: "instagram"
-    label: "Instagram Şeridi"
-    delete: false
-    editor:
-      preview: false
-    files:
-      - file: "assets/data/instagram.json"
-        label: "Görseller"
-        name: "instagram_json"
-        format: "json"
-        fields:
-          - label: "Görseller"
+          - label: "Sorular"
             name: "items"
             widget: "list"
             fields:
-              - { label: "Resim", name: "src", widget: "image" }
-              - { label: "Alt metin", name: "alt", widget: "string", required: false }
+              - {label: "Kategori", name: "category", widget: "select", options: ["Fiyat & Ödeme","Randevu & Süreç","Aşı & Koruyucu","Ameliyat & Anestezi","Görüntüleme & Lab","Acil Durum","Bakım & Beslenme"]}
+              - {label: "Soru", name: "q", widget: "string"}
+              - {label: "Cevap (HTML/Markdown)", name: "a", widget: "markdown"}
 
-  # ------------------------------------------------
-  # 6) GOOGLE YORUMLARI (JSON — /assets/data/reviews.json)
-  # ------------------------------------------------
+  # --- HİZMETLER (kartlar) ---
+  - name: "services"
+    label: "Hizmet Kartları"
+    files:
+      - file: "assets/data/services.json"
+        label: "Hizmetler"
+        name: "services"
+        format: "json"
+        fields:
+          - label: "Kartlar"
+            name: "items"
+            widget: "list"
+            fields:
+              - {label: "Başlık", name: "title", widget: "string"}
+              - {label: "Açıklama", name: "text", widget: "text"}
+              - {label: "İkon (opsiyonel, sprite id)", name: "icon", widget: "string", required: false}
+              - {label: "Bağlantı", name: "href", widget: "string", required: false}
+
+  # --- ANA SAYFA AYARLARI (hero, youtube, instagram) ---
+  - name: "homepage"
+    label: "Ana Sayfa Ayarları"
+    files:
+      - file: "assets/data/index.json"
+        label: "Index Ayarları"
+        name: "index"
+        format: "json"
+        fields:
+          - {label: "Hero Başlık", name: "heroTitle", widget: "string"}
+          - {label: "Hero Alt Başlık", name: "heroSub", widget: "text", required: false}
+          - {label: "YouTube Video ID’leri", name: "youtubeIds", widget: "list", field: {label: "Video ID", name: "id", widget: "string"}}
+          - {label: "Instagram Görselleri", name: "instagram", widget: "list", fields: [{label: "Kaynak", name: "src", widget: "string"}, {label: "Alt", name: "alt", widget:"string", required: false}]}
+
+  # --- YORUMLAR (Google reviews json) ---
   - name: "reviews"
     label: "Google Yorumları"
-    delete: false
-    editor:
-      preview: false
     files:
       - file: "assets/data/reviews.json"
         label: "Yorumlar"
-        name: "reviews_json"
+        name: "reviews"
         format: "json"
         fields:
           - label: "Yorumlar"
             name: "items"
             widget: "list"
             fields:
-              - { label: "Yazan", name: "author", widget: "string" }
-              - { label: "Yorum", name: "text", widget: "text" }
-              - { label: "Puan (0-5)", name: "rating", widget: "number", min: 0, max: 5, value_type: "int", default: 5 }
-              - { label: "Tarih/Etiket", name: "date", widget: "string", required: false }
-
-  # ------------------------------------------------
-  # 7) ANA SAYFA VERİLERİ (JSON — /assets/data/index.json)
-  #    (örn. YouTube ID listesi)
-  # ------------------------------------------------
-  - name: "indexdata"
-    label: "Ana Sayfa Verileri"
-    delete: false
-    editor:
-      preview: false
-    files:
-      - file: "assets/data/index.json"
-        label: "Index Verileri"
-        name: "index_json"
-        format: "json"
-        fields:
-          - { label: "YouTube Video ID’leri", name: "youtubeIds", widget: "list", field: { label: "Video ID", name: "id", widget: "string" } }
+              - {label: "Yorum", name: "text", widget: "text"}
+              - {label: "Yazar", name: "author", widget: "string", required: false}
+              - {label: "Yıldız", name: "rating", widget: "number", value_type: "int", min: 1, max: 5, default: 5, required: false}
+              - {label: "Tarih/Not", name: "date", widget: "string", required: false}
