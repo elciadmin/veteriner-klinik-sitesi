@@ -1,222 +1,26 @@
 <!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Elçi Veteriner · Yönetim Paneli</title>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Panel | Elçi Veteriner</title>
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    <!-- Decap CMS -->
+    <script src="https://unpkg.com/decap-cms@latest/dist/decap-cms.js"></script>
 
-  <!-- Site ikonları (varsa) -->
-  <link rel="icon" href="/assets/img/uploads/elci-logo.png" />
-
-  <!-- Marka tokenları ve stiller (sitendekiyle uyumlu) -->
-  <link rel="stylesheet" href="/assets/css/tokens.css?v=20251106"/>
-  <link rel="stylesheet" href="/assets/css/styles.css?v=20251106"/>
-
-  <!-- Decap CMS -->
-  <script src="https://cdn.jsdelivr.net/npm/decap-cms@3.0.0/dist/decap-cms.js"></script>
-
-  <!-- Netlify Identity (giriş için) -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-
-  <style>
-    :root{
-      /* Panel içi vurgu renkleri (sitene uyumlu) */
-      --brand:#5a1fa8;       /* mor */
-      --accent:#27d4e8;      /* turkuaz */
-      --ink:#0f1b22; --muted:#5f6b74; --paper:#fff; --line:#e7edf1;
-    }
-    body{margin:0;background:linear-gradient(120deg, #2b0b52 0%, #0d3a46 100%);min-height:100svh;color:#eaf8ff}
-    .wrap{
-      min-height:100svh;display:grid;place-items:center;padding:24px;
-      background:
-        radial-gradient(1200px 600px at 80% -100px, rgba(255,255,255,.08) 0%, rgba(255,255,255,0) 60%),
-        linear-gradient(120deg, #2b0b52 0%, #0d3a46 100%);
-    }
-    .card{
-      width:min(920px, 96vw); background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.16); border-radius:20px; overflow:hidden;
-      box-shadow:0 20px 60px rgba(0,0,0,.35); backdrop-filter:saturate(120%) blur(6px);
-    }
-    .head{
-      display:flex;gap:14px;align-items:center;justify-content:space-between;
-      padding:18px 20px;background:linear-gradient(90deg,rgba(0,0,0,.25),rgba(255,255,255,.08));
-      border-bottom:1px solid rgba(255,255,255,.14)
-    }
-    .brand{display:flex;align-items:center;gap:12px}
-    .brand img{width:40px;height:40px;object-fit:contain;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,.35)}
-    .brand h1{font:800 18px/1.1 Montserrat,system-ui;color:#fff;margin:0}
-    .brand small{display:block;font:600 12px/1.1 Montserrat,system-ui;color:#c4f6ff;opacity:.9}
-    .pill{
-      border:1px solid rgba(255,255,255,.35);border-radius:999px;color:#fff;padding:8px 12px;
-      display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08)
-    }
-    .body{padding:22px;display:grid;gap:16px}
-    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
-    @media(max-width:900px){ .grid{grid-template-columns:1fr} }
-    .pane{
-      background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;color:#0b1a22
-    }
-    .pane h2{margin:0 0 8px;font:800 18px/1.2 Montserrat,system-ui;color:#111}
-    .pane p{margin:0;color:#233}
-    .muted{color:#6b7a7c}
-    .list{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px}
-    .list li{display:flex;gap:8px;align-items:flex-start}
-    .ok{width:8px;height:8px;border-radius:999px;background:var(--accent);margin-top:8px}
-    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
-    .btn{
-      display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;
-      border:1px solid rgba(0,0,0,.1);background:#fff;font-weight:800;color:#142129;cursor:pointer
-    }
-    .btn.primary{
-      background:linear-gradient(90deg,var(--brand),var(--accent));color:#fff;border-color:transparent;
-      box-shadow:0 12px 28px rgba(39,212,232,.22); background-size:200% 100%; background-position:0 0;
-    }
-    .btn.primary:hover{ transform:translateY(-1px); background-position:100% 0 }
-    .loading{
-      display:flex;align-items:center;gap:10px;color:#eaffff;font-weight:700;letter-spacing:.2px
-    }
-    .dot{width:8px;height:8px;border-radius:999px;background:#eaffff;animation:b 1.2s infinite ease-in-out}
-    .dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}
-    @keyframes b{0%,80%,100%{opacity:.4;transform:translateY(0)}40%{opacity:1;transform:translateY(-6px)}}
-    .cms-root{display:none} /* Girişten sonra açılacak */
-  </style>
-</head>
-
-<body class="theme-plumOcean">
-  <div class="wrap">
-    <div class="card">
-      <!-- Üst şerit -->
-      <div class="head">
-        <div class="brand">
-          <img src="/assets/img/uploads/elci-logo.png" alt="Elçi Veteriner" />
-          <div>
-            <h1>Elçi Veteriner · Yönetim Paneli</h1>
-            <small>Blog · SSS · Hizmetler · İletişim içerikleri</small>
-          </div>
-        </div>
-        <span class="pill" id="idStatus">
-          <svg width="10" height="10"><circle cx="5" cy="5" r="5" fill="#ffcc66"/></svg>
-          Giriş bekleniyor
-        </span>
-      </div>
-
-      <!-- İçerik -->
-      <div class="body">
-        <div class="grid">
-          <section class="pane">
-            <h2>Başlarken</h2>
-            <p class="muted">Bu panelden yazı yayınlayabilir, ileri tarihli planlayabilir, SSS ve hizmet içeriklerini kod yazmadan güncelleyebilirsin.</p>
-            <ul class="list">
-              <li><span class="ok"></span><span><strong>Kimlik Doğrulama:</strong> Netlify Identity + Git Gateway</span></li>
-              <li><span class="ok"></span><span><strong>İçerik:</strong> <code>/assets/data/*.json</code> veya <code>/blog/*.md</code> (config’e göre)</span></li>
-              <li><span class="ok"></span><span><strong>Otomatik Deploy:</strong> Kaydedince Git’e commit → Netlify build → site güncellenir</span></li>
-            </ul>
-            <div class="actions">
-              <button class="btn primary" id="loginBtn">Giriş Yap</button>
-              <button class="btn" id="openCmsBtn" disabled>Paneli Aç</button>
-            </div>
-          </section>
-
-          <aside class="pane">
-            <h2>Durum & Yardım</h2>
-            <p class="muted">Hızlı bağlantılar:</p>
-            <ul class="list">
-              <li><span class="ok"></span><span><a href="/.netlify/functions/" target="_blank" rel="noopener">Netlify Functions (varsa)</a></span></li>
-              <li><span class="ok"></span><span><a href="/admin/config.yml" target="_blank" rel="noopener">config.yml</a>’i kontrol et</span></li>
-              <li><span class="ok"></span><span><a href="https://app.netlify.com" target="_blank" rel="noopener">Netlify Proje Paneli</a></span></li>
-            </ul>
-          </aside>
-        </div>
-
-        <div class="loading" id="loadingRow" style="display:none">
-          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-          <span>Yönetim paneli yükleniyor…</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Decap CMS UI kökü — girişten sonra görünür -->
-  <div id="cms" class="cms-root"></div>
-
-  <script>
-    // Netlify Identity durum etiketi
-    const idStatus = document.getElementById('idStatus');
-    const loginBtn = document.getElementById('loginBtn');
-    const openCmsBtn = document.getElementById('openCmsBtn');
-    const loadingRow = document.getElementById('loadingRow');
-    const cmsRoot = document.getElementById('cms');
-
-    // Identity hazırsa kancala
-    if (window.netlifyIdentity) {
-      netlifyIdentity.on('init', user => {
-        if (user) setReady(user);
-      });
-      netlifyIdentity.on('login', user => {
-        setReady(user);
-      });
-      netlifyIdentity.on('logout', () => {
-        setLoggedOut();
-      });
-    }
-
-    // Giriş butonu
-    loginBtn.addEventListener('click', () => {
-      if (!window.netlifyIdentity) {
-        alert('Netlify Identity yüklenemedi.');
-        return;
+    <!-- Netlify Identity -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script>
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
+            });
+          }
+        });
       }
-      netlifyIdentity.open(); // modal
-    });
-
-    // Paneli Aç (giriş sonrasında aktif)
-    openCmsBtn.addEventListener('click', () => bootCMS());
-
-    function setReady(user){
-      idStatus.innerHTML = '<svg width="10" height="10"><circle cx="5" cy="5" r="5" fill="#30d158"/></svg> Giriş yapıldı: ' + (user && user.email ? user.email : 'Kullanıcı');
-      loginBtn.disabled = true;
-      openCmsBtn.disabled = false;
-    }
-
-    function setLoggedOut(){
-      idStatus.innerHTML = '<svg width="10" height="10"><circle cx="5" cy="5" r="5" fill="#ffcc66"/></svg> Giriş bekleniyor';
-      loginBtn.disabled = false;
-      openCmsBtn.disabled = true;
-      // CMS kapat (sayfayı yenilemek en kolayı)
-      location.reload();
-    }
-
-    // CMS’i başlat
-    function bootCMS(){
-      loadingRow.style.display = 'flex';
-      // Decap CMS'i ayrı bir köke render etsin
-      const mount = document.getElementById('cms');
-      mount.style.display = 'block';
-
-      // Manuel init ile başlat
-      window.CMS_MANUAL_INIT = true;
-
-      // Küçük tema dokunuşu: markalı önizleme stilleri
-      CMS.registerPreviewStyle('/assets/css/tokens.css?v=20251106');
-      CMS.registerPreviewStyle('/assets/css/styles.css?v=20251106');
-
-      // Tarihli yayın (publishDate / date alanları) otomatik GMT sapması sorun çıkarmasın
-      // içerik şemasında UTC kullanacağız; burada ekstra müdahale gerekmiyor.
-
-      CMS.init({
-        config: {
-          load_config_file: true, // /admin/config.yml okuyacak
-        }
-      });
-
-      // CMS açıldıktan sonra splash’ı gizle
-      setTimeout(()=> { loadingRow.style.display = 'none'; }, 1200);
-    }
-
-    // Eğer kullanıcı zaten giriş yaptıysa, otomatik açmayı istersen:
-    // window.addEventListener('load', () => {
-    //   if (window.netlifyIdentity && netlifyIdentity.currentUser()) bootCMS();
-    // });
-  </script>
-</body>
+    </script>
+  </body>
 </html>
