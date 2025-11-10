@@ -118,3 +118,18 @@
   YT_CHANNEL_ID = ""
   GOOGLE_PLACES_API_KEY = ""
   GOOGLE_PLACE_ID = ""
+# --- Only for /admin: allow Decap CMS & Netlify Identity ---
+[[headers]]
+for = "/admin*"
+  [headers.values]
+  Content-Security-Policy = '''
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://identity.netlify.com;
+    style-src  'self' 'unsafe-inline';
+    img-src    'self' data: blob:;
+    font-src   'self' data:;
+    connect-src 'self' https://api.github.com https://github.com https://identity.netlify.com https://veteriner-klinik-sitesi.netlify.app;
+    frame-src  'self' blob:;
+    worker-src 'self' blob:;
+    frame-ancestors 'self';
+  '''
