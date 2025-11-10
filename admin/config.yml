@@ -5,20 +5,20 @@ backend:
 site_url: https://veteriner-klinik-sitesi.netlify.app
 logo_url: /assets/img/uploads/elci-logo.png
 
-media_folder: "assets/img/uploads"         # repo içi
-public_folder: "/assets/img/uploads"       # sitede URL
+media_folder: "assets/img/uploads"     # repo içi dosya yolu
+public_folder: "/assets/img/uploads"   # sitedeki URL
 
-publish_mode: editorial_workflow            # Taslak → İnceleme → Yayın akışı
-local_backend: true                         # (isteğe bağlı) local dev
+publish_mode: editorial_workflow
+local_backend: true
 
-# i18n HATASININ ÇÖZÜMÜ — locales ve default_locale zorunlu
+# i18n — KOŞUL: locales + default_locale gerekli
 i18n:
   structure: single_file
-  locales: [tr]        # istersen "en" ekleyebilirsin: [tr, en]
+  locales: [tr]
   default_locale: tr
 
 collections:
-  # 1) Blog yazıları (ileri tarihli planlama için "date" alanını kullan)
+  # 1) Blog yazıları
   - name: "blog"
     label: "Blog Yazıları"
     folder: "assets/data/blog"
@@ -29,17 +29,16 @@ collections:
     fields:
       - { label: "Başlık", name: "title", widget: "string", i18n: true }
       - { label: "Kısa Açıklama", name: "excerpt", widget: "text", required: false, i18n: true }
-      - { label: "Tarih (Yayın)", name: "date", widget: "datetime", i18n: duplicate }
-      - { label: "Kapak Görseli", name: "cover", widget: "image", required: false, i18n: translate }
-      - { label: "Etiketler", name: "tags", widget: "list", required: false, i18n: duplicate }
-      - { label: "İçerik (Markdown)", name: "body", widget: "markdown", i18n: translate }
+      - { label: "Tarih (Yayın)", name: "date", widget: "datetime", i18n: true }
+      - { label: "Kapak Görseli", name: "cover", widget: "image", required: false, i18n: true }
+      - { label: "Etiketler", name: "tags", widget: "list", required: false, i18n: true, field: { label: "Etiket", name: "tag", widget: "string" } }
+      - { label: "İçerik (Markdown)", name: "body", widget: "markdown", i18n: true }
 
-  # 2) SSS — Sık Sorulan Sorular (JSON)
+  # 2) SSS — Sık Sorulan Sorular
   - name: "faq"
     label: "SSS"
     delete: false
-    editor:
-      preview: false
+    editor: { preview: false }
     files:
       - file: "assets/data/faq.json"
         label: "Sık Sorulan Sorular"
@@ -52,22 +51,21 @@ collections:
             widget: "list"
             i18n: true
             fields:
-              - { label: "Kategori", name: "category", widget: "string", i18n: translate }
+              - { label: "Kategori", name: "category", widget: "string", i18n: true }
               - label: "Sorular"
                 name: "items"
                 widget: "list"
                 i18n: true
                 fields:
-                  - { label: "Soru", name: "q", widget: "string", i18n: translate }
-                  - { label: "Yanıt", name: "a", widget: "text", i18n: translate }
-                  - { label: "Kimlik (id)", name: "id", widget: "string", required: false }
+                  - { label: "Soru", name: "q", widget: "string", i18n: true }
+                  - { label: "Yanıt", name: "a", widget: "text", i18n: true }
+                  - { label: "Kimlik (id)", name: "id", widget: "string", required: false, i18n: false }
 
   # 3) Hizmetler (cards) — services.json
   - name: "services"
     label: "Hizmet Kartları"
     delete: false
-    editor:
-      preview: false
+    editor: { preview: false }
     files:
       - file: "assets/data/services.json"
         label: "Hizmetler"
@@ -80,17 +78,16 @@ collections:
             widget: "list"
             i18n: true
             fields:
-              - { label: "Başlık", name: "title", widget: "string", i18n: translate }
-              - { label: "Açıklama", name: "desc", widget: "text", i18n: translate }
-              - { label: "İkon (ID veya sınıf)", name: "icon", widget: "string", required: false }
-              - { label: "Bağlantı (URL)", name: "href", widget: "string", required: false }
+              - { label: "Başlık", name: "title", widget: "string", i18n: true }
+              - { label: "Açıklama", name: "desc", widget: "text", i18n: true }
+              - { label: "İkon (ID veya sınıf)", name: "icon", widget: "string", required: false, i18n: false }
+              - { label: "Bağlantı (URL)", name: "href", widget: "string", required: false, i18n: false }
 
   # 4) İletişim / Klinik bilgileri — contacts.json
   - name: "contacts"
     label: "İletişim & Klinik"
     delete: false
-    editor:
-      preview: false
+    editor: { preview: false }
     files:
       - file: "assets/data/contacts.json"
         label: "İletişim Ayarları"
@@ -98,18 +95,17 @@ collections:
         format: "json"
         i18n: true
         fields:
-          - { label: "Adres", name: "address", widget: "string", i18n: translate }
-          - { label: "Telefon", name: "phone", widget: "string" }
-          - { label: "E-posta", name: "email", widget: "string" }
-          - { label: "Çalışma Saatleri", name: "hours", widget: "string", i18n: translate }
-          - { label: "Google Maps Embed URL", name: "mapEmbed", widget: "string" }
+          - { label: "Adres", name: "address", widget: "string", i18n: true }
+          - { label: "Telefon", name: "phone", widget: "string", i18n: false }
+          - { label: "E-posta", name: "email", widget: "string", i18n: false }
+          - { label: "Çalışma Saatleri", name: "hours", widget: "string", i18n: true }
+          - { label: "Google Maps Embed URL", name: "mapEmbed", widget: "string", i18n: false }
 
-  # 5) Ana sayfa/indeks — index.json (ör. YouTube/Instagram id'leri vs.)
+  # 5) Ana sayfa — index.json
   - name: "siteindex"
     label: "Ana Sayfa İçerikleri"
     delete: false
-    editor:
-      preview: false
+    editor: { preview: false }
     files:
       - file: "assets/data/index.json"
         label: "Index Ayarları"
@@ -117,15 +113,7 @@ collections:
         format: "json"
         i18n: true
         fields:
-          - { label: "Hero Başlığı", name: "heroTitle", widget: "string", i18n: translate }
-          - { label: "Hero Altbaşlık", name: "heroSub", widget: "text", i18n: translate }
-          - { label: "YouTube Video ID'leri", name: "youtubeIds", widget: "list", field: {label: "Video ID", name: "id", widget: "string"}, required: false }
-          - { label: "Instagram JSON Kaynağı", name: "instagramJson", widget: "string", required: false }
-
-# Medya kütüphanesi (varsayılan)
-media_library:
-  name: "uploadcare"
-  config:
-    # uploadcare kullanmayacaksan bunu silebilirsin;
-    # kullanacaksan public key'ini eklemelisin.
-    publicKey: "demopublickey"
+          - { label: "Hero Başlığı", name: "heroTitle", widget: "string", i18n: true }
+          - { label: "Hero Altbaşlık", name: "heroSub", widget: "text", i18n: true }
+          - { label: "YouTube Video ID'leri", name: "youtubeIds", widget: "list", i18n: false, field: { label: "Video ID", name: "id", widget: "string" } }
+          - { label: "Instagram JSON Kaynağı", name: "instagramJson", widget: "string", required: false, i18n: false }
