@@ -38,6 +38,12 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# ---------- SADECE main.js için no-cache (cache kırıcı) ----------
+[[headers]]
+  for = "/assets/js/main.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
 # ---------- Genel Güvenlik Başlıkları + CSP ----------
 [[headers]]
   for = "/*"
@@ -55,7 +61,6 @@
       connect-src 'self' https://*.supabase.co https://graph.instagram.com https://graph.facebook.com https://www.googleapis.com https://youtube.googleapis.com https://maps.googleapis.com https://identity.netlify.com;
       frame-ancestors 'self';
     """
-
 
 # ---------- ADMIN için özel (Decap CMS + Netlify Identity) ----------
 [[headers]]
