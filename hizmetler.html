@@ -16,7 +16,7 @@
   <!-- İkonlar -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <!-- Sayfaya özgü küçük dokunuşlar + tema -->
+  <!-- Sayfaya özgü küçük dokunuşlar -->
   <style>
     .container{max-width:1180px;margin:0 auto;padding:0 16px}
     h1,h2,h3{letter-spacing:.1px}
@@ -78,8 +78,7 @@
     .s-card:hover{ transform:translateY(-4px); box-shadow:0 10px 28px rgba(10,25,35,.12); border-color:color-mix(in srgb, var(--accent) 18%, var(--line)); }
     .s-icon{ display:inline-grid;place-items:center;width:46px;height:46px;border-radius:14px;
       background:radial-gradient(80% 80% at 30% 20%, #ffffff 0%, #eaf6f8 55%, #d9f0f2 100%); border:1px solid #d8ecef; }
-    .s-icon svg{ color: var(--icon-ink); filter: drop-shadow(0 0 1px rgba(0,0,0,.18)); }
-    .s-icon svg .i{ stroke-width:2.2 !important; vector-effect:non-scaling-stroke; }
+    .s-icon i{ color: var(--icon-ink); filter: drop-shadow(0 0 1px rgba(0,0,0,.18)); font-size:20px; }
 
     footer.footer-new{ background:linear-gradient(135deg, var(--footer-start), var(--footer-end)); color:#eaffff; }
     .footer-links a, .footer-contact a{ color:#eaffff }
@@ -182,18 +181,15 @@
 
   <!-- ===== HİZMETLER ===== -->
   <main id="content">
-    <section id="services"
-             class="services"
-             aria-label="Hizmet listesi"
-             data-json="/assets/data/services.json"
-             data-mode="split">
+    <!-- data-json: ana veri kaynağın | data-mode: split (ilk 6 + kalanlar) / all (tek ızgara) -->
+    <section class="services" id="services" data-json="/assets/data/services.json" data-mode="split" aria-label="Hizmet listesi">
       <div class="container">
         <h2>Tüm Hizmetler</h2>
 
-        <!-- Öne çıkanlar (ilk 6) -->
+        <!-- JSON'dan doldurulacak ana ızgara -->
         <div class="services-grid" id="servicesFeatured" aria-live="polite"></div>
 
-        <!-- Diğer hizmetler — yatay kaydırmalı -->
+        <!-- Diğer hizmetler – “ilk 6 / kalanlar” modunda görünür -->
         <div class="services-more" id="servicesMoreWrap" style="margin-top:28px;display:none;">
           <div class="services-more-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
             <h3>Diğer Hizmetler</h3>
@@ -211,7 +207,7 @@
         <div class="cta-bar">
           <strong>Evcil dostunuz için en uygun çözümü birlikte planlayalım.</strong>
           <div>
-            <a class="btn" href="/contact.html">Konum &amp; İletişim</a>
+            <a class="btn" href="/contact.html">Konum & İletişim</a>
             <a class="btn primary" href="/contact.html">Randevu Al</a>
           </div>
         </div>
@@ -273,78 +269,91 @@
     </div>
   </footer>
 
-  <!-- ===== JSON Loader — /assets/data/services.json ===== -->
+  <!-- ===== GÖMÜLÜ JSON (fetch başarısızsa otomatik kullanılır) ===== -->
+  <script type="application/json" id="services-embed">
+  {
+    "title": "Hizmetlerimiz",
+    "items": [
+      { "id":"acil",             "title":"Acil & Yoğun Bakım",           "summary":"Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat izlem.",                     "href":"/hizmetler.html#acil",             "icon":"fa-solid fa-shield-halved" },
+      { "id":"koruyucu",         "title":"Muayene & Koruyucu",           "summary":"Aşı planı, parazit kontrolü, mikroçip ve check-up.",                                 "href":"/hizmetler.html#koruyucu",         "icon":"fa-solid fa-stethoscope" },
+      { "id":"ic-hastaliklari",  "title":"İç Hastalıkları",              "summary":"Hemogram, biyokimya, hormon, idrar analizi ve tanısal yaklaşım.",                    "href":"/hizmetler.html#ic-hastaliklari",  "icon":"fa-solid fa-clipboard-list" },
+      { "id":"cerrahi",          "title":"Cerrahi",                       "summary":"Yumuşak doku, ortopedi, sterilizasyon ve ağrı yönetimi.",                          "href":"/hizmetler.html#cerrahi",          "icon":"fa-solid fa-scalpel" },
+      { "id":"agiz-dis",         "title":"Ağız & Diş Sağlığı",           "summary":"Diş taşı, çekim, periodontal tedaviler ve dental röntgen.",                        "href":"/hizmetler.html#agiz-dis",         "icon":"fa-solid fa-tooth" },
+      { "id":"goruntuleme-lab",  "title":"Görüntüleme & Lab",            "summary":"Röntgen, ultrason, FAST, EKG, sitoloji ve hızlı testler.",                         "href":"/hizmetler.html#goruntuleme-lab",  "icon":"fa-solid fa-x-ray" },
+
+      { "id":"kardiyoloji",      "title":"Kardiyoloji",                  "summary":"Kalp muayenesi, EKG değerlendirme, tedavi ve takip.",                               "href":"/hizmetler.html#kardiyoloji",      "icon":"fa-solid fa-heart-pulse" },
+      { "id":"dogum-jinekoloji", "title":"Doğum & Jinekoloji",           "summary":"Gebelik takibi, doğum desteği, sezaryen ve üreme sağlığı.",                         "href":"/hizmetler.html#dogum-jinekoloji", "icon":"fa-solid fa-venus" },
+      { "id":"fizik-tedavi",     "title":"Fizik Tedavi & Rehabilitasyon","summary":"Ortopedik/nörolojik rehabilitasyon, ağrı kontrolü, egzersiz planı.",                "href":"/hizmetler.html#fizik-tedavi",     "icon":"fa-solid fa-dumbbell" },
+      { "id":"konaklama",        "title":"Konaklama & Özel Bakım",       "summary":"Veteriner gözetiminde konaklama, izole ünite ve yoğun destek.",                     "href":"/hizmetler.html#konaklama",        "icon":"fa-solid fa-hotel" },
+      { "id":"dermatoloji",      "title":"Dermatoloji",                  "summary":"Alerjiler, paraziter dermatit, mantar ve deri biyopsileri.",                        "href":"/hizmetler.html#dermatoloji",      "icon":"fa-solid fa-spray-can-sparkles" },
+      { "id":"noroloji",         "title":"Nöroloji",                     "summary":"Nöro muayene, görüntüleme yönlendirmesi ve tedavi protokolleri.",                   "href":"/hizmetler.html#noroloji",         "icon":"fa-solid fa-brain" },
+      { "id":"onkoloji",         "title":"Onkoloji",                     "summary":"Kitle değerlendirmesi, sitoloji, cerrahi ve kemoterapi planlaması.",                "href":"/hizmetler.html#onkoloji",         "icon":"fa-solid fa-ribbon" },
+      { "id":"goz",              "title":"Göz Hastalıkları",             "summary":"Flöresein testi, göz içi basınç ölçümü, entropion/ektropion.",                      "href":"/hizmetler.html#goz",              "icon":"fa-solid fa-eye" },
+      { "id":"ortopedi",         "title":"Ortopedi",                     "summary":"Kırık-çıkık, bağ-yumuşak doku yaralanmaları, rehabilitasyon.",                      "href":"/hizmetler.html#ortopedi",         "icon":"fa-solid fa-bone" },
+      { "id":"uroloji",          "title":"Nefroloji & Üroloji",          "summary":"Böbrek ve üriner sistem hastalıklarında tanı-tedavi.",                              "href":"/hizmetler.html#uroloji",          "icon":"fa-solid fa-droplet" },
+      { "id":"endokrinoloji",    "title":"Endokrinoloji",                "summary":"Diabetes mellitus, hipotiroidi/hipertiroidi, Cushing.",                             "href":"/hizmetler.html#endokrinoloji",    "icon":"fa-solid fa-flask" },
+      { "id":"egzotik",          "title":"Egzotik Hayvanlar",            "summary":"Kafes dostları ve egzotik türlerde muayene ve bakım.",                               "href":"/hizmetler.html#egzotik",          "icon":"fa-solid fa-crow" }
+    ]
+  }
+  </script>
+
+  <!-- ===== JSON Loader (çoklu yol denemeli + mini debug) ===== -->
   <script>
   (function(){
-    const host = document.getElementById('services');
-    if(!host) return;
+    // --- küçük görsel debug etiketi ---
+    const dbg = document.createElement('div');
+    dbg.id = 'svc-debug';
+    dbg.style.cssText = 'position:fixed;right:10px;bottom:10px;font:12px/1.3 system-ui;background:#222;color:#fff;padding:6px 10px;border-radius:10px;opacity:.85;z-index:9999';
+    dbg.textContent = 'Hizmetler: yükleniyor…';
+    document.addEventListener('DOMContentLoaded', ()=> document.body.appendChild(dbg));
 
+    const host = document.getElementById('services');
     const featuredWrap = document.getElementById('servicesFeatured');
-    const moreWrap     = document.getElementById('servicesMoreWrap');
-    const moreTrack    = document.getElementById('servicesTrack');
-    const mode         = (host.getAttribute('data-mode') || 'split').toLowerCase(); // 'split' | 'all'
+    const moreWrap  = document.getElementById('servicesMoreWrap');
+    const moreTrack = document.getElementById('servicesTrack');
+    const mode = (host?.getAttribute('data-mode') || 'split').toLowerCase();
+
+    function ok(msg){ dbg.textContent = 'Hizmetler: ' + msg; dbg.style.background = '#095'; }
+    function warn(msg){ dbg.textContent = 'Hizmetler: ' + msg; dbg.style.background = '#b54'; }
 
     function makeCard(item){
       const art = document.createElement('article'); art.className='s-card';
       if(item.id) art.id = item.id;
-
-      // Önce Font Awesome ikonunu tercih et → görünürlük garantisi
-      let iconHTML = '';
-      if(item.icon){
-        iconHTML = `<i class="${item.icon}" aria-hidden="true"></i>`;
-      } else if(item.sprite){
-        iconHTML = `<svg viewBox="0 0 24 24"><use href="#${item.sprite}"/></svg>`;
-      } else {
-        iconHTML = `<svg viewBox="0 0 24 24"><use href="#i-article"/></svg>`;
-      }
-
-      const ic = document.createElement('span'); ic.className='s-icon'; ic.setAttribute('aria-hidden','true'); ic.innerHTML = iconHTML;
-      const h3 = document.createElement('h3'); h3.className='s-title';  h3.textContent = item.title || 'Hizmet';
-      const p  = document.createElement('p');  p.className='s-text';    p.textContent  = item.summary || item.text || '';
-      const a  = document.createElement('a');  a.className='s-link';    a.textContent  = 'Detaylı Bilgi';
-      a.href = item.href || (`/hizmetler.html#${item.id || ''}`);
-
-      art.appendChild(ic); art.appendChild(h3); art.appendChild(p); art.appendChild(a);
+      const iconHTML = item.icon
+        ? `<i class="${item.icon}" aria-hidden="true"></i>`
+        : `<i class="fa-regular fa-rectangle-list" aria-hidden="true"></i>`;
+      art.innerHTML = `
+        <span class="s-icon" aria-hidden="true">${iconHTML}</span>
+        <h3 class="s-title">${item.title || 'Hizmet'}</h3>
+        <p class="s-text">${item.summary || item.text || ''}</p>
+        <a class="s-link" href="${item.href || ('#' + (item.id||''))}">Detaylı Bilgi</a>
+      `;
       return art;
     }
 
-    function fetchJSON(url){
-      return fetch(url, {cache:'no-store'}).then(r => r.ok ? r.json() : Promise.reject(r.status));
-    }
-
-    function initMenuAndYear(){
-      const y=document.getElementById('yil'); if(y) y.textContent=new Date().getFullYear();
-      const btn=document.getElementById('mobileMenuBtn'), menu=document.getElementById('mainMenu');
-      if(btn && menu){
-        const toggleMenu = (state) => { menu.classList.toggle('show', state); document.body.classList.toggle('menu-open', state); };
-        btn.addEventListener('click', ()=> toggleMenu(!menu.classList.contains('show')));
-        menu.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> toggleMenu(false)));
-      }
-    }
-
     function render(data){
-      if(!Array.isArray(data.items) || !data.items.length) return;
-
+      if(!data || !Array.isArray(data.items) || !data.items.length){
+        warn('boş veri (fallback gösterildi)'); return;
+      }
       if(data.title){
         const h2 = host.querySelector('h2'); if(h2) h2.textContent = data.title;
       }
-
       if(mode === 'all'){
         featuredWrap.innerHTML = '';
-        data.items.forEach(item => featuredWrap.appendChild(makeCard(item)));
+        data.items.forEach(i => featuredWrap.appendChild(makeCard(i)));
         if(moreWrap) moreWrap.style.display='none';
+        ok(data.items.length + ' kart yüklendi');
         return;
       }
-
-      const first = data.items.slice(0, 6);
+      const first = data.items.slice(0,6);
       const rest  = data.items.slice(6);
 
       featuredWrap.innerHTML = '';
-      first.forEach(item => featuredWrap.appendChild(makeCard(item)));
+      first.forEach(i => featuredWrap.appendChild(makeCard(i)));
 
       if(rest.length && moreWrap && moreTrack){
         moreTrack.innerHTML = '';
-        rest.forEach(item => moreTrack.appendChild(makeCard(item)));
+        rest.forEach(i => moreTrack.appendChild(makeCard(i)));
         moreWrap.style.display = 'block';
 
         const prev=document.getElementById('svcPrev');
@@ -357,25 +366,69 @@
           if (e.key === 'ArrowLeft') { e.preventDefault(); moreTrack.scrollBy({left:-by, behavior:'smooth'}); }
           if (e.key === 'ArrowRight'){ e.preventDefault(); moreTrack.scrollBy({left: by,  behavior:'smooth'}); }
         });
-      } else if(moreWrap){
-        moreWrap.style.display='none';
+        ok(first.length + '+' + rest.length + ' kart yüklendi');
+      } else {
+        if(moreWrap) moreWrap.style.display='none';
+        ok(first.length + ' kart yüklendi');
       }
     }
 
-    const jsonURL = host.getAttribute('data-json') || '/assets/data/services.json';
-    fetchJSON(jsonURL)
-      .then(render)
-      .catch(err => {
-        console.warn('services.json yüklenemedi:', err);
-        // Minimum 3 fallback kart (ikonlar FA)
-        const fallback = [
-          {"id":"acil","title":"Acil & Yoğun Bakım","summary":"Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat izlem.","href":"#acil","icon":"fa-solid fa-shield-halved"},
-          {"id":"koruyucu","title":"Muayene & Koruyucu","summary":"Aşı planı, parazit kontrolü, mikroçip ve check-up.","href":"#koruyucu","icon":"fa-solid fa-stethoscope"},
-          {"id":"cerrahi","title":"Cerrahi","summary":"Yumuşak doku, ortopedi, sterilizasyon ve ağrı yönetimi.","href":"#cerrahi","icon":"fa-solid fa-scalpel"}
-        ];
-        render({title:'Hizmetlerimiz', items:fallback});
-      })
-      .finally(initMenuAndYear);
+    function embedded(){
+      try{
+        const txt = document.getElementById('services-embed')?.textContent?.trim();
+        if(!txt) return null;
+        return JSON.parse(txt);
+      }catch{ return null; }
+    }
+
+    async function tryFetch(url){
+      const r = await fetch(url, {cache:'no-store'});
+      if(!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }
+
+    async function load(){
+      // Yıl + mobil menü
+      const y=document.getElementById('yil'); if(y) y.textContent=new Date().getFullYear();
+      const btn=document.getElementById('mobileMenuBtn'), menu=document.getElementById('mainMenu');
+      if(btn && menu){
+        const toggleMenu = (state) => { menu.classList.toggle('show', state); document.body.classList.toggle('menu-open', state); };
+        btn.addEventListener('click', ()=> toggleMenu(!menu.classList.contains('show')));
+        menu.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> toggleMenu(false)));
+      }
+
+      if(!host || !featuredWrap){ warn('host bulunamadı'); return; }
+
+      const attrURL = host.getAttribute('data-json');
+      const candidates = [
+        attrURL,
+        '/assets/data/services.json',
+        '/asest/data/services.json',
+        './assets/data/services.json'
+      ].filter(Boolean);
+
+      for(const url of candidates){
+        try{
+          dbg.textContent = 'Hizmetler: ' + url + ' yükleniyor…';
+          const data = await tryFetch(url);
+          render(data);
+          return;
+        }catch(e){
+          // diğer adayı dene
+        }
+      }
+
+      // tüm fetch denemeleri başarısız → gömülü JSON
+      const emb = embedded();
+      if(emb){ render(emb); warn('gömülü veri kullanıldı'); }
+      else { warn('veri bulunamadı'); }
+    }
+
+    if(document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', load);
+    }else{
+      load();
+    }
   })();
   </script>
 </body>
