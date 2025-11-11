@@ -1,8 +1,24 @@
 {
   "title": "Hizmetlerimiz",
   "items": [
-    {"id":"acil","title":"Acil Veteriner","summary":"7/24 acil müdahale ve yoğun bakım","icon":"fa-solid fa-ambulance"},
-    {"id":"koruyucu","title":"Koruyucu Hekimlik","summary":"Aşı, parazit, yıllık kontroller","icon":"fa-solid fa-shield-heart"},
-    {"id":"cerrahi","title":"Cerrahi Operasyonlar","summary":"Yumuşak doku, ortopedi","icon":"fa-solid fa-scalpel"}
+    { "id": "acil",            "title": "Acil & Yoğun Bakım",             "summary": "Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat izlem.",                 "icon": "fa-solid fa-shield-heart",  "href": "/hizmetler.html#acil" },
+    { "id": "koruyucu",        "title": "Muayene & Koruyucu",             "summary": "Aşı planı, parazit kontrolü, mikroçip ve check-up.",                             "icon": "fa-solid fa-stethoscope",   "href": "/hizmetler.html#koruyucu" },
+    { "id": "ic-hastaliklari", "title": "İç Hastalıkları",                "summary": "Hemogram, biyokimya, hormon, idrar analizi ve tanısal yaklaşım.",                 "icon": "fa-solid fa-clipboard",     "href": "/hizmetler.html#ic-hastaliklari" },
+    { "id": "cerrahi",         "title": "Cerrahi",                         "summary": "Yumuşak doku, ortopedi, sterilizasyon ve ağrı yönetimi.",                        "icon": "fa-solid fa-scissors",      "href": "/hizmetler.html#cerrahi" },
+    { "id": "agiz-dis",        "title": "Ağız & Diş Sağlığı",              "summary": "Diş taşı, çekim, periodontal tedaviler ve dental röntgen.",                       "icon": "fa-solid fa-tooth",         "href": "/hizmetler.html#agiz-dis" },
+    { "id": "goruntuleme-lab", "title": "Görüntüleme & Lab",               "summary": "Röntgen, ultrason, FAST, EKG, sitoloji ve hızlı testler.",                        "icon": "fa-solid fa-x-ray",         "href": "/hizmetler.html#goruntuleme-lab" },
+
+    { "id": "kardiyoloji",     "title": "Kardiyoloji",                     "summary": "Kalp muayenesi, EKG değerlendirme, tedavi ve takip.",                             "icon": "fa-solid fa-heart-pulse",   "href": "/hizmetler.html#kardiyoloji" },
+    { "id": "dogum-jinekoloji","title": "Doğum & Jinekoloji",              "summary": "Gebelik takibi, doğum desteği, sezaryen ve üreme sağlığı.",                       "icon": "fa-solid fa-venus",         "href": "/hizmetler.html#dogum-jinekoloji" },
+    { "id": "fizik-tedavi",    "title": "Fizik Tedavi & Rehabilitasyon",   "summary": "Ortopedik/nörolojik rehabilitasyon, ağrı kontrolü, egzersiz planı.",              "icon": "fa-solid fa-dumbbell",      "href": "/hizmetler.html#fizik-tedavi" },
+    { "id": "konaklama",       "title": "Konaklama & Özel Bakım",          "summary": "Veteriner gözetiminde konaklama, izole ünite ve yoğun destek.",                   "icon": "fa-solid fa-house-medical", "href": "/hizmetler.html#konaklama" },
+    { "id": "dermatoloji",     "title": "Dermatoloji",                     "summary": "Alerjiler, paraziter dermatit, mantar ve deri biyopsileri.",                      "icon": "fa-solid fa-splotch",       "href": "/hizmetler.html#dermatoloji" },
+    { "id": "noroloji",        "title": "Nöroloji",                        "summary": "Nöro muayene, görüntüleme yönlendirmesi ve tedavi protokolleri.",                 "icon": "fa-solid fa-brain",         "href": "/hizmetler.html#noroloji" },
+    { "id": "onkoloji",        "title": "Onkoloji",                        "summary": "Kitle değerlendirmesi, sitoloji, cerrahi ve kemoterapi planlaması.",              "icon": "fa-solid fa-ribbon",        "href": "/hizmetler.html#onkoloji" },
+    { "id": "goz",             "title": "Göz Hastalıkları",                "summary": "Flöresein testi, göz içi basınç ölçümü, entropion/ektropion.",                    "icon": "fa-solid fa-eye",           "href": "/hizmetler.html#goz" },
+    { "id": "ortopedi",        "title": "Ortopedi",                        "summary": "Kırık-çıkık, bağ-yumuşak doku yaralanmaları, rehabilitasyon.",                    "icon": "fa-solid fa-bone",          "href": "/hizmetler.html#ortopedi" },
+    { "id": "uroloji",         "title": "Nefroloji & Üroloji",             "summary": "Böbrek ve üriner sistem hastalıklarında tanı-tedavi.",                            "icon": "fa-solid fa-prescription-bottle-medical", "href": "/hizmetler.html#uroloji" },
+    { "id": "endokrinoloji",   "title": "Endokrinoloji",                   "summary": "Diabetes mellitus, hipotiroidi/hipertiroidi, Cushing.",                            "icon": "fa-solid fa-dna",           "href": "/hizmetler.html#endokrinoloji" },
+    { "id": "egzotik",         "title": "Egzotik Hayvanlar",               "summary": "Kafes dostları ve egzotik türlerde muayene ve bakım.",                             "icon": "fa-solid fa-kiwi-bird",     "href": "/hizmetler.html#egzotik" }
   ]
 }
