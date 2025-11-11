@@ -16,7 +16,7 @@
   <!-- İkonlar -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <!-- Sayfaya özgü küçük dokunuşlar -->
+  <!-- Sayfaya özgü küçük dokunuşlar + tema -->
   <style>
     .container{max-width:1180px;margin:0 auto;padding:0 16px}
     h1,h2,h3{letter-spacing:.1px}
@@ -182,14 +182,18 @@
 
   <!-- ===== HİZMETLER ===== -->
   <main id="content">
-    <section class="services" aria-label="Hizmet listesi">
+    <section id="services"
+             class="services"
+             aria-label="Hizmet listesi"
+             data-json="/assets/data/services.json"
+             data-mode="split">
       <div class="container">
         <h2>Tüm Hizmetler</h2>
 
-        <!-- JSON'dan doldurulacak ana ızgara -->
+        <!-- Öne çıkanlar (ilk 6) -->
         <div class="services-grid" id="servicesFeatured" aria-live="polite"></div>
 
-        <!-- Diğer hizmetler – “ilk 6 / kalanlar” modunda görünür -->
+        <!-- Diğer hizmetler — yatay kaydırmalı -->
         <div class="services-more" id="servicesMoreWrap" style="margin-top:28px;display:none;">
           <div class="services-more-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
             <h3>Diğer Hizmetler</h3>
@@ -207,7 +211,7 @@
         <div class="cta-bar">
           <strong>Evcil dostunuz için en uygun çözümü birlikte planlayalım.</strong>
           <div>
-            <a class="btn" href="/contact.html">Konum & İletişim</a>
+            <a class="btn" href="/contact.html">Konum &amp; İletişim</a>
             <a class="btn primary" href="/contact.html">Randevu Al</a>
           </div>
         </div>
@@ -269,126 +273,110 @@
     </div>
   </footer>
 
-  <!-- ===== JSON Fallback Şablonları (offline güvenlik) ===== -->
-  <template id="featured-fallback">
-    <article class="s-card" id="acil">
-      <span class="s-icon" aria-hidden="true"><i class="fa-solid fa-ambulance"></i></span>
-      <h3 class="s-title">Acil & Yoğun Bakım</h3>
-      <p class="s-text">Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat izlem.</p>
-      <a class="s-link" href="#acil">Detaylı Bilgi</a>
-    </article>
-    <article class="s-card" id="koruyucu">
-      <span class="s-icon" aria-hidden="true"><i class="fa-solid fa-shield-heart"></i></span>
-      <h3 class="s-title">Muayene & Koruyucu</h3>
-      <p class="s-text">Aşı planı, parazit kontrolü, mikroçip ve check-up.</p>
-      <a class="s-link" href="#koruyucu">Detaylı Bilgi</a>
-    </article>
-    <article class="s-card" id="cerrahi">
-      <span class="s-icon" aria-hidden="true"><i class="fa-solid fa-scalpel"></i></span>
-      <h3 class="s-title">Cerrahi</h3>
-      <p class="s-text">Yumuşak doku, ortopedi, sterilizasyon ve ağrı yönetimi.</p>
-      <a class="s-link" href="#cerrahi">Detaylı Bilgi</a>
-    </article>
-  </template>
-
-  <template id="more-fallback">
-    <article class="s-card">
-      <span class="s-icon" aria-hidden="true"><i class="fa-solid fa-heart-pulse"></i></span>
-      <h3 class="s-title">Kardiyoloji</h3>
-      <p class="s-text">Kalp muayenesi, EKG değerlendirme, tedavi ve takip.</p>
-      <a class="s-link" href="#kardiyoloji">Detaylı Bilgi</a>
-    </article>
-  </template>
-
-  <!-- ===== JSON Loader — {title, items[]} şeması ===== -->
+  <!-- ===== JSON Loader — /assets/data/services.json ===== -->
   <script>
-    (function(){
-      const featuredWrap = document.getElementById('servicesFeatured');
-      const moreWrap     = document.getElementById('servicesMoreWrap');
-      const moreTrack    = document.getElementById('servicesTrack');
-      const tFeat        = document.getElementById('featured-fallback');
-      const tMore        = document.getElementById('more-fallback');
+  (function(){
+    const host = document.getElementById('services');
+    if(!host) return;
 
-      function cardHTML(item){
-        const idAttr = item.id ? ` id="${item.id}"` : '';
-        const href   = item.href || `#${item.id || ''}`;
-        const title  = item.title || 'Hizmet';
-        const text   = item.summary || item.text || '';
-        let iconHTML = '';
+    const featuredWrap = document.getElementById('servicesFeatured');
+    const moreWrap     = document.getElementById('servicesMoreWrap');
+    const moreTrack    = document.getElementById('servicesTrack');
+    const mode         = (host.getAttribute('data-mode') || 'split').toLowerCase(); // 'split' | 'all'
 
-        // Font Awesome veya SVG use desteği
-        if (item.icon && /fa-/.test(item.icon)) {
-          iconHTML = `<i class="${item.icon}" aria-hidden="true"></i>`;
-        } else {
-          const iconHref = item.icon || '#i-article';
-          iconHTML = `<svg viewBox="0 0 24 24"><use href="${iconHref}"/></svg>`;
-        }
+    function makeCard(item){
+      const art = document.createElement('article'); art.className='s-card';
+      if(item.id) art.id = item.id;
 
-        return `
-          <article class="s-card"${idAttr}>
-            <span class="s-icon" aria-hidden="true">${iconHTML}</span>
-            <h3 class="s-title">${title}</h3>
-            <p class="s-text">${text}</p>
-            <a class="s-link" href="${href}">Detaylı Bilgi</a>
-          </article>
-        `;
+      // Önce Font Awesome ikonunu tercih et → görünürlük garantisi
+      let iconHTML = '';
+      if(item.icon){
+        iconHTML = `<i class="${item.icon}" aria-hidden="true"></i>`;
+      } else if(item.sprite){
+        iconHTML = `<svg viewBox="0 0 24 24"><use href="#${item.sprite}"/></svg>`;
+      } else {
+        iconHTML = `<svg viewBox="0 0 24 24"><use href="#i-article"/></svg>`;
       }
 
-      function renderFallback(){
-        if (featuredWrap && tFeat) featuredWrap.innerHTML = tFeat.innerHTML.trim();
-        if (moreTrack && tMore){
-          moreTrack.innerHTML = tMore.innerHTML.trim();
-          moreWrap.style.display = 'block';
-        }
+      const ic = document.createElement('span'); ic.className='s-icon'; ic.setAttribute('aria-hidden','true'); ic.innerHTML = iconHTML;
+      const h3 = document.createElement('h3'); h3.className='s-title';  h3.textContent = item.title || 'Hizmet';
+      const p  = document.createElement('p');  p.className='s-text';    p.textContent  = item.summary || item.text || '';
+      const a  = document.createElement('a');  a.className='s-link';    a.textContent  = 'Detaylı Bilgi';
+      a.href = item.href || (`/hizmetler.html#${item.id || ''}`);
+
+      art.appendChild(ic); art.appendChild(h3); art.appendChild(p); art.appendChild(a);
+      return art;
+    }
+
+    function fetchJSON(url){
+      return fetch(url, {cache:'no-store'}).then(r => r.ok ? r.json() : Promise.reject(r.status));
+    }
+
+    function initMenuAndYear(){
+      const y=document.getElementById('yil'); if(y) y.textContent=new Date().getFullYear();
+      const btn=document.getElementById('mobileMenuBtn'), menu=document.getElementById('mainMenu');
+      if(btn && menu){
+        const toggleMenu = (state) => { menu.classList.toggle('show', state); document.body.classList.toggle('menu-open', state); };
+        btn.addEventListener('click', ()=> toggleMenu(!menu.classList.contains('show')));
+        menu.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> toggleMenu(false)));
+      }
+    }
+
+    function render(data){
+      if(!Array.isArray(data.items) || !data.items.length) return;
+
+      if(data.title){
+        const h2 = host.querySelector('h2'); if(h2) h2.textContent = data.title;
       }
 
-      fetch('/assets/data/services.json', {cache:'no-store'})
-        .then(r => r.ok ? r.json() : Promise.reject(r.status))
-        .then(json => {
-          // Şema: { title, items:[...] }
-          if (!Array.isArray(json.items) || !json.items.length) {
-            renderFallback(); return;
-          }
+      if(mode === 'all'){
+        featuredWrap.innerHTML = '';
+        data.items.forEach(item => featuredWrap.appendChild(makeCard(item)));
+        if(moreWrap) moreWrap.style.display='none';
+        return;
+      }
 
-          // --- Tek ızgara (default) ---
-          featuredWrap.innerHTML = json.items.map(cardHTML).join('');
+      const first = data.items.slice(0, 6);
+      const rest  = data.items.slice(6);
 
-          // --- İstersen ilk 6 / kalanlar modunu aç ---
-          // const first = json.items.slice(0,6);
-          // const rest  = json.items.slice(6);
-          // featuredWrap.innerHTML = first.map(cardHTML).join('');
-          // if (rest.length){
-          //   moreTrack.innerHTML = rest.map(cardHTML).join('');
-          //   moreWrap.style.display = 'block';
-          // }
-        })
-        .catch(() => renderFallback())
-        .finally(() => {
-          // Kaydırma kontrolleri (diğerleri bölümü açıksa)
-          const track=document.getElementById('servicesTrack');
-          const prev=document.getElementById('svcPrev');
-          const next=document.getElementById('svcNext');
-          if(track && prev && next){
-            const slideBy = () => Math.max(track.clientWidth * 0.95, 300);
-            prev.addEventListener('click', ()=> track.scrollBy({left: -slideBy(), behavior:'smooth'}));
-            next.addEventListener('click', ()=> track.scrollBy({left:  slideBy(), behavior:'smooth'}));
-            track.addEventListener('keydown', (e)=>{
-              const by = slideBy();
-              if (e.key === 'ArrowLeft') { e.preventDefault(); track.scrollBy({left:-by, behavior:'smooth'}); }
-              if (e.key === 'ArrowRight'){ e.preventDefault(); track.scrollBy({left: by, behavior:'smooth'}); }
-            });
-          }
+      featuredWrap.innerHTML = '';
+      first.forEach(item => featuredWrap.appendChild(makeCard(item)));
 
-          // Yıl + mobil menü
-          const y=document.getElementById('yil'); if(y) y.textContent=new Date().getFullYear();
-          const btn=document.getElementById('mobileMenuBtn'), menu=document.getElementById('mainMenu');
-          if(btn && menu){
-            const toggleMenu = (state) => { menu.classList.toggle('show', state); document.body.classList.toggle('menu-open', state); };
-            btn.addEventListener('click', ()=> toggleMenu(!menu.classList.contains('show')));
-            menu.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> toggleMenu(false)));
-          }
+      if(rest.length && moreWrap && moreTrack){
+        moreTrack.innerHTML = '';
+        rest.forEach(item => moreTrack.appendChild(makeCard(item)));
+        moreWrap.style.display = 'block';
+
+        const prev=document.getElementById('svcPrev');
+        const next=document.getElementById('svcNext');
+        const slideBy = () => Math.max(moreTrack.clientWidth * 0.95, 300);
+        prev && prev.addEventListener('click', ()=> moreTrack.scrollBy({left:-slideBy(), behavior:'smooth'}));
+        next && next.addEventListener('click', ()=> moreTrack.scrollBy({left: slideBy(), behavior:'smooth'}));
+        moreTrack.addEventListener('keydown', (e)=>{
+          const by = slideBy();
+          if (e.key === 'ArrowLeft') { e.preventDefault(); moreTrack.scrollBy({left:-by, behavior:'smooth'}); }
+          if (e.key === 'ArrowRight'){ e.preventDefault(); moreTrack.scrollBy({left: by,  behavior:'smooth'}); }
         });
-    })();
+      } else if(moreWrap){
+        moreWrap.style.display='none';
+      }
+    }
+
+    const jsonURL = host.getAttribute('data-json') || '/assets/data/services.json';
+    fetchJSON(jsonURL)
+      .then(render)
+      .catch(err => {
+        console.warn('services.json yüklenemedi:', err);
+        // Minimum 3 fallback kart (ikonlar FA)
+        const fallback = [
+          {"id":"acil","title":"Acil & Yoğun Bakım","summary":"Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat izlem.","href":"#acil","icon":"fa-solid fa-shield-halved"},
+          {"id":"koruyucu","title":"Muayene & Koruyucu","summary":"Aşı planı, parazit kontrolü, mikroçip ve check-up.","href":"#koruyucu","icon":"fa-solid fa-stethoscope"},
+          {"id":"cerrahi","title":"Cerrahi","summary":"Yumuşak doku, ortopedi, sterilizasyon ve ağrı yönetimi.","href":"#cerrahi","icon":"fa-solid fa-scalpel"}
+        ];
+        render({title:'Hizmetlerimiz', items:fallback});
+      })
+      .finally(initMenuAndYear);
+  })();
   </script>
 </body>
 </html>
