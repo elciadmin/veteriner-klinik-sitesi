@@ -1,21 +1,22 @@
 {
   "title": "Hizmetlerimiz",
   "items": [
-    { "id":"acil", "title":"Acil & Yoğun Bakım", "summary":"Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat izlem.", "icon":"#i-shield-cross", "href": "/hizmetler.html#acil" },
-    { "id":"koruyucu", "title":"Muayene & Koruyucu", "summary":"Aşı planı, parazit kontrolü, mikroçip ve check-up.", "icon":"#i-stethoscope", "href": "/hizmetler.html#koruyucu" },
-    { "id":"ic-hastaliklari", "title":"İç Hastalıkları", "summary":"Hemogram, biyokimya, hormon, idrar analizi ve tanısal yaklaşım.", "icon":"#i-clipboard", "href": "/hizmetler.html#ic-hastaliklari" },
-    { "id":"cerrahi", "title":"Cerrahi Operasyonlar", "summary":"Yumuşak doku, ortopedi, sterilizasyon, ağrı yönetimi.", "icon":"#i-scissors", "href": "/hizmetler.html#cerrahi" },
-    { "id":"agiz-dis", "title":"Ağız & Diş Sağlığı", "summary":"Diş taşı temizliği, çekimler, periodontal tedavi, dental röntgen.", "icon":"#i-tooth-clean", "href": "/hizmetler.html#agiz-dis" },
-    { "id":"goruntuleme-lab", "title":"Görüntüleme & Laboratuvar", "summary":"Röntgen, ultrason, FAST, EKG, sitoloji, hızlı testler.", "icon":"#i-xray", "href": "/hizmetler.html#goruntuleme-lab" },
+    { "id":"acil","title":"Acil & Yoğun Bakım","summary":"Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat izlem.","icon":"#i-shield-cross","href":"/hizmetler.html#acil" },
+    { "id":"koruyucu","title":"Muayene & Koruyucu","summary":"Aşı planı, parazit kontrolü, mikroçip ve check-up.","icon":"#i-stethoscope","href":"/hizmetler.html#koruyucu" },
+    { "id":"ic-hastaliklari","title":"İç Hastalıkları","summary":"Hemogram, biyokimya, hormon, idrar analizi ve tanısal yaklaşım.","icon":"#i-clipboard","href":"/hizmetler.html#ic-hastaliklari" },
+    { "id":"cerrahi","title":"Cerrahi Operasyonlar","summary":"Yumuşak doku, ortopedi, sterilizasyon, ağrı yönetimi.","icon":"#i-scissors","href":"/hizmetler.html#cerrahi" },
+    { "id":"agiz-dis","title":"Ağız & Diş Sağlığı","summary":"Diş taşı, çekimler, periodontal tedavi, dental röntgen.","icon":"#i-tooth-clean","href":"/hizmetler.html#agiz-dis" },
+    { "id":"goruntuleme-lab","title":"Görüntüleme & Laboratuvar","summary":"Röntgen, ultrason, FAST, EKG, sitoloji, hızlı testler.","icon":"#i-xray","href":"/hizmetler.html#goruntuleme-lab" },
 
-    { "id":"kardiyoloji", "title":"Kardiyoloji", "summary":"EKG değerlendirme, kalp muayenesi, tedavi ve takip.", "icon":"#i-ecg", "href": "/hizmetler.html#kardiyoloji" },
-    { "id":"dogum-jinekoloji", "title":"Doğum & Jinekoloji", "summary":"Gebelik takibi, doğum desteği, yavru bakımı, postpartum bakım.", "icon":"#i-repro", "href": "/hizmetler.html#dogum-jinekoloji" },
-    { "id":"endokrinoloji", "title":"Endokrinoloji", "summary":"Tiroid, DM, Cushing, Addison tarama ve yönetimi.", "icon":"#i-endo", "href": "/hizmetler.html#endokrinoloji" },
-    { "id":"uroloji", "title":"Üroloji", "summary":"İdrar yolu enfeksiyonları, taşlar, kateterizasyon, takip.", "icon":"#i-uro", "href": "/hizmetler.html#uroloji" },
-    { "id":"ortopedi", "title":"Ortopedi", "summary":"Kırık-çıkık, bağ yaralanmaları, ortopedik muayene ve operasyon.", "icon":"#i-ortho", "href": "/hizmetler.html#ortopedi" },
-    { "id":"goz", "title":"Göz Hastalıkları", "summary":"Göz muayenesi, ülser, entropion/ektropion, tedavi ve takip.", "icon":"#i-eye", "href": "/hizmetler.html#goz" },
-    { "id":"dermatoloji", "title":"Dermatoloji", "summary":"Alerjiler, deri enfeksiyonları, paraziter hastalıklar.", "icon":"#i-derm", "href": "/hizmetler.html#dermatoloji" },
-    { "id":"ftr", "title":"Fizik Tedavi & Rehabilitasyon", "summary":"Ağrı yönetimi, mobilizasyon, egzersiz planı, post-op bakım.", "icon":"#i-pt", "href": "/hizmetler.html#ftr" },
-    { "id":"konaklama", "title":"Konaklama", "summary":"Güvenli ve hijyenik konaklama alanları, günlük raporlama.", "icon":"#i-boarding", "href": "/hizmetler.html#konaklama" }
+    { "id":"kardiyoloji","title":"Kardiyoloji","summary":"EKG değerlendirme, kalp muayenesi, tedavi ve takip.","icon":"#i-ecg","href":"/hizmetler.html#kardiyoloji" },
+    { "id":"dogum-jinekoloji","title":"Doğum & Jinekoloji","summary":"Gebelik takibi, doğum desteği, yavru ve postpartum bakım.","icon":"#i-repro","href":"/hizmetler.html#dogum-jinekoloji" },
+    { "id":"endokrinoloji","title":"Endokrinoloji","summary":"Tiroid, DM, Cushing/Addison tarama ve yönetimi.","icon":"#i-endo","href":"/hizmetler.html#endokrinoloji" },
+    { "id":"uroloji","title":"Üroloji","summary":"İYE, taşlar, kateterizasyon ve takip.","icon":"#i-uro","href":"/hizmetler.html#uroloji" },
+    { "id":"ortopedi","title":"Ortopedi","summary":"Kırık-çıkık, bağ yaralanmaları, ortopedik muayene/operasyon.","icon":"#i-ortho","href":"/hizmetler.html#ortopedi" },
+    { "id":"goz","title":"Göz Hastalıkları","summary":"Ülser, entropion/ektropion, göz muayenesi ve tedaviler.","icon":"#i-eye","href":"/hizmetler.html#goz" },
+    { "id":"dermatoloji","title":"Dermatoloji","summary":"Alerjiler, deri enfeksiyonları, paraziter hastalıklar.","icon":"#i-derm","href":"/hizmetler.html#dermatoloji" },
+    { "id":"ftr","title":"Fizik Tedavi & Rehabilitasyon","summary":"Ağrı yönetimi, mobilizasyon, egzersiz, post-op bakım.","icon":"#i-pt","href":"/hizmetler.html#ftr" },
+    { "id":"konaklama","title":"Konaklama","summary":"Güvenli/hijyenik konaklama, günlük raporlama.","icon":"#i-boarding","href":"/hizmetler.html#konaklama" },
+    { "id":"egzotik","title":"Egzotik Hayvanlar","summary":"Kuş, kemirgen temel muayene ve bakım danışmanlığı.","icon":"#i-exotic","href":"/hizmetler.html#egzotik" }
   ]
 }
