@@ -3,76 +3,90 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Hizmetlerimiz | Elçi Veteriner Kliniği · Konya'da 7/24 Acil, Cerrahi, Görüntüleme</title>
-  <meta name="description" content="Konya Meram Elçi Veteriner Kliniği: acil & yoğun bakım, koruyucu hekimlik, iç hastalıkları, cerrahi, ağız-diş, görüntüleme-laboratuvar ve daha fazlası."/>
+  <title>Hizmetlerimiz | Elçi Veteriner Kliniği</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Elçi Veteriner Kliniği hizmetleri: Acil & yoğun bakım, muayene & koruyucu hekimlik, iç hastalıkları, cerrahi, ağız ve diş sağlığı, görüntüleme & laboratuvar, kardiyoloji, doğum & jinekoloji, fizik tedavi ve konaklama."/>
   <link rel="canonical" href="https://elciveteriner.com/hizmetler.html"/>
 
-  <!-- Stil dosyaları (senin sürümlerini kullanıyorum) -->
+  <!-- Stil dosyaları (senin orijinal CSS’lerin) -->
   <link rel="stylesheet" href="/assets/css/tokens.css?v=20251106"/>
   <link rel="stylesheet" href="/assets/css/styles.css?v=20251106"/>
 
-  <!-- İkonlar -->
+  <!-- Font Awesome (ikonlar) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <!-- Sayfaya özgü küçük yamalar (indeksteki akışkan gradyan & layout) -->
+  <!-- Sayfaya özgü minik destek stilleri -->
   <style>
-    /* Akışkan gradyan (indeks ile aynı his) */
-    @keyframes elciGradientFlow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-    .btn.primary{
-      background-image:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
-      background-size:200% 100%; background-position:0% 50%; color:#fff !important; border:0;
-      box-shadow:0 8px 22px rgba(16,179,209,.22); animation:elciGradientFlow 6s linear infinite;
-    }
-    .btn.primary:hover{ transform:translateY(-2px); box-shadow:0 12px 28px rgba(16,179,209,.28) }
-    @media (prefers-reduced-motion:reduce){ .btn.primary{ animation:none !important; background-position:50% 50% } }
+    /* Sayfa kabı */
+    .page-wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+    .page-head{padding:64px 0 28px}
+    .page-head h1{margin:0;font-size:clamp(28px,4.2vw,44px)}
+    .page-sub{max-width:840px;color:#1c2a33;opacity:.92;margin-top:8px}
 
-    /* Sayfa yerleşimi */
-    .svc-layout{ display:grid; grid-template-columns:260px 1fr; gap:20px }
-    @media (max-width: 980px){ .svc-layout{ grid-template-columns:1fr } }
-    .svc-sidebar{ position:sticky; top:92px; align-self:start; background:#fff; border:1px solid var(--card-border); border-radius:14px; padding:12px; box-shadow:var(--shadow) }
-    .svc-sidebar h3{ margin:4px 8px 10px; font-size:15px; color:#233 }
-    #svcToc{ list-style:none; padding:0; margin:0; display:grid; gap:4px }
-    #svcToc a{ display:flex; gap:8px; align-items:center; padding:8px 10px; border-radius:10px; color:#233; font-weight:600 }
-    #svcToc a:hover{ background:#f0f7f7; color:var(--brand) }
-    #svcToc a.active{ background:#e9f7fb; color:var(--brand) }
-
-    .svc-topbar{ display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:10px 0 8px }
-    .svc-topbar input[type="search"]{
-      flex:1 1 280px; max-width:520px; height:44px; border:1px solid var(--card-border);
-      border-radius:12px; padding:10px 12px; font:inherit; background:#fff;
-    }
-    #chipBar{ display:flex; gap:8px; flex-wrap:wrap; margin:6px 0 2px }
-    #chipBar .chip{ cursor:pointer; border:1px solid color-mix(in srgb, var(--accent), #000 18%) }
-    #chipBar .chip.active{ background:#f0fbfe; border-color:var(--accent) }
-
-    /* Bölüm ve kartlar (indeksle aynı grid ve estetik) */
-    .svc-section{ margin:18px 0 26px }
-    .svc-section h2{ margin:0 0 12px; position:relative; display:inline-block }
-    .svc-section h2::after{
-      content:""; position:absolute; left:0; bottom:-8px; width:72px; height:3px; border-radius:999px;
-      background:linear-gradient(90deg, var(--brand), var(--accent));
-    }
-    .services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px }
-    @media (max-width:1100px){ .services-grid{ grid-template-columns:repeat(2,1fr) } }
-    @media (max-width:640px){ .services-grid{ grid-template-columns:1fr } }
-
-    /* Hero (indeksteki mor-turkuaz yapı) */
-    .hero.services-hero{
+    /* Hero — indeksle aynı mor-turkuaz hissi */
+    .hero.blog-hero{
+      padding-top:clamp(72px,10vw,120px);
       background:
         radial-gradient(1200px 520px at 75% -160px, rgba(255,255,255,.12) 0%, rgba(255,255,255,0) 60%),
         linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%);
       color:#fff;
     }
-    .hero .hero-divider{
-      background:linear-gradient(90deg,
-        color-mix(in srgb, var(--brand) 92%, #fff 8%),
-        color-mix(in srgb, var(--accent) 88%, #fff 12%));
+    .hero.blog-hero h1{color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.22)}
+    .hero .divider{margin-top:12px}
+
+    /* Filtre-çubuk (kategori çipleri + arama) */
+    .svc-toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin:16px 0 2px}
+    .chipbar{display:flex;gap:8px;flex-wrap:wrap}
+    .chipbar .chip{cursor:pointer;border:1px solid var(--card-border)}
+    .chipbar .chip.active{background:#f0fbfe;border-color:var(--accent)}
+    .svc-search{display:flex;align-items:center;gap:8px}
+    .svc-search input{
+      width:260px;max-width:60vw;height:42px;border:1px solid var(--card-border);border-radius:12px;
+      padding:8px 12px 8px 36px;background:#fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="gray" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>') no-repeat 10px center;
+      font:inherit;color:var(--ink)
     }
+
+    /* Kategori başlıkları */
+    .svc-section{padding:18px 0}
+    .svc-section h2{margin:0 0 10px;display:inline-block;position:relative}
+    .svc-section h2::after{
+      content:"";position:absolute;left:0;bottom:-8px;width:72px;height:3px;border-radius:999px;
+      background:linear-gradient(90deg,var(--brand),var(--accent))
+    }
+
+    /* İkon kapsülü — indeks stili */
+    .s-icon{
+      width:46px;height:46px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#fff;margin-bottom:10px;
+      box-shadow:0 8px 16px color-mix(in srgb, var(--brand), #000 70%), inset 0 0 0 1px rgba(255,255,255,.18);
+      position:relative; overflow:hidden;
+    }
+    .s-icon::after{
+      content:""; position:absolute; inset:0;
+      background:radial-gradient(60% 60% at 30% 20%, rgba(255,255,255,.22), transparent 60%);
+      mix-blend-mode:screen;
+    }
+    .s-icon i{font-size:20px;filter:drop-shadow(0 0 1px rgba(0,0,0,.18))}
+    .s-card .s-title{margin:0 0 6px;font-size:18px;font-weight:800;color:#113}
+
+    /* Akışkan buton gradyanı (indeks ile aynı) */
+    @keyframes elciGradientFlow {
+      0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%}
+    }
+    .btn.primary{
+      background-image:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
+      background-size:200% 100%; background-position:0% 50%;
+      color:#fff !important;border:0; box-shadow:0 8px 22px rgba(16,179,209,.22);
+      animation:elciGradientFlow 6s linear infinite;
+    }
+    .btn.primary:hover{transform:translateY(-2px); box-shadow:0 12px 28px rgba(16,179,209,.28)}
+    @media (prefers-reduced-motion:reduce){ .btn.primary{animation:none} }
   </style>
 </head>
 
-<body class="theme-plumOcean">
-  <!-- ===== SABİT HEADER (indekstekinin aynısı) ===== -->
+<body class="theme-plumOcean" data-page="services">
+  <!-- ===== SABİT HEADER (indeksteki ile aynı yapı) ===== -->
   <header>
     <div class="header-top">
       <div class="container">
@@ -146,79 +160,64 @@
     </div>
   </header>
 
-  <!-- ===== HERO ===== -->
-  <section class="hero services-hero">
-    <div class="container">
-      <div class="hero-center">
-        <div class="hero-icon">
-          <img class="hero-logo" src="/assets/img/uploads/elci-logo.png?v=1" alt="Elçi Veteriner Kliniği Logosu" width="96" height="96" loading="eager" decoding="async">
-        </div>
+  <!-- ===== HERO (sayfa başı) ===== -->
+  <section class="hero blog-hero">
+    <div class="page-wrap">
+      <div class="page-head">
         <h1>Hizmetlerimiz</h1>
-        <div class="hero-divider" role="presentation"></div>
-        <p class="hero-sub">Acil & yoğun bakımdan cerrahiye, görüntülemeden koruyucu hekimliğe kadar tüm branşlarımız; şeffaf süreç ve kanıta dayalı protokollerle.</p>
-        <div class="hero-cta">
-          <a class="btn primary" href="tel:03323223220">Hemen Ara</a>
-          <a class="btn ghost" href="/contact.html">Randevu Al</a>
-        </div>
+        <span class="divider"></span>
+        <p class="page-sub">Acil & yoğun bakımdan cerrahiye, görüntüleme ve koruyucu hekimlikten ağız ve diş sağlığına kadar; kanıta dayalı, protokolleri standartize edilmiş kapsamlı hizmetler.</p>
       </div>
     </div>
   </section>
 
   <!-- ===== HİZMETLER İÇERİK ===== -->
-  <section class="container" style="padding:32px 0 8px">
-    <div class="svc-layout">
-      <!-- Sol: TOC -->
-      <aside class="svc-sidebar" aria-labelledby="tocTitle">
-        <h3 id="tocTitle"><i class="fa-regular fa-folder-open"></i> Kategoriler</h3>
-        <ul id="svcToc"></ul>
-      </aside>
-
-      <!-- Sağ: Arama / Çipler / Kartlar -->
-      <main>
-        <div class="svc-topbar">
-          <input id="svcSearch" type="search" placeholder="Hizmet ara (örn. ‘röntgen’, ‘kısırlaştırma’, ‘aşı’)" aria-label="Hizmet arama"/>
-          <a class="btn" href="/contact.html"><i class="fa-regular fa-calendar-check"></i> Randevu</a>
-          <a class="btn primary" href="tel:03323223220"><i class="fa-solid fa-phone"></i> Acil Çağrı</a>
-        </div>
-        <div id="chipBar" aria-label="Kategori filtreleri" role="group"></div>
-
-        <span class="divider divider--soft is-left" style="margin:10px 0 14px"></span>
-
-        <div id="svcSections" aria-live="polite" aria-busy="true">
-          <!-- JSON gelmezse fallback’a düşeceğiz -->
-        </div>
-
-        <!-- Fallback (JSON bulunamazsa) -->
-        <template id="svcFallback">
-          <section class="svc-section" aria-label="Öne Çıkanlar">
-            <h2>Öne Çıkanlar</h2>
-            <div class="services-grid">
-              <article class="s-card" id="acil">
-                <span class="s-icon"><svg viewBox="0 0 24 24"><use href="#i-shield-cross"/></svg></span>
-                <h3 class="s-title">Acil & Yoğun Bakım</h3>
-                <p class="s-text">Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat izlem.</p>
-                <a class="s-link" href="#acil">Detaylı Bilgi</a>
-              </article>
-              <article class="s-card" id="koruyucu">
-                <span class="s-icon"><svg viewBox="0 0 24 24"><use href="#i-stethoscope"/></svg></span>
-                <h3 class="s-title">Muayene & Koruyucu</h3>
-                <p class="s-text">Aşı planı, parazit kontrolü, mikroçip ve check-up.</p>
-                <a class="s-link" href="#koruyucu">Detaylı Bilgi</a>
-              </article>
-              <article class="s-card" id="cerrahi">
-                <span class="s-icon"><svg viewBox="0 0 24 24"><use href="#i-scissors"/></svg></span>
-                <h3 class="s-title">Cerrahi</h3>
-                <p class="s-text">Yumuşak doku, ortopedi, sterilizasyon ve ağrı yönetimi.</p>
-                <a class="s-link" href="#cerrahi">Detaylı Bilgi</a>
-              </article>
-            </div>
-          </section>
-        </template>
-      </main>
+  <main class="page-wrap" style="padding:26px 0 40px">
+    <!-- Filtre / Arama -->
+    <div class="svc-toolbar" aria-label="Hizmet filtreleri">
+      <div id="chipBar" class="chipbar" role="group" aria-label="Hizmet kategorileri"></div>
+      <div class="svc-search">
+        <input id="svcSearch" type="search" placeholder="Hizmet ara… (örn. cerrahi, diş, röntgen)"/>
+      </div>
     </div>
-  </section>
 
-  <!-- ===== FOOTER (indekstekinin aynısı) ===== -->
+    <!-- İçindekiler (istersen görünür dursun) -->
+    <nav aria-label="İçindekiler">
+      <ul id="svcToc" style="display:flex;gap:12px;flex-wrap:wrap;margin:10px 0 16px;padding:0;list-style:none"></ul>
+    </nav>
+
+    <!-- Dinamik içerik -->
+    <div id="svcSections" aria-live="polite"></div>
+
+    <!-- Fallback (JSON yoksa) -->
+    <template id="svcFallback">
+      <section class="svc-section">
+        <h2>Tüm Hizmetler</h2>
+        <div class="services-grid">
+          <article class="s-card" id="acil">
+            <span class="s-icon"><i class="fa-solid fa-shield-heart"></i></span>
+            <h3 class="s-title">Acil & Yoğun Bakım</h3>
+            <p class="s-text">Şok yönetimi, oksijen, sıvı tedavisi ve 24 saat izlem.</p>
+            <a class="s-link" href="#acil">Detaylı Bilgi</a>
+          </article>
+          <article class="s-card" id="koruyucu">
+            <span class="s-icon"><i class="fa-solid fa-stethoscope"></i></span>
+            <h3 class="s-title">Muayene & Koruyucu</h3>
+            <p class="s-text">Aşı planı, parazit kontrolü, mikroçip ve check-up.</p>
+            <a class="s-link" href="#koruyucu">Detaylı Bilgi</a>
+          </article>
+          <article class="s-card" id="goruntuleme-lab">
+            <span class="s-icon"><i class="fa-solid fa-x-ray"></i></span>
+            <h3 class="s-title">Görüntüleme & Lab</h3>
+            <p class="s-text">Röntgen, ultrason, FAST, EKG, sitoloji ve hızlı testler.</p>
+            <a class="s-link" href="#goruntuleme-lab">Detaylı Bilgi</a>
+          </article>
+        </div>
+      </section>
+    </template>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
   <footer class="footer-new">
     <div class="container footer-container">
       <div class="footer-col">
@@ -226,16 +225,16 @@
         <p>Konya’nın Meram ilçesinde, hayvan sağlığı alanında uzman ekibimizle hizmet veriyoruz. 7/24 acil veteriner hizmeti.</p>
         <div class="social-links">
           <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 10h3l.5-3H13V5.5c0-.9.3-1.5 1.7-1.5H17V1h-3c-3 0-4.5 1.6-4.5 4.4V7H7v3h2.5v9h3v-9z"/></svg>
+            <i class="fa-brands fa-facebook-f"></i>
           </a>
           <a href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><path d="M17.5 6.5h.01" stroke-width="2"/></svg>
+            <i class="fa-brands fa-instagram"></i>
           </a>
           <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.8c-.8.4-1.6.6-2.5.7.9-.6 1.5-1.4 1.8-2.4-.8.5-1.8.9-2.8 1.1A3.7 3.7 0 0 0 12 8.4c0 .3 0 .7.1 1A10.5 10.5 0 0 1 3 5.2a3.7 3.7 0 0 0 1.1 5 3.6 3.6 0 0 1-1.7-.5v.1c0 1.8 1.3 3.3 3 3.7-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1.5 1.5 1.9 2.6 3.6 2.6A7.5 7.5 0 0 1 3 19.5 10.6 10.6 0 0 0 9.7 21c6.3 0 9.7-5.2 9.7-9.7v-.4c.8-.6 1.5-1.4 2-2.3z"/></svg>
+            <i class="fa-brands fa-x-twitter"></i>
           </a>
           <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5a4 4 0 0 0-3-3.1C18.3 4 12 4 12 4s-6.3 0-8 .4A4 4 0 0 0 1 7.5 41 41 0 0 0 1 16.5a4 4 0 0 0 3 3.1c1.7.4 8 .4 8 .4s6.3 0 8-.4a4 4 0 0 0 3-3.1 41 41 0 0 0 0-9zM10 15.5v-7l6 3.5-6 3.5z"/></svg>
+            <i class="fa-brands fa-youtube"></i>
           </a>
         </div>
       </div>
@@ -266,22 +265,12 @@
       <div class="footer-col">
         <h3>Konya İletişim</h3>
         <ul class="footer-contact">
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"/><circle cx="12" cy="11" r="2.5"/></svg>
+          <li><i class="fa-solid fa-location-dot"></i>
             <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a>
           </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.5v2a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3.1 19 19 0 0 1-6-6A2 2 0 0 1 7.5 9h2l2 3-1.5 1.5a16 16 0 0 0 6 6L18 18l3 2.5z"/></svg>
-            <a href="tel:03323223220">0332 322 32 20</a>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
-            <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
-            <span>Pazartesi–Cumartesi: 08:00–19:00<br>Pazar: Acil Hizmet</span>
-          </li>
+          <li><i class="fa-solid fa-phone"></i> <a href="tel:03323223220">0332 322 32 20</a></li>
+          <li><i class="fa-solid fa-envelope"></i> <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></li>
+          <li><i class="fa-regular fa-clock"></i> <span>Pazartesi–Cumartesi: 08:00–19:00 · Pazar: Acil</span></li>
         </ul>
       </div>
     </div>
@@ -293,98 +282,113 @@
     </div>
   </footer>
 
-  <!-- ===== Schema.org ===== -->
+  <!-- Şema -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
-    "@type":"CollectionPage",
-    "name":"Hizmetlerimiz — Elçi Veteriner Kliniği",
-    "about":{"@type":"VeterinaryCare","name":"Elçi Veteriner Kliniği"},
-    "url":"https://elciveteriner.com/hizmetler.html",
-    "inLanguage":"tr-TR"
+    "@type":"Service",
+    "serviceType":"VeterinaryCare",
+    "provider":{"@type":"Organization","name":"Elçi Veteriner Kliniği"},
+    "areaServed":"Konya",
+    "url":"https://elciveteriner.com/hizmetler.html"
   }
   </script>
 
-  <!-- ===== Küçük başlangıç JS (yıl + mobil menü) ===== -->
+  <!-- === Minik yardımcı JS: yıl + mobil menü === -->
   <script>
     window.addEventListener('DOMContentLoaded', function(){
       const y=document.getElementById('yil'); if(y) y.textContent=new Date().getFullYear();
       const btn=document.getElementById('mobileMenuBtn'), menu=document.getElementById('mainMenu');
       if(btn && menu){
-        const toggleMenu = (state) => {
-          menu.classList.toggle('show', state);
-          document.body.classList.toggle('menu-open', state);
-        };
-        btn.addEventListener('click', ()=> toggleMenu(!menu.classList.contains('show')));
-        menu.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> toggleMenu(false)));
+        const t= s => {menu.classList.toggle('show',s); document.body.classList.toggle('menu-open',s);}
+        btn.addEventListener('click',()=>t(!menu.classList.contains('show')));
+        menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>t(false)));
       }
     });
   </script>
 
-  <!-- ===== Hizmetler Loader (yalın, indeks şemasıyla uyumlu) ===== -->
+  <!-- ===== Hizmetler Sayfası Loader (JSON + FA ikon odaklı) ===== -->
   <script>
   (function(){
     const sectionsWrap = document.getElementById('svcSections');
+    if(!sectionsWrap) return;
+
     const toc       = document.getElementById('svcToc');
     const chipBar   = document.getElementById('chipBar');
     const searchBox = document.getElementById('svcSearch');
     const fallback  = document.getElementById('svcFallback');
 
-    if(!sectionsWrap) return;
-
-    const paths = ['/assets/data/services.json','/assets/data/servis.json','/assets/data/service.json'];
+    const DATA_PATHS = ['/assets/data/services.json','/assets/data/servis.json','/assets/data/service.json'];
     let items = [], categories = [], activeCat = 'Tümü', q = '';
 
-    const pick=(o,...keys)=>{ for(const k of keys){ if(o && o[k]!=null) return o[k]; } };
-    const norm=(maybe)=>Array.isArray(maybe)?maybe:(Array.isArray(maybe?.items)?maybe.items:[]);
-    const anchor=(c)=>'cat-'+String(c||'diger').toLowerCase().replace(/\s+/g,'-').replace(/[^\w\-]+/g,'');
-
+    // İkon: FA öncelikli — indeksteki hava
     function iconHTML(icon){
-      if(!icon) return `<svg viewBox="0 0 24 24"><use href="#i-article"/></svg>`;
-      if(icon.startsWith('#i-')) return `<svg viewBox="0 0 24 24"><use href="${icon}"/></svg>`;
-      if(icon.startsWith('i-'))  return `<svg viewBox="0 0 24 24"><use href="#${icon}"/></svg>`;
-      if(icon.includes('fa-'))   return `<i class="${icon}" aria-hidden="true"></i>`;
-      return `<svg viewBox="0 0 24 24"><use href="#i-article"/></svg>`;
+      if(icon && icon.includes('fa-')) return `<i class="${icon}" aria-hidden="true"></i>`;
+      if(!icon) return `<i class="fa-solid fa-circle-check" aria-hidden="true"></i>`;
+      if(icon.startsWith('#i-') || icon.startsWith('i-')){
+        const id = icon.startsWith('#') ? icon : ('#'+icon);
+        return `<svg viewBox="0 0 24 24"><use href="${id}"/></svg>`;
+      }
+      return `<i class="fa-solid fa-circle-check" aria-hidden="true"></i>`;
     }
-    const cardHTML = (it)=>{
+
+    // Kart şablonu
+    const pick=(o,...k)=>{ for(const x of k){ if(o && o[x]!=null) return o[x]; } };
+    function cardHTML(it){
       const id   = pick(it,'id','slug','anchor');
       const href = it.href || (id?('#'+id):'#');
       const ttl  = pick(it,'title','baslik','name') || 'Hizmet';
       const sum  = pick(it,'summary','ozet','text','aciklama') || '';
-      const icon = pick(it,'icon','ikon') || '#i-clipboard';
+      const icon = pick(it,'icon','ikon') || 'fa-solid fa-circle-check';
       return `
         <article class="s-card" ${id?`id="${id}"`:''}>
           <span class="s-icon" aria-hidden="true">${iconHTML(icon)}</span>
-          <h3 class="s-title">${ttl}</h3>
-          <p class="s-text">${sum}</p>
-          <a class="s-link" href="${href}">Detaylı Bilgi</a>
+          <div class="s-body">
+            <h3 class="s-title">${ttl}</h3>
+            <p class="s-text">${sum}</p>
+            <a class="s-link" href="${href}">Detaylı Bilgi</a>
+          </div>
         </article>`;
-    };
+    }
 
+    // Kategoriler
     function buildCats(){
       categories = ['Tümü', ...new Set(items.map(i => (pick(i,'category','kategori') || 'Diğer').trim()))];
     }
+    const anchor = (c)=>'cat-'+c.toLowerCase().replace(/\s+/g,'-').replace(/[^\w\-]+/g,'');
 
+    // TOC
     function renderTOC(){
       if(!toc) return;
       toc.innerHTML = categories.map((c,i)=>`
-        <li><a href="#${anchor(c)}" class="${i===0?'active':''}" data-cat="${c}">
-          <i class="fa-regular fa-folder-open"></i> <span>${c}</span></a></li>`).join('');
-      toc.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
-        toc.querySelectorAll('a').forEach(x=>x.classList.remove('active'));
-        a.classList.add('active'); activeCat = a.dataset.cat;
-      }));
+        <li><a href="#${anchor(c)}" class="chip ${i===0?'active':''}" data-cat="${c}">${c}</a></li>
+      `).join('');
+      toc.querySelectorAll('a').forEach(a=>{
+        a.addEventListener('click', (e)=>{
+          e.preventDefault();
+          toc.querySelectorAll('a').forEach(x=>x.classList.remove('active'));
+          a.classList.add('active');
+          activeCat = a.dataset.cat;
+          renderAll();
+          const t = document.getElementById(anchor(activeCat));
+          if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+        });
+      });
     }
 
+    // Chip bar
     function renderChips(){
       if(!chipBar) return;
       chipBar.innerHTML = categories.map(c=>`<button class="chip ${c===activeCat?'active':''}" data-cat="${c}">${c}</button>`).join('');
-      chipBar.querySelectorAll('.chip').forEach(btn=>btn.addEventListener('click',()=>{
-        activeCat = btn.dataset.cat; renderAll();
-        const t = document.getElementById(anchor(activeCat)); if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
-      }));
+      chipBar.querySelectorAll('.chip').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          activeCat = btn.dataset.cat;
+          renderAll();
+        });
+      });
     }
 
+    // Filtre
     function filtered(list){
       return list.filter(it=>{
         const cat = (pick(it,'category','kategori') || 'Diğer');
@@ -396,8 +400,8 @@
       });
     }
 
+    // Bölümler
     function renderSections(){
-      if(!sectionsWrap) return;
       const groups={}; (activeCat==='Tümü' ? categories.slice(1) : [activeCat]).forEach(c=>groups[c]=[]);
       items.forEach(it=>{ const c=(pick(it,'category','kategori')||'Diğer'); if(groups[c]!==undefined) groups[c].push(it); });
 
@@ -405,46 +409,53 @@
       cats.forEach(c=>{
         const list=filtered(groups[c]); if(!list.length) return;
         html+=`<section class="svc-section" id="${anchor(c)}" aria-label="${c}">
-          <h2>${c}</h2><div class="services-grid">${list.map(cardHTML).join('')}</div></section>`;
+          <h2>${c}</h2>
+          <div class="services-grid">${list.map(cardHTML).join('')}</div>
+        </section>`;
       });
       if(!html){
         html=`<section class="svc-section"><h2>Sonuç bulunamadı</h2><p class="muted">Anahtar sözcükleri kısaltarak tekrar deneyin.</p></section>`;
       }
-      sectionsWrap.setAttribute('aria-busy','false');
       sectionsWrap.innerHTML = html;
 
-      // Kartlara küçük giriş animasyonu
-      sectionsWrap.querySelectorAll('.s-card').forEach((el,i)=>{
-        requestAnimationFrame(()=>{ setTimeout(()=> el.classList.add('show'), 30 + i*30); });
+      // Kart giriş animasyonu (yumuşak)
+      requestAnimationFrame(()=> {
+        document.querySelectorAll('.s-card').forEach((el,i)=>{
+          el.style.opacity='0'; el.style.transform='translateY(6px) scale(.99)';
+          setTimeout(()=>{ el.classList.add('show'); el.style.opacity='1'; el.style.transform='none'; }, 20 + i*25);
+        });
       });
     }
 
     function renderAll(){ renderChips(); renderSections(); }
 
-    searchBox && searchBox.addEventListener('input',e=>{
-      q=String(e.target.value||'').trim().toLowerCase(); renderSections();
-    });
+    // Arama
+    if(searchBox){
+      searchBox.addEventListener('input',e=>{
+        q = String(e.target.value||'').trim().toLowerCase();
+        renderSections();
+      });
+    }
 
+    // Yükle
     (async function load(){
-      let data=null, ok=false, tried=[];
-      for(const p of paths){
+      let data=null, ok=false;
+      for(const p of DATA_PATHS){
         try{
-          const r=await fetch(p+'?v='+Date.now(),{cache:'no-store'});
-          tried.push(p+' → '+r.status);
+          const r = await fetch(p+'?v='+Date.now(), {cache:'no-store'});
           if(!r.ok) continue;
-          data=await r.json(); ok=true; break;
-        }catch(e){ tried.push(p+' → ERR'); }
+          data = await r.json(); ok=true; break;
+        }catch(e){}
       }
       if(!ok){
-        console.warn('Hizmet JSON’u bulunamadı. Denemeler:', tried.join(' | '));
         const frag = fallback?.content?.cloneNode(true);
         if(frag) sectionsWrap.replaceWith(frag);
         return;
       }
-      items = norm(data);
+      items = Array.isArray(data?.items) ? data.items.slice() : (Array.isArray(data) ? data : []);
       if(!items.length){
-        console.warn('Hizmet listesi boş/şema farklı. Fallback gösteriliyor.');
-        const frag = fallback?.content?.cloneNode(true); if(frag) sectionsWrap.replaceWith(frag);
+        const frag = fallback?.content?.cloneNode(true);
+        if(frag) sectionsWrap.replaceWith(frag);
         return;
       }
       buildCats(); renderTOC(); renderAll();
@@ -452,14 +463,10 @@
   })();
   </script>
 
-  <!-- ===== SVG ICON SPRITE (kullandıklarımız) ===== -->
+  <!-- SVG sprite (gerekirse) -->
   <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden">
     <defs><style>.i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}</style></defs>
-    <symbol id="i-article" viewBox="0 0 24 24"><rect class="i" x="4" y="3" width="16" height="18" rx="2"/><path class="i" d="M8 8h8M8 12h8M8 16h5"/></symbol>
-    <symbol id="i-shield-cross" viewBox="0 0 24 24"><path class="i" d="M12 3l7 3v5c0 5.2-3.6 8.7-7 10-3.4-1.3-7-4.8-7-10V6l7-3z"/><path class="i" d="M9 11h6M12 8v6"/></symbol>
-    <symbol id="i-stethoscope" viewBox="0 0 24 24"><path class="i" d="M6 3v5a4 4 0 1 0 8 0V3M2.5 3H6M10 3h3.5M10 13a6 6 0 0 0 12 0v-1.2"/><circle class="i" cx="22" cy="11.8" r="2"/></symbol>
-    <symbol id="i-scissors" viewBox="0 0 24 24"><circle class="i" cx="6" cy="6" r="2.5"/><circle class="i" cx="6" cy="18" r="2.5"/><path class="i" d="M8 7l12 10M8 17l5-4"/></symbol>
-    <symbol id="i-clipboard" viewBox="0 0 24 24"><rect class="i" x="5" y="4" width="14" height="18" rx="2"/><rect class="i" x="9" y="2" width="6" height="4" rx="1.5"/><path class="i" d="M8 11h8M8 15h8M8 19h5"/></symbol>
+    <symbol id="i-xray" viewBox="0 0 24 24"><rect class="i" x="3" y="3" width="18" height="18" rx="2"/><path class="i" d="M7 7h10M7 12h10M7 17h10M12 7v10"/></symbol>
   </svg>
 </body>
 </html>
