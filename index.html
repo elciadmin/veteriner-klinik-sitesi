@@ -738,3 +738,223 @@
   </script>
 </body>
 </html>
+<script>
+/* === ELÇİ — Güvenli Hizmet Yükleyici v2 ===========================
+   İki mod:
+   - Index: #services[data-limit="6"][data-mode="split"] → 6 kart + şerit
+   - Hizmetler: #svcSections → tüm kartlar ızgarada
+   Kendi fallback'ını basar, üstte durum rozeti gösterir.
+=================================================================== */
+(function(){
+  // Ortak yardımcılar
+  const qS = (sel,root=document)=>root.querySelector(sel);
+  const qSA= (sel,root=document)=>Array.from(root.querySelectorAll(sel));
+  const iconHTML = (icon)=>{
+    if(!icon) return `<svg viewBox="0 0 24 24"><use href="#i-article"/></svg>`;
+    if(icon.startsWith('#i-')) return `<svg viewBox="0 0 24 24"><use href="${icon}"/></svg>`;
+    if(icon.startsWith('i-'))  return `<svg viewBox="0 0 24 24"><use href="#${icon}"/></svg>`;
+    if(icon.includes('fa-'))   return `<i class="${icon}" aria-hidden="true"></i>`;
+    return `<svg viewBox="0 0 24 24"><use href="#i-article"/></svg>`;
+  };
+  const card = (it)=>`
+    <article class="s-card" ${it.id?`id="${it.id}"`:''}>
+      <span class="s-icon" aria-hidden="true">${iconHTML(it.icon||'')}</span>
+      <h3 class="s-title">${it.title||'Hizmet'}</h3>
+      <p class="s-text">${it.summary||it.text||''}</p>
+      <a class="s-link" href="${it.href || (it.id?('#'+it.id):'#')}">Detaylı Bilgi</a>
+    </article>`;
+
+  // === INDEX MODU ==================================================
+  (function(){
+    const host = qS('#services');
+    if(!host) return; // bu sayfa index değilse çık
+
+    const url   = host.getAttribute('data-json') || '/assets/data/services.json';
+    const limit = parseInt(host.getAttribute('data-limit')||'0',10) || 0;
+    const mode  = (host.getAttribute('data-mode')||'split').toLowerCase();
+
+    const featuredWrap = qS('#servicesFeatured');
+    const moreWrap     = qS('#servicesMoreWrap');
+    const moreTrack    = qS('#servicesTrack');
+
+    const statusBadge = document.createElement('div');
+    statusBadge.style.cssText = "display:none; margin:10px 0 0; padding:6px 10px; font-size:12px; border:1px solid var(--line); border-radius:10px; background:#fff;";
+    statusBadge.setAttribute('aria-live','polite');
+    host.querySelector('.container')?.insertBefore(statusBadge, host.querySelector('.container').firstChild);
+
+    function wireScroll(){
+      if(!moreWrap || !moreTrack) return;
+      const prev=qS('#svcPrev'), next=qS('#svcNext');
+      const by = ()=> Math.max(moreTrack.clientWidth*0.95, 300);
+      prev && prev.addEventListener('click', ()=> moreTrack.scrollBy({left:-by(), behavior:'smooth'}));
+      next && next.addEventListener('click', ()=> moreTrack.scrollBy({left: by(), behavior:'smooth'}));
+      moreTrack.setAttribute('tabindex','0');
+      moreTrack.addEventListener('keydown', (e)=>{
+        const d = by();
+        if(e.key==='ArrowLeft'){ e.preventDefault(); moreTrack.scrollBy({left:-d, behavior:'smooth'}); }
+        if(e.key==='ArrowRight'){ e.preventDefault(); moreTrack.scrollBy({left: d, behavior:'smooth'}); }
+      });
+    }
+
+    function renderFallback(reason){
+      const t = qS('#services-fallback');
+      if(!t){ showStatus(`⚠️ JSON yüklenemedi (${reason}). Fallback kartlar yok.`); return; }
+      const frag = t.content.cloneNode(true);
+      const tempGrid = frag.querySelector('.services-grid');
+      const tempMore = frag.querySelector('.services-more');
+      if(featuredWrap && tempGrid) { featuredWrap.replaceWith(tempGrid); }
+      if(moreWrap && tempMore)     { moreWrap.replaceWith(tempMore); }
+      showStatus(`ℹ️ Fallback aktif: ${reason}.`);
+    }
+
+    function showStatus(msg){
+      statusBadge.textContent = msg;
+      statusBadge.style.display = 'inline-block';
+      console.warn('[services:index]', msg);
+    }
+
+    fetch(url + '?v=' + Date.now(), {cache:'no-store'})
+      .then(r => r.ok ? r.json() : Promise.reject('HTTP '+r.status))
+      .then(json=>{
+        const list = Array.isArray(json?.items) ? json.items.slice() : [];
+        if(!list.length){ renderFallback('liste boş'); return; }
+        const h2 = host.querySelector('h2');
+        if(json.title && h2) h2.textContent = json.title;
+
+        if(mode==='all' || !limit){
+          featuredWrap && (featuredWrap.innerHTML = list.map(card).join(''));
+          moreWrap && (moreWrap.style.display='none');
+          showStatus(`✅ ${list.length} hizmet yüklendi (ALL).`);
+          return;
+        }
+
+        const first = list.slice(0, limit);
+        const rest  = list.slice(limit);
+        featuredWrap && (featuredWrap.innerHTML = first.map(card).join(''));
+        if(rest.length && moreWrap && moreTrack){
+          moreTrack.innerHTML = rest.map(card).join('');
+          moreWrap.style.display='block';
+          wireScroll();
+          showStatus(`✅ ${first.length}+${rest.length} hizmet yüklendi (SPLIT).`);
+        }else{
+          moreWrap && (moreWrap.style.display='none');
+          showStatus(`✅ ${first.length} hizmet yüklendi (SPLIT, kalan yok).`);
+        }
+      })
+      .catch(err => renderFallback(String(err)));
+  })();
+
+  // === HİZMETLER SAYFASI MODU ======================================
+  (function(){
+    const sectionsWrap = qS('#svcSections');
+    if(!sectionsWrap) return; // bu sayfa hizmetler değilse çık
+
+    const toc       = qS('#svcToc');
+    const chipBar   = qS('#chipBar');
+    const searchBox = qS('#svcSearch');
+    const fallback  = qS('#svcFallback');
+
+    const paths = ['/assets/data/services.json','/assets/data/servis.json','/assets/data/service.json'];
+    let items = [], categories = [], activeCat = 'Tümü', q = '';
+
+    const status = document.createElement('div');
+    status.style.cssText="margin:8px 0 0; padding:6px 10px; font-size:12px; border:1px solid var(--line); border-radius:10px; background:#fff;";
+    sectionsWrap.before(status);
+
+    const pick=(o,...keys)=>{ for(const k of keys){ if(o && o[k]!=null) return o[k]; } };
+    const norm=(maybe)=>Array.isArray(maybe)?maybe:(Array.isArray(maybe?.items)?maybe.items:[]);
+
+    const cardHTML = (it)=>{
+      const id   = pick(it,'id','slug','anchor');
+      const href = it.href || (id?('#'+id):'#');
+      const ttl  = pick(it,'title','baslik','name') || 'Hizmet';
+      const sum  = pick(it,'summary','ozet','text','aciklama') || '';
+      const icon = pick(it,'icon','ikon') || '#i-clipboard';
+      const iconStr = iconHTML(icon);
+      return `
+        <article class="s-card" ${id?`id="${id}"`:''}>
+          <span class="s-icon" aria-hidden="true">${iconStr}</span>
+          <div class="s-body">
+            <h3 class="s-title">${ttl}</h3>
+            <p class="s-text">${sum}</p>
+            <a class="s-link" href="${href}">Detaylı Bilgi</a>
+          </div>
+        </article>`;
+    };
+
+    function buildCats(){ categories = ['Tümü', ...new Set(items.map(i => (pick(i,'category','kategori') || 'Diğer').trim()))]; }
+    const anchor = (c)=>'cat-'+c.toLowerCase().replace(/\s+/g,'-').replace(/[^\w\-]+/g,'');
+
+    function renderTOC(){
+      if(!toc) return;
+      toc.innerHTML = categories.map((c,i)=>`
+        <li><a href="#${anchor(c)}" class="${i===0?'active':''}" data-cat="${c}">
+          <i class="fa-regular fa-folder-open"></i> <span>${c}</span></a></li>`).join('');
+      qSA('a',toc).forEach(a=>a.addEventListener('click',()=>{
+        qSA('a',toc).forEach(x=>x.classList.remove('active'));
+        a.classList.add('active'); activeCat = a.dataset.cat;
+      }));
+    }
+    function renderChips(){
+      if(!chipBar) return;
+      chipBar.innerHTML = categories.map(c=>`<button class="chip ${c===activeCat?'active':''}" data-cat="${c}">${c}</button>`).join('');
+      qSA('.chip',chipBar).forEach(btn=>btn.addEventListener('click',()=>{
+        activeCat = btn.dataset.cat; renderAll();
+        const t = document.getElementById(anchor(activeCat)); if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+      }));
+    }
+    function filtered(list){
+      return list.filter(it=>{
+        const cat = (pick(it,'category','kategori') || 'Diğer');
+        const okC = (activeCat==='Tümü') || (cat===activeCat);
+        const ttl = (pick(it,'title','baslik','name')||'').toLowerCase();
+        const sum = (pick(it,'summary','ozet','text','aciklama')||'').toLowerCase();
+        const okQ = !q || ttl.includes(q) || sum.includes(q);
+        return okC && okQ;
+      });
+    }
+    function renderSections(){
+      const groups={}; (activeCat==='Tümü' ? categories.slice(1) : [activeCat]).forEach(c=>groups[c]=[]);
+      items.forEach(it=>{ const c=(pick(it,'category','kategori')||'Diğer'); if(groups[c]!==undefined) groups[c].push(it); });
+
+      let html='', cats=(activeCat==='Tümü'?Object.keys(groups):[activeCat]);
+      cats.forEach(c=>{
+        const list=filtered(groups[c]); if(!list.length) return;
+        html+=`<section class="svc-section" id="${anchor(c)}" aria-label="${c}">
+          <h2>${c}</h2><div class="services-grid">${list.map(cardHTML).join('')}</div></section>`;
+      });
+      if(!html){ html=`<section class="svc-section"><h2>Sonuç bulunamadı</h2><p class="muted">Anahtar sözcükleri kısaltarak tekrar deneyin.</p></section>`; }
+      sectionsWrap.innerHTML = html;
+    }
+    function renderAll(){ renderChips(); renderSections(); }
+
+    searchBox && searchBox.addEventListener('input',e=>{ q=String(e.target.value||'').trim().toLowerCase(); renderSections(); });
+
+    (async function load(){
+      let data=null, ok=false, tried=[];
+      for(const p of paths){
+        try{
+          const r=await fetch(p+'?v='+Date.now(),{cache:'no-store'});
+          tried.push(p+' → '+r.status);
+          if(!r.ok) continue;
+          data=await r.json(); ok=true; break;
+        }catch(e){ tried.push(p+' → ERR'); }
+      }
+      if(!ok){
+        status.textContent='⚠️ Hizmet JSON’u bulunamadı. Fallback gösteriliyor. (Denemeler: '+tried.join(' | ')+')';
+        const frag = fallback?.content?.cloneNode(true);
+        if(frag) sectionsWrap.replaceWith(frag);
+        return;
+      }
+      items = norm(data);
+      if(!items.length){
+        status.textContent='⚠️ Hizmet listesi boş/şema farklı. Fallback gösteriliyor.';
+        const frag = fallback?.content?.cloneNode(true); if(frag) sectionsWrap.replaceWith(frag);
+        return;
+      }
+      status.textContent='✅ '+items.length+' hizmet yüklendi.';
+      buildCats(); renderTOC(); renderAll();
+    })();
+  })();
+})();
+</script>
