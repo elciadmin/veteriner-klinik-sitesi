@@ -81,11 +81,17 @@
     .s-title{margin:.2rem 0 .3rem}
     .s-text{color:var(--muted)}
     .muted{color:var(--muted)}
+
+    /* Görünürlük güvenlik ağı (external CSS override etse bile) */
+    #svcSections .services-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; }
+    @media (max-width:980px){ #svcSections .services-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media (max-width:560px){ #svcSections .services-grid{ grid-template-columns:1fr; } }
+    #svcSections .s-card { background:#fff; border:1px solid var(--line,#e7edf1); border-radius:18px; box-shadow:0 6px 18px rgba(10,25,35,.08); }
   </style>
 </head>
 
 <body class="theme-elciKonya" data-page="services">
-  <!-- HEADER (index ile aynı yapı; istersen direkt index’ten kopyaladığın header’ı kullan) -->
+  <!-- HEADER (index ile aynı yapı) -->
   <header>
     <div class="header-top">
       <div class="container">
@@ -108,19 +114,11 @@
           <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç/kapat"><i class="fa-solid fa-bars"></i></button>
           <ul id="mainMenu">
             <li><a href="/index.html">Ana Sayfa</a></li>
-            <li class="dropdown">
-              <a href="/about.html">Hakkımızda</a>
-            </li>
-            <li class="dropdown">
-              <a class="active" href="/hizmetler.html">Hizmetlerimiz</a>
-            </li>
+            <li class="dropdown"><a href="/about.html">Hakkımızda</a></li>
+            <li class="dropdown"><a class="active" href="/hizmetler.html">Hizmetlerimiz</a></li>
             <li><a href="/blog.html">Blog</a></li>
-            <li class="dropdown">
-              <a href="/sss.html">SSS</a>
-            </li>
-            <li class="dropdown">
-              <a href="/hasta-iliskileri.html">Hasta İlişkileri</a>
-            </li>
+            <li class="dropdown"><a href="/sss.html">SSS</a></li>
+            <li class="dropdown"><a href="/hasta-iliskileri.html">Hasta İlişkileri</a></li>
           </ul>
         </nav>
       </div>
@@ -247,21 +245,36 @@
     });
   </script>
 
-  <!-- HİZMETLER LOADER (yalnızca bu sayfa için) -->
+  <!-- HİZMETLER LOADER (normalize + guard) -->
   <script>
+  /* === ELÇİ — Hizmetler Loader (kat. normalize FIX) ==================
+     - Kategori anahtarlarını trim+lowercase ile eşler, DOM'da güzel gösterir
+     - Çift çalışmayı engeller (guard)
+  ==================================================================== */
   (function(){
+    if (window.__elciServicesBooted) { console.warn('services: already booted'); return; }
+    window.__elciServicesBooted = true;
+
     const sectionsWrap = document.getElementById('svcSections');
-    const toc = document.getElementById('svcToc');
+    const toc     = document.getElementById('svcToc');
     const chipBar = document.getElementById('chipBar');
-    const search = document.getElementById('svcSearch');
-    const fallback = document.getElementById('svcFallback');
-    const status = document.getElementById('svcStatus');
+    const search  = document.getElementById('svcSearch');
+    const status  = document.getElementById('svcStatus');
 
     const paths = ['/assets/data/services.json','/assets/data/servis.json','/assets/data/service.json'];
-    let items = [], categories = [], activeCat = 'Tümü', q = '';
 
-    function pick(o,...keys){ for(const k of keys){ if(o && o[k]!=null) return o[k]; } }
-    function norm(m){ return Array.isArray(m)?m:(Array.isArray(m?.items)?m.items:[]); }
+    let items = [];
+    let catsDisplay = [];                 // ['Tümü','Acil','Diş',...]
+    let catMap = new Map();               // key:'acil' -> display:'Acil'
+    let activeCatKey = 'tümü';            // dahili anahtar
+    let q = '';
+
+    // ---- helpers
+    const pick = (o,...keys)=>{ for(const k of keys){ if(o && o[k]!=null) return o[k]; } };
+    const normItems = (m)=> Array.isArray(m) ? m : (Array.isArray(m?.items) ? m.items : []);
+    const catKey = (c)=> String((c??'Diğer')).trim().toLowerCase();
+    const catDisp = (c)=> String((c??'Diğer')).trim();
+
     function iconHTML(icon){
       if(!icon) return `<svg viewBox="0 0 24 24"><use href="#i-clipboard"/></svg>`;
       if(icon.startsWith('#') || icon.startsWith('i-')) return `<svg viewBox="0 0 24 24"><use href="${icon.startsWith('#')?icon:'#'+icon}"/></svg>`;
@@ -284,38 +297,59 @@
           </div>
         </article>`;
     }
+    function anchorIdFor(displayCat){
+      return 'cat-' + displayCat.toLowerCase().replace(/\s+/g,'-').replace(/[^\w\-]+/g,'');
+    }
+
+    // ---- category building (normalize!)
     function buildCategories(){
-      categories = ['Tümü', ...new Set(items.map(i => (pick(i,'category','kategori') || 'Diğer').trim()))];
+      catMap.clear();
+      items.forEach(it=>{
+        const disp = catDisp(pick(it,'category','kategori'));
+        const key  = catKey(disp);
+        if(!catMap.has(key)) catMap.set(key, disp);
+      });
+      if(!catMap.size || !Array.from(catMap.keys()).includes('diğer')){
+        catMap.set('diğer', 'Diğer');
+      }
+      catsDisplay = ['Tümü', ...Array.from(catMap.values()).sort((a,b)=>a.localeCompare(b,'tr'))];
     }
-    function anchorIdFor(cat){
-      return ('cat-'+cat.toLowerCase().replace(/\s+/g,'-').replace(/[^\w\-]+/g,''));
-    }
+
+    // ---- renderers
     function renderTOC(){
-      toc.innerHTML = categories.map((c,idx)=> `
-        <li><a href="#${anchorIdFor(c)}" class="${idx===0?'active':''}" data-cat="${c}">
-          <i class="fa-regular fa-folder-open"></i> <span>${c}</span>
-        </a></li>`).join('');
+      toc.innerHTML = catsDisplay.map((disp,idx)=>{
+        const key = disp === 'Tümü' ? 'tümü' : catKey(disp);
+        const active = (key===activeCatKey) ? 'active' : '';
+        return `<li><a href="#${anchorIdFor(disp)}" class="${active}" data-key="${key}">
+          <i class="fa-regular fa-folder-open"></i> <span>${disp}</span></a></li>`;
+      }).join('');
       toc.querySelectorAll('a').forEach(a=>{
         a.addEventListener('click', ()=>{
           toc.querySelectorAll('a').forEach(x=>x.classList.remove('active'));
-          a.classList.add('active'); activeCat = a.dataset.cat;
+          a.classList.add('active');
+          activeCatKey = a.dataset.key || 'tümü';
         });
       });
     }
     function renderChips(){
-      chipBar.innerHTML = categories.map(c => `<button class="chip ${c===activeCat?'active':''}" data-cat="${c}">${c}</button>`).join('');
+      chipBar.innerHTML = catsDisplay.map(disp=>{
+        const key = disp==='Tümü' ? 'tümü' : catKey(disp);
+        const active = key===activeCatKey ? 'active' : '';
+        return `<button class="chip ${active}" data-key="${key}" data-disp="${disp}">${disp}</button>`;
+      }).join('');
       chipBar.querySelectorAll('.chip').forEach(btn=>{
         btn.addEventListener('click', ()=>{
-          activeCat = btn.dataset.cat; renderAll();
-          const target = document.getElementById(anchorIdFor(activeCat));
-          if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+          activeCatKey = btn.dataset.key;
+          renderAll();
+          const target = document.getElementById(anchorIdFor(btn.dataset.disp));
+          if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
         });
       });
     }
     function filterItems(list){
       return list.filter(it=>{
-        const cat = (pick(it,'category','kategori') || 'Diğer');
-        const byCat = (activeCat==='Tümü') || (cat===activeCat);
+        const key = catKey(pick(it,'category','kategori'));
+        const byCat = (activeCatKey==='tümü') || (key===activeCatKey);
         const ttl = (pick(it,'title','baslik','name')||'').toLowerCase();
         const sum = (pick(it,'summary','ozet','text','aciklama')||'').toLowerCase();
         const byQ = !q || ttl.includes(q) || sum.includes(q);
@@ -323,27 +357,26 @@
       });
     }
     function renderSections(){
-      const groups = {};
-      (activeCat==='Tümü' ? categories.slice(1) : [activeCat]).forEach(cat=> groups[cat]=[]);
-      items.forEach(it=>{
-        const cat = (pick(it,'category','kategori') || 'Diğer');
-        if(groups[cat]!==undefined) groups[cat].push(it);
-      });
+      const keysToRender = (activeCatKey==='tümü')
+        ? Array.from(catMap.keys())
+        : [activeCatKey];
+
       let html = '';
-      const catsToRender = (activeCat==='Tümü' ? Object.keys(groups) : [activeCat]);
-      catsToRender.forEach(cat=>{
-        const list = filterItems(groups[cat]);
+      keysToRender.forEach(key=>{
+        const display = catMap.get(key) || 'Diğer';
+        const list = filterItems(items.filter(it=>catKey(pick(it,'category','kategori'))===key));
         if(!list.length) return;
         html += `
-          <section class="svc-section" id="${anchorIdFor(cat)}" aria-label="${cat}">
-            <h2>${cat}</h2>
+          <section class="svc-section" id="${anchorIdFor(display)}" aria-label="${display}">
+            <h2>${display}</h2>
             <div class="services-grid">
               ${ list.map(card).join('') }
             </div>
           </section>`;
       });
       if(!html){
-        html = `<section class="svc-section"><h2>Sonuç bulunamadı</h2><p class="muted">Anahtar sözcükleri kısaltarak tekrar deneyin.</p></section>`;
+        html = `<section class="svc-section"><h2>Sonuç bulunamadı</h2>
+                <p class="muted">Anahtar sözcükleri kısaltarak tekrar deneyin.</p></section>`;
       }
       sectionsWrap.innerHTML = html;
     }
@@ -363,20 +396,23 @@
         }catch(err){ tried.push(p+' → ERR'); }
       }
       if(!ok){
-        status.textContent='⚠️ Hizmet JSON’u bulunamadı. Fallback gösteriliyor. (Denemeler: '+tried.join(' | ')+')';
+        status.textContent = '⚠️ Hizmet JSON’u bulunamadı. Fallback gösteriliyor. (Denemeler: '+tried.join(' | ')+')';
         const frag = document.getElementById('svcFallback')?.content?.cloneNode(true);
         if(frag) sectionsWrap.replaceWith(frag);
         return;
       }
-      items = norm(data);
+      items = normItems(data);
       if(!items.length){
-        status.textContent='⚠️ Hizmet listesi boş/şema farklı. Fallback gösteriliyor.';
+        status.textContent = '⚠️ Hizmet listesi boş/şema farklı. Fallback gösteriliyor.';
         const frag = document.getElementById('svcFallback')?.content?.cloneNode(true);
         if(frag) sectionsWrap.replaceWith(frag);
         return;
       }
-      status.textContent='✅ '+items.length+' hizmet yüklendi.';
-      buildCategories(); renderTOC(); renderAll();
+      status.textContent = '✅ ' + items.length + ' hizmet yüklendi.';
+      buildCategories();
+      activeCatKey = 'tümü';
+      renderTOC();
+      renderAll();
     })();
   })();
   </script>
