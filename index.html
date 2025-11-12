@@ -75,7 +75,7 @@
             <i class="fa-solid fa-bars"></i>
           </button>
           <ul id="mainMenu">
-            <li><a href="/index.html" class="active">Ana Sayfa</a></li>
+            <li><a href="/index.html" class="active" aria-current="page">Ana Sayfa</a></li>
             <li class="dropdown">
               <a href="/about.html" aria-haspopup="true" aria-expanded="false">Hakkımızda</a>
               <div class="dropdown-content" role="menu">
@@ -113,7 +113,7 @@
                 <a href="/hasta-iliskileri.html#online-randevu" role="menuitem">Online Randevu</a>
                 <a href="/hasta-iliskileri.html#memnuniyet-anketi" role="menuitem">Memnuniyet Anketi</a>
                 <a href="/hasta-iliskileri.html#basari-hikayeleri" role="menuitem">Başarı Hikayeleri</a>
-                <a href="/hasta-iliskileri.html#sikayet-oneri" role="menuitem">Şikayet &amp; Öneri</a>
+                <a href="/hasta-iliskileri.html#sikayet-oneri" role="menuitem">Şikayet & Öneri</a>
               </div>
             </li>
           </ul>
@@ -576,13 +576,14 @@
     });
   </script>
 
-  <!-- ===== THEME OVERRIDE (Deep Amethyst · Warm Noir Base + İKON KONTRAST BOOST + Header okunaklılık + Randevu Al dolu) ===== -->
+  <!-- ===== THEME OVERRIDE (Deep Amethyst · Warm Noir Base + Akışkan Gradyan) ===== -->
   <style id="theme-elciKonya-override">
     :root{
       --brand:#5a1fa8; --brand2:#36106b; --accent:#27d4e8; --ink:#0f1b22; --muted:#5f6b74; --line:#e7edf1; --bg:#f7fbfc; --paper:#fff;
       --footer-start:#241043; --footer-end:#5a1fa8; --hero-start:#30105f; --hero-end:#27d4e8;
       --icon-ink:#0a4f60; --icon-ink-hero:#e5fbff;
     }
+
     .header-top{ background:linear-gradient(90deg, var(--brand) 0%, var(--brand2) 100%); color:#fff; }
     .header-main{ background:linear-gradient(90deg, color-mix(in srgb, var(--brand), #000 8%) 0%, color-mix(in srgb, var(--brand2), #000 6%) 100%); color:#fff; }
     nav a{ color:#eaf6f8 } nav a:hover, nav a:focus{ color:#fff } nav a.active{ color:#c0f3ff } nav a::after{ background:#c0f3ff }
@@ -600,28 +601,46 @@
 
     .hero .quick-links .q{ background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.22); color:#fff; }
     .hero .quick-links .q:hover{ background:rgba(255,255,255,.14); transform:translateY(-3px); }
-    .hero .quick-links .icon svg{ color: var(--icon-ink-hero); }
+    .hero .quick-links .icon svg{ color: var(--icon-ink-hero); filter: drop-shadow(0 0 1px rgba(0,0,0,.18)); }
+    .s-icon svg .i, .hero .quick-links .icon svg .i{ stroke-width: 2.2 !important; vector-effect: non-scaling-stroke; }
+
+    /* === Akışkan gradyan animasyonu (primary + ghost = aynı akış) === */
+    @keyframes elciGradientFlow {
+      0%   { background-position:   0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position:   0% 50%; }
+    }
 
     .btn{ color:var(--brand); border:1px solid var(--line); background:#fff; transition:.18s ease; }
     .btn:active{ transform:translateY(1px) }
-    .btn.primary, .hero .btn.ghost{
-      background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
+
+    .btn.primary,
+    .hero .btn.ghost{
+      background-image: linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
+      background-size: 200% 100%;
+      background-position: 0% 50%;
       color:#fff !important; border:0; box-shadow:0 8px 22px rgba(16,179,209,.22);
+      animation: elciGradientFlow 6s linear infinite;
     }
-    .btn.primary:hover, .hero .btn.ghost:hover{
-      transform:translateY(-2px); box-shadow:0 12px 28px rgba(16,179,209,.28);
+    .btn.primary:hover,
+    .hero .btn.ghost:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(16,179,209,.28);
+    }
+
+    /* Hareket azaltmayı tercih edenler için animasyonu kapat */
+    @media (prefers-reduced-motion: reduce){
+      .btn.primary,
+      .hero .btn.ghost{
+        animation: none !important;
+        background-position: 50% 50%;
+      }
     }
 
     .s-card{ background:var(--paper); border:1px solid var(--line); border-radius:18px; box-shadow:0 6px 18px rgba(10,25,35,.08) }
     .s-card:hover{ transform:translateY(-4px); box-shadow:0 10px 28px rgba(10,25,35,.12); border-color:color-mix(in srgb, var(--accent) 18%, var(--line)); }
     .s-icon{ display:inline-grid;place-items:center;width:46px;height:46px;border-radius:14px; background:radial-gradient(80% 80% at 30% 20%, #ffffff 0%, #eaf6f8 55%, #d9f0f2 100%); border:1px solid #d8ecef; }
     .s-icon svg{ color: var(--icon-ink); filter: drop-shadow(0 0 1px rgba(0,0,0,.18)); }
-    .s-icon svg .i, .hero .quick-links .icon svg .i{ stroke-width: 2.2 !important; vector-effect: non-scaling-stroke; }
-    .s-icon svg .i-solid{ fill: var(--icon-ink) !important; }
-    .s-icon svg, .hero .quick-links .icon svg{ filter: drop-shadow(0 0 1px rgba(0,0,0,.18)); }
-
-    .hero .btn.ghost{ background-size:200% 100%; background-position:0% 0%; transition: background-position .35s ease, box-shadow .2s ease, transform .2s ease; }
-    .hero .btn.ghost:hover{ background-position:100% 0%; }
 
     body.menu-open { overflow: hidden; }
     @media (max-width: 992px){ nav ul.show { box-shadow: 0 10px 28px rgba(0,0,0,.08); } }
@@ -655,7 +674,7 @@
       return `<svg viewBox="0 0 24 24"><use href="#i-article"/></svg>`;
     }
     function card(item){
-      const href = item.href || ('#'+(item.id||''));
+      const href = item.href || ('#'+(item.id||'')); /* dahili anchor güvenli fallback */
       return `
         <article class="s-card" ${item.id ? `id="${item.id}"` : ''}>
           <span class="s-icon" aria-hidden="true">${iconHTML(item.icon||'')}</span>
@@ -686,7 +705,7 @@
       if(json.title && h2) h2.textContent = json.title;
 
       if(mode==='all' || !limit){
-        if(featuredWrap) featuredWrap.innerHTML = list.map(card).join('');
+        if(featuredWrap) featuredWrap.innerHTML = list.map(card).join(''); /* tümünü tek grid */
         if(moreWrap) moreWrap.style.display='none';
         return;
       }
