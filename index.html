@@ -325,6 +325,29 @@
         background-position:50% 50%;
       }
     }
+
+    /* ==== HİZMETLER İKON KOYULAŞTIRMA (SADECE #services) ==== */
+    #services .s-card .s-icon{
+      background:linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--brand) 82%, #000 18%),
+        color-mix(in srgb, var(--brand2) 82%, #000 8%)
+      );
+      border:1px solid rgba(0,0,0,.26);
+      box-shadow:
+        0 12px 30px rgba(0,0,0,.30),
+        inset 0 0 0 1px rgba(255,255,255,.20);
+    }
+    #services .s-card .s-icon svg{
+      color:#e8fcff;
+      filter:
+        drop-shadow(0 1px 0 rgba(255,255,255,.55))
+        drop-shadow(0 2px 6px rgba(0,0,0,.30));
+    }
+    #services .s-card .s-icon svg .i{
+      stroke-width:2.2 !important;
+      stroke:currentColor !important;
+    }
   </style>
 </head>
 
@@ -803,7 +826,8 @@
         console.warn('[services:index]', msg);
       }
 
-      fetch(url + '?v=' + Date.now(), {cache:'no-store'})
+      /* BURADA CACHE PATCH VAR: timestamp ve no-store kaldırıldı */
+      fetch(url)
         .then(r => r.ok ? r.json() : Promise.reject('HTTP '+r.status))
         .then(json=>{
           const list = Array.isArray(json?.items) ? json.items.slice() : [];
@@ -925,7 +949,8 @@
         let data=null, ok=false, tried=[];
         for(const p of paths){
           try{
-            const r=await fetch(p+'?v='+Date.now(),{cache:'no-store'});
+            /* BURADA DA CACHE PATCH VAR */
+            const r=await fetch(p);
             tried.push(p+' → '+r.status);
             if(!r.ok) continue;
             data=await r.json(); ok=true; break;
