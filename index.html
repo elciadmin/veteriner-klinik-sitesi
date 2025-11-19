@@ -166,95 +166,116 @@
       nav ul.show { box-shadow: 0 10px 28px rgba(0,0,0,.08); }
     }
 
-    /* ==== QUICK-LINKS SATIRI – Farabi’deki şerit ==== */
+    /* ===== FARABİ KOYU MAVİ HASTANE STİLİ QUICK-LINKS ===== */
     .hero .quick-links{
+      position:relative;
       display:flex;
       justify-content:space-between;
       align-items:flex-start;
-      gap:40px;
-      margin-top:46px;
-      padding-top:20px;
-      border-top:1px solid rgba(255,255,255,.18);
+      gap:58px;
+      margin:60px auto 0;
+      padding-top:34px;
+      max-width:1150px;
     }
 
+    /* ÜST ÇİZGİ */
+    .hero .quick-links::before{
+      content:"";
+      position:absolute;
+      left:-200px;
+      right:-200px;
+      top:0;
+      height:1px;
+      background:rgba(255,255,255,.28);
+      opacity:.9;
+    }
+
+    /* Linklerin kendisi */
     .hero .quick-links .q{
       position:relative;
       display:flex;
       flex-direction:column;
       align-items:center;
       justify-content:flex-start;
-      text-align:center;
-      gap:8px;
+      gap:12px;
       padding:0;
-      min-width:130px;
-      background:transparent;
-      border:none;
-      box-shadow:none;
-      color:#fff;
+      color:#ffffff;
+      opacity:.92;
       text-decoration:none;
+      transition:.18s ease;
     }
 
-    /* İKONLAR – sadece çizgisel, kutusuz */
-    .hero .quick-links .q .s-icon{
-      width:64px;
-      height:64px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:transparent;
-      border:none;
-      box-shadow:none;
-      color:#fff;
-      transition:transform .18s ease, opacity .18s ease;
-      opacity:.96;
-    }
-
-    .hero .quick-links .q svg{
-      width:42px;
-      height:42px;
-    }
-
-    .hero .quick-links .q span:last-child{
-      margin-top:4px;
-      font-weight:700;
-      font-size:12px;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      opacity:.96;
-    }
-
-    /* Hover’da hafif yükselme */
-    .hero .quick-links .q:hover .s-icon{
-      transform:translateY(-3px);
+    .hero .quick-links .q:hover{
+      transform:translateY(-4px);
       opacity:1;
     }
 
-    /* Kartlar arasındaki üç noktalı ayraç */
+    /* Çizgi ikonlar */
+    .hero .quick-links .q .s-icon{
+      width:70px;
+      height:70px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:transparent !important;
+      border:none !important;
+      box-shadow:none !important;
+    }
+
+    .hero .quick-links .q svg{
+      width:46px;
+      height:46px;
+      stroke-width:1.8;
+      opacity:.95;
+      transition:.18s ease;
+    }
+
+    .hero .quick-links .q:hover svg{
+      opacity:1;
+      transform:translateY(-3px) scale(1.06);
+    }
+
+    /* Alt yazı */
+    .hero .quick-links .q span:last-child{
+      margin-top:2px;
+      font-size:13px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      color:#e9f6ff;
+      white-space:nowrap;
+    }
+
+    /* Üç noktalı ayraç */
     .hero .quick-links .q::after{
       content:"";
       position:absolute;
-      right:-22px;
+      right:-28px;
       top:50%;
       transform:translateY(-50%);
       width:3px;
       height:3px;
       border-radius:999px;
-      background:rgba(255,255,255,.42);
+      background:rgba(255,255,255,.35);
       box-shadow:
-        0 7px 0 rgba(255,255,255,.32),
-        0 -7px 0 rgba(255,255,255,.32);
+        0 8px 0 rgba(255,255,255,.24),
+        0 -8px 0 rgba(255,255,255,.24);
     }
+
     .hero .quick-links .q:last-child::after{
       display:none;
     }
 
-    @media (max-width:1000px){
+    @media (max-width:1100px){
       .hero .quick-links{
         flex-wrap:wrap;
         justify-content:center;
-        row-gap:18px;
-        column-gap:32px;
-        border-top:1px solid rgba(255,255,255,.22);
+        gap:40px;
+        padding-top:28px;
+      }
+      .hero .quick-links::before{
+        left:-60px;
+        right:-60px;
       }
       .hero .quick-links .q::after{
         display:none;
@@ -263,7 +284,7 @@
 
     @media (max-width:560px){
       .hero .quick-links{
-        gap:18px;
+        gap:22px;
       }
     }
 
