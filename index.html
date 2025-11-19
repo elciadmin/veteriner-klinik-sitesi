@@ -149,10 +149,12 @@
       justify-content:center;
       margin-bottom:18px;
     }
+
+    /* LOGO: oval ve daha büyük */
     .hero-logo{
-      width:96px;
-      height:96px;
-      border-radius:24px;
+      width:160px;
+      height:110px;
+      border-radius:999px;
       background:#ffffff10;
       border:1px solid #ffffff45;
       padding:10px;
@@ -160,6 +162,7 @@
       object-fit:contain;
       backdrop-filter:blur(4px);
     }
+
     .hero h1{
       margin:0 0 10px;
       font-size:clamp(28px,4.2vw,40px);
@@ -295,7 +298,12 @@
     }
     @media (max-width:480px){
       .quick-links{grid-template-columns:1fr;}
-      .hero-logo{width:80px;height:80px;border-radius:20px;}
+      /* mobile’da da oval ama biraz küçük */
+      .hero-logo{
+        width:130px;
+        height:90px;
+        border-radius:999px;
+      }
     }
 
     body.menu-open { overflow: hidden; }
@@ -414,7 +422,7 @@
     </div>
   </header>
 
-  <!-- ===== HERO (Hakkımızdaki ile aynı format) ===== -->
+  <!-- ===== HERO (Hakkımızdaki ile aynı format + büyük oval logo) ===== -->
   <section class="hero" data-theme="clean">
     <div class="container">
       <div class="hero-center">
@@ -422,7 +430,7 @@
           <img class="hero-logo"
                src="/assets/img/uploads/elci-logo.png?v=1"
                alt="Elçi Veteriner Kliniği Logosu"
-               width="96" height="96"
+               width="160" height="110"
                loading="eager" decoding="async">
         </div>
         <h1>Konya’da 7/24 Acil Veteriner Kliniği</h1>
@@ -735,11 +743,13 @@
     const qS = (sel,root=document)=>root.querySelector(sel);
     const qSA= (sel,root=document)=>Array.from(root.querySelectorAll(sel));
     const iconHTML = (icon)=>{
-      if(!icon) return `<svg viewBox="0 0 24 24"><use href="#i-article"/></svg>`;
+      // ICON YOKSA: hep paw göster (Font Awesome)
+      if(!icon) return `<i class="fa-solid fa-paw" aria-hidden="true"></i>`;
       if(icon.startsWith('#i-')) return `<svg viewBox="0 0 24 24"><use href="${icon}"/></svg>`;
       if(icon.startsWith('i-'))  return `<svg viewBox="0 0 24 24"><use href="#${icon}"/></svg>`;
       if(icon.includes('fa-'))   return `<i class="${icon}" aria-hidden="true"></i>`;
-      return `<svg viewBox="0 0 24 24"><use href="#i-article"/></svg>`;
+      // Anlaşılmazsa yine paw’a düş
+      return `<i class="fa-solid fa-paw" aria-hidden="true"></i>`;
     };
     const card = (it)=>`
       <article class="s-card" ${it.id?`id="${it.id}"`:''}>
@@ -796,7 +806,6 @@
         console.warn('[services:index]', msg);
       }
 
-      /* CACHE PATCH: no-store yok */
       fetch(url)
         .then(r => r.ok ? r.json() : Promise.reject('HTTP '+r.status))
         .then(json=>{
@@ -853,7 +862,7 @@
         const href = it.href || (id?('#'+id):'#');
         const ttl  = pick(it,'title','baslik','name') || 'Hizmet';
         const sum  = pick(it,'summary','ozet','text','aciklama') || '';
-        const icon = pick(it,'icon','ikon') || '#i-clipboard';
+        const icon = pick(it,'icon','ikon') || '';
         const iconStr = iconHTML(icon);
         return `
           <article class="s-card" ${id?`id="${id}"`:''}>
