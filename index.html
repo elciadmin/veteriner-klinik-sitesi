@@ -178,7 +178,7 @@
       max-width:1150px;
     }
 
-    /* ÜST ÇİZGİ */
+    /* Üstte ince çizgi */
     .hero .quick-links::before{
       content:"";
       position:absolute;
@@ -190,7 +190,7 @@
       opacity:.9;
     }
 
-    /* Linklerin kendisi */
+    /* Linklerin kendisi – tüm pill efektlerini sıfırla */
     .hero .quick-links .q{
       position:relative;
       display:flex;
@@ -198,16 +198,22 @@
       align-items:center;
       justify-content:flex-start;
       gap:12px;
-      padding:0;
+      padding:0 !important;
+      margin:0;
+      min-width:auto;
+      background:transparent !important;
+      border:none !important;
+      border-radius:0 !important;
+      box-shadow:none !important;
       color:#ffffff;
       opacity:.92;
       text-decoration:none;
       transition:.18s ease;
     }
 
-    .hero .quick-links .q:hover{
-      transform:translateY(-4px);
-      opacity:1;
+    /* Eski pseudo alt çizgi vs. tamamen kapat */
+    .hero .quick-links .q::before{
+      content:none !important;
     }
 
     /* Çizgi ikonlar */
@@ -230,12 +236,7 @@
       transition:.18s ease;
     }
 
-    .hero .quick-links .q:hover svg{
-      opacity:1;
-      transform:translateY(-3px) scale(1.06);
-    }
-
-    /* Alt yazı */
+    /* Alt başlıklar */
     .hero .quick-links .q span:last-child{
       margin-top:2px;
       font-size:13px;
@@ -261,11 +262,21 @@
         0 8px 0 rgba(255,255,255,.24),
         0 -8px 0 rgba(255,255,255,.24);
     }
-
     .hero .quick-links .q:last-child::after{
       display:none;
     }
 
+    /* Hover */
+    .hero .quick-links .q:hover{
+      transform:translateY(-4px);
+      opacity:1;
+    }
+    .hero .quick-links .q:hover svg{
+      opacity:1;
+      transform:translateY(-3px) scale(1.06);
+    }
+
+    /* Responsive */
     @media (max-width:1100px){
       .hero .quick-links{
         flex-wrap:wrap;
@@ -281,7 +292,6 @@
         display:none;
       }
     }
-
     @media (max-width:560px){
       .hero .quick-links{
         gap:22px;
@@ -412,7 +422,7 @@
           <a class="btn ghost" href="/contact.html">Randevu Al</a>
         </div>
 
-        <!-- Quick Links — Farabi tarzı -->
+        <!-- Quick Links — çizgisel Farabi tarzı -->
         <div class="quick-links" aria-label="Hızlı bağlantılar">
           <a class="q" href="/hizmetler.html#koruyucu" title="Branşlarımız">
             <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-shield-cross"/></svg></span>
