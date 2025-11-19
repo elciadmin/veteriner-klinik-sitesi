@@ -25,7 +25,7 @@
   <link rel="stylesheet" href="/assets/css/tokens.css?v=20251106"/>
   <link rel="stylesheet" href="/assets/css/styles.css?v=20251106"/>
 
-  <!-- Font Awesome (footer sosyal + hero ikonları için) -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <!-- Genel küçük dokunuşlar -->
@@ -52,11 +52,10 @@
     .services-track::-webkit-scrollbar-thumb{background:rgba(8,35,45,.16);border-radius:999px}
     .cta-bar{display:flex;align-items:center;justify-content:space-between;margin:24px 0;gap:12px}
     .btn:active{transform:translateY(1px)}
-    /* Insta/Youtube başlık alt notlarını gizle */
     .insta-head small, #youtube small{ display:none; }
   </style>
 
-  <!-- THEME OVERRIDE (Mor tema + hero + butonlar) -->
+  <!-- THEME OVERRIDE (mor tema + hero + butonlar) -->
   <style id="theme-elciKonya-override">
     :root{
       --brand:#5a1fa8;
@@ -89,7 +88,7 @@
     }
     nav a{ color:#eaf6f8 }
     nav a:hover, nav a:focus{ color:#fff }
-    nav a.active{ color:#c0f3ff }
+    nav a.active, nav a[aria-current="page"]{ color:#c0f3ff }
     nav a::after{ background:#c0f3ff }
 
     .header-main .logo-text{
@@ -115,7 +114,7 @@
       text-shadow:0 1px 8px rgba(0,0,0,.3);
     }
 
-    /* HAKKIMIZDA FORMATINDA HERO */
+    /* HERO (Hakkımızda ile aynı yapı) */
     .hero{
       position:relative;
       padding:80px 0 90px;
@@ -149,19 +148,7 @@
       justify-content:center;
       margin-bottom:18px;
     }
-
-    /* LOGO: oval ve daha büyük */
-    .hero-logo{
-      width:160px;
-      height:110px;
-      border-radius:999px;
-      background:#ffffff10;
-      border:1px solid #ffffff45;
-      padding:10px;
-      box-shadow:0 12px 30px rgba(0,0,0,.35);
-      object-fit:contain;
-      backdrop-filter:blur(4px);
-    }
+    /* hero-logo için ekstra override YOK: Hakkımızda ile aynı global stil kullanılacak */
 
     .hero h1{
       margin:0 0 10px;
@@ -190,7 +177,6 @@
       margin-top:6px;
     }
 
-    /* Butonlar — akış animasyonu */
     .btn{
       color:var(--brand);
       border:1px solid var(--line);
@@ -298,12 +284,6 @@
     }
     @media (max-width:480px){
       .quick-links{grid-template-columns:1fr;}
-      /* mobile’da da oval ama biraz küçük */
-      .hero-logo{
-        width:130px;
-        height:90px;
-        border-radius:999px;
-      }
     }
 
     body.menu-open { overflow: hidden; }
@@ -311,7 +291,7 @@
       nav ul.show { box-shadow: 0 10px 28px rgba(0,0,0,.08); }
     }
 
-    /* ==== HİZMETLER İKON KOYULAŞTIRMA (SADECE #services) ==== */
+    /* HİZMETLER İKON GÖRÜNÜRLÜĞÜ */
     #services .s-card .s-icon{
       background:linear-gradient(
         135deg,
@@ -334,7 +314,6 @@
       stroke:currentColor !important;
     }
 
-    /* Footer degrade */
     footer.footer-new{
       background:linear-gradient(135deg, var(--footer-start), var(--footer-end));
       color:#eaffff;
@@ -348,7 +327,7 @@
 </head>
 
 <body class="theme-elciKonya" data-page="home">
-  <!-- ===== SABİT HEADER ===== -->
+  <!-- HEADER -->
   <header>
     <div class="header-top">
       <div class="container">
@@ -422,7 +401,7 @@
     </div>
   </header>
 
-  <!-- ===== HERO (Hakkımızdaki ile aynı format + büyük oval logo) ===== -->
+  <!-- HERO (Hakkımızda ile aynı yapı, logolu) -->
   <section class="hero" data-theme="clean">
     <div class="container">
       <div class="hero-center">
@@ -430,7 +409,7 @@
           <img class="hero-logo"
                src="/assets/img/uploads/elci-logo.png?v=1"
                alt="Elçi Veteriner Kliniği Logosu"
-               width="160" height="110"
+               width="96" height="96"
                loading="eager" decoding="async">
         </div>
         <h1>Konya’da 7/24 Acil Veteriner Kliniği</h1>
@@ -452,7 +431,7 @@
     </div>
   </section>
 
-  <!-- ===== HIZLI BUTONLAR (6'lı grid) ===== -->
+  <!-- HIZLI BUTONLAR -->
   <section class="quick-links-band">
     <div class="container">
       <div class="quick-links">
@@ -477,11 +456,12 @@
           <div class="quick-title">HIZLI RANDEVU</div>
         </a>
 
-        <a href="/hasta-iliskileri.html" class="quick-link">
+        <!-- TAHLİL SONUÇLARI yerine BAŞARILARIMIZ -->
+        <a href="/about.html#basarilar" class="quick-link">
           <div class="quick-icon">
-            <i class="fa-solid fa-vial"></i>
+            <i class="fa-solid fa-chart-line"></i>
           </div>
-          <div class="quick-title">TAHLİL SONUÇLARI</div>
+          <div class="quick-title">BAŞARILARIMIZ</div>
         </a>
 
         <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi"
@@ -502,7 +482,7 @@
     </div>
   </section>
 
-  <!-- ===== HİZMETLER — ÖNE ÇIKAN + DİĞERLERİ (JSON ile) ===== -->
+  <!-- HİZMETLER (JSON + fallback) -->
   <section id="services" class="services"
            data-json="/assets/data/services.json"
            data-limit="6"
@@ -510,10 +490,8 @@
     <div class="container">
       <h2>Hizmetlerimiz</h2>
 
-      <!-- JSON ile doldurulacak -->
       <div class="services-grid" id="servicesFeatured" aria-label="Öne Çıkan Hizmetler"></div>
 
-      <!-- Kalanlar için yatay şerit -->
       <div class="services-more" id="servicesMoreWrap" style="display:none">
         <div class="services-more-head">
           <h3>Diğer Hizmetler</h3>
@@ -535,7 +513,6 @@
         </div>
       </div>
 
-      <!-- FALLBACK (kısaltılmış örnek) -->
       <template id="services-fallback">
         <div class="services-grid">
           <article class="s-card" id="acil">
@@ -561,7 +538,7 @@
     </div>
   </section>
 
-  <!-- ===== INSTAGRAM ===== -->
+  <!-- INSTAGRAM -->
   <section id="insta" data-json="/assets/data/instagram.json" data-fn="/.netlify/functions/instagram">
     <div class="container">
       <div class="insta-head">
@@ -573,7 +550,7 @@
     </div>
   </section>
 
-  <!-- ===== GOOGLE REVIEWS ===== -->
+  <!-- GOOGLE REVIEWS -->
   <section id="reviews" data-json="/assets/data/reviews.json">
     <div class="container">
       <h2>Google Yorumları</h2>
@@ -581,7 +558,7 @@
     </div>
   </section>
 
-  <!-- ===== BLOG ===== -->
+  <!-- BLOG -->
   <section id="blog" data-json="/assets/data/blog.json">
     <div class="container">
       <h2>Blogdan</h2>
@@ -592,7 +569,7 @@
     </div>
   </section>
 
-  <!-- ===== YOUTUBE ===== -->
+  <!-- YOUTUBE -->
   <section id="youtube" data-fn="/.netlify/functions/youtube-latest?limit=9" data-youtube-ids="">
     <div class="container">
       <h2>YouTube</h2>
@@ -600,7 +577,7 @@
     </div>
   </section>
 
-  <!-- ===== FAQ ===== -->
+  <!-- FAQ -->
   <section id="faq">
     <div class="container">
       <h2>Sık Sorulan Sorular</h2>
@@ -610,7 +587,7 @@
     </div>
   </section>
 
-  <!-- ===== FOOTER ===== -->
+  <!-- FOOTER -->
   <footer class="footer-new">
     <div class="container footer-container">
       <div class="footer-col">
@@ -685,7 +662,7 @@
     </div>
   </footer>
 
-  <!-- ===== Schema.org ===== -->
+  <!-- Schema.org -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -699,15 +676,14 @@
   }
   </script>
 
-  <!-- ===== Ana JS (cache-bust ile) ===== -->
+  <!-- Ana JS -->
   <script defer src="/assets/js/main.js?v=20251106"></script>
 
-  <!-- ===== Başlangıç JS ===== -->
+  <!-- Başlangıç JS -->
   <script>
     window.addEventListener('DOMContentLoaded', function(){
       const y=document.getElementById('yil'); if(y) y.textContent=new Date().getFullYear();
 
-      // Mobil menü
       const btn=document.getElementById('mobileMenuBtn'); 
       const menu=document.getElementById('mainMenu');
       if(btn && menu){
@@ -719,7 +695,6 @@
         menu.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> toggleMenu(false)));
       }
 
-      // "Diğer Hizmetler" yatay kaydırma
       const track=document.getElementById('servicesTrack');
       const prev=document.getElementById('svcPrev');
       const next=document.getElementById('svcNext');
@@ -737,29 +712,41 @@
     });
   </script>
 
-  <!-- ===== ELÇİ — Hizmet Yükleyici v2 ===== -->
+  <!-- ELÇİ — Hizmet Yükleyici v2 (ikon fix'li) -->
   <script>
   (function(){
     const qS = (sel,root=document)=>root.querySelector(sel);
     const qSA= (sel,root=document)=>Array.from(root.querySelectorAll(sel));
+
     const iconHTML = (icon)=>{
-      // ICON YOKSA: hep paw göster (Font Awesome)
-      if(!icon) return `<i class="fa-solid fa-paw" aria-hidden="true"></i>`;
-      if(icon.startsWith('#i-')) return `<svg viewBox="0 0 24 24"><use href="${icon}"/></svg>`;
-      if(icon.startsWith('i-'))  return `<svg viewBox="0 0 24 24"><use href="#${icon}"/></svg>`;
-      if(icon.includes('fa-'))   return `<i class="${icon}" aria-hidden="true"></i>`;
-      // Anlaşılmazsa yine paw’a düş
-      return `<i class="fa-solid fa-paw" aria-hidden="true"></i>`;
+      const raw = (icon || "").toString().trim();
+      // ICON YOKSA → paw
+      if(!raw) return `<i class="fa-solid fa-paw" aria-hidden="true"></i>`;
+
+      // Font Awesome sınıfı
+      if(raw.includes("fa-")) return `<i class="${raw}" aria-hidden="true"></i>`;
+
+      // Sprite ID'leri
+      if(raw.startsWith("#")){
+        return `<svg viewBox="0 0 24 24"><use href="${raw}"/></svg>`;
+      }
+      if(raw.startsWith("i-")){
+        return `<svg viewBox="0 0 24 24"><use href="#${raw}"/></svg>`;
+      }
+
+      // Diğer her şey → sprite id varsay ("/assets/svg-sprite" içinde)
+      return `<svg viewBox="0 0 24 24"><use href="#${raw}"/></svg>`;
     };
+
     const card = (it)=>`
       <article class="s-card" ${it.id?`id="${it.id}"`:''}>
-        <span class="s-icon" aria-hidden="true">${iconHTML(it.icon||'')}</span>
+        <span class="s-icon" aria-hidden="true">${iconHTML(it.icon)}</span>
         <h3 class="s-title">${(it.title||'Hizmet')}</h3>
         <p class="s-text">${(it.summary||it.text||'')}</p>
         <a class="s-link" href="${it.href || (it.id?('#'+it.id):'#')}">Detaylı Bilgi</a>
       </article>`;
 
-    /* === INDEX MODU === */
+    /* INDEX MODU */
     (function(){
       const host = qS('#services');
       if(!host) return;
@@ -837,7 +824,7 @@
         .catch(err => renderFallback(String(err)));
     })();
 
-    /* === HİZMETLER SAYFASI MODU (varsa) === */
+    /* HİZMETLER SAYFASI MODU (varsa) */
     (function(){
       const sectionsWrap = qS('#svcSections');
       if(!sectionsWrap) return;
@@ -953,7 +940,7 @@
   })();
   </script>
 
-  <!-- ===== SVG ICON SPRITE ===== -->
+  <!-- SVG ICON SPRITE -->
   <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden">
     <defs><style>
       .i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
@@ -978,7 +965,6 @@
     <symbol id="i-ambulance" viewBox="0 0 24 24">
       <rect class="i" x="3" y="7" width="13" height="10" rx="2"/><path class="i" d="M16 11h4l1 2v4h-5zM6 6l3-3h4v4H6z"/><circle class="i" cx="7.5" cy="18" r="1.5"/><circle class="i" cx="18.5" cy="18" r="1.5"/><path class="i" d="M8 10h4M10 8v4"/>
     </symbol>
-
     <symbol id="i-stethoscope" viewBox="0 0 24 24">
       <path class="i" d="M6 4v7a4 4 0 1 0 8 0V4M6 8h8M18 6a3 3 0 0 1 0 6h-1a4 4 0 0 1-4 4h-1"/>
     </symbol>
@@ -1000,3 +986,4 @@
   </svg>
 </body>
 </html>
+
