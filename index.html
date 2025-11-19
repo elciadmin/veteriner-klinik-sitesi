@@ -148,7 +148,6 @@
       justify-content:center;
       margin-bottom:18px;
     }
-    /* hero-logo için ekstra override YOK: Hakkımızda ile aynı global stil kullanılacak */
 
     .hero h1{
       margin:0 0 10px;
@@ -577,13 +576,23 @@
     </div>
   </section>
 
-  <!-- FAQ -->
-  <section id="faq">
+  <!-- FAQ — JSON'dan gelen SSS önizleme -->
+  <section id="faq" class="section">
     <div class="container">
-      <h2>Sık Sorulan Sorular</h2>
-      <details class="faq"><summary>Acil durumlarda ne yapmalıyım?</summary><p>Önce 0332 322 32 20 numarasını arayın. Ekibimiz yönlendirsin; güvenli taşıma için kedi/köpek taşıma çantası öneririz.</p></details>
-      <details class="faq"><summary>Randevu gerekli mi?</summary><p>Genel muayene için randevu önerilir; acil vakalarda 7/24 kabulümüz vardır.</p></details>
-      <details class="faq"><summary>Hangi aşıları yapıyorsunuz?</summary><p>Karma, kuduz, lösemi (kediler), parvovirüs ve diğer koruyucu aşılar. Plan kişiselleştirilir.</p></details>
+      <div class="section-head">
+        <h2>Sık Sorulan Sorular</h2>
+        <p class="muted">
+          Muayene, ücret, randevu ve ameliyat süreçleriyle ilgili en sık sorulan birkaç soruyu aşağıda bulabilirsiniz.
+          Tüm liste için SSS sayfamızı ziyaret edebilirsiniz.
+        </p>
+      </div>
+
+      <!-- JS burayı dolduracak -->
+      <div id="homeFaqList" aria-live="polite"></div>
+
+      <div style="margin-top:16px;display:flex;justify-content:flex-end">
+        <a href="/sss.html" class="btn ghost">Tüm SSS'leri Gör</a>
+      </div>
     </div>
   </section>
 
@@ -936,6 +945,69 @@
         status.textContent='✅ '+items.length+' hizmet yüklendi.';
         buildCats(); renderTOC(); renderAll();
       })();
+    })();
+  })();
+  </script>
+
+  <!-- ANA SAYFA SSS ÖNİZLEME (faq.json'dan ilk 4 soru) -->
+  <script>
+  (function(){
+    const wrap = document.getElementById('homeFaqList');
+    if (!wrap) return;
+
+    function faqItemHTML(it){
+      const id   = it.id || '';
+      const href = id ? ('/sss.html#' + id) : '/sss.html';
+      const q    = it.q || 'Soru';
+      const a    = it.a || '';
+      return `
+        <details class="faq">
+          <summary>
+            <span class="q">
+              <span class="dot"></span>${q}
+            </span>
+          </summary>
+          <p>${a}</p>
+          <a href="${href}" class="s-link">Detaylı Oku</a>
+        </details>`;
+    }
+
+    (async function loadFaqPreview(){
+      try {
+        const res = await fetch('/assets/data/faq.json?v=' + Date.now(), { cache: 'no-store' });
+        if (!res.ok) throw new Error('FAQ JSON bulunamadı');
+        const data = await res.json();
+        let items = [];
+
+        if (Array.isArray(data.groups)) {
+          data.groups.forEach(group => {
+            const list = Array.isArray(group.items) ? group.items : [];
+            list.forEach(qItem => {
+              items.push({
+                id: qItem.id || '',
+                q: qItem.q || '',
+                a: qItem.a || ''
+              });
+            });
+          });
+        }
+
+        if (!items.length) {
+          wrap.innerHTML = '<p class="muted">SSS içeriği henüz eklenmedi. Panelden soru ekleyebilirsiniz.</p>';
+          return;
+        }
+
+        const subset = items.slice(0, 4);
+        wrap.innerHTML = subset.map(faqItemHTML).join('');
+
+      } catch (e) {
+        console.error(e);
+        wrap.innerHTML = `
+          <p class="muted">
+            Sık sorulan sorular yüklenemedi. Tüm liste için
+            <a href="/sss.html">SSS sayfasını</a> ziyaret edebilirsiniz.
+          </p>`;
+      }
     })();
   })();
   </script>
