@@ -47,13 +47,13 @@
     .insta-head small, #youtube small{ display:none; }
   </style>
 
-  <!-- THEME OVERRIDE (Farabi tarzı hero + çizgisel quick-links) -->
+  <!-- THEME OVERRIDE (Hastane tarzı hero + hızlı butonlar) -->
   <style id="theme-elciKonya-override">
     :root{
       --brand:#5a1fa8; --brand2:#36106b; --accent:#27d4e8; --ink:#0f1b22; --muted:#5f6b74; --line:#e7edf1; --bg:#f7fbfc; --paper:#fff;
       --footer-start:#241043; --footer-end:#5a1fa8;
 
-      /* About sayfası ile aynı mor–turkuaz degrade */
+      /* Hero degrade (mor–turkuaz) */
       --hero-start:#30105f;
       --hero-end:#27d4e8;
 
@@ -101,64 +101,108 @@
       text-shadow:0 1px 8px rgba(0,0,0,.3);
     }
 
-    /* ==== HERO (Farabi tarzı) ==== */
+    /* ==== HERO — HASTANE TARZI GRID ==== */
     .hero{
       position:relative;
-      padding-top:clamp(130px, 15vh, 165px);
-      padding-bottom:clamp(70px, 14vh, 110px);
+      padding-top:clamp(130px, 15vh, 170px);
+      padding-bottom:clamp(80px, 16vh, 130px);
       background:
-        radial-gradient(1200px 520px at 50% -180px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
+        radial-gradient(1200px 520px at 50% -180px, rgba(255,255,255,.12) 0%, rgba(255,255,255,0) 60%),
         linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%);
       color:#fff;
-      text-align:center;
       overflow:hidden;
     }
 
     .hero-center{
-      max-width:880px;
+      max-width:1150px;
       margin:0 auto;
     }
 
+    .hero-shell{
+      display:grid;
+      grid-template-columns:minmax(0,1.5fr) minmax(0,1.1fr);
+      gap:40px;
+      align-items:center;
+    }
+
+    .hero-main{
+      text-align:left;
+    }
+
     .hero-icon{
-      margin-bottom:22px;
+      margin-bottom:14px;
     }
     .hero-icon .hero-logo{
-      width:86px;
-      height:86px;
-      border-radius:999px;
-      box-shadow:0 12px 38px rgba(0,0,0,.45);
+      width:78px;
+      height:78px;
+      border-radius:20px;
+      box-shadow:0 14px 32px rgba(0,0,0,.45);
       object-fit:cover;
+      border:2px solid rgba(255,255,255,.35);
+      background:#fff;
+    }
+
+    .hero-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:4px 11px;
+      border-radius:999px;
+      background:rgba(3, 10, 28, .65);
+      border:1px solid rgba(255,255,255,.28);
+      font-size:12px;
+      margin-bottom:8px;
+    }
+    .hero-badge span.dot{
+      width:7px;
+      height:7px;
+      border-radius:999px;
+      background:#4ade80;
+      box-shadow:0 0 0 5px rgba(74,222,128,.35);
     }
 
     .hero h1{
-      margin:0;
-      font-size:clamp(32px,4vw,44px);
+      margin:4px 0 6px;
+      font-size:clamp(32px,4vw,42px);
       font-weight:800;
       letter-spacing:.03em;
       color:#fff;
       text-shadow:0 3px 18px rgba(0,0,0,.35);
     }
 
-    .hero .hero-divider{
-      width:72px;
-      height:3px;
-      border-radius:999px;
-      margin:20px auto 16px;
-      background:rgba(255,255,255,.9);
-    }
-
     .hero .hero-sub{
-      margin:0;
-      font-size:clamp(16px,2.1vw,19px);
+      margin:0 0 14px;
+      font-size:clamp(16px,2.1vw,18px);
       color:#e7f6ff;
       opacity:.96;
+      max-width:460px;
+    }
+
+    .hero-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px 18px;
+      margin:10px 0 4px;
+    }
+    .hero-meta .meta-item{
+      display:flex;
+      flex-direction:column;
+      gap:1px;
+      font-size:12px;
+    }
+    .hero-meta .meta-label{
+      font-weight:700;
+      font-size:13px;
+    }
+    .hero-meta .meta-text{
+      opacity:.9;
     }
 
     .hero .hero-cta{
-      margin-top:26px;
+      margin-top:16px;
       display:flex;
-      justify-content:center;
-      gap:14px;
+      flex-wrap:wrap;
+      gap:10px 12px;
     }
 
     body.menu-open { overflow: hidden; }
@@ -166,134 +210,170 @@
       nav ul.show { box-shadow: 0 10px 28px rgba(0,0,0,.08); }
     }
 
-    /* ==== QUICK-LINKS — Çizgisel Farabi tarzı, balonsuz ==== */
+    /* ==== HIZLI BUTONLAR (PILL STİLİ) ==== */
 
-    /* Önce tüm eski cam/balon efektlerini sıfırla */
-    .hero .quick-links,
-    .hero .quick-links *{
-      background:transparent !important;
-      border:none !important;
-      border-radius:0 !important;
-      box-shadow:none !important;
-      backdrop-filter:none !important;
-    }
-
+    /* Eski çizgisel stil iptal */
     .hero .quick-links{
-      position:relative;
+      position:static;
       display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:52px;
-      max-width:1150px;
-      margin:52px auto 0;
-      padding-top:26px;
+      flex-wrap:wrap;
+      justify-content:flex-start;
+      align-items:center;
+      gap:8px 12px;
+      max-width:560px;
+      margin-top:18px;
+      padding-top:14px;
+      border-top:1px solid rgba(255,255,255,.25);
     }
-
-    /* Üstteki ince çizgi */
     .hero .quick-links::before{
-      content:"";
-      position:absolute;
-      left:-200px;
-      right:-200px;
-      top:0;
-      height:1px;
-      background:rgba(255,255,255,.32);
-      opacity:.9;
+      display:none;
     }
 
-    /* Tek tek butonlar */
     .hero .quick-links .q{
       position:relative;
-      display:flex;
-      flex-direction:column;
+      display:inline-flex;
       align-items:center;
       justify-content:flex-start;
-      gap:10px;
-      padding:0;
+      gap:8px;
+      padding:7px 12px;
       margin:0;
-      min-width:auto;
-      color:#ffffff;
-      opacity:.9;
+      min-width:0;
+      color:#f1fbff;
+      opacity:.96;
       text-decoration:none;
-      transition:transform .18s ease, opacity .18s ease;
+      border-radius:999px;
+      background:linear-gradient(135deg, rgba(8,18,40,.75), rgba(9,31,55,.90));
+      border:1px solid rgba(255,255,255,.25);
+      box-shadow:
+        0 10px 26px rgba(0,0,0,.35),
+        inset 0 0 0 0.5px rgba(255,255,255,.15);
+      transition:transform .16s ease, box-shadow .16s ease, background .16s ease, opacity .16s ease;
+      font-size:13px;
+      white-space:nowrap;
     }
 
-    /* İkon alanı */
     .hero .quick-links .q .s-icon{
-      width:64px;
-      height:64px;
+      width:26px;
+      height:26px;
+      border-radius:999px;
       display:flex;
       align-items:center;
       justify-content:center;
+      background:rgba(15,118,178,.08);
+      box-shadow:0 0 0 1px rgba(255,255,255,.28);
     }
 
     .hero .quick-links .q svg{
-      width:44px;
-      height:44px;
+      width:17px;
+      height:17px;
       stroke-width:1.8;
     }
 
     .hero .quick-links .q span:last-child{
-      margin-top:2px;
-      font-weight:700;
-      font-size:13px;
-      letter-spacing:.16em;
+      font-weight:600;
+      font-size:12px;
+      letter-spacing:.08em;
       text-transform:uppercase;
-      color:#e9f6ff;
-      opacity:.96;
-      white-space:nowrap;
+      opacity:.98;
     }
 
-    /* Hover: hafif yükselsin */
-    .hero .quick-links .q:hover{
-      transform:translateY(-4px);
-      opacity:1;
-    }
-
-    .hero .quick-links .q:hover svg{
-      transform:translateY(-2px);
-    }
-
-    /* Kartlar arasındaki 3 noktalı ayraç */
     .hero .quick-links .q::after{
-      content:"";
-      position:absolute;
-      right:-26px;
-      top:50%;
-      transform:translateY(-50%);
-      width:3px;
-      height:3px;
-      border-radius:999px;
-      background:rgba(255,255,255,.40);
-      box-shadow:
-        0 7px 0 rgba(255,255,255,.30),
-        0 -7px 0 rgba(255,255,255,.30);
-    }
-    .hero .quick-links .q:last-child::after{
       display:none;
     }
 
-    /* Responsive ayarlar */
-    @media (max-width:1100px){
-      .hero .quick-links{
-        flex-wrap:wrap;
-        justify-content:center;
-        gap:32px;
-        padding-top:22px;
-      }
-      .hero .quick-links::before{
-        left:-60px;
-        right:-60px;
-      }
-      .hero .quick-links .q::after{
-        display:none;
-      }
+    .hero .quick-links .q:hover{
+      transform:translateY(-2px);
+      opacity:1;
+      box-shadow:
+        0 14px 30px rgba(0,0,0,.45),
+        inset 0 0 0 0.5px rgba(255,255,255,.25);
+      background:linear-gradient(135deg, rgba(6,14,32,.90), rgba(11,48,84,.95));
     }
 
-    @media (max-width:560px){
-      .hero .quick-links{
-        gap:20px;
-      }
+    /* ==== HERO SAĞ PANEL (HASTANE KARTI) ==== */
+    .hero-panel{
+      background:radial-gradient(circle at top left, rgba(255,255,255,.24), rgba(7,12,32,.95));
+      border-radius:24px;
+      padding:18px 18px 16px;
+      box-shadow:
+        0 20px 45px rgba(0,0,0,.55),
+        inset 0 0 0 1px rgba(255,255,255,.18);
+      border:1px solid rgba(8,17,40,.85);
+      backdrop-filter:blur(18px) saturate(130%);
+      -webkit-backdrop-filter:blur(18px) saturate(130%);
+    }
+
+    .hero-panel-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:3px 9px;
+      border-radius:999px;
+      background:rgba(5,17,45,.85);
+      border:1px solid rgba(148, 163, 235, .6);
+      font-size:11px;
+      margin-bottom:6px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      opacity:.95;
+    }
+    .hero-panel-badge::before{
+      content:"";
+      width:6px;
+      height:6px;
+      border-radius:999px;
+      background:#22c55e;
+      box-shadow:0 0 0 4px rgba(34,197,94,.35);
+    }
+
+    .hero-panel h2{
+      margin:4px 0 10px;
+      font-size:18px;
+      font-weight:700;
+    }
+
+    .hero-panel ul{
+      list-style:none;
+      padding:0;
+      margin:0 0 10px;
+      font-size:13px;
+    }
+    .hero-panel ul li{
+      display:flex;
+      align-items:flex-start;
+      gap:6px;
+      margin-bottom:6px;
+      opacity:.96;
+    }
+    .hero-panel ul li span.dot{
+      width:6px;
+      height:6px;
+      border-radius:999px;
+      margin-top:4px;
+      background:rgba(129, 230, 217, 1);
+      box-shadow:0 0 0 3px rgba(45, 212, 191, .35);
+    }
+
+    .hero-panel-note{
+      padding-top:8px;
+      border-top:1px dashed rgba(226,232,240,.6);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      font-size:12px;
+    }
+    .hero-panel-note strong{
+      font-weight:600;
+    }
+    .hero-panel-note a{
+      color:#e0f2fe;
+      font-weight:700;
+      text-decoration:none;
+      letter-spacing:.04em;
+    }
+    .hero-panel-note a:hover{
+      text-decoration:underline;
     }
 
     /* Akışkan gradyan animasyonu (butonlar) */
@@ -348,6 +428,48 @@
       stroke-width:2.2 !important;
       stroke:currentColor !important;
     }
+
+    /* ==== RESPONSIVE ==== */
+    @media (max-width: 960px){
+      .hero-shell{
+        grid-template-columns:minmax(0,1fr);
+        gap:28px;
+      }
+      .hero-main{
+        text-align:center;
+      }
+      .hero .hero-sub{
+        margin-left:auto;
+        margin-right:auto;
+      }
+      .hero-meta{
+        justify-content:center;
+      }
+      .hero .hero-cta{
+        justify-content:center;
+      }
+      .hero .quick-links{
+        justify-content:center;
+        max-width:none;
+      }
+      .hero-panel{
+        max-width:420px;
+        margin:0 auto;
+      }
+    }
+
+    @media (max-width: 560px){
+      .hero{
+        padding-bottom:70px;
+      }
+      .hero .quick-links{
+        gap:8px;
+      }
+      .hero .quick-links .q{
+        font-size:12px;
+      }
+    }
+
   </style>
 </head>
 
@@ -430,46 +552,85 @@
   <section class="hero" data-theme="clean">
     <div class="container">
       <div class="hero-center">
-        <div class="hero-icon">
-          <img class="hero-logo" src="/assets/img/uploads/elci-logo.png?v=1" alt="Elçi Veteriner Kliniği Logosu" width="96" height="96" loading="eager" decoding="async">
-        </div>
-        <h1>Elçi ile Gülümse Hayata!</h1>
-        <div class="hero-divider" role="presentation"></div>
-        <p class="hero-sub">Teknolojik ve modern cihazlar ile daha kaliteli veteriner sağlık hizmeti.</p>
+        <div class="hero-shell">
+          <!-- Sol: Metin + hızlı butonlar -->
+          <div class="hero-main">
+            <div class="hero-icon">
+              <img class="hero-logo" src="/assets/img/uploads/elci-logo.png?v=1" alt="Elçi Veteriner Kliniği Logosu" width="96" height="96" loading="eager" decoding="async">
+            </div>
+            <div class="hero-badge">
+              <span class="dot"></span>
+              <span>Meram • Konya · 7/24 Acil Veteriner</span>
+            </div>
+            <h1>Elçi ile Gülümse Hayata!</h1>
+            <p class="hero-sub">Teknolojik ve modern cihazlar ile daha kaliteli, kanıta dayalı veteriner sağlık hizmeti.</p>
 
-        <div class="hero-cta">
-          <a class="btn primary" href="tel:03323223220">Hemen Ara</a>
-          <a class="btn ghost" href="/contact.html">Randevu Al</a>
-        </div>
+            <div class="hero-meta">
+              <div class="meta-item">
+                <span class="meta-label">7/24</span>
+                <span class="meta-text">Acil & Yoğun Bakım</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Görüntüleme</span>
+                <span class="meta-text">Röntgen · Ultrason · EKG</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Konaklama</span>
+                <span class="meta-text">Konforlu hasta odaları</span>
+              </div>
+            </div>
 
-        <!-- Quick Links — çizgisel Farabi tarzı -->
-        <div class="quick-links" aria-label="Hızlı bağlantılar">
-          <a class="q" href="/hizmetler.html#koruyucu" title="Branşlarımız">
-            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-shield-cross"/></svg></span>
-            <span>Branşlarımız</span>
-          </a>
-          <a class="q" href="/contact.html" title="Hızlı Randevu">
-            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-calendar-check"/></svg></span>
-            <span>Hızlı Randevu</span>
-          </a>
-          <a class="q" href="/hasta-iliskileri.html" title="Tahlil Sonuçları">
-            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-vial-check"/></svg></span>
-            <span>Tahlil Sonuçları</span>
-          </a>
-          <a class="q" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" title="YouTube">
-            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-youtube-play"/></svg></span>
-            <span>Elçi TV</span>
-          </a>
-          <a class="q" href="/contact.html#konum" title="İletişim">
-            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-location"/></svg></span>
-            <span>İletişim</span>
-          </a>
-          <a class="q" href="tel:03323223220" title="Acil Hattı">
-            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-ambulance"/></svg></span>
-            <span>Acil</span>
-          </a>
+            <div class="hero-cta">
+              <a class="btn primary" href="tel:03323223220">Hemen Ara</a>
+              <a class="btn ghost" href="/contact.html">Randevu Al</a>
+            </div>
+
+            <!-- Hızlı butonlar (pill) -->
+            <div class="quick-links" aria-label="Hızlı bağlantılar">
+              <a class="q" href="/hizmetler.html#koruyucu" title="Branşlarımız">
+                <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-shield-cross"/></svg></span>
+                <span>Branşlarımız</span>
+              </a>
+              <a class="q" href="/contact.html" title="Hızlı Randevu">
+                <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-calendar-check"/></svg></span>
+                <span>Hızlı Randevu</span>
+              </a>
+              <a class="q" href="/hasta-iliskileri.html" title="Tahlil Sonuçları">
+                <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-vial-check"/></svg></span>
+                <span>Tahlil Sonuçları</span>
+              </a>
+              <a class="q" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" title="YouTube">
+                <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-youtube-play"/></svg></span>
+                <span>Elçi TV</span>
+              </a>
+              <a class="q" href="/contact.html#konum" title="İletişim">
+                <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-location"/></svg></span>
+                <span>İletişim</span>
+              </a>
+              <a class="q" href="tel:03323223220" title="Acil Hattı">
+                <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-ambulance"/></svg></span>
+                <span>Acil</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Sağ: Hastane hero paneli -->
+          <aside class="hero-panel" aria-label="Öne çıkan klinik hizmetler">
+            <div class="hero-panel-badge">Konya Meram · Elçi Veteriner</div>
+            <h2>7/24 Acil, Görüntüleme ve Modern Tanı Merkezi</h2>
+            <ul>
+              <li><span class="dot"></span><span>Dijital röntgen, ultrason ve EKG ile hızlı tanı.</span></li>
+              <li><span class="dot"></span><span>İn-house laboratuvar, kan tahlilleri ve hızlı testler.</span></li>
+              <li><span class="dot"></span><span>Genel cerrahi, yumuşak doku ve ortopedik operasyonlar.</span></li>
+              <li><span class="dot"></span><span>Yoğun bakım ve konforlu hasta konaklama odaları.</span></li>
+            </ul>
+            <div class="hero-panel-note">
+              <strong>Acil durumlarda:</strong>
+              <a href="tel:03323223220">0332 322 32 20</a>
+            </div>
+          </aside>
+
         </div>
-        <!-- /Quick Links -->
       </div>
     </div>
   </section>
