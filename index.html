@@ -56,7 +56,7 @@
     .insta-head small, #youtube small{ display:none; }
   </style>
 
-  <!-- THEME OVERRIDE (Mor tema + ORTALANMIŞ HERO) -->
+  <!-- THEME OVERRIDE (Mor tema + hero + butonlar) -->
   <style id="theme-elciKonya-override">
     :root{
       --brand:#5a1fa8;
@@ -69,10 +69,8 @@
       --paper:#fff;
       --footer-start:#241043;
       --footer-end:#5a1fa8;
-
-      --hero-start:#5a1fa8;
-      --hero-end:#36106b;
-
+      --hero-start:#30105f;
+      --hero-end:#27d4e8;
       --icon-ink:#0a4f60;
       --icon-ink-hero:#e5fbff;
     }
@@ -117,26 +115,22 @@
       text-shadow:0 1px 8px rgba(0,0,0,.3);
     }
 
-    /* ===== ORTALANMIŞ HERO ===== */
+    /* HAKKIMIZDA FORMATINDA HERO */
     .hero{
       position:relative;
       padding:80px 0 90px;
       background:
-        radial-gradient(1200px 520px at 50% -180px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
-        linear-gradient(135deg, var(--hero-start) 0%, var(--hero-end) 100%);
+        radial-gradient(1400px 700px at 85% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
+        linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%);
       color:#fff;
       overflow:hidden;
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
     }
     .hero::before{
       content:"";
       position:absolute;
       inset:-40%;
       background:
-        radial-gradient(circle at 0% 0%, rgba(255,255,255,.10) 0, transparent 55%),
+        radial-gradient(circle at 0% 0%, rgba(255,255,255,.08) 0, transparent 55%),
         radial-gradient(circle at 100% 100%, rgba(255,255,255,.12) 0, transparent 55%);
       opacity:.6;
       pointer-events:none;
@@ -145,257 +139,163 @@
       position:relative;
       z-index:1;
     }
-    .hero-content{
-      max-width:1000px;
-      margin:0 auto;
-      padding:0 16px;
+    .hero-center{
       text-align:center;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
+      max-width:720px;
+      margin:0 auto;
     }
-
-    /* ÜST LOGO ALANI */
-    .hero-top{
-      margin-bottom:40px;
+    .hero-icon{
+      display:flex;
+      justify-content:center;
+      margin-bottom:18px;
     }
     .hero-logo{
-      display:inline-flex;
-      flex-direction:column;
-      align-items:center;
-      margin-bottom:20px;
-    }
-    .logo-circle{
-      width:100px;
-      height:100px;
-      border-radius:50%;
-      background:rgba(255,255,255,0.20);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      margin-bottom:15px;
-      border:2px solid rgba(255,255,255,0.30);
-      box-shadow:0 8px 24px rgba(0,0,0,0.30);
-      overflow:hidden;
-    }
-    .logo-circle img{
-      width:90px;
-      height:90px;
+      width:96px;
+      height:96px;
+      border-radius:24px;
+      background:#ffffff10;
+      border:1px solid #ffffff45;
+      padding:10px;
+      box-shadow:0 12px 30px rgba(0,0,0,.35);
       object-fit:contain;
+      backdrop-filter:blur(4px);
     }
-    .hero .logo-text h2{
-      font-size:2.2rem;
-      margin-bottom:5px;
-      font-weight:700;
-      letter-spacing:.02em;
+    .hero h1{
+      margin:0 0 10px;
+      font-size:clamp(28px,4.2vw,40px);
+      text-shadow:0 2px 18px rgba(0,0,0,.25);
     }
-    .hero .logo-text p{
+    .hero-divider{
+      width:72px;
+      height:3px;
+      border-radius:999px;
+      margin:10px auto 18px;
+      background:linear-gradient(90deg,var(--accent),#fff);
+    }
+    .hero-sub{
+      margin:0 auto 22px;
+      max-width:620px;
+      color:#e8fbff;
+      opacity:.98;
       font-size:1.05rem;
-      opacity:.9;
-      margin:0;
     }
-
-    /* ORTA ANA İÇERİK */
-    .hero-main{
-      margin-bottom:50px;
-    }
-    .hero-badge{
-      display:inline-block;
-      background:rgba(255,255,255,0.20);
-      padding:8px 20px;
-      border-radius:30px;
-      font-size:0.9rem;
-      margin-bottom:20px;
-      border:1px solid rgba(255,255,255,0.30);
-    }
-    .hero-badge i{
-      margin-right:6px;
-    }
-    .hero-title{
-      font-size:clamp(2.6rem, 4vw, 3.5rem);
-      margin-bottom:20px;
-      font-weight:800;
-      line-height:1.2;
-      text-shadow:0 3px 18px rgba(0,0,0,.35);
-    }
-    .hero-subtitle{
-      font-size:1.28rem;
-      margin-bottom:30px;
-      max-width:700px;
-      margin-left:auto;
-      margin-right:auto;
-      opacity:.9;
-      line-height:1.5;
-    }
-
-    .hero-meta{
-      display:flex;
-      justify-content:center;
-      gap:40px;
-      margin-bottom:30px;
-      flex-wrap:wrap;
-    }
-    .meta-item{
-      display:flex;
-      flex-direction:column;
-      min-width:140px;
-    }
-    .meta-label{
-      font-weight:700;
-      font-size:1.1rem;
-    }
-    .meta-text{
-      font-size:0.98rem;
-      opacity:.9;
-    }
-
     .hero-cta{
       display:flex;
       justify-content:center;
-      gap:20px;
-      margin-bottom:40px;
+      gap:12px;
       flex-wrap:wrap;
+      margin-top:6px;
     }
 
+    /* Butonlar — akış animasyonu */
     .btn{
-      padding:14px 32px;
-      border-radius:30px;
+      color:var(--brand);
+      border:1px solid var(--line);
+      background:#fff;
+      padding:12px 26px;
+      border-radius:999px;
       font-weight:600;
       text-decoration:none;
       display:inline-flex;
       align-items:center;
-      gap:10px;
-      transition:all .22s ease;
-      border:none;
+      gap:8px;
       cursor:pointer;
-      font-size:1rem;
-      box-shadow:0 4px 10px rgba(0,0,0,0.22);
-      background:#ffffff;
-      color:var(--brand);
+      transition:background-position .35s ease, box-shadow .2s ease, transform .2s ease, color .15s ease, border-color .15s ease;
     }
-    .btn i{ font-size:1rem; }
-    .btn-primary{
-      background:#ffffff;
-      color:var(--brand);
-    }
-    .btn-secondary{
-      background:transparent;
-      color:#ffffff;
-      border:2px solid rgba(255,255,255,0.55);
-      box-shadow:0 4px 12px rgba(0,0,0,.18);
-    }
+    .btn i{ font-size:0.95rem; }
     .btn:hover{
-      transform:translateY(-3px);
-      box-shadow:0 8px 18px rgba(0,0,0,.30);
+      transform:translateY(-2px);
+      box-shadow:0 8px 20px rgba(0,0,0,.12);
     }
-    .btn:active{
-      transform:translateY(-1px);
-      box-shadow:0 4px 10px rgba(0,0,0,.22);
+    .btn.primary{
+      background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
+      color:#fff !important;
+      border:0;
+      box-shadow:0 8px 22px rgba(16,179,209,.22);
+      background-size:200% 100%;
+      background-position:0% 0%;
+    }
+    .btn.primary:hover{
+      background-position:100% 0%;
+      box-shadow:0 12px 28px rgba(16,179,209,.28);
+    }
+    .btn.ghost{
+      background:#ffffff1a;
+      color:#fff;
+      border-color:#ffffff70;
+    }
+    .btn.ghost:hover{
+      background:#ffffff2b;
+      border-color:#ffffffb0;
     }
 
-    /* ALTTA HIZLI BUTONLAR */
-    .hero-bottom{
-      margin-top:10px;
+    /* HERO ALTINDA HIZLI BUTONLAR */
+    .quick-links-band{
+      margin-top:-40px;
+      margin-bottom:40px;
+      position:relative;
+      z-index:2;
     }
     .quick-links{
       display:grid;
       grid-template-columns:repeat(6,1fr);
       gap:15px;
-      max-width:1000px;
-      margin:0 auto;
+      background:#ffffff;
+      border-radius:18px;
+      padding:16px 18px;
+      box-shadow:0 12px 30px rgba(0,0,0,.12);
+      border:1px solid #dde8ec;
     }
     .quick-link{
-      background:rgba(255,255,255,0.15);
+      background:linear-gradient(135deg,#f7fbff,#f0f6fb);
       border-radius:12px;
       padding:15px 10px;
       text-align:center;
       transition:all .22s ease;
-      border:1px solid rgba(255,255,255,0.20);
-      backdrop-filter:blur(10px);
-      -webkit-backdrop-filter:blur(10px);
+      border:1px solid #e1ecf1;
       text-decoration:none;
-      color:#ffffff;
+      color:#123;
       display:flex;
       flex-direction:column;
       align-items:center;
       min-height:92px;
     }
     .quick-link:hover{
-      transform:translateY(-5px);
-      background:rgba(255,255,255,0.25);
-      box-shadow:0 10px 20px rgba(0,0,0,0.22);
+      transform:translateY(-4px);
+      box-shadow:0 10px 20px rgba(0,0,0,0.12);
+      border-color:#d3e3ec;
     }
     .quick-icon{
-      width:48px;
-      height:48px;
-      margin-bottom:10px;
+      width:40px;
+      height:40px;
+      margin-bottom:8px;
       border-radius:50%;
       display:flex;
       align-items:center;
       justify-content:center;
-      background:rgba(255,255,255,0.20);
+      background:linear-gradient(135deg,var(--brand),var(--brand2));
+      color:#fff;
     }
     .quick-icon i{
-      font-size:1.3rem;
-      color:#ffffff;
+      font-size:1.2rem;
     }
     .quick-title{
       font-size:0.9rem;
       font-weight:600;
     }
 
-    /* RESPONSIVE */
     @media (max-width:1100px){
-      .quick-links{
-        grid-template-columns:repeat(3,1fr);
-      }
+      .quick-links{grid-template-columns:repeat(3,1fr);}
     }
     @media (max-width:768px){
-      .hero{
-        padding:60px 0 80px;
-        min-height:auto;
-      }
-      .hero-title{
-        font-size:2.4rem;
-      }
-      .hero-subtitle{
-        font-size:1.15rem;
-      }
-      .hero-meta{
-        flex-direction:column;
-        gap:18px;
-      }
-      .hero-cta{
-        flex-direction:column;
-        align-items:center;
-      }
-      .btn{
-        width:100%;
-        max-width:280px;
-        justify-content:center;
-      }
-      .quick-links{
-        grid-template-columns:repeat(2,1fr);
-      }
+      .hero{padding:64px 0 72px;}
+      .hero-center{max-width:100%;}
+      .quick-links-band{margin-top:0;}
+      .quick-links{grid-template-columns:repeat(2,1fr);}
     }
     @media (max-width:480px){
-      .hero-title{
-        font-size:2rem;
-      }
-      .logo-circle{
-        width:80px;
-        height:80px;
-      }
-      .logo-circle img{
-        width:72px;
-        height:72px;
-      }
-      .hero .logo-text h2{
-        font-size:1.8rem;
-      }
-      .quick-links{
-        grid-template-columns:1fr;
-      }
+      .quick-links{grid-template-columns:1fr;}
+      .hero-logo{width:80px;height:80px;border-radius:20px;}
     }
 
     body.menu-open { overflow: hidden; }
@@ -425,6 +325,17 @@
       stroke-width:2.2 !important;
       stroke:currentColor !important;
     }
+
+    /* Footer degrade */
+    footer.footer-new{
+      background:linear-gradient(135deg, var(--footer-start), var(--footer-end));
+      color:#eaffff;
+    }
+    .footer-links a, .footer-contact a{ color:#eaffff }
+    .footer-bottom{ background:rgba(0,0,0,.18) }
+    .social-links a svg{ width:20px; height:20px; display:block }
+    .social-links a{ color:#eaffff; opacity:.95 }
+    .social-links a:hover{ opacity:1 }
   </style>
 </head>
 
@@ -503,108 +414,82 @@
     </div>
   </header>
 
-  <!-- ===== ORTALANMIŞ HERO ===== -->
+  <!-- ===== HERO (Hakkımızdaki ile aynı format) ===== -->
   <section class="hero" data-theme="clean">
     <div class="container">
-      <div class="hero-content">
-        <!-- Üstte Logo -->
-        <div class="hero-top">
-          <div class="hero-logo">
-            <div class="logo-circle">
-              <!-- Logon varsa bunu kullan -->
-              <img src="/assets/img/uploads/elci-logo.png?v=1" alt="Elçi Veteriner Kliniği Logosu" loading="eager" decoding="async">
-            </div>
-            <div class="logo-text">
-              <h2>Elçi Veteriner Kliniği</h2>
-              <p>Sağlığın Elçi'leriyiz</p>
-            </div>
-          </div>
+      <div class="hero-center">
+        <div class="hero-icon">
+          <img class="hero-logo"
+               src="/assets/img/uploads/elci-logo.png?v=1"
+               alt="Elçi Veteriner Kliniği Logosu"
+               width="96" height="96"
+               loading="eager" decoding="async">
         </div>
-
-        <!-- Ortada Ana İçerik -->
-        <div class="hero-main">
-          <div class="hero-badge">
-            <i class="fa-solid fa-location-dot"></i>
-            Meram · Konya · 7/24 Acil Veteriner
-          </div>
-
-          <h1 class="hero-title">Elçi ile Gülümse Hayata!</h1>
-          <p class="hero-subtitle">Teknolojik ve modern cihazlar ile daha kaliteli veteriner sağlık hizmeti.</p>
-
-          <div class="hero-meta">
-            <div class="meta-item">
-              <span class="meta-label">7/24</span>
-              <span class="meta-text">Acil &amp; Yoğun Bakım</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">Görüntüleme</span>
-              <span class="meta-text">Röntgen · Ultrason · EKG</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">Konaklama</span>
-              <span class="meta-text">Konforlu hasta odaları</span>
-            </div>
-          </div>
-
-          <div class="hero-cta">
-            <a href="tel:03323223220" class="btn btn-primary">
-              <i class="fa-solid fa-phone"></i>
-              <span>Hemen Ara</span>
-            </a>
-            <a href="/contact.html" class="btn btn-secondary">
-              <i class="fa-solid fa-calendar-check"></i>
-              <span>Randevu Al</span>
-            </a>
-          </div>
+        <h1>Konya’da 7/24 Acil Veteriner Kliniği</h1>
+        <div class="hero-divider" role="presentation"></div>
+        <p class="hero-sub">
+          Teknolojik ve modern cihazlar ile daha kaliteli veteriner sağlık hizmeti.
+        </p>
+        <div class="hero-cta">
+          <a class="btn primary" href="tel:03323223220">
+            <i class="fa-solid fa-phone"></i>
+            Hemen Ara
+          </a>
+          <a class="btn ghost" href="/hasta-iliskileri.html#online-randevu">
+            <i class="fa-solid fa-calendar-check"></i>
+            Randevu Al
+          </a>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <!-- Altta Hızlı Butonlar -->
-        <div class="hero-bottom">
-          <div class="quick-links">
-            <a href="/about.html#ekibimiz" class="quick-link">
-              <div class="quick-icon">
-                <i class="fa-solid fa-user-doctor"></i>
-              </div>
-              <div class="quick-title">VETERİNERLERİMİZ</div>
-            </a>
-
-            <a href="/hizmetler.html" class="quick-link">
-              <div class="quick-icon">
-                <i class="fa-solid fa-stethoscope"></i>
-              </div>
-              <div class="quick-title">HİZMETLERİMİZ</div>
-            </a>
-
-            <a href="/contact.html" class="quick-link">
-              <div class="quick-icon">
-                <i class="fa-solid fa-calendar-check"></i>
-              </div>
-              <div class="quick-title">HIZLI RANDEVU</div>
-            </a>
-
-            <a href="/hasta-iliskileri.html" class="quick-link">
-              <div class="quick-icon">
-                <i class="fa-solid fa-vial"></i>
-              </div>
-              <div class="quick-title">TAHLİL SONUÇLARI</div>
-            </a>
-
-            <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" class="quick-link">
-              <div class="quick-icon">
-                <i class="fa-brands fa-youtube"></i>
-              </div>
-              <div class="quick-title">ELÇİ TV</div>
-            </a>
-
-            <a href="/contact.html#konum" class="quick-link">
-              <div class="quick-icon">
-                <i class="fa-solid fa-phone-alt"></i>
-              </div>
-              <div class="quick-title">İLETİŞİM</div>
-            </a>
+  <!-- ===== HIZLI BUTONLAR (6'lı grid) ===== -->
+  <section class="quick-links-band">
+    <div class="container">
+      <div class="quick-links">
+        <a href="/about.html#ekibimiz" class="quick-link">
+          <div class="quick-icon">
+            <i class="fa-solid fa-user-doctor"></i>
           </div>
-        </div>
+          <div class="quick-title">VETERİNERLERİMİZ</div>
+        </a>
 
+        <a href="/hizmetler.html" class="quick-link">
+          <div class="quick-icon">
+            <i class="fa-solid fa-stethoscope"></i>
+          </div>
+          <div class="quick-title">HİZMETLERİMİZ</div>
+        </a>
+
+        <a href="/contact.html" class="quick-link">
+          <div class="quick-icon">
+            <i class="fa-solid fa-calendar-check"></i>
+          </div>
+          <div class="quick-title">HIZLI RANDEVU</div>
+        </a>
+
+        <a href="/hasta-iliskileri.html" class="quick-link">
+          <div class="quick-icon">
+            <i class="fa-solid fa-vial"></i>
+          </div>
+          <div class="quick-title">TAHLİL SONUÇLARI</div>
+        </a>
+
+        <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi"
+           target="_blank" rel="noopener" class="quick-link">
+          <div class="quick-icon">
+            <i class="fa-brands fa-youtube"></i>
+          </div>
+          <div class="quick-title">ELÇİ TV</div>
+        </a>
+
+        <a href="/contact.html#konum" class="quick-link">
+          <div class="quick-icon">
+            <i class="fa-solid fa-phone-alt"></i>
+          </div>
+          <div class="quick-title">İLETİŞİM</div>
+        </a>
       </div>
     </div>
   </section>
@@ -727,7 +612,7 @@
           <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 10h3l.5-3H13V5.5c0-.9.3-1.5 1.7-1.5H17V1h-3c-3 0-4.5 1.6-4.5 4.4V7H7v3h2.5v9h3v-9z"/></svg>
           </a>
-          <a href="https://www.instagram.com/elcivetiner" target="_blank" rel="noopener" aria-label="Instagram">
+          <a href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener" aria-label="Instagram">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><path d="M17.5 6.5h.01" stroke-width="2"/></svg>
           </a>
           <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter">
@@ -808,56 +693,6 @@
 
   <!-- ===== Ana JS (cache-bust ile) ===== -->
   <script defer src="/assets/js/main.js?v=20251106"></script>
-
-  <!-- ===== SVG ICON SPRITE (TAM SET — ihtiyaç olanlar) ===== -->
-  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden">
-    <defs><style>
-      .i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-      .i-solid{fill:currentColor;stroke:none}
-    </style></defs>
-
-    <!-- Hizmet/quick-links ikonları -->
-    <symbol id="i-shield-cross" viewBox="0 0 24 24">
-      <path class="i" d="M12 3l7 3v5c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-3z"/><path class="i" d="M9 11h6M12 8v6"/>
-    </symbol>
-    <symbol id="i-calendar-check" viewBox="0 0 24 24">
-      <rect class="i" x="3" y="4" width="18" height="17" rx="2"/><path class="i" d="M16 2v4M8 2v4M3 9h18"/><path class="i" d="M9 14l2 2 4-4"/>
-    </symbol>
-    <symbol id="i-vial-check" viewBox="0 0 24 24">
-      <path class="i" d="M10 2h4v3l3 3v1l-8 8a4 4 0 0 1-6-6l8-8V2z"/><path class="i" d="M14.5 14.5l2 2 3.5-3.5"/>
-    </symbol>
-    <symbol id="i-youtube-play" viewBox="0 0 24 24">
-      <rect class="i" x="2" y="6" width="20" height="12" rx="3"/><path class="i" d="M10 9l6 3-6 3z"/>
-    </symbol>
-    <symbol id="i-location" viewBox="0 0 24 24">
-      <path class="i" d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"/><circle class="i" cx="12" cy="11" r="2.5"/>
-    </symbol>
-    <symbol id="i-ambulance" viewBox="0 0 24 24">
-      <rect class="i" x="3" y="7" width="13" height="10" rx="2"/><path class="i" d="M16 11h4l1 2v4h-5zM6 6l3-3h4v4H6z"/><circle class="i" cx="7.5" cy="18" r="1.5"/><circle class="i" cx="18.5" cy="18" r="1.5"/><path class="i" d="M8 10h4M10 8v4"/>
-    </symbol>
-
-    <!-- Örnek ekstra (fallback’te kullanılıyor) -->
-    <symbol id="i-stethoscope" viewBox="0 0 24 24">
-      <path class="i" d="M6 4v7a4 4 0 1 0 8 0V4M6 8h8M18 6a3 3 0 0 1 0 6h-1a4 4 0 0 1-4 4h-1"/>
-    </symbol>
-    <symbol id="i-xray" viewBox="0 0 24 24">
-      <rect class="i" x="3" y="4" width="18" height="16" rx="2"/><path class="i" d="M7 8h10M7 12h10M7 16h6"/>
-    </symbol>
-    <symbol id="i-clipboard" viewBox="0 0 24 24">
-      <rect class="i" x="5" y="3" width="14" height="18" rx="2"/><path class="i" d="M9 3v2h6V3M8 9h8M8 13h8M8 17h6"/>
-    </symbol>
-    <symbol id="i-tooth-clean" viewBox="0 0 24 24">
-      <path class="i" d="M12 3c4 0 6 2.5 6 5.5S16 15 12 15s-6-3-6-6.5S8 3 12 3z"/><path class="i" d="M9 15c0 4 1 6 3 6s3-2 3-6"/>
-    </symbol>
-    <symbol id="i-article" viewBox="0 0 24 24">
-      <rect class="i" x="4" y="3" width="16" height="18" rx="2"/><path class="i" d="M7 8h10M7 12h10M7 16h7"/>
-    </symbol>
-
-    <!-- Pati -->
-    <symbol id="i-paw" viewBox="0 0 24 24">
-      <path class="i" d="M7.2 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM16.8 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM10.2 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM13.8 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM6.5 15.2c0-2.6 2.3-4.7 5.5-4.7s5.5 2.1 5.5 4.7c0 1.6-1.5 2.8-3.4 2.8-1 0-1.9-.3-2.1-.8-.3.5-1.1.8-2.1.8-1.9 0-3.4-1.2-3.4-2.8z"/>
-    </symbol>
-  </svg>
 
   <!-- ===== Başlangıç JS ===== -->
   <script>
@@ -1108,5 +943,51 @@
     })();
   })();
   </script>
+
+  <!-- ===== SVG ICON SPRITE ===== -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden">
+    <defs><style>
+      .i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+      .i-solid{fill:currentColor;stroke:none}
+    </style></defs>
+
+    <symbol id="i-shield-cross" viewBox="0 0 24 24">
+      <path class="i" d="M12 3l7 3v5c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-3z"/><path class="i" d="M9 11h6M12 8v6"/>
+    </symbol>
+    <symbol id="i-calendar-check" viewBox="0 0 24 24">
+      <rect class="i" x="3" y="4" width="18" height="17" rx="2"/><path class="i" d="M16 2v4M8 2v4M3 9h18"/><path class="i" d="M9 14l2 2 4-4"/>
+    </symbol>
+    <symbol id="i-vial-check" viewBox="0 0 24 24">
+      <path class="i" d="M10 2h4v3l3 3v1l-8 8a4 4 0 0 1-6-6l8-8V2z"/><path class="i" d="M14.5 14.5l2 2 3.5-3.5"/>
+    </symbol>
+    <symbol id="i-youtube-play" viewBox="0 0 24 24">
+      <rect class="i" x="2" y="6" width="20" height="12" rx="3"/><path class="i" d="M10 9l6 3-6 3z"/>
+    </symbol>
+    <symbol id="i-location" viewBox="0 0 24 24">
+      <path class="i" d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"/><circle class="i" cx="12" cy="11" r="2.5"/>
+    </symbol>
+    <symbol id="i-ambulance" viewBox="0 0 24 24">
+      <rect class="i" x="3" y="7" width="13" height="10" rx="2"/><path class="i" d="M16 11h4l1 2v4h-5zM6 6l3-3h4v4H6z"/><circle class="i" cx="7.5" cy="18" r="1.5"/><circle class="i" cx="18.5" cy="18" r="1.5"/><path class="i" d="M8 10h4M10 8v4"/>
+    </symbol>
+
+    <symbol id="i-stethoscope" viewBox="0 0 24 24">
+      <path class="i" d="M6 4v7a4 4 0 1 0 8 0V4M6 8h8M18 6a3 3 0 0 1 0 6h-1a4 4 0 0 1-4 4h-1"/>
+    </symbol>
+    <symbol id="i-xray" viewBox="0 0 24 24">
+      <rect class="i" x="3" y="4" width="18" height="16" rx="2"/><path class="i" d="M7 8h10M7 12h10M7 16h6"/>
+    </symbol>
+    <symbol id="i-clipboard" viewBox="0 0 24 24">
+      <rect class="i" x="5" y="3" width="14" height="18" rx="2"/><path class="i" d="M9 3v2h6V3M8 9h8M8 13h8M8 17h6"/>
+    </symbol>
+    <symbol id="i-tooth-clean" viewBox="0 0 24 24">
+      <path class="i" d="M12 3c4 0 6 2.5 6 5.5S16 15 12 15s-6-3-6-6.5S8 3 12 3z"/><path class="i" d="M9 15c0 4 1 6 3 6s3-2 3-6"/>
+    </symbol>
+    <symbol id="i-article" viewBox="0 0 24 24">
+      <rect class="i" x="4" y="3" width="16" height="18" rx="2"/><path class="i" d="M7 8h10M7 12h10M7 16h7"/>
+    </symbol>
+    <symbol id="i-paw" viewBox="0 0 24 24">
+      <path class="i" d="M7.2 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM16.8 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM10.2 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM13.8 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM6.5 15.2c0-2.6 2.3-4.7 5.5-4.7s5.5 2.1 5.5 4.7c0 1.6-1.5 2.8-3.4 2.8-1 0-1.9-.3-2.1-.8-.3.5-1.1.8-2.1.8-1.9 0-3.4-1.2-3.4-2.8z"/>
+    </symbol>
+  </svg>
 </body>
 </html>
