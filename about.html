@@ -3,60 +3,75 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Elçi Veteriner Kliniği · Pro Index | Konya'da 7/24 Acil, Cerrahi, Görüntüleme</title>
+  <title>Elçi Veteriner Kliniği | Hakkımızda</title>
 
   <!-- SEO -->
-  <meta name="description" content="Konya Meram Elçi Veteriner Kliniği: 7/24 acil, koruyucu hekimlik, cerrahi, diş sağlığı, röntgen, ultrason, laboratuvar."/>
-  <link rel="canonical" href="https://elciveteriner.com/"/>
+  <meta name="description" content="Konya Elçi Veteriner Kliniği: 7/24 acil, cerrahi, diş sağlığı, iç hastalıkları ve koruyucu hekimlik. Ekibimiz, tesislerimiz ve değerlerimiz.">
+  <meta property="og:title" content="Elçi Veteriner Kliniği | Hakkımızda">
+  <meta property="og:description" content="Konya Elçi Veteriner: Hayvan sağlığında mükemmellik. Ekibimiz, tesislerimiz ve değerlerimiz.">
+  <meta property="og:type" content="website">
 
-  <!-- Netlify Identity hash geldiyse /admin'e yönlendir -->
-  <script>
-    (function () {
-      var h = location.hash || '';
-      if (
-        h.startsWith('#invite_token=') ||
-        h.startsWith('#recovery_token=') ||
-        h.startsWith('#confirmation_token=')
-      ) { location.replace('/admin/' + h); }
-    })();
-  </script>
-
-  <!-- Stil dosyaları (cache-bust ile) -->
-  <link rel="stylesheet" href="/assets/css/tokens.css?v=20251106"/>
-  <link rel="stylesheet" href="/assets/css/styles.css?v=20251106"/>
-
-  <!-- Font Awesome (footer sosyal + hero ikonları için) -->
+  <!-- Global CSS + Icons -->
+  <link rel="stylesheet" href="/assets/css/styles.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <!-- Genel küçük dokunuşlar -->
+  <!-- Sayfaya özel minik kozmetik -->
   <style>
-    .container{max-width:1180px;margin:0 auto;padding:0 16px}
-    h1,h2,h3{letter-spacing:.1px}
-    section h2{position:relative;display:inline-block}
-    section h2::after{
-      content:"";
-      position:absolute;
-      left:0;
-      bottom:-8px;
-      width:72px;
-      height:3px;
-      border-radius:999px;
-      background:linear-gradient(90deg,var(--brand),var(--accent))
+    /* Gövde modern dokunuşlar */
+    .breadcrumb{background:linear-gradient(180deg,#f7fbfc,#fff); border-top:1px solid #eaf2f3; border-bottom:1px solid #eaf2f3; font-size:14px}
+    .breadcrumb .container{display:flex; gap:8px; align-items:center; padding:10px 16px}
+    .breadcrumb a{font-weight:700}
+    .section-title{margin:0 0 14px}
+    .section-title h2{margin:0; font-size:clamp(22px,3.6vw,30px)}
+    .section-title p{margin:6px 0 0; color:#476265}
+
+    /* ====== METRICS (istatistikler) ====== */
+    .metrics{padding:56px 0;background:linear-gradient(180deg,#f5fbfc 0%, #f1f9f8 100%)}
+    .metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:22px}
+    .m-card{background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.76));border:1px solid rgba(12,78,84,.12);border-radius:16px;padding:16px;box-shadow:0 8px 20px rgba(0,0,0,.08);transition:.35s;opacity:0;transform:translateY(12px)}
+    .m-card.show{opacity:1;transform:none}
+    .m-card:hover{transform:translateY(-6px);box-shadow:0 16px 36px rgba(0,0,0,.15)}
+    .m-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+    .m-title{font-weight:800}
+    .m-ico{width:36px;height:36px;border-radius:10px;color:#fff;display:grid;place-items:center}
+    .m-num{font-weight:900;font-size:clamp(22px,4vw,32px)}
+    .m-unit{font-weight:700;margin-left:4px;opacity:.8}
+    .m-progress{height:8px;border-radius:8px;background:#eaf3f3;overflow:hidden;margin-top:10px}
+    .m-bar{height:100%;width:0;border-radius:8px;transition:width 1s ease}
+    .m-donut,.m-gauge{display:flex;justify-content:center;margin-top:8px}
+    .m-donut svg,.m-gauge svg{width:110px;height:110px}
+
+    /* ====== ABOUT blokları ufak kozmetik ====== */
+    .about-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:center}
+    .about-img{border-radius:16px;overflow:hidden;box-shadow:0 10px 24px rgba(0,0,0,.08);border:1px solid rgba(12,78,84,.12)}
+    .about-img img{width:100%;height:100%;object-fit:cover;display:block}
+    .about-features{display:grid;gap:12px;margin-top:14px}
+    .feature{display:flex;gap:12px;align-items:flex-start;background:#fbfefe;border:1px solid #e6f1f2;border-radius:12px;padding:12px}
+    .feature .ic{width:36px;height:36px;border-radius:10px;color:#fff;display:flex;align-items:center;justify-content:center}
+    @media(max-width:980px){.about-wrap{grid-template-columns:1fr}}
+
+    /* ====== 3'lü review ====== */
+    .review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .review-card{background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:16px;box-shadow:0 8px 20px rgba(0,0,0,.04);opacity:0;transform:translateY(8px);transition:.3s}
+    .review-card.visible{opacity:1;transform:none}
+    .review-text{margin:8px 0 10px}
+    .review-author{font-weight:800}
+    .review-meta{font-size:12px;opacity:.7}
+    .stars{font-size:16px}
+    @media(max-width:980px){.review-grid{grid-template-columns:1fr}}
+
+    /* Değerler & Klinik grid aralıklarını yumuşat */
+    .mv-grid, .values-grid, .team-grid, .clinic-wrap { row-gap:18px }
+
+    /* Klavye odak görünürlüğü */
+    .feature a:focus-visible, .clinic-wrap a:focus-visible, .cta .btn:focus-visible {
+      outline:2px solid color-mix(in srgb, var(--accent), #000 20%);
+      outline-offset:2px;
+      border-radius:12px;
     }
-    .services-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-    @media (max-width: 900px){ .services-grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
-    @media (max-width: 560px){ .services-grid{grid-template-columns:1fr} }
-    .s-card{min-width:280px}
-    .services-track{scrollbar-width:thin}
-    .services-track::-webkit-scrollbar{height:10px}
-    .services-track::-webkit-scrollbar-thumb{background:rgba(8,35,45,.16);border-radius:999px}
-    .cta-bar{display:flex;align-items:center;justify-content:space-between;margin:24px 0;gap:12px}
-    .btn:active{transform:translateY(1px)}
-    /* Insta/Youtube başlık alt notlarını gizle */
-    .insta-head small, #youtube small{ display:none; }
   </style>
 
-  <!-- THEME OVERRIDE (Mor tema + hero + butonlar) -->
+  <!-- === THEME OVERRIDE — Elçi Paleti (index/blog ile birebir) === -->
   <style id="theme-elciKonya-override">
     :root{
       --brand:#5a1fa8;
@@ -67,14 +82,17 @@
       --line:#e7edf1;
       --bg:#f7fbfc;
       --paper:#fff;
+
       --footer-start:#241043;
       --footer-end:#5a1fa8;
+
       --hero-start:#30105f;
       --hero-end:#27d4e8;
+
       --icon-ink:#0a4f60;
-      --icon-ink-hero:#e5fbff;
     }
 
+    /* Header üst şerit & menü */
     .header-top{
       background:linear-gradient(90deg, var(--brand) 0%, var(--brand2) 100%);
       color:#fff;
@@ -89,242 +107,72 @@
     }
     nav a{ color:#eaf6f8 }
     nav a:hover, nav a:focus{ color:#fff }
-    nav a.active{ color:#c0f3ff }
+    nav a.active, nav a[aria-current="page"]{ color:#c0f3ff }
     nav a::after{ background:#c0f3ff }
 
+    /* Logo paneli okunaklı */
     .header-main .logo-text{
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-      padding:8px 12px;
-      border-radius:14px;
+      display:flex; flex-direction:column; gap:2px;
+      padding:8px 12px; border-radius:14px;
       background:linear-gradient(90deg, rgba(0,0,0,.24), rgba(0,0,0,.10));
       box-shadow:0 6px 18px rgba(0,0,0,.18);
       -webkit-backdrop-filter:saturate(120%) blur(1px);
       backdrop-filter:saturate(120%) blur(1px);
     }
-    .header-main .logo-text h1{
-      color:#fff;
-      margin:0;
-      text-shadow:0 2px 10px rgba(0,0,0,.35);
-      letter-spacing:.2px;
-    }
-    .header-main .logo-text span{
-      color:#e8fbff;
-      opacity:.96;
-      text-shadow:0 1px 8px rgba(0,0,0,.3);
-    }
+    .header-main .logo-text h1{ color:#fff; margin:0; text-shadow:0 2px 10px rgba(0,0,0,.35); letter-spacing:.2px }
+    .header-main .logo-text span{ color:#e8fbff; opacity:.96; text-shadow:0 1px 8px rgba(0,0,0,.3) }
 
-    /* HAKKIMIZDA FORMATINDA HERO */
+    /* Hero — markanın degrade stili */
     .hero{
-      position:relative;
-      padding:80px 0 90px;
       background:
         radial-gradient(1400px 700px at 85% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
-        linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%);
+        linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%) !important;
       color:#fff;
-      overflow:hidden;
     }
-    .hero::before{
-      content:"";
-      position:absolute;
-      inset:-40%;
-      background:
-        radial-gradient(circle at 0% 0%, rgba(255,255,255,.08) 0, transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(255,255,255,.12) 0, transparent 55%);
-      opacity:.6;
-      pointer-events:none;
-    }
-    .hero .container{
-      position:relative;
-      z-index:1;
-    }
-    .hero-center{
-      text-align:center;
-      max-width:720px;
-      margin:0 auto;
-    }
-    .hero-icon{
-      display:flex;
-      justify-content:center;
-      margin-bottom:18px;
-    }
-    .hero-logo{
-      width:96px;
-      height:96px;
-      border-radius:24px;
-      background:#ffffff10;
-      border:1px solid #ffffff45;
-      padding:10px;
-      box-shadow:0 12px 30px rgba(0,0,0,.35);
-      object-fit:contain;
-      backdrop-filter:blur(4px);
-    }
-    .hero h1{
-      margin:0 0 10px;
-      font-size:clamp(28px,4.2vw,40px);
-      text-shadow:0 2px 18px rgba(0,0,0,.25);
-    }
-    .hero-divider{
-      width:72px;
-      height:3px;
-      border-radius:999px;
-      margin:10px auto 18px;
-      background:linear-gradient(90deg,var(--accent),#fff);
-    }
-    .hero-sub{
-      margin:0 auto 22px;
-      max-width:620px;
-      color:#e8fbff;
-      opacity:.98;
-      font-size:1.05rem;
-    }
-    .hero-cta{
-      display:flex;
-      justify-content:center;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-top:6px;
-    }
+    .hero h1{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.22) }
+    .hero .hero-sub{ color:#e8fbff; opacity:.98 }
+    .hero .btn{ border-color:transparent }
+    .hero .btn.ghost{ background:#ffffff1a; color:#fff }
+    .hero .btn.ghost:hover{ background:#ffffff2b }
+
+    /* Breadcrumb link rengi */
+    .breadcrumb a{ color:var(--brand) }
 
     /* Butonlar — akış animasyonu */
     .btn{
       color:var(--brand);
       border:1px solid var(--line);
       background:#fff;
-      padding:12px 26px;
-      border-radius:999px;
-      font-weight:600;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      cursor:pointer;
-      transition:background-position .35s ease, box-shadow .2s ease, transform .2s ease, color .15s ease, border-color .15s ease;
+      transition:background-position .35s ease, box-shadow .2s ease, transform .2s ease, color .15s ease;
     }
-    .btn i{ font-size:0.95rem; }
-    .btn:hover{
-      transform:translateY(-2px);
-      box-shadow:0 8px 20px rgba(0,0,0,.12);
-    }
+    .btn:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,.08) }
+    .btn:active{ transform:translateY(0) }
     .btn.primary{
       background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
-      color:#fff !important;
-      border:0;
+      color:#fff !important; border:0;
       box-shadow:0 8px 22px rgba(16,179,209,.22);
       background-size:200% 100%;
       background-position:0% 0%;
     }
-    .btn.primary:hover{
-      background-position:100% 0%;
-      box-shadow:0 12px 28px rgba(16,179,209,.28);
-    }
-    .btn.ghost{
-      background:#ffffff1a;
-      color:#fff;
-      border-color:#ffffff70;
-    }
-    .btn.ghost:hover{
-      background:#ffffff2b;
-      border-color:#ffffffb0;
-    }
+    .btn.primary:hover{ background-position:100% 0%; box-shadow:0 12px 28px rgba(16,179,209,.28) }
 
-    /* HERO ALTINDA HIZLI BUTONLAR */
-    .quick-links-band{
-      margin-top:-40px;
-      margin-bottom:40px;
-      position:relative;
-      z-index:2;
+    /* Feature/ikon arkaplanları */
+    .feature .ic,
+    .m-ico{
+      background:linear-gradient(135deg, var(--brand), var(--brand2)) !important;
     }
-    .quick-links{
-      display:grid;
-      grid-template-columns:repeat(6,1fr);
-      gap:15px;
-      background:#ffffff;
-      border-radius:18px;
-      padding:16px 18px;
-      box-shadow:0 12px 30px rgba(0,0,0,.12);
-      border:1px solid #dde8ec;
-    }
-    .quick-link{
-      background:linear-gradient(135deg,#f7fbff,#f0f6fb);
-      border-radius:12px;
-      padding:15px 10px;
-      text-align:center;
-      transition:all .22s ease;
-      border:1px solid #e1ecf1;
-      text-decoration:none;
-      color:#123;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      min-height:92px;
-    }
-    .quick-link:hover{
-      transform:translateY(-4px);
-      box-shadow:0 10px 20px rgba(0,0,0,0.12);
-      border-color:#d3e3ec;
-    }
-    .quick-icon{
-      width:40px;
-      height:40px;
-      margin-bottom:8px;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:linear-gradient(135deg,var(--brand),var(--brand2));
-      color:#fff;
-    }
-    .quick-icon i{
-      font-size:1.2rem;
-    }
-    .quick-title{
-      font-size:0.9rem;
-      font-weight:600;
-    }
+    .stars{ color:#f5b100 } /* yıldız rengi aynı kalsın */
 
-    @media (max-width:1100px){
-      .quick-links{grid-template-columns:repeat(3,1fr);}
-    }
-    @media (max-width:768px){
-      .hero{padding:64px 0 72px;}
-      .hero-center{max-width:100%;}
-      .quick-links-band{margin-top:0;}
-      .quick-links{grid-template-columns:repeat(2,1fr);}
-    }
-    @media (max-width:480px){
-      .quick-links{grid-template-columns:1fr;}
-      .hero-logo{width:80px;height:80px;border-radius:20px;}
-    }
+    /* Metrics çubuk/donut/gauge paleti */
+    .m-progress{ background:#e9f4f7 }
+    .m-bar{ background:linear-gradient(90deg, var(--brand), var(--accent)) }
+    .metrics .m-card{ border-color: color-mix(in srgb, var(--brand), #fff 85%) }
+    .metrics svg defs stop[offset="0%"]{ stop-color: var(--brand) }
+    .metrics svg defs stop[offset="100%"]{ stop-color: var(--accent) }
 
-    body.menu-open { overflow: hidden; }
-    @media (max-width: 992px){
-      nav ul.show { box-shadow: 0 10px 28px rgba(0,0,0,.08); }
-    }
-
-    /* ==== HİZMETLER İKON KOYULAŞTIRMA (SADECE #services) ==== */
-    #services .s-card .s-icon{
-      background:linear-gradient(
-        135deg,
-        color-mix(in srgb, var(--brand) 82%, #000 18%),
-        color-mix(in srgb, var(--brand2) 82%, #000 8%)
-      );
-      border:1px solid rgba(0,0,0,.26);
-      box-shadow:
-        0 12px 30px rgba(0,0,0,.30),
-        inset 0 0 0 1px rgba(255,255,255,.20);
-    }
-    #services .s-card .s-icon svg{
-      color:#e8fcff;
-      filter:
-        drop-shadow(0 1px 0 rgba(255,255,255,.55))
-        drop-shadow(0 2px 6px rgba(0,0,0,.30));
-    }
-    #services .s-card .s-icon svg .i{
-      stroke-width:2.2 !important;
-      stroke:currentColor !important;
-    }
+    /* Klinik/ekip bölümündeki inline renkleri bastır */
+    .team-grid .role{ color: var(--brand2) !important }
+    .clinic-wrap .pill i{ color: var(--icon-ink) !important }
 
     /* Footer degrade */
     footer.footer-new{
@@ -333,13 +181,15 @@
     }
     .footer-links a, .footer-contact a{ color:#eaffff }
     .footer-bottom{ background:rgba(0,0,0,.18) }
+
+    /* Sosyal ikonlar */
     .social-links a svg{ width:20px; height:20px; display:block }
     .social-links a{ color:#eaffff; opacity:.95 }
     .social-links a:hover{ opacity:1 }
   </style>
 </head>
+<body>
 
-<body class="theme-elciKonya" data-page="home">
   <!-- ===== SABİT HEADER ===== -->
   <header>
     <div class="header-top">
@@ -366,45 +216,45 @@
             <i class="fa-solid fa-bars"></i>
           </button>
           <ul id="mainMenu">
-            <li><a href="/index.html" class="active" aria-current="page">Ana Sayfa</a></li>
+            <li><a href="/index.html">Ana Sayfa</a></li>
             <li class="dropdown">
-              <a href="/about.html" aria-haspopup="true" aria-expanded="false">Hakkımızda</a>
+              <a href="/about.html" class="active" aria-current="page" aria-haspopup="true" aria-expanded="true">Hakkımızda</a>
               <div class="dropdown-content" role="menu">
-                <a href="/about.html#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
-                <a href="/about.html#ekibimiz" role="menuitem">Ekibimiz</a>
-                <a href="/about.html#klinik" role="menuitem">Kliniğimiz</a>
-                <a href="/about.html#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
-                <a href="/about.html#degerler" role="menuitem">Değerlerimiz</a>
+                <a href="#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
+                <a href="#ekibimiz" role="menuitem">Ekibimiz</a>
+                <a href="#klinik" role="menuitem">Kliniğimiz</a>
+                <a href="#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
+                <a href="#degerler" role="menuitem">Değerlerimiz</a>
               </div>
             </li>
             <li class="dropdown">
-              <a href="/hizmetler.html" aria-haspopup="true" aria-expanded="false">Hizmetlerimiz</a>
-              <div class="dropdown-content" role="menu">
-                <a href="/hizmetler.html#acil" role="menuitem">Acil Veteriner</a>
-                <a href="/hizmetler.html#koruyucu" role="menuitem">Koruyucu Hekimlik</a>
-                <a href="/hizmetler.html#cerrahi" role="menuitem">Cerrahi Operasyonlar</a>
-                <a href="/hizmetler.html#agiz-dis" role="menuitem">Ağız ve Diş Sağlığı</a>
-                <a href="/hizmetler.html#ic-hastaliklari" role="menuitem">İç Hastalıkları</a>
-                <a href="/hizmetler.html#fizik-tedavi" role="menuitem">Fizik Tedavi</a>
-                <a href="/hizmetler.html#konaklama" role="menuitem">Konaklama</a>
+              <a href="/hizmetler.html">Hizmetlerimiz</a>
+              <div class="dropdown-content">
+                <a href="/hizmetler.html#acil">Acil Veteriner</a>
+                <a href="/hizmetler.html#koruyucu">Koruyucu Hekimlik</a>
+                <a href="/hizmetler.html#cerrahi">Cerrahi Operasyonlar</a>
+                <a href="/hizmetler.html#agiz-dis">Ağız ve Diş Sağlığı</a>
+                <a href="/hizmetler.html#ic-hastaliklari">İç Hastalıkları</a>
+                <a href="/hizmetler.html#fizik-tedavi">Fizik Tedavi</a>
+                <a href="/hizmetler.html#konaklama">Konaklama</a>
               </div>
             </li>
             <li><a href="/blog.html">Blog</a></li>
             <li class="dropdown">
-              <a href="/sss.html" aria-haspopup="true" aria-expanded="false">SSS</a>
-              <div class="dropdown-content" role="menu">
-                <a href="/sss.html#fiyat" role="menuitem">Fiyat &amp; Ödeme</a>
-                <a href="/sss.html#surec" role="menuitem">Hizmet Süreçleri</a>
-                <a href="/sss.html#acil" role="menuitem">Acil Durumlar</a>
+              <a href="/sss.html">SSS</a>
+              <div class="dropdown-content">
+                <a href="/sss.html#fiyat">Fiyat &amp; Ödeme</a>
+                <a href="/sss.html#surec">Hizmet Süreçleri</a>
+                <a href="/sss.html#acil">Acil Durumlar</a>
               </div>
             </li>
             <li class="dropdown">
-              <a href="/hasta-iliskileri.html" aria-haspopup="true" aria-expanded="false">Hasta İlişkileri</a>
-              <div class="dropdown-content" role="menu">
-                <a href="/hasta-iliskileri.html#online-randevu" role="menuitem">Online Randevu</a>
-                <a href="/hasta-iliskileri.html#memnuniyet-anketi" role="menuitem">Memnuniyet Anketi</a>
-                <a href="/hasta-iliskileri.html#basari-hikayeleri" role="menuitem">Başarı Hikayeleri</a>
-                <a href="/hasta-iliskileri.html#sikayet-oneri" role="menuitem">Şikayet & Öneri</a>
+              <a href="/hasta-iliskileri.html">Hasta İlişkileri</a>
+              <div class="dropdown-content">
+                <a href="/hasta-iliskileri.html#online-randevu">Online Randevu</a>
+                <a href="/hasta-iliskileri.html#memnuniyet-anketi">Memnuniyet Anketi</a>
+                <a href="/hasta-iliskileri.html#basari-hikayeleri">Başarı Hikayeleri</a>
+                <a href="/hasta-iliskileri.html#sikayet-oneri">Şikayet &amp; Öneri</a>
               </div>
             </li>
           </ul>
@@ -414,195 +264,303 @@
     </div>
   </header>
 
-  <!-- ===== HERO (Hakkımızdaki ile aynı format) ===== -->
-  <section class="hero" data-theme="clean">
+  <!-- ===== HERO ===== -->
+  <section class="hero">
     <div class="container">
       <div class="hero-center">
         <div class="hero-icon">
-          <img class="hero-logo"
-               src="/assets/img/uploads/elci-logo.png?v=1"
-               alt="Elçi Veteriner Kliniği Logosu"
-               width="96" height="96"
-               loading="eager" decoding="async">
+          <img class="hero-logo" src="/assets/img/uploads/elci-logo.png?v=1" alt="Elçi Veteriner Kliniği Logosu" width="96" height="96" loading="eager" decoding="async">
         </div>
-        <h1>Konya’da 7/24 Acil Veteriner Kliniği</h1>
+        <h1>Hakkımızda</h1>
         <div class="hero-divider" role="presentation"></div>
-        <p class="hero-sub">
-          Teknolojik ve modern cihazlar ile daha kaliteli veteriner sağlık hizmeti.
-        </p>
+        <p class="hero-sub">2013’ten bu yana Konya’da evcil dostlarınız için; etik, teknolojik ve şeffaf veterinerlik yaklaşımı.</p>
         <div class="hero-cta">
-          <a class="btn primary" href="tel:03323223220">
-            <i class="fa-solid fa-phone"></i>
-            Hemen Ara
-          </a>
-          <a class="btn ghost" href="/hasta-iliskileri.html#online-randevu">
-            <i class="fa-solid fa-calendar-check"></i>
-            Randevu Al
-          </a>
+          <a class="btn primary" href="/hasta-iliskileri.html#online-randevu">Randevu Al</a>
+          <a class="btn ghost" href="#elci-kimdir">Elçi Kimdir?</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== HIZLI BUTONLAR (6'lı grid) ===== -->
-  <section class="quick-links-band">
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb" aria-label="İçerik yolu">
     <div class="container">
-      <div class="quick-links">
-        <a href="/about.html#ekibimiz" class="quick-link">
-          <div class="quick-icon">
-            <i class="fa-solid fa-user-doctor"></i>
-          </div>
-          <div class="quick-title">VETERİNERLERİMİZ</div>
-        </a>
+      <a href="/index.html">Ana Sayfa</a>
+      <span>›</span>
+      <span>Hakkımızda</span>
+    </div>
+  </div>
 
-        <a href="/hizmetler.html" class="quick-link">
-          <div class="quick-icon">
-            <i class="fa-solid fa-stethoscope"></i>
-          </div>
-          <div class="quick-title">HİZMETLERİMİZ</div>
-        </a>
+  <!-- ELÇİ KİMDİR -->
+  <section id="elci-kimdir" class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Elçi Kimdir?</h2>
+        <p>Kurucumuz Veteriner Hekim Mehmet Elçi’nin yolculuğu</p>
+      </div>
 
-        <a href="/contact.html" class="quick-link">
-          <div class="quick-icon">
-            <i class="fa-solid fa-calendar-check"></i>
-          </div>
-          <div class="quick-title">HIZLI RANDEVU</div>
-        </a>
+      <div class="about-wrap">
+        <figure class="about-img" aria-hidden="true">
+          <img src="https://images.unsplash.com/photo-1583339793403-3b0338094d19?auto=format&fit=crop&w=1000&q=80" alt="" loading="lazy" decoding="async">
+        </figure>
 
-        <a href="/hasta-iliskileri.html" class="quick-link">
-          <div class="quick-icon">
-            <i class="fa-solid fa-vial"></i>
-          </div>
-          <div class="quick-title">TAHLİL SONUÇLARI</div>
-        </a>
+        <div class="about-content">
+          <h3>Hayvan Sevgisiyle Başlayan Hikâye</h3>
+          <p>1980 Konya doğumlu Mehmet Elçi, Ankara Üniversitesi Veteriner Fakültesi’nden 2003’te mezun oldu. Büyükbaş klinik tecrübesinin ardından evcil hayvan hekimliğine odaklandı.</p>
+          <p>2013’te Meram’da kurulan Elçi Veteriner Kliniği; bugün acil, cerrahi, görüntüleme ve koruyucu hekimlikte güvenilir bir merkezdir.</p>
 
-        <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi"
-           target="_blank" rel="noopener" class="quick-link">
-          <div class="quick-icon">
-            <i class="fa-brands fa-youtube"></i>
+          <div class="about-features">
+            <div class="feature">
+              <div class="ic"><i class="fa-solid fa-graduation-cap"></i></div>
+              <div><strong>Eğitim</strong><div>Ankara Üni. Veteriner Fakültesi (1998–2003)</div></div>
+            </div>
+            <div class="feature">
+              <div class="ic"><i class="fa-solid fa-award"></i></div>
+              <div><strong>Uzmanlık</strong><div>Evcil Hayvan Cerrahisi &amp; İç Hastalıkları</div></div>
+            </div>
+            <div class="feature">
+              <div class="ic"><i class="fa-solid fa-hand-holding-heart"></i></div>
+              <div><strong>Misyon</strong><div>Ulaşılabilir, şefkatli ve bilimsel bakım</div></div>
+            </div>
           </div>
-          <div class="quick-title">ELÇİ TV</div>
-        </a>
+        </div>
+      </div><!-- /about-wrap -->
+    </div>
+  </section>
 
-        <a href="/contact.html#konum" class="quick-link">
-          <div class="quick-icon">
-            <i class="fa-solid fa-phone-alt"></i>
+  <!-- BAŞARI İSTATİSTİKLERİ (Animasyonlu) -->
+  <section class="metrics" id="basarilar">
+    <div class="container">
+      <div class="section-title">
+        <h2>Kliniğimizin Başarıları</h2>
+        <p>Hasta sahipleri için güncel ve anlaşılır klinik performans verileri.</p>
+      </div>
+
+      <div class="metrics-grid" id="metricsGrid">
+        <!-- data-value alanları düzenlenebilir -->
+        <article class="m-card" data-kind="kpi" data-suffix=" dk" data-progress="80" data-value="12">
+          <div class="m-head">
+            <div class="m-title">Ortalama Bekleme Süresi</div>
+            <span class="m-ico" aria-hidden="true"><i class="fa-regular fa-clock"></i></span>
           </div>
-          <div class="quick-title">İLETİŞİM</div>
-        </a>
+          <div><span class="m-num">0</span><span class="m-unit"> dk</span></div>
+          <div class="m-progress"><div class="m-bar"></div></div>
+        </article>
+
+        <article class="m-card" data-kind="kpi" data-suffix=" vaka" data-progress="60" data-value="420">
+          <div class="m-head">
+            <div class="m-title">Bu Ay Sonuçlandırılan Vaka</div>
+            <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-clipboard-check"></i></span>
+          </div>
+          <div><span class="m-num">0</span><span class="m-unit"> vaka</span></div>
+          <div class="m-progress"><div class="m-bar"></div></div>
+        </article>
+
+        <article class="m-card" data-kind="donut" data-suffix="%" data-value="86">
+          <div class="m-head">
+            <div class="m-title">Aşı Programı Tamamlama</div>
+            <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-syringe"></i></span>
+          </div>
+          <div class="m-donut">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <defs><linearGradient id="m-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0%"/><stop offset="100%"/></linearGradient></defs>
+              <circle class="m-bg" cx="60" cy="60" r="48" fill="none" stroke="#e6f0f1" stroke-width="12"/>
+              <circle class="m-fg" cx="60" cy="60" r="48" fill="none" stroke="url(#m-grad)" stroke-width="12" stroke-dasharray="301.59" stroke-dashoffset="301.59" stroke-linecap="round"/>
+              <text x="60" y="66" text-anchor="middle" font-weight="800" font-size="22" fill="var(--brand)">0%</text>
+            </svg>
+          </div>
+        </article>
+
+        <article class="m-card" data-kind="gauge" data-max="5" data-value="4.8">
+          <div class="m-head">
+            <div class="m-title">Memnuniyet Skoru</div>
+            <span class="m-ico" aria-hidden="true"><i class="fa-regular fa-face-smile"></i></span>
+          </div>
+          <div class="m-gauge">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <defs><linearGradient id="m-grad2" x1="0" x2="1" y1="0" y2="1"><stop offset="0%"/><stop offset="100%"/></linearGradient></defs>
+              <circle class="m-bg" cx="60" cy="60" r="48" fill="none" stroke="#e6f0f1" stroke-width="12" stroke-dasharray="226.19" transform="rotate(135 60 60)"/>
+              <circle class="m-fg" cx="60" cy="60" r="48" fill="none" stroke="url(#m-grad2)" stroke-width="12" stroke-dasharray="226.19" stroke-dashoffset="226.19" transform="rotate(135 60 60)" stroke-linecap="round"/>
+              <text x="60" y="66" text-anchor="middle" font-weight="800" font-size="20" fill="var(--brand)">0/5</text>
+            </svg>
+          </div>
+        </article>
+
+        <article class="m-card" data-kind="kpi" data-suffix="%" data-progress="93" data-value="92">
+          <div class="m-head">
+            <div class="m-title">İlk Ziyarette Çözüm</div>
+            <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-check-double"></i></span>
+          </div>
+          <div><span class="m-num">0</span><span class="m-unit">%</span></div>
+          <div class="m-progress"><div class="m-bar"></div></div>
+        </article>
+
+        <article class="m-card" data-kind="kpi" data-suffix=" dk" data-progress="80" data-value="45">
+          <div class="m-head">
+            <div class="m-title">Laboratuvar Sonuç Süresi</div>
+            <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-flask"></i></span>
+          </div>
+          <div><span class="m-num">0</span><span class="m-unit"> dk</span></div>
+          <div class="m-progress"><div class="m-bar"></div></div>
+        </article>
+
+        <article class="m-card" data-kind="kpi" data-suffix=" hayvan" data-progress="50" data-value="150">
+          <div class="m-head">
+            <div class="m-title">El Uzattığımız Hayvanlar</div>
+            <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-hand-holding-heart"></i></span>
+          </div>
+          <div><span class="m-num">0</span><span class="m-unit"> hayvan</span></div>
+          <div class="m-progress"><div class="m-bar"></div></div>
+        </article>
+
+        <article class="m-card" data-kind="kpi" data-suffix=" gün" data-progress="70" data-value="6">
+          <div class="m-head">
+            <div class="m-title">İyileşme Süresi Ortalama</div>
+            <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-heart-pulse"></i></span>
+          </div>
+          <div><span class="m-num">0</span><span class="m-unit"> gün</span></div>
+          <div class="m-progress"><div class="m-bar"></div></div>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- ===== HİZMETLER — ÖNE ÇIKAN + DİĞERLERİ (JSON ile) ===== -->
-  <section id="services" class="services"
-           data-json="/assets/data/services.json"
-           data-limit="6"
-           data-mode="split">
+  <!-- EKİP -->
+  <section id="ekibimiz" class="section">
     <div class="container">
-      <h2>Hizmetlerimiz</h2>
-
-      <!-- JSON ile doldurulacak -->
-      <div class="services-grid" id="servicesFeatured" aria-label="Öne Çıkan Hizmetler"></div>
-
-      <!-- Kalanlar için yatay şerit -->
-      <div class="services-more" id="servicesMoreWrap" style="display:none">
-        <div class="services-more-head">
-          <h3>Diğer Hizmetler</h3>
-          <div class="more-controls">
-            <button class="scroll-btn" id="svcPrev" aria-label="Sola kaydır"><i class="fa-solid fa-chevron-left"></i></button>
-            <button class="scroll-btn" id="svcNext" aria-label="Sağa kaydır"><i class="fa-solid fa-chevron-right"></i></button>
-          </div>
-        </div>
-        <div class="services-track-wrap">
-          <div class="services-track" id="servicesTrack" aria-label="Kaydırılabilir hizmet listesi"></div>
-        </div>
+      <div class="section-title">
+        <h2>Uzman Ekibimiz</h2>
+        <p>Deneyimli hekimler, koordineli ekip</p>
       </div>
 
-      <div class="cta-bar" style="margin-top:24px">
-        <strong>Evcil dostunuz için hızlı randevu alın.</strong>
+      <div class="team-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+        <article class="member" style="background:#fff;border:1px solid #e9f1f2;border-radius:16px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.04)">
+          <div class="ph" style="aspect-ratio:4/3;background:#f3f7f8"><img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=60" alt="Dr. Ayşe Yılmaz" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy" decoding="async"></div>
+          <div class="info" style="padding:14px">
+            <div class="role" style="font-weight:700;margin-bottom:4px">Cerrahi Uzmanı</div>
+            <h3>Dr. Ayşe Yılmaz</h3>
+            <p>12 yıllık deneyimle yumuşak doku ve ortopedi ameliyatları.</p>
+          </div>
+        </article>
+
+        <article class="member" style="background:#fff;border:1px solid #e9f1f2;border-radius:16px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.04)">
+          <div class="ph" style="aspect-ratio:4/3;background:#f3f7f8"><img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=900&q=60" alt="Dr. Mehmet Kaya" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy" decoding="async"></div>
+          <div class="info" style="padding:14px">
+            <div class="role" style="font-weight:700;margin-bottom:4px">İç Hastalıkları Uzmanı</div>
+            <h3>Dr. Mehmet Kaya</h3>
+            <p>Endokrinoloji, gastroenteroloji ve tanısal süreç yönetimi.</p>
+          </div>
+        </article>
+
+        <article class="member" style="background:#fff;border:1px solid #e9f1f2;border-radius:16px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.04)">
+          <div class="ph" style="aspect-ratio:4/3;background:#f3f7f8"><img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=900&q=60" alt="Dr. Zeynep Demir" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy" decoding="async"></div>
+          <div class="info" style="padding:14px">
+            <div class="role" style="font-weight:700;margin-bottom:4px">Dermatoloji &amp; Diş</div>
+            <h3>Dr. Zeynep Demir</h3>
+            <p>Periodontal tedavi, diş çekimi ve deri hastalıkları.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="cta" style="background:#e9f4f5;border:1px dashed #a8cacc;border-radius:16px;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px;margin-top:14px">
+        <strong>Uygun hekimle randevunuzu planlayalım.</strong>
         <div>
           <a class="btn" href="/hizmetler.html">Tüm Hizmetler</a>
-          <a class="btn primary" href="/contact.html">Randevu Al</a>
+          <a class="btn primary" href="/hasta-iliskileri.html#online-randevu">Randevu Al</a>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- FALLBACK (kısaltılmış örnek) -->
-      <template id="services-fallback">
-        <div class="services-grid">
-          <article class="s-card" id="acil">
-            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-shield-cross"/></svg></span>
-            <h3 class="s-title">Acil &amp; Yoğun Bakım</h3>
-            <p class="s-text">Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat izlem.</p>
-            <a class="s-link" href="/hizmetler.html#acil">Detaylı Bilgi</a>
-          </article>
-          <article class="s-card" id="koruyucu">
-            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-stethoscope"/></svg></span>
-            <h3 class="s-title">Muayene &amp; Koruyucu</h3>
-            <p class="s-text">Aşı planı, parazit kontrolü, mikroçip ve check-up.</p>
-            <a class="s-link" href="/hizmetler.html#koruyucu">Detaylı Bilgi</a>
-          </article>
-          <article class="s-card" id="goruntuleme-lab">
-            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-xray"/></svg></span>
-            <h3 class="s-title">Görüntüleme &amp; Lab</h3>
-            <p class="s-text">Röntgen, ultrason, FAST, EKG, sitoloji ve hızlı testler.</p>
-            <a class="s-link" href="/hizmetler.html#goruntuleme-lab">Detaylı Bilgi</a>
-          </article>
+  <!-- KLİNİK -->
+  <section id="klinik" class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Kliniğimiz</h2>
+        <p>Modern teknoloji ve hayvan dostu tasarım</p>
+      </div>
+
+      <div class="clinic-wrap" style="display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center">
+        <div>
+          <h3>Konya’da Güvenilir Sağlık Merkezi</h3>
+          <p>300 m² alanda; dijital röntgen, ultrason, laboratuvar ve tam donanımlı ameliyathane ile hizmet veriyoruz.</p>
+          <div class="clinic-list" style="margin-top:12px;display:grid;gap:10px">
+            <span class="pill" style="display:inline-flex;gap:10px;align-items:center;background:#fbfefe;border:1px solid #e6f1f2;padding:10px 12px;border-radius:999px;width:max-content"><i class="fa-solid fa-x-ray"></i> Dijital Röntgen</span>
+            <span class="pill" style="display:inline-flex;gap:10px;align-items:center;background:#fbfefe;border:1px solid #e6f1f2;padding:10px 12px;border-radius:999px;width:max-content"><i class="fa-solid fa-heart-pulse"></i> Oksijen Kafesi</span>
+            <span class="pill" style="display:inline-flex;gap:10px;align-items:center;background:#fbfefe;border:1px solid #e6f1f2;padding:10px 12px;border-radius:999px;width:max-content"><i class="fa-solid fa-microscope"></i> Hızlı Kan Tahlili</span>
+            <span class="pill" style="display:inline-flex;gap:10px;align-items:center;background:#fbfefe;border:1px solid #e6f1f2;padding:10px 12px;border-radius:999px;width:max-content"><i class="fa-solid fa-bed-pulse"></i> Yoğun Bakım İzlem</span>
+          </div>
         </div>
-      </template>
-    </div>
-  </section>
-
-  <!-- ===== INSTAGRAM ===== -->
-  <section id="insta" data-json="/assets/data/instagram.json" data-fn="/.netlify/functions/instagram">
-    <div class="container">
-      <div class="insta-head">
-        <h2>Instagram’dan</h2>
-      </div>
-      <div class="insta-track-wrap">
-        <div class="insta-track" id="instaTrack" aria-live="polite"></div>
+        <figure class="about-img">
+          <img src="https://images.unsplash.com/photo-1583336663277-620dc1996580?auto=format&fit=crop&w=1200&q=70" alt="Elçi Veteriner Kliniği — Modern alanlar" loading="lazy" decoding="async">
+        </figure>
       </div>
     </div>
   </section>
 
-  <!-- ===== GOOGLE REVIEWS ===== -->
-  <section id="reviews" data-json="/assets/data/reviews.json">
+  <!-- MİSYON & VİZYON -->
+  <section id="misyon-vizyon" class="section">
     <div class="container">
-      <h2>Google Yorumları</h2>
-      <div class="review-grid" id="reviewGrid" aria-live="polite"></div>
-    </div>
-  </section>
+      <div class="section-title">
+        <h2>Misyon &amp; Vizyon</h2>
+        <p>İlkelerimiz ve hedeflerimiz</p>
+      </div>
 
-  <!-- ===== BLOG ===== -->
-  <section id="blog" data-json="/assets/data/blog.json">
-    <div class="container">
-      <h2>Blogdan</h2>
-      <div class="blog-grid" id="blogGrid"></div>
-      <div style="margin-top:10px">
-        <a class="btn" href="/blog.html">Tüm Yazılar</a>
+      <div class="mv-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="mv-card" style="background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;box-shadow:0 8px 20px rgba(0,0,0,.04);text-align:center">
+          <i class="fa-solid fa-bullseye" style="color:var(--icon-ink);font-size:32px;margin-bottom:8px"></i>
+          <h3>Misyonumuz</h3>
+          <p>Hayvan refahını önceleyen, bilimsel ve şeffaf tedavi yaklaşımı ile güven vermek.</p>
+        </div>
+        <div class="mv-card" style="background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;box-shadow:0 8px 20px rgba(0,0,0,.04);text-align:center">
+          <i class="fa-solid fa-eye" style="color:var(--icon-ink);font-size:32px;margin-bottom:8px"></i>
+          <h3>Vizyonumuz</h3>
+          <p>Uluslararası standartlarda yenilikçi veterinerlik uygulamalarında öncü olmak.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== YOUTUBE ===== -->
-  <section id="youtube" data-fn="/.netlify/functions/youtube-latest?limit=9" data-youtube-ids="">
+  <!-- DEĞERLER -->
+  <section id="degerler" class="section">
     <div class="container">
-      <h2>YouTube</h2>
-      <div class="yt-strip" id="ytStrip"></div>
+      <div class="section-title">
+        <h2>Değerlerimiz</h2>
+        <p>Güven, şeffaflık ve sürekli gelişim</p>
+      </div>
+
+      <div class="values-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+        <div class="value" style="position:relative;background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.04)">
+          <div class="vi" style="width:56px;height:56px;border-radius:50%;margin:0 auto 10px;background:#e7f3f4;color:var(--icon-ink);display:flex;align-items:center;justify-content:center;font-size:22px"><i class="fa-solid fa-heart"></i></div>
+          <h3>Hayvan Sevgisi</h3>
+          <p>Her hastaya şefkatli ve saygılı yaklaşım.</p>
+        </div>
+        <div class="value" style="position:relative;background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.04)">
+          <div class="vi" style="width:56px;height:56px;border-radius:50%;margin:0 auto 10px;background:#e7f3f4;color:var(--icon-ink);display:flex;align-items:center;justify-content:center;font-size:22px"><i class="fa-solid fa-hand-holding-medical"></i></div>
+          <h3>Profesyonellik</h3>
+          <p>Güncel protokoller, kanıta dayalı tedavi.</p>
+        </div>
+        <div class="value" style="position:relative;background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.04)">
+          <div class="vi" style="width:56px;height:56px;border-radius:50%;margin:0 auto 10px;background:#e7f3f4;color:var(--icon-ink);display:flex;align-items:center;justify-content:center;font-size:22px"><i class="fa-solid fa-shield-dog"></i></div>
+          <h3>Güvenilirlik</h3>
+          <p>Şeffaf iletişim, net bilgilendirme.</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- ===== FAQ ===== -->
-  <section id="faq">
+  <!-- HASTA YAKINI GÖRÜŞLERİ -->
+  <section class="js-reviews section" id="hasta-yakini-gorusleri" data-json="/assets/data/reviews.json" data-count="3" data-interval="9000">
     <div class="container">
-      <h2>Sık Sorulan Sorular</h2>
-      <details class="faq"><summary>Acil durumlarda ne yapmalıyım?</summary><p>Önce 0332 322 32 20 numarasını arayın. Ekibimiz yönlendirsin; güvenli taşıma için kedi/köpek taşıma çantası öneririz.</p></details>
-      <details class="faq"><summary>Randevu gerekli mi?</summary><p>Genel muayene için randevu önerilir; acil vakalarda 7/24 kabulümüz vardır.</p></details>
-      <details class="faq"><summary>Hangi aşıları yapıyorsunuz?</summary><p>Karma, kuduz, lösemi (kediler), parvovirüs ve diğer koruyucu aşılar. Plan kişiselleştirilir.</p></details>
+      <div class="section-title">
+        <h2>Hasta Yakını Görüşleri</h2>
+        <p>Google yorumlarından seçkiler</p>
+      </div>
+      <div class="review-grid" aria-live="polite"></div>
     </div>
   </section>
 
-  <!-- ===== FOOTER ===== -->
+  <!-- FOOTER -->
   <footer class="footer-new">
     <div class="container footer-container">
       <div class="footer-col">
@@ -677,7 +635,7 @@
     </div>
   </footer>
 
-  <!-- ===== Schema.org ===== -->
+  <!-- Schema -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -691,303 +649,130 @@
   }
   </script>
 
-  <!-- ===== Ana JS (cache-bust ile) ===== -->
-  <script defer src="/assets/js/main.js?v=20251106"></script>
+  <!-- Ana JS -->
+  <script defer src="/assets/js/main.js?v=17.1"></script>
 
-  <!-- ===== Başlangıç JS ===== -->
+  <!-- Footer yılı (garanti) -->
+  <script>document.getElementById('yil')?.append(new Date().getFullYear());</script>
+
+  <!-- Reviews 3'lü mini fallback (main.js olmasa da çalışır) -->
   <script>
-    window.addEventListener('DOMContentLoaded', function(){
-      const y=document.getElementById('yil'); if(y) y.textContent=new Date().getFullYear();
-
-      // Mobil menü
-      const btn=document.getElementById('mobileMenuBtn'); 
-      const menu=document.getElementById('mainMenu');
-      if(btn && menu){
-        const toggleMenu = (state) => {
-          menu.classList.toggle('show', state);
-          document.body.classList.toggle('menu-open', state);
-        };
-        btn.addEventListener('click', ()=> toggleMenu(!menu.classList.contains('show')));
-        menu.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> toggleMenu(false)));
+    (function(){
+      const sec = document.querySelector('.js-reviews#hasta-yakini-gorusleri'); if(!sec) return;
+      const grid = sec.querySelector('.review-grid'); if(!grid) return;
+      if (grid.dataset.inited) return; grid.dataset.inited = "1";
+      const src = sec.getAttribute('data-json') || '/assets/data/reviews.json';
+      const visible = Math.max(1, Number(sec.getAttribute('data-count')) || 3);
+      const interval = Math.max(3000, Number(sec.getAttribute('data-interval')) || 9000);
+      function stars(n){ const v = Math.round(Math.max(0, Math.min(5, Number(n)||5)));
+        return '<div class="stars" aria-label="'+v+' yıldız">'+Array.from({length:5}).map((_,i)=>'<span class="s" aria-hidden="true">'+(i<v?'★':'☆')+'</span>').join('')+'</div>'; }
+      function card(item){
+        const text=(item.text||item.review_text||item.comment||"").toString().trim();
+        const author=(item.author||item.author_name||item.name||"Ziyaretçi").toString().trim();
+        const rating=item.rating||item.stars||5; const when=(item.time||item.relative_time_description||item.date||"").toString().trim();
+        return `<article class="review-card visible" role="article">${stars(rating)}<p class="review-text">${text}</p><div class="review-author">— ${author}</div>${when?`<div class="review-meta">${when}</div>`:``}</article>`;
       }
-
-      // "Diğer Hizmetler" yatay kaydırma
-      const track=document.getElementById('servicesTrack');
-      const prev=document.getElementById('svcPrev');
-      const next=document.getElementById('svcNext');
-      if(track && prev && next){
-        const slideBy = () => Math.max(track.clientWidth * 0.95, 300);
-        prev.addEventListener('click', ()=> track.scrollBy({left: -slideBy(), behavior:'smooth'}));
-        next.addEventListener('click', ()=> track.scrollBy({left:  slideBy(), behavior:'smooth'}));
-        track.setAttribute('tabindex','0');
-        track.addEventListener('keydown', (e)=>{
-          const by = slideBy();
-          if (e.key === 'ArrowLeft') { e.preventDefault(); track.scrollBy({left:-by, behavior:'smooth'}); }
-          if (e.key === 'ArrowRight'){ e.preventDefault(); track.scrollBy({left: by, behavior:'smooth'}); }
-        });
-      }
-    });
+      fetch(src,{cache:'no-cache'}).then(r=>r.ok?r.json():[]).then(j=>{
+        const all = Array.isArray(j)?j:(j?.items||j?.data||[]);
+        if(!Array.isArray(all)||!all.length){ grid.innerHTML='<p class="muted">Henüz yorum eklenmedi.</p>'; return; }
+        let idx=0; function render(){ const chunk=[]; for(let i=0;i<visible;i++){ chunk.push(all[(idx+i)%all.length]); }
+          grid.innerHTML = chunk.map(card).join(''); idx=(idx+visible)%all.length; }
+        render(); if(all.length>visible) setInterval(render, interval);
+      }).catch(()=>{ grid.innerHTML='<p class="muted">Yorumlar yüklenemedi.</p>'; });
+    })();
   </script>
 
-  <!-- ===== ELÇİ — Hizmet Yükleyici v2 ===== -->
+  <!-- Metrics animasyonu (donut, gauge, kpi) -->
   <script>
-  (function(){
-    const qS = (sel,root=document)=>root.querySelector(sel);
-    const qSA= (sel,root=document)=>Array.from(root.querySelectorAll(sel));
-    const iconHTML = (icon)=>{
-      if(!icon) return `<svg viewBox="0 0 24 24"><use href="#i-article"/></svg>`;
-      if(icon.startsWith('#i-')) return `<svg viewBox="0 0 24 24"><use href="${icon}"/></svg>`;
-      if(icon.startsWith('i-'))  return `<svg viewBox="0 0 24 24"><use href="#${icon}"/></svg>`;
-      if(icon.includes('fa-'))   return `<i class="${icon}" aria-hidden="true"></i>`;
-      return `<svg viewBox="0 0 24 24"><use href="#i-article"/></svg>`;
-    };
-    const card = (it)=>`
-      <article class="s-card" ${it.id?`id="${it.id}"`:''}>
-        <span class="s-icon" aria-hidden="true">${iconHTML(it.icon||'')}</span>
-        <h3 class="s-title">${(it.title||'Hizmet')}</h3>
-        <p class="s-text">${(it.summary||it.text||'')}</p>
-        <a class="s-link" href="${it.href || (it.id?('#'+it.id):'#')}">Detaylı Bilgi</a>
-      </article>`;
-
-    /* === INDEX MODU === */
     (function(){
-      const host = qS('#services');
-      if(!host) return;
+      const root = document.getElementById('metricsGrid'); if(!root) return;
+      const cards = Array.from(root.querySelectorAll('.m-card'));
+      const donutCirc = 2 * Math.PI * 48; // 301.59
+      const gaugeArc = 226.19;            // 270°
 
-      const url   = host.getAttribute('data-json') || '/assets/data/services.json';
-      const limit = parseInt(host.getAttribute('data-limit')||'0',10) || 0;
-      const mode  = (host.getAttribute('data-mode')||'split').toLowerCase();
-
-      const featuredWrap = qS('#servicesFeatured');
-      const moreWrap     = qS('#servicesMoreWrap');
-      const moreTrack    = qS('#servicesTrack');
-
-      const statusBadge = document.createElement('div');
-      statusBadge.style.cssText = "display:none; margin:10px 0 0; padding:6px 10px; font-size:12px; border:1px solid var(--line); border-radius:10px; background:#fff;";
-      statusBadge.setAttribute('aria-live','polite');
-      host.querySelector('.container')?.insertBefore(statusBadge, host.querySelector('.container').firstChild);
-
-      function wireScroll(){
-        if(!moreWrap || !moreTrack) return;
-        const prev=qS('#svcPrev'), next=qS('#svcNext');
-        const by = ()=> Math.max(moreTrack.clientWidth*0.95, 300);
-        prev && prev.addEventListener('click', ()=> moreTrack.scrollBy({left:-by(), behavior:'smooth'}));
-        next && next.addEventListener('click', ()=> moreTrack.scrollBy({left: by(), behavior:'smooth'}));
-        moreTrack.setAttribute('tabindex','0');
-        moreTrack.addEventListener('keydown', (e)=>{
-          const d = by();
-          if(e.key==='ArrowLeft'){ e.preventDefault(); moreTrack.scrollBy({left:-d, behavior:'smooth'}); }
-          if(e.key==='ArrowRight'){ e.preventDefault(); moreTrack.scrollBy({left: d, behavior:'smooth'}); }
-        });
-      }
-      function renderFallback(reason){
-        const t = qS('#services-fallback');
-        if(!t){ showStatus(`⚠️ JSON yüklenemedi (${reason}). Fallback kartlar yok.`); return; }
-        const frag = t.content.cloneNode(true);
-        const tempGrid = frag.querySelector('.services-grid');
-        const tempMore = frag.querySelector('.services-more');
-        if(featuredWrap && tempGrid) { featuredWrap.replaceWith(tempGrid); }
-        if(moreWrap && tempMore)     { moreWrap.replaceWith(tempMore); }
-        showStatus(`ℹ️ Fallback aktif: ${reason}.`);
-      }
-      function showStatus(msg){
-        statusBadge.textContent = msg;
-        statusBadge.style.display = 'inline-block';
-        console.warn('[services:index]', msg);
+      function count(el, to, suffix){
+        const num = el.querySelector('.m-num'); if(!num) return;
+        const unit = el.querySelector('.m-unit'); if(unit && suffix) unit.textContent = ' ' + suffix.trim();
+        const start = 0; const end = Number(to)||0; const dur = 1200; const t0 = performance.now();
+        function step(t){
+          const k = Math.min(1, (t - t0)/dur);
+          const v = Math.round(start + (end - start)*k);
+          num.textContent = v.toString();
+          if(k<1) requestAnimationFrame(step);
+        } requestAnimationFrame(step);
       }
 
-      /* CACHE PATCH: no-store yok */
-      fetch(url)
-        .then(r => r.ok ? r.json() : Promise.reject('HTTP '+r.status))
-        .then(json=>{
-          const list = Array.isArray(json?.items) ? json.items.slice() : [];
-          if(!list.length){ renderFallback('liste boş'); return; }
-          const h2 = host.querySelector('h2');
-          if(json.title && h2) h2.textContent = json.title;
-
-          if(mode==='all' || !limit){
-            featuredWrap && (featuredWrap.innerHTML = list.map(card).join(''));
-            moreWrap && (moreWrap.style.display='none');
-            showStatus(`✅ ${list.length} hizmet yüklendi (ALL).`);
-            return;
+      function animateCard(card){
+        const kind = card.dataset.kind || 'kpi';
+        if(kind === 'kpi'){
+          const suffix = (card.dataset.suffix||'').trim();
+          const val = card.dataset.value || '0';
+          const bar = card.querySelector('.m-bar');
+          const prog = Math.max(0, Math.min(100, Number(card.dataset.progress)||0));
+          setTimeout(()=>{ if(bar) bar.style.width = prog + '%'; }, 100);
+          count(card, val, suffix);
+        }
+        if(kind === 'donut'){
+          const val = Math.max(0, Math.min(100, Number(card.dataset.value)||0));
+          const fg = card.querySelector('.m-fg');
+          const txt = card.querySelector('text');
+          if(fg){
+            const target = donutCirc * (1 - val/100);
+            fg.style.transition = 'stroke-dashoffset 1s ease';
+            requestAnimationFrame(()=>{ fg.style.strokeDashoffset = String(target); });
           }
-
-          const first = list.slice(0, limit);
-          const rest  = list.slice(limit);
-          featuredWrap && (featuredWrap.innerHTML = first.map(card).join(''));
-          if(rest.length && moreWrap && moreTrack){
-            moreTrack.innerHTML = rest.map(card).join('');
-            moreWrap.style.display='block';
-            wireScroll();
-            showStatus(`✅ ${first.length}+${rest.length} hizmet yüklendi (SPLIT).`);
-          }else{
-            moreWrap && (moreWrap.style.display='none');
-            showStatus(`✅ ${first.length} hizmet yüklendi (SPLIT, kalan yok).`);
+          if(txt){
+            const t0 = performance.now(); const dur = 1000;
+            (function step(t){
+              const k = Math.min(1, (t - t0)/dur); const v = Math.round(val*k);
+              txt.textContent = v + '%'; if(k<1) requestAnimationFrame(step);
+            })(t0);
           }
-        })
-        .catch(err => renderFallback(String(err)));
-    })();
-
-    /* === HİZMETLER SAYFASI MODU (varsa) === */
-    (function(){
-      const sectionsWrap = qS('#svcSections');
-      if(!sectionsWrap) return;
-
-      const toc       = qS('#svcToc');
-      const chipBar   = qS('#chipBar');
-      const searchBox = qS('#svcSearch');
-      const fallback  = qS('#svcFallback');
-
-      const paths = ['/assets/data/services.json','/assets/data/servis.json','/assets/data/service.json'];
-      let items = [], categories = [], activeCat = 'Tümü', q = '';
-
-      const status = document.createElement('div');
-      status.style.cssText="margin:8px 0 0; padding:6px 10px; font-size:12px; border:1px solid var(--line); border-radius:10px; background:#fff;";
-      sectionsWrap.before(status);
-
-      const pick=(o,...keys)=>{ for(const k of keys){ if(o && o[k]!=null) return o[k]; } };
-      const norm=(maybe)=>Array.isArray(maybe)?maybe:(Array.isArray(maybe?.items)?maybe.items:[]);
-
-      const cardHTML = (it)=>{
-        const id   = pick(it,'id','slug','anchor');
-        const href = it.href || (id?('#'+id):'#');
-        const ttl  = pick(it,'title','baslik','name') || 'Hizmet';
-        const sum  = pick(it,'summary','ozet','text','aciklama') || '';
-        const icon = pick(it,'icon','ikon') || '#i-clipboard';
-        const iconStr = iconHTML(icon);
-        return `
-          <article class="s-card" ${id?`id="${id}"`:''}>
-            <span class="s-icon" aria-hidden="true">${iconStr}</span>
-            <div class="s-body">
-              <h3 class="s-title">${ttl}</h3>
-              <p class="s-text">${sum}</p>
-              <a class="s-link" href="${href}">Detaylı Bilgi</a>
-            </div>
-          </article>`;
-      };
-
-      function buildCats(){ categories = ['Tümü', ...new Set(items.map(i => (pick(i,'category','kategori') || 'Diğer').trim()))]; }
-      const anchor = (c)=>'cat-'+c.toLowerCase().replace(/\s+/g,'-').replace(/[^\w\-]+/g,'');
-
-      function renderTOC(){
-        if(!toc) return;
-        toc.innerHTML = categories.map((c,i)=>`
-          <li><a href="#${anchor(c)}" class="${i===0?'active':''}" data-cat="${c}"><i class="fa-regular fa-folder-open"></i> <span>${c}</span></a></li>`).join('');
-        qSA('a',toc).forEach(a=>a.addEventListener('click',()=>{
-          qSA('a',toc).forEach(x=>x.classList.remove('active'));
-          a.classList.add('active'); activeCat = a.dataset.cat;
-        }));
+        }
+        if(kind === 'gauge'){
+          const val = Number(card.dataset.value) || 0;
+          const max = Number(card.dataset.max) || 5;
+          const pct = Math.max(0, Math.min(1, val/max));
+          const fg = card.querySelector('.m-fg');
+          const txt = card.querySelector('text');
+          if(fg){
+            const target = gaugeArc * (1 - pct);
+            fg.style.transition = 'stroke-dashoffset 1s ease';
+            requestAnimationFrame(()=>{ fg.style.strokeDashoffset = String(target); });
+          }
+          if(txt){
+            const t0 = performance.now(); const dur = 1000;
+            (function step(t){
+              const k = Math.min(1, (t - t0)/dur);
+              const v = (val * k).toFixed(1);
+              txt.textContent = v + '/' + max;
+              if(k<1) requestAnimationFrame(step);
+            })(t0);
+          }
+        }
       }
-      function renderChips(){
-        if(!chipBar) return;
-        chipBar.innerHTML = categories.map(c=>`<button class="chip ${c===activeCat?'active':''}" data-cat="${c}">${c}</button>`).join('');
-        qSA('.chip',chipBar).forEach(btn=>btn.addEventListener('click',()=>{
-          activeCat = btn.dataset.cat; renderAll();
-          const t = document.getElementById(anchor(activeCat)); if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
-        }));
-      }
-      function filtered(list){
-        return list.filter(it=>{
-          const cat = (pick(it,'category','kategori') || 'Diğer');
-          const okC = (activeCat==='Tümü') || (cat===activeCat);
-          const ttl = (pick(it,'title','baslik','name')||'').toLowerCase();
-          const sum = (pick(it,'summary','ozet','text','aciklama')||'').toLowerCase();
-          const okQ = !q || ttl.includes(q) || sum.includes(q);
-          return okC && okQ;
+
+      const io = ('IntersectionObserver' in window) ? new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            e.target.classList.add('show');
+            animateCard(e.target);
+            io.unobserve(e.target);
+          }
         });
-      }
-      function renderSections(){
-        const groups={}; (activeCat==='Tümü' ? categories.slice(1) : [activeCat]).forEach(c=>groups[c]=[]);
-        items.forEach(it=>{ const c=(pick(it,'category','kategori')||'Diğer'); if(groups[c]!==undefined) groups[c].push(it); });
+      }, {threshold:.2}) : null;
 
-        let html='', cats=(activeCat==='Tümü'?Object.keys(groups):[activeCat]);
-        cats.forEach(c=>{
-          const list=filtered(groups[c]); if(!list.length) return;
-          html+=`<section class="svc-section" id="${anchor(c)}" aria-label="${c}">
-            <h2>${c}</h2><div class="services-grid">${list.map(cardHTML).join('')}</div></section>`;
-        });
-        if(!html){
-          html=`<section class="svc-section"><h2>Sonuç bulunamadı</h2><p class="muted">Anahtar sözcükleri kısaltarak tekrar deneyin.</p></section>`;
-        }
-        sectionsWrap.innerHTML = html;
-      }
-      function renderAll(){ renderChips(); renderSections(); }
-
-      searchBox && searchBox.addEventListener('input',e=>{ q=String(e.target.value||'').trim().toLowerCase(); renderSections(); });
-
-      (async function load(){
-        let data=null, ok=false, tried=[];
-        for(const p of paths){
-          try{
-            const r=await fetch(p);
-            tried.push(p+' → '+r.status);
-            if(!r.ok) continue;
-            data=await r.json(); ok=true; break;
-          }catch(e){ tried.push(p+' → ERR'); }
-        }
-        if(!ok){
-          status.textContent='⚠️ Hizmet JSON’u bulunamadı. Fallback gösteriliyor. (Denemeler: '+tried.join(' | ')+')';
-          const frag = fallback?.content?.cloneNode(true);
-          if(frag) sectionsWrap.replaceWith(frag);
-          return;
-        }
-        items = Array.isArray(data?.items) ? data.items : [];
-        if(!items.length){
-          status.textContent='⚠️ Hizmet listesi boş/şema farklı. Fallback gösteriliyor.';
-          const frag = fallback?.content?.cloneNode(true); if(frag) sectionsWrap.replaceWith(frag);
-          return;
-        }
-        status.textContent='✅ '+items.length+' hizmet yüklendi.';
-        buildCats(); renderTOC(); renderAll();
-      })();
+      cards.forEach(c=>{
+        if(io) io.observe(c);
+        else { c.classList.add('show'); animateCard(c); }
+      });
     })();
-  })();
   </script>
 
-  <!-- ===== SVG ICON SPRITE ===== -->
-  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden">
-    <defs><style>
-      .i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-      .i-solid{fill:currentColor;stroke:none}
-    </style></defs>
-
-    <symbol id="i-shield-cross" viewBox="0 0 24 24">
-      <path class="i" d="M12 3l7 3v5c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-3z"/><path class="i" d="M9 11h6M12 8v6"/>
-    </symbol>
-    <symbol id="i-calendar-check" viewBox="0 0 24 24">
-      <rect class="i" x="3" y="4" width="18" height="17" rx="2"/><path class="i" d="M16 2v4M8 2v4M3 9h18"/><path class="i" d="M9 14l2 2 4-4"/>
-    </symbol>
-    <symbol id="i-vial-check" viewBox="0 0 24 24">
-      <path class="i" d="M10 2h4v3l3 3v1l-8 8a4 4 0 0 1-6-6l8-8V2z"/><path class="i" d="M14.5 14.5l2 2 3.5-3.5"/>
-    </symbol>
-    <symbol id="i-youtube-play" viewBox="0 0 24 24">
-      <rect class="i" x="2" y="6" width="20" height="12" rx="3"/><path class="i" d="M10 9l6 3-6 3z"/>
-    </symbol>
-    <symbol id="i-location" viewBox="0 0 24 24">
-      <path class="i" d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"/><circle class="i" cx="12" cy="11" r="2.5"/>
-    </symbol>
-    <symbol id="i-ambulance" viewBox="0 0 24 24">
-      <rect class="i" x="3" y="7" width="13" height="10" rx="2"/><path class="i" d="M16 11h4l1 2v4h-5zM6 6l3-3h4v4H6z"/><circle class="i" cx="7.5" cy="18" r="1.5"/><circle class="i" cx="18.5" cy="18" r="1.5"/><path class="i" d="M8 10h4M10 8v4"/>
-    </symbol>
-
-    <symbol id="i-stethoscope" viewBox="0 0 24 24">
-      <path class="i" d="M6 4v7a4 4 0 1 0 8 0V4M6 8h8M18 6a3 3 0 0 1 0 6h-1a4 4 0 0 1-4 4h-1"/>
-    </symbol>
-    <symbol id="i-xray" viewBox="0 0 24 24">
-      <rect class="i" x="3" y="4" width="18" height="16" rx="2"/><path class="i" d="M7 8h10M7 12h10M7 16h6"/>
-    </symbol>
-    <symbol id="i-clipboard" viewBox="0 0 24 24">
-      <rect class="i" x="5" y="3" width="14" height="18" rx="2"/><path class="i" d="M9 3v2h6V3M8 9h8M8 13h8M8 17h6"/>
-    </symbol>
-    <symbol id="i-tooth-clean" viewBox="0 0 24 24">
-      <path class="i" d="M12 3c4 0 6 2.5 6 5.5S16 15 12 15s-6-3-6-6.5S8 3 12 3z"/><path class="i" d="M9 15c0 4 1 6 3 6s3-2 3-6"/>
-    </symbol>
-    <symbol id="i-article" viewBox="0 0 24 24">
-      <rect class="i" x="4" y="3" width="16" height="18" rx="2"/><path class="i" d="M7 8h10M7 12h10M7 16h7"/>
-    </symbol>
-    <symbol id="i-paw" viewBox="0 0 24 24">
-      <path class="i" d="M7.2 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM16.8 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM10.2 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM13.8 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM6.5 15.2c0-2.6 2.3-4.7 5.5-4.7s5.5 2.1 5.5 4.7c0 1.6-1.5 2.8-3.4 2.8-1 0-1.9-.3-2.1-.8-.3.5-1.1.8-2.1.8-1.9 0-3.4-1.2-3.4-2.8z"/>
-    </symbol>
+  <!-- SVG ICON SPRITE (gerekirse) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute; width:0; height:0; overflow:hidden">
+    <defs><style>.i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.i-solid{fill:currentColor;stroke:none}</style></defs>
+    <symbol id="i-paw" viewBox="0 0 24 24"><path class="i" d="M7.2 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM16.8 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM10.2 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM13.8 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM6.5 15.2c0-2.6 2.3-4.7 5.5-4.7s5.5 2.1 5.5 4.7c0 1.6-1.5 2.8-3.4 2.8-1 0-1.9-.3-2.1-.8-.3.5-1.1.8-2.1.8-1.9 0-3.4-1.2-3.4-2.8z"/></symbol>
   </svg>
 </body>
-</html>
+</html> 
