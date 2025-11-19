@@ -25,7 +25,7 @@
   <link rel="stylesheet" href="/assets/css/tokens.css?v=20251106"/>
   <link rel="stylesheet" href="/assets/css/styles.css?v=20251106"/>
 
-  <!-- Font Awesome (footer sosyal ikonları için) -->
+  <!-- Font Awesome (footer sosyal + hero ikonları için) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <!-- Sayfaya özgü küçük dokunuşlar -->
@@ -47,15 +47,15 @@
     .insta-head small, #youtube small{ display:none; }
   </style>
 
-  <!-- THEME OVERRIDE (Farabi tarzı hero + çizgisel quick-links) -->
+  <!-- THEME OVERRIDE (Mor tema + yeni hero) -->
   <style id="theme-elciKonya-override">
     :root{
       --brand:#5a1fa8; --brand2:#36106b; --accent:#27d4e8; --ink:#0f1b22; --muted:#5f6b74; --line:#e7edf1; --bg:#f7fbfc; --paper:#fff;
       --footer-start:#241043; --footer-end:#5a1fa8;
 
-      /* Farabi’deki teal–lacivert degrade */
-      --hero-start:#01566b;
-      --hero-end:#082338;
+      /* Hero degrade */
+      --hero-start:#5a1fa8;
+      --hero-end:#36106b;
 
       --icon-ink:#0a4f60;
       --icon-ink-hero:#e5fbff;
@@ -101,229 +101,295 @@
       text-shadow:0 1px 8px rgba(0,0,0,.3);
     }
 
-    /* ==== HERO (Farabi tarzı) ==== */
+    /* ==== HERO — Hizmet kartı stilinde, 2 kolon ==== */
     .hero{
       position:relative;
       padding-top:clamp(130px, 15vh, 165px);
-      padding-bottom:clamp(70px, 14vh, 110px);
+      padding-bottom:clamp(80px, 16vh, 130px);
       background:
         radial-gradient(1200px 520px at 50% -180px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
-        linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%);
+        linear-gradient(135deg, var(--hero-start) 0%, var(--hero-end) 100%);
       color:#fff;
-      text-align:center;
       overflow:hidden;
     }
-
-    .hero-center{
-      max-width:880px;
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255,255,255,.10) 0, transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(255,255,255,.12) 0, transparent 55%);
+      opacity:.6;
+      pointer-events:none;
+    }
+    .hero .container{
+      position:relative;
+      z-index:1;
+    }
+    .hero-content{
+      max-width:1200px;
       margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:40px;
+    }
+    @media(max-width:1100px){
+      .hero-content{
+        flex-direction:column;
+        text-align:center;
+      }
     }
 
-    .hero-icon{
+    .hero-main{
+      flex:1;
+      max-width:640px;
+    }
+
+    /* Logo satırı */
+    .hero-logo{
+      display:flex;
+      align-items:center;
       margin-bottom:22px;
+      gap:16px;
     }
-    .hero-icon .hero-logo{
-      width:86px;
-      height:86px;
-      border-radius:999px;
-      box-shadow:0 12px 38px rgba(0,0,0,.45);
-      object-fit:cover;
+    @media(max-width:1100px){
+      .hero-logo{
+        justify-content:center;
+      }
+    }
+    .logo-circle{
+      width:80px;
+      height:80px;
+      border-radius:50%;
+      background:rgba(255,255,255,0.20);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:2px solid rgba(255,255,255,0.30);
+      box-shadow:0 8px 24px rgba(0,0,0,0.30);
+      overflow:hidden;
+    }
+    .logo-circle img{
+      width:72px;
+      height:72px;
+      object-fit:contain;
+    }
+    .hero .logo-text h2{
+      font-size:1.9rem;
+      margin:0 0 4px;
+      font-weight:700;
+      letter-spacing:.02em;
+    }
+    .hero .logo-text p{
+      margin:0;
+      font-size:0.98rem;
+      opacity:.92;
     }
 
-    .hero h1{
-      margin:0;
-      font-size:clamp(32px,4vw,44px);
+    .hero-title{
+      font-size:clamp(2.4rem, 3.4vw, 3rem);
+      margin-bottom:16px;
       font-weight:800;
-      letter-spacing:.03em;
-      color:#fff;
+      line-height:1.18;
       text-shadow:0 3px 18px rgba(0,0,0,.35);
     }
-
-    .hero .hero-divider{
-      width:72px;
-      height:3px;
-      border-radius:999px;
-      margin:20px auto 16px;
-      background:rgba(255,255,255,.9);
-    }
-
-    .hero .hero-sub{
-      margin:0;
-      font-size:clamp(16px,2.1vw,19px);
-      color:#e7f6ff;
+    .hero-subtitle{
+      font-size:1.12rem;
+      margin-bottom:26px;
+      max-width:520px;
       opacity:.96;
+      line-height:1.6;
+    }
+    @media(max-width:1100px){
+      .hero-subtitle{
+        margin-left:auto;
+        margin-right:auto;
+      }
     }
 
-    .hero .hero-cta{
-      margin-top:26px;
+    .hero-cta{
+      display:flex;
+      gap:14px;
+      margin-bottom:32px;
+      flex-wrap:wrap;
+    }
+    @media(max-width:1100px){
+      .hero-cta{
+        justify-content:center;
+      }
+    }
+    @media(max-width:768px){
+      .hero-cta{
+        flex-direction:column;
+        align-items:center;
+      }
+      .hero-cta .btn{
+        width:100%;
+        max-width:280px;
+        justify-content:center;
+      }
+    }
+
+    .btn{
+      padding:12px 26px;
+      border-radius:999px;
+      font-weight:600;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      transition:all .22s ease;
+      border:none;
+      cursor:pointer;
+      font-size:.98rem;
+      box-shadow:0 4px 12px rgba(0,0,0,.22);
+    }
+    .btn i{
+      font-size:1rem;
+    }
+    .btn-primary{
+      background:#ffffff;
+      color:var(--brand);
+    }
+    .btn-secondary{
+      background:transparent;
+      color:#ffffff;
+      border:2px solid rgba(255,255,255,.55);
+      box-shadow:0 4px 12px rgba(0,0,0,.18);
+    }
+    .btn:hover{
+      transform:translateY(-3px);
+      box-shadow:0 8px 18px rgba(0,0,0,.30);
+    }
+    .btn:active{
+      transform:translateY(-1px);
+      box-shadow:0 4px 10px rgba(0,0,0,.22);
+    }
+
+    /* Hizmet kartı stilinde hızlı butonlar */
+    .service-quick-links{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:16px;
+      margin-top:6px;
+    }
+    @media(max-width:900px){
+      .service-quick-links{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+    }
+    @media(max-width:560px){
+      .service-quick-links{
+        grid-template-columns:1fr;
+      }
+    }
+
+    .service-quick-link{
+      background:rgba(255,255,255,0.14);
+      border-radius:16px;
+      padding:16px;
+      text-align:left;
+      transition:all .22s ease;
+      border:1px solid rgba(255,255,255,0.24);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      text-decoration:none;
+      color:#ffffff;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      min-height:96px;
+    }
+    @media(max-width:1100px){
+      .service-quick-link{
+        text-align:center;
+        align-items:center;
+      }
+    }
+    .service-quick-link:hover{
+      transform:translateY(-4px);
+      background:rgba(255,255,255,0.22);
+      box-shadow:0 10px 22px rgba(0,0,0,0.28);
+    }
+
+    .service-icon{
+      width:46px;
+      height:46px;
+      margin-bottom:4px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(135deg, var(--accent), var(--brand));
+      box-shadow:0 6px 16px rgba(0,0,0,0.28);
+      flex-shrink:0;
+    }
+    .service-icon i{
+      font-size:1.4rem;
+      color:#ffffff;
+    }
+    .service-title{
+      font-size:0.9rem;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .service-desc{
+      font-size:0.8rem;
+      opacity:.92;
+      line-height:1.4;
+    }
+
+    /* Sağ sütun görsel alanı */
+    .hero-image{
+      flex:1;
       display:flex;
       justify-content:center;
-      gap:14px;
+      align-items:center;
+    }
+    .illustration-placeholder{
+      width:380px;
+      max-width:100%;
+      height:380px;
+      background:linear-gradient(145deg, rgba(5,20,40,.55), rgba(15,40,75,.85));
+      border-radius:24px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      color:#ffffff;
+      box-shadow:0 18px 40px rgba(0,0,0,0.55);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      border:1px solid rgba(255,255,255,0.22);
+      padding:24px;
+      text-align:center;
+    }
+    .illustration-placeholder i{
+      font-size:4rem;
+      margin-bottom:18px;
+      color:rgba(255,255,255,0.86);
+    }
+    .illustration-placeholder p{
+      font-size:1.2rem;
+      font-weight:600;
+      margin-bottom:8px;
+    }
+    .illustration-placeholder small{
+      opacity:.9;
+      font-size:0.9rem;
+    }
+
+    @media(max-width:1100px){
+      .hero-image{
+        margin-top:24px;
+      }
     }
 
     body.menu-open { overflow: hidden; }
     @media (max-width: 992px){
       nav ul.show { box-shadow: 0 10px 28px rgba(0,0,0,.08); }
-    }
-
-    /* ==== QUICK-LINKS — Çizgisel Farabi tarzı, balonsuz ==== */
-
-    /* Önce tüm eski cam/balon efektlerini sıfırla */
-    .hero .quick-links,
-    .hero .quick-links *{
-      background:transparent !important;
-      border:none !important;
-      border-radius:0 !important;
-      box-shadow:none !important;
-      backdrop-filter:none !important;
-    }
-
-    .hero .quick-links{
-      position:relative;
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:52px;
-      max-width:1150px;
-      margin:52px auto 0;
-      padding-top:26px;
-    }
-
-    /* Üstteki ince çizgi */
-    .hero .quick-links::before{
-      content:"";
-      position:absolute;
-      left:-200px;
-      right:-200px;
-      top:0;
-      height:1px;
-      background:rgba(255,255,255,.32);
-      opacity:.9;
-    }
-
-    /* Tek tek butonlar */
-    .hero .quick-links .q{
-      position:relative;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:flex-start;
-      gap:10px;
-      padding:0;
-      margin:0;
-      min-width:auto;
-      color:#ffffff;
-      opacity:.9;
-      text-decoration:none;
-      transition:transform .18s ease, opacity .18s ease;
-    }
-
-    /* İkon alanı */
-    .hero .quick-links .q .s-icon{
-      width:64px;
-      height:64px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    .hero .quick-links .q svg{
-      width:44px;
-      height:44px;
-      stroke-width:1.8;
-    }
-
-    .hero .quick-links .q span:last-child{
-      margin-top:2px;
-      font-weight:700;
-      font-size:13px;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      color:#e9f6ff;
-      opacity:.96;
-      white-space:nowrap;
-    }
-
-    /* Hover: hafif yükselsin */
-    .hero .quick-links .q:hover{
-      transform:translateY(-4px);
-      opacity:1;
-    }
-
-    .hero .quick-links .q:hover svg{
-      transform:translateY(-2px);
-    }
-
-    /* Kartlar arasındaki 3 noktalı ayraç */
-    .hero .quick-links .q::after{
-      content:"";
-      position:absolute;
-      right:-26px;
-      top:50%;
-      transform:translateY(-50%);
-      width:3px;
-      height:3px;
-      border-radius:999px;
-      background:rgba(255,255,255,.40);
-      box-shadow:
-        0 7px 0 rgba(255,255,255,.30),
-        0 -7px 0 rgba(255,255,255,.30);
-    }
-    .hero .quick-links .q:last-child::after{
-      display:none;
-    }
-
-    /* Responsive ayarlar */
-    @media (max-width:1100px){
-      .hero .quick-links{
-        flex-wrap:wrap;
-        justify-content:center;
-        gap:32px;
-        padding-top:22px;
-      }
-      .hero .quick-links::before{
-        left:-60px;
-        right:-60px;
-      }
-      .hero .quick-links .q::after{
-        display:none;
-      }
-    }
-
-    @media (max-width:560px){
-      .hero .quick-links{
-        gap:20px;
-      }
-    }
-
-    /* Akışkan gradyan animasyonu (butonlar) */
-    @keyframes elciGradientFlow {
-      0%{background-position:0% 50%}
-      50%{background-position:100% 50%}
-      100%{background-position:0% 50%}
-    }
-    .btn{
-      color:var(--brand);
-      border:1px solid var(--line);
-      background:#fff;
-      transition:.18s ease;
-    }
-    .btn:active{ transform:translateY(1px) }
-    .btn.primary, .hero .btn.ghost{
-      background-image: linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
-      background-size: 200% 100%; background-position: 0% 50%;
-      color:#fff !important; border:0; box-shadow:0 8px 22px rgba(16,179,209,.22);
-      animation: elciGradientFlow 6s linear infinite;
-    }
-    .btn.primary:hover, .hero .btn.ghost:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 12px 28px rgba(16,179,209,.28);
-    }
-    @media (prefers-reduced-motion: reduce){
-      .btn.primary, .hero .btn.ghost{
-        animation:none !important;
-        background-position:50% 50%;
-      }
     }
 
     /* ==== HİZMETLER İKON KOYULAŞTIRMA (SADECE #services) ==== */
@@ -426,50 +492,93 @@
     </div>
   </header>
 
-  <!-- ===== HERO ===== -->
+  <!-- ===== HERO (Yeni tasarım) ===== -->
   <section class="hero" data-theme="clean">
     <div class="container">
-      <div class="hero-center">
-        <div class="hero-icon">
-          <img class="hero-logo" src="/assets/img/uploads/elci-logo.png?v=1" alt="Elçi Veteriner Kliniği Logosu" width="96" height="96" loading="eager" decoding="async">
-        </div>
-        <h1>Elçi ile Gülümse Hayata!</h1>
-        <div class="hero-divider" role="presentation"></div>
-        <p class="hero-sub">Teknolojik ve modern cihazlar ile daha kaliteli veteriner sağlık hizmeti.</p>
+      <div class="hero-content">
+        <div class="hero-main">
+          <div class="hero-logo">
+            <div class="logo-circle">
+              <img src="/assets/img/uploads/elci-logo.png?v=1" alt="Elçi Veteriner Kliniği Logosu" loading="eager" decoding="async">
+            </div>
+            <div class="logo-text">
+              <h2>Elçi Veteriner Kliniği</h2>
+              <p>Sağlığın Elçi'leriyiz</p>
+            </div>
+          </div>
 
-        <div class="hero-cta">
-          <a class="btn primary" href="tel:03323223220">Hemen Ara</a>
-          <a class="btn ghost" href="/contact.html">Randevu Al</a>
+          <h1 class="hero-title">Elçi ile Gülümse Hayata!</h1>
+          <p class="hero-subtitle">Teknolojik ve modern cihazlar ile daha kaliteli veteriner sağlık hizmeti.</p>
+
+          <div class="hero-cta">
+            <a href="tel:03323223220" class="btn btn-primary">
+              <i class="fa-solid fa-phone"></i>
+              <span>Hemen Ara</span>
+            </a>
+            <a href="/contact.html" class="btn btn-secondary">
+              <i class="fa-solid fa-calendar-check"></i>
+              <span>Randevu Al</span>
+            </a>
+          </div>
+
+          <div class="service-quick-links">
+            <a href="/about.html#ekibimiz" class="service-quick-link">
+              <div class="service-icon">
+                <i class="fa-solid fa-user-doctor"></i>
+              </div>
+              <div class="service-title">VETERİNERLERİMİZ</div>
+              <div class="service-desc">Uzman ve deneyimli kadromuz.</div>
+            </a>
+
+            <a href="/hizmetler.html" class="service-quick-link">
+              <div class="service-icon">
+                <i class="fa-solid fa-stethoscope"></i>
+              </div>
+              <div class="service-title">HİZMETLERİMİZ</div>
+              <div class="service-desc">Acil, cerrahi, görüntüleme ve daha fazlası.</div>
+            </a>
+
+            <a href="/contact.html" class="service-quick-link">
+              <div class="service-icon">
+                <i class="fa-solid fa-calendar-check"></i>
+              </div>
+              <div class="service-title">HIZLI RANDEVU</div>
+              <div class="service-desc">Online randevu formu ile saniyeler içinde.</div>
+            </a>
+
+            <a href="/hasta-iliskileri.html" class="service-quick-link">
+              <div class="service-icon">
+                <i class="fa-solid fa-vial"></i>
+              </div>
+              <div class="service-title">TAHLİL SONUÇLARI</div>
+              <div class="service-desc">Laboratuvar hizmetlerimiz ve süreçler.</div>
+            </a>
+
+            <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" class="service-quick-link">
+              <div class="service-icon">
+                <i class="fa-brands fa-youtube"></i>
+              </div>
+              <div class="service-title">ELÇİ TV</div>
+              <div class="service-desc">YouTube üzerinden bilgilendirici içerikler.</div>
+            </a>
+
+            <a href="/contact.html#konum" class="service-quick-link">
+              <div class="service-icon">
+                <i class="fa-solid fa-location-dot"></i>
+              </div>
+              <div class="service-title">İLETİŞİM</div>
+              <div class="service-desc">Adres, telefon ve harita bilgileri.</div>
+            </a>
+          </div>
         </div>
 
-        <!-- Quick Links — çizgisel Farabi tarzı -->
-        <div class="quick-links" aria-label="Hızlı bağlantılar">
-          <a class="q" href="/hizmetler.html#koruyucu" title="Branşlarımız">
-            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-shield-cross"/></svg></span>
-            <span>Branşlarımız</span>
-          </a>
-          <a class="q" href="/contact.html" title="Hızlı Randevu">
-            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-calendar-check"/></svg></span>
-            <span>Hızlı Randevu</span>
-          </a>
-          <a class="q" href="/hasta-iliskileri.html" title="Tahlil Sonuçları">
-            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-vial-check"/></svg></span>
-            <span>Tahlil Sonuçları</span>
-          </a>
-          <a class="q" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" title="YouTube">
-            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-youtube-play"/></svg></span>
-            <span>Elçi TV</span>
-          </a>
-          <a class="q" href="/contact.html#konum" title="İletişim">
-            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-location"/></svg></span>
-            <span>İletişim</span>
-          </a>
-          <a class="q" href="tel:03323223220" title="Acil Hattı">
-            <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-ambulance"/></svg></span>
-            <span>Acil</span>
-          </a>
+        <div class="hero-image">
+          <div class="illustration-placeholder">
+            <i class="fa-solid fa-dog"></i>
+            <p>Evcil Dostunuzun Sağlığı</p>
+            <small>Profesyonel ve sevgi dolu veterinerlik hizmeti.</small>
+          </div>
         </div>
-        <!-- /Quick Links -->
       </div>
     </div>
   </section>
@@ -512,19 +621,19 @@
         <div class="services-grid">
           <article class="s-card" id="acil">
             <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-shield-cross"/></svg></span>
-            <h3 class="s-title">Acil & Yoğun Bakım</h3>
+            <h3 class="s-title">Acil &amp; Yoğun Bakım</h3>
             <p class="s-text">Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat izlem.</p>
             <a class="s-link" href="/hizmetler.html#acil">Detaylı Bilgi</a>
           </article>
           <article class="s-card" id="koruyucu">
             <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-stethoscope"/></svg></span>
-            <h3 class="s-title">Muayene & Koruyucu</h3>
+            <h3 class="s-title">Muayene &amp; Koruyucu</h3>
             <p class="s-text">Aşı planı, parazit kontrolü, mikroçip ve check-up.</p>
             <a class="s-link" href="/hizmetler.html#koruyucu">Detaylı Bilgi</a>
           </article>
           <article class="s-card" id="goruntuleme-lab">
             <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-xray"/></svg></span>
-            <h3 class="s-title">Görüntüleme & Lab</h3>
+            <h3 class="s-title">Görüntüleme &amp; Lab</h3>
             <p class="s-text">Röntgen, ultrason, FAST, EKG, sitoloji ve hızlı testler.</p>
             <a class="s-link" href="/hizmetler.html#goruntuleme-lab">Detaylı Bilgi</a>
           </article>
