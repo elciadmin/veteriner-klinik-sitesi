@@ -47,7 +47,7 @@
     .insta-head small, #youtube small{ display:none; }
   </style>
 
-  <!-- THEME OVERRIDE (Farabi tarzı hero için güncellendi) -->
+  <!-- THEME OVERRIDE (Farabi tarzı hero + çizgisel quick-links) -->
   <style id="theme-elciKonya-override">
     :root{
       --brand:#5a1fa8; --brand2:#36106b; --accent:#27d4e8; --ink:#0f1b22; --muted:#5f6b74; --line:#e7edf1; --bg:#f7fbfc; --paper:#fff;
@@ -101,7 +101,7 @@
       text-shadow:0 1px 8px rgba(0,0,0,.3);
     }
 
-    /* ==== FARABİ STİLİ HERO (görseldeki gibi) ==== */
+    /* ==== HERO (Farabi tarzı) ==== */
     .hero{
       position:relative;
       padding-top:clamp(130px, 15vh, 165px);
@@ -166,19 +166,30 @@
       nav ul.show { box-shadow: 0 10px 28px rgba(0,0,0,.08); }
     }
 
-    /* ===== FARABİ KOYU MAVİ HASTANE STİLİ QUICK-LINKS ===== */
+    /* ==== QUICK-LINKS — Çizgisel Farabi tarzı, balonsuz ==== */
+
+    /* Önce tüm eski cam/balon efektlerini sıfırla */
+    .hero .quick-links,
+    .hero .quick-links *{
+      background:transparent !important;
+      border:none !important;
+      border-radius:0 !important;
+      box-shadow:none !important;
+      backdrop-filter:none !important;
+    }
+
     .hero .quick-links{
       position:relative;
       display:flex;
       justify-content:space-between;
       align-items:flex-start;
-      gap:58px;
-      margin:60px auto 0;
-      padding-top:34px;
+      gap:52px;
       max-width:1150px;
+      margin:52px auto 0;
+      padding-top:26px;
     }
 
-    /* Üstte ince çizgi */
+    /* Üstteki ince çizgi */
     .hero .quick-links::before{
       content:"";
       position:absolute;
@@ -186,103 +197,89 @@
       right:-200px;
       top:0;
       height:1px;
-      background:rgba(255,255,255,.28);
+      background:rgba(255,255,255,.32);
       opacity:.9;
     }
 
-    /* Linklerin kendisi – tüm pill efektlerini sıfırla */
+    /* Tek tek butonlar */
     .hero .quick-links .q{
       position:relative;
       display:flex;
       flex-direction:column;
       align-items:center;
       justify-content:flex-start;
-      gap:12px;
-      padding:0 !important;
+      gap:10px;
+      padding:0;
       margin:0;
       min-width:auto;
-      background:transparent !important;
-      border:none !important;
-      border-radius:0 !important;
-      box-shadow:none !important;
       color:#ffffff;
-      opacity:.92;
+      opacity:.9;
       text-decoration:none;
-      transition:.18s ease;
+      transition:transform .18s ease, opacity .18s ease;
     }
 
-    /* Eski pseudo alt çizgi vs. tamamen kapat */
-    .hero .quick-links .q::before{
-      content:none !important;
-    }
-
-    /* Çizgi ikonlar */
+    /* İkon alanı */
     .hero .quick-links .q .s-icon{
-      width:70px;
-      height:70px;
+      width:64px;
+      height:64px;
       display:flex;
       align-items:center;
       justify-content:center;
-      background:transparent !important;
-      border:none !important;
-      box-shadow:none !important;
     }
 
     .hero .quick-links .q svg{
-      width:46px;
-      height:46px;
+      width:44px;
+      height:44px;
       stroke-width:1.8;
-      opacity:.95;
-      transition:.18s ease;
     }
 
-    /* Alt başlıklar */
     .hero .quick-links .q span:last-child{
       margin-top:2px;
-      font-size:13px;
       font-weight:700;
+      font-size:13px;
+      letter-spacing:.16em;
       text-transform:uppercase;
-      letter-spacing:.14em;
       color:#e9f6ff;
+      opacity:.96;
       white-space:nowrap;
     }
 
-    /* Üç noktalı ayraç */
+    /* Hover: hafif yükselsin */
+    .hero .quick-links .q:hover{
+      transform:translateY(-4px);
+      opacity:1;
+    }
+
+    .hero .quick-links .q:hover svg{
+      transform:translateY(-2px);
+    }
+
+    /* Kartlar arasındaki 3 noktalı ayraç */
     .hero .quick-links .q::after{
       content:"";
       position:absolute;
-      right:-28px;
+      right:-26px;
       top:50%;
       transform:translateY(-50%);
       width:3px;
       height:3px;
       border-radius:999px;
-      background:rgba(255,255,255,.35);
+      background:rgba(255,255,255,.40);
       box-shadow:
-        0 8px 0 rgba(255,255,255,.24),
-        0 -8px 0 rgba(255,255,255,.24);
+        0 7px 0 rgba(255,255,255,.30),
+        0 -7px 0 rgba(255,255,255,.30);
     }
     .hero .quick-links .q:last-child::after{
       display:none;
     }
 
-    /* Hover */
-    .hero .quick-links .q:hover{
-      transform:translateY(-4px);
-      opacity:1;
-    }
-    .hero .quick-links .q:hover svg{
-      opacity:1;
-      transform:translateY(-3px) scale(1.06);
-    }
-
-    /* Responsive */
+    /* Responsive ayarlar */
     @media (max-width:1100px){
       .hero .quick-links{
         flex-wrap:wrap;
         justify-content:center;
-        gap:40px;
-        padding-top:28px;
+        gap:32px;
+        padding-top:22px;
       }
       .hero .quick-links::before{
         left:-60px;
@@ -292,9 +289,10 @@
         display:none;
       }
     }
+
     @media (max-width:560px){
       .hero .quick-links{
-        gap:22px;
+        gap:20px;
       }
     }
 
@@ -412,7 +410,6 @@
         <div class="hero-icon">
           <img class="hero-logo" src="/assets/img/uploads/elci-logo.png?v=1" alt="Elçi Veteriner Kliniği Logosu" width="96" height="96" loading="eager" decoding="async">
         </div>
-        <!-- Başlık ve alt başlık Farabi stiline çekildi -->
         <h1>Elçi ile Gülümse Hayata!</h1>
         <div class="hero-divider" role="presentation"></div>
         <p class="hero-sub">Teknolojik ve modern cihazlar ile daha kaliteli veteriner sağlık hizmeti.</p>
@@ -698,13 +695,13 @@
       <rect class="i" x="4" y="3" width="16" height="18" rx="2"/><path class="i" d="M7 8h10M7 12h10M7 16h7"/>
     </symbol>
 
-    <!-- Pati (mevcutundan devam) -->
+    <!-- Pati -->
     <symbol id="i-paw" viewBox="0 0 24 24">
       <path class="i" d="M7.2 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM16.8 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM10.2 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM13.8 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM6.5 15.2c0-2.6 2.3-4.7 5.5-4.7s5.5 2.1 5.5 4.7c0 1.6-1.5 2.8-3.4 2.8-1 0-1.9-.3-2.1-.8-.3.5-1.1.8-2.1.8-1.9 0-3.4-1.2-3.4-2.8z"/>
     </symbol>
   </svg>
 
-  <!-- ===== Başlangıç JS (yıl + mobil menü + hizmetler scroller) ===== -->
+  <!-- ===== Başlangıç JS ===== -->
   <script>
     window.addEventListener('DOMContentLoaded', function(){
       const y=document.getElementById('yil'); if(y) y.textContent=new Date().getFullYear();
@@ -739,7 +736,7 @@
     });
   </script>
 
-  <!-- ===== ELÇİ — Güvenli Hizmet Yükleyici v2 (index + hizmetler sayfası desteği) ===== -->
+  <!-- ===== ELÇİ — Hizmet Yükleyici v2 ===== -->
   <script>
   (function(){
     const qS = (sel,root=document)=>root.querySelector(sel);
@@ -881,8 +878,7 @@
       function renderTOC(){
         if(!toc) return;
         toc.innerHTML = categories.map((c,i)=>`
-          <li><a href="#${anchor(c)}" class="${i===0?'active':''}" data-cat="${c}">
-            <i class="fa-regular fa-folder-open"></i> <span>${c}</span></a></li>`).join('');
+          <li><a href="#${anchor(c)}" class="${i===0?'active':''}" data-cat="${c}"><i class="fa-regular fa-folder-open"></i> <span>${c}</span></a></li>`).join('');
         qSA('a',toc).forEach(a=>a.addEventListener('click',()=>{
           qSA('a',toc).forEach(x=>x.classList.remove('active'));
           a.classList.add('active'); activeCat = a.dataset.cat;
