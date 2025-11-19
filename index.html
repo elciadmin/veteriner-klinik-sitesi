@@ -718,6 +718,23 @@
     const qS = (sel,root=document)=>root.querySelector(sel);
     const qSA= (sel,root=document)=>Array.from(root.querySelectorAll(sel));
 
+    /* HİZMET ID → İKON EŞLEME TABLOSU (eksik ikonları tamamlar) */
+    const ICON_MAP = {
+      acil: '#i-shield-cross',
+      'acil-yogun-bakim': '#i-shield-cross',
+      'acil-veteriner': '#i-ambulance',
+      koruyucu: '#i-stethoscope',
+      'muayene-koruyucu': '#i-stethoscope',
+      'goruntuleme-lab': '#i-xray',
+      'goruntuleme-laboratuvar': '#i-xray',
+      'ic-hastaliklari': '#i-clipboard',
+      'agiz-dis': '#i-tooth-clean',
+      'dis-sagligi': '#i-tooth-clean',
+      'fizik-tedavi': '#i-paw',
+      konaklama: '#i-paw',
+      blog: '#i-article'
+    };
+
     const iconHTML = (icon)=>{
       const raw = (icon || "").toString().trim();
       // ICON YOKSA → paw
@@ -734,17 +751,20 @@
         return `<svg viewBox="0 0 24 24"><use href="#${raw}"/></svg>`;
       }
 
-      // Diğer her şey → sprite id varsay ("/assets/svg-sprite" içinde)
+      // Diğer her şey → sprite id varsay
       return `<svg viewBox="0 0 24 24"><use href="#${raw}"/></svg>`;
     };
 
-    const card = (it)=>`
+    const card = (it)=>{
+      const key = it.icon || ICON_MAP[it.id] || ICON_MAP[it.slug] || '';
+      return `
       <article class="s-card" ${it.id?`id="${it.id}"`:''}>
-        <span class="s-icon" aria-hidden="true">${iconHTML(it.icon)}</span>
+        <span class="s-icon" aria-hidden="true">${iconHTML(key)}</span>
         <h3 class="s-title">${(it.title||'Hizmet')}</h3>
         <p class="s-text">${(it.summary||it.text||'')}</p>
         <a class="s-link" href="${it.href || (it.id?('#'+it.id):'#')}">Detaylı Bilgi</a>
       </article>`;
+    };
 
     /* INDEX MODU */
     (function(){
@@ -850,7 +870,8 @@
         const ttl  = pick(it,'title','baslik','name') || 'Hizmet';
         const sum  = pick(it,'summary','ozet','text','aciklama') || '';
         const icon = pick(it,'icon','ikon') || '';
-        const iconStr = iconHTML(icon);
+        const iconKey = icon || ICON_MAP[id] || '';
+        const iconStr = iconHTML(iconKey);
         return `
           <article class="s-card" ${id?`id="${id}"`:''}>
             <span class="s-icon" aria-hidden="true">${iconStr}</span>
