@@ -174,8 +174,6 @@
       box-shadow:0 12px 32px rgba(238,90,36,.45);
       position:relative;
       z-index:2;
-      /* BEYAZ ŞERİTİ KALDIR: HERO'YA YAPIŞSIN */
-      margin-top:0;
     }
     .emergency-alert .page-wrap{
       display:flex;
@@ -915,8 +913,6 @@
 
     /* Hero — markanın degrade stili (about hero ile birebir) */
     .hero{
-      /* BEYAZ ŞERİTİN KOLLAPSE ETMEMESİ İÇİN ALT MARJİN YOK */
-      margin-bottom:0;
       background:
         radial-gradient(1400px 700px at 85% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
         linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%) !important;
@@ -1032,6 +1028,14 @@
     }
     .social-links a:hover{
       opacity:1;
+    }
+
+    /* SADECE HİZMETLER SAYFASINDA hero ile acil şeridi yapıştır */
+    body[data-page="services"] .hero{
+      margin-bottom:0;
+    }
+    body[data-page="services"] .emergency-alert{
+      margin-top:0;
     }
   </style>
 </head>
