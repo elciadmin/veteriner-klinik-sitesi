@@ -271,11 +271,20 @@
       box-shadow:0 10px 26px rgba(15,30,45,.05);
       flex-wrap:wrap;
     }
+    /* YENİ: başlık + dik hizalama */
     .svc-toolbar-left{
       display:flex;
-      flex-wrap:wrap;
+      flex-direction:column;
       gap:8px;
-      align-items:center;
+      min-width:260px;
+    }
+    .svc-toolbar-title{
+      font-size:.83rem;
+      font-weight:600;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      color:var(--brand2);
+      opacity:.9;
     }
     .chipbar{
       display:flex;
@@ -283,11 +292,11 @@
       gap:8px;
     }
     .chip{
-      padding:7px 14px;
+      padding:9px 16px;
       border-radius:999px;
       border:1px solid var(--card-border);
       background:#fff;
-      font-size:.82rem;
+      font-size:.86rem;
       cursor:pointer;
       display:inline-flex;
       align-items:center;
@@ -651,9 +660,9 @@
     .modal-content{
       background:#ffffff;
       border-radius:20px;
-      max-width:640px;           /* ÖNCEKİNDEN DAHA GENİŞ */
+      max-width:760px;           /* DAHA DA GENİŞ */
       width:100%;
-      padding:24px 24px 20px;   /* Daha ferah padding */
+      padding:26px 26px 20px;   /* Daha ferah padding */
       box-shadow:0 24px 60px rgba(15,23,42,.55);
       position:relative;
       animation:slideUp .2s ease-out;
@@ -669,14 +678,14 @@
       font-size:1.1rem;
     }
     .modal-content h3{
-      margin:0 0 8px;
-      font-size:1.05rem;
+      margin:0 0 10px;
+      font-size:1.1rem;
     }
     .modal-content p{
-      margin:0 0 16px;
-      font-size:.95rem;          /* Yazıyı büyüttüm */
+      margin:0 0 18px;
+      font-size:1rem;          /* YAZI BİRAZ DAHA BÜYÜK */
       color:var(--muted);
-      line-height:1.6;           /* Satır aralığı arttı */
+      line-height:1.65;
     }
     .modal-actions{
       display:flex;
@@ -967,6 +976,7 @@
     <!-- Filtre / Arama -->
     <div class="svc-toolbar" aria-label="Hizmet filtreleri">
       <div class="svc-toolbar-left">
+        <div class="svc-toolbar-title">Hizmet kategorileri</div>
         <div id="chipBar" class="chipbar" role="group" aria-label="Hizmet kategorileri"></div>
         <button id="favoriteChip" class="chip" type="button">
           <i class="fa-solid fa-heart"></i> Favorilerim
@@ -1100,10 +1110,10 @@
           <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook">
             <i class="fa-brands fa-facebook-f"></i>
           </a>
-          <a href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener" aria-label="Instagram">
+          <a href="https://www.instagram.com/elcivetklinik" target="_blank" rel="noopener" aria-label="Instagram">
             <i class="fa-brands fa-instagram"></i>
           </a>
-          <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter">
+          <a href="https://twitter.com/elcivetklinik" target="_blank" rel="noopener" aria-label="Twitter">
             <i class="fa-brands fa-x-twitter"></i>
           </a>
           <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube">
@@ -1245,7 +1255,7 @@
 
     function cardHTML(it){
       const id   = pick(it,'id','slug','anchor') || '';
-      const href = it.href || (id ? ('#'+id) : '#');
+      const href = it.href || (id ? ('#'+id) : '#';
       const ttl  = pick(it,'title','baslik','name') || 'Hizmet';
       const sum  = pick(it,'summary','ozet','text','aciklama') || '';
       const icon = pick(it,'icon','ikon') || '#i-article';
@@ -1452,7 +1462,7 @@
       Object.keys(groups).forEach(c=>{
         const list = groups[c];
         if(!list.length) return;
-        const head = (activeCat === 'Tümü') ? c : c;
+        const head = c;
         html += `
           <section class="svc-section" id="${anchor(c)}" aria-label="${c}">
             <h2>${head}</h2>
