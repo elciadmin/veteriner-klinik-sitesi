@@ -19,7 +19,7 @@
   <!-- Sayfaya özgü stiller (profesyonel gövde) -->
   <style>
     :root{
-      /* About / Index ile birebir aynı palet */
+      /* About / Index ile birebir aynı palet (temel) */
       --brand:#5a1fa8;
       --brand2:#36106b;
       --accent:#27d4e8;
@@ -53,7 +53,7 @@
       padding:0 20px;
     }
 
-    /* ===== HEADER (temel) ===== */
+    /* ===== HEADER (temel; renkler override tarafından güncelleniyor) ===== */
     .header-top{
       background:#f9fbfd;
       border-bottom:1px solid #e2e8f0;
@@ -153,7 +153,6 @@
       padding:0 16px;
     }
 
-    /* Eski hero yardımcıları (şu an sadece emergency alert ile paylaşılanlar) */
     .divider{
       width:80px;
       height:4px;
@@ -713,7 +712,7 @@
       to{opacity:1;transform:translateY(0)}
     }
 
-    /* ===== FOOTER ===== */
+    /* ===== FOOTER (renkler override ile güncelleniyor) ===== */
     footer.footer-new{
       background:linear-gradient(135deg,#241043,#5a1fa8);
       color:#f1fbff;
@@ -882,26 +881,33 @@
     }
 
     nav a{ color:#eaf6f8 }
-    nav a:hover, nav a:focus{ color:#fff }
-    nav a.active, nav a[aria-current="page"]{ color:#c0f3ff }
+    nav a:hover,
+    nav a:focus{ color:#fff }
+    nav a.active,
+    nav a[aria-current="page"]{ color:#c0f3ff }
     nav a::after{ background:#c0f3ff }
 
     /* Logo paneli okunaklı (about ile aynı cam efekt) */
     .header-main .logo-text{
-      display:flex; flex-direction:column; gap:2px;
-      padding:8px 12px; border-radius:14px;
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      padding:8px 12px;
+      border-radius:14px;
       background:linear-gradient(90deg, rgba(0,0,0,.24), rgba(0,0,0,.10));
       box-shadow:0 6px 18px rgba(0,0,0,.28);
       -webkit-backdrop-filter:saturate(120%) blur(1px);
       backdrop-filter:saturate(120%) blur(1px);
     }
     .header-main .logo-text h1{
-      color:#fff; margin:0;
+      color:#fff;
+      margin:0;
       text-shadow:0 2px 10px rgba(0,0,0,.35);
       letter-spacing:.2px;
     }
     .header-main .logo-text span{
-      color:#e8fbff; opacity:.96;
+      color:#e8fbff;
+      opacity:.96;
       text-shadow:0 1px 8px rgba(0,0,0,.3);
     }
 
@@ -931,6 +937,11 @@
       background:#ffffff2b;
     }
 
+    /* Breadcrumb link rengi (ileride kullanırsan hazır dursun) */
+    .breadcrumb a{
+      color:var(--brand);
+    }
+
     /* Butonlar — akış animasyonu */
     .btn{
       color:var(--brand);
@@ -942,10 +953,13 @@
       transform:translateY(-2px);
       box-shadow:0 8px 20px rgba(0,0,0,.08);
     }
-    .btn:active{ transform:translateY(0) }
+    .btn:active{
+      transform:translateY(0);
+    }
     .btn.primary{
       background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
-      color:#fff !important; border:0;
+      color:#fff !important;
+      border:0;
       box-shadow:0 8px 22px rgba(16,179,209,.22);
       background-size:200% 100%;
       background-position:0% 0%;
@@ -955,21 +969,66 @@
       box-shadow:0 12px 28px rgba(16,179,209,.28);
     }
 
+    /* Feature / ikon arkaplanları (about + metrics için) */
+    .feature .ic,
+    .m-ico{
+      background:linear-gradient(135deg, var(--brand), var(--brand2)) !important;
+    }
+    .stars{
+      color:#f5b100;
+    }
+
+    /* Metrics çubuk/donut/gauge paleti (about sayfası ile uyumlu) */
+    .m-progress{
+      background:#e9f4f7;
+    }
+    .m-bar{
+      background:linear-gradient(90deg, var(--brand), var(--accent));
+    }
+    .metrics .m-card{
+      border-color:color-mix(in srgb, var(--brand), #fff 85%);
+    }
+    .metrics svg defs stop[offset="0%"]{
+      stop-color:var(--brand);
+    }
+    .metrics svg defs stop[offset="100%"]{
+      stop-color:var(--accent);
+    }
+
+    /* Klinik / ekip bölümündeki inline renkleri bastır (ileride kullanırsan hazır) */
+    .team-grid .role{
+      color:var(--brand2) !important;
+    }
+    .clinic-wrap .pill i{
+      color:var(--icon-ink) !important;
+    }
+
     /* Footer degrade */
     footer.footer-new{
       background:linear-gradient(135deg, var(--footer-start), var(--footer-end));
       color:#eaffff;
     }
-    .footer-links a, .footer-contact a{ color:#eaffff }
-    .footer-bottom{ background:rgba(0,0,0,.18) }
+    .footer-links a,
+    .footer-contact a{
+      color:#eaffff;
+    }
+    .footer-bottom{
+      background:rgba(0,0,0,.18);
+    }
 
     /* Sosyal ikonlar */
-    .social-links a svg,
-    .social-links a i{
-      width:20px; height:20px; display:block;
+    .social-links a svg{
+      width:20px;
+      height:20px;
+      display:block;
     }
-    .social-links a{ color:#eaffff; opacity:.95 }
-    .social-links a:hover{ opacity:1 }
+    .social-links a{
+      color:#eaffff;
+      opacity:.95;
+    }
+    .social-links a:hover{
+      opacity:1;
+    }
   </style>
 </head>
 
