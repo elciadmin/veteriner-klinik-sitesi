@@ -55,11 +55,9 @@
 
     /* ===== HEADER ===== */
     .header-top{
-      /* ÜST ŞERİT – about/index ile uyumlu mor → turkuaz gradyan */
-      background:linear-gradient(90deg,#431073 0%,#5a1fa8 40%,#27d4e8 100%);
+      /* ÜST ŞERİT – about/hasta ile aynı gradyan */
+      background:linear-gradient(90deg, var(--brand) 0%, var(--brand2) 100%);
       color:#fff;
-      border-bottom:none;
-      box-shadow:0 4px 12px rgba(15,23,42,.35);
     }
     .header-top .container{
       display:flex;
@@ -88,21 +86,11 @@
         color-mix(in srgb, var(--brand2), #000 6%) 100%
       );
       color:#fff;
-      box-shadow:0 10px 28px rgba(0,0,0,.35);
       position:sticky;
       top:0;
       z-index:60;
-    }
-    /* HEADER ile HERO arasındaki beyaz şerit */
-    .header-main::after{
-      content:"";
-      position:absolute;
-      left:0;
-      right:0;
-      bottom:-5px;          /* Çizgiyi aşağı doğru biraz taşı */
-      height:5px;           /* Kalınlık */
-      background:#ffffff;   /* Beyaz çizgi */
-      box-shadow:0 6px 16px rgba(15,23,42,.25);
+      /* HEADER ile HERO arasındaki beyaz şerit */
+      border-bottom:6px solid #ffffff;
     }
 
     .header-main .container{
@@ -1214,7 +1202,7 @@
           <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook">
             <i class="fa-brands fa-facebook-f"></i>
           </a>
-          <a href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener" aria-label="Instagram">
+          <a href="https://www.instagram.com/elcivetklinik" target="_blank" rel="noopener" aria-label="Instagram">
             <i class="fa-brands fa-instagram"></i>
           </a>
           <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter">
