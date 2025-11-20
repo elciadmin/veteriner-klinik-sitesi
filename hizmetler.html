@@ -47,14 +47,6 @@
       line-height:1.6;
     }
 
-    /* Hakkımızda ile aynı üst akış hissi için:
-       body arka planına da geniş bir degrade veriyoruz.
-       Header ve hero bunun üstünde oturuyor. */
-    body.theme-plumOcean{
-      background:
-        linear-gradient(135deg,#2b0b68 0%,#27d4e8 100%);
-    }
-
     .container{
       max-width:1200px;
       margin:0 auto;
@@ -152,6 +144,15 @@
       border:none;
       font-size:1.5rem;
       cursor:pointer;
+    }
+
+    /* === BEYAZ ŞERİT (about sayfasındaki ile aynı etki) === */
+    .header-separator{
+      height:6px;
+      background:#ffffff;
+      box-shadow:0 4px 12px rgba(0,0,0,.18);
+      position:relative;
+      z-index:40;
     }
 
     /* Genel sayfa genişliği (hero hariç diğer bölümler için) */
@@ -436,7 +437,7 @@
       width:18px;
       height:18px;
       border-radius:999px;
-      border:2px solid(var(--accent));
+      border:2px solid var(--accent);
       display:flex;
       align-items:center;
       justify-content:center;
@@ -1114,6 +1115,9 @@
       </div>
     </div>
   </header>
+
+  <!-- BEYAZ ŞERİT -->
+  <div class="header-separator" aria-hidden="true"></div>
 
   <!-- HERO (about ile aynı tasarım) -->
   <section class="hero">
