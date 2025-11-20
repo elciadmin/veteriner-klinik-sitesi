@@ -16,13 +16,14 @@
   <!-- Font Awesome (ikonlar) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <!-- Sayfaya özgü stiller (profesyonel gövde) -->
+  <!-- Sayfaya özgü stiller (gövde ve layout) -->
   <style>
     :root{
-      /* About / Index ile birebir aynı palet (temel) */
+      /* Marka paleti (Hakkımızda / Index ile aynı) */
       --brand:#5a1fa8;
       --brand2:#36106b;
       --accent:#27d4e8;
+
       --hero-start:#30105f;
       --hero-end:#27d4e8;
 
@@ -53,7 +54,7 @@
       padding:0 20px;
     }
 
-    /* ===== HEADER (temel; renkler override tarafından güncelleniyor) ===== */
+    /* ===== HEADER (temel) ===== */
     .header-top{
       background:#f9fbfd;
       border-bottom:1px solid #e2e8f0;
@@ -146,25 +147,11 @@
       cursor:pointer;
     }
 
-    /* Genel sayfa genişliği (hero hariç diğer bölümler için) */
+    /* Genel sayfa genişliği */
     .page-wrap{
       max-width:1180px;
       margin:0 auto;
       padding:0 16px;
-    }
-
-    .divider{
-      width:80px;
-      height:4px;
-      border-radius:999px;
-      background:linear-gradient(90deg,#ffffff,var(--accent));
-      margin-bottom:16px;
-    }
-    .page-sub{
-      margin:0;
-      color:#eaf7ff;
-      opacity:.96;
-      font-size:.98rem;
     }
 
     /* ===== ACİL ŞERİT ===== */
@@ -618,7 +605,7 @@
       background:rgba(255,75,92,.08);
     }
 
-    /* MODAL (GENİŞLETİLDİ) */
+    /* MODAL */
     .service-modal{
       position:fixed;
       inset:0;
@@ -712,7 +699,7 @@
       to{opacity:1;transform:translateY(0)}
     }
 
-    /* ===== FOOTER (renkler override ile güncelleniyor) ===== */
+    /* ===== FOOTER ===== */
     footer.footer-new{
       background:linear-gradient(135deg,#241043,#5a1fa8);
       color:#f1fbff;
@@ -832,7 +819,7 @@
     }
   </style>
 
-  <!-- === THEME OVERRIDE — Elçi Paleti (about/index ile birebir) === -->
+  <!-- === THEME OVERRIDE — Elçi Paleti (Hakkımızda ile birebir) === -->
   <style id="theme-elciKonya-override">
     :root{
       --brand:#5a1fa8;
@@ -853,9 +840,9 @@
       --icon-ink:#0a4f60;
     }
 
-    /* Header üst şerit & menü */
+    /* Header üst şerit */
     .header-top{
-      background:linear-gradient(90deg, var(--brand) 0%, var(--brand2) 100%);
+      background:linear-gradient(90deg,#5a1fa8 0%,#36106b 100%);
       color:#fff;
       border-bottom:none;
     }
@@ -867,12 +854,9 @@
       color:#ffffff;
     }
 
+    /* Ana nav bar (Hakkımızda ile aynı) */
     .header-main{
-      background:linear-gradient(
-        90deg,
-        color-mix(in srgb, var(--brand), #000 8%) 0%,
-        color-mix(in srgb, var(--brand2), #000 6%) 100%
-      );
+      background:linear-gradient(90deg,#5a1fa8 0%,#36106b 100%);
       color:#fff;
       box-shadow:0 10px 28px rgba(0,0,0,.35);
     }
@@ -887,7 +871,7 @@
     nav a[aria-current="page"]{ color:#c0f3ff }
     nav a::after{ background:#c0f3ff }
 
-    /* Logo paneli okunaklı (about ile aynı cam efekt) */
+    /* Logo paneli cam efekti */
     .header-main .logo-text{
       display:flex;
       flex-direction:column;
@@ -911,11 +895,11 @@
       text-shadow:0 1px 8px rgba(0,0,0,.3);
     }
 
-    /* Hero — markanın degrade stili (about hero ile birebir) */
+    /* HERO — Hakkımızda ile birebir */
     .hero{
       background:
         radial-gradient(1400px 700px at 85% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
-        linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%) !important;
+        linear-gradient(120deg,#30105f 0%,#27d4e8 100%) !important;
       color:#fff;
     }
     .hero h1{
@@ -937,72 +921,6 @@
       background:#ffffff2b;
     }
 
-    /* Breadcrumb link rengi (ileride kullanırsan hazır dursun) */
-    .breadcrumb a{
-      color:var(--brand);
-    }
-
-    /* Butonlar — akış animasyonu */
-    .btn{
-      color:var(--brand);
-      border:1px solid var(--line);
-      background:#fff;
-      transition:background-position .35s ease, box-shadow .2s ease, transform .2s ease, color .15s ease;
-    }
-    .btn:hover{
-      transform:translateY(-2px);
-      box-shadow:0 8px 20px rgba(0,0,0,.08);
-    }
-    .btn:active{
-      transform:translateY(0);
-    }
-    .btn.primary{
-      background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
-      color:#fff !important;
-      border:0;
-      box-shadow:0 8px 22px rgba(16,179,209,.22);
-      background-size:200% 100%;
-      background-position:0% 0%;
-    }
-    .btn.primary:hover{
-      background-position:100% 0%;
-      box-shadow:0 12px 28px rgba(16,179,209,.28);
-    }
-
-    /* Feature / ikon arkaplanları (about + metrics için) */
-    .feature .ic,
-    .m-ico{
-      background:linear-gradient(135deg, var(--brand), var(--brand2)) !important;
-    }
-    .stars{
-      color:#f5b100;
-    }
-
-    /* Metrics çubuk/donut/gauge paleti (about sayfası ile uyumlu) */
-    .m-progress{
-      background:#e9f4f7;
-    }
-    .m-bar{
-      background:linear-gradient(90deg, var(--brand), var(--accent));
-    }
-    .metrics .m-card{
-      border-color:color-mix(in srgb, var(--brand), #fff 85%);
-    }
-    .metrics svg defs stop[offset="0%"]{
-      stop-color:var(--brand);
-    }
-    .metrics svg defs stop[offset="100%"]{
-      stop-color:var(--accent);
-    }
-
-    /* Klinik / ekip bölümündeki inline renkleri bastır (ileride kullanırsan hazır) */
-    .team-grid .role{
-      color:var(--brand2) !important;
-    }
-    .clinic-wrap .pill i{
-      color:var(--icon-ink) !important;
-    }
-
     /* Footer degrade */
     footer.footer-new{
       background:linear-gradient(135deg, var(--footer-start), var(--footer-end));
@@ -1016,26 +934,12 @@
       background:rgba(0,0,0,.18);
     }
 
-    /* Sosyal ikonlar */
-    .social-links a svg{
-      width:20px;
-      height:20px;
-      display:block;
-    }
     .social-links a{
       color:#eaffff;
       opacity:.95;
     }
     .social-links a:hover{
       opacity:1;
-    }
-
-    /* SADECE HİZMETLER SAYFASINDA hero ile acil şeridi yapıştır */
-    body[data-page="services"] .hero{
-      margin-bottom:0;
-    }
-    body[data-page="services"] .emergency-alert{
-      margin-top:0;
     }
   </style>
 </head>
@@ -1115,7 +1019,7 @@
     </div>
   </header>
 
-  <!-- HERO (about ile aynı tasarım) -->
+  <!-- HERO -->
   <section class="hero">
     <div class="container">
       <div class="hero-center">
