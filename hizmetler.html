@@ -361,6 +361,121 @@
       color:var(--brand2);
     }
 
+    /* ===== YENİ: PROFESYONEL İKİ SÜTUN YERLEŞİM ===== */
+    .svc-layout{
+      display:grid;
+      grid-template-columns:minmax(240px,280px) minmax(0,1fr);
+      gap:24px;
+      align-items:flex-start;
+      margin-top:10px;
+    }
+    .svc-aside{
+      background:#ffffff;
+      border-radius:20px;
+      border:1px solid var(--card-border);
+      box-shadow:0 16px 38px rgba(15,23,42,.06);
+      padding:18px 18px 16px;
+      position:sticky;
+      top:110px;
+    }
+    .svc-aside-header{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      margin-bottom:14px;
+    }
+    .svc-aside-icon{
+      width:32px;
+      height:32px;
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(135deg,var(--brand),var(--accent));
+      color:#fff;
+      box-shadow:0 8px 20px rgba(90,31,168,.45);
+    }
+    .svc-aside-title{
+      font-size:.92rem;
+      font-weight:700;
+      color:var(--brand2);
+      line-height:1.3;
+    }
+    .svc-aside-sub{
+      font-size:.8rem;
+      color:var(--muted);
+    }
+
+    .svc-aside-metrics{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
+      margin-bottom:14px;
+    }
+    .svc-metric{
+      padding:8px 10px;
+      border-radius:14px;
+      background:linear-gradient(135deg,#f5f3ff,#ecfeff);
+      border:1px solid rgba(148,163,184,.35);
+      font-size:.78rem;
+    }
+    .svc-metric strong{
+      display:block;
+      font-size:.95rem;
+      color:var(--brand2);
+    }
+
+    .svc-aside-steps{
+      border-top:1px dashed #e2e8f0;
+      padding-top:10px;
+      margin-top:6px;
+    }
+    .svc-aside-steps-title{
+      font-size:.83rem;
+      font-weight:600;
+      color:var(--brand2);
+      margin-bottom:6px;
+    }
+    .svc-steps{
+      list-style:none;
+      margin:0;
+      padding:0;
+    }
+    .svc-steps li{
+      display:flex;
+      align-items:flex-start;
+      gap:8px;
+      font-size:.8rem;
+      margin-bottom:6px;
+      color:var(--muted);
+    }
+    .svc-step-dot{
+      width:18px;
+      height:18px;
+      border-radius:999px;
+      border:2px solid var(--accent);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:.65rem;
+      color:var(--accent);
+      flex-shrink:0;
+      background:#f0fbff;
+    }
+
+    .svc-aside-note{
+      margin-top:8px;
+      font-size:.78rem;
+      color:#64748b;
+      background:#f8fafc;
+      border-radius:10px;
+      padding:8px 10px;
+    }
+
+    .svc-main-area{
+      min-width:0;
+    }
+
     /* Kategori blokları */
     .svc-section{padding:18px 0}
     .svc-section h2{
@@ -521,7 +636,7 @@
       background:rgba(255,75,92,.08);
     }
 
-    /* MODAL */
+    /* MODAL (GENİŞLETİLDİ) */
     .service-modal{
       position:fixed;
       inset:0;
@@ -531,13 +646,14 @@
       justify-content:center;
       z-index:1000;
       animation:fadeIn .2s ease-out;
+      padding:16px;
     }
     .modal-content{
       background:#ffffff;
       border-radius:20px;
-      max-width:480px;
-      width:92%;
-      padding:22px 22px 18px;
+      max-width:640px;           /* ÖNCEKİNDEN DAHA GENİŞ */
+      width:100%;
+      padding:24px 24px 20px;   /* Daha ferah padding */
       box-shadow:0 24px 60px rgba(15,23,42,.55);
       position:relative;
       animation:slideUp .2s ease-out;
@@ -553,13 +669,14 @@
       font-size:1.1rem;
     }
     .modal-content h3{
-      margin:0 0 6px;
-      font-size:1.02rem;
+      margin:0 0 8px;
+      font-size:1.05rem;
     }
     .modal-content p{
-      margin:0 0 14px;
-      font-size:.9rem;
+      margin:0 0 16px;
+      font-size:.95rem;          /* Yazıyı büyüttüm */
       color:var(--muted);
+      line-height:1.6;           /* Satır aralığı arttı */
     }
     .modal-actions{
       display:flex;
@@ -696,6 +813,13 @@
       nav ul{
         flex-wrap:wrap;
         justify-content:flex-start;
+      }
+      .svc-layout{
+        grid-template-columns:1fr;
+      }
+      .svc-aside{
+        position:static;
+        order:-1;
       }
     }
 
@@ -859,8 +983,69 @@
       <ul id="svcToc"></ul>
     </nav>
 
-    <!-- Dinamik içerik -->
-    <div id="svcSections" aria-live="polite"></div>
+    <!-- YENİ: İKİ SÜTUNLU LAYOUT -->
+    <div class="svc-layout">
+      <!-- Sol panel: profesyonel özet -->
+      <aside class="svc-aside" aria-label="Hizmet özeti">
+        <div class="svc-aside-header">
+          <div class="svc-aside-icon">
+            <i class="fa-solid fa-hospital"></i>
+          </div>
+          <div>
+            <div class="svc-aside-title">Elçi Veteriner Kliniği Hizmet Özet Paneli</div>
+            <div class="svc-aside-sub">Konya Meram’da tek çatı altında acil, cerrahi, görüntüleme, lab ve konaklama.</div>
+          </div>
+        </div>
+
+        <div class="svc-aside-metrics">
+          <div class="svc-metric">
+            <strong>10+ hizmet alanı</strong>
+            <span>Koruyucu hekimlikten ileri görüntülemeye kadar.</span>
+          </div>
+          <div class="svc-metric">
+            <strong>7/24 acil</strong>
+            <span>Şok, travma, kritik hastalar için kesintisiz takip.</span>
+          </div>
+          <div class="svc-metric">
+            <strong>Cerrahi blok</strong>
+            <span>Yumuşak doku, ortopedik ve jinekolojik operasyonlar.</span>
+          </div>
+          <div class="svc-metric">
+            <strong>Görüntüleme & Lab</strong>
+            <span>Röntgen, USG, EKG, hızlı testler ve biyokimya.</span>
+          </div>
+        </div>
+
+        <div class="svc-aside-steps">
+          <div class="svc-aside-steps-title">Randevuya gelmeden önce:</div>
+          <ul class="svc-steps">
+            <li>
+              <span class="svc-step-dot">1</span>
+              <span>İhtiyacınızı seçin: acil, rutin muayene, cerrahi, diş, iç hastalıkları veya konaklama.</span>
+            </li>
+            <li>
+              <span class="svc-step-dot">2</span>
+              <span>Hizmet kartlarından detayları inceleyin, gerekirse favorilerinize ekleyin.</span>
+            </li>
+            <li>
+              <span class="svc-step-dot">3</span>
+              <span>İhtiyacınıza en uygun hizmette “Detaylı Bilgi”ye tıklayıp Online Randevu veya Telefon ile bize ulaşın.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="svc-aside-note">
+          Acil durumda vakit kaybetmeyin; <strong>Acil & Yoğun Bakım</strong> veya
+          <strong>Görüntüleme & Lab</strong> kartlarını kullanıp direkt bizi arayabilirsiniz.
+        </div>
+      </aside>
+
+      <!-- Sağ taraf: dinamik kart alanı -->
+      <div class="svc-main-area">
+        <!-- Dinamik içerik -->
+        <div id="svcSections" aria-live="polite"></div>
+      </div>
+    </div>
 
     <!-- JSON yoksa fallback -->
     <template id="svcFallback">
