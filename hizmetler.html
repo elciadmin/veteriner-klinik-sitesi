@@ -32,6 +32,13 @@
 
       --card:#ffffff;
       --card-border:#e7edf1;
+
+      /* Paleti tamamlayan ortak değişkenler (about/index ile uyumlu) */
+      --line:#e7edf1;
+      --paper:#ffffff;
+      --footer-start:#241043;
+      --footer-end:#5a1fa8;
+      --icon-ink:#0a4f60;
     }
 
     *{
@@ -1494,7 +1501,7 @@
           </a>
         </li>
       `).join('');
-      toc.querySelectorAll('a').forEach(a=>{
+      toc.querySelectorAll('a').foreach(a=>{
         a.addEventListener('click',e=>{
           e.preventDefault();
           const cat = a.getAttribute('data-cat') || 'Tümü';
@@ -1838,4 +1845,4 @@
     </symbol>
   </svg>
 </body>
-</html>  kodumu eksiltmeden renk paletini uygular mısın
+</html>
