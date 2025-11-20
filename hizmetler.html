@@ -53,12 +53,13 @@
       padding:0 20px;
     }
 
-    /* ===== HEADER (temel; renkler override tarafından güncelleniyor) ===== */
+    /* ===== HEADER ===== */
     .header-top{
-      background:#f9fbfd;
-      border-bottom:1px solid #e2e8f0;
-      font-size:.85rem;
-      color:var(--muted);
+      /* ÜST ŞERİT – about/index ile uyumlu mor → turkuaz gradyan */
+      background:linear-gradient(90deg,#431073 0%,#5a1fa8 40%,#27d4e8 100%);
+      color:#fff;
+      border-bottom:none;
+      box-shadow:0 4px 12px rgba(15,23,42,.35);
     }
     .header-top .container{
       display:flex;
@@ -72,20 +73,38 @@
     .header-contact a{
       margin-right:16px;
       text-decoration:none;
-      color:var(--muted);
+      color:#f3f7ff;
       white-space:nowrap;
     }
     .header-contact a:hover{
-      color:var(--brand);
+      color:#ffffff;
     }
 
     .header-main{
-      background:#ffffff;
-      box-shadow:0 8px 24px rgba(15,23,42,.06);
+      /* Mor header bar – index/about ile uyumlu */
+      background:linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--brand), #000 8%) 0%,
+        color-mix(in srgb, var(--brand2), #000 6%) 100%
+      );
+      color:#fff;
+      box-shadow:0 10px 28px rgba(0,0,0,.35);
       position:sticky;
       top:0;
-      z-index:50;
+      z-index:60;
     }
+    /* HEADER ile HERO arasındaki beyaz şerit */
+    .header-main::after{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:-5px;          /* Çizgiyi aşağı doğru biraz taşı */
+      height:5px;           /* Kalınlık */
+      background:#ffffff;   /* Beyaz çizgi */
+      box-shadow:0 6px 16px rgba(15,23,42,.25);
+    }
+
     .header-main .container{
       display:flex;
       justify-content:space-between;
@@ -96,12 +115,12 @@
     .logo-text h1{
       font-size:1.6rem;
       font-weight:800;
-      color:var(--brand2);
+      color:#fff;
       letter-spacing:.02em;
     }
     .logo-text span{
       font-size:.85rem;
-      color:var(--muted);
+      color:#e8fbff;
     }
 
     nav ul{
@@ -115,7 +134,7 @@
       text-decoration:none;
       font-size:.9rem;
       font-weight:500;
-      color:var(--ink);
+      color:#eaf6f8;
       padding:6px 0;
       position:relative;
     }
@@ -127,15 +146,16 @@
       width:0;
       height:2px;
       border-radius:999px;
-      background:linear-gradient(90deg,var(--brand),var(--accent));
+      background:#c0f3ff;
       transition:width .18s;
     }
     nav a:hover::after,
     nav a.active::after{
       width:100%;
     }
-    nav a.active{
-      color:var(--brand2);
+    nav a.active,
+    nav a[aria-current="page"]{
+      color:#c0f3ff;
     }
 
     .mobile-menu-btn{
@@ -144,15 +164,6 @@
       border:none;
       font-size:1.5rem;
       cursor:pointer;
-    }
-
-    /* === BEYAZ ŞERİT (about sayfasındaki ile aynı etki) === */
-    .header-separator{
-      height:6px;
-      background:#ffffff;
-      box-shadow:0 4px 12px rgba(0,0,0,.18);
-      position:relative;
-      z-index:40;
     }
 
     /* Genel sayfa genişliği (hero hariç diğer bölümler için) */
@@ -627,7 +638,7 @@
       background:rgba(255,75,92,.08);
     }
 
-    /* MODAL (GENİŞLETİLDİ) */
+    /* MODAL */
     .service-modal{
       position:fixed;
       inset:0;
@@ -721,7 +732,7 @@
       to{opacity:1;transform:translateY(0)}
     }
 
-    /* ===== FOOTER (renkler override ile güncelleniyor) ===== */
+    /* ===== FOOTER ===== */
     footer.footer-new{
       background:linear-gradient(135deg,#241043,#5a1fa8);
       color:#f1fbff;
@@ -862,40 +873,6 @@
       --icon-ink:#0a4f60;
     }
 
-    /* Header üst şerit & menü */
-    .header-top{
-      background:linear-gradient(90deg, var(--brand) 0%, var(--brand2) 100%);
-      color:#fff;
-      border-bottom:none;
-    }
-    .header-contact span,
-    .header-contact a{
-      color:#eaf6f8;
-    }
-    .header-contact a:hover{
-      color:#ffffff;
-    }
-
-    .header-main{
-      background:linear-gradient(
-        90deg,
-        color-mix(in srgb, var(--brand), #000 8%) 0%,
-        color-mix(in srgb, var(--brand2), #000 6%) 100%
-      );
-      color:#fff;
-      box-shadow:0 10px 28px rgba(0,0,0,.35);
-    }
-    .header-main .container{
-      align-items:center;
-    }
-
-    nav a{ color:#eaf6f8 }
-    nav a:hover,
-    nav a:focus{ color:#fff }
-    nav a.active,
-    nav a[aria-current="page"]{ color:#c0f3ff }
-    nav a::after{ background:#c0f3ff }
-
     /* Logo paneli okunaklı (about ile aynı cam efekt) */
     .header-main .logo-text{
       display:flex;
@@ -946,73 +923,11 @@
       background:#ffffff2b;
     }
 
-    /* Breadcrumb link rengi (ileride kullanırsan hazır dursun) */
     .breadcrumb a{
       color:var(--brand);
     }
 
-    /* Butonlar — akış animasyonu */
-    .btn{
-      color:var(--brand);
-      border:1px solid var(--line);
-      background:#fff;
-      transition:background-position .35s ease, box-shadow .2s ease, transform .2s ease, color .15s ease;
-    }
-    .btn:hover{
-      transform:translateY(-2px);
-      box-shadow:0 8px 20px rgba(0,0,0,.08);
-    }
-    .btn:active{
-      transform:translateY(0);
-    }
-    .btn.primary{
-      background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
-      color:#fff !important;
-      border:0;
-      box-shadow:0 8px 22px rgba(16,179,209,.22);
-      background-size:200% 100%;
-      background-position:0% 0%;
-    }
-    .btn.primary:hover{
-      background-position:100% 0%;
-      box-shadow:0 12px 28px rgba(16,179,209,.28);
-    }
-
-    /* Feature / ikon arkaplanları (about + metrics için) */
-    .feature .ic,
-    .m-ico{
-      background:linear-gradient(135deg, var(--brand), var(--brand2)) !important;
-    }
-    .stars{
-      color:#f5b100;
-    }
-
-    /* Metrics çubuk/donut/gauge paleti (about sayfası ile uyumlu) */
-    .m-progress{
-      background:#e9f4f7;
-    }
-    .m-bar{
-      background:linear-gradient(90deg, var(--brand), var(--accent));
-    }
-    .metrics .m-card{
-      border-color:color-mix(in srgb, var(--brand), #fff 85%);
-    }
-    .metrics svg defs stop[offset="0%"]{
-      stop-color:var(--brand);
-    }
-    .metrics svg defs stop[offset="100%"]{
-      stop-color:var(--accent);
-    }
-
-    /* Klinik / ekip bölümündeki inline renkleri bastır (ileride kullanırsan hazır) */
-    .team-grid .role{
-      color:var(--brand2) !important;
-    }
-    .clinic-wrap .pill i{
-      color:var(--icon-ink) !important;
-    }
-
-    /* Footer degrade */
+    /* Footer degrade override */
     footer.footer-new{
       background:linear-gradient(135deg, var(--footer-start), var(--footer-end));
       color:#eaffff;
@@ -1025,7 +940,6 @@
       background:rgba(0,0,0,.18);
     }
 
-    /* Sosyal ikonlar */
     .social-links a svg{
       width:20px;
       height:20px;
@@ -1116,10 +1030,7 @@
     </div>
   </header>
 
-  <!-- BEYAZ ŞERİT -->
-  <div class="header-separator" aria-hidden="true"></div>
-
-  <!-- HERO (about ile aynı tasarım) -->
+  <!-- HERO -->
   <section class="hero">
     <div class="container">
       <div class="hero-center">
