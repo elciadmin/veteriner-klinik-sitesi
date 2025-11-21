@@ -28,7 +28,17 @@
     /* ====== METRICS (istatistikler) ====== */
     .metrics{padding:56px 0;background:linear-gradient(180deg,#f5fbfc 0%, #f1f9f8 100%)}
     .metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:22px}
-    .m-card{background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.76));border:1px solid rgba(12,78,84,.12);border-radius:16px;padding:16px;box-shadow:0 8px 20px rgba(0,0,0,.08);transition:.35s;opacity:0;transform:translateY(12px)}
+    .m-card{
+      background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.76));
+      border:1px solid rgba(12,78,84,.12);
+      border-radius:16px;
+      padding:16px;
+      box-shadow:0 8px 20px rgba(0,0,0,.08);
+      transition:.35s;
+      /* Tasarım aynı, ama artık baştan görünür */
+      opacity:1;
+      transform:none;
+    }
     .m-card.show{opacity:1;transform:none}
     .m-card:hover{transform:translateY(-6px);box-shadow:0 16px 36px rgba(0,0,0,.15)}
     .m-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
@@ -68,6 +78,64 @@
       outline:2px solid color-mix(in srgb, var(--accent), #000 20%);
       outline-offset:2px;
       border-radius:12px;
+    }
+
+    /* === Hekim kartı için daha küçük, yatay layout === */
+    .team-grid.single-member{
+      max-width:720px;
+      margin:0 auto;
+    }
+    .member{
+      background:#fff;
+      border:1px solid #e9f1f2;
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:0 8px 20px rgba(0,0,0,.04);
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      padding:12px;
+    }
+    .member-img{
+      flex:0 0 140px;
+      border-radius:12px;
+      overflow:hidden;
+      background:#f3f7f8;
+    }
+    .member-img img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .member-info{
+      flex:1;
+      padding:4px 4px 4px 0;
+    }
+    .member-info .role{
+      font-weight:700;
+      margin-bottom:4px;
+      color:var(--brand2);
+      font-size:14px;
+    }
+    .member-info h3{
+      margin:0 0 4px;
+      font-size:18px;
+    }
+    .member-info p{
+      margin:0;
+      font-size:14px;
+      color:var(--muted);
+      line-height:1.5;
+    }
+    @media(max-width:640px){
+      .member{
+        flex-direction:row;
+        align-items:flex-start;
+      }
+      .member-img{
+        flex:0 0 110px;
+      }
     }
   </style>
 
@@ -504,7 +572,7 @@
     </div>
   </section>
 
-  <!-- EKİP (şimdilik 1 kart) -->
+  <!-- EKİP (şimdilik 1 kart, küçük ve yatay) -->
   <section id="ekibimiz" class="section">
     <div class="container">
       <div class="section-title">
@@ -512,18 +580,17 @@
         <p>Deneyimli hekimler, koordineli ekip</p>
       </div>
 
-      <div class="team-grid" style="display:grid;grid-template-columns:1fr;gap:16px">
-        <article class="member" style="background:#fff;border:1px solid #e9f1f2;border-radius:16px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.04)">
-          <div class="ph" style="aspect-ratio:4/3;background:#f3f7f8">
+      <div class="team-grid single-member">
+        <article class="member">
+          <div class="member-img">
             <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=60"
                  alt="Cerrahi Uzmanı Veteriner Hekim"
-                 style="width:100%;height:100%;object-fit:cover;display:block"
                  loading="lazy" decoding="async">
           </div>
-          <div class="info" style="padding:14px">
-            <div class="role" style="font-weight:700;margin-bottom:4px">Cerrahi Uzmanı</div>
+          <div class="member-info">
+            <div class="role">Cerrahi Uzmanı</div>
             <h3>Veteriner Hekim</h3>
-            <p>Yumuşak doku cerrahisi, acil operasyonlar ve travma yönetimi konusunda deneyimli ekip üyesi.</p>
+            <p>Yumuşak doku cerrahisi, acil operasyonlar ve travma yönetimi konusunda deneyimli ekip üyesi. Ameliyat öncesi risk değerlendirmesi, ameliyat planlaması ve ameliyat sonrası bakım süreçlerini takip eder.</p>
           </div>
         </article>
       </div>
@@ -614,7 +681,7 @@
              tabindex="0"
              data-detail="1"
              data-detail-title="Hayvan Sevgisi"
-             data-detail-text="Her hastayı sadece tıbbi bir vaka değil, ailenin bir üyesi olarak görüyoruz. Özellikle korkak ve hassas hayvanlarda muayene süresini uzatmayı, sakinleştirici ortam oluşturmayı ve hasta yakınının yanında kalmasına izin vermeyi önemsiyoruz. Bu yaklaşım hem stresi azaltıyor hem de muayene kalitesini artırıyor.">
+             data-detail-text="Her hastayı sadece tıbbi bir vaka değil, ailenin bir üyesi olarak görüyoruz. Özellikle korkak ve hassas hayvanlarda muayene süresini uzatmayı, sakinleştirici ortam oluşturmayı ve hasta Yakınının yanında kalmasına izin vermeyi önemsiyoruz. Bu yaklaşım hem stresi azaltıyor hem de muayene kalitesini artırıyor.">
           <div class="vi" style="width:56px;height:56px;border-radius:50%;margin:0 auto 10px;background:#e7f3f4;color:var(--icon-ink);display:flex;align-items:center;justify-content:center;font-size:22px"><i class="fa-solid fa-heart"></i></div>
           <h3>Hayvan Sevgisi</h3>
           <p>Her hastaya şefkatli ve saygılı yaklaşım.</p>
