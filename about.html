@@ -187,6 +187,85 @@
     .social-links a{ color:#eaffff; opacity:.95 }
     .social-links a:hover{ opacity:1 }
   </style>
+
+  <!-- Kart detay paneli için ekstra stil -->
+  <style>
+    .info-panel{
+      position:fixed;
+      inset:0;
+      z-index:1200;
+      display:none;
+      align-items:flex-end;
+      justify-content:center;
+      background:rgba(10,18,26,.38);
+      -webkit-backdrop-filter:blur(4px);
+      backdrop-filter:blur(4px);
+    }
+    .info-panel.open{ display:flex; }
+
+    .info-panel-backdrop{
+      position:absolute;
+      inset:0;
+    }
+
+    .info-panel-body{
+      position:relative;
+      width:100%;
+      max-width:540px;
+      margin:0 auto 18px;
+      background:var(--paper, #fff);
+      color:var(--ink, #111822);
+      border-radius:20px;
+      box-shadow:0 20px 60px rgba(0,0,0,.35);
+      padding:20px 20px 18px;
+      transform:translateY(24px);
+      opacity:0;
+      transition:opacity .25s ease, transform .25s ease;
+    }
+    .info-panel.open .info-panel-body{
+      transform:translateY(0);
+      opacity:1;
+    }
+    .info-panel-title{
+      font-size:20px;
+      font-weight:800;
+      margin:0 0 8px;
+    }
+    .info-panel-text{
+      margin:0;
+      font-size:15px;
+      line-height:1.6;
+      color:var(--muted, #5f6b74);
+    }
+    .info-panel-close{
+      position:absolute;
+      top:10px;
+      right:10px;
+      width:32px;
+      height:32px;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.08);
+      background:#f7fbfc;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      font-size:18px;
+      color:var(--muted, #5f6b74);
+    }
+    .info-panel-close:hover{
+      background:#edf5f7;
+    }
+
+    @media(min-width:900px){
+      .info-panel{
+        align-items:center;
+      }
+      .info-panel-body{
+        margin-bottom:0;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -507,12 +586,24 @@
       </div>
 
       <div class="mv-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-        <div class="mv-card" style="background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;box-shadow:0 8px 20px rgba(0,0,0,.04);text-align:center">
+        <div class="mv-card"
+             style="background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;box-shadow:0 8px 20px rgba(0,0,0,.04);text-align:center"
+             role="button"
+             tabindex="0"
+             data-detail="1"
+             data-detail-title="Misyonumuz"
+             data-detail-text="Hayvan refahını önceleyen, bilimsel ve şeffaf tedavi yaklaşımı ile güven vermek; acil durumdan rutin kontrole kadar her ziyareti planlı ve kayıtlı bir süreç haline getirmek. Hasta yakınının sorularını acele etmeden yanıtlamayı ve tedavi seçeneklerini anlaşılır şekilde paylaşmayı klinik kültürümüzün bir parçası olarak görüyoruz.">
           <i class="fa-solid fa-bullseye" style="color:var(--icon-ink);font-size:32px;margin-bottom:8px"></i>
           <h3>Misyonumuz</h3>
           <p>Hayvan refahını önceleyen, bilimsel ve şeffaf tedavi yaklaşımı ile güven vermek.</p>
         </div>
-        <div class="mv-card" style="background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;box-shadow:0 8px 20px rgba(0,0,0,.04);text-align:center">
+        <div class="mv-card"
+             style="background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;box-shadow:0 8px 20px rgba(0,0,0,.04);text-align:center"
+             role="button"
+             tabindex="0"
+             data-detail="1"
+             data-detail-title="Vizyonumuz"
+             data-detail-text="Uluslararası standartlarda yenilikçi veterinerlik uygulamalarında öncü olmak; ileri görüntüleme, cerrahi ve yoğun bakım hizmetlerini Konya’daki hasta sahipleri için ulaşılabilir kılmak. Eğitim ve sürekli gelişim odaklı bir ekip yapısı ile bölgedeki referans kliniklerden biri olmayı hedefliyoruz.">
           <i class="fa-solid fa-eye" style="color:var(--icon-ink);font-size:32px;margin-bottom:8px"></i>
           <h3>Vizyonumuz</h3>
           <p>Uluslararası standartlarda yenilikçi veterinerlik uygulamalarında öncü olmak.</p>
@@ -530,17 +621,37 @@
       </div>
 
       <div class="values-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
-        <div class="value" style="position:relative;background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.04)">
+        <div class="value"
+             style="position:relative;background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.04)"
+             role="button"
+             tabindex="0"
+             data-detail="1"
+             data-detail-title="Hayvan Sevgisi"
+             data-detail-text="Her hastayı sadece tıbbi bir vaka değil, ailenin bir üyesi olarak görüyoruz. Özellikle korkak ve hassas hayvanlarda muayene süresini uzatmayı, sakinleştirici ortam oluşturmayı ve hasta yakınının yanında kalmasına izin vermeyi önemsiyoruz. Bu yaklaşım hem stresi azaltıyor hem de muayene kalitesini artırıyor.">
           <div class="vi" style="width:56px;height:56px;border-radius:50%;margin:0 auto 10px;background:#e7f3f4;color:var(--icon-ink);display:flex;align-items:center;justify-content:center;font-size:22px"><i class="fa-solid fa-heart"></i></div>
           <h3>Hayvan Sevgisi</h3>
           <p>Her hastaya şefkatli ve saygılı yaklaşım.</p>
         </div>
-        <div class="value" style="position:relative;background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.04)">
+
+        <div class="value"
+             style="position:relative;background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.04)"
+             role="button"
+             tabindex="0"
+             data-detail="1"
+             data-detail-title="Profesyonellik"
+             data-detail-text="Tanı ve tedavi sürecinde kullandığımız tüm ilaç, protokol ve cihazları güncel bilimsel kılavuzlarla uyumlu olacak şekilde seçiyoruz. Gereksiz tetkik ve gereksiz antibiyotik kullanımından kaçınmaya, her vakayı kayıt altında tutup gerektiğinde ikinci görüş için raporlayabilmeye dikkat ediyoruz.">
           <div class="vi" style="width:56px;height:56px;border-radius:50%;margin:0 auto 10px;background:#e7f3f4;color:var(--icon-ink);display:flex;align-items:center;justify-content:center;font-size:22px"><i class="fa-solid fa-hand-holding-medical"></i></div>
           <h3>Profesyonellik</h3>
           <p>Güncel protokoller, kanıta dayalı tedavi.</p>
         </div>
-        <div class="value" style="position:relative;background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.04)">
+
+        <div class="value"
+             style="position:relative;background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.04)"
+             role="button"
+             tabindex="0"
+             data-detail="1"
+             data-detail-title="Güvenilirlik"
+             data-detail-text="Muayene ve tedavi başlamadan önce tahmini maliyet aralığını, tedavi süresini ve olası riskleri net biçimde paylaşıyoruz. Hasta yakınının onayı olmadan ek işlem yapmamaya, taburculuk sonrası bakım ve kontrol planını yazılı olarak iletmeye önem veriyoruz. Şeffaf iletişim, uzun vadeli güvenin temelidir.">
           <div class="vi" style="width:56px;height:56px;border-radius:50%;margin:0 auto 10px;background:#e7f3f4;color:var(--icon-ink);display:flex;align-items:center;justify-content:center;font-size:22px"><i class="fa-solid fa-shield-dog"></i></div>
           <h3>Güvenilirlik</h3>
           <p>Şeffaf iletişim, net bilgilendirme.</p>
@@ -774,5 +885,79 @@
     <defs><style>.i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.i-solid{fill:currentColor;stroke:none}</style></defs>
     <symbol id="i-paw" viewBox="0 0 24 24"><path class="i" d="M7.2 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM16.8 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM10.2 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM13.8 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM6.5 15.2c0-2.6 2.3-4.7 5.5-4.7s5.5 2.1 5.5 4.7c0 1.6-1.5 2.8-3.4 2.8-1 0-1.9-.3-2.1-.8-.3.5-1.1.8-2.1.8-1.9 0-3.4-1.2-3.4-2.8z"/></symbol>
   </svg>
+
+  <!-- Kart tıklanınca açılan bilgi paneli -->
+  <div class="info-panel" id="cardDetail" aria-hidden="true">
+    <div class="info-panel-backdrop" data-close-detail></div>
+    <div class="info-panel-body" role="dialog" aria-modal="true" aria-labelledby="cardDetailTitle">
+      <button class="info-panel-close" type="button" aria-label="Kapat" data-close-detail>×</button>
+      <h3 class="info-panel-title" id="cardDetailTitle"></h3>
+      <p class="info-panel-text" id="cardDetailText"></p>
+    </div>
+  </div>
+
+  <!-- Kart detay paneli davranışı -->
+  <script>
+    (function(){
+      const cards = document.querySelectorAll('.value[data-detail], .mv-card[data-detail]');
+      const panel = document.getElementById('cardDetail');
+      if (!panel || !cards.length) return;
+
+      const titleEl = panel.querySelector('#cardDetailTitle');
+      const textEl  = panel.querySelector('#cardDetailText');
+      const closeEls = panel.querySelectorAll('[data-close-detail]');
+
+      function openPanel(card){
+        const title = card.getAttribute('data-detail-title') ||
+                      card.querySelector('h3')?.textContent ||
+                      '';
+        const text  = card.getAttribute('data-detail-text') ||
+                      card.querySelector('p')?.textContent ||
+                      '';
+
+        if (titleEl) titleEl.textContent = title;
+        if (textEl)  textEl.textContent  = text;
+
+        panel.classList.add('open');
+        panel.setAttribute('aria-hidden', 'false');
+      }
+
+      function closePanel(){
+        panel.classList.remove('open');
+        panel.setAttribute('aria-hidden', 'true');
+      }
+
+      cards.forEach(card=>{
+        card.style.cursor = 'pointer';
+
+        card.addEventListener('click', function(){
+          openPanel(card);
+        });
+
+        card.addEventListener('keydown', function(e){
+          if(e.key === 'Enter' || e.key === ' '){
+            e.preventDefault();
+            openPanel(card);
+          }
+        });
+      });
+
+      closeEls.forEach(el=>{
+        el.addEventListener('click', closePanel);
+      });
+
+      panel.addEventListener('click', function(e){
+        if(e.target === panel){
+          closePanel();
+        }
+      });
+
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape'){
+          closePanel();
+        }
+      });
+    })();
+  </script>
 </body>
-</html> 
+</html>
