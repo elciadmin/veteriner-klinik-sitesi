@@ -23,8 +23,10 @@
       --brand:#5a1fa8;
       --brand2:#36106b;
       --accent:#27d4e8;
-      --hero-start:#30105f;
-      --hero-end:#27d4e8;
+
+      /* HİZMETLER HERO – HASTA İLİŞKİLERİYLE AYNI TON */
+      --hero-start:#170a26;  /* daha koyu mor / lacivert */
+      --hero-end:#31c7df;    /* turkuaz */
 
       --ink:#0f1b22;
       --muted:#5f6b74;
@@ -145,7 +147,6 @@
     nav a[aria-current="page"]{
       color:#c0f3ff;
     }
-
     .mobile-menu-btn{
       display:none;
       background:none;
@@ -855,8 +856,9 @@
       --footer-start:#241043;
       --footer-end:#5a1fa8;
 
-      --hero-start:#30105f;
-      --hero-end:#27d4e8;
+      /* BURAYI DA HASTA İLİŞKİLERİYLE AYNI YAPTIK */
+      --hero-start:#170a26;
+      --hero-end:#31c7df;
 
       --icon-ink:#0a4f60;
     }
@@ -883,6 +885,32 @@
       color:#e8fbff;
       opacity:.96;
       text-shadow:0 1px 8px rgba(0,0,0,.3);
+    }
+
+    /* Hero — markanın degrade stili */
+    .hero{
+      background:
+        radial-gradient(1400px 700px at 85% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
+        linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%) !important;
+      color:#fff;
+    }
+    .hero h1{
+      color:#fff;
+      text-shadow:0 2px 18px rgba(0,0,0,.22);
+    }
+    .hero .hero-sub{
+      color:#e8fbff;
+      opacity:.98;
+    }
+    .hero .btn{
+      border-color:transparent;
+    }
+    .hero .btn.ghost{
+      background:#ffffff1a;
+      color:#fff;
+    }
+    .hero .btn.ghost:hover{
+      background:#ffffff2b;
     }
 
     .breadcrumb a{
@@ -1547,7 +1575,7 @@
               Arama terimlerinizi sadeleştirerek veya filtreleri temizleyerek tekrar deneyebilirsiniz.
             </p>
           </section>`;
-      updateCount(0);
+        updateCount(0);
         return;
       }
 
