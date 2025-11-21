@@ -24,6 +24,72 @@
     section h2::after{content:"";position:absolute;left:0;bottom:-8px;width:72px;height:3px;border-radius:999px;background:linear-gradient(90deg,var(--brand),var(--accent))}
     .hidden{display:none !important}
 
+    /* INDEX HIZLI BUTONLAR (HERO ALTINDA) */
+    .quick-links-band{
+      margin-top:-40px;
+      margin-bottom:40px;
+      position:relative;
+      z-index:2;
+    }
+    .quick-links{
+      display:grid;
+      grid-template-columns:repeat(6,1fr);
+      gap:15px;
+      background:#ffffff;
+      border-radius:18px;
+      padding:16px 18px;
+      box-shadow:0 12px 30px rgba(0,0,0,.12);
+      border:1px solid #dde8ec;
+    }
+    .quick-link{
+      background:linear-gradient(135deg,#f7fbff,#f0f6fb);
+      border-radius:12px;
+      padding:15px 10px;
+      text-align:center;
+      transition:all .22s ease;
+      border:1px solid #e1ecf1;
+      text-decoration:none;
+      color:#123;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      min-height:92px;
+    }
+    .quick-link:hover{
+      transform:translateY(-4px);
+      box-shadow:0 10px 20px rgba(0,0,0,0.12);
+      border-color:#d3e3ec;
+    }
+    .quick-icon{
+      width:40px;
+      height:40px;
+      margin-bottom:8px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(135deg,var(--brand),var(--brand2));
+      color:#fff;
+    }
+    .quick-icon i{
+      font-size:1.2rem;
+    }
+    .quick-title{
+      font-size:0.9rem;
+      font-weight:600;
+    }
+
+    @media (max-width:1100px){
+      .quick-links{grid-template-columns:repeat(3,1fr);}
+    }
+    @media (max-width:768px){
+      .quick-links-band{margin-top:0;}
+      .quick-links{grid-template-columns:repeat(2,1fr);}
+    }
+    @media (max-width:480px){
+      .quick-links{grid-template-columns:1fr;}
+    }
+
     /* SSS layout (ÖNCEKİ TASARIM AYNEN) */
     .faq-layout{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
     @media (max-width: 1024px){.faq-layout{grid-template-columns:1fr}}
@@ -236,15 +302,56 @@
           <a class="btn primary" href="tel:03323223220">Hemen Ara</a>
           <a class="btn ghost" href="/contact.html">Randevu Al</a>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <div class="quick-links" aria-label="Hızlı bağlantılar">
-          <a class="q" href="/hizmetler.html#koruyucu" title="Branşlarımız"><span class="icon"><svg viewBox="0 0 24 24"><use href="#i-paw"/></svg></span><span>Branşlarımız</span></a>
-          <a class="q" href="/contact.html" title="Hızlı Randevu"><span class="icon"><svg viewBox="0 0 24 24"><use href="#i-stethoscope"/></svg></span><span>Hızlı Randevu</span></a>
-          <a class="q" href="/hasta-iliskileri.html" title="Tahlil Sonuçları"><span class="icon"><svg viewBox="0 0 24 24"><use href="#i-microscope"/></svg></span><span>Tahlil Sonuçları</span></a>
-          <a class="q" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" title="Elçi TV"><span class="icon"><svg viewBox="0 0 24 24"><use href="#i-article"/></svg></span><span>Elçi TV</span></a>
-          <a class="q" href="#location" title="Konum & İletişim"><span class="icon"><svg viewBox="0 0 24 24"><use href="#i-phone-bubble"/></svg></span><span>Konum & İletişim</span></a>
-          <a class="q" href="tel:03323223220" title="Acil Hattı"><span class="icon"><svg viewBox="0 0 24 24"><use href="#i-ambulance"/></svg></span><span>Acil</span></a>
-        </div>
+  <!-- INDEX STİL HIZLI BUTONLAR (HERO ALTINDA) -->
+  <section class="quick-links-band">
+    <div class="container">
+      <div class="quick-links">
+        <a href="/about.html#ekibimiz" class="quick-link">
+          <div class="quick-icon">
+            <i class="fa-solid fa-user-doctor"></i>
+          </div>
+          <div class="quick-title">VETERİNERLERİMİZ</div>
+        </a>
+
+        <a href="/hizmetler.html" class="quick-link">
+          <div class="quick-icon">
+            <i class="fa-solid fa-stethoscope"></i>
+          </div>
+          <div class="quick-title">HİZMETLERİMİZ</div>
+        </a>
+
+        <a href="/hasta-iliskileri.html#online-randevu" class="quick-link">
+          <div class="quick-icon">
+            <i class="fa-solid fa-calendar-check"></i>
+          </div>
+          <div class="quick-title">HIZLI RANDEVU</div>
+        </a>
+
+        <a href="/about.html#basarilar" class="quick-link">
+          <div class="quick-icon">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <div class="quick-title">BAŞARILARIMIZ</div>
+        </a>
+
+        <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi"
+           target="_blank" rel="noopener" class="quick-link">
+          <div class="quick-icon">
+            <i class="fa-brands fa-youtube"></i>
+          </div>
+          <div class="quick-title">ELÇİ TV</div>
+        </a>
+
+        <a href="tel:03323223220" class="quick-link">
+          <div class="quick-icon">
+            <i class="fa-solid fa-phone-alt"></i>
+          </div>
+          <div class="quick-title">İLETİŞİM</div>
+        </a>
       </div>
     </div>
   </section>
