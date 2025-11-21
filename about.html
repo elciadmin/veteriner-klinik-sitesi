@@ -35,7 +35,6 @@
       padding:16px;
       box-shadow:0 8px 20px rgba(0,0,0,.08);
       transition:.35s;
-      /* Tasarım aynı, ama artık baştan görünür */
       opacity:1;
       transform:none;
     }
@@ -80,9 +79,9 @@
       border-radius:12px;
     }
 
-    /* === Hekim kartı için daha küçük, yatay layout === */
+    /* === Hekim kartı — görsel solda, %230 daha büyük === */
     .team-grid.single-member{
-      max-width:720px;
+      max-width:900px;
       margin:0 auto;
     }
     .member{
@@ -92,13 +91,13 @@
       overflow:hidden;
       box-shadow:0 8px 20px rgba(0,0,0,.04);
       display:flex;
-      gap:14px;
+      gap:18px;
       align-items:flex-start;
-      padding:12px;
+      padding:16px;
     }
     .member-img{
-      flex:0 0 140px;
-      border-radius:12px;
+      flex:0 0 230px; /* önce ~140px idi, yaklaşık %230 büyütüldü */
+      border-radius:14px;
       overflow:hidden;
       background:#f3f7f8;
     }
@@ -116,25 +115,27 @@
       font-weight:700;
       margin-bottom:4px;
       color:var(--brand2);
-      font-size:14px;
+      font-size:15px;
     }
     .member-info h3{
-      margin:0 0 4px;
-      font-size:18px;
+      margin:0 0 6px;
+      font-size:20px;
     }
     .member-info p{
       margin:0;
-      font-size:14px;
+      font-size:15px;
       color:var(--muted);
-      line-height:1.5;
+      line-height:1.6;
     }
     @media(max-width:640px){
       .member{
-        flex-direction:row;
-        align-items:flex-start;
+        flex-direction:column;
+        padding:14px;
       }
       .member-img{
-        flex:0 0 110px;
+        flex:0 0 auto;
+        width:100%;
+        max-height:260px;
       }
     }
   </style>
@@ -229,7 +230,7 @@
     .m-ico{
       background:linear-gradient(135deg, var(--brand), var(--brand2)) !important;
     }
-    .stars{ color:#f5b100 } /* yıldız rengi aynı kalsın */
+    .stars{ color:#f5b100 }
 
     /* Metrics çubuk/donut/gauge paleti */
     .m-progress{ background:#e9f4f7 }
@@ -484,7 +485,6 @@
       </div>
 
       <div class="metrics-grid" id="metricsGrid">
-        <!-- data-value alanları düzenlenebilir -->
         <article class="m-card" data-kind="kpi" data-suffix=" dk" data-progress="80" data-value="12">
           <div class="m-head">
             <div class="m-title">Ortalama Bekleme Süresi</div>
@@ -572,7 +572,7 @@
     </div>
   </section>
 
-  <!-- EKİP (şimdilik 1 kart, küçük ve yatay) -->
+  <!-- EKİP (şimdilik 1 kart, görsel solda, büyük) -->
   <section id="ekibimiz" class="section">
     <div class="container">
       <div class="section-title">
@@ -583,14 +583,15 @@
       <div class="team-grid single-member">
         <article class="member">
           <div class="member-img">
-            <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=60"
+            <!-- Görsel dışarıdan yüklenebilir: /assets/img/uploads/ekip-cerrah.jpg -->
+            <img src="/assets/img/uploads/ekip-cerrah.jpg?v=1"
                  alt="Cerrahi Uzmanı Veteriner Hekim"
                  loading="lazy" decoding="async">
           </div>
           <div class="member-info">
             <div class="role">Cerrahi Uzmanı</div>
             <h3>Veteriner Hekim</h3>
-            <p>Yumuşak doku cerrahisi, acil operasyonlar ve travma yönetimi konusunda deneyimli ekip üyesi. Ameliyat öncesi risk değerlendirmesi, ameliyat planlaması ve ameliyat sonrası bakım süreçlerini takip eder.</p>
+            <p>Yumuşak doku cerrahisi, acil operasyonlar ve travma yönetimi alanlarında görev alan ekibimiz; ameliyat öncesi değerlendirme, ameliyat süreci ve ameliyat sonrası ağrı kontrolünü planlı ve kayıtlı bir şekilde takip eder. Her vaka için hasta sahibine anlaşılır, adım adım bilgilendirme yapılmasını önemser.</p>
           </div>
         </article>
       </div>
@@ -820,7 +821,7 @@
   <!-- Footer yılı (garanti) -->
   <script>document.getElementById('yil')?.append(new Date().getFullYear());</script>
 
-  <!-- Reviews 3'lü mini fallback (main.js olmasa da çalışır) -->
+  <!-- Reviews fallback -->
   <script>
     (function(){
       const sec = document.querySelector('.js-reviews#hasta-yakini-gorusleri'); if(!sec) return;
@@ -847,13 +848,13 @@
     })();
   </script>
 
-  <!-- Metrics animasyonu (donut, gauge, kpi) -->
+  <!-- Metrics animasyonu -->
   <script>
     (function(){
       const root = document.getElementById('metricsGrid'); if(!root) return;
       const cards = Array.from(root.querySelectorAll('.m-card'));
-      const donutCirc = 2 * Math.PI * 48; // 301.59
-      const gaugeArc = 226.19;            // 270°
+      const donutCirc = 2 * Math.PI * 48;
+      const gaugeArc = 226.19;
 
       function count(el, to, suffix){
         const num = el.querySelector('.m-num'); if(!num) return;
@@ -934,7 +935,7 @@
     })();
   </script>
 
-  <!-- SVG ICON SPRITE (gerekirse) -->
+  <!-- SVG ICON SPRITE -->
   <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute; width:0; height:0; overflow:hidden">
     <defs><style>.i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.i-solid{fill:currentColor;stroke:none}</style></defs>
     <symbol id="i-paw" viewBox="0 0 24 24"><path class="i" d="M7.2 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM16.8 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM10.2 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM13.8 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM6.5 15.2c0-2.6 2.3-4.7 5.5-4.7s5.5 2.1 5.5 4.7c0 1.6-1.5 2.8-3.4 2.8-1 0-1.9-.3-2.1-.8-.3.5-1.1.8-2.1.8-1.9 0-3.4-1.2-3.4-2.8z"/></symbol>
