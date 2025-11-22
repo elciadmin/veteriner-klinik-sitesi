@@ -1,50 +1,56 @@
 {
   "hero_title": "Hakkımızda",
-  "hero_sub": "2013’ten bu yana Konya’da evcil dostlarınız için; etik, teknolojik ve şeffaf veterinerlik yaklaşımı.",
+  "hero_sub": "2023’ten bu yana Konya’da evcil dostlarınız için; etik, teknolojik ve şeffaf veterinerlik yaklaşımı.",
+
   "founder": {
-    "name": "Veteriner Hekim Mehmet Elçi",
-    "bio": "1980 Konya doğumlu. Ankara Üni. Veteriner Fakültesi (2003) mezunu. Büyükbaş klinik tecrübesi sonrası evcil hayvana odaklandı. 2013’te Meram’da Elçi Veteriner Kliniği’ni kurdu.",
-    "photo": "https://images.unsplash.com/photo-1583339793403-3b0338094d19?auto=format&fit=crop&w=1000&q=80"
+    "name": "Elçi Kimdir?",
+    "bio": "Veteriner hekimlik, insan ve hayvanın ilk temas noktasından itibaren insanlığa hizmet eden, multidisipliner bir meslektir. İnsanlık tarihi boyunca hayvanların sağlığını korumayı ve yaşam kalitesini yükseltmeyi görev edinen veteriner hekimler; toplum ile hayvanlar alemi arasında birer sağlık elçisi olarak sorumluluk taşırlar. Elçi Veteriner Kliniği’nin kuruluşunda da bu yaklaşım temel alınmış, hekimlerimizin her biri hasta ile sahibi arasında güven, bilgi ve empati köprüsü kurmayı bir meslek onuru olarak benimsemiştir. Bu nedenle “Elçi” adı, yalnızca bir klinik ismi değil; mesleğe bakış açımızın, ahlaki duruşumuzun ve şefkat temelli hekimlik anlayışımızın simgesidir.",
+    "photo": "/assets/img/uploads/elci-logo.png"
   },
+
+  "mission_short": "Hayvan refahını önceleyen, bilimsel ve şeffaf tedavi yaklaşımı ile güven vermek.",
+  "vision_short": "Etik değerlere bağlı, ulaşılabilir ve yenilikçi klinik hizmet sunan modern bir referans merkezi olmak.",
+
+  "mission_long": "Elçi Veteriner Kliniği olarak misyonumuz; yaşamın her döneminde sağlık hizmetine ihtiyaç duyan hastalarımıza kanıta dayalı veteriner hekimlik uygulamaları sunmak, hasta sahiplerinin güven duyduğu şeffaf bir tedavi yaklaşımı oluşturmak ve çağdaş tıp teknolojilerini günlük klinik pratiğe entegre etmektir. Bütün süreçlerde hasta haklarını gözetir, empatiyi ön planda tutar ve kaliteli hekimlik hizmetini bölgemizin her noktasına ulaşılabilir kılmayı hedefleriz.",
+  "vision_long": "Vizyonumuz; etik değerlere bağlı, sürekli gelişen, modern ve güvenilir bir veterinerlik merkezi olarak tanınmak; bilimsel gelişmeleri yakından takip ederek bunları klinik uygulamalara uyarlayan, hasta memnuniyetini sürdürülebilir şekilde yüksek tutan bir kurum olmaktır. Uzun vadeli hedefimiz, Konya’dan başlayarak ülke genelinde hayvan sağlığında güvenin, teknolojide yeniliğin ve insan–hayvan bağında empatinin referans noktası haline gelmektir.",
+
+  "values_long": {
+    "Hayvan Sevgisi": "Elçi Veteriner Kliniği için hayvan sevgisi yalnızca duygusal bir bağ değil; tüm tedavi süreçlerinin temeline yerleşmiş bilimsel, etik ve insani bir değerdir. Her hastaya kendi hayvanımız gibi yaklaşır, yalnızca hastalığı değil, canın konforunu ve yaşam kalitesini de önemseriz.",
+    "Profesyonellik": "Profesyonellik; güncel protokollere bağlılık, sürekli eğitimle gelişim, etik değerlere tam uyum ve hasta sahibine güven veren iletişim demektir. Ekibimiz her hastaya planlı, kayıtlı ve disiplinli bir tedavi yaklaşımı sunar.",
+    "Güvenilirlik": "Tüm tedavi süreçlerinde şeffaflığı esas alır, işlem öncesi maliyet ve riskleri açık şekilde ifade ederiz. Hasta sahibinin onayı olmadan hiçbir işlem yapılmaz. Taburculuk sonrası bakım talimatları detaylı ve yazılı şekilde iletilir."
+  },
+
   "metrics": [
-    {"kind":"kpi","title":"Ortalama Bekleme Süresi","value":"12","suffix":" dk","progress":80},
-    {"kind":"kpi","title":"Bu Ay Sonuçlandırılan Vaka","value":"420","suffix":" vaka","progress":60},
-    {"kind":"donut","title":"Aşı Programı Tamamlama","value":"86","suffix":"%"},
-    {"kind":"gauge","title":"Memnuniyet Skoru","value":"4.8","max":5},
-    {"kind":"kpi","title":"İlk Ziyarette Çözüm","value":"92","suffix":"%","progress":93},
-    {"kind":"kpi","title":"Laboratuvar Sonuç Süresi","value":"45","suffix":" dk","progress":80},
-    {"kind":"kpi","title":"El Uzattığımız Hayvanlar","value":"150","suffix":" hayvan","progress":50},
-    {"kind":"kpi","title":"İyileşme Süresi Ortalama","value":"6","suffix":" gün","progress":70}
+    {"kind": "kpi", "title": "Ortalama Bekleme Süresi", "value": "6", "suffix": " dk", "progress": 100},
+    {"kind": "kpi", "title": "Bu Ay Sonuçlandırılan Vaka", "value": "2328", "suffix": " vaka", "progress": 92},
+    {"kind": "donut", "title": "Aşı Programı Tamamlama", "value": "97", "suffix": "%"},
+    {"kind": "gauge", "title": "Memnuniyet Skoru", "value": "4.9", "max": 5},
+    {"kind": "kpi", "title": "İlk Ziyarette Çözüm", "value": "97", "suffix": "%", "progress": 97},
+    {"kind": "kpi", "title": "Laboratuvar Sonuç Süresi", "value": "18", "suffix": " dk", "progress": 100},
+    {"kind": "kpi", "title": "El Uzattığımız Hayvanlar", "value": "227", "suffix": " hayvan", "progress": 65},
+    {"kind": "kpi", "title": "İyileşme Süresi Ortalama", "value": "6.2", "suffix": " gün", "progress": 90}
   ],
+
   "team": [
     {
-      "name":"Dr. Ayşe Yılmaz",
-      "role":"Cerrahi Uzmanı",
-      "desc":"12 yıllık deneyimle yumuşak doku ve ortopedi ameliyatları.",
-      "photo":"https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=60"
-    },
-    {
-      "name":"Dr. Mehmet Kaya",
-      "role":"İç Hastalıkları Uzmanı",
-      "desc":"Endokrinoloji, gastroenteroloji ve tanısal süreç yönetimi.",
-      "photo":"https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=900&q=60"
-    },
-    {
-      "name":"Dr. Zeynep Demir",
-      "role":"Dermatoloji & Diş",
-      "desc":"Periodontal tedavi, diş çekimi ve deri hastalıkları.",
-      "photo":"https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=900&q=60"
+      "name": "Veteriner Hekim Hasan Kaya",
+      "role": "Sorumlu Veteriner Hekim",
+      "desc": "2020 Selçuk Üniversitesi Veteriner Fakültesi mezunu. Ankara’da özel bir klinikte 2 yıl, kamu görevinde 1 yıl çalıştı. 2023’ten bu yana Elçi Veteriner Kliniği’nin kurucusu ve sorumlu hekimi olarak görev yapmaktadır.",
+      "photo": "/assets/img/uploads/elci-logo.png"
     }
   ],
+
   "clinic": [
-    {"icon":"fa-solid fa-x-ray","text":"Dijital Röntgen"},
-    {"icon":"fa-solid fa-heart-pulse","text":"Oksijen Kafesi"},
-    {"icon":"fa-solid fa-microscope","text":"Hızlı Kan Tahlili"},
-    {"icon":"fa-solid fa-bed-pulse","text":"Yoğun Bakım İzlem"}
-  ],
-  "values": [
-    {"icon":"fa-solid fa-heart","title":"Hayvan Sevgisi","text":"Her hastaya şefkatli ve saygılı yaklaşım."},
-    {"icon":"fa-solid fa-hand-holding-medical","title":"Profesyonellik","text":"Güncel protokoller, kanıta dayalı tedavi."},
-    {"icon":"fa-solid fa-shield-dog","title":"Güvenilirlik","text":"Şeffaf iletişim, net bilgilendirme."}
+    {"icon": "fa-solid fa-stethoscope", "text": "Genel Muayene"},
+    {"icon": "fa-solid fa-virus-covid", "text": "İç Hastalıkları"},
+    {"icon": "fa-solid fa-syringe", "text": "Aşı Programları"},
+    {"icon": "fa-solid fa-venus-mars", "text": "Kısırlaştırma"},
+    {"icon": "fa-solid fa-shield-cat", "text": "Mikroçip"},
+    {"icon": "fa-solid fa-kit-medical", "text": "Acil Müdahale"},
+    {"icon": "fa-solid fa-bed-pulse", "text": "Yoğun Bakım"},
+    {"icon": "fa-solid fa-scissors", "text": "Yara ve Dikiş"},
+    {"icon": "fa-solid fa-paw", "text": "Parazit Tedavileri"},
+    {"icon": "fa-solid fa-comments", "text": "Danışmanlık"},
+    {"icon": "fa-solid fa-heart-pulse", "text": "Ameliyathane Hizmetleri"}
   ]
 }
