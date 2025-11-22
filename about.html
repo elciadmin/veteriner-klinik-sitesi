@@ -481,7 +481,8 @@
         <p>Hasta sahipleri için güncel ve anlaşılır klinik performans verileri.</p>
       </div>
 
-      <div class="metrics-grid" id="metricsGrid">
+      <!-- BURADA SADECE ID’Yİ DEĞİŞTİRDİK -->
+      <div class="metrics-grid" id="aboutMetricsGrid">
         <!-- Ortalama Bekleme Süresi: 6 dk -->
         <article class="m-card" data-kind="kpi" data-suffix="dk" data-progress="85" data-value="6">
           <div class="m-head">
@@ -876,7 +877,7 @@
   <!-- Metrics animasyonu (basitleştirilmiş, sayfa yüklenince direkt çalışır) -->
   <script>
     (function () {
-      const root = document.getElementById('metricsGrid');
+      const root = document.getElementById('aboutMetricsGrid'); // ID burada değişti
       if (!root) return;
 
       const cards = Array.from(root.querySelectorAll('.m-card'));
