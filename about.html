@@ -713,9 +713,9 @@
              tabindex="0"
              data-detail="1"
              data-detail-title="Profesyonellik"
-             data-detail-text="Tanı ve tedavi sürecinde kullandığımız tüm ilaç, protokol ve cihazları güncel bilimsel kılavuzlarla uyumlu olacak şekilde seçeriz. Gereksiz tetkik ve gereksiz antibiyotik kullanımından kaçınmaya, her vakayı kayıt altında tutup gerektiğinde ikinci görüş veya sevk için raporlayabilmeye özen gösteririz. Ekip içi iletişim, konsültasyon kültürü ve düzenli vaka değerlendirmeleri profesyonellik anlayışımızın bir parçasıdır.">
+             data-detail-text="Tanı ve tedavi sürecinde kullandığımız tüm ilaç, protokol ve cihazları güncel bilimsel kılavuzlarla uyumlu olacak şekilde seçeriz. Gereksiz tetkik ve gereksiz antibiyotik kullanımından kaçınmaya, her vakayı kayıt altında tutup gerektiğinde ikinci görüş veya sevk için raporlayabilmeye özen gösteririz. Ekip içi iletişim, konsültasyon kültürü ve düzenli vaka değerlendirmeleri profesyonlilik anlayışımızın bir parçasıdır.">
           <div class="vi" style="width:56px;height:56px;border-radius:50%;margin:0 auto 10px;background:#e7f3f4;color:var(--icon-ink);display:flex;align-items:center;justify-content:center;font-size:22px"><i class="fa-solid fa-hand-holding-medical"></i></div>
-          <h3>Profesyonellik</h3>
+          <h3>Profesyonlilik</h3>
           <p>Güncel protokoller, kanıta dayalı tedavi.</p>
         </div>
 
@@ -873,96 +873,123 @@
     })();
   </script>
 
-  <!-- Metrics animasyonu (ondalıklı sayıları da destekler) -->
+  <!-- Metrics animasyonu (basitleştirilmiş, sayfa yüklenince direkt çalışır) -->
   <script>
-    (function(){
-      const root = document.getElementById('metricsGrid'); if(!root) return;
-      const cards = Array.from(root.querySelectorAll('.m-card'));
-      const donutCirc = 2 * Math.PI * 48;
-      const gaugeArc = 226.19;
+    (function () {
+      const root = document.getElementById('metricsGrid');
+      if (!root) return;
 
-      function count(el, to, suffix){
-        const num = el.querySelector('.m-num'); if(!num) return;
+      const cards = Array.from(root.querySelectorAll('.m-card'));
+      if (!cards.length) return;
+
+      const donutCirc = 2 * Math.PI * 48; // r=48
+      const gaugeArc = 226.19; // yarım daire yay uzunluğu
+
+      function count(el, to, suffix) {
+        const num = el.querySelector('.m-num');
+        if (!num) return;
+
         const unit = el.querySelector('.m-unit');
-        if(unit && suffix){ unit.textContent = ' ' + suffix.trim(); }
+        if (unit && suffix) {
+          unit.textContent = ' ' + suffix.trim();
+        }
 
         const end = Number(to) || 0;
         const decimals = String(to).includes('.') ? 1 : 0;
         const dur = 1200;
-        const t0 = performance.now();
+        const t0 = performance.now ? performance.now() : Date.now();
 
-        function step(t){
-          const k = Math.min(1, (t - t0)/dur);
-          const v = 0 + (end - 0)*k;
+        function step(t) {
+          const now = t || (performance.now ? performance.now() : Date.now());
+          const k = Math.min(1, (now - t0) / dur);
+          const v = end * k;
           num.textContent = decimals ? v.toFixed(decimals) : Math.round(v).toString();
-          if(k<1) requestAnimationFrame(step);
+          if (k < 1) requestAnimationFrame(step);
         }
+
         requestAnimationFrame(step);
       }
 
-      function animateCard(card){
+      function animateCard(card) {
         const kind = card.dataset.kind || 'kpi';
-        if(kind === 'kpi'){
-          const suffix = (card.dataset.suffix||'').trim();
+
+        if (kind === 'kpi') {
+          const suffix = (card.dataset.suffix || '').trim();
           const val = card.dataset.value || '0';
           const bar = card.querySelector('.m-bar');
-          const prog = Math.max(0, Math.min(100, Number(card.dataset.progress)||0));
-          setTimeout(()=>{ if(bar) bar.style.width = prog + '%'; }, 100);
+          const prog = Math.max(0, Math.min(100, Number(card.dataset.progress) || 0));
+
+          if (bar) {
+            bar.style.transition = 'width 1s ease';
+            bar.style.width = prog + '%';
+          }
+
           count(card, val, suffix);
         }
-        if(kind === 'donut'){
-          const val = Math.max(0, Math.min(100, Number(card.dataset.value)||0));
+
+        if (kind === 'donut') {
+          const val = Math.max(0, Math.min(100, Number(card.dataset.value) || 0));
           const fg = card.querySelector('.m-fg');
           const txt = card.querySelector('text');
-          if(fg){
-            const target = donutCirc * (1 - val/100);
+
+          if (fg) {
             fg.style.transition = 'stroke-dashoffset 1s ease';
-            requestAnimationFrame(()=>{ fg.style.strokeDashoffset = String(target); });
+            const target = donutCirc * (1 - val / 100);
+            requestAnimationFrame(() => {
+              fg.style.strokeDashoffset = String(target);
+            });
           }
-          if(txt){
-            const t0 = performance.now(); const dur = 1000;
-            (function step(t){
-              const k = Math.min(1, (t - t0)/dur); const v = Math.round(val*k);
-              txt.textContent = v + '%'; if(k<1) requestAnimationFrame(step);
-            })(t0);
+
+          if (txt) {
+            const t0 = performance.now ? performance.now() : Date.now();
+            const dur = 1000;
+
+            (function step(t) {
+              const now = t || (performance.now ? performance.now() : Date.now());
+              const k = Math.min(1, (now - t0) / dur);
+              const v = Math.round(val * k);
+              txt.textContent = v + '%';
+              if (k < 1) requestAnimationFrame(step);
+            })();
           }
         }
-        if(kind === 'gauge'){
+
+        if (kind === 'gauge') {
           const val = Number(card.dataset.value) || 0;
           const max = Number(card.dataset.max) || 5;
-          const pct = Math.max(0, Math.min(1, val/max));
+          const pct = Math.max(0, Math.min(1, val / max));
           const fg = card.querySelector('.m-fg');
           const txt = card.querySelector('text');
-          if(fg){
-            const target = gaugeArc * (1 - pct);
+
+          if (fg) {
             fg.style.transition = 'stroke-dashoffset 1s ease';
-            requestAnimationFrame(()=>{ fg.style.strokeDashoffset = String(target); });
+            const target = gaugeArc * (1 - pct);
+            requestAnimationFrame(() => {
+              fg.style.strokeDashoffset = String(target);
+            });
           }
-          if(txt){
-            const t0 = performance.now(); const dur = 1000;
-            (function step(t){
-              const k = Math.min(1, (t - t0)/dur);
+
+          if (txt) {
+            const t0 = performance.now ? performance.now() : Date.now();
+            const dur = 1000;
+
+            (function step(t) {
+              const now = t || (performance.now ? performance.now() : Date.now());
+              const k = Math.min(1, (now - t0) / dur);
               const v = (val * k).toFixed(1);
               txt.textContent = v + '/' + max;
-              if(k<1) requestAnimationFrame(step);
-            })(t0);
+              if (k < 1) requestAnimationFrame(step);
+            })();
           }
         }
       }
 
-      const io = ('IntersectionObserver' in window) ? new IntersectionObserver((entries)=>{
-        entries.forEach(e=>{
-          if(e.isIntersecting){
-            e.target.classList.add('show');
-            animateCard(e.target);
-            io.unobserve(e.target);
-          }
-        });
-      }, {threshold:.2}) : null;
-
-      cards.forEach(c=>{
-        if(io) io.observe(c);
-        else { c.classList.add('show'); animateCard(c); }
+      // Sayfa yüklendiğinde hepsini sırayla animasyonla
+      cards.forEach((card, idx) => {
+        setTimeout(() => {
+          card.classList.add('show');
+          animateCard(card);
+        }, idx * 150);
       });
     })();
   </script>
