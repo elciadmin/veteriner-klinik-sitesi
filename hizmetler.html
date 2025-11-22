@@ -432,7 +432,7 @@
       width:18px;
       height:18px;
       border-radius:999px;
-      border:2px solid var(--accent);
+      border:2px solid(var(--accent));
       display:flex;
       align-items:center;
       justify-content:center;
@@ -658,11 +658,16 @@
       margin:0 0 8px;
       font-size:1.05rem;
     }
-    .modal-content p{
+    .modal-body{
       margin:0 0 16px;
       font-size:.95rem;
       color:var(--muted);
       line-height:1.6;
+      max-height:60vh;
+      overflow-y:auto;
+    }
+    .modal-body p{
+      margin:0 0 10px;
     }
     .modal-actions{
       display:flex;
@@ -1303,6 +1308,106 @@
     let favMode    = false;
     let favorites  = [];
 
+    /* UZUN DETAY METİNLERİ (modal için) */
+    const DETAILS = {
+      'Acil & Yoğun Bakım': `
+        <p>Acil ve yoğun bakım birimi, hayati risk oluşturan akut durumlarda hızlı tanı, stabilizasyon ve ileri yaşam desteğinin sağlandığı alandır. Travma, şok tablosu, zehirlenmeler, solunum yetmezliği, ani nörolojik olaylar, şiddetli ağrı ve kritik hastalıklar zaman kaybetmeden müdahale gerektirir.</p>
+        <p>Kliniğimizde acil hastaların değerlendirilmesi; triage, vital parametre takibi ve hızlı tanı testleri ile başlar. Oksijen kafesi, sıvı tedavisi, resüsitasyon protokolleri, antitoksin uygulamaları ve acil farmakolojik müdahaleler, uluslararası acil veterinerlik kılavuzları referans alınarak uygulanır.</p>
+        <p>Kritik hastalarda 24 saat izlem, yoğun bakım standartlarında sürdürülür. Amaç, hastayı kısa sürede stabil hale getirip hayati tehlikeyi ortadan kaldırmak ve altta yatan soruna yönelik planlı tedavi sürecini başlatmaktır.</p>
+      `,
+      'Muayene & Koruyucu': `
+        <p>Muayene ve koruyucu hekimlik; hastalıkları yalnızca tedavi etmeyi değil, ortaya çıkmadan engellemeyi hedefleyen bütüncül yaklaşımdır. Aşı programları, iç–dış parazit kontrolü, yavru gelişim takipleri, yaşlı hayvan sağlık taramaları, mikroçip uygulamaları ve rutin check-up paketleri bu kapsamda değerlendirilir.</p>
+        <p>Rutin muayenede; anamnez, sistemik klinik muayene, gerektiğinde görüntüleme ve laboratuvar testleri kullanılarak hastanın genel sağlık durumu analiz edilir. Risk faktörlerine göre kişiselleştirilmiş aşı ve takip planları oluşturulur.</p>
+        <p>Amacımız, evcil dostlarınızın yaşam kalitesini yükseltmek, hastalık riskini azaltmak ve uzun vadede sağlıklı bir yaşam sürecini desteklemektir.</p>
+      `,
+      'İç Hastalıkları': `
+        <p>İç hastalıkları (dahiliye) bölümü; sindirim, solunum, üriner, hepatik, pankreatik, endokrin ve hematolojik sistem hastalıklarının tanı ve tedavisi ile ilgilenir. İshal, kusma, iştahsızlık, kilo kaybı, öksürük, halsizlik, karaciğer–böbrek fonksiyon bozuklukları ve metabolik hastalıklar en sık karşılaşılan tablolardır.</p>
+        <p>Tanı sürecinde hemogram, biyokimya, hormon profilleri, idrar analizi, enfeksiyon testleri ve gerekirse görüntüleme yöntemleri (röntgen, ultrason vb.) birlikte değerlendirilir. Elde edilen verilere göre, sıvı-elektrolit tedavisi, ilaç protokolleri, beslenme düzenlemesi ve kontrol planları oluşturulur.</p>
+        <p>Hedefimiz, hastalığı yalnızca semptom düzeyinde değil, neden–sonuç ilişkisi içinde ele alarak, uzun vadeli sistemik dengeyi ve organ fonksiyonlarını korumaktır.</p>
+      `,
+      'Cerrahi Operasyonlar': `
+        <p>Cerrahi birim; yumuşak doku, tümör cerrahisi, jinekolojik operasyonlar ve ortopedik cerrahiyi kapsar. Operasyon öncesi süreçte; detaylı muayene, kan tahlilleri, görüntüleme, anestezi riski değerlendirmesi ve sahip bilgilendirmesi yapılır. Her vaka, olası komplikasyonlar ve iyileşme süreciyle birlikte multidisipliner olarak planlanır.</p>
+        <p>Yumuşak doku cerrahisinde; kitle ve tümör eksizyonları, yabancı cisim operasyonları, abdominal cerrahi ve rutin kısırlaştırma girişimleri uygulanır. Ortopedik cerrahide ise kırık yönetimi, eklem ve bağ cerrahileri, travma kaynaklı bozukluklar ele alınır. Tüm girişimlerde steril cerrahi prensipler ve modern anestezi protokolleri temel alınır.</p>
+        <p>Operasyon sonrası ağrı yönetimi, yara bakımı ve kontrol randevuları titizlikle takip edilir. Amacımız, cerrahi süreci mümkün olan en güvenli, konforlu ve öngörülebilir hale getirmektir.</p>
+      `,
+      'Ağız & Diş Sağlığı': `
+        <p>Ağız ve diş sağlığı; yalnızca ağız kokusu veya diş taşı sorunu değil, kalp, böbrek ve karaciğer gibi organları da etkileyebilen sistemik bir sağlık alanıdır. Periodontal hastalıklar, diş taşı, diş eti enfeksiyonları, kırık dişler, ağız içi kitleler ve yavru diş problemleri en sık karşılaşılan durumlardır.</p>
+        <p>Kliniğimizde diş taşı temizliği (scaling), dental röntgen, diş çekimi, periodontal tedaviler ve ağız içi muayeneler modern ekipman ve anestezi protokolleri ile uygulanır. Her işlem öncesi ve sonrasında detaylı bilgilendirme ve ev bakımı önerileri sunulur.</p>
+        <p>Erken dönemde yapılacak bir ağız muayenesi, ileride daha büyük cerrahi girişimleri ve organ hasarlarını önlemede kritik rol oynar.</p>
+      `,
+      'Görüntüleme & Laboratuvar': `
+        <p>Görüntüleme ve laboratuvar birimi, tanı koyma sürecinin “göz” ve “veri” kısmını temsil eder. Hastalığın sebebini doğru ve erken belirlemek için röntgen, ultrasonografi (USG), FAST tarama, EKG, sitoloji, hemogram, biyokimya ve hızlı testler gibi araçlar kullanılır.</p>
+        <p>Dijital röntgen ile kemik yapılar, göğüs ve karın boşluğu; ultrasonografi ile iç organların yapısı, dolaşımı ve patolojileri değerlendirilir. Laboratuvar testleriyle organ fonksiyonları, enfeksiyon göstergeleri ve metabolik durum hakkında ayrıntılı bilgi edinilir.</p>
+        <p>Bütün bu veriler; iç hastalıkları, cerrahi, kardiyoloji ve acil servis süreçlerinin bilimsel temele oturtulmasını sağlar ve tedavi planlarının doğruluğunu artırır.</p>
+      `,
+      'Kardiyoloji': `
+        <p>Kardiyoloji; kalp ve dolaşım sistemi hastalıklarının tanısı, tedavisi ve takibini kapsar. Nefes darlığı, efor intoleransı, öksürük, bayılma atakları veya ritim bozukluğu şüphesi olan hastalar bu bölümde detaylı değerlendirilir.</p>
+        <p>Muayene sırasında oskültasyon (kalp–akciğer dinleme), EKG, akciğer röntgeni ve gerekirse ek görüntüleme/lab testleri kullanılır. Kalp yetmezliği, konjenital kalp hastalıkları, hipertansiyon ve ritim bozukluklarında hastaya özel tedavi ve izlem programları hazırlanır.</p>
+        <p>Uzun dönem kardiyak takip; ilaç doz ayarlamaları, yaşam tarzı–egzersiz önerileri ve düzenli kontrol randevuları ile desteklenir.</p>
+      `,
+      'Doğum & Jinekoloji': `
+        <p>Doğum ve jinekoloji birimi; dişi hayvanların üreme sağlığı, gebelik takibi, doğum süreci ve doğum sonrası bakımını kapsar. Düzensiz kızgınlık, infertilite, kistler, metritis, endometrit ve pyometra gibi durumlar bu bölüm altında değerlendirilir.</p>
+        <p>Gebelik takibinde ultrasonografi ve gerekirse hormonal testler kullanılır. Doğum güçlüğü (dystocia) vakalarında; medikal doğum desteği veya sezaryen operasyonları, hem anne hem yavru sağlığını gözeten protokollerle uygulanır.</p>
+        <p>Doğum sonrası dönemde anne sağlığı, lohusalık enfeksiyonları ve yavru bakım protokolleri yakından izlenir. Amacımız, üreme süreçlerini güvenli, kontrollü ve sağlıklı bir şekilde yönetmektir.</p>
+      `,
+      'Endokrinoloji': `
+        <p>Endokrinoloji bölümü; hormon üreten organların (tiroid, pankreas, adrenal bezler vb.) hastalıklarını ve buna bağlı metabolik bozuklukları inceler. Hipotiroidi, hipertiroidi, diyabet mellitus, Cushing ve Addison hastalığı gibi tablolar sık karşılaşılan endokrin sorunlardır.</p>
+        <p>Tanıda hormon profilleri, kan ve idrar testleri, gerekirse görüntüleme yöntemleri birlikte değerlendirilir. Tedavi sürecinde uzun dönem ilaç kullanımı, diyet düzenlemeleri ve düzenli kontrol muayeneleri kritik öneme sahiptir.</p>
+        <p>Bu hastalıklar kronik seyirli olduğundan, erken tanı ve düzenli takip, komplikasyonların önlenmesi ve yaşam kalitesinin korunması açısından belirleyicidir.</p>
+      `,
+      'Üroloji': `
+        <p>Üroloji; böbrekler, üreterler, mesane ve üretrayı içeren idrar sistemi ile ilgili hastalıkların tanı ve tedavisiyle ilgilenir. İdrar yolu enfeksiyonları, kristal–taş oluşumu, idrar tıkanıklıkları, mesane iltihapları ve prostat hastalıkları bu bölümün temel konuları arasındadır.</p>
+        <p>Tanıda idrar analizi, ultrasonografi, röntgen, kateterizasyon ve kan testlerinden faydalanılır. Gerekli durumlarda diyet değişiklikleri, ilaç tedavisi, sıvı desteği ve cerrahi girişimler planlanır.</p>
+        <p>Özellikle erkek kedilerde görülen idrar tıkanıklıkları acil müdahale gerektirir ve hayatı tehdit edebilir; bu nedenle erken başvuru büyük önem taşır.</p>
+      `,
+      'Ortopedi': `
+        <p>Ortopedi birimi; kas–iskelet sistemine ait kemik, eklem, kas ve bağ dokularının hastalık ve yaralanmalarının tanı ve tedavisini kapsar. Kırıklar, çıkıklar, bağ yaralanmaları, topallık, gelişimsel eklem hastalıkları (örneğin kalça–dirsek displazisi) ve travmalar en sık karşılaşılan ortopedik sorunlardır.</p>
+        <p>Değerlendirmede ortopedik muayene, röntgen ve gerekirse ileri görüntüleme teknikleri kullanılır. Tedavi; medikal yaklaşımlar, bandaj–atel uygulamaları, cerrahi düzeltme operasyonları ve rehabilitasyon süreçlerini içerebilir.</p>
+        <p>Amacımız, ağrıyı azaltmak, hareket kabiliyetini artırmak ve mümkün olan en kısa sürede fonksiyonel iyileşmeyi sağlamaktır.</p>
+      `,
+      'Göz Hastalıkları': `
+        <p>Göz hastalıkları (oftalmoloji); göz küresi, göz kapakları ve yardımcı yapıları etkileyen hastalıkların tanı ve tedavisini içerir. Ülser, korneal hasarlar, konjonktivit, göz kapağı deformiteleri (entropion, ektropion), glokom, katarakt ve travmalar bu bölümde sık görülen durumlardır.</p>
+        <p>Tanı sürecinde fluorescein boyama, göz içi basınç ölçümü (tonometri), oftalmoskopi ve detaylı göz muayenesi yapılır. Tedavi; medikal damla tedavileri, koruyucu uygulamalar veya gerekli durumlarda cerrahi girişimler şeklinde planlanır.</p>
+        <p>Göz hastalıklarında zaman kritik öneme sahiptir; erken müdahale, kalıcı görme kayıplarını önlemeye yardımcı olur.</p>
+      `,
+      'Dermatoloji': `
+        <p>Dermatoloji; deri, tüy, tırnak ve deri eklerinin yapısal ve işlevsel hastalıklarıyla ilgilenen bilim dalıdır. Alerjik deri hastalıkları, paraziter enfestasyonlar, bakteriyel–mantar enfeksiyonları, hormonal kökenli deri problemleri ve otoimmün deri hastalıkları en sık karşılaşılan tablolardır.</p>
+        <p>Tanı sürecinde ayrıntılı anamnez, fizik muayene, deri kazıntısı, sitoloji, kültür, alerji testleri ve gerekirse biyopsi değerlendirmeleri yapılır. Tedavi; altta yatan nedene yönelik ilaç tedavileri, özel diyetler, topikal uygulamalar ve uzun dönem takip protokollerini içerir.</p>
+        <p>Dermatolojik hastalıklar çoğu zaman kronik seyirli olup, yaşam kalitesini doğrudan etkiler. Bu nedenle düzenli kontrol ve sahip–hekim iş birliği süreçte büyük önem taşır.</p>
+      `,
+      'Fizik Tedavi & Rehabilitasyon': `
+        <p>Fizik tedavi ve rehabilitasyon; kas–iskelet sistemi hastalıkları, ortopedik cerrahi sonrası süreçler, nörolojik problemler ve yaşa bağlı hareket kısıtlılıklarında fonksiyon kaybını azaltmayı hedefleyen bilimsel uygulamaları kapsar.</p>
+        <p>Postoperatif dönemde eklem sertliği, kas kaybı ve ağrıyı azaltmak; felç ya da nörolojik sorun yaşayan hastalarda yeniden mobilizasyon sağlamak için planlı egzersiz programları, pasif–aktif hareketler ve çevresel düzenlemeler kullanılır.</p>
+        <p>Her hasta için; tanıya, mevcut hareket kapasitesine ve ağrı düzeyine göre kişiselleştirilmiş bir rehabilitasyon protokolü oluşturulur. Hedef, ağrıyı kontrol altına almak, hareket kabiliyetini artırmak ve hayat kalitesini yükseltmektir.</p>
+      `,
+      'Konaklama': `
+        <p>Konaklama hizmeti; evcil dostlarınızın kısa süreli olarak güvenli, hijyenik ve kontrol altında bir ortamda bakımını kapsar. Özellikle seyahat, taşınma, ameliyat sonrası dönem veya evde bakımın geçici olarak zorlaştığı durumlarda tercih edilir.</p>
+        <p>Konaklama sürecinde; günlük mama–su takibi, tuvalet alanı kontrolü, temel sağlık izlemi ve gerekli ise ilaç uygulamaları plan doğrultusunda yapılır. Stresin azaltılması için sakinleştirici çevresel düzenlemeler ve sosyal–bireysel ihtiyaçlar göz önünde bulundurulur.</p>
+        <p>Her konaklayan hasta için kayıt tutulur ve sahiplerine düzenli bilgilendirme yapılır. Amaç, ev ortamına en yakın konforu klinik güvencesiyle birleştirmektir.</p>
+      `,
+      'Egzotik Hayvanlar': `
+        <p>Egzotik hayvan hizmetleri; kuşlar, kemirgenler ve küçük memeliler gibi özel bakım gerektiren türlerin sağlık kontrollerini ve temel tedavilerini kapsar. Türlere özgü sindirim, solunum, tüy–deri ve iskelet sistemi sorunları bu birimde değerlendirilir.</p>
+        <p>Muayene sürecinde; çevre koşulları, kafes–yaşam alanı düzeni, beslenme alışkanlıkları ve türün doğal davranışları dikkate alınır. Gerekli durumlarda laboratuvar ve görüntüleme testleri ile tanı desteklenir.</p>
+        <p>Ayrıca, doğru beslenme, barınma, zenginleştirme ve bakım protokolleri hakkında sahiplerine ayrıntılı danışmanlık verilir. Amaç, egzotik dostların türlerine uygun, sağlıklı ve konforlu bir yaşam sürmesini sağlamaktır.</p>
+      `,
+
+      /* Olası alternatif başlıklar için kopyalar */
+      'Muayene & Koruyucu Hekimlik': null,
+      'Görüntüleme & Laboratuvar': null,
+      'Fizik Tedavi': null
+    };
+
+    // null olanlar, üstteki ana başlıklarla aynı kabul edilsin
+    if(DETAILS['Muayene & Koruyucu Hekimlik'] === null){
+      DETAILS['Muayene & Koruyucu Hekimlik'] = DETAILS['Muayene & Koruyucu'];
+    }
+    if(DETAILS['Görüntüleme & Laboratuvar'] === null){
+      DETAILS['Görüntüleme & Laboratuvar'] = DETAILS['Görüntüleme & Laboratuvar'] || DETAILS['Görüntüleme & Lab'];
+    }
+    if(DETAILS['Fizik Tedavi'] === null){
+      DETAILS['Fizik Tedavi'] = DETAILS['Fizik Tedavi & Rehabilitasyon'];
+    }
+
     // LocalStorage favoriler
     function loadFavorites(){
       try{
@@ -1326,7 +1431,7 @@
     function iconHTML(icon){
       const raw = (icon || '').toString().trim();
       if(!raw) return `<svg viewBox="0 0 24 24"><use href="#i-article"/></svg>`;
-      if(raw.startsWith('#i-') || raw.startsWith('i-')){
+      if(raw.startsWith('#i-') || raw.startsWith('i')){
         const id = raw.startsWith('#') ? raw : ('#'+raw);
         return `<svg viewBox="0 0 24 24"><use href="${id}"/></svg>`;
       }
@@ -1454,6 +1559,7 @@
     }
 
     function showModal(title, description){
+      const long = DETAILS[title] || description;
       const modal = document.createElement('div');
       modal.className = 'service-modal';
       modal.innerHTML = `
@@ -1462,7 +1568,9 @@
             <i class="fa-solid fa-xmark"></i>
           </button>
           <h3 id="svc-modal-title">${title}</h3>
-          <p>${description}</p>
+          <div class="modal-body">
+            ${long}
+          </div>
           <div class="modal-actions">
             <button class="btn primary" type="button">
               <i class="fa-solid fa-calendar-check"></i>
@@ -1530,6 +1638,8 @@
           sectionsWrap.appendChild(frag);
           const visible = sectionsWrap.querySelectorAll('.s-card').length;
           updateCount(visible);
+          wireFavoriteButtons();
+          wireModals();
         }
         return;
       }
@@ -1619,6 +1729,8 @@
           sectionsWrap.appendChild(frag);
           const visible = sectionsWrap.querySelectorAll('.s-card').length;
           updateCount(visible);
+          wireFavoriteButtons();
+          wireModals();
         }
         return;
       }
@@ -1633,6 +1745,8 @@
           sectionsWrap.appendChild(frag);
           const visible = sectionsWrap.querySelectorAll('.s-card').length;
           updateCount(visible);
+          wireFavoriteButtons();
+          wireModals();
         }
         return;
       }
