@@ -6,9 +6,9 @@
   <title>Elçi Veteriner Kliniği | Hakkımızda</title>
 
   <!-- SEO -->
-  <meta name="description" content="Konya Elçi Veteriner Kliniği: acil, cerrahi, diş sağlığı, iç hastalıkları ve koruyucu hekimlik. Ekibimiz, klinik alanlarımız ve değerlerimiz.">
+  <meta name="description" content="Konya Elçi Veteriner Kliniği: etik, teknolojik ve şeffaf yaklaşım ile evcil hayvan sağlığı. Ekibimiz, klinik alanlarımız ve değerlerimiz.">
   <meta property="og:title" content="Elçi Veteriner Kliniği | Hakkımızda">
-  <meta property="og:description" content="Konya Elçi Veteriner: Hayvan sağlığında güven, şeffaflık ve bilimsel yaklaşım. Ekibimiz, klinik düzenimiz ve değerlerimiz.">
+  <meta property="og:description" content="Elçi Veteriner: Sağlığın Elçileri. Ekibimiz, klinik düzenimiz, misyon ve değerlerimiz.">
   <meta property="og:type" content="website">
 
   <!-- Global CSS + Icons -->
@@ -58,7 +58,7 @@
     .feature .ic{width:36px;height:36px;border-radius:10px;color:#fff;display:flex;align-items:center;justify-content:center}
     @media(max-width:980px){.about-wrap{grid-template-columns:1fr}}
 
-    /* 3'lü review */
+    /* ====== 3'lü review ====== */
     .review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
     .review-card{background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:16px;box-shadow:0 8px 20px rgba(0,0,0,.04);opacity:0;transform:translateY(8px);transition:.3s}
     .review-card.visible{opacity:1;transform:none}
@@ -76,7 +76,7 @@
       border-radius:12px;
     }
 
-    /* Hekim kartı */
+    /* === Hekim kartı — görsel solda, büyük === */
     .team-grid.single-member{
       max-width:900px;
       margin:0 auto;
@@ -119,7 +119,7 @@
       font-size:20px;
     }
     .member-info p{
-      margin:0 0 6px;
+      margin:0;
       font-size:15px;
       color:var(--muted);
       line-height:1.6;
@@ -137,7 +137,7 @@
     }
   </style>
 
-  <!-- THEME OVERRIDE -->
+  <!-- === THEME OVERRIDE — Elçi Paleti === -->
   <style id="theme-elciKonya-override">
     :root{
       --brand:#5a1fa8;
@@ -258,14 +258,19 @@
       backdrop-filter:blur(4px);
     }
     .info-panel.open{ display:flex; }
-    .info-panel-backdrop{position:absolute; inset:0;}
+
+    .info-panel-backdrop{
+      position:absolute;
+      inset:0;
+    }
+
     .info-panel-body{
       position:relative;
       width:100%;
       max-width:540px;
       margin:0 auto 18px;
-      background:var(--paper,#fff);
-      color:var(--ink,#111822);
+      background:var(--paper, #fff);
+      color:var(--ink, #111822);
       border-radius:20px;
       box-shadow:0 20px 60px rgba(0,0,0,.35);
       padding:20px 20px 18px;
@@ -277,8 +282,17 @@
       transform:translateY(0);
       opacity:1;
     }
-    .info-panel-title{font-size:20px;font-weight:800;margin:0 0 8px;}
-    .info-panel-text{margin:0;font-size:15px;line-height:1.6;color:var(--muted,#5f6b74);}
+    .info-panel-title{
+      font-size:20px;
+      font-weight:800;
+      margin:0 0 8px;
+    }
+    .info-panel-text{
+      margin:0;
+      font-size:15px;
+      line-height:1.6;
+      color:var(--muted, #5f6b74);
+    }
     .info-panel-close{
       position:absolute;
       top:10px;
@@ -293,18 +307,25 @@
       justify-content:center;
       cursor:pointer;
       font-size:18px;
-      color:var(--muted,#5f6b74);
+      color:var(--muted, #5f6b74);
     }
-    .info-panel-close:hover{background:#edf5f7;}
+    .info-panel-close:hover{
+      background:#edf5f7;
+    }
+
     @media(min-width:900px){
-      .info-panel{align-items:center;}
-      .info-panel-body{margin-bottom:0;}
+      .info-panel{
+        align-items:center;
+      }
+      .info-panel-body{
+        margin-bottom:0;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
+  <!-- ===== SABİT HEADER ===== -->
   <header>
     <div class="header-top">
       <div class="container">
@@ -378,7 +399,7 @@
     </div>
   </header>
 
-  <!-- HERO -->
+  <!-- ===== HERO ===== -->
   <section class="hero">
     <div class="container">
       <div class="hero-center">
@@ -419,27 +440,36 @@
         </figure>
 
         <div class="about-content">
-          <h3>Veterinerlikte “Elçi” Ne Anlama Gelir?</h3>
-          <p>Veteriner hekimlik, insan ve hayvanın ilk temas anından itibaren insanlığa ve yaşama hizmet eden multidisipliner bir meslektir. İnsanlığın kadim tarihinden bu yana çeşitli amaçlar için yetiştirilen hayvanların sağlığı için gerekli olan bilgi ve beceriyi taşıyan veteriner hekimler; geçmişte olduğu gibi bugün ve gelecekte de aynı sorumlulukla görev yapmaya devam eder.</p>
-          <p>İnsanlık ile hayvanlar alemi arasında etkin, doğru ve başarılı bir tedavi sürecinin sağlanmasında veteriner hekimler; tıp ilminin sahadaki uygulayıcıları ve adeta insanlığın elçileri olarak görev alırlar. Elçi Veteriner Kliniği’nin kurulumu sırasında biz de bu anlayışı benimseyerek, ismimizi bu mesleki misyondan ilhamla “Elçi” olarak belirledik.</p>
-          <p>Elçi Veteriner Kliniği’nde danışmanlık hizmeti veren tüm veteriner hekimler; hasta yakını ile hasta arasında güven köprüsü kurmayı, doğru bilgilendirmeyi ve sağlığın elçisi olmayı temel mesleki sorumluluk kabul eder. Buradaki “Elçi”, sadece bir kişiyi tanımlayan bir unvan değil; kliniğimizin etik duruşunu, şeffaf iletişimini ve kanıta dayalı tedavi yaklaşımını temsil eden kurumsal kimliğimizdir.</p>
+          <h3>Sağlıkta Elçi Olma Sorumluluğu</h3>
+          <p>Veteriner hekimlik, insan ve hayvanın ilk temas anından itibaren insanlığa ve yaşama hizmet etmiş olan multidisipliner bir meslektir. İnsanlığın kadim tarihinden bu yana çeşitli amaçlar için yetiştirilen hayvanların sağlığı için gerekli olan bilgi ve beceriyi bünyesinde barındıran veteriner hekimler, bugün ve gelecekte de aynı özveriyle hizmet etmeye devam edecektir.</p>
+          <p>İnsanlık ile hayvanlar âlemi arasında etkin, doğru ve başarılı bir tedavi sürecinin yürütülmesinde görev alan veteriner hekimler; tıp ilminin uygulanmasında insanlığın <strong>“Elçileri”</strong> olarak hareket ederler. Elçi Veteriner Kliniği’nin kuruluş sürecinde bizler de bu görevin temsilcileri olduğumuz bilinciyle, kliniğimize “Elçi” ismini vermeyi uygun gördük.</p>
+          <p>Elçi Veteriner Kliniği’nde danışmanlık ve tedavi hizmeti veren tüm veteriner hekimler, hasta yakını ile hasta arasındaki iletişimde sağlığın elçileri olarak görev alır. Etkin, doğru ve sağlıklı bir tedavi sürecinin parçası olmayı bir sorumluluk değil; mesleki bir onur olarak görür ve bu bilinçle <strong>“Elçi”</strong> unvanını taşırlar.</p>
 
           <div class="about-features">
             <div class="feature">
               <div class="ic"><i class="fa-solid fa-graduation-cap"></i></div>
-              <div><strong>Eğitim</strong><div>Bilimsel temelli veteriner hekimlik ve sürekli mesleki gelişim</div></div>
+              <div>
+                <strong>Eğitim</strong>
+                <div>Sürekli mesleki eğitim ve güncel bilimsel kılavuz takibi</div>
+              </div>
             </div>
             <div class="feature">
               <div class="ic"><i class="fa-solid fa-award"></i></div>
-              <div><strong>Uzmanlık</strong><div>Evcil dostlar için bütüncül, kayıtlı ve planlı klinik yaklaşım</div></div>
+              <div>
+                <strong>Uzmanlık</strong>
+                <div>Evcil hayvanlarda bütüncül, kayıtlı ve takipli klinik yaklaşım</div>
+              </div>
             </div>
             <div class="feature">
               <div class="ic"><i class="fa-solid fa-hand-holding-heart"></i></div>
-              <div><strong>Misyon</strong><div>İnsan ile hayvan arasında güvene dayalı bir sağlık köprüsü kurmak</div></div>
+              <div>
+                <strong>Misyon</strong>
+                <div>Sağlığın Elçileri olarak şeffaf, ulaşılabilir ve etik hizmet</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </div><!-- /about-wrap -->
     </div>
   </section>
 
@@ -452,7 +482,8 @@
       </div>
 
       <div class="metrics-grid" id="metricsGrid">
-        <article class="m-card" data-kind="kpi" data-suffix="dk" data-progress="80" data-value="6">
+        <!-- Ortalama Bekleme Süresi: 6 dk -->
+        <article class="m-card" data-kind="kpi" data-suffix="dk" data-progress="85" data-value="6">
           <div class="m-head">
             <div class="m-title">Ortalama Bekleme Süresi</div>
             <span class="m-ico" aria-hidden="true"><i class="fa-regular fa-clock"></i></span>
@@ -461,15 +492,17 @@
           <div class="m-progress"><div class="m-bar"></div></div>
         </article>
 
-        <article class="m-card" data-kind="kpi" data-suffix="vaka" data-progress="95" data-value="2328">
+        <!-- Şu ana kadar sonuçlanan vaka: 2328 -->
+        <article class="m-card" data-kind="kpi" data-suffix="vaka" data-progress="100" data-value="2328">
           <div class="m-head">
-            <div class="m-title">Bugüne Kadar Sonuçlandırılan Vaka</div>
+            <div class="m-title">Şu Ana Kadar Sonuçlanan Vaka</div>
             <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-clipboard-check"></i></span>
           </div>
           <div><span class="m-num">0</span><span class="m-unit"> vaka</span></div>
           <div class="m-progress"><div class="m-bar"></div></div>
         </article>
 
+        <!-- Aşı Programı Tamamlama: %97 -->
         <article class="m-card" data-kind="donut" data-suffix="%" data-value="97">
           <div class="m-head">
             <div class="m-title">Aşı Programı Tamamlama</div>
@@ -485,6 +518,7 @@
           </div>
         </article>
 
+        <!-- Memnuniyet Skoru: 4.9 / 5 -->
         <article class="m-card" data-kind="gauge" data-max="5" data-value="4.9">
           <div class="m-head">
             <div class="m-title">Memnuniyet Skoru</div>
@@ -500,6 +534,7 @@
           </div>
         </article>
 
+        <!-- İlk Ziyarette Çözüm: %97 -->
         <article class="m-card" data-kind="kpi" data-suffix="%" data-progress="97" data-value="97">
           <div class="m-head">
             <div class="m-title">İlk Ziyarette Çözüm</div>
@@ -509,7 +544,8 @@
           <div class="m-progress"><div class="m-bar"></div></div>
         </article>
 
-        <article class="m-card" data-kind="kpi" data-suffix="dk" data-progress="85" data-value="18">
+        <!-- Laboratuvar Sonuç Süresi: 18 dk -->
+        <article class="m-card" data-kind="kpi" data-suffix="dk" data-progress="80" data-value="18">
           <div class="m-head">
             <div class="m-title">Laboratuvar Sonuç Süresi</div>
             <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-flask"></i></span>
@@ -518,7 +554,8 @@
           <div class="m-progress"><div class="m-bar"></div></div>
         </article>
 
-        <article class="m-card" data-kind="kpi" data-suffix="hayvan" data-progress="60" data-value="227">
+        <!-- El Uzattığımız Hayvanlar: 227 -->
+        <article class="m-card" data-kind="kpi" data-suffix="hayvan" data-progress="70" data-value="227">
           <div class="m-head">
             <div class="m-title">El Uzattığımız Hayvanlar</div>
             <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-hand-holding-heart"></i></span>
@@ -527,7 +564,8 @@
           <div class="m-progress"><div class="m-bar"></div></div>
         </article>
 
-        <article class="m-card" data-kind="kpi" data-suffix="gün" data-progress="70" data-value="6.2">
+        <!-- İyileşme Süresi Ortalama: 6.2 gün -->
+        <article class="m-card" data-kind="kpi" data-suffix="gün" data-progress="75" data-value="6.2">
           <div class="m-head">
             <div class="m-title">İyileşme Süresi Ortalama</div>
             <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-heart-pulse"></i></span>
@@ -544,21 +582,21 @@
     <div class="container">
       <div class="section-title">
         <h2>Ekibimiz</h2>
-        <p>Kurucu hekimimiz ve koordineli klinik ekibimiz</p>
+        <p>Elçi Veteriner Kliniği kadrosu</p>
       </div>
 
       <div class="team-grid single-member">
         <article class="member">
           <div class="member-img">
-            <img src="/assets/img/uploads/ekip-cerrah.jpg?v=1"
+            <img src="/assets/img/uploads/ekip-hasan-kaya.jpg?v=1"
                  alt="Veteriner Hekim Hasan Kaya"
                  loading="lazy" decoding="async">
           </div>
           <div class="member-info">
             <div class="role">Kurucu &amp; Sorumlu Veteriner Hekim</div>
             <h3>Veteriner Hekim Hasan Kaya</h3>
-            <p>2020 yılında Selçuk Üniversitesi Veteriner Fakültesi'nden mezun olan Hasan Kaya, Ankara’da özel bir klinikte yaklaşık iki yıl görev yapmış, ardından bir yıl süreyle kamu hizmetinde çalışmıştır. 2023 yılından bu yana Elçi Veteriner Kliniği'nin kurucu ve sorumlu veteriner hekimi olarak görev yapmakta; muayene, tedavi ve ameliyat süreçlerini planlı, kayıtlı ve şeffaf bir şekilde yönetmektedir.</p>
-            <p>Hasan Kaya, her hastayı ailenin bir üyesi olarak görerek; klinik ekibi ile birlikte güncel bilimsel protokolleri, hasta güvenliğini ve açık iletişimi merkeze alan bir çalışma kültürü benimser.</p>
+            <p>Hasan Kaya, 2020 yılında Selçuk Üniversitesi Veteriner Fakültesi’nden mezun oldu. Mezuniyetinin ardından Ankara’da özel bir klinikte yaklaşık 2 yıl çalışarak evcil hayvan iç hastalıkları ve cerrahi alanlarında yoğun klinik tecrübe kazandı; sonrasında ise 1 yıl süreyle kamu hizmetinde görev alarak sahada farklı vaka tipleriyle çalışma fırsatı buldu.</p>
+            <p>2023 yılından bu yana Elçi Veteriner Kliniği’nin kurucu ve sorumlu veteriner hekimi olarak görev yapan Hasan Kaya; kliniğin tanı, tedavi ve takip süreçlerinin planlanması, hasta dosyalarının kayıtlı ve erişilebilir tutulması ve ekip içi koordinasyonun sağlanmasından sorumludur. Mesleki ilgi alanları arasında koruyucu hekimlik, anestezi ve acil müdahale protokollerinin güncel kılavuzlara göre uygulanması yer alır.</p>
           </div>
         </article>
       </div>
@@ -578,37 +616,36 @@
     <div class="container">
       <div class="section-title">
         <h2>Kliniğimiz</h2>
-        <p>Modern klinik düzen ve hayvan dostu alanlar</p>
+        <p>Modern, düzenli ve hayvan dostu klinik alanı</p>
       </div>
 
       <div class="clinic-wrap" style="display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center">
         <div>
-          <h3>Modern Klinik Düzeni</h3>
-          <p>Elçi Veteriner Kliniği, yaklaşık 100 m²’lik fonksiyonel bir klinik alana sahiptir. Alanlarımız, muayene ve tedavi süreçlerinin düzenli ve kontrollü şekilde yönetilebilmesi için planlanmıştır.</p>
+          <h3>Konya’da Düzenli ve Güven Veren Klinik Ortamı</h3>
+          <p>Elçi Veteriner Kliniği, yaklaşık 100 m²’lik fonksiyonel bir alanda hizmet vermektedir. Alanlarımız, muayeneden yoğun bakıma kadar tüm tedavi süreçlerini düzenli, takip edilebilir ve kayıtlı şekilde yönetebilecek biçimde planlanmıştır.</p>
 
-          <h4>Klinik Alanlarımız</h4>
-          <ul>
+          <h4 style="margin-top:10px">Klinik Alanlarımız</h4>
+          <ul style="margin:6px 0 10px 18px; padding:0; color:#476265">
             <li>Muayene odası</li>
             <li>Yoğun bakım alanı</li>
             <li>Ameliyathane</li>
             <li>Bekleme salonu</li>
-            <li>Ekip çalışma odaları</li>
+            <li>Ekip çalışma ve dinlenme alanları</li>
           </ul>
 
-          <h4>Klinik Donanımımız</h4>
-          <ul>
-            <li>Oksijen kafesi</li>
-            <li>Temel monitörizasyon sistemleri</li>
-            <li>Acil müdahale setleri</li>
-            <li>Sterilizasyon ekipmanları</li>
-            <li>Modern muayene ünitesi</li>
-            <li>Güncel test kitleri</li>
+          <h4 style="margin-top:6px">Klinik Donanımı</h4>
+          <ul style="margin:6px 0 0 18px; padding:0; color:#476265">
+            <li>Oksijen kafesi ve temel monitörizasyon imkânları</li>
+            <li>Acil müdahale ve resüsitasyon setleri</li>
+            <li>Sterilizasyon ve hijyen ekipmanları</li>
+            <li>Modern muayene masası ve aydınlatma sistemleri</li>
+            <li>Güncel test kitleri ile temel laboratuvar olanakları</li>
           </ul>
 
-          <p>Her işlem, hijyenik, planlı ve kayıtlı süreçlerle yürütülür. Amacımız; güven veren, düzenli ve profesyonel bir klinik deneyimi sağlamaktır.</p>
+          <p style="margin-top:10px">Her işlem; hijyen kurallarına uygun, planlı ve kayıt altına alınmış süreçlerle yürütülür. Amacımız, hasta ve hasta yakınlarının kendini güvende hissettiği, düzenli ve profesyonel bir klinik deneyimi sunmaktır.</p>
         </div>
         <figure class="about-img">
-          <img src="https://images.unsplash.com/photo-1583336663277-620dc1996580?auto=format&fit=crop&w=1200&q=70" alt="Elçi Veteriner Kliniği — Klinik alanlarımız" loading="lazy" decoding="async">
+          <img src="https://images.unsplash.com/photo-1583336663277-620dc1996580?auto=format&fit=crop&w=1200&q=70" alt="Elçi Veteriner Kliniği — Modern klinik alanlar" loading="lazy" decoding="async">
         </figure>
       </div>
     </div>
@@ -629,19 +666,18 @@
              tabindex="0"
              data-detail="1"
              data-detail-title="Misyonumuz"
-             data-detail-text="Uzman kadromuzla, hasta haklarına saygılı, hayvan refahını önceleyen ve geleneksel değerlere bağlı, kaliteli veteriner sağlık hizmeti sunmak. Kalite yönetim sistemini sürekli iyileştirerek hasta odaklı, etik kurallara uygun ve güvenilir bir hizmet üretmek; tanı ve tedavi süreçlerinde bilimsel ve teknolojik gelişmeleri kliniğimizin günlük uygulamalarına yansıtmak. Hasta ve hasta yakınlarının beklenti ve taleplerini dikkate alarak, güven duydukları bir klinik ortamını kalıcı hale getirmeyi amaçlıyoruz.">
+             data-detail-text="Elçi Veteriner Kliniği olarak misyonumuz; hasta haklarına saygılı, hayvan refahını önceleyen ve bilimsel doğrulara dayalı bir klinik hizmeti, ulaşılabilir ve şeffaf bir anlayışla sunmaktır. Her vakayı yalnızca bir hastalık tablosu olarak değil, insan–hayvan bağı içinde değerlendirir; muayeneden taburculuğa kadar tüm süreci planlı, kayıtlı ve takip edilebilir kılmayı hedefleriz. Tedavi seçeneklerini anlaşılır bir dille paylaşmak, maliyet ve riskler konusunda açık olmak, hasta sahiplerinin karar süreçlerine aktif katılımını sağlamak misyonumuzun temel parçalarıdır.">
           <i class="fa-solid fa-bullseye" style="color:var(--icon-ink);font-size:32px;margin-bottom:8px"></i>
           <h3>Misyonumuz</h3>
           <p>Hayvan refahını önceleyen, bilimsel ve şeffaf tedavi yaklaşımı ile güven vermek.</p>
         </div>
-
         <div class="mv-card"
              style="background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;box-shadow:0 8px 20px rgba(0,0,0,.04);text-align:center"
              role="button"
              tabindex="0"
              data-detail="1"
              data-detail-title="Vizyonumuz"
-             data-detail-text="Geçmişte olduğu gibi gelecekte de bölgemizde hayvan sağlığında güven ve huzurun ilk akla gelen adreslerinden biri olmak. Çağdaş veteriner tıbbın yeniliklerini sürekli takip eden, hasta güvenliği ve etik değerlere öncelik veren, hizmet kalitesini uluslararası düzeyde sürdürülebilir kılmayı hedefleyen bir referans klinik olmayı amaçlıyoruz. Çalışanlarımızı eğitimlerle destekleyerek, ekip ruhu ve sürekli gelişim kültürü ile örnek alınan bir kurum haline gelmek vizyonumuzun temelini oluşturur.">
+             data-detail-text="Vizyonumuz; Konya’da ve bölgemizde, etik ilkelere bağlı, kayıtlı ve kanıta dayalı veteriner hekimlik uygulamalarıyla öne çıkan referans kliniklerden biri olmaktır. Teknolojik ve bilimsel gelişmeleri yakından takip ederek kliniğimizin imkânları el verdiği ölçüde hizmete entegre etmeyi, ekibimizi sürekli eğitimlerle güçlendirmeyi ve hasta–sahip memnuniyetini sürdürülebilir biçimde yüksek tutmayı amaçlarız. Bulunduğumuz bölgeden başlayarak, hayvan sağlığında güvenin, şeffaflığın ve empatik iletişimin temsilcisi olarak anılmak en önemli hedefimizdir.">
           <i class="fa-solid fa-eye" style="color:var(--icon-ink);font-size:32px;margin-bottom:8px"></i>
           <h3>Vizyonumuz</h3>
           <p>Uluslararası standartlarda yenilikçi veterinerlik uygulamalarında öncü olmak.</p>
@@ -665,7 +701,7 @@
              tabindex="0"
              data-detail="1"
              data-detail-title="Hayvan Sevgisi"
-             data-detail-text="Her hastayı sadece tıbbi bir vaka değil, ailenin bir üyesi olarak görüyoruz. Özellikle hassas ve korkak hayvanlarda muayene süresini esnetmeye, sakinleştirici bir ortam oluşturmaya ve hasta yakınının yanında kalmasına izin vermeye önem veriyoruz. Bu yaklaşım hem stresi azaltıyor hem de muayene kalitesini artırıyor.">
+             data-detail-text="Elçi Veteriner Kliniği için hayvan sevgisi; yalnızca duygusal bir bağ değil, tüm klinik süreçlerimizi şekillendiren temel bir mesleki değerdir. Her hastamızı kendi hayvanımız gibi görür; özellikle stresli, korkak veya hassas hayvanlarda muayene süresini uzatmayı, sakin bir ortam sağlamayı ve mümkün olduğunda hasta yakınının yanında kalmasına izin vermeyi önemseriz. Bu yaklaşım hem stresi azaltır hem de muayenenin kalitesini artırır.">
           <div class="vi" style="width:56px;height:56px;border-radius:50%;margin:0 auto 10px;background:#e7f3f4;color:var(--icon-ink);display:flex;align-items:center;justify-content:center;font-size:22px"><i class="fa-solid fa-heart"></i></div>
           <h3>Hayvan Sevgisi</h3>
           <p>Her hastaya şefkatli ve saygılı yaklaşım.</p>
@@ -677,7 +713,7 @@
              tabindex="0"
              data-detail="1"
              data-detail-title="Profesyonellik"
-             data-detail-text="Tanı ve tedavi sürecinde kullandığımız tüm ilaç, protokol ve cihazları güncel bilimsel kılavuzlarla uyumlu olacak şekilde seçiyoruz. Gereksiz tetkik ve gereksiz antibiyotik kullanımından kaçınmaya, her vakayı kayıt altında tutup gerektiğinde ikinci görüş için raporlayabilmeye özen gösteriyoruz. Profesyonellik bizim için; bilgi, etik ve özenin birlikte yürütülmesidir.">
+             data-detail-text="Tanı ve tedavi sürecinde kullandığımız tüm ilaç, protokol ve cihazları güncel bilimsel kılavuzlarla uyumlu olacak şekilde seçeriz. Gereksiz tetkik ve gereksiz antibiyotik kullanımından kaçınmaya, her vakayı kayıt altında tutup gerektiğinde ikinci görüş veya sevk için raporlayabilmeye özen gösteririz. Ekip içi iletişim, konsültasyon kültürü ve düzenli vaka değerlendirmeleri profesyonellik anlayışımızın bir parçasıdır.">
           <div class="vi" style="width:56px;height:56px;border-radius:50%;margin:0 auto 10px;background:#e7f3f4;color:var(--icon-ink);display:flex;align-items:center;justify-content:center;font-size:22px"><i class="fa-solid fa-hand-holding-medical"></i></div>
           <h3>Profesyonellik</h3>
           <p>Güncel protokoller, kanıta dayalı tedavi.</p>
@@ -689,7 +725,7 @@
              tabindex="0"
              data-detail="1"
              data-detail-title="Güvenilirlik"
-             data-detail-text="Muayene ve tedavi başlamadan önce tahmini maliyet aralığını, tedavi süresini ve olası riskleri net biçimde paylaşıyoruz. Hasta yakınının onayı olmadan ek işlem yapmamaya, taburculuk sonrası bakım ve kontrol planını yazılı olarak iletmeye önem veriyoruz. Şeffaf iletişim ve ulaşılabilirlik, uzun vadeli güvenin en önemli temelidir.">
+             data-detail-text="Muayene ve tedavi başlamadan önce tahmini maliyet aralığını, tedavi süresini ve olası riskleri net biçimde paylaşmaya önem veririz. Hasta yakınının onayı olmadan ek işlem yapmamaya, taburculuk sonrası bakım ve kontrol planını yazılı olarak iletmeye gayret ederiz. Şeffaf iletişim, uzun vadeli güven ilişkisinin temelini oluşturur ve Elçi Veteriner Kliniği’nin en fazla önem verdiği kurumsal değerdir.">
           <div class="vi" style="width:56px;height:56px;border-radius:50%;margin:0 auto 10px;background:#e7f3f4;color:var(--icon-ink);display:flex;align-items:center;justify-content:center;font-size:22px"><i class="fa-solid fa-shield-dog"></i></div>
           <h3>Güvenilirlik</h3>
           <p>Şeffaf iletişim, net bilgilendirme.</p>
@@ -714,7 +750,7 @@
     <div class="container footer-container">
       <div class="footer-col">
         <h3>Elçi Veteriner Kliniği</h3>
-        <p>Konya’nın Meram ilçesinde, hayvan sağlığı alanında uzman ekibimizle hizmet veriyoruz. Acil durumlar için her zaman yanınızdayız.</p>
+        <p>Konya’nın Meram ilçesinde, hayvan sağlığı alanında ekibimizle hizmet veriyoruz.</p>
         <div class="social-links">
           <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 10h3l.5-3H13V5.5c0-.9.3-1.5 1.7-1.5H17V1h-3c-3 0-4.5 1.6-4.5 4.4V7H7v3h2.5v9h3v-9z"/></svg>
@@ -771,7 +807,7 @@
           </li>
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
-            <span>Her Gün: 09:00–23:00</span>
+            <span>Her gün: 09:00–23:00</span>
           </li>
         </ul>
       </div>
@@ -790,7 +826,13 @@
     "@context":"https://schema.org",
     "@type":"VeterinaryCare",
     "name":"Elçi Veteriner Kliniği",
-    "address":{"@type":"PostalAddress","addressLocality":"Meram","addressRegion":"Konya","streetAddress":"Havzan Mah. Yeni Meram Cad. 17/1","addressCountry":"TR"},
+    "address":{
+      "@type":"PostalAddress",
+      "addressLocality":"Meram",
+      "addressRegion":"Konya",
+      "streetAddress":"Havzan Mah. Yeni Meram Cad. 17/1",
+      "addressCountry":"TR"
+    },
     "telephone":"+903323223220",
     "areaServed":"Konya",
     "openingHours":["Mo-Su 09:00-23:00"],
@@ -804,7 +846,7 @@
   <!-- Footer yılı -->
   <script>document.getElementById('yil')?.append(new Date().getFullYear());</script>
 
-  <!-- Reviews -->
+  <!-- Reviews fallback -->
   <script>
     (function(){
       const sec = document.querySelector('.js-reviews#hasta-yakini-gorusleri'); if(!sec) return;
@@ -831,7 +873,7 @@
     })();
   </script>
 
-  <!-- Metrics animasyonu -->
+  <!-- Metrics animasyonu (ondalıklı sayıları da destekler) -->
   <script>
     (function(){
       const root = document.getElementById('metricsGrid'); if(!root) return;
@@ -841,16 +883,17 @@
 
       function count(el, to, suffix){
         const num = el.querySelector('.m-num'); if(!num) return;
-        const unit = el.querySelector('.m-unit'); if(unit && suffix) unit.textContent = ' ' + suffix.trim();
-        const start = 0;
-        const endRaw = Number(to);
-        const end = isNaN(endRaw) ? 0 : endRaw;
+        const unit = el.querySelector('.m-unit');
+        if(unit && suffix){ unit.textContent = ' ' + suffix.trim(); }
+
+        const end = Number(to) || 0;
         const decimals = String(to).includes('.') ? 1 : 0;
         const dur = 1200;
         const t0 = performance.now();
+
         function step(t){
           const k = Math.min(1, (t - t0)/dur);
-          const v = start + (end - start)*k;
+          const v = 0 + (end - 0)*k;
           num.textContent = decimals ? v.toFixed(decimals) : Math.round(v).toString();
           if(k<1) requestAnimationFrame(step);
         }
@@ -952,9 +995,11 @@
 
       function openPanel(card){
         const title = card.getAttribute('data-detail-title') ||
-                      card.querySelector('h3')?.textContent || '';
+                      card.querySelector('h3')?.textContent ||
+                      '';
         const text  = card.getAttribute('data-detail-text') ||
-                      card.querySelector('p')?.textContent || '';
+                      card.querySelector('p')?.textContent ||
+                      '';
 
         if (titleEl) titleEl.textContent = title;
         if (textEl)  textEl.textContent  = text;
@@ -1000,6 +1045,5 @@
       });
     })();
   </script>
-
 </body>
 </html>
