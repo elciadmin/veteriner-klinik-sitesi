@@ -386,7 +386,10 @@
 
     // sayaç ve tarih
     const updated = document.getElementById('faqUpdated');
-    if(updated){ const fmt=new Date().toLocaleDateString('tr-TR',{year:'numeric',month:'long',day:'2-digit'}); updated.textContent=fmt; }
+    if(updated){
+      const fmt=new Date().toLocaleDateString('tr-TR',{year:'numeric',month:'long',day:'2-digit'});
+      updated.textContent=fmt;
+    }
 
     // mevcut sayfa scriptindeki event’leri tekrar bağlamak için:
     document.dispatchEvent(new Event('DOMContentLoaded'));
