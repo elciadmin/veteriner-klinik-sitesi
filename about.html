@@ -494,7 +494,7 @@
         </article>
 
         <!-- Şu ana kadar sonuçlanan vaka: 2328 -->
-        <article class="m-card" data-kind="kpi" data-suffix="vaka" data-progress="100" data-value="2328">
+        <article class="m-card" data-kind="kpi" data-metric="cases" data-suffix="vaka" data-progress="100" data-value="2328">
           <div class="m-head">
             <div class="m-title">Şu Ana Kadar Sonuçlanan Vaka</div>
             <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-clipboard-check"></i></span>
@@ -556,7 +556,7 @@
         </article>
 
         <!-- El Uzattığımız Hayvanlar: 227 -->
-        <article class="m-card" data-kind="kpi" data-suffix="hayvan" data-progress="70" data-value="227">
+        <article class="m-card" data-kind="kpi" data-metric="helped" data-suffix="hayvan" data-progress="70" data-value="227">
           <div class="m-head">
             <div class="m-title">El Uzattığımız Hayvanlar</div>
             <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-hand-holding-heart"></i></span>
@@ -874,15 +874,46 @@
     })();
   </script>
 
-  <!-- Metrics animasyonu (basitleştirilmiş, sayfa yüklenince direkt çalışır) -->
+  <!-- Metrics animasyonu + AYLIK OTO ARTIŞ -->
   <script>
     (function () {
-      const root = document.getElementById('aboutMetricsGrid'); // ID burada değişti
+      const root = document.getElementById('aboutMetricsGrid');
       if (!root) return;
 
       const cards = Array.from(root.querySelectorAll('.m-card'));
       if (!cards.length) return;
 
+      // === 1) AYLIK OTOMATİK ARTIŞ HESABI ============================
+      // Baz tarih: kliniğin sayıları referans aldığı ay (dilediğin gibi değiştirebilirsin)
+      const START = new Date(2023, 0, 1); // 1 Ocak 2023
+
+      const now = new Date();
+      let months =
+        (now.getFullYear() - START.getFullYear()) * 12 +
+        (now.getMonth() - START.getMonth());
+      if (months < 0) months = 0;
+
+      // Başlangıç değerleri ve aylık artış (dilediğinde sadece bu 4 satırı değiştirmen yeterli)
+      const baseCases       = 2328; // Şu ana kadar sonuçlanan vaka - baz
+      const incCasesPerMon  = 120;  // her ay eklenecek vaka sayısı
+
+      const baseHelped      = 227;  // El uzattığımız hayvanlar - baz
+      const incHelpedPerMon = 15;   // her ay eklenecek hayvan sayısı
+
+      // İlgili kartları bulup data-value'larını güncelle
+      const casesCard = root.querySelector('.m-card[data-metric="cases"]');
+      if (casesCard) {
+        const dynamicCases = baseCases + months * incCasesPerMon;
+        casesCard.dataset.value = String(dynamicCases);
+      }
+
+      const helpedCard = root.querySelector('.m-card[data-metric="helped"]');
+      if (helpedCard) {
+        const dynamicHelped = baseHelped + months * incHelpedPerMon;
+        helpedCard.dataset.value = String(dynamicHelped);
+      }
+
+      // === 2) ANİMASYON KISMI (senin mevcut basitleştirilmiş kodun) ===
       const donutCirc = 2 * Math.PI * 48; // r=48
       const gaugeArc = 226.19; // yarım daire yay uzunluğu
 
