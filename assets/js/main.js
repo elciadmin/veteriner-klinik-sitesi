@@ -409,7 +409,8 @@
       const p = aboutWrap.querySelector('.about-content p'); if(p && data.founder.bio) p.textContent = data.founder.bio;
     }
 
-    const grid = document.getElementById('metricsGrid');
+    // >>> Burada sadece ID'yi metricsGrid → aboutMetricsGrid olarak değiştirdik <<<
+    const grid = document.getElementById('aboutMetricsGrid');
     if(grid && Array.isArray(data.metrics)){
       grid.innerHTML = data.metrics.map(m=>{
         if(m.kind==='donut') return `
@@ -450,6 +451,7 @@
   hydrateFAQ();
   hydrateAbout();
 })();
+
 // ---- Netlify Identity (site geneli) ----
 (function addNetlifyIdentity(){
   // Widget scriptini dinamik ekle (CSP: identity.netlify.com izinli olmalı)
