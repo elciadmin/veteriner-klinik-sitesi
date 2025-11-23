@@ -117,3 +117,28 @@ collections:
           - { label: "Hero Altbaşlık", name: "heroSub", widget: "text", i18n: true }
           - { label: "YouTube Video ID'leri", name: "youtubeIds", widget: "list", i18n: false, field: { label: "Video ID", name: "id", widget: "string" } }
           - { label: "Instagram JSON Kaynağı", name: "instagramJson", widget: "string", required: false, i18n: false }
+
+  # 6) Başarı Hikayeleri — successStories.json
+  - name: "successStories"
+    label: "Başarı Hikayeleri"
+    delete: false
+    editor: { preview: false }
+    files:
+      - file: "assets/data/successStories.json"   # DİKKAT: başında / YOK
+        label: "Başarı Hikayeleri Listesi"
+        name: "successStoriesFile"
+        format: "json"
+        i18n: true
+        fields:
+          - label: "Hikayeler"
+            name: "stories"
+            widget: "list"
+            i18n: true
+            fields:
+              - { label: "Başlık", name: "title", widget: "string", i18n: true }
+              - { label: "Evcil Adı", name: "petName", widget: "string", i18n: true }
+              - { label: "Tür (Kedi/Köpek vb.)", name: "species", widget: "string", required: false, i18n: true }
+              - { label: "Kısa Özet", name: "summary", widget: "text", i18n: true }
+              - { label: "Detaylı Hikaye", name: "body", widget: "markdown", i18n: true }
+              - { label: "Simge ID (i-paw, i-xray, i-tooth-clean vb.)", name: "icon", widget: "string", required: false, i18n: false }
+              - { label: "Öne Çıkan mı?", name: "featured", widget: "boolean", required: false, default: false, i18n: false }
