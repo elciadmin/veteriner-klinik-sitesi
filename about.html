@@ -427,13 +427,21 @@
   </div>
 
   <!-- ELÇİ KİMDİR -->
-<figure class="about-img" aria-hidden="true">
-  <img
-    src="/assets/img/uploads/konyan%C4%B1n%20en%20iyi%20veteriner%20klini%C4%9Finin%20logo%20esinlenmesi.png"
-    alt="Elçi Veteriner Kliniği için hazırlanan konsept görsel"
-    loading="lazy"
-    decoding="async">
-</figure>
+  <section id="elci-kimdir" class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Elçi Kimdir?</h2>
+        <p>Elçi isminin anlamı ve temsil ettiği yaklaşım</p>
+      </div>
+
+      <div class="about-wrap">
+        <figure class="about-img" aria-hidden="true">
+          <img
+            src="/assets/img/uploads/konyan%C4%B1n%20en%20iyi%20veteriner%20klini%C4%9Finin%20logo%20esinlenmesi.png"
+            alt="Elçi Veteriner Kliniği için hazırlanan konsept görsel"
+            loading="lazy"
+            decoding="async">
+        </figure>
 
         <div class="about-content">
           <h3>Sağlıkta Elçi Olma Sorumluluğu</h3>
@@ -477,7 +485,6 @@
         <p>Hasta sahipleri için güncel ve anlaşılır klinik performans verileri.</p>
       </div>
 
-      <!-- BURADA SADECE ID’Yİ DEĞİŞTİRDİK -->
       <div class="metrics-grid" id="aboutMetricsGrid">
         <!-- Ortalama Bekleme Süresi: 6 dk -->
         <article class="m-card" data-kind="kpi" data-suffix="dk" data-progress="85" data-value="6">
@@ -710,9 +717,9 @@
              tabindex="0"
              data-detail="1"
              data-detail-title="Profesyonellik"
-             data-detail-text="Tanı ve tedavi sürecinde kullandığımız tüm ilaç, protokol ve cihazları güncel bilimsel kılavuzlarla uyumlu olacak şekilde seçeriz. Gereksiz tetkik ve gereksiz antibiyotik kullanımından kaçınmaya, her vakayı kayıt altında tutup gerektiğinde ikinci görüş veya sevk için raporlayabilmeye özen gösteririz. Ekip içi iletişim, konsültasyon kültürü ve düzenli vaka değerlendirmeleri profesyonlilik anlayışımızın bir parçasıdır.">
+             data-detail-text="Tanı ve tedavi sürecinde kullandığımız tüm ilaç, protokol ve cihazları güncel bilimsel kılavuzlarla uyumlu olacak şekilde seçeriz. Gereksiz tetkik ve gereksiz antibiyotik kullanımından kaçınmaya, her vakayı kayıt altında tutup gerektiğinde ikinci görüş veya sevk için raporlayabilmeye özen gösteririz. Ekip içi iletişim, konsültasyon kültürü ve düzenli vaka değerlendirmeleri profesyonellik anlayışımızın bir parçasıdır.">
           <div class="vi" style="width:56px;height:56px;border-radius:50%;margin:0 auto 10px;background:#e7f3f4;color:var(--icon-ink);display:flex;align-items:center;justify-content:center;font-size:22px"><i class="fa-solid fa-hand-holding-medical"></i></div>
-          <h3>Profesyonlilik</h3>
+          <h3>Profesyonellik</h3>
           <p>Güncel protokoller, kanıta dayalı tedavi.</p>
         </div>
 
@@ -879,8 +886,6 @@
       const cards = Array.from(root.querySelectorAll('.m-card'));
       if (!cards.length) return;
 
-      // === 1) AYLIK OTOMATİK ARTIŞ HESABI ============================
-      // Baz tarih: kliniğin sayıları referans aldığı ay (dilediğin gibi değiştirebilirsin)
       const START = new Date(2023, 0, 1); // 1 Ocak 2023
 
       const now = new Date();
@@ -889,14 +894,12 @@
         (now.getMonth() - START.getMonth());
       if (months < 0) months = 0;
 
-      // Başlangıç değerleri ve aylık artış (dilediğinde sadece bu 4 satırı değiştirmen yeterli)
-      const baseCases       = 2328; // Şu ana kadar sonuçlanan vaka - baz
-      const incCasesPerMon  = 70;  // her ay eklenecek vaka sayısı
+      const baseCases       = 2328;
+      const incCasesPerMon  = 70;
 
-      const baseHelped      = 227;  // El uzattığımız hayvanlar - baz
-      const incHelpedPerMon = 4;   // her ay eklenecek hayvan sayısı
+      const baseHelped      = 227;
+      const incHelpedPerMon = 4;
 
-      // İlgili kartları bulup data-value'larını güncelle
       const casesCard = root.querySelector('.m-card[data-metric="cases"]');
       if (casesCard) {
         const dynamicCases = baseCases + months * incCasesPerMon;
@@ -909,9 +912,8 @@
         helpedCard.dataset.value = String(dynamicHelped);
       }
 
-      // === 2) ANİMASYON KISMI (senin mevcut basitleştirilmiş kodun) ===
-      const donutCirc = 2 * Math.PI * 48; // r=48
-      const gaugeArc = 226.19; // yarım daire yay uzunluğu
+      const donutCirc = 2 * Math.PI * 48;
+      const gaugeArc = 226.19;
 
       function count(el, to, suffix) {
         const num = el.querySelector('.m-num');
@@ -1012,7 +1014,6 @@
         }
       }
 
-      // Sayfa yüklendiğinde hepsini sırayla animasyonla
       cards.forEach((card, idx) => {
         setTimeout(() => {
           card.classList.add('show');
@@ -1083,7 +1084,8 @@
         });
       });
 
-      closeEls.forEach(el=>{
+      const closeByAttr = panel.querySelectorAll('[data-close-detail]');
+      closeByAttr.forEach(el=>{
         el.addEventListener('click', closePanel);
       });
 
