@@ -25,6 +25,29 @@
       font-weight:800;
       letter-spacing:.2px;
     }
+    .page-hero .hero-center{
+      max-width:720px;
+      margin:0 auto;
+    }
+    .page-hero .hero-icon{
+      width:96px;
+      height:96px;
+      border-radius:28px;
+      margin:0 auto 10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(0,0,0,.12);
+      box-shadow:0 10px 30px rgba(0,0,0,.30);
+      overflow:hidden;
+    }
+    .page-hero .hero-logo{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
     .chip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(0,0,0,.08);border-radius:999px;text-decoration:none}
     .chip:hover{background:#f7fcfd}
     .chip i, .chip svg{color:currentColor}
@@ -43,6 +66,51 @@
     .s-icon{display:inline-flex;width:40px;height:40px;border-radius:12px;align-items:center;justify-content:center;background:#eaf6f9;margin-bottom:8px}
     .s-icon svg{width:22px;height:22px;color:currentColor}
     .s-title{margin:2px 0 8px}
+
+    /* Başarı hikayeleri üst highlight alanı */
+    .success-highlight{
+      margin:18px 0;
+    }
+    .success-highlight .s-card{
+      position:relative;
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,.06);
+    }
+    .success-highlight .s-card::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:radial-gradient(circle at 0 0, rgba(255,255,255,.45), transparent 55%);
+      opacity:0;
+      transform:translateX(-30%);
+      pointer-events:none;
+      transition:.5s ease;
+    }
+    .success-highlight .s-card.is-animating::before{
+      opacity:1;
+      transform:translateX(35%);
+    }
+    .success-highlight .s-title{
+      font-size:1.05rem;
+      margin-bottom:6px;
+    }
+    .success-highlight .tagline{
+      font-size:.9rem;
+      color:#5f6b74;
+      margin-bottom:4px;
+    }
+    .success-highlight .meta{
+      font-size:.85rem;
+      color:#6b7a7c;
+      margin-top:6px;
+    }
+    @keyframes successFadeIn{
+      from{opacity:0; transform:translateY(6px);}
+      to{opacity:1; transform:translateY(0);}
+    }
+    .success-highlight .s-card{
+      animation:successFadeIn .4s ease;
+    }
 
     /* Datepicker (tek ay, tıklayınca açılır) */
     .date-input{position:relative}
@@ -78,10 +146,22 @@
     .terms-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
     .terms-actions .btn{height:36px}
 
-    dialog#termsModal{max-width:900px;width:92%;border-radius:18px;border:1px solid rgba(0,0,0,.1);padding:0}
-    dialog#termsModal .inner{padding:18px}
-    dialog#termsModal header{display:flex;justify-content:space-between;align-items:center;gap:10px}
-    dialog#termsModal .content{max-height:min(65vh,600px);overflow:auto;margin-top:8px}
+    dialog#termsModal,
+    dialog#storyModal{
+      max-width:900px;width:92%;border-radius:18px;border:1px solid rgba(0,0,0,.1);padding:0;
+    }
+    dialog#termsModal .inner,
+    dialog#storyModal .inner{
+      padding:18px;
+    }
+    dialog#termsModal header,
+    dialog#storyModal header{
+      display:flex;justify-content:space-between;align-items:center;gap:10px;
+    }
+    dialog#termsModal .content,
+    dialog#storyModal .content{
+      max-height:min(65vh,600px);overflow:auto;margin-top:8px;
+    }
     dialog::backdrop{background:rgba(0,0,0,.25)}
 
     /* Ara butonu masaüstü balonu */
@@ -210,9 +290,41 @@
     .s-icon{ background:rgba(39,212,232,.12); color:var(--icon-ink); }
     .s-card:hover{ border-color:rgba(39,212,232,.28); box-shadow:0 18px 40px rgba(0,0,0,.12); transform:translateY(-2px); transition:.25s ease; }
 
-    /* Butonlar (index ile aynı akış) */
-    .btn{ color:var(--brand); border:1px solid var(--line); background:#fff; transition:.18s ease; }
-    .btn:active{ transform:translateY(1px) }
+    /* Butonlar (index ile aynı akış, daha stabil) */
+    .btn{
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:9px 16px;
+      border-radius:999px;
+      font-weight:600;
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--brand);
+      cursor:pointer;
+      text-decoration:none;
+      transition:
+        background-color .18s ease,
+        color .12s ease,
+        box-shadow .22s ease,
+        transform .18s ease,
+        background-position .35s ease,
+        border-color .18s ease;
+    }
+    .btn i{font-size:.9em;}
+
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 6px 16px rgba(0,0,0,.08);
+      border-color:color-mix(in srgb, var(--line), var(--brand) 10%);
+    }
+    .btn:active{
+      transform:translateY(0);
+      box-shadow:0 2px 6px rgba(0,0,0,.16);
+    }
+
     .btn.primary,
     .btn.ghost{
       background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
@@ -220,13 +332,22 @@
       box-shadow:0 8px 22px rgba(16,179,209,.22);
       background-size:200% 100%;
       background-position:0% 0%;
-      transition:background-position .35s ease, box-shadow .2s ease, transform .2s ease;
+      transition:
+        background-position .35s ease,
+        box-shadow .2s ease,
+        transform .18s ease,
+        color .12s ease;
     }
     .btn.primary:hover,
     .btn.ghost:hover{
       transform:translateY(-2px);
       box-shadow:0 12px 28px rgba(16,179,209,.28);
       background-position:100% 0%;
+    }
+    .btn.primary:active,
+    .btn.ghost:active{
+      transform:translateY(0);
+      box-shadow:0 6px 16px rgba(16,179,209,.26);
     }
 
     /* Footer (index ile aynı degrade) */
@@ -326,14 +447,19 @@
   <!-- ===== SAYFA KAFA ===== -->
   <section class="page-hero">
     <div class="container">
-      <h1>Hasta İlişkileri</h1>
-      <p class="muted">Online randevu, memnuniyet anketi, başarı hikayeleri ve öneri-şikâyet formları.</p>
+      <div class="hero-center">
+        <div class="hero-icon">
+          <img class="hero-logo" src="/assets/img/uploads/elci-logo.png?v=1" alt="Elçi Veteriner Kliniği Logosu" width="96" height="96" loading="eager" decoding="async">
+        </div>
+        <h1>Hasta İlişkileri</h1>
+        <p class="muted">Online randevu, memnuniyet anketi, başarı hikayeleri ve öneri-şikâyet formları.</p>
 
-      <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center">
-        <a class="chip" href="#online-randevu"><i class="fa-solid fa-calendar-check"></i> Online Randevu</a>
-        <a class="chip" href="#memnuniyet-anketi"><i class="fa-solid fa-face-smile"></i> Memnuniyet</a>
-        <a class="chip" href="#basari-hikayeleri"><i class="fa-solid fa-heart"></i> Başarı Hikayeleri</a>
-        <a class="chip" href="#sikayet-oneri"><i class="fa-solid fa-comment-dots"></i> Şikayet & Öneri</a>
+        <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center">
+          <a class="chip" href="#online-randevu"><i class="fa-solid fa-calendar-check"></i> Online Randevu</a>
+          <a class="chip" href="#memnuniyet-anketi"><i class="fa-solid fa-face-smile"></i> Memnuniyet</a>
+          <a class="chip" href="#basari-hikayeleri"><i class="fa-solid fa-heart"></i> Başarı Hikayeleri</a>
+          <a class="chip" href="#sikayet-oneri"><i class="fa-solid fa-comment-dots"></i> Şikayet & Öneri</a>
+        </div>
       </div>
     </div>
   </section>
@@ -486,25 +612,55 @@
   <section class="section" id="basari-hikayeleri">
     <div class="container">
       <h2>Başarı Hikayeleri</h2>
-      <p class="muted">Yakında: Kliniğimizde tedavi olan dostlarımızın iyileşme yolculukları.</p>
+      <p class="muted">Kliniğimizde tedavi olan dostlarımızın iyileşme yolculukları. Bu alan Decap CMS üzerinden çoğaltılabilir.</p>
 
-      <div class="services-grid">
-        <article class="s-card show">
-          <span class="s-icon"><svg viewBox="0 0 24 24"><use href="#i-paw"/></svg></span>
-          <h3 class="s-title">Mira — Parvo Sonrası</h3>
-          <p class="s-text">Yoğun bakım ve sıvı tedavisi ile taburcu; kilo alımı takipte.</p>
-        </article>
-        <article class="s-card show">
-          <span class="s-icon"><svg viewBox="0 0 24 24"><use href="#i-xray"/></svg></span>
-          <h3 class="s-title">Duman — Femur Fraktürü</h3>
-          <p class="s-text">Cerrahi tespit + rehabilitasyon; tam yük vermeye geçti.</p>
-        </article>
-        <article class="s-card show">
-          <span class="s-icon"><svg viewBox="0 0 24 24"><use href="#i-tooth-clean"/></svg></span>
-          <h3 class="s-title">Boncuk — Dental Tedavi</h3>
-          <p class="s-text">Tartar temizliği & çekim; ağız kokusu ve ağrı geriledi.</p>
+      <!-- Otomatik dönen highlight kart -->
+      <div class="success-highlight" aria-live="polite">
+        <article class="s-card show" id="successHighlight">
+          <!-- JS dolduracak -->
         </article>
       </div>
+
+      <!-- Grid kartlar (dinamik) -->
+      <div class="services-grid" id="successGrid">
+        <!-- JS dolduracak -->
+      </div>
+
+      <!-- Admin/CMS için örnek JSON (Decap koleksiyonuna taşınabilir) -->
+      <script type="application/json" id="successStoriesData">
+      [
+        {
+          "id": "mira-parvo",
+          "title": "Mira — Parvo Sonrası Yoğun Bakım",
+          "petName": "Mira",
+          "species": "Köpek",
+          "tagline": "Ağır seyretti, yoğun bakımda toparladı.",
+          "summary": "Parvo pozitif gelen Mira, 4 gün yoğun bakım ve sıvı tedavisi sonrası iştahı açılarak taburcu edildi.",
+          "full": "Mira kliniğimize ileri derecede halsizlik, iştahsızlık ve kanlı ishal ile başvurdu. Hızlı testlerinde Parvovirüs pozitifliği saptandı. Yoğun bakım ünitemizde sıvı tedavisi, antiemetik, antibiyotik ve beslenme desteği ile 4 gün boyunca yakın takip edildi. İlk günlerde ciddi dehidratasyon ve elektrolit dengesizliği varken, üçüncü günden itibaren iştahı ve genel durumu belirgin şekilde düzeldi. Taburculuk sonrası kontrol muayenesinde kilo alımı ve aktif hareketliliğiyle Mira artık evinde oyunlarına devam ediyor.",
+          "icon": "#i-paw"
+        },
+        {
+          "id": "duman-femur",
+          "title": "Duman — Femur Fraktürü ve Rehabilitasyon",
+          "petName": "Duman",
+          "species": "Kedi",
+          "tagline": "Travma sonrası başarılı cerrahi ve fizik tedavi.",
+          "summary": "Araç çarpması sonrası femur kırığı olan Duman, cerrahi tespit ve kontrollü rehabilitasyon ile tam yük vermeye başladı.",
+          "full": "Duman kliniğimize araç çarpması sonrası arka bacak kullanımında ciddi kısıtlılıkla getirildi. Röntgen görüntülerinde femur şaft kırığı tespit edildi. Genel durumu stabilize edildikten sonra plak-vida sistemi ile cerrahi fiksasyon yapıldı. Ameliyat sonrası dönemde ağrı kontrolü, düzenli bandaj değişimi ve kontrollü hareket protokolü uygulandı. 4. haftadan itibaren hafif yük vermeye başlamasıyla birlikte basamak egzersizleri ve pasif eklem hareketleri eklendi. Son kontrolde, Duman koşup zıplayabilecek düzeyde aktif ve ağrısız bir yürüyüşe kavuştu.",
+          "icon": "#i-xray"
+        },
+        {
+          "id": "boncuk-dental",
+          "title": "Boncuk — İleri Dental Tartar ve Diş Çekimi",
+          "petName": "Boncuk",
+          "species": "Köpek",
+          "tagline": "Ağız kokusu ve ağrı ortadan kalktı.",
+          "summary": "İleri diş taşı ve gingivit nedeniyle genel anestezi altında dental temizlik ve gerekli diş çekimleri yapıldı.",
+          "full": "Boncuk, belirgin ağız kokusu, yemek yerken zorlanma ve salya artışı şikayetiyle muayene edildi. Ağız içi muayenesinde ileri derecede diş taşı, diş eti çekilmesi ve bazı dişlerde mobilite tespit edildi. Kan tahlilleri ile anestezi için uygunluğu değerlendirildikten sonra, genel anestezi altında dental tartar temizliği ve prognozu kötü olan dişlerin çekimi yapıldı. Operasyon sonrası dönemde kısa süreli ağrı kesici ve antibiyotik tedavisi uygulandı. Kontrol muayenesinde Boncuk’un iştahının düzeldiği, ağız kokusunun azaldığı ve günlük hayat kalitesinin belirgin şekilde arttığı gözlendi.",
+          "icon": "#i-tooth-clean"
+        }
+      ]
+      </script>
     </div>
   </section>
 
@@ -587,7 +743,7 @@
           </li>
           <li><i class="fa-solid fa-phone"></i> <a href="tel:03323223220">0332 322 32 20</a></li>
           <li><i class="fa-solid fa-envelope"></i> <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></li>
-          <li><i class="fa-solid fa-clock"></i> <span>Pazartesi–Cumartesi: 08:00–19:00 • Pazar: Acil Hizmet</span></li>
+          <li><i class="fa-solid fa-clock"></i> <span>Her gün: 09:00–23:00</span></li>
         </ul>
       </div>
     </div>
@@ -683,19 +839,21 @@
     }
 
     function openDP(){
-      // Tek ay: min tarih hangi ayda ise onu göster; değilse bugünün ayı
       const base = new Date(min.getFullYear(), min.getMonth(), 1);
       render(base);
       pop.style.display='block';
       const rect = input.getBoundingClientRect();
-      // taşmayı önle (mobil)
       if(window.innerHeight - rect.bottom < 320){ pop.style.top = 'auto'; pop.style.bottom = '52px'; }
       else{ pop.style.top='50px'; pop.style.bottom='auto'; }
     }
 
-    input.addEventListener('click', openDP);
-    input.addEventListener('focus', openDP);
-    closeBtn.addEventListener('click', ()=> pop.style.display='none');
+    if(input){
+      input.addEventListener('click', openDP);
+      input.addEventListener('focus', openDP);
+    }
+    if(closeBtn){
+      closeBtn.addEventListener('click', ()=> pop.style.display='none');
+    }
     document.addEventListener('click', (e)=>{
       if(!pop.contains(e.target) && e.target!==input){ pop.style.display='none'; }
     });
@@ -742,17 +900,118 @@
     }
     if (termsCheck){
       termsCheck.addEventListener('change', syncConsentUI);
-      // İlk yüklemede kilit durumu
       syncConsentUI();
     }
 
-    openTerms.addEventListener('click', ()=> termsModal.showModal());
+    if(openTerms){
+      openTerms.addEventListener('click', ()=> termsModal.showModal());
+    }
     termsModal.addEventListener('close', ()=>{
       if(termsModal.returnValue==='ok'){
         termsCheck.checked = true;
         termsCheck.dispatchEvent(new Event('change', {bubbles:true}));
       }
     });
+
+    /* ===== Başarı hikayeleri: JSON'dan kart üretimi, highlight rotasyonu ve modal ===== */
+    const dataEl = document.getElementById('successStoriesData');
+    const gridEl = document.getElementById('successGrid');
+    const highlightEl = document.getElementById('successHighlight');
+    let stories = [];
+
+    if(dataEl){
+      try{
+        stories = JSON.parse((dataEl.textContent || '[]').trim() || '[]');
+      }catch(err){
+        console.error('Başarı hikayesi JSON parse hatası:', err);
+      }
+    }
+
+    // Modal
+    const storyModal = document.createElement('dialog');
+    storyModal.id = 'storyModal';
+    storyModal.innerHTML = `
+      <div class="inner">
+        <header>
+          <div>
+            <h3 id="storyModalTitle" style="margin:0 0 4px"></h3>
+            <p id="storyModalMeta" class="muted" style="margin:0;font-size:0.9rem"></p>
+          </div>
+          <form method="dialog"><button class="btn">Kapat</button></form>
+        </header>
+        <div id="storyModalBody" class="content muted"></div>
+        <form method="dialog" style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px">
+          <button class="btn" value="close">Kapat</button>
+        </form>
+      </div>`;
+    document.body.appendChild(storyModal);
+
+    function openStory(idx){
+      const s = stories[idx];
+      if(!s) return;
+      const titleEl = document.getElementById('storyModalTitle');
+      const metaEl  = document.getElementById('storyModalMeta');
+      const bodyEl  = document.getElementById('storyModalBody');
+
+      if(titleEl) titleEl.textContent = s.title || '';
+      if(metaEl){
+        const parts = [];
+        if(s.petName) parts.push(s.petName);
+        if(s.species) parts.push(s.species);
+        metaEl.textContent = parts.join(' • ');
+      }
+      if(bodyEl){
+        bodyEl.innerHTML = '';
+        const p = document.createElement('p');
+        p.textContent = s.full || s.summary || '';
+        bodyEl.appendChild(p);
+      }
+
+      storyModal.showModal();
+    }
+
+    function updateHighlight(idx){
+      const s = stories[idx];
+      if(!s || !highlightEl) return;
+      highlightEl.classList.remove('is-animating');
+      // kısa gecikme ile animasyon tetikleyelim
+      setTimeout(()=>{
+        highlightEl.innerHTML = `
+          <span class="s-icon"><svg viewBox="0 0 24 24"><use href="${s.icon || '#i-paw'}"></use></svg></span>
+          <h3 class="s-title">${s.title || ''}</h3>
+          <div class="tagline">${s.tagline || ''}</div>
+          <p class="s-text">${s.summary || ''}</p>
+          <div class="meta">Detaylı öyküyü görmek için karta tıklayın.</div>
+        `;
+        highlightEl.classList.add('is-animating');
+        highlightEl.onclick = ()=>openStory(idx);
+      }, 40);
+    }
+
+    if(stories.length && gridEl){
+      stories.forEach((s, idx)=>{
+        const card = document.createElement('article');
+        card.className = 's-card show success-card';
+        card.dataset.index = idx;
+        card.innerHTML = `
+          <span class="s-icon"><svg viewBox="0 0 24 24"><use href="${s.icon || '#i-paw'}"></use></svg></span>
+          <h3 class="s-title">${s.title || ''}</h3>
+          <p class="s-text">${s.summary || ''}</p>
+        `;
+        card.addEventListener('click', ()=>openStory(idx));
+        gridEl.appendChild(card);
+      });
+
+      // Highlight rotasyonu
+      let current = 0;
+      updateHighlight(current);
+      setInterval(()=>{
+        current = (current + 1) % stories.length;
+        updateHighlight(current);
+      }, 8000);
+    }else if(highlightEl){
+      highlightEl.style.display = 'none';
+    }
 
     /* ===== Ara butonu: mobilde tel:, masaüstünde balon ===== */
     const btnAra = document.getElementById('btnAra');
