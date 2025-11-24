@@ -744,8 +744,9 @@
   <!-- Sayfa içi JS -->
   <script>
   (function(){
-    // Yıl
-    const yil = document.getElementById('yil'); if(yil){ yil.textContent = new Date().getFullYear(); }
+    // Footer yılı
+    const yil = document.getElementById('yil'); 
+    if(yil){ yil.textContent = new Date().getFullYear(); }
 
     /* ===== Datepicker (tek ay) ===== */
     const input = document.getElementById('randevuTarih');
@@ -882,6 +883,18 @@
     const highlightEl = document.getElementById('successHighlight');
     let stories = [];
 
+    // i18n alanlar için helper
+    function tLocale(val){
+      if (val == null) return '';
+      if (typeof val === 'string') return val;
+      if (typeof val === 'object'){
+        if (typeof val.tr === 'string') return val.tr;
+        const keys = Object.keys(val);
+        if (keys.length && typeof val[keys[0]] === 'string') return val[keys[0]];
+      }
+      return String(val);
+    }
+
     // Modal
     const storyModal = document.createElement('dialog');
     storyModal.id = 'storyModal';
@@ -918,7 +931,7 @@
       if(bodyEl){
         bodyEl.innerHTML = '';
         const p = document.createElement('p');
-        p.textContent = s.full || s.summary || '';
+        p.textContent = s.body || s.summary || '';
         bodyEl.appendChild(p);
       }
 
@@ -928,12 +941,14 @@
     function updateHighlight(idx){
       const s = stories[idx];
       if(!s || !highlightEl) return;
+      const metaLine = [s.petName, s.species].filter(Boolean).join(' • ');
+
       highlightEl.classList.remove('is-animating');
       setTimeout(()=>{
         highlightEl.innerHTML = `
           <span class="s-icon"><svg viewBox="0 0 24 24"><use href="${s.icon || '#i-paw'}"></use></svg></span>
           <h3 class="s-title">${s.title || ''}</h3>
-          <div class="tagline">${s.tagline || ''}</div>
+          <div class="tagline">${metaLine}</div>
           <p class="s-text">${s.summary || ''}</p>
           <div class="meta">Detaylı öyküyü görmek için karta tıklayın.</div>
         `;
@@ -971,21 +986,36 @@
       }, 8000);
     }
 
-    // JSON'u çek
-    fetch('/assets/data/success-stories.json', {cache: 'no-store'})
+    // JSON'u çek — config.yml'deki dosya yolu: assets/data/successStories.json
+    fetch('/assets/data/successStories.json', {cache: 'no-store'})
       .then(function(res){
         if(!res.ok) throw new Error('Başarı hikayesi JSON bulunamadı');
         return res.json();
       })
       .then(function(data){
-        // Dosya { "stories": [ ... ] } veya doğrudan [ ... ] olabilir
-        if(Array.isArray(data)){
-          stories = data;
-        }else if(Array.isArray(data.stories)){
-          stories = data.stories;
-        }else{
-          stories = [];
+        let raw = [];
+        if (Array.isArray(data)){
+          raw = data;
+        } else if (Array.isArray(data.stories)){
+          raw = data.stories;
+        } else {
+          raw = [];
         }
+
+        stories = raw.map(function(s){
+          return {
+            ...s,
+            title:   tLocale(s.title),
+            summary: tLocale(s.summary),
+            petName: tLocale(s.petName),
+            species: tLocale(s.species),
+            body:    tLocale(s.body),
+            icon:    s.icon || '#i-paw'
+          };
+        }).filter(function(s){
+          return s.title || s.summary;
+        });
+
         initStories();
       })
       .catch(function(err){
