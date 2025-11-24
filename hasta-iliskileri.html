@@ -171,7 +171,7 @@
     }
     .call-pop a{color:#fff;text-decoration:underline}
 
-    /* === Onay (consent) butonu - YENİ === */
+    /* === Onay (consent) butonu === */
     .consent{
       display:inline-flex; align-items:center; gap:10px;
       padding:8px 14px; border:1px solid rgba(0,0,0,.12);
@@ -550,16 +550,16 @@
         <div class="terms-wrap">
           <div class="terms-title"><i class="fa-solid fa-shield-heart"></i><strong>Hizmet Şartları</strong></div>
           <p class="muted" style="margin:6px 0 10px">
-            Randevu işlemlerinde kişisel verileriniz KVKK kapsamında işlenmektedir. Detayları görmek ve onaylamak için:
+            Randevu işlemlerinde kişisel verileriniz KVKK kapsamında işlenmektedir. Detayları görmek için:
           </p>
           <div class="terms-actions">
             <button type="button" class="btn" id="openTerms">Metni Gör</button>
 
-            <!-- YENİ onay butonu -->
+            <!-- Onay butonu: yalnızca "okudum" -->
             <label class="consent" id="termsConsent">
               <input id="termsCheck" type="checkbox" required aria-required="true"/>
               <span class="icon" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
-              <span>Okudum, Onaylıyorum</span>
+              <span>Aydınlatma metnini okudum</span>
             </label>
           </div>
         </div>
@@ -883,7 +883,7 @@
         </div>
         <form method="dialog" style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px">
           <button class="btn" value="cancel">Kapat</button>
-          <button class="btn primary" value="ok" id="termsApprove">Okudum, Onaylıyorum</button>
+          <button class="btn primary" value="ok" id="termsApprove">Aydınlatma metnini okudum</button>
         </form>
       </div>`;
     document.body.appendChild(termsModal);
