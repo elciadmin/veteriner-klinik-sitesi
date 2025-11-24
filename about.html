@@ -54,14 +54,14 @@
       display:grid;
       grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);
       gap:26px;
-      align-items:flex-start;            /* GÖRSEL VE METNİ ÜSTE HİZALA */
+      align-items:stretch; /* önce center'dı, alttaki boşluğu kaldırmak için stretch yaptık */
     }
     .about-img{
       border-radius:16px;
       overflow:hidden;
       box-shadow:0 10px 24px rgba(0,0,0,.08);
       border:1px solid rgba(12,78,84,.12);
-      max-height:360px;
+      height:100%;                  /* hücrenin tamamını doldursun */
     }
     .about-img img{
       width:100%;
@@ -72,21 +72,12 @@
     .about-features{display:grid;gap:12px;margin-top:14px}
     .feature{display:flex;gap:12px;align-items:flex-start;background:#fbfefe;border:1px solid #e6f1f2;border-radius:12px;padding:12px}
     .feature .ic{width:36px;height:36px;border-radius:10px;color:#fff;display:flex;align-items:center;justify-content:center}
-
-    /* TAM GENİŞLİK ALT PARAGRAF */
-    .about-wide-text{
-      grid-column:1 / -1;               /* iki sütunu da kapla */
-      margin-top:10px;
-      font-size:15px;
-      line-height:1.7;
-      color:#476265;
-      max-width:960px;
-    }
-
     @media(max-width:980px){
       .about-wrap{grid-template-columns:1fr}
-      .about-img{max-height:none;}
-      .about-wide-text{max-width:100%;}
+      .about-img{
+        height:auto;      /* mobilde normal davransın */
+        max-height:none;
+      }
     }
 
     /* ====== 3'lü review ====== */
@@ -467,6 +458,7 @@
 
       <div class="about-wrap">
         <figure class="about-img" aria-hidden="true">
+          <!-- BURASI YENİ GÖRSELİN YOLU - JavaScript ile dinamik yükleme -->
           <img id="elci-main-image"
                src="/assets/img/uploads/konyan%C4%B1n%20en%20iyi%20veteriner%20klini%C4%9Finin%20logo%20esinlenmesi.png?v=3"
                alt="Elçi Veteriner Kliniği için hazırlanan konsept görsel"
@@ -478,6 +470,7 @@
           <h3>Sağlıkta Elçi Olma Sorumluluğu</h3>
           <p>Veteriner hekimlik, insan ve hayvanın ilk temas anından itibaren insanlığa ve yaşama hizmet etmiş olan multidisipliner bir meslektir. İnsanlığın kadim tarihinden bu yana çeşitli amaçlar için yetiştirilen hayvanların sağlığı için gerekli olan bilgi ve beceriyi bünyesinde barındıran veteriner hekimler, bugün ve gelecekte de aynı özveriyle hizmet etmeye devam edecektir.</p>
           <p>İnsanlık ile hayvanlar âlemi arasında etkin, doğru ve başarılı bir tedavi sürecinin yürütülmesinde görev alan veteriner hekimler; tıp ilminin uygulanmasında insanlığın <strong>"Elçileri"</strong> olarak hareket ederler. Elçi Veteriner Kliniği'nin kuruluş sürecinde bizler de bu görevin temsilcileri olduğumuz bilinciyle, kliniğimize "Elçi" ismini vermeyi uygun gördük.</p>
+          <p>Elçi Veteriner Kliniği'nde danışmanlık ve tedavi hizmeti veren tüm veteriner hekimler, hasta yakını ile hasta arasındaki iletişimde sağlığın elçileri olarak görev alır. Etkin, doğru ve sağlıklı bir tedavi sürecinin parçası olmayı bir sorumluluk değil; mesleki bir onur olarak görür ve bu bilinçle <strong>"Elçi"</strong> unvanını taşırlar.</p>
 
           <div class="about-features">
             <div class="feature">
@@ -502,11 +495,6 @@
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- ALTTA TAM GENİŞLİK METİN BLOĞU -->
-        <div class="about-wide-text">
-          <p>Elçi Veteriner Kliniği'nde danışmanlık ve tedavi hizmeti veren tüm veteriner hekimler, hasta yakını ile hasta arasındaki iletişimde sağlığın elçileri olarak görev alır. Etkin, doğru ve sağlıklı bir tedavi sürecinin parçası olmayı bir sorumluluk değil; mesleki bir onur olarak görür ve bu bilinçle <strong>"Elçi"</strong> unvanını taşırlar.</p>
         </div>
       </div><!-- /about-wrap -->
     </div>
@@ -1083,6 +1071,7 @@
 
       const titleEl = panel.querySelector('#cardDetailTitle');
       const textEl  = panel.querySelector('#cardDetailText');
+      const closeEls = panel.querySelectorAll('[data-close-detail]');
 
       function openPanel(card){
         const title = card.getAttribute('data-detail-title') ||
@@ -1138,15 +1127,19 @@
     })();
   </script>
 
-  <!-- GÖRSEL ÖNBELLEK KIRMA -->
+  <!-- GÖRSEL ÖNBELLEK KIRMA - KESİN ÇÖZÜM -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const ts = new Date().getTime();
-
+      // Ana görseli dinamik olarak yükle
       const mainImage = document.getElementById('elci-main-image');
       if (mainImage) {
-        const newSrc = '/assets/img/uploads/konyan%C4%B1n%20en%20iyi%20veteriner%20klini%C4%9Finin%20logo%20esinlenmesi.png?force=' + ts;
+        const timestamp = new Date().getTime();
+        const newSrc = '/assets/img/uploads/konyan%C4%B1n%20en%20iyi%20veteriner%20klini%C4%9Finin%20logo%20esinlenmesi.png?force=' + timestamp;
+        
+        // Önce görseli gizle
         mainImage.style.opacity = '0';
+        
+        // Yeni görseli yükle
         const img = new Image();
         img.onload = function() {
           mainImage.src = newSrc;
@@ -1154,22 +1147,28 @@
           mainImage.style.transition = 'opacity 0.5s ease';
         };
         img.onerror = function() {
+          // Yükleme başarısız olursa orijinal görseli göster
           mainImage.style.opacity = '1';
         };
         img.src = newSrc;
       }
 
+      // Veteriner fotoğrafını da güncelle
       const vetPhoto = document.getElementById('vet-photo');
       if (vetPhoto) {
-        vetPhoto.src = '/assets/img/uploads/konyan%C4%B1n%20en%20iyi%20veterineri.jpg?force=' + ts;
+        const timestamp = new Date().getTime();
+        vetPhoto.src = '/assets/img/uploads/konyan%C4%B1n%20en%20iyi%20veterineri.jpg?force=' + timestamp;
       }
 
+      // Hero logosunu da güncelle
       const heroLogo = document.querySelector('.hero-logo');
       if (heroLogo) {
-        heroLogo.src = '/assets/img/uploads/elci-logo.png?force=' + ts;
+        const timestamp = new Date().getTime();
+        heroLogo.src = '/assets/img/uploads/elci-logo.png?force=' + timestamp;
       }
     });
 
+    // Tarayıcı önbelleğini temizleme butonu (geliştirme için)
     console.log('Görsel önbellek temizleme aktif. Yeni görsel yükleniyor...');
   </script>
 </body>
