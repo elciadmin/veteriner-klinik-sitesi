@@ -61,12 +61,16 @@
       row-gap:18px;
       align-items:flex-start;
     }
+    /* Ortak görsel stili */
     .about-img{
-      grid-area:img;
       border-radius:16px;
       overflow:hidden;
       box-shadow:0 10px 24px rgba(0,0,0,.08);
       border:1px solid rgba(12,78,84,.12);
+    }
+    /* Sadece Elçi Kimdir bloğunda grid-area kullan */
+    .about-wrap .about-img{
+      grid-area:img;
     }
     .about-img img{
       width:100%;
