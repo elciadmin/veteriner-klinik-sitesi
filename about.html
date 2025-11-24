@@ -53,29 +53,50 @@
     .about-wrap{
       display:grid;
       grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);
-      gap:26px;
-      align-items:stretch; /* önce center'dı, alttaki boşluğu kaldırmak için stretch yaptık */
+      grid-template-rows:auto auto;
+      grid-template-areas:
+        "img content"
+        "below content";
+      column-gap:26px;
+      row-gap:18px;
+      align-items:flex-start;
     }
     .about-img{
+      grid-area:img;
       border-radius:16px;
       overflow:hidden;
       box-shadow:0 10px 24px rgba(0,0,0,.08);
       border:1px solid rgba(12,78,84,.12);
-      height:100%;                  /* hücrenin tamamını doldursun */
     }
     .about-img img{
       width:100%;
-      height:100%;
-      object-fit:cover;
+      height:auto;          /* doğal oran, bozulma yok */
       display:block;
     }
+    .about-content{
+      grid-area:content;
+    }
+    .about-below{
+      grid-area:below;
+      font-size:15px;
+      line-height:1.7;
+      color:var(--muted);
+    }
+    .about-below p{margin:0;}
+
     .about-features{display:grid;gap:12px;margin-top:14px}
     .feature{display:flex;gap:12px;align-items:flex-start;background:#fbfefe;border:1px solid #e6f1f2;border-radius:12px;padding:12px}
     .feature .ic{width:36px;height:36px;border-radius:10px;color:#fff;display:flex;align-items:center;justify-content:center}
+
     @media(max-width:980px){
-      .about-wrap{grid-template-columns:1fr}
+      .about-wrap{
+        grid-template-columns:1fr;
+        grid-template-areas:
+          "img"
+          "content"
+          "below";
+      }
       .about-img{
-        height:auto;      /* mobilde normal davransın */
         max-height:none;
       }
     }
@@ -470,7 +491,6 @@
           <h3>Sağlıkta Elçi Olma Sorumluluğu</h3>
           <p>Veteriner hekimlik, insan ve hayvanın ilk temas anından itibaren insanlığa ve yaşama hizmet etmiş olan multidisipliner bir meslektir. İnsanlığın kadim tarihinden bu yana çeşitli amaçlar için yetiştirilen hayvanların sağlığı için gerekli olan bilgi ve beceriyi bünyesinde barındıran veteriner hekimler, bugün ve gelecekte de aynı özveriyle hizmet etmeye devam edecektir.</p>
           <p>İnsanlık ile hayvanlar âlemi arasında etkin, doğru ve başarılı bir tedavi sürecinin yürütülmesinde görev alan veteriner hekimler; tıp ilminin uygulanmasında insanlığın <strong>"Elçileri"</strong> olarak hareket ederler. Elçi Veteriner Kliniği'nin kuruluş sürecinde bizler de bu görevin temsilcileri olduğumuz bilinciyle, kliniğimize "Elçi" ismini vermeyi uygun gördük.</p>
-          <p>Elçi Veteriner Kliniği'nde danışmanlık ve tedavi hizmeti veren tüm veteriner hekimler, hasta yakını ile hasta arasındaki iletişimde sağlığın elçileri olarak görev alır. Etkin, doğru ve sağlıklı bir tedavi sürecinin parçası olmayı bir sorumluluk değil; mesleki bir onur olarak görür ve bu bilinçle <strong>"Elçi"</strong> unvanını taşırlar.</p>
 
           <div class="about-features">
             <div class="feature">
@@ -495,6 +515,11 @@
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- Üçüncü paragraf artık resmin ALTINDA, sadece sol kolonda -->
+        <div class="about-below">
+          <p>Elçi Veteriner Kliniği'nde danışmanlık ve tedavi hizmeti veren tüm veteriner hekimler, hasta yakını ile hasta arasındaki iletişimde sağlığın elçileri olarak görev alır. Etkin, doğru ve sağlıklı bir tedavi sürecinin parçası olmayı bir sorumluluk değil; mesleki bir onur olarak görür ve bu bilinçle <strong>"Elçi"</strong> unvanını taşırlar.</p>
         </div>
       </div><!-- /about-wrap -->
     </div>
