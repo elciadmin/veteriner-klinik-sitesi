@@ -9,18 +9,6 @@
   <meta name="description" content="Konya Meram Elçi Veteriner Kliniği: acil, koruyucu hekimlik, cerrahi, diş sağlığı, röntgen, ultrason, laboratuvar."/>
   <link rel="canonical" href="https://elciveteriner.com/"/>
 
-  <!-- Güvenlik & tarayıcı politikaları -->
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta name="robots" content="index,follow"/>
-
-  <!-- Dış kaynak performansı -->
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-
-  <!-- services.json preload -->
-  <link rel="preload" href="/assets/data/services.json?v=20251106" as="fetch" crossorigin="anonymous">
-
   <!-- Netlify Identity hash geldiyse /admin'e yönlendir -->
   <script>
     (function () {
@@ -38,10 +26,7 @@
   <link rel="stylesheet" href="/assets/css/styles.css?v=20251106"/>
 
   <!-- Font Awesome -->
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <!-- Genel küçük dokunuşlar -->
   <style>
@@ -480,7 +465,7 @@
         </a>
 
         <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi"
-           target="_blank" rel="noopener noreferrer" class="quick-link">
+           target="_blank" rel="noopener" class="quick-link">
           <div class="quick-icon">
             <i class="fa-brands fa-youtube"></i>
           </div>
@@ -500,7 +485,7 @@
 
   <!-- HİZMETLER (JSON + fallback) -->
   <section id="services" class="services"
-           data-json="/assets/data/services.json?v=20251106"
+           data-json="/assets/data/services.json"
            data-limit="6"
            data-mode="split">
     <div class="container">
@@ -620,16 +605,16 @@
         <h3>Elçi Veteriner Kliniği</h3>
         <p>Konya’nın Meram ilçesinde, hayvan sağlığı alanında uzman ekibimizle hizmet veriyoruz.Acil veteriner hizmeti.</p>
         <div class="social-links">
-          <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 10h3l.5-3H13V5.5c0-.9.3-1.5 1.7-1.5H17V1h-3c-3 0-4.5 1.6-4.5 4.4V7H7v3h2.5v9h3v-9z"/></svg>
           </a>
-          <a href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <a href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener" aria-label="Instagram">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><path d="M17.5 6.5h.01" stroke-width="2"/></svg>
           </a>
-          <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+          <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.8c-.8.4-1.6.6-2.5.7.9-.6 1.5-1.4 1.8-2.4-.8.5-1.8.9-2.8 1.1A3.7 3.7 0 0 0 12 8.4c0 .3 0 .7.1 1A10.5 10.5 0 0 1 3 5.2a3.7 3.7 0 0 0 1.1 5 3.6 3.6 0 0 1-1.7-.5v.1c0 1.8 1.3 3.3 3 3.7-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1.5 1.5 1.9 2.6 3.6 2.6A7.5 7.5 0 0 1 3 19.5 10.6 10.6 0 0 0 9.7 21c6.3 0 9.7-5.2 9.7-9.7v-.4c.8-.6 1.5-1.4 2-2.3z"/></svg>
           </a>
-          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5a4 4 0 0 0-3-3.1C18.3 4 12 4 12 4s-6.3 0-8 .4A4 4 0 0 0 1 7.5 41 41 0 0 0 1 16.5a4 4 0 0 0 3 3.1c1.7.4 8 .4 8 .4s6.3 0 8-.4a4 4 0 0 0 3-3.1 41 41 0 0 0 0-9zM10 15.5v-7l6 3.5-6 3.5z"/></svg>
           </a>
         </div>
@@ -663,7 +648,7 @@
         <ul class="footer-contact">
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"/><circle cx="12" cy="11" r="2.5"/></svg>
-            <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener noreferrer">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a>
+            <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a>
           </li>
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.5v2a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3.1 19 19 0 0 1-6-6A2 2 0 0 1 7.5 9h2l2 3-1.5 1.5a16 16 0 0 0 6 6L18 18l3 2.5z"/></svg>
@@ -708,7 +693,7 @@
   ],
   "url":"https://elciveteriner.com/"
 }
-  </script>
+</script>
 
 
   <!-- Ana JS -->
@@ -794,18 +779,6 @@
       const moreWrap     = qS('#servicesMoreWrap');
       const moreTrack    = qS('#servicesTrack');
 
-      // JSON geç gelse bile boş kalmaması için fallback'i hemen bas
-      (function injectFallback(){
-        const tpl = qS('#services-fallback');
-        if (!tpl || !featuredWrap) return;
-        if (featuredWrap.children.length) return;
-        const frag = tpl.content.cloneNode(true);
-        const grid = frag.querySelector('.services-grid');
-        if (grid) {
-          featuredWrap.innerHTML = grid.innerHTML;
-        }
-      })();
-
       const statusBadge = document.createElement('div');
       statusBadge.style.cssText = "display:none; margin:10px 0 0; padding:6px 10px; font-size:12px; border:1px solid var(--line); border-radius:10px; background:#fff;";
       statusBadge.setAttribute('aria-live','polite');
@@ -840,13 +813,9 @@
         console.warn('[services:index]', msg);
       }
 
-      console.log('[services] fetch başlıyor:', url);
-      console.time('[services]');
-
-      fetch(url, { cache: 'no-store' })
+      fetch(url)
         .then(r => r.ok ? r.json() : Promise.reject('HTTP '+r.status))
         .then(json=>{
-          console.timeEnd('[services]');
           const list = Array.isArray(json?.items) ? json.items.slice() : [];
           if(!list.length){ renderFallback('liste boş'); return; }
           const h2 = host.querySelector('h2');
@@ -872,10 +841,7 @@
             showStatus(`✅ ${first.length} hizmet yüklendi (SPLIT, kalan yok).`);
           }
         })
-        .catch(err => {
-          console.timeEnd && console.timeEnd('[services]');
-          renderFallback(String(err));
-        });
+        .catch(err => renderFallback(String(err)));
     })();
 
     /* HİZMETLER SAYFASI MODU (varsa) */
@@ -1184,4 +1150,4 @@
     </symbol>
   </svg>
 </body>
-</html>
+</html> 
