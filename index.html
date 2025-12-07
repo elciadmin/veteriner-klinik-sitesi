@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+hızlandıralım  ve kodumu düzenleyelim <!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8"/>
@@ -17,9 +17,6 @@
   <!-- Dış kaynak performansı -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-
-  <!-- HİZMETLER JSON’u preload (hız için) -->
-  <link rel="preload" href="/assets/data/services.json" as="fetch" crossorigin="anonymous">
 
   <!-- Netlify Identity hash geldiyse /admin'e yönlendir -->
   <script>
@@ -710,6 +707,7 @@
 }
 </script>
 
+
   <!-- Ana JS -->
   <script defer src="/assets/js/main.js?v=20251106"></script>
 
@@ -746,7 +744,7 @@
     });
   </script>
 
-  <!-- ELÇİ — HİZMET YÜKLEYİCİ v3 (Hızlı JSON + Anında Fallback) -->
+  <!-- ELÇİ — Hizmet Yükleyici v2 (ikon fix'li) -->
   <script>
   (function(){
     const qS = (sel,root=document)=>root.querySelector(sel);
@@ -754,82 +752,111 @@
 
     const iconHTML = (icon)=>{
       const raw = (icon || "").toString().trim();
-      if(!raw) return '<i class="fa-solid fa-paw" aria-hidden="true"></i>';
-      if(raw.includes("fa-")) return '<i class="'+raw+'" aria-hidden="true"></i>';
-      return '<svg viewBox="0 0 24 24"><use href="'+raw+'"/></svg>';
+      // ICON YOKSA → paw
+      if(!raw) return `<i class="fa-solid fa-paw" aria-hidden="true"></i>`;
+
+      // Font Awesome sınıfı
+      if(raw.includes("fa-")) return `<i class="${raw}" aria-hidden="true"></i>`;
+
+      // Sprite ID'leri
+      if(raw.startsWith("#")){
+        return `<svg viewBox="0 0 24 24"><use href="${raw}"/></svg>`;
+      }
+      if(raw.startsWith("i-")){
+        return `<svg viewBox="0 0 24 24"><use href="#${raw}"/></svg>`;
+      }
+
+      // Diğer her şey → sprite id varsay ("/assets/svg-sprite" içinde)
+      return `<svg viewBox="0 0 24 24"><use href="#${raw}"/></svg>`;
     };
 
-    /* INDEX MODU (Ana sayfa) */
+    const card = (it)=>`
+      <article class="s-card" ${it.id?`id="${it.id}"`:''}>
+        <span class="s-icon" aria-hidden="true">${iconHTML(it.icon)}</span>
+        <h3 class="s-title">${(it.title||'Hizmet')}</h3>
+        <p class="s-text">${(it.summary||it.text||'')}</p>
+        <a class="s-link" href="${it.href || (it.id?('#'+it.id):'#')}">Detaylı Bilgi</a>
+      </article>`;
+
+    /* INDEX MODU */
     (function(){
       const host = qS('#services');
       if(!host) return;
 
       const url   = host.getAttribute('data-json') || '/assets/data/services.json';
-      const limit = parseInt(host.getAttribute('data-limit')||'6',10);
+      const limit = parseInt(host.getAttribute('data-limit')||'0',10) || 0;
       const mode  = (host.getAttribute('data-mode')||'split').toLowerCase();
 
-      const featured = qS('#servicesFeatured');
-      const moreWrap = qS('#servicesMoreWrap');
-      const track    = qS('#servicesTrack');
+      const featuredWrap = qS('#servicesFeatured');
+      const moreWrap     = qS('#servicesMoreWrap');
+      const moreTrack    = qS('#servicesTrack');
 
-      // 1) Fallback'ı HEMEN göster (JSON beklemeden)
-      const tpl = qS('#services-fallback');
-      if (tpl && featured && !featured.hasChildNodes()) {
-        const frag = tpl.content.cloneNode(true);
-        const grid = frag.querySelector('.services-grid');
-        if (grid) {
-          featured.replaceChildren(...grid.children);
-        }
+      const statusBadge = document.createElement('div');
+      statusBadge.style.cssText = "display:none; margin:10px 0 0; padding:6px 10px; font-size:12px; border:1px solid var(--line); border-radius:10px; background:#fff;";
+      statusBadge.setAttribute('aria-live','polite');
+      host.querySelector('.container')?.insertBefore(statusBadge, host.querySelector('.container').firstChild);
+
+      function wireScroll(){
+        if(!moreWrap || !moreTrack) return;
+        const prev=qS('#svcPrev'), next=qS('#svcNext');
+        const by = ()=> Math.max(moreTrack.clientWidth*0.95, 300);
+        prev && prev.addEventListener('click', ()=> moreTrack.scrollBy({left:-by(), behavior:'smooth'}));
+        next && next.addEventListener('click', ()=> moreTrack.scrollBy({left: by(), behavior:'smooth'}));
+        moreTrack.setAttribute('tabindex','0');
+        moreTrack.addEventListener('keydown', (e)=>{
+          const d = by();
+          if(e.key==='ArrowLeft'){ e.preventDefault(); moreTrack.scrollBy({left:-d, behavior:'smooth'}); }
+          if(e.key==='ArrowRight'){ e.preventDefault(); moreTrack.scrollBy({left: d, behavior:'smooth'}); }
+        });
+      }
+      function renderFallback(reason){
+        const t = qS('#services-fallback');
+        if(!t){ showStatus(`⚠️ JSON yüklenemedi (${reason}). Fallback kartlar yok.`); return; }
+        const frag = t.content.cloneNode(true);
+        const tempGrid = frag.querySelector('.services-grid');
+        const tempMore = frag.querySelector('.services-more');
+        if(featuredWrap && tempGrid) { featuredWrap.replaceWith(tempGrid); }
+        if(moreWrap && tempMore)     { moreWrap.replaceWith(tempMore); }
+        showStatus(`ℹ️ Fallback aktif: ${reason}.`);
+      }
+      function showStatus(msg){
+        statusBadge.textContent = msg;
+        statusBadge.style.display = 'inline-block';
+        console.warn('[services:index]', msg);
       }
 
-      const card = (it)=>(
-        '<article class="s-card" '+(it.id?('id="'+it.id+'"'):'')+'>'
-        + '<span class="s-icon" aria-hidden="true">'+iconHTML(it.icon)+'</span>'
-        + '<h3 class="s-title">'+(it.title||'Hizmet')+'</h3>'
-        + '<p class="s-text">'+(it.summary||it.text||'')+'</p>'
-        + '<a class="s-link" href="'+(it.href || (it.id?('#'+it.id):'#'))+'">Detaylı Bilgi</a>'
-        + '</article>'
-      );
-
-      // 2) JSON gelince fallback'ın üzerine hızlıca yaz
-      fetch(url, { cache: 'force-cache' })
+      fetch(url)
         .then(r => r.ok ? r.json() : Promise.reject('HTTP '+r.status))
-        .then(json => {
+        .then(json=>{
           const list = Array.isArray(json?.items) ? json.items.slice() : [];
-          if(!list.length) return; // fallback ekranda kalır
-
+          if(!list.length){ renderFallback('liste boş'); return; }
           const h2 = host.querySelector('h2');
           if(json.title && h2) h2.textContent = json.title;
 
-          if(mode === 'all'){
-            if (featured) featured.innerHTML = list.map(card).join('');
-            if (moreWrap) moreWrap.style.display = 'none';
+          if(mode==='all' || !limit){
+            featuredWrap && (featuredWrap.innerHTML = list.map(card).join(''));
+            moreWrap && (moreWrap.style.display='none');
+            showStatus(`✅ ${list.length} hizmet yüklendi (ALL).`);
             return;
           }
 
           const first = list.slice(0, limit);
           const rest  = list.slice(limit);
-
-          if (featured) featured.innerHTML = first.map(card).join('');
-
-          if (rest.length && moreWrap && track){
-            track.innerHTML = rest.map(card).join('');
-            moreWrap.style.display = 'block';
-
-            const prev = qS('#svcPrev');
-            const next = qS('#svcNext');
-            const slide = () => Math.max(track.clientWidth * 0.9, 240);
-
-            if(prev) prev.onclick = ()=> track.scrollBy({ left: -slide(), behavior:'smooth' });
-            if(next) next.onclick = ()=> track.scrollBy({ left:  slide(), behavior:'smooth' });
-          } else if (moreWrap) {
-            moreWrap.style.display = 'none';
+          featuredWrap && (featuredWrap.innerHTML = first.map(card).join(''));
+          if(rest.length && moreWrap && moreTrack){
+            moreTrack.innerHTML = rest.map(card).join('');
+            moreWrap.style.display='block';
+            wireScroll();
+            showStatus(`✅ ${first.length}+${rest.length} hizmet yüklendi (SPLIT).`);
+          }else{
+            moreWrap && (moreWrap.style.display='none');
+            showStatus(`✅ ${first.length} hizmet yüklendi (SPLIT, kalan yok).`);
           }
         })
-        .catch(function(){ /* JSON gelmezse fallback zaten görünür durumda */ });
+        .catch(err => renderFallback(String(err)));
     })();
 
-    /* HİZMETLER SAYFASI MODU (varsa) — dokunmadım, aynen duruyor */
+    /* HİZMETLER SAYFASI MODU (varsa) */
     (function(){
       const sectionsWrap = qS('#svcSections');
       if(!sectionsWrap) return;
@@ -867,9 +894,7 @@
           </article>`;
       };
 
-      function buildCats(){
-        categories = ['Tümü', ...new Set(items.map(i => (pick(i,'category','kategori') || 'Diğer').trim()))];
-      }
+      function buildCats(){ categories = ['Tümü', ...new Set(items.map(i => (pick(i,'category','kategori') || 'Diğer').trim()))]; }
       const anchor = (c)=>'cat-'+c.toLowerCase().replace(/\s+/g,'-').replace(/[^\w\-]+/g,'');
 
       function renderTOC(){
@@ -1137,4 +1162,4 @@
     </symbol>
   </svg>
 </body>
-</html>
+</html> başka hiçbirşeye zarar verme
