@@ -749,10 +749,10 @@
     });
   </script>
 
-  <!-- OPTİMİZE EDİLMİŞ HİZMET YÜKLEYİCİ (DÜZELTİLDİ) -->
+  <!-- OPTİMİZE EDİLMİŞ HİZMET YÜKLEYİCİ (ÇAKIŞMA-ÖNLEYİCİ / SON SÖZ BİZDE) -->
   <script>
   (function(){
-    const qS = (sel,root=document)=>root.querySelector(sel);
+    const qS = (sel, root=document) => root.querySelector(sel);
 
     const iconHTML = (icon)=>{
       const raw = (icon || "").toString().trim();
@@ -764,162 +764,183 @@
     };
 
     const card = (it)=>`
-      <article class="s-card" ${it.id?`id="${it.id}"`:''}>
+      <article class="s-card" ${it.id?`id="${it.id}"`:''} data-elci-card="1">
         <span class="s-icon" aria-hidden="true">${iconHTML(it.icon)}</span>
         <h3 class="s-title">${(it.title||'Hizmet')}</h3>
         <p class="s-text">${(it.summary||it.text||'')}</p>
-        <a class="s-link" href="${it.href || (it.id?('#'+it.id):'#')}">Detaylı Bilgi</a>
+        <a class="s-link" href="${it.href || (it.id?('/hizmetler.html#'+it.id):'/hizmetler.html')}">Detaylı Bilgi</a>
       </article>`;
 
-    // Cache mekanizması
     const servicesCache = {
-      key: 'elciServicesCache',
-      ttl: 5 * 60 * 1000, // 5 dakika
-      get() {
-        try {
-          const cached = localStorage.getItem(this.key);
-          if (!cached) return null;
-          const { data, timestamp } = JSON.parse(cached);
-          if (!Array.isArray(data)) return null;
-          if (Date.now() - timestamp > this.ttl) {
-            localStorage.removeItem(this.key);
-            return null;
-          }
-          return data;
-        } catch (e) { return null; }
+      key: 'elciServicesCache_v2',
+      ttl: 10 * 60 * 1000,
+      get(){
+        try{
+          const s = localStorage.getItem(this.key);
+          if(!s) return null;
+          const obj = JSON.parse(s);
+          if(!obj || !Array.isArray(obj.data)) return null;
+          if(Date.now() - (obj.timestamp||0) > this.ttl) { localStorage.removeItem(this.key); return null; }
+          return obj.data;
+        }catch(e){ return null; }
       },
-      set(data) {
-        try {
-          if (!Array.isArray(data)) return;
+      set(data){
+        try{
+          if(!Array.isArray(data)) return;
           localStorage.setItem(this.key, JSON.stringify({ data, timestamp: Date.now() }));
-        } catch (e) {}
+        }catch(e){}
       }
     };
 
-    /* INDEX MODU */
-    (function(){
-      const host = qS('#services');
-      if(!host) return;
+    function normalizeServicesJson(json){
+      const list = Array.isArray(json) ? json
+                : Array.isArray(json?.items) ? json.items
+                : Array.isArray(json?.data) ? json.data
+                : [];
+      const title = (!Array.isArray(json) && typeof json?.title === 'string') ? json.title : null;
+      return { list, title };
+    }
 
-      const url = host.getAttribute('data-json') || '/assets/data/services.json';
-      const limit = parseInt(host.getAttribute('data-limit')||'0',10) || 0;
-      const mode = (host.getAttribute('data-mode')||'split').toLowerCase();
+    function wireScrollOnce(moreTrack){
+      if(!moreTrack) return;
+      if(moreTrack.dataset.elciScrollWired === "1") return;
+      moreTrack.dataset.elciScrollWired = "1";
+
+      const prev = qS('#svcPrev'), next = qS('#svcNext');
+      const by = () => Math.max(moreTrack.clientWidth * 0.95, 300);
+
+      prev && prev.addEventListener('click', () => moreTrack.scrollBy({ left: -by(), behavior: 'smooth' }), { passive: true });
+      next && next.addEventListener('click', () => moreTrack.scrollBy({ left:  by(), behavior: 'smooth' }), { passive: true });
+
+      moreTrack.setAttribute('tabindex','0');
+      moreTrack.addEventListener('keydown', (e)=>{
+        const d = by();
+        if (e.key === 'ArrowLeft')  { e.preventDefault(); moreTrack.scrollBy({ left: -d, behavior: 'smooth' }); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); moreTrack.scrollBy({ left:  d, behavior: 'smooth' }); }
+      });
+    }
+
+    function renderServicesIntoDOM(ctx, list, title){
+      if(!Array.isArray(list) || !list.length) return false;
+
+      const h2 = ctx.host.querySelector('h2');
+      if(h2 && title) h2.textContent = title;
+
+      if(ctx.mode === 'all' || !ctx.limit){
+        ctx.featuredWrap.innerHTML = list.map(card).join('');
+        if(ctx.moreWrap) ctx.moreWrap.style.display = 'none';
+        return true;
+      }
+
+      const first = list.slice(0, ctx.limit);
+      const rest  = list.slice(ctx.limit);
+
+      ctx.featuredWrap.innerHTML = first.map(card).join('');
+
+      if(rest.length && ctx.moreWrap && ctx.moreTrack){
+        ctx.moreTrack.innerHTML = rest.map(card).join('');
+        ctx.moreWrap.style.display = 'block';
+        wireScrollOnce(ctx.moreTrack);
+      }else if(ctx.moreWrap){
+        ctx.moreWrap.style.display = 'none';
+      }
+      return true;
+    }
+
+    function buildContext(){
+      const host = qS('#services');
+      if(!host) return null;
 
       const featuredWrap = qS('#servicesFeatured');
-      const moreWrap = qS('#servicesMoreWrap');
-      const moreTrack = qS('#servicesTrack');
+      if(!featuredWrap) return null;
 
-      let scrollWired = false;
+      return {
+        host,
+        featuredWrap,
+        moreWrap: qS('#servicesMoreWrap'),
+        moreTrack: qS('#servicesTrack'),
+        url: host.getAttribute('data-json') || '/assets/data/services.json',
+        mode: (host.getAttribute('data-mode') || 'split').toLowerCase(),
+        limit: parseInt(host.getAttribute('data-limit') || '0', 10) || 0
+      };
+    }
 
-      // 1) Inline veri (anında)
-      const inlineDataElement = qS('#inlineServicesData');
-      if (inlineDataElement && featuredWrap) {
-        try {
-          const inlineData = JSON.parse(inlineDataElement.textContent);
-          if (Array.isArray(inlineData) && inlineData.length) {
-            const inlineFirst = (mode === 'all' || !limit) ? inlineData : inlineData.slice(0, limit);
-            featuredWrap.innerHTML = inlineFirst.map(card).join('');
-            // inline'da split modda rest yoksa moreWrap kapalı kalsın
-            if (moreWrap) moreWrap.style.display = 'none';
+    async function fetchServices(url, timeoutMs=8000){
+      const controller = new AbortController();
+      const t = setTimeout(() => controller.abort(), timeoutMs);
+      try{
+        const r = await fetch(url, { signal: controller.signal, cache: 'default' });
+        if(!r.ok) throw new Error('HTTP ' + r.status);
+        return await r.json();
+      } finally {
+        clearTimeout(t);
+      }
+    }
+
+    function getInlineList(){
+      const el = qS('#inlineServicesData');
+      if(!el) return null;
+      try{
+        const data = JSON.parse(el.textContent || '[]');
+        return Array.isArray(data) ? data : null;
+      }catch(e){
+        return null;
+      }
+    }
+
+    function hasRealCards(featuredWrap){
+      return !!featuredWrap.querySelector('.s-card:not(.skeleton-card)');
+    }
+
+    function installObserver(ctx){
+      const target = ctx.featuredWrap;
+      if(!target || target.dataset.elciObserver === "1") return;
+      target.dataset.elciObserver = "1";
+
+      const obs = new MutationObserver(() => {
+        if(!hasRealCards(ctx.featuredWrap)){
+          const cached = servicesCache.get();
+          const inline = getInlineList();
+          if(cached && cached.length){
+            renderServicesIntoDOM(ctx, cached, null);
+          } else if(inline && inline.length){
+            renderServicesIntoDOM(ctx, inline, null);
           }
-        } catch (e) {
-          // Inline veri hatalıysa skeleton kalır
         }
+      });
+
+      obs.observe(target, { childList: true, subtree: true });
+    }
+
+    async function run(){
+      const ctx = buildContext();
+      if(!ctx) return;
+
+      installObserver(ctx);
+
+      const inline = getInlineList();
+      if(inline && inline.length){
+        renderServicesIntoDOM(ctx, inline, null);
       }
 
-      // 2) Cache (varsa)
-      const cachedData = servicesCache.get();
-      if (cachedData && cachedData.length) {
-        renderServices(cachedData, null);
+      const cached = servicesCache.get();
+      if(cached && cached.length){
+        renderServicesIntoDOM(ctx, cached, null);
       }
 
-      // 3) Fetch (arkadan güncelle)
-      setTimeout(fetchServices, 0);
-
-      function normalizeServicesJson(json){
-        // json: array veya {items:[...], title:"..."} olabilir
-        const list = Array.isArray(json) ? json
-                  : Array.isArray(json?.items) ? json.items
-                  : [];
-        const title = (json && !Array.isArray(json) && typeof json.title === 'string') ? json.title : null;
-        return { list, title };
-      }
-
-      function fetchServices() {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 8000);
-
-        fetch(url, { signal: controller.signal, cache: 'default' })
-          .then(r => {
-            clearTimeout(timeoutId);
-            if (!r.ok) throw new Error('HTTP '+r.status);
-            return r.json();
-          })
-          .then(json => {
-            const { list, title } = normalizeServicesJson(json);
-            if (list.length) {
-              servicesCache.set(list);
-              renderServices(list, title);
-            }
-          })
-          .catch(err => {
-            clearTimeout(timeoutId);
-            console.warn('[services] Fetch failed:', err.message);
-          });
-      }
-
-      function renderServices(list, title) {
-        if (!Array.isArray(list) || !list.length) return;
-
-        const h2 = host.querySelector('h2');
-        if (h2 && title) h2.textContent = title;
-
-        if (mode === 'all' || !limit) {
-          if (featuredWrap) featuredWrap.innerHTML = list.map(card).join('');
-          if (moreWrap) moreWrap.style.display = 'none';
-          return;
+      try{
+        const json = await fetchServices(ctx.url, 8000);
+        const { list, title } = normalizeServicesJson(json);
+        if(list && list.length){
+          servicesCache.set(list);
+          renderServicesIntoDOM(ctx, list, title);
         }
-
-        const first = list.slice(0, limit);
-        const rest  = list.slice(limit);
-
-        if (featuredWrap) featuredWrap.innerHTML = first.map(card).join('');
-
-        if (rest.length && moreWrap && moreTrack) {
-          moreTrack.innerHTML = rest.map(card).join('');
-          moreWrap.style.display = 'block';
-          wireScroll();
-        } else if (moreWrap) {
-          moreWrap.style.display = 'none';
-        }
+      }catch(err){
+        console.warn('[services] fetch failed:', err && err.message ? err.message : err);
       }
+    }
 
-      function wireScroll() {
-        if (scrollWired) return;
-        scrollWired = true;
-        if(!moreWrap || !moreTrack) return;
-
-        const prev = qS('#svcPrev'), next = qS('#svcNext');
-        const by = () => Math.max(moreTrack.clientWidth * 0.95, 300);
-
-        prev && prev.addEventListener('click', () => moreTrack.scrollBy({ left: -by(), behavior: 'smooth' }));
-        next && next.addEventListener('click', () => moreTrack.scrollBy({ left:  by(), behavior: 'smooth' }));
-
-        moreTrack.setAttribute('tabindex', '0');
-        moreTrack.addEventListener('keydown', (e) => {
-          const d = by();
-          if (e.key === 'ArrowLeft')  { e.preventDefault(); moreTrack.scrollBy({ left: -d, behavior: 'smooth' }); }
-          if (e.key === 'ArrowRight') { e.preventDefault(); moreTrack.scrollBy({ left:  d, behavior: 'smooth' }); }
-        });
-      }
-    })();
-
-    /* HİZMETLER SAYFASI MODU (aynı kalabilir) */
-    (function(){
-      const sectionsWrap = qS('#svcSections');
-      if(!sectionsWrap) return;
-      // ... (hizmetler sayfası kodu aynı kalabilir, istersen buraya da cache ekleriz)
-    })();
+    window.addEventListener('DOMContentLoaded', () => setTimeout(run, 0));
   })();
   </script>
 
@@ -978,7 +999,6 @@
       }
 
       try {
-        // Date.now() kaldırıldı: cache çalışsın
         const res = await fetch('/assets/data/faq.json?v=20251106', { cache: 'default' });
         if (!res.ok) throw new Error('FAQ JSON bulunamadı');
         const data = await res.json();
