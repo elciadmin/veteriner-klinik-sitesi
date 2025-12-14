@@ -53,7 +53,7 @@
     .cta-bar{display:flex;align-items:center;justify-content:space-between;margin:24px 0;gap:12px}
     .btn:active{transform:translateY(1px)}
     .insta-head small, #youtube small{ display:none; }
-    
+
     /* Hızlı yükleme için skeleton loader */
     .skeleton-card {
       background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
@@ -87,9 +87,7 @@
       border-radius: 4px;
       margin-bottom: 8px;
     }
-    .skeleton-text.short {
-      width: 60%;
-    }
+    .skeleton-text.short { width: 60%; }
   </style>
 
   <!-- THEME OVERRIDE (mor tema + hero + butonlar) -->
@@ -171,20 +169,9 @@
       opacity:.6;
       pointer-events:none;
     }
-    .hero .container{
-      position:relative;
-      z-index:1;
-    }
-    .hero-center{
-      text-align:center;
-      max-width:720px;
-      margin:0 auto;
-    }
-    .hero-icon{
-      display:flex;
-      justify-content:center;
-      margin-bottom:18px;
-    }
+    .hero .container{ position:relative; z-index:1; }
+    .hero-center{ text-align:center; max-width:720px; margin:0 auto; }
+    .hero-icon{ display:flex; justify-content:center; margin-bottom:18px; }
 
     .hero h1{
       margin:0 0 10px;
@@ -228,10 +215,7 @@
       transition:background-position .35s ease, box-shadow .2s ease, transform .2s ease, color .15s ease, border-color .15s ease;
     }
     .btn i{ font-size:0.95rem; }
-    .btn:hover{
-      transform:translateY(-2px);
-      box-shadow:0 8px 20px rgba(0,0,0,.12);
-    }
+    .btn:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,.12); }
     .btn.primary{
       background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
       color:#fff !important;
@@ -301,26 +285,17 @@
       background:linear-gradient(135deg,var(--brand),var(--brand2));
       color:#fff;
     }
-    .quick-icon i{
-      font-size:1.2rem;
-    }
-    .quick-title{
-      font-size:0.9rem;
-      font-weight:600;
-    }
+    .quick-icon i{ font-size:1.2rem; }
+    .quick-title{ font-size:0.9rem; font-weight:600; }
 
-    @media (max-width:1100px){
-      .quick-links{grid-template-columns:repeat(3,1fr);}
-    }
+    @media (max-width:1100px){ .quick-links{grid-template-columns:repeat(3,1fr);} }
     @media (max-width:768px){
       .hero{padding:64px 0 72px;}
       .hero-center{max-width:100%;}
       .quick-links-band{margin-top:0;}
       .quick-links{grid-template-columns:repeat(2,1fr);}
     }
-    @media (max-width:480px){
-      .quick-links{grid-template-columns:1fr;}
-    }
+    @media (max-width:480px){ .quick-links{grid-template-columns:1fr;} }
 
     body.menu-open { overflow: hidden; }
     @media (max-width: 992px){
@@ -571,48 +546,12 @@
       <!-- Inline fallback data for immediate display -->
       <script type="application/json" id="inlineServicesData">
         [
-          {
-            "id": "acil",
-            "title": "Acil & Yoğun Bakım",
-            "summary": "Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat izlem.",
-            "icon": "#i-shield-cross",
-            "href": "/hizmetler.html#acil"
-          },
-          {
-            "id": "koruyucu",
-            "title": "Muayene & Koruyucu",
-            "summary": "Aşı planı, parazit kontrolü, mikroçip ve check-up.",
-            "icon": "#i-stethoscope",
-            "href": "/hizmetler.html#koruyucu"
-          },
-          {
-            "id": "goruntuleme-lab",
-            "title": "Görüntüleme & Lab",
-            "summary": "Röntgen, ultrason, FAST, EKG, sitoloji ve hızlı testler.",
-            "icon": "#i-xray",
-            "href": "/hizmetler.html#goruntuleme-lab"
-          },
-          {
-            "id": "cerrahi",
-            "title": "Cerrahi Operasyonlar",
-            "summary": "Yumuşak doku, ortopedi, nöroşirürji ve laparoskopik cerrahi.",
-            "icon": "#i-scissors",
-            "href": "/hizmetler.html#cerrahi"
-          },
-          {
-            "id": "agiz-dis",
-            "title": "Ağız ve Diş Sağlığı",
-            "summary": "Diş taşı temizliği, çekim, kanal tedavisi ve periodontal cerrahi.",
-            "icon": "#i-tooth-clean",
-            "href": "/hizmetler.html#agiz-dis"
-          },
-          {
-            "id": "fizik-tedavi",
-            "title": "Fizik Tedavi & Rehabilitasyon",
-            "summary": "Lazer terapi, elektroterapi, hidroterapi ve masaj terapisi.",
-            "icon": "#i-pt",
-            "href": "/hizmetler.html#fizik-tedavi"
-          }
+          {"id":"acil","title":"Acil & Yoğun Bakım","summary":"Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat izlem.","icon":"#i-shield-cross","href":"/hizmetler.html#acil"},
+          {"id":"koruyucu","title":"Muayene & Koruyucu","summary":"Aşı planı, parazit kontrolü, mikroçip ve check-up.","icon":"#i-stethoscope","href":"/hizmetler.html#koruyucu"},
+          {"id":"goruntuleme-lab","title":"Görüntüleme & Lab","summary":"Röntgen, ultrason, FAST, EKG, sitoloji ve hızlı testler.","icon":"#i-xray","href":"/hizmetler.html#goruntuleme-lab"},
+          {"id":"cerrahi","title":"Cerrahi Operasyonlar","summary":"Yumuşak doku, ortopedi, nöroşirürji ve laparoskopik cerrahi.","icon":"#i-scissors","href":"/hizmetler.html#cerrahi"},
+          {"id":"agiz-dis","title":"Ağız ve Diş Sağlığı","summary":"Diş taşı temizliği, çekim, kanal tedavisi ve periodontal cerrahi.","icon":"#i-tooth-clean","href":"/hizmetler.html#agiz-dis"},
+          {"id":"fizik-tedavi","title":"Fizik Tedavi & Rehabilitasyon","summary":"Lazer terapi, elektroterapi, hidroterapi ve masaj terapisi.","icon":"#i-pt","href":"/hizmetler.html#fizik-tedavi"}
         ]
       </script>
     </div>
@@ -782,7 +721,7 @@
     window.addEventListener('DOMContentLoaded', function(){
       const y=document.getElementById('yil'); if(y) y.textContent=new Date().getFullYear();
 
-      const btn=document.getElementById('mobileMenuBtn'); 
+      const btn=document.getElementById('mobileMenuBtn');
       const menu=document.getElementById('mainMenu');
       if(btn && menu){
         const toggleMenu = (state) => {
@@ -810,11 +749,10 @@
     });
   </script>
 
-  <!-- OPTİMİZE EDİLMİŞ HİZMET YÜKLEYİCİ -->
+  <!-- OPTİMİZE EDİLMİŞ HİZMET YÜKLEYİCİ (DÜZELTİLDİ) -->
   <script>
   (function(){
     const qS = (sel,root=document)=>root.querySelector(sel);
-    const qSA= (sel,root=document)=>Array.from(root.querySelectorAll(sel));
 
     const iconHTML = (icon)=>{
       const raw = (icon || "").toString().trim();
@@ -837,34 +775,28 @@
     const servicesCache = {
       key: 'elciServicesCache',
       ttl: 5 * 60 * 1000, // 5 dakika
-      get: function() {
+      get() {
         try {
           const cached = localStorage.getItem(this.key);
           if (!cached) return null;
           const { data, timestamp } = JSON.parse(cached);
+          if (!Array.isArray(data)) return null;
           if (Date.now() - timestamp > this.ttl) {
             localStorage.removeItem(this.key);
             return null;
           }
           return data;
-        } catch (e) {
-          return null;
-        }
+        } catch (e) { return null; }
       },
-      set: function(data) {
+      set(data) {
         try {
-          const cacheData = {
-            data: data,
-            timestamp: Date.now()
-          };
-          localStorage.setItem(this.key, JSON.stringify(cacheData));
-        } catch (e) {
-          // localStorage dolu veya kullanılamıyor
-        }
+          if (!Array.isArray(data)) return;
+          localStorage.setItem(this.key, JSON.stringify({ data, timestamp: Date.now() }));
+        } catch (e) {}
       }
     };
 
-    /* INDEX MODU - OPTİMİZE EDİLMİŞ */
+    /* INDEX MODU */
     (function(){
       const host = qS('#services');
       if(!host) return;
@@ -876,81 +808,83 @@
       const featuredWrap = qS('#servicesFeatured');
       const moreWrap = qS('#servicesMoreWrap');
       const moreTrack = qS('#servicesTrack');
-      
-      // 1. İlk önce inline veriyi göster (anında görüntülenir)
+
+      let scrollWired = false;
+
+      // 1) Inline veri (anında)
       const inlineDataElement = qS('#inlineServicesData');
       if (inlineDataElement && featuredWrap) {
         try {
           const inlineData = JSON.parse(inlineDataElement.textContent);
-          const first = inlineData.slice(0, 3); // İlk 3'ü göster
-          featuredWrap.innerHTML = first.map(card).join('');
+          if (Array.isArray(inlineData) && inlineData.length) {
+            const inlineFirst = (mode === 'all' || !limit) ? inlineData : inlineData.slice(0, limit);
+            featuredWrap.innerHTML = inlineFirst.map(card).join('');
+            // inline'da split modda rest yoksa moreWrap kapalı kalsın
+            if (moreWrap) moreWrap.style.display = 'none';
+          }
         } catch (e) {
-          // Inline veri hatalı, skeleton kalır
+          // Inline veri hatalıysa skeleton kalır
         }
       }
 
-      // 2. Cache'den kontrol et
+      // 2) Cache (varsa)
       const cachedData = servicesCache.get();
-      if (cachedData && featuredWrap) {
-        renderServices(cachedData);
+      if (cachedData && cachedData.length) {
+        renderServices(cachedData, null);
       }
 
-      // 3. Fetch işlemini başlat (async, low priority)
-      setTimeout(() => {
-        fetchServices();
-      }, 0);
+      // 3) Fetch (arkadan güncelle)
+      setTimeout(fetchServices, 0);
+
+      function normalizeServicesJson(json){
+        // json: array veya {items:[...], title:"..."} olabilir
+        const list = Array.isArray(json) ? json
+                  : Array.isArray(json?.items) ? json.items
+                  : [];
+        const title = (json && !Array.isArray(json) && typeof json.title === 'string') ? json.title : null;
+        return { list, title };
+      }
 
       function fetchServices() {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 saniye timeout
+        const timeoutId = setTimeout(() => controller.abort(), 8000);
 
-        fetch(url, { 
-          signal: controller.signal,
-          cache: 'default',
-          headers: {
-            'Cache-Control': 'max-age=300' // 5 dakika browser cache
-          }
-        })
+        fetch(url, { signal: controller.signal, cache: 'default' })
           .then(r => {
             clearTimeout(timeoutId);
             if (!r.ok) throw new Error('HTTP '+r.status);
             return r.json();
           })
           .then(json => {
-            const list = Array.isArray(json?.items) ? json.items.slice() : [];
+            const { list, title } = normalizeServicesJson(json);
             if (list.length) {
-              servicesCache.set(list); // Cache'e kaydet
-              renderServices(list);
+              servicesCache.set(list);
+              renderServices(list, title);
             }
           })
           .catch(err => {
             clearTimeout(timeoutId);
             console.warn('[services] Fetch failed:', err.message);
-            // Fallback zaten gösteriliyor veya cached data kullanılıyor
           });
       }
 
-      function renderServices(list) {
-        if (!list.length) return;
-        
+      function renderServices(list, title) {
+        if (!Array.isArray(list) || !list.length) return;
+
         const h2 = host.querySelector('h2');
-        if (h2 && list.title) h2.textContent = list.title;
+        if (h2 && title) h2.textContent = title;
 
         if (mode === 'all' || !limit) {
-          if (featuredWrap) {
-            featuredWrap.innerHTML = list.map(card).join('');
-          }
+          if (featuredWrap) featuredWrap.innerHTML = list.map(card).join('');
           if (moreWrap) moreWrap.style.display = 'none';
           return;
         }
 
         const first = list.slice(0, limit);
-        const rest = list.slice(limit);
-        
-        if (featuredWrap) {
-          featuredWrap.innerHTML = first.map(card).join('');
-        }
-        
+        const rest  = list.slice(limit);
+
+        if (featuredWrap) featuredWrap.innerHTML = first.map(card).join('');
+
         if (rest.length && moreWrap && moreTrack) {
           moreTrack.innerHTML = rest.map(card).join('');
           moreWrap.style.display = 'block';
@@ -961,26 +895,30 @@
       }
 
       function wireScroll() {
+        if (scrollWired) return;
+        scrollWired = true;
         if(!moreWrap || !moreTrack) return;
+
         const prev = qS('#svcPrev'), next = qS('#svcNext');
         const by = () => Math.max(moreTrack.clientWidth * 0.95, 300);
+
         prev && prev.addEventListener('click', () => moreTrack.scrollBy({ left: -by(), behavior: 'smooth' }));
-        next && next.addEventListener('click', () => moreTrack.scrollBy({ left: by(), behavior: 'smooth' }));
+        next && next.addEventListener('click', () => moreTrack.scrollBy({ left:  by(), behavior: 'smooth' }));
+
         moreTrack.setAttribute('tabindex', '0');
         moreTrack.addEventListener('keydown', (e) => {
           const d = by();
-          if (e.key === 'ArrowLeft') { e.preventDefault(); moreTrack.scrollBy({ left: -d, behavior: 'smooth' }); }
-          if (e.key === 'ArrowRight') { e.preventDefault(); moreTrack.scrollBy({ left: d, behavior: 'smooth' }); }
+          if (e.key === 'ArrowLeft')  { e.preventDefault(); moreTrack.scrollBy({ left: -d, behavior: 'smooth' }); }
+          if (e.key === 'ArrowRight') { e.preventDefault(); moreTrack.scrollBy({ left:  d, behavior: 'smooth' }); }
         });
       }
     })();
 
-    /* HİZMETLER SAYFASI MODU (optimize edilmiş) */
+    /* HİZMETLER SAYFASI MODU (aynı kalabilir) */
     (function(){
       const sectionsWrap = qS('#svcSections');
       if(!sectionsWrap) return;
-
-      // ... (hizmetler sayfası kodu aynı kalabilir, cache mekanizması eklenebilir)
+      // ... (hizmetler sayfası kodu aynı kalabilir, istersen buraya da cache ekleriz)
     })();
   })();
   </script>
@@ -1008,61 +946,52 @@
         </details>`;
     }
 
-    // FAQ için de cache mekanizması
     const faqCache = {
       key: 'elciFaqCache',
-      ttl: 10 * 60 * 1000, // 10 dakika
-      get: function() {
+      ttl: 10 * 60 * 1000,
+      get() {
         try {
           const cached = localStorage.getItem(this.key);
           if (!cached) return null;
           const { data, timestamp } = JSON.parse(cached);
+          if (!Array.isArray(data)) return null;
           if (Date.now() - timestamp > this.ttl) {
             localStorage.removeItem(this.key);
             return null;
           }
           return data;
-        } catch (e) {
-          return null;
-        }
+        } catch (e) { return null; }
       },
-      set: function(data) {
+      set(data) {
         try {
-          const cacheData = {
-            data: data,
-            timestamp: Date.now()
-          };
-          localStorage.setItem(this.key, JSON.stringify(cacheData));
+          if (!Array.isArray(data)) return;
+          localStorage.setItem(this.key, JSON.stringify({ data, timestamp: Date.now() }));
         } catch (e) {}
       }
     };
 
     (async function loadFaqPreview(){
-      // Önce cache'den kontrol et
       const cachedFaq = faqCache.get();
       if (cachedFaq && cachedFaq.length) {
-        const subset = cachedFaq.slice(0, 4);
-        wrap.innerHTML = subset.map(faqItemHTML).join('');
+        wrap.innerHTML = cachedFaq.slice(0, 4).map(faqItemHTML).join('');
         return;
       }
 
       try {
-        const res = await fetch('/assets/data/faq.json?v=' + Date.now(), { 
-          cache: 'default',
-          headers: { 'Cache-Control': 'max-age=600' } // 10 dakika browser cache
-        });
+        // Date.now() kaldırıldı: cache çalışsın
+        const res = await fetch('/assets/data/faq.json?v=20251106', { cache: 'default' });
         if (!res.ok) throw new Error('FAQ JSON bulunamadı');
         const data = await res.json();
-        let items = [];
 
+        let items = [];
         if (Array.isArray(data.groups)) {
           data.groups.forEach(group => {
             const list = Array.isArray(group.items) ? group.items : [];
             list.forEach(qItem => {
               items.push({
                 id: qItem.id || '',
-                q: qItem.q || '',
-                a: qItem.a || ''
+                q:  qItem.q  || '',
+                a:  qItem.a  || ''
               });
             });
           });
@@ -1073,12 +1002,8 @@
           return;
         }
 
-        // Cache'e kaydet
         faqCache.set(items);
-        
-        const subset = items.slice(0, 4);
-        wrap.innerHTML = subset.map(faqItemHTML).join('');
-
+        wrap.innerHTML = items.slice(0, 4).map(faqItemHTML).join('');
       } catch (e) {
         console.error(e);
         wrap.innerHTML = `
