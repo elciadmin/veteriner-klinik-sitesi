@@ -47,7 +47,17 @@
     @media (max-width: 900px){ .services-grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
     @media (max-width: 560px){ .services-grid{grid-template-columns:1fr} }
     .s-card{min-width:280px}
-    .services-track{scrollbar-width:thin}
+    /* services-track düzeni (kaydırılabilir yatay liste) */
+    .services-track{
+      display:flex;
+      gap:18px;
+      overflow-x:auto;
+      padding:10px 2px;
+      scrollbar-width:thin;
+    }
+    .services-track .s-card{
+      flex:0 0 280px;
+    }
     .services-track::-webkit-scrollbar{height:10px}
     .services-track::-webkit-scrollbar-thumb{background:rgba(8,35,45,.16);border-radius:999px}
     .cta-bar{display:flex;align-items:center;justify-content:space-between;margin:24px 0;gap:12px}
@@ -494,75 +504,58 @@
     </div>
   </section>
 
-  <!-- HİZMETLER (Optimize edilmiş) -->
-  <section id="services" class="services"
-           data-json="/assets/data/services.json"
-           data-limit="6"
-           data-mode="split">
+  <!-- ========== HİZMETLER (TAMAMEN STATİK) ========== -->
+  <section id="services" class="services">
     <div class="container">
       <h2>Hizmetlerimiz</h2>
 
-      <!-- B) SKELETON KALDIRILDI, YERİNE STATİK 6 KART KONULDU -->
-      <!-- SEO için statik: Öne çıkan 6 hizmet (anında görünür) -->
-      <div class="services-grid" id="servicesFeatured" aria-label="Öne Çıkan Hizmetler" data-static="1">
-
+      <!-- Öne Çıkanlar (6) -->
+      <div class="services-grid" id="servicesFeatured" aria-label="Öne Çıkan Hizmetler">
         <article class="s-card" id="acil" data-elci-card="1">
-          <span class="s-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><use href="#i-shield-cross" xlink:href="#i-shield-cross"></use></svg>
-          </span>
+          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-shield-cross" xlink:href="#i-shield-cross"></use></svg></span>
           <h3 class="s-title">Acil &amp; Yoğun Bakım</h3>
           <p class="s-text">Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat izlem.</p>
           <a class="s-link" href="/hizmetler.html#acil">Detaylı Bilgi</a>
         </article>
 
         <article class="s-card" id="koruyucu" data-elci-card="1">
-          <span class="s-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><use href="#i-stethoscope" xlink:href="#i-stethoscope"></use></svg>
-          </span>
+          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-stethoscope" xlink:href="#i-stethoscope"></use></svg></span>
           <h3 class="s-title">Muayene &amp; Koruyucu</h3>
           <p class="s-text">Aşı planı, parazit kontrolü, mikroçip ve check-up.</p>
           <a class="s-link" href="/hizmetler.html#koruyucu">Detaylı Bilgi</a>
         </article>
 
         <article class="s-card" id="ic-hastaliklari" data-elci-card="1">
-          <span class="s-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><use href="#i-clipboard" xlink:href="#i-clipboard"></use></svg>
-          </span>
+          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-clipboard" xlink:href="#i-clipboard"></use></svg></span>
           <h3 class="s-title">İç Hastalıkları</h3>
           <p class="s-text">Hemogram, biyokimya, hormon, idrar analizi ve tanısal yaklaşım.</p>
           <a class="s-link" href="/hizmetler.html#ic-hastaliklari">Detaylı Bilgi</a>
         </article>
 
         <article class="s-card" id="cerrahi" data-elci-card="1">
-          <span class="s-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><use href="#i-scissors" xlink:href="#i-scissors"></use></svg>
-          </span>
+          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-scissors" xlink:href="#i-scissors"></use></svg></span>
           <h3 class="s-title">Cerrahi Operasyonlar</h3>
           <p class="s-text">Yumuşak doku, ortopedi, sterilizasyon, ağrı yönetimi.</p>
           <a class="s-link" href="/hizmetler.html#cerrahi">Detaylı Bilgi</a>
         </article>
 
         <article class="s-card" id="agiz-dis" data-elci-card="1">
-          <span class="s-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><use href="#i-tooth-clean" xlink:href="#i-tooth-clean"></use></svg>
-          </span>
+          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-tooth-clean" xlink:href="#i-tooth-clean"></use></svg></span>
           <h3 class="s-title">Ağız &amp; Diş Sağlığı</h3>
           <p class="s-text">Diş taşı, çekimler, periodontal tedavi, dental röntgen.</p>
           <a class="s-link" href="/hizmetler.html#agiz-dis">Detaylı Bilgi</a>
         </article>
 
         <article class="s-card" id="goruntuleme-lab" data-elci-card="1">
-          <span class="s-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><use href="#i-xray" xlink:href="#i-xray"></use></svg>
-          </span>
+          <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-xray" xlink:href="#i-xray"></use></svg></span>
           <h3 class="s-title">Görüntüleme &amp; Laboratuvar</h3>
           <p class="s-text">Röntgen, ultrason, FAST, EKG, sitoloji, hızlı testler.</p>
           <a class="s-link" href="/hizmetler.html#goruntuleme-lab">Detaylı Bilgi</a>
         </article>
-
       </div>
 
-      <div class="services-more" id="servicesMoreWrap" style="display:none">
+      <!-- Diğer Hizmetler (kaydırılabilir yatay liste) -->
+      <div class="services-more" id="servicesMoreWrap">
         <div class="services-more-head">
           <h3>Diğer Hizmetler</h3>
           <div class="more-controls">
@@ -570,8 +563,79 @@
             <button class="scroll-btn" id="svcNext" aria-label="Sağa kaydır"><i class="fa-solid fa-chevron-right"></i></button>
           </div>
         </div>
+
         <div class="services-track-wrap">
-          <div class="services-track" id="servicesTrack" aria-label="Kaydırılabilir hizmet listesi"></div>
+          <div class="services-track" id="servicesTrack" aria-label="Kaydırılabilir hizmet listesi">
+            <article class="s-card" id="kardiyoloji" data-elci-card="1">
+              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-ecg" xlink:href="#i-ecg"></use></svg></span>
+              <h3 class="s-title">Kardiyoloji</h3>
+              <p class="s-text">EKG değerlendirme, kalp muayenesi, tedavi ve takip.</p>
+              <a class="s-link" href="/hizmetler.html#kardiyoloji">Detaylı Bilgi</a>
+            </article>
+
+            <article class="s-card" id="dogum-jinekoloji" data-elci-card="1">
+              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-repro" xlink:href="#i-repro"></use></svg></span>
+              <h3 class="s-title">Doğum &amp; Jinekoloji</h3>
+              <p class="s-text">Gebelik takibi, doğum desteği, yavru ve postpartum bakım.</p>
+              <a class="s-link" href="/hizmetler.html#dogum-jinekoloji">Detaylı Bilgi</a>
+            </article>
+
+            <article class="s-card" id="endokrinoloji" data-elci-card="1">
+              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-endo" xlink:href="#i-endo"></use></svg></span>
+              <h3 class="s-title">Endokrinoloji</h3>
+              <p class="s-text">Tiroid, DM, Cushing/Addison tarama ve yönetimi.</p>
+              <a class="s-link" href="/hizmetler.html#endokrinoloji">Detaylı Bilgi</a>
+            </article>
+
+            <article class="s-card" id="uroloji" data-elci-card="1">
+              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-uro" xlink:href="#i-uro"></use></svg></span>
+              <h3 class="s-title">Üroloji</h3>
+              <p class="s-text">İYE, taşlar, kateterizasyon ve takip.</p>
+              <a class="s-link" href="/hizmetler.html#uroloji">Detaylı Bilgi</a>
+            </article>
+
+            <article class="s-card" id="ortopedi" data-elci-card="1">
+              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-ortho" xlink:href="#i-ortho"></use></svg></span>
+              <h3 class="s-title">Ortopedi</h3>
+              <p class="s-text">Kırık-çıkık, bağ yaralanmaları, ortopedik muayene/operasyon.</p>
+              <a class="s-link" href="/hizmetler.html#ortopedi">Detaylı Bilgi</a>
+            </article>
+
+            <article class="s-card" id="goz" data-elci-card="1">
+              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-eye" xlink:href="#i-eye"></use></svg></span>
+              <h3 class="s-title">Göz Hastalıkları</h3>
+              <p class="s-text">Ülser, entropion/ektropion, göz muayenesi ve tedaviler.</p>
+              <a class="s-link" href="/hizmetler.html#goz">Detaylı Bilgi</a>
+            </article>
+
+            <article class="s-card" id="dermatoloji" data-elci-card="1">
+              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-derm" xlink:href="#i-derm"></use></svg></span>
+              <h3 class="s-title">Dermatoloji</h3>
+              <p class="s-text">Alerjiler, deri enfeksiyonları, paraziter hastalıklar.</p>
+              <a class="s-link" href="/hizmetler.html#dermatoloji">Detaylı Bilgi</a>
+            </article>
+
+            <article class="s-card" id="ftr" data-elci-card="1">
+              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-pt" xlink:href="#i-pt"></use></svg></span>
+              <h3 class="s-title">Fizik Tedavi &amp; Rehabilitasyon</h3>
+              <p class="s-text">Ağrı yönetimi, mobilizasyon, egzersiz, post-op bakım.</p>
+              <a class="s-link" href="/hizmetler.html#ftr">Detaylı Bilgi</a>
+            </article>
+
+            <article class="s-card" id="konaklama" data-elci-card="1">
+              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-boarding" xlink:href="#i-boarding"></use></svg></span>
+              <h3 class="s-title">Konaklama</h3>
+              <p class="s-text">Güvenli/hijyenik konaklama, günlük raporlama.</p>
+              <a class="s-link" href="/hizmetler.html#konaklama">Detaylı Bilgi</a>
+            </article>
+
+            <article class="s-card" id="egzotik" data-elci-card="1">
+              <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-exotic" xlink:href="#i-exotic"></use></svg></span>
+              <h3 class="s-title">Egzotik Hayvanlar</h3>
+              <p class="s-text">Kuş, kemirgen temel muayene ve bakım danışmanlığı.</p>
+              <a class="s-link" href="/hizmetler.html#egzotik">Detaylı Bilgi</a>
+            </article>
+          </div>
         </div>
       </div>
 
@@ -582,20 +646,9 @@
           <a class="btn primary" href="/hasta-iliskileri.html#online-randevu">Randevu Al</a>
         </div>
       </div>
-
-      <!-- Inline fallback data for immediate display -->
-      <script type="application/json" id="inlineServicesData">
-        [
-          {"id":"acil","title":"Acil & Yoğun Bakım","summary":"Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat izlem.","icon":"#i-shield-cross","href":"/hizmetler.html#acil"},
-          {"id":"koruyucu","title":"Muayene & Koruyucu","summary":"Aşı planı, parazit kontrolü, mikroçip ve check-up.","icon":"#i-stethoscope","href":"/hizmetler.html#koruyucu"},
-          {"id":"goruntuleme-lab","title":"Görüntüleme & Lab","summary":"Röntgen, ultrason, FAST, EKG, sitoloji ve hızlı testler.","icon":"#i-xray","href":"/hizmetler.html#goruntuleme-lab"},
-          {"id":"cerrahi","title":"Cerrahi Operasyonlar","summary":"Yumuşak doku, ortopedi, nöroşirürji ve laparoskopik cerrahi.","icon":"#i-scissors","href":"/hizmetler.html#cerrahi"},
-          {"id":"agiz-dis","title":"Ağız ve Diş Sağlığı","summary":"Diş taşı temizliği, çekim, kanal tedavisi ve periodontal cerrahi.","icon":"#i-tooth-clean","href":"/hizmetler.html#agiz-dis"},
-          {"id":"fizik-tedavi","title":"Fizik Tedavi & Rehabilitasyon","summary":"Lazer terapi, elektroterapi, hidroterapi ve masaj terapisi.","icon":"#i-pt","href":"/hizmetler.html#fizik-tedavi"}
-        ]
-      </script>
     </div>
   </section>
+  <!-- ========== HİZMETLER BİTİŞ ========== -->
 
   <!-- INSTAGRAM -->
   <section id="insta" data-json="/assets/data/instagram.json" data-fn="/.netlify/functions/instagram">
@@ -751,10 +804,10 @@
     "url":"https://elciveteriner.com/"
   } </script>
 
-  <!-- Ana JS -->
+  <!-- Ana JS (diğer bileşenler için) -->
   <script defer src="/assets/js/main.js?v=20251106"></script>
 
-  <!-- Başlangıç JS -->
+  <!-- Başlangıç JS (menü, yıl, scroll butonları) -->
   <script>
     window.addEventListener('DOMContentLoaded', function(){
       const y=document.getElementById('yil'); if(y) y.textContent=new Date().getFullYear();
@@ -770,6 +823,7 @@
         menu.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> toggleMenu(false)));
       }
 
+      // Diğer hizmetler için yatay kaydırma
       const track=document.getElementById('servicesTrack');
       const prev=document.getElementById('svcPrev');
       const next=document.getElementById('svcNext');
@@ -785,205 +839,6 @@
         });
       }
     });
-  </script>
-
-  <!-- OPTİMİZE EDİLMİŞ HİZMET YÜKLEYİCİ (ÇAKIŞMA-ÖNLEYİCİ / SON SÖZ BİZDE) -->
-  <script>
-  (function(){
-    const qS = (sel, root=document) => root.querySelector(sel);
-
-    const iconHTML = (icon)=>{
-      const raw = (icon || "").toString().trim();
-      if(!raw) return `<i class="fa-solid fa-paw" aria-hidden="true"></i>`;
-      if(raw.includes("fa-")) return `<i class="${raw}" aria-hidden="true"></i>`;
-      if(raw.startsWith("#")) return `<svg viewBox="0 0 24 24"><use href="${raw}"/></svg>`;
-      if(raw.startsWith("i-")) return `<svg viewBox="0 0 24 24"><use href="#${raw}"/></svg>`;
-      return `<svg viewBox="0 0 24 24"><use href="#${raw}"/></svg>`;
-    };
-
-    const card = (it)=>`
-      <article class="s-card" ${it.id?`id="${it.id}"`:''} data-elci-card="1">
-        <span class="s-icon" aria-hidden="true">${iconHTML(it.icon)}</span>
-        <h3 class="s-title">${(it.title||'Hizmet')}</h3>
-        <p class="s-text">${(it.summary||it.text||'')}</p>
-        <a class="s-link" href="${it.href || (it.id?('/hizmetler.html#'+it.id):'/hizmetler.html')}">Detaylı Bilgi</a>
-      </article>`;
-
-    const servicesCache = {
-      key: 'elciServicesCache_v2',
-      ttl: 10 * 60 * 1000,
-      get(){
-        try{
-          const s = localStorage.getItem(this.key);
-          if(!s) return null;
-          const obj = JSON.parse(s);
-          if(!obj || !Array.isArray(obj.data)) return null;
-          if(Date.now() - (obj.timestamp||0) > this.ttl) { localStorage.removeItem(this.key); return null; }
-          return obj.data;
-        }catch(e){ return null; }
-      },
-      set(data){
-        try{
-          if(!Array.isArray(data)) return;
-          localStorage.setItem(this.key, JSON.stringify({ data, timestamp: Date.now() }));
-        }catch(e){}
-      }
-    };
-
-    function normalizeServicesJson(json){
-      const list = Array.isArray(json) ? json
-                : Array.isArray(json?.items) ? json.items
-                : Array.isArray(json?.data) ? json.data
-                : [];
-      const title = (!Array.isArray(json) && typeof json?.title === 'string') ? json.title : null;
-      return { list, title };
-    }
-
-    function wireScrollOnce(moreTrack){
-      if(!moreTrack) return;
-      if(moreTrack.dataset.elciScrollWired === "1") return;
-      moreTrack.dataset.elciScrollWired = "1";
-
-      const prev = qS('#svcPrev'), next = qS('#svcNext');
-      const by = () => Math.max(moreTrack.clientWidth * 0.95, 300);
-
-      prev && prev.addEventListener('click', () => moreTrack.scrollBy({ left: -by(), behavior: 'smooth' }), { passive: true });
-      next && next.addEventListener('click', () => moreTrack.scrollBy({ left:  by(), behavior: 'smooth' }), { passive: true });
-
-      moreTrack.setAttribute('tabindex','0');
-      moreTrack.addEventListener('keydown', (e)=>{
-        const d = by();
-        if (e.key === 'ArrowLeft')  { e.preventDefault(); moreTrack.scrollBy({ left: -d, behavior: 'smooth' }); }
-        if (e.key === 'ArrowRight') { e.preventDefault(); moreTrack.scrollBy({ left:  d, behavior: 'smooth' }); }
-      });
-    }
-
-    function renderServicesIntoDOM(ctx, list, title){
-      // C.1) hasStatic kontrolü eklendi
-      const hasStatic = ctx.featuredWrap?.dataset?.static === "1";
-
-      if(!Array.isArray(list) || !list.length) return false;
-
-      const h2 = ctx.host.querySelector('h2');
-      if(h2 && title) h2.textContent = title;
-
-      if(ctx.mode === 'all' || !ctx.limit){
-        if(!hasStatic) ctx.featuredWrap.innerHTML = list.map(card).join('');
-        if(ctx.moreWrap) ctx.moreWrap.style.display = 'none';
-        return true;
-      }
-
-      const first = list.slice(0, ctx.limit);
-      const rest  = list.slice(ctx.limit);
-
-      // C.2) Sadece static değilse içeriği değiştir
-      if(!hasStatic) ctx.featuredWrap.innerHTML = first.map(card).join('');
-
-      if(rest.length && ctx.moreWrap && ctx.moreTrack){
-        ctx.moreTrack.innerHTML = rest.map(card).join('');
-        ctx.moreWrap.style.display = 'block';
-        wireScrollOnce(ctx.moreTrack);
-      }else if(ctx.moreWrap){
-        ctx.moreWrap.style.display = 'none';
-      }
-      return true;
-    }
-
-    function buildContext(){
-      const host = qS('#services');
-      if(!host) return null;
-
-      const featuredWrap = qS('#servicesFeatured');
-      if(!featuredWrap) return null;
-
-      return {
-        host,
-        featuredWrap,
-        moreWrap: qS('#servicesMoreWrap'),
-        moreTrack: qS('#servicesTrack'),
-        url: host.getAttribute('data-json') || '/assets/data/services.json',
-        mode: (host.getAttribute('data-mode') || 'split').toLowerCase(),
-        limit: parseInt(host.getAttribute('data-limit') || '0', 10) || 0
-      };
-    }
-
-    async function fetchServices(url, timeoutMs=8000){
-      const controller = new AbortController();
-      const t = setTimeout(() => controller.abort(), timeoutMs);
-      try{
-        const r = await fetch(url, { signal: controller.signal, cache: 'default' });
-        if(!r.ok) throw new Error('HTTP ' + r.status);
-        return await r.json();
-      } finally {
-        clearTimeout(t);
-      }
-    }
-
-    function getInlineList(){
-      const el = qS('#inlineServicesData');
-      if(!el) return null;
-      try{
-        const data = JSON.parse(el.textContent || '[]');
-        return Array.isArray(data) ? data : null;
-      }catch(e){
-        return null;
-      }
-    }
-
-    function hasRealCards(featuredWrap){
-      return !!featuredWrap.querySelector('.s-card:not(.skeleton-card)');
-    }
-
-    function installObserver(ctx){
-      const target = ctx.featuredWrap;
-      if(!target || target.dataset.elciObserver === "1") return;
-      target.dataset.elciObserver = "1";
-
-      const obs = new MutationObserver(() => {
-        if(!hasRealCards(ctx.featuredWrap)){
-          const cached = servicesCache.get();
-          const inline = getInlineList();
-          if(cached && cached.length){
-            renderServicesIntoDOM(ctx, cached, null);
-          } else if(inline && inline.length){
-            renderServicesIntoDOM(ctx, inline, null);
-          }
-        }
-      });
-
-      obs.observe(target, { childList: true, subtree: true });
-    }
-
-    async function run(){
-      const ctx = buildContext();
-      if(!ctx) return;
-
-      installObserver(ctx);
-
-      const inline = getInlineList();
-      if(inline && inline.length){
-        renderServicesIntoDOM(ctx, inline, null);
-      }
-
-      const cached = servicesCache.get();
-      if(cached && cached.length){
-        renderServicesIntoDOM(ctx, cached, null);
-      }
-
-      try{
-        const json = await fetchServices(ctx.url, 8000);
-        const { list, title } = normalizeServicesJson(json);
-        if(list && list.length){
-          servicesCache.set(list);
-          renderServicesIntoDOM(ctx, list, title);
-        }
-      }catch(err){
-        console.warn('[services] fetch failed:', err && err.message ? err.message : err);
-      }
-    }
-
-    window.addEventListener('DOMContentLoaded', () => setTimeout(run, 0));
-  })();
   </script>
 
   <!-- ANA SAYFA SSS ÖNİZLEME (faq.json'dan ilk 4 soru) -->
