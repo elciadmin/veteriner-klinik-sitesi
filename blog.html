@@ -538,7 +538,7 @@
         posts.forEach(p=>{
           const cat = p.category || (p.title?.toLowerCase().includes('aşı') ? 'Koruyucu Hekimlik' :
                                      p.title?.toLowerCase().includes('diş') ? 'Ağız & Diş' :
-                                     p.title?.toLowerCase().includes('acil') ? 'Acil & Yoğun Bakım' :
+                                     p.title?.toLowerCase().includes('acil') ? 'Acil Ön Değerlendirme & İlk Müdahale' :
                                      'Genel');
           categories.set(cat, (categories.get(cat)||0)+1);
 

@@ -47,7 +47,7 @@
     {"icon": "fa-solid fa-venus-mars", "text": "Kısırlaştırma"},
     {"icon": "fa-solid fa-shield-cat", "text": "Mikroçip"},
     {"icon": "fa-solid fa-kit-medical", "text": "Acil Müdahale"},
-    {"icon": "fa-solid fa-bed-pulse", "text": "Yoğun Bakım"},
+    {"icon": "fa-solid fa-bed-pulse", "text": "Hasta İzlem"},
     {"icon": "fa-solid fa-scissors", "text": "Yara ve Dikiş"},
     {"icon": "fa-solid fa-paw", "text": "Parazit Tedavileri"},
     {"icon": "fa-solid fa-comments", "text": "Danışmanlık"},
