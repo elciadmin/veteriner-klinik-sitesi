@@ -1,14 +1,14 @@
 {
   "title": "Hizmetlerimiz",
   "items": [
-    { "id":"acil","title":"Acil & Yoğun Bakım","summary":"Şok yönetimi, sıvı tedavisi, oksijen kafesi ve 24 saat izlem.","icon":"#i-shield-cross","href":"/hizmetler.html#acil" },
+    { "id":"acil","title":"Acil Ön Değerlendirme & İlk Müdahale","summary":"Acil durumlarda telefonla ön değerlendirme yapılır. Uygun vakalarda ilk müdahale, sıvı desteği ve oksijen desteği sağlanır; ileri yoğun bakım veya 24 saat kesintisiz izlem gerektiren hastalarda hasta sahibi bilgilendirilerek uygun merkeze yönlendirme yapılır.","icon":"#i-shield-cross","href":"/hizmetler.html#acil" },
     { "id":"koruyucu","title":"Muayene & Koruyucu","summary":"Aşı planı, parazit kontrolü, mikroçip ve check-up.","icon":"#i-stethoscope","href":"/hizmetler.html#koruyucu" },
     { "id":"ic-hastaliklari","title":"İç Hastalıkları","summary":"Hemogram, biyokimya, hormon, idrar analizi ve tanısal yaklaşım.","icon":"#i-clipboard","href":"/hizmetler.html#ic-hastaliklari" },
     { "id":"cerrahi","title":"Cerrahi Operasyonlar","summary":"Yumuşak doku, ortopedi, sterilizasyon, ağrı yönetimi.","icon":"#i-scissors","href":"/hizmetler.html#cerrahi" },
-    { "id":"agiz-dis","title":"Ağız & Diş Sağlığı","summary":"Diş taşı, çekimler, periodontal tedavi, dental röntgen.","icon":"#i-tooth-clean","href":"/hizmetler.html#agiz-dis" },
-    { "id":"goruntuleme-lab","title":"Görüntüleme & Laboratuvar","summary":"Röntgen, ultrason, FAST, EKG, sitoloji, hızlı testler.","icon":"#i-xray","href":"/hizmetler.html#goruntuleme-lab" },
+    { "id":"agiz-dis","title":"Ağız & Diş Sağlığı","summary":"Diş taşı temizliği, ağız muayenesi, diş eti hastalıklarının değerlendirilmesi, gerekli durumlarda diş çekimi ve ileri dental değerlendirme için yönlendirme.","icon":"#i-tooth-clean","href":"/hizmetler.html#agiz-dis" },
+    { "id":"goruntuleme-lab","title":"Laboratuvar & Görüntüleme Yönlendirme","summary":"Hemogram, biyokimya, hormon testleri, hızlı testler ve sitolojik değerlendirme yapılır. Gerekli durumlarda röntgen ve ultrason gibi görüntüleme işlemleri için randevulu veya dış merkez yönlendirmeli süreç yönetimi sağlanır.","icon":"#i-xray","href":"/hizmetler.html#goruntuleme-lab" },
 
-    { "id":"kardiyoloji","title":"Kardiyoloji","summary":"EKG değerlendirme, kalp muayenesi, tedavi ve takip.","icon":"#i-ecg","href":"/hizmetler.html#kardiyoloji" },
+    { "id":"kardiyoloji","title":"Kardiyoloji","summary":"Kalp muayenesi, klinik değerlendirme, tedavi ve gerekli durumlarda ileri kardiyolojik inceleme için yönlendirme.","icon":"#i-ecg","href":"/hizmetler.html#kardiyoloji" },
     { "id":"dogum-jinekoloji","title":"Doğum & Jinekoloji","summary":"Gebelik takibi, doğum desteği, yavru ve postpartum bakım.","icon":"#i-repro","href":"/hizmetler.html#dogum-jinekoloji" },
     { "id":"endokrinoloji","title":"Endokrinoloji","summary":"Tiroid, DM, Cushing/Addison tarama ve yönetimi.","icon":"#i-endo","href":"/hizmetler.html#endokrinoloji" },
     { "id":"uroloji","title":"Üroloji","summary":"İYE, taşlar, kateterizasyon ve takip.","icon":"#i-uro","href":"/hizmetler.html#uroloji" },
