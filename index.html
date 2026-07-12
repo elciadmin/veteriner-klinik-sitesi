@@ -3,11 +3,30 @@
 <head>   
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Elçi Veteriner Kliniği | Konya'da Muayene, Cerrahi ve Laboratuvar</title>
+  <title>Konya Meram Veteriner Kliniği | Elçi Veteriner Kliniği</title>
 
-  <!-- SEO -->
-  <meta name="description" content="Konya Meram Elçi Veteriner Kliniği: telefonla acil ön değerlendirme, koruyucu hekimlik, cerrahi, ağız ve diş sağlığı, laboratuvar ve görüntüleme yönlendirmesi."/>
+  <!-- SEO: yerel arama + güven + dönüşüm -->
+  <meta name="description" content="Elçi Veteriner Kliniği, Meram Konya'da kedi ve köpekler için muayene, laboratuvar, aşı, kısırlaştırma, cerrahi ve ağız-diş sağlığı hizmetleri sunar."/>
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"/>
+  <meta name="googlebot" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"/>
+  <meta name="theme-color" content="#5a1fa8"/>
   <link rel="canonical" href="https://elciveteriner.com/"/>
+  <link rel="alternate" hreflang="tr-TR" href="https://elciveteriner.com/"/>
+  <link rel="alternate" hreflang="x-default" href="https://elciveteriner.com/"/>
+
+  <!-- Sosyal paylaşım görünümü -->
+  <meta property="og:locale" content="tr_TR"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="Elçi Veteriner Kliniği"/>
+  <meta property="og:title" content="Konya Meram Veteriner Kliniği | Elçi Veteriner Kliniği"/>
+  <meta property="og:description" content="Meram'da kedi ve köpekler için muayene, laboratuvar, aşı, kısırlaştırma, cerrahi ve koruyucu sağlık hizmetleri."/>
+  <meta property="og:url" content="https://elciveteriner.com/"/>
+  <meta property="og:image" content="https://elciveteriner.com/assets/img/uploads/elci-logo.png"/>
+  <meta property="og:image:alt" content="Elçi Veteriner Kliniği logosu"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Konya Meram Veteriner Kliniği | Elçi Veteriner Kliniği"/>
+  <meta name="twitter:description" content="Meram'da kedi ve köpekler için muayene, laboratuvar, aşı, kısırlaştırma ve cerrahi hizmetleri."/>
+  <meta name="twitter:image" content="https://elciveteriner.com/assets/img/uploads/elci-logo.png"/>
 
   <!-- Netlify Identity hash geldiyse /admin'e yönlendir -->
   <script>
@@ -26,6 +45,7 @@
   <link rel="stylesheet" href="/assets/css/styles.css?v=20251106"/>
 
   <!-- Font Awesome -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <!-- Genel küçük dokunuşlar -->
@@ -147,7 +167,7 @@
       -webkit-backdrop-filter:saturate(120%) blur(1px);
       backdrop-filter:saturate(120%) blur(1px);
     }
-    .header-main .logo-text h1{
+    .header-main .logo-text .site-name{
       color:#fff;
       margin:0;
       text-shadow:0 2px 10px rgba(0,0,0,.35);
@@ -162,7 +182,7 @@
     /* HERO (Hakkımızda ile aynı yapı) */
     .hero{
       position:relative;
-      padding:80px 0 90px;
+      padding:56px 0 72px;
       background:
         radial-gradient(1400px 700px at 85% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
         linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%);
@@ -180,12 +200,12 @@
       pointer-events:none;
     }
     .hero .container{ position:relative; z-index:1; }
-    .hero-center{ text-align:center; max-width:720px; margin:0 auto; }
+    .hero-center{ text-align:center; max-width:820px; margin:0 auto; }
     .hero-icon{ display:flex; justify-content:center; margin-bottom:18px; }
 
     .hero h1{
       margin:0 0 10px;
-      font-size:clamp(28px,4.2vw,40px);
+      font-size:clamp(34px,5vw,52px);
       text-shadow:0 2px 18px rgba(0,0,0,.25);
     }
     .hero-divider{
@@ -197,7 +217,7 @@
     }
     .hero-sub{
       margin:0 auto 22px;
-      max-width:620px;
+      max-width:760px;
       color:#e8fbff;
       opacity:.98;
       font-size:1.05rem;
@@ -300,7 +320,7 @@
 
     @media (max-width:1100px){ .quick-links{grid-template-columns:repeat(3,1fr);} }
     @media (max-width:768px){
-      .hero{padding:64px 0 72px;}
+      .hero{padding:46px 0 58px;}
       .hero-center{max-width:100%;}
       .quick-links-band{margin-top:0;}
       .quick-links{grid-template-columns:repeat(2,1fr);}
@@ -344,10 +364,181 @@
     .social-links a svg{ width:20px; height:20px; display:block }
     .social-links a{ color:#eaffff; opacity:.95 }
     .social-links a:hover{ opacity:1 }
+
+    /* 2026 ana sayfa iyileştirmeleri */
+    .skip-link{
+      position:absolute;
+      left:12px;
+      top:-60px;
+      z-index:9999;
+      padding:10px 14px;
+      border-radius:10px;
+      background:#fff;
+      color:var(--brand2);
+      font-weight:700;
+      box-shadow:0 8px 24px rgba(0,0,0,.18);
+    }
+    .skip-link:focus{top:12px}
+    .site-name{
+      color:#fff;
+      margin:0;
+      font-size:1.45rem;
+      line-height:1.1;
+      font-weight:800;
+      text-shadow:0 2px 10px rgba(0,0,0,.35);
+      letter-spacing:.2px;
+    }
+    .hero-logo{
+      width:108px;
+      height:108px;
+      object-fit:contain;
+      filter:drop-shadow(0 10px 24px rgba(0,0,0,.22));
+    }
+    .hero-eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      margin:0 0 12px;
+      padding:7px 12px;
+      border:1px solid rgba(255,255,255,.42);
+      border-radius:999px;
+      background:rgba(255,255,255,.10);
+      color:#fff;
+      font-size:.86rem;
+      font-weight:700;
+      letter-spacing:.4px;
+    }
+    .hero-tagline{
+      margin:0 0 8px;
+      color:#e8fbff;
+      font-size:clamp(1.05rem,2vw,1.35rem);
+      font-weight:700;
+    }
+    .hero-notice{
+      margin:10px auto 0;
+      color:#f3fdff;
+      font-size:.92rem;
+    }
+    .hero-proof{
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:10px 18px;
+      margin-top:20px;
+      color:#fff;
+      font-size:.92rem;
+      font-weight:600;
+    }
+    .hero-proof span{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+    }
+    .hero-proof i{color:#d7fbff}
+    .local-intro{
+      max-width:820px;
+      margin:18px 0 26px;
+      color:var(--muted);
+      line-height:1.7;
+    }
+    .why-elci{
+      padding:58px 0;
+      background:linear-gradient(180deg,#fff,#f7fbfc);
+      border-top:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+    }
+    .why-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:16px;
+      margin-top:26px;
+    }
+    .why-card{
+      padding:22px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:#fff;
+      box-shadow:0 10px 24px rgba(28,49,60,.06);
+    }
+    .why-card i{
+      width:42px;
+      height:42px;
+      display:grid;
+      place-items:center;
+      margin-bottom:14px;
+      border-radius:12px;
+      background:linear-gradient(135deg,var(--brand),var(--brand2));
+      color:#fff;
+    }
+    .why-card h3{margin:0 0 8px}
+    .why-card p{margin:0;color:var(--muted);line-height:1.6}
+    .mobile-contact-bar{display:none}
+    :where(a,button,summary):focus-visible{
+      outline:3px solid var(--accent);
+      outline-offset:3px;
+    }
+    #insta,#reviews,#blog,#youtube,#faq{content-visibility:auto;contain-intrinsic-size:700px}
+    @media (max-width:900px){
+      .why-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media (max-width:768px){
+      .header-top .container{gap:6px}
+      .header-top .header-contact:first-child{font-size:.82rem}
+      .hero-logo{width:92px;height:92px}
+      .hero-sub{font-size:1rem;line-height:1.65}
+      .hero-cta .btn{flex:1 1 210px;justify-content:center}
+      .cta-bar{align-items:stretch;flex-direction:column}
+      .cta-bar>div{display:flex;flex-wrap:wrap;gap:8px}
+      .mobile-contact-bar{
+        position:fixed;
+        left:10px;
+        right:10px;
+        bottom:10px;
+        z-index:999;
+        display:grid;
+        grid-template-columns:repeat(3,1fr);
+        gap:8px;
+        padding:8px;
+        border:1px solid rgba(255,255,255,.30);
+        border-radius:16px;
+        background:rgba(36,16,67,.94);
+        box-shadow:0 14px 34px rgba(0,0,0,.26);
+        backdrop-filter:blur(10px);
+      }
+      .mobile-contact-bar a{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        gap:4px;
+        min-height:52px;
+        border-radius:11px;
+        color:#fff;
+        text-decoration:none;
+        font-size:.76rem;
+        font-weight:700;
+      }
+      .mobile-contact-bar a:nth-child(2){background:#1e9b52}
+      body{padding-bottom:82px}
+    }
+    @media (max-width:560px){
+      .why-grid{grid-template-columns:1fr}
+      .hero h1{font-size:clamp(32px,10vw,43px)}
+      .hero-proof{align-items:flex-start;flex-direction:column}
+    }
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{
+        scroll-behavior:auto!important;
+        animation-duration:.01ms!important;
+        animation-iteration-count:1!important;
+        transition-duration:.01ms!important;
+      }
+    }
   </style>
 </head> 
 
 <body class="theme-elciKonya" data-page="home">
+  <a class="skip-link" href="#ana-icerik">Ana içeriğe geç</a>
   <!-- HEADER -->
   <header>
     <div class="header-top">
@@ -356,7 +547,7 @@
           <span><i class="fa-solid fa-location-dot"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</span>
         </div>
         <div class="header-contact">
-          <a href="tel:03323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a>
+          <a href="tel:+903323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a>
           <a href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> elcivetklinik@gmail.com</a>
         </div>
       </div>
@@ -365,7 +556,7 @@
     <div class="header-main">
       <div class="container">
         <div class="logo-text">
-          <h1>Elçi Veteriner Kliniği</h1>
+          <div class="site-name">Elçi Veteriner Kliniği</div>
           <span>Sağlığın Elçi'leriyiz</span>
         </div>
 
@@ -377,13 +568,13 @@
             <!-- Bonus: Ana Sayfa linki / olarak düzeltildi -->
             <li><a href="/" class="active" aria-current="page">Ana Sayfa</a></li>
             <li class="dropdown">
-              <a href="/about.html" aria-haspopup="true" aria-expanded="false">Hakkımızda</a>
+              <a href="/hakkinda.html" aria-haspopup="true" aria-expanded="false">Hakkımızda</a>
               <div class="dropdown-content" role="menu">
-                <a href="/about.html#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
-                <a href="/about.html#ekibimiz" role="menuitem">Ekibimiz</a>
-                <a href="/about.html#klinik" role="menuitem">Kliniğimiz</a>
-                <a href="/about.html#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
-                <a href="/about.html#degerler" role="menuitem">Değerlerimiz</a>
+                <a href="/hakkinda.html#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
+                <a href="/hakkinda.html#ekibimiz" role="menuitem">Ekibimiz</a>
+                <a href="/hakkinda.html#klinik" role="menuitem">Kliniğimiz</a>
+                <a href="/hakkinda.html#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
+                <a href="/hakkinda.html#degerler" role="menuitem">Değerlerimiz</a>
               </div>
             </li>
             <li class="dropdown">
@@ -423,31 +614,49 @@
     </div>
   </header>
 
-  <!-- HERO (Hakkımızda ile aynı yapı, logolu) -->
+  <main id="ana-icerik">
+  <!-- HERO: yerel arama niyeti + güven + hızlı iletişim -->
   <section class="hero" data-theme="clean">
     <div class="container">
       <div class="hero-center">
         <div class="hero-icon">
           <img class="hero-logo"
-               src="/assets/img/uploads/elci-logo.png?v=1"
-               alt="Elçi Veteriner Kliniği Logosu"
-               width="86" height="86"
+               src="/assets/img/uploads/elci-logo.png?v=2"
+               alt="Elçi Veteriner Kliniği logosu"
+               width="108" height="108"
                loading="eager" decoding="async">
         </div>
-        <h1>Elçi Veteriner Kliniği — Sağlığın Elçi'leriyiz</h1>
+        <p class="hero-eyebrow"><i class="fa-solid fa-location-dot"></i> Havzan, Meram / Konya</p>
+        <h1>Elçi Veteriner Kliniği</h1>
+        <p class="hero-tagline">Sağlığın Elçi'leriyiz</p>
         <div class="hero-divider" role="presentation"></div>
         <p class="hero-sub">
-          Kedi ve köpeklerde cerrahi, görüntüleme, laboratuvar ve koruyucu hekimlikte güncel tıbbi protokoller.
+          Meram'da kedi ve köpekler için muayene, laboratuvar, aşı, kısırlaştırma,
+          cerrahi ve ağız-diş sağlığı hizmetleri.
         </p>
         <div class="hero-cta">
-          <a class="btn primary" href="tel:03323223220">
+          <a class="btn primary" href="tel:+903323223220" aria-label="Elçi Veteriner Kliniğini ara">
             <i class="fa-solid fa-phone"></i>
             Hemen Ara
           </a>
-          <a class="btn ghost" href="/hasta-iliskileri.html#online-randevu">
-            <i class="fa-solid fa-calendar-check"></i>
-            Randevu Al
+          <a class="btn ghost"
+             href="https://wa.me/903323223220?text=Merhaba%2C%20El%C3%A7i%20Veteriner%20Klini%C4%9Fi%20i%C3%A7in%20bilgi%20ve%20randevu%20almak%20istiyorum."
+             target="_blank" rel="noopener noreferrer">
+            <i class="fa-brands fa-whatsapp"></i>
+            WhatsApp'tan Yaz
           </a>
+          <a class="btn ghost"
+             href="https://www.google.com/maps/search/?api=1&query=El%C3%A7i+Veteriner+Klini%C4%9Fi+Havzan+Meram+Konya"
+             target="_blank" rel="noopener noreferrer">
+            <i class="fa-solid fa-route"></i>
+            Yol Tarifi
+          </a>
+        </div>
+        <p class="hero-notice">Acil durumlarda gelmeden önce telefonla uygunluk bilgisi alınız.</p>
+        <div class="hero-proof" aria-label="Klinik güven göstergeleri">
+          <span><i class="fa-solid fa-star"></i> 190'dan fazla Google değerlendirmesi</span>
+          <span><i class="fa-solid fa-flask-vial"></i> Klinik içi laboratuvar değerlendirmeleri</span>
+          <span><i class="fa-solid fa-heart-pulse"></i> Tedavi ve operasyon sonrası takip</span>
         </div>
       </div>
     </div>
@@ -457,11 +666,11 @@
   <section class="quick-links-band">
     <div class="container">
       <div class="quick-links">
-        <a href="/about.html#ekibimiz" class="quick-link">
+        <a href="/hakkinda.html#ekibimiz" class="quick-link">
           <div class="quick-icon">
             <i class="fa-solid fa-user-doctor"></i>
           </div>
-          <div class="quick-title">VETERİNERLERİMİZ</div>
+          <div class="quick-title">EKİBİMİZ</div>
         </a>
 
         <a href="/hizmetler.html" class="quick-link">
@@ -478,11 +687,11 @@
           <div class="quick-title">HIZLI RANDEVU</div>
         </a>
 
-        <a href="/about.html#basarilar" class="quick-link">
+        <a href="#reviews" class="quick-link">
           <div class="quick-icon">
-            <i class="fa-solid fa-chart-line"></i>
+            <i class="fa-solid fa-star"></i>
           </div>
-          <div class="quick-title">BAŞARILARIMIZ</div>
+          <div class="quick-title">GOOGLE YORUMLARI</div>
         </a>
 
         <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi"
@@ -494,7 +703,7 @@
         </a>
 
         <!-- A) DÜZELTİLDİ: phone-alt → phone -->
-        <a href="tel:03323223220" class="quick-link">
+        <a href="tel:+903323223220" class="quick-link">
           <div class="quick-icon">
             <i class="fa-solid fa-phone"></i>
           </div>
@@ -507,7 +716,11 @@
   <!-- ========== HİZMETLER (TAMAMEN STATİK) ========== -->
   <section id="services" class="services">
     <div class="container">
-      <h2>Hizmetlerimiz</h2>
+      <h2>Meram'da Veterinerlik Hizmetlerimiz</h2>
+      <p class="local-intro">
+        Elçi Veteriner Kliniği'nde kedi ve köpekler için koruyucu sağlık, tanısal değerlendirme,
+        kısırlaştırma, cerrahi ve tedavi süreçlerini açık bilgilendirme ve düzenli takip anlayışıyla yürütüyoruz.
+      </p>
 
       <!-- Öne Çıkanlar (6) -->
       <div class="services-grid" id="servicesFeatured" aria-label="Öne Çıkan Hizmetler">
@@ -520,22 +733,22 @@
 
         <article class="s-card" id="koruyucu" data-elci-card="1">
           <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-stethoscope" xlink:href="#i-stethoscope"></use></svg></span>
-          <h3 class="s-title">Muayene &amp; Koruyucu</h3>
-          <p class="s-text">Aşı planı, parazit kontrolü, mikroçip ve check-up.</p>
+          <h3 class="s-title">Muayene &amp; Koruyucu Sağlık</h3>
+          <p class="s-text">Genel muayene, aşı planı, iç-dış parazit uygulamaları, mikroçip, kilo takibi ve yaşa uygun sağlık kontrolleri.</p>
           <a class="s-link" href="/hizmetler.html#koruyucu">Detaylı Bilgi</a>
         </article>
 
         <article class="s-card" id="ic-hastaliklari" data-elci-card="1">
           <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-clipboard" xlink:href="#i-clipboard"></use></svg></span>
-          <h3 class="s-title">İç Hastalıkları</h3>
-          <p class="s-text">Hemogram, biyokimya, hormon, idrar analizi ve tanısal yaklaşım.</p>
+          <h3 class="s-title">İç Hastalıkları &amp; Tanı</h3>
+          <p class="s-text">Hemogram, biyokimya, hormon ve idrar analizleriyle klinik bulguların birlikte değerlendirildiği tanısal yaklaşım.</p>
           <a class="s-link" href="/hizmetler.html#ic-hastaliklari">Detaylı Bilgi</a>
         </article>
 
         <article class="s-card" id="cerrahi" data-elci-card="1">
           <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-scissors" xlink:href="#i-scissors"></use></svg></span>
-          <h3 class="s-title">Cerrahi Operasyonlar</h3>
-          <p class="s-text">Yumuşak doku, ortopedi, sterilizasyon, ağrı yönetimi.</p>
+          <h3 class="s-title">Kısırlaştırma &amp; Cerrahi</h3>
+          <p class="s-text">Kedi ve köpeklerde kısırlaştırma, yumuşak doku ve ortopedik operasyonlarda işlem öncesi değerlendirme, ağrı yönetimi ve operasyon sonrası takip.</p>
           <a class="s-link" href="/hizmetler.html#cerrahi">Detaylı Bilgi</a>
         </article>
 
@@ -548,7 +761,7 @@
 
         <article class="s-card" id="goruntuleme-lab" data-elci-card="1">
           <span class="s-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-xray" xlink:href="#i-xray"></use></svg></span>
-          <h3 class="s-title">Laboratuvar &amp; Görüntüleme Yönlendirme</h3>
+          <h3 class="s-title">Laboratuvar &amp; Planlı Görüntüleme</h3>
           <p class="s-text">Hemogram, biyokimya, hormon testleri, hızlı testler ve sitolojik değerlendirme yapılır. Gerekli durumlarda röntgen ve ultrason gibi görüntüleme işlemleri için randevulu veya dış merkez yönlendirmeli süreç yönetimi sağlanır.</p>
           <a class="s-link" href="/hizmetler.html#goruntuleme-lab">Detaylı Bilgi</a>
         </article>
@@ -650,6 +863,39 @@
   </section>
   <!-- ========== HİZMETLER BİTİŞ ========== -->
 
+  <!-- NEDEN ELÇİ -->
+  <section class="why-elci" aria-labelledby="neden-elci-baslik">
+    <div class="container">
+      <h2 id="neden-elci-baslik">Neden Elçi Veteriner Kliniği?</h2>
+      <p class="local-intro">
+        Hasta sahiplerinin tedavi sürecini anlayabilmesini, seçenekleri bilmesini ve kontrol planını
+        net şekilde takip edebilmesini önemsiyoruz.
+      </p>
+      <div class="why-grid">
+        <article class="why-card">
+          <i class="fa-solid fa-comments" aria-hidden="true"></i>
+          <h3>Anlaşılır bilgilendirme</h3>
+          <p>Muayene bulguları, önerilen tetkikler ve tedavi planı anlaşılır bir dille açıklanır.</p>
+        </article>
+        <article class="why-card">
+          <i class="fa-solid fa-flask-vial" aria-hidden="true"></i>
+          <h3>Tanısal yaklaşım</h3>
+          <p>Klinik muayene; gerekli durumlarda hemogram, biyokimya ve diğer testlerle desteklenir.</p>
+        </article>
+        <article class="why-card">
+          <i class="fa-solid fa-shield-heart" aria-hidden="true"></i>
+          <h3>Kontrollü süreç</h3>
+          <p>Operasyon ve tedavi süreçlerinde ağrı yönetimi, taburculuk bilgileri ve kontrol planı oluşturulur.</p>
+        </article>
+        <article class="why-card">
+          <i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i>
+          <h3>Takip ve yönlendirme</h3>
+          <p>Gerekli durumlarda planlı görüntüleme, ileri tetkik veya uygun merkeze yönlendirme süreci yönetilir.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <!-- INSTAGRAM -->
   <section id="insta" data-json="/assets/data/instagram.json" data-fn="/.netlify/functions/instagram">
     <div class="container">
@@ -665,7 +911,7 @@
   <!-- GOOGLE REVIEWS -->
   <section id="reviews" data-json="/assets/data/reviews.json">
     <div class="container">
-      <h2>Google Yorumları</h2>
+      <h2>Google'da 190'dan Fazla Değerlendirme</h2>
       <div class="review-grid" id="reviewGrid" aria-live="polite"></div>
     </div>
   </section>
@@ -704,17 +950,19 @@
       <div id="homeFaqList" aria-live="polite"></div>
 
       <div style="margin-top:16px;display:flex;justify-content:flex-end">
-        <a href="/sss.html" class="btn ghost">Tüm SSS'leri Gör</a>
+        <a href="/sss.html" class="btn">Tüm SSS'leri Gör</a>
       </div>
     </div>
   </section>
+
+  </main>
 
   <!-- FOOTER -->
   <footer class="footer-new">
     <div class="container footer-container">
       <div class="footer-col">
         <h3>Elçi Veteriner Kliniği</h3>
-        <p>Konya'nın Meram ilçesinde, Hayvan sağlığında hızlı, güvenilir ve etik müdahalelerle yaşamın yanında yer alıyoruz.</p>
+        <p>Konya'nın Meram ilçesinde kedi ve köpeklerin sağlığı için anlaşılır bilgilendirme, etik yaklaşım ve düzenli takip sunuyoruz.</p>
         <div class="social-links">
           <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 10h3l.5-3H13V5.5c0-.9.3-1.5 1.7-1.5H17V1h-3c-3 0-4.5 1.6-4.5 4.4V7H7v3h2.5v9h3v-9z"/></svg>
@@ -735,7 +983,7 @@
         <h3>Hızlı Linkler</h3>
         <ul class="footer-links">
           <li><a href="/">Ana Sayfa</a></li>
-          <li><a href="/about.html">Hakkımızda</a></li>
+          <li><a href="/hakkinda.html">Hakkımızda</a></li>
           <li><a href="/hizmetler.html">Hizmetlerimiz</a></li>
           <li><a href="/blog.html">Blog</a></li>
           <li><a href="/sss.html">SSS</a></li>
@@ -744,18 +992,18 @@
       </div>
 
       <div class="footer-col">
-        <h3>Konya Veteriner Hizmetlerimiz</h3>
+        <h3>Öne Çıkan Hizmetler</h3>
         <ul class="footer-links">
-          <li><a href="/hizmetler.html#acil">Konya Acil Veteriner</a></li>
-          <li><a href="/hizmetler.html#cerrahi">Konya'da Cerrahi Operasyonlar</a></li>
-          <li><a href="/hizmetler.html#agiz-dis">Konya'da Ağız ve Diş Sağlığı</a></li>
-          <li><a href="/hizmetler.html#ic-hastaliklari">Konya'da İç Hastalıkları</a></li>
-          <li><a href="/hizmetler.html#fizik-tedavi">Konya'da Fizik Tedavi</a></li>
+          <li><a href="/hizmetler.html#acil">Acil ön değerlendirme</a></li>
+          <li><a href="/hizmetler.html#cerrahi">Kısırlaştırma ve cerrahi</a></li>
+          <li><a href="/hizmetler.html#agiz-dis">Ağız ve diş sağlığı</a></li>
+          <li><a href="/hizmetler.html#ic-hastaliklari">İç hastalıkları ve laboratuvar</a></li>
+          <li><a href="/hizmetler.html#fizik-tedavi">Fizik tedavi ve rehabilitasyon</a></li>
         </ul>
       </div>
 
       <div class="footer-col">
-        <h3>Konya İletişim</h3>
+        <h3>İletişim</h3>
         <ul class="footer-contact">
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"/><circle cx="12" cy="11" r="2.5"/></svg>
@@ -763,7 +1011,7 @@
           </li>
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.5v2a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3.1 19 19 0 0 1-6-6A2 2 0 0 1 7.5 9h2l2 3-1.5 1.5a16 16 0 0 0 6 6L18 18l3 2.5z"/></svg>
-            <a href="tel:03323223220">0332 322 32 20</a>
+            <a href="tel:+903323223220">0332 322 32 20</a>
           </li>
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
@@ -771,7 +1019,7 @@
           </li>
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
-            <span>Hergün: 09:00–23:00<br></span>
+            <span>Her gün: 09:00–21:00<br><small>Özel gün saatleri için Google profilimizi kontrol ediniz.</small></span>
           </li>
         </ul>
       </div>
@@ -784,25 +1032,94 @@
     </div>
   </footer>
 
-  <!-- Schema.org -->
-  <script type="application/ld+json"> {
-    "@context":"https://schema.org",
-    "@type":"VeterinaryCare",
-    "name":"Elçi Veteriner Kliniği",
-    "address":{
-      "@type":"PostalAddress",
-      "addressLocality":"Meram",
-      "addressRegion":"Konya",
-      "streetAddress":"Havzan Mah. Yeni Meram Cad. 17/1",
-      "addressCountry":"TR"
-    },
-    "telephone":"+903323223220",
-    "areaServed":"Konya",
-    "openingHours": [
-      "Mo-Su 09:00-23:00"
-    ],
-    "url":"https://elciveteriner.com/"
-  } </script>
+  <!-- Mobilde her sayfadan hızlı dönüşüm -->
+  <nav class="mobile-contact-bar" aria-label="Hızlı iletişim">
+    <a href="tel:+903323223220"><i class="fa-solid fa-phone"></i><span>Ara</span></a>
+    <a href="https://wa.me/903323223220?text=Merhaba%2C%20El%C3%A7i%20Veteriner%20Klini%C4%9Fi%20i%C3%A7in%20bilgi%20almak%20istiyorum."
+       target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i><span>WhatsApp</span></a>
+    <a href="https://www.google.com/maps/search/?api=1&query=El%C3%A7i+Veteriner+Klini%C4%9Fi+Havzan+Meram+Konya"
+       target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-route"></i><span>Yol Tarifi</span></a>
+  </nav>
+
+  <!-- Schema.org: yerel işletme + web sitesi -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["VeterinaryCare", "LocalBusiness"],
+        "@id": "https://elciveteriner.com/#klinik",
+        "name": "Elçi Veteriner Kliniği",
+        "alternateName": "Elçi Veteriner",
+        "url": "https://elciveteriner.com/",
+        "logo": "https://elciveteriner.com/assets/img/uploads/elci-logo.png",
+        "image": "https://elciveteriner.com/assets/img/uploads/elci-logo.png",
+        "description": "Meram Konya'da kedi ve köpekler için muayene, laboratuvar, aşı, kısırlaştırma, cerrahi ve ağız-diş sağlığı hizmetleri.",
+        "telephone": "+903323223220",
+        "email": "elcivetklinik@gmail.com",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Havzan Mah. Yeni Meram Cad. 17/1",
+          "addressLocality": "Meram",
+          "addressRegion": "Konya",
+          "addressCountry": "TR"
+        },
+        "areaServed": [
+          {"@type": "AdministrativeArea", "name": "Meram"},
+          {"@type": "City", "name": "Konya"}
+        ],
+        "hasMap": "https://www.google.com/maps/search/?api=1&query=El%C3%A7i+Veteriner+Klini%C4%9Fi+Havzan+Meram+Konya",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "https://schema.org/Monday",
+              "https://schema.org/Tuesday",
+              "https://schema.org/Wednesday",
+              "https://schema.org/Thursday",
+              "https://schema.org/Friday",
+              "https://schema.org/Saturday",
+              "https://schema.org/Sunday"
+            ],
+            "opens": "09:00",
+            "closes": "21:00"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/elciveteriner",
+          "https://www.instagram.com/elciveteriner",
+          "https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi"
+        ],
+        "knowsAbout": [
+          "Kedi ve köpek muayenesi",
+          "Koruyucu veteriner hekimlik",
+          "Kedi ve köpek kısırlaştırma",
+          "Veteriner laboratuvar hizmetleri",
+          "Veteriner cerrahi",
+          "Ağız ve diş sağlığı"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://elciveteriner.com/#website",
+        "url": "https://elciveteriner.com/",
+        "name": "Elçi Veteriner Kliniği",
+        "inLanguage": "tr-TR",
+        "publisher": {"@id": "https://elciveteriner.com/#klinik"}
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://elciveteriner.com/#anasayfa",
+        "url": "https://elciveteriner.com/",
+        "name": "Konya Meram Veteriner Kliniği | Elçi Veteriner Kliniği",
+        "description": "Meram Konya'da muayene, laboratuvar, aşı, kısırlaştırma, cerrahi ve koruyucu sağlık hizmetleri.",
+        "isPartOf": {"@id": "https://elciveteriner.com/#website"},
+        "about": {"@id": "https://elciveteriner.com/#klinik"},
+        "inLanguage": "tr-TR"
+      }
+    ]
+  }
+  </script>
 
   <!-- Ana JS (diğer bileşenler için) -->
   <script defer src="/assets/js/main.js?v=20251106"></script>
