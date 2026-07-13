@@ -774,7 +774,7 @@
     }
     .hero-card-list i{width:18px;color:#bff7ff;text-align:center}
 
-    /* Tüm hizmet kartları dengeli; masaüstünde taşmasız grid */
+    /* Hizmet kartları: öne çıkanlarda grid, diğer hizmetlerde ferah yatay slider */
     #services .s-card{
       display:flex;
       flex-direction:column;
@@ -788,17 +788,81 @@
       box-shadow:0 18px 38px rgba(30,24,58,.14);
     }
     #services .s-card .s-link{margin-top:auto;padding-top:12px}
-    #services .services-more{margin-top:42px}
-    #services .services-track-wrap{overflow:visible}
-    #services .services-track{
-      display:grid;
-      grid-template-columns:repeat(4,minmax(0,1fr));
-      gap:18px;
-      overflow:visible;
-      padding:10px 0 4px;
+
+    #services .services-more{
+      margin-top:42px;
+      padding:24px 24px 10px;
+      border:1px solid rgba(90,31,168,.12);
+      border-radius:24px;
+      background:
+        radial-gradient(600px 220px at 100% 0%,rgba(39,212,232,.10),transparent 68%),
+        linear-gradient(180deg,#ffffff 0%,#fbf9ff 100%);
+      box-shadow:0 18px 45px rgba(38,24,68,.08);
     }
-    #services .services-track .s-card{flex:auto;min-width:0}
-    #services .more-controls{display:none}
+    #services .services-more-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      margin-bottom:8px;
+    }
+    #services .services-more-head h3{
+      margin:0;
+      color:var(--ink);
+      font-size:clamp(1.25rem,2.2vw,1.55rem);
+    }
+    #services .more-controls{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex:0 0 auto;
+    }
+    #services .scroll-btn{
+      width:42px;
+      height:42px;
+      border:1px solid rgba(90,31,168,.18);
+      border-radius:50%;
+      background:#fff;
+      color:var(--brand);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      box-shadow:0 8px 18px rgba(42,25,78,.10);
+      transition:transform .2s ease,background .2s ease,color .2s ease,box-shadow .2s ease;
+    }
+    #services .scroll-btn:hover,
+    #services .scroll-btn:focus-visible{
+      transform:translateY(-2px);
+      background:linear-gradient(135deg,var(--brand),var(--accent));
+      color:#fff;
+      box-shadow:0 12px 24px rgba(42,25,78,.16);
+      outline:none;
+    }
+    #services .services-track-wrap{
+      position:relative;
+      overflow:visible;
+      margin:0 -4px;
+    }
+    #services .services-track{
+      display:flex;
+      gap:18px;
+      overflow-x:auto;
+      overflow-y:hidden;
+      padding:18px 4px 30px;
+      scroll-snap-type:x mandatory;
+      scroll-behavior:smooth;
+      scrollbar-width:none;
+      overscroll-behavior-inline:contain;
+      -webkit-overflow-scrolling:touch;
+    }
+    #services .services-track::-webkit-scrollbar{display:none}
+    #services .services-track .s-card{
+      flex:0 0 calc((100% - 36px) / 3);
+      min-width:0;
+      scroll-snap-align:start;
+      scroll-snap-stop:always;
+    }
 
     /* Premium Neden Elçi bölümü */
     .why-elci{
@@ -916,7 +980,7 @@
     /* Mobil düzen */
     @media (max-width:1100px){
       .hero-layout{grid-template-columns:minmax(0,1.15fr) minmax(290px,.85fr);gap:34px}
-      #services .services-track{grid-template-columns:repeat(3,minmax(0,1fr))}
+      #services .services-track .s-card{flex-basis:calc((100% - 18px) / 2)}
       .brand-lockup{min-width:290px}
     }
     @media (max-width:900px){
@@ -931,7 +995,6 @@
       .hero-brand-card{min-height:0;max-width:650px;width:100%;margin:0 auto;padding:26px}
       .hero-card-logo{width:122px;height:122px;border-radius:36px}
       .hero-card-logo img{width:108px;height:108px}
-      #services .services-track{grid-template-columns:repeat(2,minmax(0,1fr))}
     }
     @media (max-width:768px){
       .header-main .container{gap:10px}
@@ -951,7 +1014,11 @@
       .brand-mark{display:none}
       .premium-hero{padding:46px 0 54px}
       .hero-brand-card{border-radius:24px}
-      #services .services-track{grid-template-columns:1fr}
+      #services .services-more{padding:20px 16px 8px;border-radius:20px}
+      #services .services-more-head{align-items:flex-end}
+      #services .scroll-btn{width:40px;height:40px}
+      #services .services-track{gap:14px;padding-top:16px}
+      #services .services-track .s-card{flex-basis:100%}
       .why-elci{padding:62px 0 66px}
       .why-elci .why-card{min-height:0}
       #insta .insta-track > *:hover,
@@ -1582,12 +1649,17 @@
         menu.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> toggleMenu(false)));
       }
 
-      // Diğer hizmetler için yatay kaydırma
+      // Diğer hizmetler: kart kart kayan, boşluksuz ve scroll-snap destekli slider
       const track=document.getElementById('servicesTrack');
       const prev=document.getElementById('svcPrev');
       const next=document.getElementById('svcNext');
       if(track && prev && next){
-        const slideBy = () => Math.max(track.clientWidth * 0.95, 300);
+        const slideBy = () => {
+          const card = track.querySelector('.s-card');
+          if(!card) return Math.max(track.clientWidth * 0.9, 300);
+          const gap = parseFloat(getComputedStyle(track).gap || '18');
+          return card.getBoundingClientRect().width + gap;
+        };
         prev.addEventListener('click', ()=> track.scrollBy({left: -slideBy(), behavior:'smooth'}));
         next.addEventListener('click', ()=> track.scrollBy({left:  slideBy(), behavior:'smooth'}));
         track.setAttribute('tabindex','0');
