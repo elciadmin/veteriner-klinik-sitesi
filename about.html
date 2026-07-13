@@ -3,189 +3,49 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Elçi Veteriner Kliniği | Hakkımızda</title>
+  <title>Hakkımızda | Elçi Veteriner Kliniği – Meram Konya</title>
 
   <!-- SEO -->
-  <meta name="description" content="Konya Elçi Veteriner Kliniği: etik, teknolojik ve şeffaf yaklaşım ile evcil hayvan sağlığı. Ekibimiz, klinik alanlarımız ve değerlerimiz.">
-  <meta property="og:title" content="Elçi Veteriner Kliniği | Hakkımızda">
-  <meta property="og:description" content="Elçi Veteriner: Sağlığın Elçileri. Ekibimiz, klinik düzenimiz, misyon ve değerlerimiz.">
-  <meta property="og:type" content="website">
+  <meta name="description" content="Elçi Veteriner Kliniği'nin kuruluş öyküsü, veteriner hekim kadrosu, klinik yaklaşımı, misyonu ve değerleri. Meram Konya'da şeffaf ve takipli veterinerlik."/>
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"/>
+  <meta name="theme-color" content="#5a1fa8"/>
+  <link rel="canonical" href="https://elciveteriner.com/about"/>
+  <link rel="alternate" hreflang="tr-TR" href="https://elciveteriner.com/about"/>
 
-  <!-- Global CSS + Icons -->
-  <link rel="stylesheet" href="/assets/css/styles.css"/>
+  <!-- Sosyal paylaşım -->
+  <meta property="og:locale" content="tr_TR"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="Elçi Veteriner Kliniği"/>
+  <meta property="og:title" content="Hakkımızda | Elçi Veteriner Kliniği"/>
+  <meta property="og:description" content="Elçi Veteriner Kliniği'nin kuruluş öyküsü, ekibi, klinik yaklaşımı ve değerleri."/>
+  <meta property="og:url" content="https://elciveteriner.com/about"/>
+  <meta property="og:image" content="https://elciveteriner.com/assets/img/uploads/elci-logo.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+
+  <!-- Netlify Identity -->
+  <script>
+    (function () {
+      var h = location.hash || '';
+      if (
+        h.startsWith('#invite_token=') ||
+        h.startsWith('#recovery_token=') ||
+        h.startsWith('#confirmation_token=')
+      ) { location.replace('/admin/' + h); }
+    })();
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/tokens.css?v=20251106"/>
+  <link rel="stylesheet" href="/assets/css/styles.css?v=20251106"/>
+
+  <!-- Ana sayfadaki imza tipi slogan -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet"/>
+
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <!-- Sayfaya özel minik kozmetik -->
   <style>
-    .breadcrumb{background:linear-gradient(180deg,#f7fbfc,#fff); border-top:1px solid #eaf2f3; border-bottom:1px solid #eaf2f3; font-size:14px}
-    .breadcrumb .container{display:flex; gap:8px; align-items:center; padding:10px 16px}
-    .breadcrumb a{font-weight:700}
-    .section-title{margin:0 0 14px}
-    .section-title h2{margin:0; font-size:clamp(22px,3.6vw,30px)}
-    .section-title p{margin:6px 0 0; color:#476265}
-
-    /* ====== METRICS (istatistikler) ====== */
-    .metrics{padding:56px 0;background:linear-gradient(180deg,#f5fbfc 0%, #f1f9f8 100%)}
-    .metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:22px}
-    .m-card{
-      background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.76));
-      border:1px solid rgba(12,78,84,.12);
-      border-radius:16px;
-      padding:16px;
-      box-shadow:0 8px 20px rgba(0,0,0,.08);
-      transition:.35s;
-      opacity:1;
-      transform:none;
-    }
-    .m-card.show{opacity:1;transform:none}
-    .m-card:hover{transform:translateY(-6px);box-shadow:0 16px 36px rgba(0,0,0,.15)}
-    .m-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-    .m-title{font-weight:800}
-    .m-ico{width:36px;height:36px;border-radius:10px;color:#fff;display:grid;place-items:center}
-    .m-num{font-weight:900;font-size:clamp(22px,4vw,32px)}
-    .m-unit{font-weight:700;margin-left:4px;opacity:.8}
-    .m-progress{height:8px;border-radius:8px;background:#eaf3f3;overflow:hidden;margin-top:10px}
-    .m-bar{height:100%;width:0;border-radius:8px;transition:width 1s ease}
-    .m-donut,.m-gauge{display:flex;justify-content:center;margin-top:8px}
-    .m-donut svg,.m-gauge svg{width:110px;height:110px}
-
-    /* ====== ABOUT blokları ====== */
-    .about-wrap{
-      display:grid;
-      grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);
-      grid-template-rows:auto auto;
-      grid-template-areas:
-        "img content"
-        "below content";
-      column-gap:26px;
-      row-gap:18px;
-      align-items:flex-start;
-    }
-    /* Ortak görsel stili */
-    .about-img{
-      border-radius:16px;
-      overflow:hidden;
-      box-shadow:0 10px 24px rgba(0,0,0,.08);
-      border:1px solid rgba(12,78,84,.12);
-    }
-    /* Sadece Elçi Kimdir bloğunda grid-area kullan */
-    .about-wrap .about-img{
-      grid-area:img;
-    }
-    .about-img img{
-      width:100%;
-      height:auto;          /* doğal oran, bozulma yok */
-      display:block;
-    }
-    .about-content{
-      grid-area:content;
-    }
-    .about-below{
-      grid-area:below;
-      font-size:15px;
-      line-height:1.7;
-      color:var(--muted);
-    }
-    .about-below p{margin:0;}
-
-    .about-features{display:grid;gap:12px;margin-top:14px}
-    .feature{display:flex;gap:12px;align-items:flex-start;background:#fbfefe;border:1px solid #e6f1f2;border-radius:12px;padding:12px}
-    .feature .ic{width:36px;height:36px;border-radius:10px;color:#fff;display:flex;align-items:center;justify-content:center}
-
-    @media(max-width:980px){
-      .about-wrap{
-        grid-template-columns:1fr;
-        grid-template-areas:
-          "img"
-          "content"
-          "below";
-      }
-      .about-img{
-        max-height:none;
-      }
-    }
-
-    /* ====== 3'lü review ====== */
-    .review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .review-card{background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:16px;box-shadow:0 8px 20px rgba(0,0,0,.04);opacity:0;transform:translateY(8px);transition:.3s}
-    .review-card.visible{opacity:1;transform:none}
-    .review-text{margin:8px 0 10px}
-    .review-author{font-weight:800}
-    .review-meta{font-size:12px;opacity:.7}
-    .stars{font-size:16px}
-    @media(max-width:980px){.review-grid{grid-template-columns:1fr}}
-
-    .mv-grid, .values-grid, .team-grid, .clinic-wrap { row-gap:18px }
-
-    .feature a:focus-visible, .clinic-wrap a:focus-visible, .cta .btn:focus-visible {
-      outline:2px solid color-mix(in srgb, var(--accent), #000 20%);
-      outline-offset:2px;
-      border-radius:12px;
-    }
-
-    /* === Hekim kartı — görsel solda, büyük === */
-    .team-grid.single-member{
-      max-width:900px;
-      margin:0 auto;
-    }
-    .member{
-      background:#fff;
-      border:1px solid #e9f1f2;
-      border-radius:16px;
-      overflow:hidden;
-      box-shadow:0 8px 20px rgba(0,0,0,.04);
-      display:flex;
-      gap:18px;
-      align-items:flex-start;
-      padding:16px;
-    }
-    .member-img{
-      flex:0 0 230px;
-      border-radius:14px;
-      overflow:hidden;
-      background:#f3f7f8;
-    }
-    .member-img img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-    .member-info{
-      flex:1;
-      padding:4px 4px 4px 0;
-    }
-    .member-info .role{
-      font-weight:700;
-      margin-bottom:4px;
-      color:var(--brand2);
-      font-size:15px;
-    }
-    .member-info h3{
-      margin:0 0 6px;
-      font-size:20px;
-    }
-    .member-info p{
-      margin:0;
-      font-size:15px;
-      color:var(--muted);
-      line-height:1.6;
-    }
-    @media(max-width:640px){
-      .member{
-        flex-direction:column;
-        padding:14px;
-      }
-      .member-img{
-        flex:0 0 auto;
-        width:100%;
-        max-height:260px;
-      }
-    }
-  </style>
-
-  <!-- === THEME OVERRIDE — Elçi Paleti === -->
-  <style id="theme-elciKonya-override">
     :root{
       --brand:#5a1fa8;
       --brand2:#36106b;
@@ -195,184 +55,292 @@
       --line:#e7edf1;
       --bg:#f7fbfc;
       --paper:#fff;
-
       --footer-start:#241043;
       --footer-end:#5a1fa8;
-
-      --hero-start:#30105f;
-      --hero-end:#27d4e8;
-
-      --icon-ink:#0a4f60;
+      --hero-start:#241043;
+      --hero-mid:#36106b;
+      --hero-end:#0f7188;
     }
 
-    .header-top{
-      background:linear-gradient(90deg, var(--brand) 0%, var(--brand2) 100%);
-      color:#fff;
-    }
-    .header-main{
-      background:linear-gradient(
-        90deg,
-        color-mix(in srgb, var(--brand), #000 8%) 0%,
-        color-mix(in srgb, var(--brand2), #000 6%) 100%
-      );
-      color:#fff;
-    }
-    nav a{ color:#eaf6f8 }
-    nav a:hover, nav a:focus{ color:#fff }
-    nav a.active, nav a[aria-current="page"]{ color:#c0f3ff }
-    nav a::after{ background:#c0f3ff }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:110px}
+    body{margin:0;color:var(--ink);background:#fff}
+    img{max-width:100%}
+    .container{max-width:1180px;margin:0 auto;padding:0 16px}
+    .skip-link{position:fixed;left:16px;top:-80px;z-index:9999;padding:10px 14px;border-radius:10px;background:#fff;color:var(--brand2);font-weight:800;box-shadow:0 10px 30px rgba(0,0,0,.22)}
+    .skip-link:focus{top:14px}
 
-    .header-main .logo-text{
-      display:flex; flex-direction:column; gap:2px;
-      padding:8px 12px; border-radius:14px;
-      background:linear-gradient(90deg, rgba(0,0,0,.24), rgba(0,0,0,.10));
-      box-shadow:0 6px 18px rgba(0,0,0,.18);
-      -webkit-backdrop-filter:saturate(120%) blur(1px);
-      backdrop-filter:saturate(120%) blur(1px);
-    }
-    .header-main .logo-text h1{ color:#fff; margin:0; text-shadow:0 2px 10px rgba(0,0,0,.35); letter-spacing:.2px }
-    .header-main .logo-text span{ color:#e8fbff; opacity:.96; text-shadow:0 1px 8px rgba(0,0,0,.3) }
+    .header-top{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff}
+    .header-main{background:linear-gradient(90deg,color-mix(in srgb,var(--brand),#000 8%),color-mix(in srgb,var(--brand2),#000 6%));color:#fff}
+    nav a{color:#eaf6f8}
+    nav a:hover,nav a:focus{color:#fff}
+    nav a.active,nav a[aria-current="page"]{color:#c0f3ff}
+    nav a::after{background:#c0f3ff}
 
-    .hero{
-      background:
-        radial-gradient(1400px 700px at 85% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
-        linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%) !important;
-      color:#fff;
+    /* Ana sayfayla aynı kurumsal marka kilidi */
+    .header-main .logo-text{padding:0;border-radius:18px;background:transparent;box-shadow:none;backdrop-filter:none}
+    .brand-lockup{
+      display:flex;align-items:center;gap:12px;min-width:320px;padding:9px 14px 9px 10px;
+      border:1px solid rgba(255,255,255,.20);border-radius:18px;
+      background:linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.045));
+      box-shadow:0 12px 32px rgba(18,5,43,.28),inset 0 1px 0 rgba(255,255,255,.16);
+      color:#fff;text-decoration:none;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
     }
-    .hero h1{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.22) }
-    .hero .hero-sub{ color:#e8fbff; opacity:.98 }
-    .hero .btn{ border-color:transparent }
-    .hero .btn.ghost{ background:#ffffff1a; color:#fff }
-    .hero .btn.ghost:hover{ background:#ffffff2b }
+    .brand-lockup:hover{transform:translateY(-2px);border-color:rgba(192,243,255,.54);box-shadow:0 16px 38px rgba(18,5,43,.34),inset 0 1px 0 rgba(255,255,255,.20)}
+    .brand-mark{width:54px;height:54px;flex:0 0 54px;display:grid;place-items:center;border-radius:16px;background:linear-gradient(145deg,#fff,#e9faff);box-shadow:0 8px 22px rgba(0,0,0,.22);overflow:hidden}
+    .brand-mark img{width:48px;height:48px;object-fit:contain}
+    .brand-copy{display:flex;flex-direction:column;line-height:1.05}
+    .brand-copy strong{color:#fff;font-size:1.24rem;letter-spacing:.15px;text-shadow:0 2px 10px rgba(0,0,0,.32)}
 
-    .breadcrumb a{ color:var(--brand) }
+    .signature-tagline{
+      position:relative;display:inline-block;width:max-content;
+      font-family:"Great Vibes","Segoe Script","Brush Script MT",cursive;
+      font-weight:400;font-style:normal;letter-spacing:.006em;line-height:.94;
+      transform:rotate(-1.7deg);transform-origin:left center;
+      text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;
+    }
+    .signature-tagline::after{
+      content:"";position:absolute;left:10%;width:96%;bottom:-.18em;height:2px;border-radius:999px;
+      background:linear-gradient(90deg,transparent 0%,currentColor 14%,currentColor 78%,transparent 100%);
+      opacity:.72;transform:skewX(-24deg) rotate(-1deg);transform-origin:left center;box-shadow:0 1px 5px rgba(0,0,0,.18)
+    }
+    .header-signature{margin-top:7px;color:#dffaff!important;font-size:1.32rem;letter-spacing:.01em;text-shadow:0 2px 10px rgba(0,0,0,.30)}
 
     .btn{
-      color:var(--brand);
-      border:1px solid var(--line);
-      background:#fff;
-      transition:background-position .35s ease, box-shadow .2s ease, transform .2s ease, color .15s ease;
+      color:var(--brand);border:1px solid var(--line);background:#fff;padding:12px 24px;border-radius:999px;
+      font-weight:700;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;
+      transition:background-position .35s ease,box-shadow .2s ease,transform .2s ease,color .15s ease,border-color .15s ease;
     }
-    .btn:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,.08) }
-    .btn:active{ transform:translateY(0) }
-    .btn.primary{
-      background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
-      color:#fff !important; border:0;
-      box-shadow:0 8px 22px rgba(16,179,209,.22);
-      background-size:200% 100%;
-      background-position:0% 0%;
-    }
-    .btn.primary:hover{ background-position:100% 0%; box-shadow:0 12px 28px rgba(16,179,209,.28) }
+    .btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
+    .btn.primary{background:linear-gradient(90deg,var(--brand),var(--accent));color:#fff!important;border:0;box-shadow:0 8px 22px rgba(16,179,209,.22);background-size:200% 100%}
+    .btn.primary:hover{background-position:100% 0%;box-shadow:0 12px 28px rgba(16,179,209,.28)}
+    .btn.ghost{background:#ffffff16;color:#fff;border-color:#ffffff70}
+    .btn.ghost:hover{background:#ffffff28;border-color:#ffffffb0}
 
-    .feature .ic,
-    .m-ico{
-      background:linear-gradient(135deg, var(--brand), var(--brand2)) !important;
+    /* Premium Hakkımızda hero */
+    .about-hero{
+      position:relative;overflow:hidden;padding:70px 0 78px;color:#fff;
+      background:
+        radial-gradient(800px 520px at 92% 12%,rgba(39,212,232,.34),transparent 62%),
+        radial-gradient(620px 420px at 5% 95%,rgba(133,73,214,.28),transparent 65%),
+        linear-gradient(125deg,var(--hero-start) 0%,var(--hero-mid) 42%,var(--hero-end) 100%);
     }
-    .stars{ color:#f5b100 }
+    .about-hero::before{content:"";position:absolute;inset:-36%;background:radial-gradient(circle at 0 0,rgba(255,255,255,.08),transparent 55%),radial-gradient(circle at 100% 100%,rgba(255,255,255,.11),transparent 55%);opacity:.65;pointer-events:none}
+    .about-hero::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.25;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(90deg,#000,transparent 84%)}
+    .hero-layout{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(310px,.75fr);align-items:center;gap:52px}
+    .hero-copy{max-width:760px}
+    .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;margin:0 0 18px;padding:8px 13px;border:1px solid rgba(255,255,255,.23);border-radius:999px;background:rgba(255,255,255,.10);color:#e8fbff;font-size:.88rem;font-weight:800;letter-spacing:.25px}
+    .hero-copy h1{margin:0;font-size:clamp(44px,6vw,72px);line-height:1.02;letter-spacing:-1.4px;color:#fff;text-shadow:0 3px 20px rgba(0,0,0,.26);text-wrap:balance}
+    .hero-signature{margin:17px 0 17px;color:#e2fbff;font-size:clamp(2.35rem,4.2vw,3.75rem);text-shadow:0 4px 18px rgba(0,0,0,.28)}
+    .hero-divider{width:104px;height:3px;margin:24px 0 22px;border-radius:999px;background:linear-gradient(90deg,var(--accent),#fff)}
+    .hero-sub{max-width:720px;margin:0 0 28px;color:#eafcff;font-size:1.08rem;line-height:1.75}
+    .hero-cta{display:flex;flex-wrap:wrap;gap:11px}
+    .hero-notice{display:flex;align-items:center;gap:8px;margin:18px 0 0;color:#e8fbff;font-size:.91rem}
 
-    .m-progress{ background:#e9f4f7 }
-    .m-bar{ background:linear-gradient(90deg, var(--brand), var(--accent)) }
-    .metrics .m-card{ border-color: color-mix(in srgb, var(--brand), #fff 85%) }
-    .metrics svg defs stop[offset="0%"]{ stop-color: var(--brand) }
-    .metrics svg defs stop[offset="100%"]{ stop-color: var(--accent) }
+    .about-hero-card{
+      position:relative;isolation:isolate;min-height:410px;display:flex;flex-direction:column;justify-content:center;
+      padding:32px 30px;border:1px solid rgba(255,255,255,.26);border-radius:32px;
+      background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.07));
+      box-shadow:0 30px 70px rgba(8,4,26,.34),inset 0 1px 0 rgba(255,255,255,.22);
+      backdrop-filter:blur(14px) saturate(125%);overflow:hidden;
+    }
+    .about-hero-card::before{content:"";position:absolute;inset:1px;z-index:-2;border-radius:31px;background:radial-gradient(circle at 50% 0,rgba(255,255,255,.18),transparent 52%)}
+    .brand-orbit{position:absolute;top:-95px;right:-92px;width:260px;height:260px;z-index:-1;border:1px solid rgba(191,247,255,.24);border-radius:50%;box-shadow:0 0 0 28px rgba(191,247,255,.055),0 0 0 58px rgba(191,247,255,.035)}
+    .about-card-logo{width:112px;height:112px;display:grid;place-items:center;margin:0 0 20px;border-radius:32px;background:linear-gradient(145deg,#fff,#e8fbff);box-shadow:0 18px 40px rgba(0,0,0,.26),inset 0 1px 0 #fff;transform:rotate(-2deg)}
+    .about-card-logo img{width:96px;height:96px;object-fit:contain}
+    .about-card-kicker{margin:0 0 7px;color:#d9faff;font-size:.78rem;font-weight:800;letter-spacing:1.2px;text-transform:uppercase}
+    .about-card-title{display:block;margin:0 0 18px;color:#fff;font-size:clamp(1.55rem,2.6vw,2.15rem);line-height:1.15}
+    .about-card-list{display:grid;gap:11px;color:#e8fbff;font-size:.94rem}
+    .about-card-list span{display:flex;align-items:flex-start;gap:10px;padding-top:11px;border-top:1px solid rgba(255,255,255,.13)}
+    .about-card-list i{width:22px;margin-top:2px;color:#a8f5ff}
 
-    .team-grid .role{ color: var(--brand2) !important }
-    .clinic-wrap .pill i{ color: var(--icon-ink) !important }
+    .breadcrumb{background:linear-gradient(180deg,#f7fbfc,#fff);border-bottom:1px solid #e7edf1;font-size:14px}
+    .breadcrumb .container{display:flex;gap:8px;align-items:center;padding-top:11px;padding-bottom:11px}
+    .breadcrumb a{color:var(--brand);font-weight:800;text-decoration:none}
 
-    footer.footer-new{
-      background:linear-gradient(135deg, var(--footer-start), var(--footer-end));
-      color:#eaffff;
-    }
-    .footer-links a, .footer-contact a{ color:#eaffff }
-    .footer-bottom{ background:rgba(0,0,0,.18) }
+    .section{padding:72px 0}
+    .section-soft{background:linear-gradient(180deg,#f8fbfd,#f3f8fa)}
+    .section-dark{position:relative;overflow:hidden;background:linear-gradient(135deg,#241043,#36106b 58%,#0f7188);color:#fff}
+    .section-head{max-width:820px;margin-bottom:30px}
+    .section-kicker{display:inline-flex;align-items:center;gap:8px;margin:0 0 11px;color:var(--brand);font-size:.78rem;font-weight:900;letter-spacing:1.25px;text-transform:uppercase}
+    .section-dark .section-kicker{color:#9ef5ff}
+    .section-head h2{position:relative;display:inline-block;margin:0;color:var(--ink);font-size:clamp(30px,4.4vw,46px);line-height:1.12;letter-spacing:-.7px}
+    .section-dark .section-head h2{color:#fff}
+    .section-head h2::after{content:"";position:absolute;left:0;bottom:-11px;width:80px;height:3px;border-radius:999px;background:linear-gradient(90deg,var(--brand),var(--accent))}
+    .section-dark .section-head h2::after{background:linear-gradient(90deg,var(--accent),#fff)}
+    .section-head p{margin:24px 0 0;color:var(--muted);font-size:1rem;line-height:1.75}
+    .section-dark .section-head p{color:#def8fb}
 
-    .social-links a svg{ width:20px; height:20px; display:block }
-    .social-links a{ color:#eaffff; opacity:.95 }
-    .social-links a:hover{ opacity:1 }
-  </style>
+    /* Elçi'nin öyküsü */
+    .story-grid{display:grid;grid-template-columns:minmax(320px,.86fr) minmax(0,1.14fr);gap:34px;align-items:start}
+    .story-visual{position:sticky;top:124px}
+    .story-image{position:relative;padding:12px;border:1px solid #e3eaf0;border-radius:28px;background:#fff;box-shadow:0 22px 55px rgba(34,16,73,.14)}
+    .story-image::before{content:"";position:absolute;inset:-14px 16px 14px -14px;z-index:-1;border-radius:31px;background:linear-gradient(145deg,rgba(90,31,168,.14),rgba(39,212,232,.16))}
+    .story-image img{width:100%;display:block;border-radius:20px;aspect-ratio:1/1;object-fit:cover}
+    .story-caption{display:flex;align-items:center;gap:10px;margin:18px 0 0;padding:15px 17px;border:1px solid #e6edf1;border-radius:16px;background:#fff;color:var(--muted);box-shadow:0 12px 28px rgba(0,0,0,.06)}
+    .story-caption i{color:var(--brand);font-size:1.2rem}
+    .story-copy{padding:4px 0}
+    .story-copy h3{margin:0 0 18px;font-size:clamp(25px,3.5vw,35px);line-height:1.2;color:var(--ink)}
+    .story-copy p{margin:0 0 16px;color:#40515b;font-size:1rem;line-height:1.82}
+    .story-copy strong{color:var(--brand2)}
+    .principles-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-top:26px}
+    .principle{padding:17px 15px;border:1px solid #e5ebef;border-radius:17px;background:linear-gradient(145deg,#fff,#f8fbfd);box-shadow:0 10px 26px rgba(0,0,0,.055);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+    .principle:hover{transform:translateY(-4px);border-color:rgba(90,31,168,.23);box-shadow:0 16px 34px rgba(49,25,93,.11)}
+    .principle-icon{width:43px;height:43px;display:grid;place-items:center;margin-bottom:12px;border-radius:14px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 10px 20px rgba(54,16,107,.22)}
+    .principle strong{display:block;margin-bottom:5px;color:var(--ink)}
+    .principle span{color:var(--muted);font-size:.91rem;line-height:1.55}
 
-  <!-- Kart detay paneli için ekstra stil -->
-  <style>
-    .info-panel{
-      position:fixed;
-      inset:0;
-      z-index:1200;
-      display:none;
-      align-items:flex-end;
-      justify-content:center;
-      background:rgba(10,18,26,.38);
-      -webkit-backdrop-filter:blur(4px);
-      backdrop-filter:blur(4px);
-    }
-    .info-panel.open{ display:flex; }
+    /* Gerçek ve doğrulanabilir güven bilgileri */
+    .facts-wrap{position:relative;z-index:1}
+    .facts-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+    .fact-card{position:relative;overflow:hidden;min-height:170px;padding:24px 22px;border:1px solid rgba(255,255,255,.20);border-radius:22px;background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.065));box-shadow:0 18px 44px rgba(0,0,0,.17);backdrop-filter:blur(12px)}
+    .fact-card::after{content:"";position:absolute;right:-36px;bottom:-46px;width:120px;height:120px;border-radius:50%;background:rgba(39,212,232,.09)}
+    .fact-icon{width:46px;height:46px;display:grid;place-items:center;margin-bottom:17px;border:1px solid rgba(255,255,255,.25);border-radius:15px;background:rgba(255,255,255,.12);color:#b7f8ff;font-size:1.15rem}
+    .fact-value{display:block;margin-bottom:6px;color:#fff;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:900;line-height:1}
+    .fact-label{color:#daf8fb;font-size:.93rem;line-height:1.5}
 
-    .info-panel-backdrop{
-      position:absolute;
-      inset:0;
-    }
+    /* Ekip */
+    .member-card{display:grid;grid-template-columns:minmax(260px,.72fr) minmax(0,1.28fr);gap:0;overflow:hidden;border:1px solid #e5ebef;border-radius:28px;background:#fff;box-shadow:0 24px 58px rgba(44,21,83,.13)}
+    .member-photo{position:relative;min-height:520px;background:linear-gradient(145deg,#edf5f8,#e5edf2)}
+    .member-photo img{width:100%;height:100%;display:block;object-fit:cover}
+    .member-photo::after{content:"";position:absolute;inset:auto 0 0;height:42%;background:linear-gradient(transparent,rgba(20,8,43,.54))}
+    .member-badge{position:absolute;z-index:2;left:20px;bottom:20px;right:20px;padding:14px 16px;border:1px solid rgba(255,255,255,.28);border-radius:17px;background:rgba(29,11,61,.62);backdrop-filter:blur(10px);color:#fff}
+    .member-badge small{display:block;margin-bottom:4px;color:#c7f8ff;font-weight:800;letter-spacing:.5px;text-transform:uppercase}
+    .member-badge strong{font-size:1.15rem}
+    .member-content{padding:36px 38px}
+    .member-role{display:inline-flex;align-items:center;gap:8px;margin-bottom:13px;padding:7px 11px;border-radius:999px;background:#f0e9fb;color:var(--brand2);font-size:.82rem;font-weight:900}
+    .member-content h3{margin:0 0 18px;font-size:clamp(27px,3.5vw,38px);line-height:1.15}
+    .member-content p{margin:0 0 15px;color:#44545e;line-height:1.78}
+    .member-focus{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin:24px 0 0}
+    .focus-pill{padding:13px 12px;border:1px solid #e5ebef;border-radius:14px;background:#f8fbfd;color:#384b55;font-size:.89rem;font-weight:750;text-align:center}
+    .team-cta{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:18px;padding:19px 21px;border:1px solid rgba(90,31,168,.16);border-radius:18px;background:linear-gradient(135deg,#f4effb,#eefbfc)}
+    .team-cta strong{color:var(--brand2)}
+    .team-cta-actions{display:flex;flex-wrap:wrap;gap:9px}
 
-    .info-panel-body{
-      position:relative;
-      width:100%;
-      max-width:540px;
-      margin:0 auto 18px;
-      background:var(--paper, #fff);
-      color:var(--ink, #111822);
-      border-radius:20px;
-      box-shadow:0 20px 60px rgba(0,0,0,.35);
-      padding:20px 20px 18px;
-      transform:translateY(24px);
-      opacity:0;
-      transition:opacity .25s ease, transform .25s ease;
-    }
-    .info-panel.open .info-panel-body{
-      transform:translateY(0);
-      opacity:1;
-    }
-    .info-panel-title{
-      font-size:20px;
-      font-weight:800;
-      margin:0 0 8px;
-    }
-    .info-panel-text{
-      margin:0;
-      font-size:15px;
-      line-height:1.6;
-      color:var(--muted, #5f6b74);
-    }
-    .info-panel-close{
-      position:absolute;
-      top:10px;
-      right:10px;
-      width:32px;
-      height:32px;
-      border-radius:999px;
-      border:1px solid rgba(0,0,0,.08);
-      background:#f7fbfc;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      cursor:pointer;
-      font-size:18px;
-      color:var(--muted, #5f6b74);
-    }
-    .info-panel-close:hover{
-      background:#edf5f7;
-    }
+    /* Klinik */
+    .clinic-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(330px,.82fr);gap:32px;align-items:start}
+    .clinic-copy h3{margin:0 0 16px;font-size:clamp(25px,3.5vw,36px)}
+    .clinic-copy p{margin:0 0 18px;color:#43535d;line-height:1.8}
+    .clinic-lists{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+    .clinic-list{padding:20px;border:1px solid #e5ebef;border-radius:19px;background:#fff;box-shadow:0 12px 30px rgba(0,0,0,.055)}
+    .clinic-list h4{display:flex;align-items:center;gap:9px;margin:0 0 13px;color:var(--brand2);font-size:1rem}
+    .clinic-list ul{display:grid;gap:9px;margin:0;padding:0;list-style:none;color:#4e5f68;font-size:.93rem}
+    .clinic-list li{display:flex;gap:8px;align-items:flex-start}
+    .clinic-list li::before{content:"✓";color:var(--brand);font-weight:900}
+    .clinic-standard{position:sticky;top:124px;padding:27px;border-radius:27px;background:linear-gradient(145deg,#2b1051,#4f1d92 60%,#12798e);color:#fff;box-shadow:0 26px 62px rgba(37,15,73,.27);overflow:hidden}
+    .clinic-standard::before{content:"";position:absolute;top:-80px;right:-70px;width:230px;height:230px;border-radius:50%;border:1px solid rgba(255,255,255,.15);box-shadow:0 0 0 28px rgba(255,255,255,.035),0 0 0 56px rgba(255,255,255,.025)}
+    .clinic-standard h3{position:relative;margin:0 0 8px;font-size:1.6rem}
+    .clinic-standard > p{position:relative;margin:0 0 20px;color:#dff9fc;line-height:1.65}
+    .standard-list{position:relative;display:grid;gap:11px}
+    .standard-item{display:flex;align-items:flex-start;gap:12px;padding:13px;border:1px solid rgba(255,255,255,.14);border-radius:15px;background:rgba(255,255,255,.075)}
+    .standard-item i{width:26px;color:#a8f6ff;margin-top:2px}
+    .standard-item strong{display:block;margin-bottom:3px}
+    .standard-item span{color:#d9f4f7;font-size:.87rem;line-height:1.45}
 
-    @media(min-width:900px){
-      .info-panel{
-        align-items:center;
-      }
-      .info-panel-body{
-        margin-bottom:0;
-      }
+    /* Misyon, vizyon, değerler */
+    .mv-grid{display:grid;grid-template-columns:1fr 1fr;gap:17px}
+    .mv-card,.value-card{position:relative;overflow:hidden;padding:28px;border:1px solid #e3eaf0;border-radius:24px;background:#fff;box-shadow:0 16px 38px rgba(32,15,66,.08);cursor:pointer;transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease}
+    .mv-card:hover,.value-card:hover,.mv-card:focus-visible,.value-card:focus-visible{transform:translateY(-6px);border-color:rgba(90,31,168,.25);box-shadow:0 24px 48px rgba(44,21,83,.14);outline:none}
+    .mv-number{position:absolute;right:18px;top:6px;color:rgba(90,31,168,.075);font-size:5.4rem;font-weight:900;line-height:1}
+    .card-icon{width:54px;height:54px;display:grid;place-items:center;margin-bottom:18px;border-radius:17px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;font-size:1.3rem;box-shadow:0 12px 26px rgba(54,16,107,.23)}
+    .mv-card h3,.value-card h3{position:relative;margin:0 0 10px;font-size:1.35rem}
+    .mv-card p,.value-card p{position:relative;margin:0;color:#53636c;line-height:1.65}
+    .card-read{display:inline-flex;align-items:center;gap:7px;margin-top:16px;color:var(--brand);font-size:.87rem;font-weight:850}
+    .values-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
+
+    /* Yorumlar */
+    .review-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+    .review-card{background:#fff;border:1px solid #e5ebef;border-radius:20px;padding:20px;box-shadow:0 14px 32px rgba(0,0,0,.065);opacity:1;transform:none}
+    .review-text{margin:10px 0 13px;color:#43545e;line-height:1.65}
+    .review-author{font-weight:850;color:var(--ink)}
+    .review-meta{margin-top:4px;font-size:.76rem;color:#7a878e}
+    .stars{color:#f5b100;font-size:1rem;letter-spacing:1px}
+
+    .final-cta{padding:34px;border:1px solid rgba(90,31,168,.17);border-radius:27px;background:linear-gradient(135deg,#f1eafa,#eefcfd);display:flex;align-items:center;justify-content:space-between;gap:24px;box-shadow:0 18px 40px rgba(37,17,76,.09)}
+    .final-cta h2{margin:0 0 7px;font-size:clamp(25px,3.2vw,36px)}
+    .final-cta p{margin:0;color:#56666f}
+    .final-cta-actions{display:flex;flex-wrap:wrap;gap:10px;flex:0 0 auto}
+
+    footer.footer-new{background:linear-gradient(135deg,var(--footer-start),var(--footer-end));color:#eaffff}
+    .footer-links a,.footer-contact a{color:#eaffff}
+    .footer-bottom{background:rgba(0,0,0,.18)}
+    .social-links a svg{width:20px;height:20px;display:block}
+    .social-links a{color:#eaffff;opacity:.95}
+    .social-links a:hover{opacity:1}
+
+    .mobile-contact-bar{display:none}
+
+    /* Detay paneli */
+    .info-panel{position:fixed;inset:0;z-index:1200;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(10,18,26,.46);backdrop-filter:blur(5px)}
+    .info-panel.open{display:flex}
+    .info-panel-backdrop{position:absolute;inset:0}
+    .info-panel-body{position:relative;width:100%;max-width:600px;padding:28px 27px 25px;border:1px solid rgba(90,31,168,.13);border-radius:24px;background:#fff;color:var(--ink);box-shadow:0 24px 70px rgba(0,0,0,.34);transform:translateY(18px);opacity:0;transition:opacity .22s ease,transform .22s ease}
+    .info-panel.open .info-panel-body{transform:none;opacity:1}
+    .info-panel-title{margin:0 42px 10px 0;font-size:1.55rem}
+    .info-panel-text{margin:0;color:var(--muted);font-size:.98rem;line-height:1.75}
+    .info-panel-close{position:absolute;right:14px;top:14px;width:36px;height:36px;border:1px solid #e3e9ed;border-radius:50%;background:#f7fbfc;color:var(--muted);font-size:1.25rem;cursor:pointer}
+
+    @media(max-width:1100px){
+      .brand-lockup{min-width:290px}
+      .hero-layout{grid-template-columns:1fr;gap:32px}
+      .hero-copy{text-align:center;margin:0 auto}
+      .hero-copy .hero-eyebrow,.hero-signature{margin-left:auto;margin-right:auto}
+      .hero-divider{margin-left:auto;margin-right:auto}
+      .hero-sub{margin-left:auto;margin-right:auto}
+      .hero-cta{justify-content:center}
+      .hero-notice{justify-content:center}
+      .about-hero-card{min-height:auto;max-width:720px;width:100%;margin:0 auto}
+      .facts-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .story-grid,.clinic-grid{grid-template-columns:1fr}
+      .story-visual,.clinic-standard{position:relative;top:auto}
+      .story-visual{max-width:650px}
+    }
+    @media(max-width:900px){
+      .member-card{grid-template-columns:1fr}
+      .member-photo{min-height:440px;max-height:560px}
+      .values-grid{grid-template-columns:1fr}
+      .review-grid{grid-template-columns:1fr}
+      .final-cta{align-items:flex-start;flex-direction:column}
+      .final-cta-actions{width:100%}
+      .final-cta-actions .btn{flex:1}
+    }
+    @media(max-width:768px){
+      .about-hero{padding:58px 0 64px}
+      .section{padding:58px 0}
+      .brand-lockup{min-width:0;padding:8px 10px}
+      .brand-mark{width:47px;height:47px;flex-basis:47px;border-radius:14px}
+      .brand-mark img{width:42px;height:42px}
+      .brand-copy strong{font-size:1.02rem}
+      .header-signature{font-size:1.18rem}
+      .hero-copy h1{font-size:clamp(38px,11vw,55px)}
+      .hero-signature{font-size:clamp(2.25rem,10vw,3.15rem)}
+      .principles-grid,.member-focus,.clinic-lists,.mv-grid{grid-template-columns:1fr}
+      .member-content{padding:28px 24px}
+      .team-cta{align-items:flex-start;flex-direction:column}
+      .mobile-contact-bar{position:fixed;left:10px;right:10px;bottom:10px;z-index:1050;display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:7px;border:1px solid rgba(255,255,255,.25);border-radius:18px;background:rgba(30,10,63,.92);box-shadow:0 16px 42px rgba(0,0,0,.30);backdrop-filter:blur(14px)}
+      .mobile-contact-bar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:54px;border-radius:12px;background:rgba(255,255,255,.12);color:#fff;text-decoration:none;font-size:.72rem;font-weight:800}
+      .mobile-contact-bar a:nth-child(2){background:linear-gradient(135deg,var(--brand),#7841c3)}
+      body{padding-bottom:82px}
+    }
+    @media(max-width:560px){
+      .facts-grid{grid-template-columns:1fr}
+      .story-image img{aspect-ratio:4/3}
+      .about-hero-card{padding:26px 22px;border-radius:26px}
+      .about-card-logo{width:92px;height:92px;border-radius:27px}
+      .about-card-logo img{width:78px;height:78px}
+      .hero-cta .btn{width:100%}
+      .team-cta-actions,.team-cta-actions .btn{width:100%}
+      .final-cta-actions{flex-direction:column}
+      .final-cta-actions .btn{width:100%}
+    }
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
     }
   </style>
 </head>
-<body>
+<body class="theme-elciKonya" data-page="about">
+  <a class="skip-link" href="#ana-icerik">Ana içeriğe geç</a>
 
-  <!-- ===== SABİT HEADER ===== -->
   <header>
     <div class="header-top">
       <div class="container">
@@ -380,7 +348,7 @@
           <span><i class="fa-solid fa-location-dot"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</span>
         </div>
         <div class="header-contact">
-          <a href="tel:03323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a>
+          <a href="tel:+903323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a>
           <a href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> elcivetklinik@gmail.com</a>
         </div>
       </div>
@@ -389,18 +357,25 @@
     <div class="header-main">
       <div class="container">
         <div class="logo-text">
-          <h1>Elçi Veteriner Kliniği</h1>
-          <span>Sağlığın Elçi'leriyiz</span>
+          <a class="brand-lockup" href="/" aria-label="Elçi Veteriner Kliniği ana sayfa">
+            <span class="brand-mark" aria-hidden="true">
+              <img src="/assets/img/uploads/elci-logo.png?v=3" alt="" width="54" height="54" loading="eager" decoding="async">
+            </span>
+            <span class="brand-copy">
+              <strong>Elçi Veteriner Kliniği</strong>
+              <span class="signature-tagline header-signature">Sağlığın Elçi’leriyiz</span>
+            </span>
+          </a>
         </div>
 
         <nav aria-label="Birincil">
-          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç/kapat">
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç/kapat" aria-expanded="false" aria-controls="mainMenu">
             <i class="fa-solid fa-bars"></i>
           </button>
           <ul id="mainMenu">
-            <li><a href="/index.html">Ana Sayfa</a></li>
+            <li><a href="/">Ana Sayfa</a></li>
             <li class="dropdown">
-              <a href="/about.html" class="active" aria-current="page" aria-haspopup="true" aria-expanded="true">Hakkımızda</a>
+              <a href="/about" class="active" aria-current="page" aria-haspopup="true" aria-expanded="false">Hakkımızda</a>
               <div class="dropdown-content" role="menu">
                 <a href="#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
                 <a href="#ekibimiz" role="menuitem">Ekibimiz</a>
@@ -410,679 +385,342 @@
               </div>
             </li>
             <li class="dropdown">
-              <a href="/hizmetler.html">Hizmetlerimiz</a>
-              <div class="dropdown-content">
-                <a href="/hizmetler.html#acil">Acil Veteriner</a>
-                <a href="/hizmetler.html#koruyucu">Koruyucu Hekimlik</a>
-                <a href="/hizmetler.html#cerrahi">Cerrahi Operasyonlar</a>
-                <a href="/hizmetler.html#agiz-dis">Ağız ve Diş Sağlığı</a>
-                <a href="/hizmetler.html#ic-hastaliklari">İç Hastalıkları</a>
-                <a href="/hizmetler.html#fizik-tedavi">Fizik Tedavi</a>
-                <a href="/hizmetler.html#konaklama">Konaklama</a>
+              <a href="/hizmetler.html" aria-haspopup="true" aria-expanded="false">Hizmetlerimiz</a>
+              <div class="dropdown-content" role="menu">
+                <a href="/hizmetler.html#acil" role="menuitem">Acil Veteriner</a>
+                <a href="/hizmetler.html#koruyucu" role="menuitem">Koruyucu Hekimlik</a>
+                <a href="/hizmetler.html#cerrahi" role="menuitem">Cerrahi Operasyonlar</a>
+                <a href="/hizmetler.html#agiz-dis" role="menuitem">Ağız ve Diş Sağlığı</a>
+                <a href="/hizmetler.html#ic-hastaliklari" role="menuitem">İç Hastalıkları</a>
+                <a href="/hizmetler.html#fizik-tedavi" role="menuitem">Fizik Tedavi</a>
+                <a href="/hizmetler.html#konaklama" role="menuitem">Konaklama</a>
               </div>
             </li>
             <li><a href="/blog.html">Blog</a></li>
             <li class="dropdown">
-              <a href="/sss.html">SSS</a>
-              <div class="dropdown-content">
-                <a href="/sss.html#fiyat">Fiyat &amp; Ödeme</a>
-                <a href="/sss.html#surec">Hizmet Süreçleri</a>
-                <a href="/sss.html#acil">Acil Durumlar</a>
+              <a href="/sss.html" aria-haspopup="true" aria-expanded="false">SSS</a>
+              <div class="dropdown-content" role="menu">
+                <a href="/sss.html#fiyat" role="menuitem">Fiyat &amp; Ödeme</a>
+                <a href="/sss.html#surec" role="menuitem">Hizmet Süreçleri</a>
+                <a href="/sss.html#acil" role="menuitem">Acil Durumlar</a>
               </div>
             </li>
             <li class="dropdown">
-              <a href="/hasta-iliskileri.html">Hasta İlişkileri</a>
-              <div class="dropdown-content">
-                <a href="/hasta-iliskileri.html#online-randevu">Online Randevu</a>
-                <a href="/hasta-iliskileri.html#memnuniyet-anketi">Memnuniyet Anketi</a>
-                <a href="/hasta-iliskileri.html#basari-hikayeleri">Başarı Hikayeleri</a>
-                <a href="/hasta-iliskileri.html#sikayet-oneri">Şikayet &amp; Öneri</a>
+              <a href="/hasta-iliskileri.html" aria-haspopup="true" aria-expanded="false">Hasta İlişkileri</a>
+              <div class="dropdown-content" role="menu">
+                <a href="/hasta-iliskileri.html#online-randevu" role="menuitem">Online Randevu</a>
+                <a href="/hasta-iliskileri.html#memnuniyet-anketi" role="menuitem">Memnuniyet Anketi</a>
+                <a href="/hasta-iliskileri.html#basari-hikayeleri" role="menuitem">Başarı Hikayeleri</a>
+                <a href="/hasta-iliskileri.html#sikayet-oneri" role="menuitem">Şikayet &amp; Öneri</a>
               </div>
             </li>
           </ul>
         </nav>
-
       </div>
     </div>
   </header>
 
-  <!-- ===== HERO ===== -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-center">
-        <div class="hero-icon">
-          <img class="hero-logo" src="/assets/img/uploads/elci-logo.png?v=3" alt="Elçi Veteriner Kliniği Logosu" width="96" height="96" loading="eager" decoding="async">
-        </div>
-        <h1>Hakkımızda</h1>
-        <div class="hero-divider" role="presentation"></div>
-        <p class="hero-sub">2023'ten bu yana Konya'da evcil dostlarınız için; etik, teknolojik ve şeffaf bir veterinerlik hizmeti sunuyoruz.</p>
-        <div class="hero-cta">
-          <a class="btn primary" href="/hasta-iliskileri.html#online-randevu">Randevu Al</a>
-          <a class="btn ghost" href="#elci-kimdir">Elçi Kimdir?</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- BREADCRUMB -->
-  <div class="breadcrumb" aria-label="İçerik yolu">
-    <div class="container">
-      <a href="/index.html">Ana Sayfa</a>
-      <span>›</span>
-      <span>Hakkımızda</span>
-    </div>
-  </div>
-
-  <!-- ELÇİ KİMDİR -->
-  <section id="elci-kimdir" class="section">
-    <div class="container">
-      <div class="section-title">
-        <h2>Elçi Kimdir?</h2>
-        <p>Elçi isminin anlamı ve temsil ettiği yaklaşım</p>
-      </div>
-
-      <div class="about-wrap">
-        <figure class="about-img" aria-hidden="true">
-          <!-- BURASI YENİ GÖRSELİN YOLU - JavaScript ile dinamik yükleme -->
-          <img id="elci-main-image"
-               src="/assets/img/uploads/konyan%C4%B1n%20en%20iyi%20veteriner%20klini%C4%9Finin%20logo%20esinlenmesi.png?v=3"
-               alt="Elçi Veteriner Kliniği için hazırlanan konsept görsel"
-               loading="lazy"
-               decoding="async">
-        </figure>
-
-        <div class="about-content">
-          <h3>Sağlıkta Elçi Olma Sorumluluğu</h3>
-          <p>Veteriner hekimlik, insan ve hayvanın ilk temas anından itibaren insanlığa ve yaşama hizmet etmiş olan multidisipliner bir meslektir. İnsanlığın kadim tarihinden bu yana çeşitli amaçlar için yetiştirilen hayvanların sağlığı için gerekli olan bilgi ve beceriyi bünyesinde barındıran veteriner hekimler, bugün ve gelecekte de aynı özveriyle hizmet etmeye devam edecektir.</p>
-          <p>İnsanlık ile hayvanlar âlemi arasında etkin, doğru ve başarılı bir tedavi sürecinin yürütülmesinde görev alan veteriner hekimler; tıp ilminin uygulanmasında insanlığın <strong>"Elçileri"</strong> olarak hareket ederler. Elçi Veteriner Kliniği'nin kuruluş sürecinde bizler de bu görevin temsilcileri olduğumuz bilinciyle, kliniğimize "Elçi" ismini vermeyi uygun gördük.</p>
-
-          <div class="about-features">
-            <div class="feature">
-              <div class="ic"><i class="fa-solid fa-graduation-cap"></i></div>
-              <div>
-                <strong>Eğitim</strong>
-                <div>Sürekli mesleki eğitim ve güncel bilimsel kılavuz takibi</div>
-              </div>
+  <main id="ana-icerik">
+    <section class="about-hero">
+      <div class="container">
+        <div class="hero-layout">
+          <div class="hero-copy">
+            <p class="hero-eyebrow"><i class="fa-solid fa-paw"></i> Elçi Veteriner Kliniği'nin öyküsü</p>
+            <h1>Hakkımızda</h1>
+            <p class="signature-tagline hero-signature">Sağlığın Elçi’leriyiz</p>
+            <div class="hero-divider" aria-hidden="true"></div>
+            <p class="hero-sub">2023'ten bu yana Meram'da; bilimsel yaklaşımı, açık bilgilendirmeyi ve tedavi sonrası takibi aynı klinik anlayışta bir araya getiriyoruz.</p>
+            <div class="hero-cta">
+              <a class="btn primary" href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i> Online Randevu</a>
+              <a class="btn ghost" href="#elci-kimdir"><i class="fa-solid fa-book-open"></i> Öykümüzü Okuyun</a>
+              <a class="btn ghost" href="tel:+903323223220"><i class="fa-solid fa-phone"></i> Hemen Ara</a>
             </div>
-            <div class="feature">
-              <div class="ic"><i class="fa-solid fa-award"></i></div>
-              <div>
-                <strong>Uzmanlık</strong>
-                <div>Evcil hayvanlarda bütüncül, kayıtlı ve takipli klinik yaklaşım</div>
-              </div>
+            <p class="hero-notice"><i class="fa-solid fa-location-dot"></i> Havzan, Meram / Konya</p>
+          </div>
+
+          <aside class="about-hero-card" aria-label="Elçi Veteriner Kliniği hakkında kısa bilgiler">
+            <div class="brand-orbit" aria-hidden="true"></div>
+            <div class="about-card-logo">
+              <img src="/assets/img/uploads/elci-logo.png?v=3" alt="Elçi Veteriner Kliniği logosu" width="96" height="96" loading="eager" decoding="async">
             </div>
-            <div class="feature">
-              <div class="ic"><i class="fa-solid fa-hand-holding-heart"></i></div>
-              <div>
-                <strong>Misyon</strong>
-                <div>Sağlığın Elçileri olarak şeffaf, ulaşılabilir ve etik hizmet</div>
-              </div>
+            <p class="about-card-kicker">Kuruluş yaklaşımımız</p>
+            <strong class="about-card-title">Yaşam ile tıp arasında güvenilir bir elçi olmak</strong>
+            <div class="about-card-list">
+              <span><i class="fa-solid fa-comment-medical"></i> Anlaşılır ve şeffaf bilgilendirme</span>
+              <span><i class="fa-solid fa-microscope"></i> Kayıtlı, takipli ve bilimsel klinik yaklaşım</span>
+              <span><i class="fa-solid fa-shield-heart"></i> Hayvan refahını önceleyen süreç yönetimi</span>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <nav class="breadcrumb" aria-label="İçerik yolu">
+      <div class="container">
+        <a href="/">Ana Sayfa</a><span aria-hidden="true">›</span><span>Hakkımızda</span>
+      </div>
+    </nav>
+
+    <section id="elci-kimdir" class="section">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-kicker"><i class="fa-solid fa-feather-pointed"></i> Kuruluş öykümüz</p>
+          <h2>Elçi Kimdir?</h2>
+          <p>Kliniğimizin adı yalnızca bir marka değil; veteriner hekimin insan ile hayvan arasındaki sağlık iletişiminde üstlendiği görevin ifadesidir.</p>
+        </div>
+
+        <div class="story-grid">
+          <div class="story-visual">
+            <figure class="story-image">
+              <img src="/assets/img/uploads/konyan%C4%B1n%20en%20iyi%20veteriner%20klini%C4%9Finin%20logo%20esinlenmesi.png?v=4" alt="Elçi Veteriner Kliniği'nin kuruluş fikrini temsil eden konsept görsel" loading="lazy" decoding="async">
+            </figure>
+            <div class="story-caption"><i class="fa-solid fa-quote-left"></i><span>“Elçi” adı; bilgi, sorumluluk, iletişim ve yaşamı koruma görevimizi temsil eder.</span></div>
+          </div>
+
+          <div class="story-copy">
+            <h3>Sağlıkta elçi olma sorumluluğu</h3>
+            <p>Veteriner hekimlik, insan ve hayvanın ilk temasından bu yana yaşama hizmet eden multidisipliner bir meslektir. Hayvanların sağlığı için gerekli bilgi ve beceriyi taşıyan veteriner hekimler, bugün ve gelecekte aynı özveriyle bu görevi sürdürmeye devam edecektir.</p>
+            <p>İnsanlık ile hayvanlar âlemi arasında etkin, doğru ve başarılı bir tedavi sürecinin yürütülmesinde görev alan veteriner hekimler; tıp ilminin uygulanmasında insanlığın <strong>“elçileri”</strong> olarak hareket eder. Kliniğimizin kuruluşunda biz de bu görevin temsilcileri olduğumuz bilinciyle <strong>Elçi</strong> adını benimsedik.</p>
+            <p>Elçi Veteriner Kliniği'nde her hekim, hasta yakını ile hasta arasındaki iletişimde sağlığın elçisi olma sorumluluğunu taşır. Etkin ve güvenli bir tedavi sürecinin parçası olmayı yalnızca bir görev değil, mesleki bir onur olarak görürüz.</p>
+
+            <div class="principles-grid">
+              <article class="principle">
+                <div class="principle-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                <strong>Sürekli eğitim</strong>
+                <span>Güncel bilimsel kaynakları ve mesleki kılavuzları takip ederiz.</span>
+              </article>
+              <article class="principle">
+                <div class="principle-icon"><i class="fa-solid fa-file-waveform"></i></div>
+                <strong>Kayıtlı süreç</strong>
+                <span>Muayene, tedavi ve takip adımlarını erişilebilir biçimde yönetiriz.</span>
+              </article>
+              <article class="principle">
+                <div class="principle-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+                <strong>Etik yaklaşım</strong>
+                <span>Hayvan refahını ve hasta yakınının doğru bilgilendirilmesini önceleyiz.</span>
+              </article>
             </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <!-- Üçüncü paragraf artık resmin ALTINDA, sadece sol kolonda -->
-        <div class="about-below">
-          <p>Elçi Veteriner Kliniği'nde danışmanlık ve tedavi hizmeti veren tüm veteriner hekimler, hasta yakını ile hasta arasındaki iletişimde sağlığın elçileri olarak görev alır. Etkin, doğru ve sağlıklı bir tedavi sürecinin parçası olmayı bir sorumluluk değil; mesleki bir onur olarak görür ve bu bilinçle <strong>"Elçi"</strong> unvanını taşırlar.</p>
+    <section class="section section-dark" aria-labelledby="kisa-bilgiler-baslik">
+      <div class="container facts-wrap">
+        <div class="section-head">
+          <p class="section-kicker"><i class="fa-solid fa-circle-check"></i> Doğrulanabilir kısa bilgiler</p>
+          <h2 id="kisa-bilgiler-baslik">Elçi Veteriner Kliniği bir bakışta</h2>
+          <p>Abartılı başarı oranları yerine, kliniğimizi gerçekten tanımlayan açık ve somut bilgileri paylaşıyoruz.</p>
         </div>
-      </div><!-- /about-wrap -->
-    </div>
-  </section>
-
-  <!-- BAŞARI İSTATİSTİKLERİ -->
-  <section class="metrics" id="basarilar">
-    <div class="container">
-      <div class="section-title">
-        <h2>Kliniğimizin Başarıları</h2>
-        <p>Hasta sahipleri için güncel ve anlaşılır klinik performans verileri.</p>
+        <div class="facts-grid">
+          <article class="fact-card"><div class="fact-icon"><i class="fa-solid fa-calendar-day"></i></div><strong class="fact-value">2023</strong><span class="fact-label">Elçi Veteriner Kliniği'nin kuruluş yılı</span></article>
+          <article class="fact-card"><div class="fact-icon"><i class="fa-brands fa-google"></i></div><strong class="fact-value">194</strong><span class="fact-label">Google değerlendirmesiyle büyüyen sosyal güven</span></article>
+          <article class="fact-card"><div class="fact-icon"><i class="fa-regular fa-clock"></i></div><strong class="fact-value">09–21</strong><span class="fact-label">Standart günlük çalışma saatleri</span></article>
+          <article class="fact-card"><div class="fact-icon"><i class="fa-solid fa-location-dot"></i></div><strong class="fact-value">Meram</strong><span class="fact-label">Havzan'da ulaşılabilir klinik konumu</span></article>
+        </div>
       </div>
+    </section>
 
-      <div class="metrics-grid" id="aboutMetricsGrid">
-        <!-- Ortalama Bekleme Süresi: 6 dk -->
-        <article class="m-card" data-kind="kpi" data-suffix="dk" data-progress="85" data-value="6">
-          <div class="m-head">
-            <div class="m-title">Ortalama Bekleme Süresi</div>
-            <span class="m-ico" aria-hidden="true"><i class="fa-regular fa-clock"></i></span>
-          </div>
-          <div><span class="m-num">0</span><span class="m-unit"> dk</span></div>
-          <div class="m-progress"><div class="m-bar"></div></div>
-        </article>
+    <section id="ekibimiz" class="section section-soft">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-kicker"><i class="fa-solid fa-user-doctor"></i> Hekim kadromuz</p>
+          <h2>Ekibimiz</h2>
+          <p>Klinik süreçlerinin planlanması, kayıtların düzenli tutulması ve hasta takibi aynı hekimlik anlayışıyla yürütülür.</p>
+        </div>
 
-        <!-- Şu ana kadar sonuçlanan vaka: 2328 -->
-        <article class="m-card" data-kind="kpi" data-metric="cases" data-suffix="vaka" data-progress="100" data-value="2328">
-          <div class="m-head">
-            <div class="m-title">Şu Ana Kadar Sonuçlanan Vaka</div>
-            <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-clipboard-check"></i></span>
+        <article class="member-card">
+          <div class="member-photo">
+            <img src="/assets/img/uploads/konyan%C4%B1n%20en%20iyi%20veterineri.jpg?v=4" alt="Veteriner Hekim Hasan Kaya" loading="lazy" decoding="async">
+            <div class="member-badge"><small>Kurucu ve sorumlu veteriner hekim</small><strong>Veteriner Hekim Hasan Kaya</strong></div>
           </div>
-          <div><span class="m-num">0</span><span class="m-unit"> vaka</span></div>
-          <div class="m-progress"><div class="m-bar"></div></div>
-        </article>
-
-        <!-- Aşı Programı Tamamlama: %97 -->
-        <article class="m-card" data-kind="donut" data-suffix="%" data-value="97">
-          <div class="m-head">
-            <div class="m-title">Aşı Programı Tamamlama</div>
-            <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-syringe"></i></span>
-          </div>
-          <div class="m-donut">
-            <svg viewBox="0 0 120 120" aria-hidden="true">
-              <defs><linearGradient id="m-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0%"/><stop offset="100%"/></linearGradient></defs>
-              <circle class="m-bg" cx="60" cy="60" r="48" fill="none" stroke="#e6f0f1" stroke-width="12"/>
-              <circle class="m-fg" cx="60" cy="60" r="48" fill="none" stroke="url(#m-grad)" stroke-width="12" stroke-dasharray="301.59" stroke-dashoffset="301.59" stroke-linecap="round"/>
-              <text x="60" y="66" text-anchor="middle" font-weight="800" font-size="22" fill="var(--brand)">0%</text>
-            </svg>
-          </div>
-        </article>
-
-        <!-- Memnuniyet Skoru: 4.9 / 5 -->
-        <article class="m-card" data-kind="gauge" data-max="5" data-value="4.9">
-          <div class="m-head">
-            <div class="m-title">Memnuniyet Skoru</div>
-            <span class="m-ico" aria-hidden="true"><i class="fa-regular fa-face-smile"></i></span>
-          </div>
-          <div class="m-gauge">
-            <svg viewBox="0 0 120 120" aria-hidden="true">
-              <defs><linearGradient id="m-grad2" x1="0" x2="1" y1="0" y2="1"><stop offset="0%"/><stop offset="100%"/></linearGradient></defs>
-              <circle class="m-bg" cx="60" cy="60" r="48" fill="none" stroke="#e6f0f1" stroke-width="12" stroke-dasharray="226.19" transform="rotate(135 60 60)"/>
-              <circle class="m-fg" cx="60" cy="60" r="48" fill="none" stroke="url(#m-grad2)" stroke-width="12" stroke-dasharray="226.19" stroke-dashoffset="226.19" transform="rotate(135 60 60)" stroke-linecap="round"/>
-              <text x="60" y="66" text-anchor="middle" font-weight="800" font-size="20" fill="var(--brand)">0/5</text>
-            </svg>
-          </div>
-        </article>
-
-        <!-- İlk Ziyarette Çözüm: %97 -->
-        <article class="m-card" data-kind="kpi" data-suffix="%" data-progress="97" data-value="97">
-          <div class="m-head">
-            <div class="m-title">İlk Ziyarette Çözüm</div>
-            <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-check-double"></i></span>
-          </div>
-          <div><span class="m-num">0</span><span class="m-unit">%</span></div>
-          <div class="m-progress"><div class="m-bar"></div></div>
-        </article>
-
-        <!-- Laboratuvar Sonuç Süresi: 18 dk -->
-        <article class="m-card" data-kind="kpi" data-suffix="dk" data-progress="80" data-value="18">
-          <div class="m-head">
-            <div class="m-title">Laboratuvar Sonuç Süresi</div>
-            <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-flask"></i></span>
-          </div>
-          <div><span class="m-num">0</span><span class="m-unit"> dk</span></div>
-          <div class="m-progress"><div class="m-bar"></div></div>
-        </article>
-
-        <!-- El Uzattığımız Hayvanlar: 227 -->
-        <article class="m-card" data-kind="kpi" data-metric="helped" data-suffix="hayvan" data-progress="70" data-value="227">
-          <div class="m-head">
-            <div class="m-title">El Uzattığımız Hayvanlar</div>
-            <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-hand-holding-heart"></i></span>
-          </div>
-          <div><span class="m-num">0</span><span class="m-unit"> hayvan</span></div>
-          <div class="m-progress"><div class="m-bar"></div></div>
-        </article>
-
-        <!-- İyileşme Süresi Ortalama: 6.2 gün -->
-        <article class="m-card" data-kind="kpi" data-suffix="gün" data-progress="75" data-value="6.2">
-          <div class="m-head">
-            <div class="m-title">İyileşme Süresi Ortalama</div>
-            <span class="m-ico" aria-hidden="true"><i class="fa-solid fa-heart-pulse"></i></span>
-          </div>
-          <div><span class="m-num">0</span><span class="m-unit"> gün</span></div>
-          <div class="m-progress"><div class="m-bar"></div></div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- EKİBİMİZ -->
-  <section id="ekibimiz" class="section">
-    <div class="container">
-      <div class="section-title">
-        <h2>Ekibimiz</h2>
-        <p>Elçi Veteriner Kliniği kadrosu</p>
-      </div>
-
-      <div class="team-grid single-member">
-        <article class="member">
-          <div class="member-img">
-            <img id="vet-photo"
-                 src="/assets/img/uploads/konyan%C4%B1n%20en%20iyi%20veterineri.jpg?v=3"
-                 alt="Veteriner Hekim Hasan Kaya"
-                 loading="lazy" decoding="async">
-          </div>
-          <div class="member-info">
-            <div class="role">Kurucu &amp; Sorumlu Veteriner Hekim</div>
+          <div class="member-content">
+            <span class="member-role"><i class="fa-solid fa-stethoscope"></i> Klinik hekimliği ve süreç yönetimi</span>
             <h3>Veteriner Hekim Hasan Kaya</h3>
-            <p>Hasan Kaya, 2020 yılında Selçuk Üniversitesi Veteriner Fakültesi'nden mezun oldu. Mezuniyetinin ardından Ankara'da özel bir klinikte yaklaşık 2 yıl çalışarak evcil hayvan iç hastalıkları ve cerrahi alanlarında yoğun klinik tecrübe kazandı; sonrasında ise 1 yıl süreyle kamu hizmetinde görev alarak sahada farklı vaka tipleriyle çalışma fırsatı buldu.</p>
-            <p>2023 yılından bu yana Elçi Veteriner Kliniği'nin kurucu ve sorumlu veteriner hekimi olarak görev yapan Hasan Kaya; kliniğin tanı, tedavi ve takip süreçlerinin planlanması, hasta dosyalarının kayıtlı ve erişilebilir tutulması ve ekip içi koordinasyonun sağlanmasından sorumludur. Mesleki ilgi alanları arasında koruyucu hekimlik, anestezi ve acil müdahale protokollerinin güncel kılavuzlara göre uygulanması yer alır.</p>
+            <p>Hasan Kaya, 2020 yılında Selçuk Üniversitesi Veteriner Fakültesi'nden mezun oldu. Mezuniyetinin ardından Ankara'da özel bir klinikte yaklaşık iki yıl çalışarak evcil hayvan iç hastalıkları ve cerrahi alanlarında klinik deneyim kazandı; sonrasında bir yıl kamu hizmetinde görev alarak farklı vaka tipleriyle çalışma imkânı buldu.</p>
+            <p>2023 yılından bu yana Elçi Veteriner Kliniği'nin kurucu ve sorumlu veteriner hekimi olarak tanı, tedavi ve takip süreçlerinin planlanması; hasta dosyalarının kayıtlı ve erişilebilir tutulması ile klinik koordinasyonundan sorumludur.</p>
+            <div class="member-focus">
+              <div class="focus-pill">Koruyucu hekimlik</div>
+              <div class="focus-pill">İç hastalıkları</div>
+              <div class="focus-pill">Cerrahi ve acil yaklaşım</div>
+            </div>
           </div>
         </article>
-      </div>
 
-      <div class="cta" style="background:#e9f4f5;border:1px dashed #a8cacc;border-radius:16px;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px;margin-top:14px">
-        <strong>Uygun hekimle randevunuzu planlayalım.</strong>
-        <div>
-          <a class="btn" href="/hizmetler.html">Tüm Hizmetler</a>
-          <a class="btn primary" href="/hasta-iliskileri.html#online-randevu">Randevu Al</a>
+        <div class="team-cta">
+          <strong>Evcil dostunuz için uygun muayene zamanını birlikte planlayalım.</strong>
+          <div class="team-cta-actions">
+            <a class="btn" href="/hizmetler.html">Hizmetleri İncele</a>
+            <a class="btn primary" href="/hasta-iliskileri.html#online-randevu">Randevu Al</a>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- KLİNİĞİMİZ -->
-  <section id="klinik" class="section">
-    <div class="container">
-      <div class="section-title">
-        <h2>Kliniğimiz</h2>
-        <p>Modern, düzenli ve hayvan dostu klinik alanı</p>
-      </div>
-
-      <div class="clinic-wrap" style="display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center">
-        <div>
-          <h3>Konya'da Düzenli ve Güven Veren Klinik Ortamı</h3>
-          <p>Elçi Veteriner Kliniği, yaklaşık 100 m²'lik fonksiyonel bir alanda hizmet vermektedir. Alanlarımız, muayene, tedavi, ilk müdahale ve klinik kapasitesine uygun hasta izlem süreçlerini düzenli, takip edilebilir ve kayıtlı şekilde yönetebilecek biçimde planlanmıştır.</p>
-
-          <h4 style="margin-top:10px">Klinik Alanlarımız</h4>
-          <ul style="margin:6px 0 10px 18px; padding:0; color:#476265">
-            <li>Muayene odası</li>
-            <li>Klinik kapasitesine uygun hasta izlem alanı</li>
-            <li>Ameliyathane</li>
-            <li>Bekleme salonu</li>
-            <li>Ekip çalışma ve dinlenme alanları</li>
-          </ul>
-
-          <h4 style="margin-top:6px">Klinik Donanımı</h4>
-          <ul style="margin:6px 0 0 18px; padding:0; color:#476265">
-            <li>Oksijen kafesi ve temel monitörizasyon imkânları</li>
-            <li>Acil müdahale ve resüsitasyon setleri</li>
-            <li>Sterilizasyon ve hijyen ekipmanları</li>
-            <li>Modern muayene masası ve aydınlatma sistemleri</li>
-            <li>Güncel test kitleri ile temel laboratuvar olanakları</li>
-          </ul>
-
-          <p style="margin-top:10px">Her işlem; hijyen kurallarına uygun, planlı ve kayıt altına alınmış süreçlerle yürütülür. Amacımız, hasta ve hasta yakınlarının kendini güvende hissettiği, düzenli ve profesyonel bir klinik deneyimi sunmaktır.</p>
-        </div>
-        <figure class="about-img">
-          <img src="https://images.unsplash.com/photo-1583336663277-620dc1996580?auto=format&fit=crop&w=1200&q=70" alt="Elçi Veteriner Kliniği — Modern klinik alanlar" loading="lazy" decoding="async">
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- MİSYON & VİZYON -->
-  <section id="misyon-vizyon" class="section">
-    <div class="container">
-      <div class="section-title">
-        <h2>Misyon &amp; Vizyon</h2>
-        <p>İlkelerimiz ve hedeflerimiz</p>
-      </div>
-
-      <div class="mv-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-        <div class="mv-card"
-             style="background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;box-shadow:0 8px 20px rgba(0,0,0,.04);text-align:center"
-             role="button"
-             tabindex="0"
-             data-detail="1"
-             data-detail-title="Misyonumuz"
-             data-detail-text="Elçi Veteriner Kliniği olarak misyonumuz; hasta haklarına saygılı, hayvan refahını önceleyen ve bilimsel doğrulara dayalı bir klinik hizmeti, ulaşılabilir ve şeffaf bir anlayışla sunmaktır. Her vakayı yalnızca bir hastalık tablosu olarak değil, insan–hayvan bağı içinde değerlendirir; muayeneden taburculuğa kadar tüm süreci planlı, kayıtlı ve takip edilebilir kılmayı hedefleriz. Tedavi seçeneklerini anlaşılır bir dille paylaşmak, maliyet ve riskler konusunda açık olmak, hasta sahiplerinin karar süreçlerine aktif katılımını sağlamak misyonumuzun temel parçalarıdır.">
-          <i class="fa-solid fa-bullseye" style="color:var(--icon-ink);font-size:32px;margin-bottom:8px"></i>
-          <h3>Misyonumuz</h3>
-          <p>Hayvan refahını önceleyen, bilimsel ve şeffaf tedavi yaklaşımı ile güven vermek.</p>
-        </div>
-        <div class="mv-card"
-             style="background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;box-shadow:0 8px 20px rgba(0,0,0,.04);text-align:center"
-             role="button"
-             tabindex="0"
-             data-detail="1"
-             data-detail-title="Vizyonumuz"
-             data-detail-text="Vizyonumuz; Konya'da ve bölgemizde, etik ilkelere bağlı, kayıtlı ve kanıta dayalı veteriner hekimlik uygulamalarıyla öne çıkan referans kliniklerden biri olmaktır. Teknolojik ve bilimsel gelişmeleri yakından takip ederek kliniğimizin imkânları el verdiği ölçüde hizmete entegre etmeyi, ekibimizi sürekli eğitimlerle güçlendirmeyi ve hasta–sahip memnuniyetini sürdürülebilir biçimde yüksek tutmayı amaçlarız. Bulunduğumuz bölgeden başlayarak, hayvan sağlığında güvenin, şeffaflığın ve empatik iletişimin temsilcisi olarak anılmak en önemli hedefimizdir.">
-          <i class="fa-solid fa-eye" style="color:var(--icon-ink);font-size:32px;margin-bottom:8px"></i>
-          <h3>Vizyonumuz</h3>
-          <p>Uluslararası standartlarda yenilikçi veterinerlik uygulamalarında öncü olmak.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- DEĞERLER -->
-  <section id="degerler" class="section">
-    <div class="container">
-      <div class="section-title">
-        <h2>Değerlerimiz</h2>
-        <p>Güven, şeffaflık ve sürekli gelişim</p>
-      </div>
-
-      <div class="values-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
-        <div class="value"
-             style="position:relative;background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.04)"
-             role="button"
-             tabindex="0"
-             data-detail="1"
-             data-detail-title="Hayvan Sevgisi"
-             data-detail-text="Elçi Veteriner Kliniği için hayvan sevgisi; yalnızca duygusal bir bağ değil, tüm klinik süreçlerimizi şekillendiren temel bir mesleki değerdir. Her hastamızı kendi hayvanımız gibi görür; özellikle stresli, korkak veya hassas hayvanlarda muayene süresini uzatmayı, sakin bir ortam sağlamayı ve mümkün olduğunda hasta yakınının yanında kalmasına izin vermeyi önemseriz. Bu yaklaşım hem stresi azaltır hem de muayenenin kalitesini artırır.">
-          <div class="vi" style="width:56px;height:56px;border-radius:50%;margin:0 auto 10px;background:#e7f3f4;color:var(--icon-ink);display:flex;align-items:center;justify-content:center;font-size:22px"><i class="fa-solid fa-heart"></i></div>
-          <h3>Hayvan Sevgisi</h3>
-          <p>Her hastaya şefkatli ve saygılı yaklaşım.</p>
+    <section id="klinik" class="section">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-kicker"><i class="fa-solid fa-house-medical"></i> Klinik ortamımız</p>
+          <h2>Kliniğimiz</h2>
+          <p>Alanlarımız; muayene, tedavi, cerrahi hazırlık ve hasta takibinin düzenli, hijyenik ve kayıtlı biçimde yürütülebilmesi için planlanmıştır.</p>
         </div>
 
-        <div class="value"
-             style="position:relative;background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.04)"
-             role="button"
-             tabindex="0"
-             data-detail="1"
-             data-detail-title="Profesyonellik"
-             data-detail-text="Tanı ve tedavi sürecinde kullandığımız tüm ilaç, protokol ve cihazları güncel bilimsel kılavuzlarla uyumlu olacak şekilde seçeriz. Gereksiz tetkik ve gereksiz antibiyotik kullanımından kaçınmaya, her vakayı kayıt altında tutup gerektiğinde ikinci görüş veya sevk için raporlayabilmeye özen gösteririz. Ekip içi iletişim, konsültasyon kültürü ve düzenli vaka değerlendirmeleri profesyonellik anlayışımızın bir parçasıdır.">
-          <div class="vi" style="width:56px;height:56px;border-radius:50%;margin:0 auto 10px;background:#e7f3f4;color:var(--icon-ink);display:flex;align-items:center;justify-content:center;font-size:22px"><i class="fa-solid fa-hand-holding-medical"></i></div>
-          <h3>Profesyonellik</h3>
-          <p>Güncel protokoller, kanıta dayalı tedavi.</p>
-        </div>
+        <div class="clinic-grid">
+          <div class="clinic-copy">
+            <h3>Meram'da düzenli ve güven veren klinik deneyimi</h3>
+            <p>Elçi Veteriner Kliniği yaklaşık 100 m²'lik fonksiyonel bir alanda hizmet verir. Her işlemi kliniğin kapasitesi ve hastanın ihtiyacı doğrultusunda planlar; yoğun bakım veya ileri görüntüleme gerektiren süreçlerde hasta sahibini açıkça bilgilendirerek uygun yönlendirmeyi yaparız.</p>
+            <p>Amacımız, yalnızca tedavi uygulamak değil; hasta yakınının süreci anlayabildiği, sorularına yanıt alabildiği ve kontrol planını net biçimde bildiği bir klinik deneyimi sunmaktır.</p>
 
-        <div class="value"
-             style="position:relative;background:#fff;border:1px solid #e9f1f2;border-radius:16px;padding:18px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.04)"
-             role="button"
-             tabindex="0"
-             data-detail="1"
-             data-detail-title="Güvenilirlik"
-             data-detail-text="Muayene ve tedavi başlamadan önce tahmini maliyet aralığını, tedavi süresini ve olası riskleri net biçimde paylaşmaya önem veririz. Hasta yakınının onayı olmadan ek işlem yapmamaya, taburculuk sonrası bakım ve kontrol planını yazılı olarak iletmeye gayret ederiz. Şeffaf iletişim, uzun vadeli güven ilişkisinin temelini oluşturur ve Elçi Veteriner Kliniği'nin en fazla önem verdiği kurumsal değerdir.">
-          <div class="vi" style="width:56px;height:56px;border-radius:50%;margin:0 auto 10px;background:#e7f3f4;color:var(--icon-ink);display:flex;align-items:center;justify-content:center;font-size:22px"><i class="fa-solid fa-shield-dog"></i></div>
-          <h3>Güvenilirlik</h3>
-          <p>Şeffaf iletişim, net bilgilendirme.</p>
+            <div class="clinic-lists">
+              <div class="clinic-list">
+                <h4><i class="fa-solid fa-door-open"></i> Klinik alanları</h4>
+                <ul>
+                  <li>Muayene ve tedavi alanı</li>
+                  <li>Ameliyathane</li>
+                  <li>Hasta izlem alanı</li>
+                  <li>Bekleme salonu</li>
+                  <li>Ekip çalışma alanları</li>
+                </ul>
+              </div>
+              <div class="clinic-list">
+                <h4><i class="fa-solid fa-microscope"></i> Temel donanım</h4>
+                <ul>
+                  <li>Hemogram ve biyokimya değerlendirmeleri</li>
+                  <li>Oksijen desteği ve temel monitörizasyon</li>
+                  <li>Acil müdahale ve resüsitasyon setleri</li>
+                  <li>Sterilizasyon ve hijyen ekipmanları</li>
+                  <li>Güncel hızlı test olanakları</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <aside class="clinic-standard">
+            <h3>Klinik çalışma standardımız</h3>
+            <p>Her vakada aynı temel sistemi uygular; ihtiyaç hâlinde hastaya özel olarak genişletiriz.</p>
+            <div class="standard-list">
+              <div class="standard-item"><i class="fa-solid fa-clipboard-list"></i><div><strong>Ön değerlendirme</strong><span>Şikâyet, öykü ve klinik bulguların birlikte değerlendirilmesi</span></div></div>
+              <div class="standard-item"><i class="fa-solid fa-comments"></i><div><strong>Açık bilgilendirme</strong><span>Önerilen tetkik, tedavi, risk ve süreç hakkında anlaşılır açıklama</span></div></div>
+              <div class="standard-item"><i class="fa-solid fa-file-medical"></i><div><strong>Kayıtlı takip</strong><span>Uygulamaların ve kontrol planının hasta dosyasına işlenmesi</span></div></div>
+              <div class="standard-item"><i class="fa-solid fa-route"></i><div><strong>Gerektiğinde yönlendirme</strong><span>İleri görüntüleme veya kesintisiz izlem gereken vakalarda uygun merkez planı</span></div></div>
+            </div>
+          </aside>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- HASTA YAKINI GÖRÜŞLERİ -->
-  <section class="js-reviews section" id="hasta-yakini-gorusleri" data-json="/assets/data/reviews.json" data-count="3" data-interval="9000">
-    <div class="container">
-      <div class="section-title">
-        <h2>Hasta Yakını Görüşleri</h2>
-        <p>Google yorumlarından seçkiler</p>
+    <section id="misyon-vizyon" class="section section-soft">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-kicker"><i class="fa-solid fa-compass"></i> Yönümüz ve sorumluluğumuz</p>
+          <h2>Misyon &amp; Vizyon</h2>
+          <p>Kartların üzerine tıklayarak yaklaşımımızın ayrıntılarını okuyabilirsiniz.</p>
+        </div>
+
+        <div class="mv-grid">
+          <article class="mv-card" role="button" tabindex="0" data-detail="1" data-detail-title="Misyonumuz" data-detail-text="Elçi Veteriner Kliniği olarak misyonumuz; hasta haklarına saygılı, hayvan refahını önceleyen ve bilimsel doğrulara dayalı bir klinik hizmeti ulaşılabilir ve şeffaf bir anlayışla sunmaktır. Her vakayı yalnızca bir hastalık tablosu olarak değil, insan–hayvan bağı içinde değerlendirir; muayeneden taburculuğa kadar süreci planlı, kayıtlı ve takip edilebilir kılmayı hedefleriz. Tedavi seçeneklerini anlaşılır bir dille paylaşmak, riskleri açıkça anlatmak ve hasta sahiplerinin karar süreçlerine katılımını sağlamak misyonumuzun temel parçalarıdır.">
+            <span class="mv-number">01</span><div class="card-icon"><i class="fa-solid fa-bullseye"></i></div><h3>Misyonumuz</h3><p>Hayvan refahını önceleyen, bilimsel ve şeffaf klinik yaklaşımı güvenilir biçimde sunmak.</p><span class="card-read">Ayrıntıları oku <i class="fa-solid fa-arrow-right"></i></span>
+          </article>
+          <article class="mv-card" role="button" tabindex="0" data-detail="1" data-detail-title="Vizyonumuz" data-detail-text="Vizyonumuz; Konya'da ve bölgemizde etik ilkelere bağlı, kayıtlı ve kanıta dayalı veteriner hekimlik uygulamalarıyla öne çıkan referans kliniklerden biri olmaktır. Teknolojik ve bilimsel gelişmeleri yakından takip ederek kliniğimizin olanakları ölçüsünde hizmete entegre etmeyi, ekip eğitimini sürekli kılmayı ve hasta–sahip memnuniyetini sürdürülebilir biçimde geliştirmeyi amaçlarız. Hayvan sağlığında güvenin, şeffaflığın ve empatik iletişimin temsilcisi olarak anılmak temel hedefimizdir.">
+            <span class="mv-number">02</span><div class="card-icon"><i class="fa-solid fa-eye"></i></div><h3>Vizyonumuz</h3><p>Etik, kayıtlı ve kanıta dayalı veterinerlik uygulamalarıyla bölgede güvenilen bir klinik olmak.</p><span class="card-read">Ayrıntıları oku <i class="fa-solid fa-arrow-right"></i></span>
+          </article>
+        </div>
       </div>
-      <div class="review-grid" aria-live="polite"></div>
-    </div>
-  </section>
+    </section>
 
-  <!-- FOOTER -->
+    <section id="degerler" class="section">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-kicker"><i class="fa-solid fa-gem"></i> Kurumsal değerlerimiz</p>
+          <h2>Değerlerimiz</h2>
+          <p>Kararlarımızı yalnızca tıbbi sonuçlar değil; hayvan refahı, etik sorumluluk ve açık iletişim birlikte şekillendirir.</p>
+        </div>
+
+        <div class="values-grid">
+          <article class="value-card" role="button" tabindex="0" data-detail="1" data-detail-title="Hayvan Sevgisi ve Refahı" data-detail-text="Elçi Veteriner Kliniği için hayvan sevgisi yalnızca duygusal bir bağ değil, tüm klinik süreçleri şekillendiren mesleki bir değerdir. Stresli, korkak veya hassas hayvanlarda mümkün olduğunca sakin bir ortam sağlamayı, muayene yaklaşımını hastanın toleransına göre düzenlemeyi ve gereksiz stresi azaltmayı önemseriz.">
+            <div class="card-icon"><i class="fa-solid fa-heart"></i></div><h3>Hayvan sevgisi ve refahı</h3><p>Her hastaya şefkatli, saygılı ve stresini azaltmayı amaçlayan bir yaklaşımla davranırız.</p><span class="card-read">Ayrıntıları oku <i class="fa-solid fa-arrow-right"></i></span>
+          </article>
+          <article class="value-card" role="button" tabindex="0" data-detail="1" data-detail-title="Profesyonellik" data-detail-text="Tanı ve tedavi sürecinde kullandığımız protokolleri güncel bilimsel bilgiler doğrultusunda seçmeye; gereksiz tetkik ve ilaç kullanımından kaçınmaya özen gösteririz. Ekip içi iletişim, konsültasyon kültürü, hasta kayıtlarının düzenli tutulması ve gerektiğinde sevk için anlaşılır raporlama profesyonellik anlayışımızın parçalarıdır.">
+            <div class="card-icon"><i class="fa-solid fa-hand-holding-medical"></i></div><h3>Profesyonellik</h3><p>Güncel bilgi, düzenli kayıt ve planlı süreç yönetimini klinik hizmetin ayrılmaz parçası kabul ederiz.</p><span class="card-read">Ayrıntıları oku <i class="fa-solid fa-arrow-right"></i></span>
+          </article>
+          <article class="value-card" role="button" tabindex="0" data-detail="1" data-detail-title="Güvenilirlik ve Şeffaflık" data-detail-text="Muayene ve tedavi başlamadan önce önerilen işlemleri, olası riskleri ve süreç planını net biçimde paylaşmaya önem veririz. Hasta yakınının onayı olmadan plan dışı işlem yapmamaya, taburculuk sonrası bakım ve kontrol planını anlaşılır biçimde iletmeye gayret ederiz. Şeffaf iletişim, uzun vadeli güven ilişkisinin temelidir.">
+            <div class="card-icon"><i class="fa-solid fa-shield-dog"></i></div><h3>Güvenilirlik ve şeffaflık</h3><p>Her aşamada anlaşılır bilgi vermeyi ve hasta yakınının karar sürecine katılımını önemseriz.</p><span class="card-read">Ayrıntıları oku <i class="fa-solid fa-arrow-right"></i></span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="js-reviews section section-soft" id="hasta-yakini-gorusleri" data-json="/assets/data/reviews.json" data-count="3" data-interval="9000">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-kicker"><i class="fa-brands fa-google"></i> Gerçek deneyimler</p>
+          <h2>Hasta yakını görüşleri</h2>
+          <p>Google yorumlarımızdan seçilen değerlendirmeler, kliniğimizin iletişim ve takip anlayışını hasta yakınlarının gözünden gösterir.</p>
+        </div>
+        <div class="review-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="final-cta">
+          <div><h2>Evcil dostunuzun sağlık sürecini birlikte planlayalım.</h2><p>Randevu oluşturabilir, doğrudan arayabilir veya kliniğimize yol tarifi alabilirsiniz.</p></div>
+          <div class="final-cta-actions">
+            <a class="btn primary" href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i> Randevu Al</a>
+            <a class="btn" href="tel:+903323223220"><i class="fa-solid fa-phone"></i> Hemen Ara</a>
+            <a class="btn" href="https://www.google.com/maps/search/?api=1&query=El%C3%A7i+Veteriner+Klini%C4%9Fi+Havzan+Meram+Konya" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-route"></i> Yol Tarifi</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
   <footer class="footer-new">
     <div class="container footer-container">
       <div class="footer-col">
         <h3>Elçi Veteriner Kliniği</h3>
-        <p>Konya'nın Meram ilçesinde, Hayvan sağlığında hızlı, güvenilir ve etik müdahalelerle yaşamın yanında yer alıyoruz.</p>
+        <p>Konya'nın Meram ilçesinde kedi ve köpeklerin sağlığı için anlaşılır bilgilendirme, etik yaklaşım ve düzenli takip sunuyoruz.</p>
         <div class="social-links">
-          <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 10h3l.5-3H13V5.5c0-.9.3-1.5 1.7-1.5H17V1h-3c-3 0-4.5 1.6-4.5 4.4V7H7v3h2.5v9h3v-9z"/></svg>
-          </a>
-          <a href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><path d="M17.5 6.5h.01" stroke-width="2"/></svg>
-          </a>
-          <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.8c-.8.4-1.6.6-2.5.7.9-.6 1.5-1.4 1.8-2.4-.8.5-1.8.9-2.8 1.1A3.7 3.7 0 0 0 12 8.4c0 .3 0 .7.1 1A10.5 10.5 0 0 1 3 5.2a3.7 3.7 0 0 0 1.1 5 3.6 3.6 0 0 1-1.7-.5v.1c0 1.8 1.3 3.3 3 3.7-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1.5 1.5 1.9 2.6 3.6 2.6A7.5 7.5 0 0 1 3 19.5 10.6 10.6 0 0 0 9.7 21c6.3 0 9.7-5.2 9.7-9.7v-.4c.8-.6 1.5-1.4 2-2.3z"/></svg>
-          </a>
-          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5a4 4 0 0 0-3-3.1C18.3 4 12 4 12 4s-6.3 0-8 .4A4 4 0 0 0 1 7.5 41 41 0 0 0 1 16.5a4 4 0 0 0 3 3.1c1.7.4 8 .4 8 .4s6.3 0 8-.4a4 4 0 0 0 3-3.1 41 41 0 0 0 0-9zM10 15.5v-7l6 3.5-6 3.5z"/></svg>
-          </a>
+          <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 10h3l.5-3H13V5.5c0-.9.3-1.5 1.7-1.5H17V1h-3c-3 0-4.5 1.6-4.5 4.4V7H7v3h2.5v9h3v-9z"/></svg></a>
+          <a href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><path d="M17.5 6.5h.01" stroke-width="2"/></svg></a>
+          <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.8c-.8.4-1.6.6-2.5.7.9-.6 1.5-1.4 1.8-2.4-.8.5-1.8.9-2.8 1.1A3.7 3.7 0 0 0 12 8.4c0 .3 0 .7.1 1A10.5 10.5 0 0 1 3 5.2a3.7 3.7 0 0 0 1.1 5 3.6 3.6 0 0 1-1.7-.5v.1c0 1.8 1.3 3.3 3 3.7-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1.5 1.5 1.9 2.6 3.6 2.6A7.5 7.5 0 0 1 3 19.5 10.6 10.6 0 0 0 9.7 21c6.3 0 9.7-5.2 9.7-9.7v-.4c.8-.6 1.5-1.4 2-2.3z"/></svg></a>
+          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5a4 4 0 0 0-3-3.1C18.3 4 12 4 12 4s-6.3 0-8 .4A4 4 0 0 0 1 7.5 41 41 0 0 0 1 16.5a4 4 0 0 0 3 3.1c1.7.4 8 .4 8 .4s6.3 0 8-.4a4 4 0 0 0 3-3.1 41 41 0 0 0 0-9zM10 15.5v-7l6 3.5-6 3.5z"/></svg></a>
         </div>
       </div>
 
       <div class="footer-col">
         <h3>Hızlı Linkler</h3>
         <ul class="footer-links">
-          <li><a href="/index.html">Ana Sayfa</a></li>
-          <li><a href="/about.html">Hakkımızda</a></li>
-          <li><a href="/hizmetler.html">Hizmetlerimiz</a></li>
-          <li><a href="/blog.html">Blog</a></li>
-          <li><a href="/sss.html">SSS</a></li>
-          <li><a href="/hasta-iliskileri.html">Hasta İlişkileri</a></li>
+          <li><a href="/">Ana Sayfa</a></li><li><a href="/about">Hakkımızda</a></li><li><a href="/hizmetler.html">Hizmetlerimiz</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/sss.html">SSS</a></li><li><a href="/hasta-iliskileri.html">Hasta İlişkileri</a></li>
         </ul>
       </div>
 
       <div class="footer-col">
-        <h3>Konya Veteriner Hizmetlerimiz</h3>
+        <h3>Öne Çıkan Hizmetler</h3>
         <ul class="footer-links">
-          <li><a href="/hizmetler.html#acil">Konya Acil Veteriner</a></li>
-          <li><a href="/hizmetler.html#cerrahi">Konya'da Cerrahi Operasyonlar</a></li>
-          <li><a href="/hizmetler.html#agiz-dis">Konya'da Ağız ve Diş Sağlığı</a></li>
-          <li><a href="/hizmetler.html#ic-hastaliklari">Konya'da İç Hastalıkları</a></li>
-          <li><a href="/hizmetler.html#fizik-tedavi">Konya'da Fizik Tedavi</a></li>
+          <li><a href="/hizmetler.html#acil">Acil ön değerlendirme</a></li><li><a href="/hizmetler.html#cerrahi">Kısırlaştırma ve cerrahi</a></li><li><a href="/hizmetler.html#agiz-dis">Ağız ve diş sağlığı</a></li><li><a href="/hizmetler.html#ic-hastaliklari">İç hastalıkları ve laboratuvar</a></li><li><a href="/hizmetler.html#fizik-tedavi">Fizik tedavi ve rehabilitasyon</a></li>
         </ul>
       </div>
 
       <div class="footer-col">
-        <h3>Konya İletişim</h3>
+        <h3>İletişim</h3>
         <ul class="footer-contact">
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"/><circle cx="12" cy="11" r="2.5"/></svg>
-            <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.5v2a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3.1 19 19 0 0 1-6-6A2 2 0 0 1 7.5 9h2l2 3-1.5 1.5a16 16 0 0 0 6 6L18 18l3 2.5z"/></svg>
-            <a href="tel:03323223220">0332 322 32 20</a>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
-            <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
-            <span>Her gün: 09:00–23:00</span>
-          </li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"/><circle cx="12" cy="11" r="2.5"/></svg><a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.5v2a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3.1 19 19 0 0 1-6-6A2 2 0 0 1 7.5 9h2l2 3-1.5 1.5a16 16 0 0 0 6 6L18 18l3 2.5z"/></svg><a href="tel:+903323223220">0332 322 32 20</a></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg><a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg><span>Her gün: 09:00–21:00<br><small>Özel gün saatleri için Google profilimizi kontrol ediniz.</small></span></li>
         </ul>
       </div>
     </div>
-
-    <div class="footer-bottom">
-      <div class="container">
-        <p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p>
-      </div>
-    </div>
+    <div class="footer-bottom"><div class="container"><p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p></div></div>
   </footer>
 
-  <!-- Schema -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"VeterinaryCare",
-    "name":"Elçi Veteriner Kliniği",
-    "address":{
-      "@type":"PostalAddress",
-      "addressLocality":"Meram",
-      "addressRegion":"Konya",
-      "streetAddress":"Havzan Mah. Yeni Meram Cad. 17/1",
-      "addressCountry":"TR"
-    },
-    "telephone":"+903323223220",
-    "areaServed":"Konya",
-    "openingHours":["Mo-Su 09:00-23:00"],
-    "url":"https://elciveteriner.com/"
-  }
-  </script>
+  <nav class="mobile-contact-bar" aria-label="Hızlı iletişim">
+    <a href="tel:+903323223220"><i class="fa-solid fa-phone"></i><span>Ara</span></a>
+    <a href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i><span>Randevu</span></a>
+    <a href="https://www.google.com/maps/search/?api=1&query=El%C3%A7i+Veteriner+Klini%C4%9Fi+Havzan+Meram+Konya" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-route"></i><span>Yol Tarifi</span></a>
+  </nav>
 
-  <!-- Ana JS -->
-  <script defer src="/assets/js/main.js?v=17.2"></script>
-
-  <!-- Footer yılı -->
-  <script>document.getElementById('yil')?.append(new Date().getFullYear());</script>
-
-  <!-- Reviews fallback -->
-  <script>
-    (function(){
-      const sec = document.querySelector('.js-reviews#hasta-yakini-gorusleri'); if(!sec) return;
-      const grid = sec.querySelector('.review-grid'); if(!grid) return;
-      if (grid.dataset.inited) return; grid.dataset.inited = "1";
-      const src = sec.getAttribute('data-json') || '/assets/data/reviews.json';
-      const visible = Math.max(1, Number(sec.getAttribute('data-count')) || 3);
-      const interval = Math.max(3000, Number(sec.getAttribute('data-interval')) || 9000);
-      function stars(n){ const v = Math.round(Math.max(0, Math.min(5, Number(n)||5)));
-        return '<div class="stars" aria-label="'+v+' yıldız">'+Array.from({length:5}).map((_,i)=>'<span class="s" aria-hidden="true">'+(i<v?'★':'☆')+'</span>').join('')+'</div>'; }
-      function card(item){
-        const text=(item.text||item.review_text||item.comment||"").toString().trim();
-        const author=(item.author||item.author_name||item.name||"Ziyaretçi").toString().trim();
-        const rating=item.rating||item.stars||5; const when=(item.time||item.relative_time_description||item.date||"").toString().trim();
-        return `<article class="review-card visible" role="article">${stars(rating)}<p class="review-text">${text}</p><div class="review-author">— ${author}</div>${when?`<div class="review-meta">${when}</div>`:``}</article>`;
-      }
-      fetch(src,{cache:'no-cache'}).then(r=>r.ok?r.json():[]).then(j=>{
-        const all = Array.isArray(j)?j:(j?.items||j?.data||[]);
-        if(!Array.isArray(all)||!all.length){ grid.innerHTML='<p class="muted">Henüz yorum eklenmedi.</p>'; return; }
-        let idx=0; function render(){ const chunk=[]; for(let i=0;i<visible;i++){ chunk.push(all[(idx+i)%all.length]); }
-          grid.innerHTML = chunk.map(card).join(''); idx=(idx+visible)%all.length; }
-        render(); if(all.length>visible) setInterval(render, interval);
-      }).catch(()=>{ grid.innerHTML='<p class="muted">Yorumlar yüklenemedi.</p>'; });
-    })();
-  </script>
-
-  <!-- Metrics animasyonu + AYLIK OTO ARTIŞ -->
-  <script>
-    (function () {
-      const root = document.getElementById('aboutMetricsGrid');
-      if (!root) return;
-
-      const cards = Array.from(root.querySelectorAll('.m-card'));
-      if (!cards.length) return;
-
-      const START = new Date(2023, 0, 1); // 1 Ocak 2023
-
-      const now = new Date();
-      let months =
-        (now.getFullYear() - START.getFullYear()) * 12 +
-        (now.getMonth() - START.getMonth());
-      if (months < 0) months = 0;
-
-      const baseCases       = 2328;
-      const incCasesPerMon  = 70;
-
-      const baseHelped      = 227;
-      const incHelpedPerMon = 4;
-
-      const casesCard = root.querySelector('.m-card[data-metric="cases"]');
-      if (casesCard) {
-        const dynamicCases = baseCases + months * incCasesPerMon;
-        casesCard.dataset.value = String(dynamicCases);
-      }
-
-      const helpedCard = root.querySelector('.m-card[data-metric="helped"]');
-      if (helpedCard) {
-        const dynamicHelped = baseHelped + months * incHelpedPerMon;
-        helpedCard.dataset.value = String(dynamicHelped);
-      }
-
-      const donutCirc = 2 * Math.PI * 48;
-      const gaugeArc = 226.19;
-
-      function count(el, to, suffix) {
-        const num = el.querySelector('.m-num');
-        if (!num) return;
-
-        const unit = el.querySelector('.m-unit');
-        if (unit && suffix) {
-          unit.textContent = ' ' + suffix.trim();
-        }
-
-        const end = Number(to) || 0;
-        const decimals = String(to).includes('.') ? 1 : 0;
-        const dur = 1200;
-        const t0 = performance.now ? performance.now() : Date.now();
-
-        function step(t) {
-          const now = t || (performance.now ? performance.now() : Date.now());
-          const k = Math.min(1, (now - t0) / dur);
-          const v = end * k;
-          num.textContent = decimals ? v.toFixed(decimals) : Math.round(v).toString();
-          if (k < 1) requestAnimationFrame(step);
-        }
-
-        requestAnimationFrame(step);
-      }
-
-      function animateCard(card) {
-        const kind = card.dataset.kind || 'kpi';
-
-        if (kind === 'kpi') {
-          const suffix = (card.dataset.suffix || '').trim();
-          const val = card.dataset.value || '0';
-          const bar = card.querySelector('.m-bar');
-          const prog = Math.max(0, Math.min(100, Number(card.dataset.progress) || 0));
-
-          if (bar) {
-            bar.style.transition = 'width 1s ease';
-            bar.style.width = prog + '%';
-          }
-
-          count(card, val, suffix);
-        }
-
-        if (kind === 'donut') {
-          const val = Math.max(0, Math.min(100, Number(card.dataset.value) || 0));
-          const fg = card.querySelector('.m-fg');
-          const txt = card.querySelector('text');
-
-          if (fg) {
-            fg.style.transition = 'stroke-dashoffset 1s ease';
-            const target = donutCirc * (1 - val / 100);
-            requestAnimationFrame(() => {
-              fg.style.strokeDashoffset = String(target);
-            });
-          }
-
-          if (txt) {
-            const t0 = performance.now ? performance.now() : Date.now();
-            const dur = 1000;
-
-            (function step(t) {
-              const now = t || (performance.now ? performance.now() : Date.now());
-              const k = Math.min(1, (now - t0) / dur);
-              const v = Math.round(val * k);
-              txt.textContent = v + '%';
-              if (k < 1) requestAnimationFrame(step);
-            })();
-          }
-        }
-
-        if (kind === 'gauge') {
-          const val = Number(card.dataset.value) || 0;
-          const max = Number(card.dataset.max) || 5;
-          const pct = Math.max(0, Math.min(1, val / max));
-          const fg = card.querySelector('.m-fg');
-          const txt = card.querySelector('text');
-
-          if (fg) {
-            fg.style.transition = 'stroke-dashoffset 1s ease';
-            const target = gaugeArc * (1 - pct);
-            requestAnimationFrame(() => {
-              fg.style.strokeDashoffset = String(target);
-            });
-          }
-
-          if (txt) {
-            const t0 = performance.now ? performance.now() : Date.now();
-            const dur = 1000;
-
-            (function step(t) {
-              const now = t || (performance.now ? performance.now() : Date.now());
-              const k = Math.min(1, (now - t0) / dur);
-              const v = (val * k).toFixed(1);
-              txt.textContent = v + '/' + max;
-              if (k < 1) requestAnimationFrame(step);
-            })();
-          }
-        }
-      }
-
-      cards.forEach((card, idx) => {
-        setTimeout(() => {
-          card.classList.add('show');
-          animateCard(card);
-        }, idx * 150);
-      });
-    })();
-  </script>
-
-  <!-- SVG ICON SPRITE -->
-  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute; width:0; height:0; overflow:hidden">
-    <defs><style>.i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.i-solid{fill:currentColor;stroke:none}</style></defs>
-    <symbol id="i-paw" viewBox="0 0 24 24"><path class="i" d="M7.2 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM16.8 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM10.2 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM13.8 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM6.5 15.2c0-2.6 2.3-4.7 5.5-4.7s5.5 2.1 5.5 4.7c0 1.6-1.5 2.8-3.4 2.8-1 0-1.9-.3-2.1-.8-.3.5-1.1.8-2.1.8-1.9 0-3.4-1.2-3.4-2.8z"/></symbol>
-  </svg>
-
-  <!-- Kart detay paneli davranışı -->
   <div class="info-panel" id="cardDetail" aria-hidden="true">
     <div class="info-panel-backdrop" data-close-detail></div>
     <div class="info-panel-body" role="dialog" aria-modal="true" aria-labelledby="cardDetailTitle">
@@ -1092,113 +730,116 @@
     </div>
   </div>
 
+  <!-- Schema: Hakkımızda sayfası + yerel işletme -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"AboutPage",
+        "@id":"https://elciveteriner.com/about#webpage",
+        "url":"https://elciveteriner.com/about",
+        "name":"Hakkımızda | Elçi Veteriner Kliniği",
+        "description":"Elçi Veteriner Kliniği'nin kuruluş öyküsü, ekibi, klinik yaklaşımı, misyonu ve değerleri.",
+        "about":{"@id":"https://elciveteriner.com/#klinik"},
+        "inLanguage":"tr-TR"
+      },
+      {
+        "@type":["VeterinaryCare","LocalBusiness"],
+        "@id":"https://elciveteriner.com/#klinik",
+        "name":"Elçi Veteriner Kliniği",
+        "url":"https://elciveteriner.com/",
+        "logo":"https://elciveteriner.com/assets/img/uploads/elci-logo.png",
+        "telephone":"+903323223220",
+        "email":"elcivetklinik@gmail.com",
+        "foundingDate":"2023",
+        "address":{"@type":"PostalAddress","streetAddress":"Havzan Mah. Yeni Meram Cad. 17/1","addressLocality":"Meram","addressRegion":"Konya","addressCountry":"TR"},
+        "openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"09:00","closes":"21:00"}],
+        "sameAs":["https://www.instagram.com/elciveteriner","https://www.facebook.com/elciveteriner","https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi"]
+      },
+      {
+        "@type":"Person",
+        "name":"Hasan Kaya",
+        "jobTitle":"Veteriner Hekim",
+        "worksFor":{"@id":"https://elciveteriner.com/#klinik"},
+        "alumniOf":{"@type":"CollegeOrUniversity","name":"Selçuk Üniversitesi Veteriner Fakültesi"}
+      }
+    ]
+  }
+  </script>
+
+  <script defer src="/assets/js/main.js?v=20260713"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function(){
+      const year=document.getElementById('yil');
+      if(year) year.textContent=new Date().getFullYear();
+
+      const btn=document.getElementById('mobileMenuBtn');
+      const menu=document.getElementById('mainMenu');
+      if(btn && menu){
+        const toggleMenu=(state)=>{
+          menu.classList.toggle('show',state);
+          document.body.classList.toggle('menu-open',state);
+          btn.setAttribute('aria-expanded',String(state));
+        };
+        btn.addEventListener('click',()=>toggleMenu(!menu.classList.contains('show')));
+        menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>toggleMenu(false)));
+      }
+    });
+  </script>
+
+  <!-- Google yorumları fallback -->
   <script>
     (function(){
-      const cards = document.querySelectorAll('.value[data-detail], .mv-card[data-detail]');
-      const panel = document.getElementById('cardDetail');
-      if (!panel || !cards.length) return;
-
-      const titleEl = panel.querySelector('#cardDetailTitle');
-      const textEl  = panel.querySelector('#cardDetailText');
-      const closeEls = panel.querySelectorAll('[data-close-detail]');
-
-      function openPanel(card){
-        const title = card.getAttribute('data-detail-title') ||
-                      card.querySelector('h3')?.textContent ||
-                      '';
-        const text  = card.getAttribute('data-detail-text') ||
-                      card.querySelector('p')?.textContent ||
-                      '';
-
-        if (titleEl) titleEl.textContent = title;
-        if (textEl)  textEl.textContent  = text;
-
-        panel.classList.add('open');
-        panel.setAttribute('aria-hidden', 'false');
+      const sec=document.querySelector('.js-reviews#hasta-yakini-gorusleri'); if(!sec) return;
+      const grid=sec.querySelector('.review-grid'); if(!grid) return;
+      if(grid.dataset.inited) return; grid.dataset.inited='1';
+      const src=sec.getAttribute('data-json')||'/assets/data/reviews.json';
+      const visible=Math.max(1,Number(sec.getAttribute('data-count'))||3);
+      const interval=Math.max(3000,Number(sec.getAttribute('data-interval'))||9000);
+      const escapeHTML=(value)=>String(value??'').replace(/[&<>'"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
+      function stars(n){const v=Math.round(Math.max(0,Math.min(5,Number(n)||5)));return '<div class="stars" aria-label="'+v+' yıldız">'+Array.from({length:5}).map((_,i)=>'<span aria-hidden="true">'+(i<v?'★':'☆')+'</span>').join('')+'</div>'}
+      function card(item){
+        const text=escapeHTML(item.text||item.review_text||item.comment||'');
+        const author=escapeHTML(item.author||item.author_name||item.name||'Ziyaretçi');
+        const rating=item.rating||item.stars||5;
+        const when=escapeHTML(item.time||item.relative_time_description||item.date||'');
+        return '<article class="review-card" role="article">'+stars(rating)+'<p class="review-text">'+text+'</p><div class="review-author">— '+author+'</div>'+(when?'<div class="review-meta">'+when+'</div>':'')+'</article>';
       }
-
-      function closePanel(){
-        panel.classList.remove('open');
-        panel.setAttribute('aria-hidden', 'true');
-      }
-
-      cards.forEach(card=>{
-        card.style.cursor = 'pointer';
-
-        card.addEventListener('click', function(){
-          openPanel(card);
-        });
-
-        card.addEventListener('keydown', function(e){
-          if(e.key === 'Enter' || e.key === ' '){
-            e.preventDefault();
-            openPanel(card);
-          }
-        });
-      });
-
-      const closeByAttr = panel.querySelectorAll('[data-close-detail]');
-      closeByAttr.forEach(el=>{
-        el.addEventListener('click', closePanel);
-      });
-
-      panel.addEventListener('click', function(e){
-        if(e.target === panel){
-          closePanel();
-        }
-      });
-
-      document.addEventListener('keydown', function(e){
-        if(e.key === 'Escape'){
-          closePanel();
-        }
-      });
+      fetch(src,{cache:'no-cache'}).then(r=>r.ok?r.json():[]).then(j=>{
+        const all=Array.isArray(j)?j:(j?.items||j?.data||[]);
+        if(!Array.isArray(all)||!all.length){grid.innerHTML='<p class="muted">Henüz yorum eklenmedi.</p>';return}
+        let idx=0;
+        function render(){const chunk=[];for(let i=0;i<visible;i++)chunk.push(all[(idx+i)%all.length]);grid.innerHTML=chunk.map(card).join('');idx=(idx+visible)%all.length}
+        render(); if(all.length>visible) setInterval(render,interval);
+      }).catch(()=>{grid.innerHTML='<p class="muted">Yorumlar yüklenemedi.</p>'});
     })();
   </script>
 
-  <!-- GÖRSEL ÖNBELLEK KIRMA - KESİN ÇÖZÜM -->
+  <!-- Misyon, vizyon ve değer kartı detayları -->
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Ana görseli dinamik olarak yükle
-      const mainImage = document.getElementById('elci-main-image');
-      if (mainImage) {
-        const timestamp = new Date().getTime();
-        const newSrc = '/assets/img/uploads/konyan%C4%B1n%20en%20iyi%20veteriner%20klini%C4%9Finin%20logo%20esinlenmesi.png?force=' + timestamp;
-        
-        // Önce görseli gizle
-        mainImage.style.opacity = '0';
-        
-        // Yeni görseli yükle
-        const img = new Image();
-        img.onload = function() {
-          mainImage.src = newSrc;
-          mainImage.style.opacity = '1';
-          mainImage.style.transition = 'opacity 0.5s ease';
-        };
-        img.onerror = function() {
-          // Yükleme başarısız olursa orijinal görseli göster
-          mainImage.style.opacity = '1';
-        };
-        img.src = newSrc;
+    (function(){
+      const cards=document.querySelectorAll('[data-detail="1"]');
+      const panel=document.getElementById('cardDetail');
+      if(!panel||!cards.length) return;
+      const titleEl=panel.querySelector('#cardDetailTitle');
+      const textEl=panel.querySelector('#cardDetailText');
+      let lastTrigger=null;
+      function openPanel(card){
+        lastTrigger=card;
+        titleEl.textContent=card.getAttribute('data-detail-title')||card.querySelector('h3')?.textContent||'';
+        textEl.textContent=card.getAttribute('data-detail-text')||card.querySelector('p')?.textContent||'';
+        panel.classList.add('open');panel.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
+        panel.querySelector('.info-panel-close')?.focus();
       }
-
-      // Veteriner fotoğrafını da güncelle
-      const vetPhoto = document.getElementById('vet-photo');
-      if (vetPhoto) {
-        const timestamp = new Date().getTime();
-        vetPhoto.src = '/assets/img/uploads/konyan%C4%B1n%20en%20iyi%20veterineri.jpg?force=' + timestamp;
-      }
-
-      // Hero logosunu da güncelle
-      const heroLogo = document.querySelector('.hero-logo');
-      if (heroLogo) {
-        const timestamp = new Date().getTime();
-        heroLogo.src = '/assets/img/uploads/elci-logo.png?force=' + timestamp;
-      }
-    });
-
-    // Tarayıcı önbelleğini temizleme butonu (geliştirme için)
-    console.log('Görsel önbellek temizleme aktif. Yeni görsel yükleniyor...');
+      function closePanel(){panel.classList.remove('open');panel.setAttribute('aria-hidden','true');document.body.style.overflow='';lastTrigger?.focus()}
+      cards.forEach(card=>{
+        card.addEventListener('click',()=>openPanel(card));
+        card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openPanel(card)}});
+      });
+      panel.querySelectorAll('[data-close-detail]').forEach(el=>el.addEventListener('click',closePanel));
+      document.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.classList.contains('open'))closePanel()});
+    })();
   </script>
 </body>
 </html>
