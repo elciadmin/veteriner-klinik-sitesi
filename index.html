@@ -1898,5 +1898,33 @@
       <path class="i" d="M7.2 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM16.8 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM10.2 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM13.8 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM6.5 15.2c0-2.6 2.3-4.7 5.5-4.7s5.5 2.1 5.5 4.7c0 1.6-1.5 2.8-3.4 2.8-1 0-1.9-.3-2.1-.8-.3.5-1.1.8-2.1.8-1.9 0-3.4-1.2-3.4-2.8z"/>
     </symbol>
   </svg>
+
+  <!-- Eski /about bağlantılarını Hakkımızda sayfasına yönlendirir -->
+  <script>
+    (function () {
+      function fixAboutLinks() {
+        document.querySelectorAll('a[href]').forEach(function (link) {
+          var href = (link.getAttribute('href') || '').trim().toLowerCase();
+          if (href === '/about' || href === '/about.html' || href === 'about' || href === 'about.html') {
+            link.setAttribute('href', '/hakkinda.html');
+          }
+        });
+      }
+
+      fixAboutLinks();
+      document.addEventListener('DOMContentLoaded', fixAboutLinks);
+
+      document.addEventListener('click', function (event) {
+        var link = event.target.closest && event.target.closest('a[href]');
+        if (!link) return;
+        var href = (link.getAttribute('href') || '').trim().toLowerCase();
+        if (href === '/about' || href === '/about.html' || href === 'about' || href === 'about.html') {
+          event.preventDefault();
+          window.location.href = '/hakkinda.html';
+        }
+      }, true);
+    })();
+  </script>
+
 </body> 
 </html>
