@@ -128,8 +128,12 @@
       position:absolute;left:0;right:0;top:50px;z-index:60;background:#fff;border:1px solid rgba(0,0,0,.1);
       border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.12);padding:12px;display:none;
     }
-    .dp-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-    .dp-head strong{font-weight:800}
+    .dp-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+    .dp-month-nav{display:flex;align-items:center;gap:8px;min-width:0}
+    .dp-month-nav strong{font-weight:800;min-width:150px;text-align:center}
+    .dp-nav-btn{width:34px;height:34px;border-radius:999px;border:1px solid rgba(90,31,168,.16);background:#fff;color:var(--brand);display:grid;place-items:center;cursor:pointer}
+    .dp-nav-btn:hover:not(:disabled){background:#f4effb}
+    .dp-nav-btn:disabled{opacity:.35;cursor:not-allowed}
     .dp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
     .dp-grid .dow{font-size:12px;color:#6b7a7c;text-align:center}
     .dcell{
@@ -150,21 +154,29 @@
     .terms-title{display:flex;align-items:center;gap:8px;margin-bottom:6px}
     .terms-title i{color:#0c4e54}
     .terms-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-    .terms-actions .btn{height:36px}
+    .terms-actions .btn{min-height:38px}
+    .terms-summary{margin:6px 0 10px;color:var(--muted);line-height:1.65}
+    .terms-summary strong{color:var(--ink)}
+    .legal-note{margin-top:10px;padding:10px 12px;border-radius:12px;background:#fff;border:1px solid rgba(90,31,168,.12);font-size:.9rem;color:var(--muted)}
+    .legal-note a{font-weight:700}
 
     dialog#termsModal,
+    dialog#privacyModal,
     dialog#storyModal{
       max-width:900px;width:92%;border-radius:18px;border:1px solid rgba(0,0,0,.1);padding:0;
     }
     dialog#termsModal .inner,
+    dialog#privacyModal .inner,
     dialog#storyModal .inner{
       padding:18px;
     }
     dialog#termsModal header,
+    dialog#privacyModal header,
     dialog#storyModal header{
       display:flex;justify-content:space-between;align-items:center;gap:10px;
     }
     dialog#termsModal .content,
+    dialog#privacyModal .content,
     dialog#storyModal .content{
       max-height:min(65vh,600px);overflow:auto;margin-top:8px;
     }
@@ -705,18 +717,23 @@
     <div class="container">
       <div class="section-head">
         <p class="section-kicker"><i class="fa-solid fa-calendar-check"></i> Randevu</p>
-        <h2>Online Randevu</h2>
-        <p>Uygun günü seçin; teyit için sizi arayalım.</p>
+        <h2>Online Randevu Talebi</h2>
+        <p>Randevu talepleri bugünden en erken 3 gün sonrası ve en fazla 30 gün ileri için alınır.</p>
       </div>
 
       <div class="form-shell">
       <div class="alert critical" role="alert">
         <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
-        <div><strong>Hayati risk varsa formu beklemeden <a href="tel:03323223220">0332 322 32 20</a> numarasını arayın.</strong><br>Bu form randevu talebi içindir.</div>
+        <div><strong>Hayati risk varsa formu beklemeden <a href="tel:03323223220">0332 322 32 20</a> numarasını arayın.</strong><br>Bu form yalnızca randevu talebi oluşturur; randevu, kliniğimizin telefonla teyidinden sonra kesinleşir.</div>
       </div>
 
       <form name="online-randevu" class="form" method="POST" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="online-randevu"/>
+        <input type="hidden" name="talep_zamani" id="talepZamani" value=""/>
+        <input type="hidden" name="tarih_iso" id="randevuTarihIso" value=""/>
+        <input type="hidden" name="randevu_durumu" value="onay-bekleyen-talep"/>
+        <input type="hidden" name="kvkk_aydinlatma_surumu" value="2026-07-14"/>
+        <input type="hidden" name="randevu_kosullari_surumu" value="2026-07-14"/>
         <p style="display:none"><label>Bot alanı: <input name="bot-field"/></label></p>
 
         <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
@@ -729,7 +746,11 @@
             <input id="randevuTarih" name="tarih" class="date-display" placeholder="gg.aa.yyyy" readonly required aria-haspopup="dialog"/>
             <div id="dp" class="dp-pop" role="dialog" aria-modal="true" aria-label="Randevu Tarihi Seçici">
               <div class="dp-head">
-                <strong id="dpTitle">Müsaitlik Takvimi</strong>
+                <div class="dp-month-nav">
+                  <button type="button" class="dp-nav-btn" id="dpPrev" aria-label="Önceki ay"><i class="fa-solid fa-chevron-left"></i></button>
+                  <strong id="dpTitle">Müsaitlik Takvimi</strong>
+                  <button type="button" class="dp-nav-btn" id="dpNext" aria-label="Sonraki ay"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
                 <button type="button" class="btn" id="dpClose">Kapat</button>
               </div>
               <div class="dp-grid" id="dpGrid">
@@ -754,6 +775,13 @@
             <option>Cerrahi Değerlendirme</option>
             <option>Diğer</option>
           </select>
+          <select name="tercih_edilen_zaman_araligi" required>
+            <option value="">Tercih Edilen Zaman Aralığı</option>
+            <option>09:00–12:00</option>
+            <option>12:00–15:00</option>
+            <option>15:00–18:00</option>
+            <option>18:00–20:00</option>
+          </select>
           <input type="text" name="mikrocip" placeholder="Mikroçip No (varsa)"/>
           <input type="text" name="irk" placeholder="Irk/Cins (opsiyonel)"/>
           <input type="number" step="0.1" name="kilo" placeholder="Kilo (kg, opsiyonel)"/>
@@ -761,21 +789,25 @@
 
         <textarea name="not" placeholder="Kısaca şikâyet/istek (son 12 saatte ilaç, kusma/ishal, iştah vb.)" rows="4"></textarea>
 
-        <!-- Hizmet Şartları + KVKK -->
+        <!-- KVKK AYDINLATMA + RANDEVU KOŞULLARI -->
         <div class="terms-wrap">
-          <div class="terms-title"><i class="fa-solid fa-shield-heart"></i><strong>Hizmet Şartları</strong></div>
-          <p class="muted" style="margin:6px 0 10px">
-            Randevu işlemlerinde kişisel verileriniz KVKK kapsamında işlenmektedir. Detayları görmek için:
+          <div class="terms-title"><i class="fa-solid fa-shield-heart"></i><strong>KVKK ve Randevu Koşulları</strong></div>
+          <p class="terms-summary">
+            Veri sorumlusu <strong>Elçi Veterinerlik Sanayi Ticaret Limited Şirketi</strong>dir; hizmetler <strong>Elçi Veteriner Kliniği</strong> markasıyla sunulur.
+            Aydınlatma metni bilgi vermek içindir ve onaya tabi değildir. Randevu talebini göndermek için yalnızca randevu ve ön bilgilendirme koşullarının kabulü gerekir.
           </p>
           <div class="terms-actions">
-            <button type="button" class="btn" id="openTerms">Metni Gör</button>
+            <button type="button" class="btn" id="openPrivacy"><i class="fa-solid fa-file-shield"></i> KVKK Metnini Gör</button>
+            <button type="button" class="btn" id="openTerms"><i class="fa-solid fa-file-signature"></i> Randevu Koşullarını Gör</button>
 
-            <!-- Onay butonu: yalnızca "okudum" -->
             <label class="consent" id="termsConsent">
-              <input id="termsCheck" type="checkbox" required aria-required="true"/>
+              <input id="termsCheck" type="checkbox" name="randevu_kosullari_kabul" value="evet" required aria-required="true"/>
               <span class="icon" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
-              <span>Aydınlatma metnini okudum</span>
+              <span>Randevu ve ön bilgilendirme koşullarını okudum, kabul ediyorum</span>
             </label>
+          </div>
+          <div class="legal-note">
+            Bu kabul, yasal tüketici ve hasta sahibi haklarını ortadan kaldırmaz; yalnızca çevrim içi randevu talebi sürecinin işleyişini düzenler.
           </div>
         </div>
 
@@ -969,8 +1001,8 @@
         "@type":"ContactPage",
         "@id":"https://elciveteriner.com/hasta-iliskileri.html#webpage",
         "url":"https://elciveteriner.com/hasta-iliskileri.html",
-        "name":"Hasta İlişkileri | Elçi Veteriner Kliniği",
-        "description":"Online randevu, geri bildirim ve hasta iletişim alanı.",
+        "name":"Randevu ve Hasta İlişkileri | Elçi Veteriner Kliniği",
+        "description":"En erken üç gün sonrası için randevu talebi, geri bildirim ve hasta iletişim alanı.",
         "isPartOf":{"@id":"https://elciveteriner.com/#website"},
         "about":{"@id":"https://elciveteriner.com/#clinic"}
       },
@@ -978,6 +1010,7 @@
         "@type":"VeterinaryCare",
         "@id":"https://elciveteriner.com/#clinic",
         "name":"Elçi Veteriner Kliniği",
+        "legalName":"Elçi Veterinerlik Sanayi Ticaret Limited Şirketi",
         "url":"https://elciveteriner.com/",
         "telephone":"+903323223220",
         "image":"https://elciveteriner.com/assets/img/uploads/elci-logo.png",
@@ -1019,16 +1052,26 @@
     const yil = document.getElementById('yil'); 
     if(yil){ yil.textContent = new Date().getFullYear(); }
 
-    /* ===== Datepicker (tek ay) ===== */
+    /* ===== Datepicker: en erken +3 gün, en fazla +30 gün ===== */
     const input = document.getElementById('randevuTarih');
+    const isoInput = document.getElementById('randevuTarihIso');
     const pop   = document.getElementById('dp');
     const grid  = document.getElementById('dpGrid');
     const title = document.getElementById('dpTitle');
     const closeBtn = document.getElementById('dpClose');
+    const prevBtn = document.getElementById('dpPrev');
+    const nextBtn = document.getElementById('dpNext');
 
-    // min = bugünden 2 gün sonrası
     const today = new Date();
-    const min = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2);
+    today.setHours(0,0,0,0);
+    const min = new Date(today);
+    min.setDate(min.getDate() + 3);
+    const max = new Date(today);
+    max.setDate(max.getDate() + 30);
+
+    // Resmî tatil veya özel kapanış günleri gerektiğinde ISO formatında eklenebilir.
+    const blockedDates = new Set([]); // Örnek: ['2026-07-24']
+    let currentMonth = new Date(min.getFullYear(), min.getMonth(), 1);
 
     function fmt(d){
       const dd = String(d.getDate()).padStart(2,'0');
@@ -1036,50 +1079,60 @@
       const yy = d.getFullYear();
       return dd+'.'+mm+'.'+yy;
     }
+    function iso(d){
+      const mm = String(d.getMonth()+1).padStart(2,'0');
+      const dd = String(d.getDate()).padStart(2,'0');
+      return `${d.getFullYear()}-${mm}-${dd}`;
+    }
+    function monthKey(d){ return d.getFullYear()*12 + d.getMonth(); }
 
     function render(monthDate){
       grid.innerHTML = '';
-
       const y = monthDate.getFullYear();
       const m = monthDate.getMonth();
       const first = new Date(y, m, 1);
-      const startDow = (first.getDay()+6)%7; // Pazartesi=0
-
+      const startDow = (first.getDay()+6)%7;
       const monthName = monthDate.toLocaleDateString('tr-TR', {month:'long', year:'numeric'});
       title.textContent = monthName.charAt(0).toUpperCase()+monthName.slice(1);
-
       const lastDay = new Date(y, m+1, 0).getDate();
 
-      const dows = ['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'];
-      dows.forEach(d=>{ const el = document.createElement('div'); el.textContent=d; el.className='dow'; grid.appendChild(el); });
-
-      // boşluklar
-      for(let i=0;i<startDow;i++){ const s=document.createElement('div'); grid.appendChild(s); }
+      ['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'].forEach(d=>{
+        const el = document.createElement('div'); el.textContent=d; el.className='dow'; grid.appendChild(el);
+      });
+      for(let i=0;i<startDow;i++){ grid.appendChild(document.createElement('div')); }
 
       for(let day=1; day<=lastDay; day++){
-        const d = new Date(y,m,day);
+        const d = new Date(y,m,day); d.setHours(0,0,0,0);
+        const isBlocked = d < min || d > max || blockedDates.has(iso(d));
         const cell = document.createElement('button');
         cell.type='button';
-        cell.className='dcell '+(d>=min ? 'ok':'block');
+        cell.className='dcell '+(!isBlocked ? 'ok':'block');
         cell.textContent=day;
         cell.setAttribute('aria-label', fmt(d));
-        if(d<min){ cell.disabled = true; }
+        cell.disabled = isBlocked;
         cell.addEventListener('click', ()=> {
-          if(d<min) return;
+          if(isBlocked) return;
           input.value = fmt(d);
+          if (isoInput) isoInput.value = iso(d);
           pop.style.display='none';
           input.focus();
         });
         grid.appendChild(cell);
       }
+
+      if (prevBtn) prevBtn.disabled = monthKey(monthDate) <= monthKey(min);
+      if (nextBtn) nextBtn.disabled = monthKey(monthDate) >= monthKey(max);
     }
 
     function openDP(){
-      const base = new Date(min.getFullYear(), min.getMonth(), 1);
-      render(base);
+      currentMonth = input && input.value && isoInput && isoInput.value
+        ? new Date(isoInput.value + 'T00:00:00')
+        : new Date(min.getFullYear(), min.getMonth(), 1);
+      currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+      render(currentMonth);
       pop.style.display='block';
       const rect = input.getBoundingClientRect();
-      if(window.innerHeight - rect.bottom < 320){ pop.style.top = 'auto'; pop.style.bottom = '52px'; }
+      if(window.innerHeight - rect.bottom < 350){ pop.style.top = 'auto'; pop.style.bottom = '52px'; }
       else{ pop.style.top='50px'; pop.style.bottom='auto'; }
     }
 
@@ -1087,67 +1140,175 @@
       input.addEventListener('click', openDP);
       input.addEventListener('focus', openDP);
     }
-    if(closeBtn){
-      closeBtn.addEventListener('click', ()=> pop.style.display='none');
+    if(prevBtn){
+      prevBtn.addEventListener('click', ()=>{
+        const candidate = new Date(currentMonth.getFullYear(), currentMonth.getMonth()-1, 1);
+        if(monthKey(candidate) >= monthKey(min)){ currentMonth = candidate; render(currentMonth); }
+      });
     }
+    if(nextBtn){
+      nextBtn.addEventListener('click', ()=>{
+        const candidate = new Date(currentMonth.getFullYear(), currentMonth.getMonth()+1, 1);
+        if(monthKey(candidate) <= monthKey(max)){ currentMonth = candidate; render(currentMonth); }
+      });
+    }
+    if(closeBtn){ closeBtn.addEventListener('click', ()=> pop.style.display='none'); }
     document.addEventListener('click', (e)=>{
-      if(!pop.contains(e.target) && e.target!==input){ pop.style.display='none'; }
+      if(pop && !pop.contains(e.target) && e.target!==input){ pop.style.display='none'; }
     });
 
-    /* ===== Hizmet Şartları Modal ===== */
+    /* ===== KVKK Aydınlatma Metni (onay değil, bilgilendirme) ===== */
+    const privacyModal = document.createElement('dialog');
+    privacyModal.id = 'privacyModal';
+    privacyModal.innerHTML = `
+      <div class="inner">
+        <header>
+          <h3 style="margin:0">Kişisel Verilerin İşlenmesine İlişkin Aydınlatma Metni</h3>
+          <form method="dialog"><button class="btn">Kapat</button></form>
+        </header>
+        <div class="content muted">
+          <p><strong>Metin sürümü:</strong> 14.07.2026</p>
+          <h4>1) Veri Sorumlusu</h4>
+          <p>6698 sayılı Kişisel Verilerin Korunması Kanunu (“KVKK”) kapsamında veri sorumlusu; <strong>Elçi Veterinerlik Sanayi Ticaret Limited Şirketi</strong>dir. Şirket, veteriner sağlık hizmetlerini <strong>Elçi Veteriner Kliniği</strong> markasıyla sunmaktadır.</p>
+          <p><strong>Adres:</strong> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya<br>
+          <strong>Telefon:</strong> <a href="tel:+903323223220">0332 322 32 20</a><br>
+          <strong>E-posta:</strong> <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></p>
+
+          <h4>2) İşlenen Kişisel Veri Kategorileri</h4>
+          <ul>
+            <li>Kimlik ve iletişim verileri: ad-soyad, telefon, e-posta.</li>
+            <li>Randevu ve işlem verileri: talep tarihi, tercih edilen gün/zaman aralığı, hizmet türü, form notları ve iletişim kayıtları.</li>
+            <li>Evcil hayvana ilişkin, sahibiyle ilişkilendirilebilen bilgiler: tür, ırk, kilo, mikroçip numarası, şikâyet ve bakım bilgileri.</li>
+            <li>İşlem güvenliği verileri: form gönderim zamanı ile barındırma ve güvenlik altyapısınca oluşturulabilen teknik kayıtlar.</li>
+          </ul>
+          <p>Lütfen formun serbest metin alanına kendinize veya üçüncü kişilere ait gereksiz özel nitelikli kişisel veri yazmayın.</p>
+
+          <h4>3) Kişisel Verilerin İşlenme Amaçları</h4>
+          <ul>
+            <li>Randevu talebinin alınması, değerlendirilmesi ve telefonla teyit edilmesi,</li>
+            <li>Veteriner sağlık hizmetinin planlanması ve yürütülmesi,</li>
+            <li>Hasta sahibiyle hizmete ilişkin iletişim kurulması ve kontrol süreçlerinin yönetilmesi,</li>
+            <li>Memnuniyet, şikâyet ve önerilerin değerlendirilmesi,</li>
+            <li>Bilgi güvenliği, işlem güvenliği, uyuşmazlıkların yönetimi ve hukuki yükümlülüklerin yerine getirilmesi.</li>
+          </ul>
+
+          <h4>4) Hukuki Sebepler ve Toplama Yöntemi</h4>
+          <p>Veriler; web formları, telefon, e-posta ve yüz yüze iletişim yoluyla otomatik, kısmen otomatik veya veri kayıt sisteminin parçası olmak kaydıyla otomatik olmayan yöntemlerle toplanır. İşleme faaliyetleri, somut faaliyete göre KVKK’nın 5’inci maddesindeki sözleşmenin kurulması veya ifası, hukuki yükümlülüğün yerine getirilmesi, bir hakkın tesisi/kullanılması/korunması ve veri sorumlusunun meşru menfaati hukuki sebeplerine dayanır. Açık rıza gerektiren farklı bir faaliyet olursa ayrıca ve isteğe bağlı olarak açık rıza istenir.</p>
+
+          <h4>5) Aktarım</h4>
+          <p>Veriler; yalnızca amaçla sınırlı olmak üzere yetkili şirket ve klinik çalışanlarına, teknik altyapı/form/e-posta hizmet sağlayıcılarına, hukuk ve mali danışmanlara ve mevzuatın gerektirdiği yetkili kamu kurumlarına aktarılabilir. Yurt dışına aktarım söz konusu olduğunda KVKK’nın 9’uncu maddesinde öngörülen şartlar ve uygun güvence mekanizmaları uygulanır.</p>
+
+          <h4>6) Saklama ve İmha</h4>
+          <p>Veriler, işleme amacının gerektirdiği süre ve ilgili mevzuatta öngörülen saklama süreleri boyunca muhafaza edilir; amaç ve hukuki sebep sona erdiğinde silinir, yok edilir veya anonim hâle getirilir. Hizmete dönüşmeyen randevu talepleri de gereksiz şekilde süresiz saklanmaz.</p>
+
+          <h4>7) KVKK Kapsamındaki Haklarınız</h4>
+          <p>KVKK’nın 11’inci maddesi kapsamındaki bilgi alma, düzeltme, silme/yok etme, aktarılan üçüncü kişileri öğrenme, otomatik sonuçlara itiraz ve zararın giderilmesini talep etme haklarınızı kullanabilirsiniz. Başvurularınızı kimliğinizi doğrulayacak bilgi ve belgelerle şirket adresine yazılı olarak veya daha önce sistemimizde kayıtlı bulunan e-posta adresiniz üzerinden <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a> adresine iletebilirsiniz.</p>
+
+          <h4>8) Aydınlatma ve Açık Rıza Ayrımı</h4>
+          <p>Bu metin bir açık rıza metni değildir. Randevu hizmetinin sunulmasıyla ilgisi olmayan pazarlama, sosyal medya paylaşımı veya benzeri amaçlar için gerekli olması hâlinde ayrıca, belirli ve isteğe bağlı açık rıza alınır.</p>
+        </div>
+        <form method="dialog" style="display:flex;justify-content:flex-end;margin-top:12px">
+          <button class="btn primary" value="close">Kapat</button>
+        </form>
+      </div>`;
+    document.body.appendChild(privacyModal);
+
+    /* ===== Randevu ve Ön Bilgilendirme Koşulları ===== */
     const termsModal = document.createElement('dialog');
     termsModal.id = 'termsModal';
     termsModal.innerHTML = `
       <div class="inner">
         <header>
-          <h3 style="margin:0">Hizmet Şartları</h3>
+          <h3 style="margin:0">Randevu ve Ön Bilgilendirme Koşulları</h3>
           <form method="dialog"><button class="btn">Kapat</button></form>
         </header>
         <div class="content muted">
-          <h4>1) Randevu ve Triyaj</h4>
-          <p>Bu form ön bilgi içindir; <strong>acil/hayati risk</strong> durumlarında <a href="tel:03323223220">0332 322 32 20</a> hattını arayın.</p>
-          <h4>2) KVKK Aydınlatması (Özet)</h4>
-          <ul>
-            <li>İşlenen veriler: Ad-soyad, iletişim, evcil hayvan bilgileri, randevu notları.</li>
-            <li>Amacı: Sağlık hizmeti sunumu, kimlik doğrulama, randevu ve iletişim.</li>
-            <li>Hukuki dayanak: 6698 sayılı KVKK md. 5/2 ve sağlık hizmeti istisnaları.</li>
-            <li>Saklama: Mevzuat ve sözleşme ilişkisi süresince.</li>
-            <li>Haklar: Bilgi talebi, düzeltme, silme, itiraz vb. başvurular için <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a>.</li>
-          </ul>
-          <h4>3) İletişim</h4>
-          <p>Randevu teyidi ve hizmet süreci hakkında telefon veya e-posta ile iletişim kurulabilir.</p>
+          <p><strong>Metin sürümü:</strong> 14.07.2026</p>
+          <h4>1) Talebin Niteliği ve Kesinleşme</h4>
+          <p>Çevrim içi form, kesin randevu oluşturmaz. Seçilen tarih ve zaman aralığı bir <strong>tercih/talep</strong> niteliğindedir. Randevu, Elçi Veteriner Kliniği tarafından telefonla teyit edilip tarih ve saat açıkça bildirildiğinde kesinleşir. Teyit alınmadan kliniğe gelinmesi hâlinde bekleme veya başka bir güne planlama gerekebilir.</p>
+
+          <h4>2) Tarih Sınırı ve Kapasite</h4>
+          <p>Form üzerinden yalnızca bugünden itibaren <strong>en erken 3 gün sonrası</strong> ve <strong>en fazla 30 gün ileri</strong> için talep oluşturulabilir. Resmî tatil, özel çalışma saati, teknik arıza, personel durumu, acil vakalar veya klinik kapasitesi nedeniyle alternatif tarih/saat önerilebilir ya da talep reddedilebilir.</p>
+
+          <h4>3) Acil ve Hayati Riskli Durumlar</h4>
+          <p>Bu form acil triyaj veya acil müdahale kanalı değildir. Solunum güçlüğü, bilinç kaybı, kontrolsüz kanama, zehirlenme şüphesi, nöbet, travma veya benzeri hayati risklerde form yanıtını beklemeyin; çalışma saatlerinde <a href="tel:+903323223220">0332 322 32 20</a> numarasını arayın. Kliniğe ulaşılamıyorsa en yakın kesintisiz acil hizmet sunan merkeze başvurun.</p>
+
+          <h4>4) Her Talep İçin Tek Hasta</h4>
+          <p>Her randevu talebi tek bir evcil hayvan içindir. Birden fazla hayvan için ayrı form oluşturulması, yeterli zaman planlanabilmesi açısından gereklidir.</p>
+
+          <h4>5) Bilgilerin Doğruluğu ve Klinik Değerlendirme</h4>
+          <p>Hasta sahibi; bilinen hastalıklar, kullanılan ilaçlar, alerji/reaksiyon öyküsü, gebelik ihtimali, saldırganlık veya ısırma riski ve son gelişmeler hakkında doğru ve eksiksiz bilgi vermelidir. Form üzerinden tanı konulmaz, reçete düzenlenmez ve tedavi garantisi verilmez. Tanı ve tedavi planı klinik muayene ve gerekli görülen tetkikler sonrasında belirlenir.</p>
+
+          <h4>6) Saat, Gecikme ve İptal</h4>
+          <p>Hasta sahibinin teyit edilen saatten yaklaşık 10 dakika önce klinikte olması önerilir. On beş dakikayı aşan gecikmeler, sonraki randevuların aksamaması için bekleme veya yeniden planlama sonucunu doğurabilir. Gelemeyeceğiniz randevuyu mümkünse en az 6 saat önce bildirmeniz rica olunur.</p>
+
+          <h4>7) Ücret ve Ek İşlemler</h4>
+          <p>Formda veya telefon görüşmesinde verilen bilgiler kesin fiyat teklifi değildir. Muayene, tetkik, ilaç, sarf, anestezi, cerrahi ve diğer işlemler ayrı ücretlendirilebilir. Planlanan ek işlemler ve önemli maliyet değişiklikleri, uygulanmadan önce hasta sahibine açıklanır ve onayı alınır; mevzuattan doğan zorunluluklar saklıdır.</p>
+
+          <h4>8) Yönlendirme ve Hizmet Sınırları</h4>
+          <p>Kliniğin teknik imkânını veya izlem kapasitesini aşan ileri görüntüleme, yoğun bakım, kesintisiz takip veya uzmanlık gerektiren durumlarda hasta sahibi bilgilendirilerek uygun merkeze yönlendirme yapılabilir. Yönlendirme, hastanın ihtiyacına göre güvenli hizmet planlamasının bir parçasıdır.</p>
+
+          <h4>9) İletişim</h4>
+          <p>Randevu teyidi, saat değişikliği, hizmete ilişkin ön bilgi ve kontrol hatırlatması için telefon veya e-posta yoluyla iletişim kurulabilir. Bu iletişim pazarlama amacı taşımaz. Kampanya veya tanıtım iletileri için ayrıca gerekli izin alınır.</p>
+
+          <h4>10) Kanuni Haklar</h4>
+          <p>Bu koşullar, hasta sahibinin tüketici mevzuatı ve diğer kanunlardan doğan haklarını ortadan kaldırmaz; kliniğin kanundan doğan sorumluluğunu bertaraf eden bir feragat veya sorumsuzluk kaydı niteliğinde değildir.</p>
         </div>
         <form method="dialog" style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px">
           <button class="btn" value="cancel">Kapat</button>
-          <button class="btn primary" value="ok" id="termsApprove">Aydınlatma metnini okudum</button>
+          <button class="btn primary" value="ok">Koşulları Okudum ve Kabul Ediyorum</button>
         </form>
       </div>`;
     document.body.appendChild(termsModal);
 
+    const openPrivacy = document.getElementById('openPrivacy');
     const openTerms = document.getElementById('openTerms');
     const termsCheck = document.getElementById('termsCheck');
     const submitBtn  = document.querySelector('form[name="online-randevu"] button[type="submit"]');
+    const appointmentForm = document.querySelector('form[name="online-randevu"]');
     const consentWrap= document.getElementById('termsConsent');
+    const requestTime = document.getElementById('talepZamani');
 
     function syncConsentUI(){
       const checked = termsCheck && termsCheck.checked;
       if (submitBtn) submitBtn.disabled = !checked;
       if (consentWrap) consentWrap.classList.toggle('is-checked', !!checked);
     }
-    if (termsCheck){
-      termsCheck.addEventListener('change', syncConsentUI);
-      syncConsentUI();
-    }
-
-    if(openTerms){
-      openTerms.addEventListener('click', ()=> termsModal.showModal());
-    }
+    if (termsCheck){ termsCheck.addEventListener('change', syncConsentUI); syncConsentUI(); }
+    if(openPrivacy){ openPrivacy.addEventListener('click', ()=> privacyModal.showModal()); }
+    if(openTerms){ openTerms.addEventListener('click', ()=> termsModal.showModal()); }
     termsModal.addEventListener('close', ()=>{
-      if(termsModal.returnValue==='ok'){
+      if(termsModal.returnValue==='ok' && termsCheck){
         termsCheck.checked = true;
         termsCheck.dispatchEvent(new Event('change', {bubbles:true}));
       }
     });
+
+    if (appointmentForm){
+      appointmentForm.addEventListener('submit', (e)=>{
+        if (requestTime) requestTime.value = new Date().toISOString();
+        if (!isoInput || !isoInput.value){
+          e.preventDefault();
+          alert('Lütfen takvimden geçerli bir randevu tarihi seçin.');
+          input?.focus();
+          return;
+        }
+        const selected = new Date(isoInput.value + 'T00:00:00');
+        if (selected < min || selected > max || blockedDates.has(isoInput.value)){
+          e.preventDefault();
+          input.value = '';
+          isoInput.value = '';
+          alert('Randevu tarihi bugünden en erken 3 gün sonrası ve en fazla 30 gün ileri olmalıdır.');
+          input?.focus();
+          return;
+        }
+        if (!termsCheck?.checked){
+          e.preventDefault();
+          alert('Randevu ve ön bilgilendirme koşullarını kabul etmeniz gerekir.');
+          termsCheck?.focus();
+        }
+      });
+    }
 
     /* ===== Başarı hikayeleri: JSON dosyadan kart üretimi, highlight rotasyonu ve modal ===== */
     const gridEl = document.getElementById('successGrid');
