@@ -527,6 +527,90 @@
     }
   </style>
 
+
+  <style id="elci-blog-menu-animation-fix">
+    /*
+      Yalnızca üst ana menünün doğrudan öğelerini hedefler.
+      Açılır menü bağlantılarına ve sayfa içindeki diğer nav alanlarına dokunmaz.
+    */
+    @media (min-width:769px){
+      #mainMenu.nav-intro-ready > li{
+        opacity:0;
+        transform:translateY(-12px);
+        filter:blur(2px);
+        animation:elciMainMenuReveal .52s cubic-bezier(.22,.78,.24,1) forwards;
+        will-change:opacity,transform,filter;
+      }
+      #mainMenu.nav-intro-ready > li:nth-child(1){animation-delay:.05s}
+      #mainMenu.nav-intro-ready > li:nth-child(2){animation-delay:.11s}
+      #mainMenu.nav-intro-ready > li:nth-child(3){animation-delay:.17s}
+      #mainMenu.nav-intro-ready > li:nth-child(4){animation-delay:.23s}
+      #mainMenu.nav-intro-ready > li:nth-child(5){animation-delay:.29s}
+      #mainMenu.nav-intro-ready > li:nth-child(6){animation-delay:.35s}
+
+      /* Diğer sayfalardaki gibi alttan akan aktif/hover çizgisi */
+      #mainMenu > li > a::after{
+        left:0 !important;
+        right:auto !important;
+        width:100% !important;
+        transform:scaleX(0);
+        transform-origin:left center;
+        transition:transform .24s cubic-bezier(.22,.78,.24,1) !important;
+      }
+      #mainMenu > li > a:hover::after,
+      #mainMenu > li > a:focus-visible::after,
+      #mainMenu > li > a.active::after,
+      #mainMenu > li > a[aria-current="page"]::after{
+        transform:scaleX(1);
+      }
+    }
+
+    @keyframes elciMainMenuReveal{
+      0%{
+        opacity:0;
+        transform:translateY(-12px);
+        filter:blur(2px);
+      }
+      70%{
+        opacity:1;
+        filter:blur(0);
+      }
+      100%{
+        opacity:1;
+        transform:translateY(0);
+        filter:blur(0);
+      }
+    }
+
+    /* Mobil menü her açıldığında sırayla görünür. */
+    @media (max-width:768px){
+      #mainMenu.show > li{
+        opacity:0;
+        transform:translateX(-12px);
+        animation:elciMobileMenuReveal .34s ease forwards;
+      }
+      #mainMenu.show > li:nth-child(1){animation-delay:.03s}
+      #mainMenu.show > li:nth-child(2){animation-delay:.07s}
+      #mainMenu.show > li:nth-child(3){animation-delay:.11s}
+      #mainMenu.show > li:nth-child(4){animation-delay:.15s}
+      #mainMenu.show > li:nth-child(5){animation-delay:.19s}
+      #mainMenu.show > li:nth-child(6){animation-delay:.23s}
+    }
+    @keyframes elciMobileMenuReveal{
+      to{opacity:1;transform:translateX(0)}
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      #mainMenu.nav-intro-ready > li,
+      #mainMenu.show > li{
+        opacity:1 !important;
+        transform:none !important;
+        filter:none !important;
+        animation:none !important;
+      }
+    }
+  </style>
+
 </head>
 <body data-page="blog">
   <a class="skip-link" href="#main-content">İçeriğe geç</a>
@@ -954,5 +1038,37 @@
     }
   })();
   </script>
+
+  <script id="elci-blog-menu-animation-script">
+    document.addEventListener('DOMContentLoaded', function(){
+      const menu = document.getElementById('mainMenu');
+      if(!menu) return;
+
+      /* Sayfa iskeleti çizildikten sonra sınıf eklenir; animasyon böylece görünür biçimde başlar. */
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
+          menu.classList.add('nav-intro-ready');
+        });
+      });
+
+      /* Mobil menü yeniden açıldığında animasyonu tekrar başlatır. */
+      const button = document.getElementById('mobileMenuBtn');
+      if(button){
+        button.addEventListener('click', function(){
+          if(window.innerWidth > 768) return;
+          requestAnimationFrame(function(){
+            if(menu.classList.contains('show')){
+              menu.querySelectorAll(':scope > li').forEach(function(item){
+                item.style.animation = 'none';
+                void item.offsetWidth;
+                item.style.animation = '';
+              });
+            }
+          });
+        });
+      }
+    });
+  </script>
+
 </body>
 </html>
