@@ -317,7 +317,30 @@
       .reveal{opacity:1;transform:none}
     }
   </style>
-</head>
+<
+  <style id="brand-color-fix">
+    /* Global CSS'in marka metni rengini ezmesini önleyen güvenli düzeltme */
+    .header-main .brand-lockup,
+    .header-main .brand-lockup:link,
+    .header-main .brand-lockup:visited,
+    .header-main .brand-lockup:hover,
+    .header-main .brand-lockup:focus{
+      color:#ffffff !important;
+    }
+    .header-main .brand-lockup .brand-copy strong{
+      color:#ffffff !important;
+      -webkit-text-fill-color:#ffffff !important;
+    }
+    .header-main .brand-lockup .brand-copy .header-signature,
+    .header-main .brand-lockup .brand-copy .signature-tagline{
+      color:#dffaff !important;
+      -webkit-text-fill-color:#dffaff !important;
+    }
+    .header-main .brand-lockup .signature-tagline::after{
+      background:linear-gradient(90deg,transparent 0%,#dffaff 14%,#dffaff 78%,transparent 100%) !important;
+    }
+  </style>
+/head>
 <body data-page="blog">
   <a class="skip-link" href="#main-content">İçeriğe geç</a>
 
