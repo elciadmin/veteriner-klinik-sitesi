@@ -3,846 +3,45 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Hizmetlerimiz | Elçi Veteriner Kliniği</title>
+  <title>Hizmetlerimiz | Elçi Veteriner Kliniği – Meram Konya</title>
 
-  <!-- SEO -->
-  <meta name="description" content="Elçi Veteriner Kliniği hizmetleri: acil ön değerlendirme ve ilk müdahale, koruyucu hekimlik, iç hastalıkları, cerrahi, ağız ve diş sağlığı, laboratuvar ve görüntüleme yönlendirmesi."/>
+  <meta name="description" content="Elçi Veteriner Kliniği'nin muayene, koruyucu hekimlik, laboratuvar, cerrahi, ağız ve diş sağlığı, iç hastalıkları ve diğer veterinerlik hizmetlerini inceleyin."/>
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"/>
+  <meta name="theme-color" content="#5a1fa8"/>
   <link rel="canonical" href="https://elciveteriner.com/hizmetler.html"/>
+  <link rel="alternate" hreflang="tr-TR" href="https://elciveteriner.com/hizmetler.html"/>
 
-  <!-- Global CSS -->
+  <meta property="og:locale" content="tr_TR"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="Elçi Veteriner Kliniği"/>
+  <meta property="og:title" content="Hizmetlerimiz | Elçi Veteriner Kliniği"/>
+  <meta property="og:description" content="Meram Konya'da sunduğumuz veterinerlik hizmetlerini inceleyin."/>
+  <meta property="og:url" content="https://elciveteriner.com/hizmetler.html"/>
+  <meta property="og:image" content="https://elciveteriner.com/assets/img/uploads/elci-logo.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+
+  <script>
+    (function () {
+      var h = location.hash || '';
+      if (
+        h.startsWith('#invite_token=') ||
+        h.startsWith('#recovery_token=') ||
+        h.startsWith('#confirmation_token=')
+      ) { location.replace('/admin/' + h); }
+    })();
+  </script>
+
   <link rel="stylesheet" href="/assets/css/tokens.css?v=20251106"/>
   <link rel="stylesheet" href="/assets/css/styles.css?v=20251106"/>
 
-  <!-- Font Awesome (ikonlar) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet"/>
+
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <!-- Sayfaya özgü stiller (profesyonel gövde) -->
   <style>
-    :root{
-      /* About / Index ile birebir aynı palet (temel) */
-      --brand:#5a1fa8;
-      --brand2:#36106b;
-      --accent:#27d4e8;
-
-      /* HERO – INDEX HERO İLE AYNI TON */
-      --hero-start:#30105f;  /* index hero başlangıç */
-      --hero-end:#27d4e8;    /* index hero bitiş */
-
-      --ink:#0f1b22;
-      --muted:#5f6b74;
-      --bg:#f7fbfc;
-
-      --card:#ffffff;
-      --card-border:#e7edf1;
-    }
-
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
-
-    body{
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
-      background:var(--bg);
-      color:var(--ink);
-      line-height:1.6;
-    }
-
-    /* INDEX / ABOUT / HASTA İLE AYNI GENİŞLİK */
-    .container,
-    .page-wrap{
-      max-width:1180px;
-      margin:0 auto;
-      padding:0 16px;
-    }
-
-    /* ===== HEADER ===== */
-    .header-top{
-      /* ÜST ŞERİT – about/hasta ile aynı gradyan */
-      background:linear-gradient(90deg, var(--brand) 0%, var(--brand2) 100%);
-      color:#fff;
-    }
-    .header-top .container{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      padding:4px 16px; /* İNCELTİLDİ */
-      flex-wrap:wrap;
-    }
-    .header-contact span,
-    .header-contact a{
-      margin-right:16px;
-      text-decoration:none;
-      color:#f3f7ff;
-      white-space:nowrap;
-    }
-    .header-contact a:hover{
-      color:#ffffff;
-    }
-
-    .header-main{
-      /* Mor header bar – index/about ile uyumlu */
-      background:linear-gradient(
-        90deg,
-        color-mix(in srgb, var(--brand), #000 8%) 0%,
-        color-mix(in srgb, var(--brand2), #000 6%) 100%
-      );
-      color:#fff;
-      position:sticky;
-      top:0;
-      z-index:60;
-      /* HEADER ile HERO arasındaki beyaz şerit */
-      border-bottom:16px solid #ffffff; /* 20px → 16px */
-    }
-
-    .header-main .container{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:8px 16px; /* 10px 12px → 8px 16px */
-      gap:10px;
-    }
-    .logo-text h1{
-      font-size:1.5rem; /* 1.6 → 1.5 */
-      font-weight:800;
-      color:#fff;
-      letter-spacing:.02em;
-    }
-    .logo-text span{
-      font-size:.85rem;
-      color:#e8fbff;
-    }
-
-    nav ul{
-      list-style:none;
-      display:flex;
-      gap:18px;
-      align-items:center;
-    }
-    nav li{position:relative;}
-    nav a{
-      text-decoration:none;
-      font-size:.9rem;
-      font-weight:500;
-      color:#eaf6f8;
-      padding:6px 0;
-      position:relative;
-    }
-    nav a::after{
-      content:"";
-      position:absolute;
-      left:0;
-      bottom:-3px;
-      width:0;
-      height:2px;
-      border-radius:999px;
-      background:#c0f3ff;
-      transition:width .18s;
-    }
-    nav a:hover::after,
-    nav a.active::after{
-      width:100%;
-    }
-    nav a.active,
-    nav a[aria-current="page"]{
-      color:#c0f3ff;
-    }
-    .mobile-menu-btn{
-      display:none;
-      background:none;
-      border:none;
-      font-size:1.5rem;
-      cursor:pointer;
-    }
-
-    .divider{
-      width:80px;
-      height:4px;
-      border-radius:999px;
-      background:linear-gradient(90deg,#ffffff,var(--accent));
-      margin-bottom:16px;
-    }
-    .page-sub{
-      margin:0;
-      color:#eaf7ff;
-      opacity:.96;
-      font-size:.98rem;
-    }
-
-    /* ===== ACİL ŞERİT ===== */
-    .emergency-alert{
-      background:linear-gradient(120deg,#ff6b6b,#ee5a24);
-      color:#fff;
-      box-shadow:0 12px 32px rgba(238,90,36,.45);
-      position:relative;
-      z-index:2;
-    }
-    .emergency-alert .page-wrap{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      padding:10px 16px;
-      flex-wrap:wrap;
-    }
-    .alert-icon{
-      font-size:1.5rem;
-      animation:alertPulse 2s infinite;
-    }
-    .alert-text{
-      flex:1;
-      min-width:230px;
-      font-size:.92rem;
-    }
-    .alert-text strong{
-      display:block;
-      font-size:1rem;
-      margin-bottom:2px;
-    }
-    .alert-text a{
-      color:#fff;
-      font-weight:600;
-      text-decoration:underline;
-      text-decoration-thickness:1px;
-    }
-    .alert-btn{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 18px;
-      border-radius:999px;
-      background:#fff;
-      color:#ee5a24;
-      font-weight:700;
-      text-decoration:none;
-      white-space:nowrap;
-      box-shadow:0 6px 16px rgba(0,0,0,.25);
-      transition:transform .18s, box-shadow .18s;
-    }
-    .alert-btn:hover{
-      transform:translateY(-2px);
-      box-shadow:0 10px 22px rgba(0,0,0,.3);
-    }
-    @keyframes alertPulse{
-      0%,100%{opacity:1;transform:scale(1)}
-      50%{opacity:.75;transform:scale(1.06)}
-    }
-
-    /* ===== ANA GÖVDE ===== */
-    main.page-wrap{
-      padding:32px 0 48px;
-    }
-
-    /* Filtre barı */
-    .svc-toolbar{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:18px;
-      padding:14px 18px;
-      margin-bottom:22px;
-      background:#ffffff;
-      border-radius:16px;
-      border:1px solid var(--card-border);
-      box-shadow:0 10px 26px rgba(15,30,45,.05);
-      flex-wrap:wrap;
-    }
-    .svc-toolbar-left{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      align-items:center;
-    }
-    .chipbar{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-    }
-    .chip{
-      padding:7px 14px;
-      border-radius:999px;
-      border:1px solid var(--card-border);
-      background:#fff;
-      font-size:.82rem;
-      cursor:pointer;
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      color:var(--muted);
-      transition:background .16s,border-color .16s,color .16s, box-shadow .16s, transform .16s;
-    }
-    .chip:hover{
-      border-color:var(--accent);
-      box-shadow:0 4px 10px rgba(15,23,42,.06);
-      transform:translateY(-1px);
-    }
-    .chip.active{
-      background:#f0fbfe;
-      border-color:var(--accent);
-      color:var(--brand2);
-      box-shadow:0 4px 12px rgba(16,179,209,.16);
-    }
-    #favoriteChip i{
-      color:#ff4b5c;
-    }
-
-    .svc-search{
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-      min-width:260px;
-      flex:1;
-    }
-    .svc-search input{
-      width:100%;
-      height:40px;
-      border-radius:12px;
-      border:1px solid var(--card-border);
-      padding:7px 12px 7px 32px;
-      background:#fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="gray" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>') no-repeat 9px center;
-      font:inherit;
-      color:var(--ink);
-      transition:border-color .16s, box-shadow .16s;
-    }
-    .svc-search input:focus{
-      outline:none;
-      border-color:var(--accent);
-      box-shadow:0 0 0 3px rgba(39,212,232,.18);
-    }
-    .search-results-count{
-      font-size:.8rem;
-      color:var(--brand2);
-    }
-
-    /* İçindekiler */
-    nav[aria-label="İçindekiler"] ul{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin:10px 0 16px;
-      padding:0;
-      list-style:none;
-    }
-    nav[aria-label="İçindekiler"] a{
-      font-size:.82rem;
-      padding:6px 11px;
-      border-radius:999px;
-      text-decoration:none;
-      border:1px dashed #ccd7de;
-      color:var(--muted);
-    }
-    nav[aria-label="İçindekiler"] a.active{
-      border-style:solid;
-      border-color:var(--accent);
-      background:#f3fbff;
-      color:var(--brand2);
-    }
-
-    /* ===== PROFESYONEL İKİ SÜTUN YERLEŞİM ===== */
-    .svc-layout{
-      display:grid;
-      grid-template-columns:minmax(240px,280px) minmax(0,1fr);
-      gap:24px;
-      align-items:flex-start;
-      margin-top:10px;
-    }
-    .svc-aside{
-      background:#ffffff;
-      border-radius:20px;
-      border:1px solid var(--card-border);
-      box-shadow:0 16px 38px rgba(15,23,42,.06);
-      padding:18px 18px 16px;
-      position:sticky;
-      top:110px;
-    }
-    .svc-aside-header{
-      display:flex;
-      align-items:flex-start;
-      gap:10px;
-      margin-bottom:14px;
-    }
-    .svc-aside-icon{
-      width:32px;
-      height:32px;
-      border-radius:12px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:linear-gradient(135deg,var(--brand),var(--accent));
-      color:#fff;
-      box-shadow:0 8px 20px rgba(90,31,168,.45);
-    }
-    .svc-aside-title{
-      font-size:.92rem;
-      font-weight:700;
-      color:var(--brand2);
-      line-height:1.3;
-    }
-    .svc-aside-sub{
-      font-size:.8rem;
-      color:var(--muted);
-    }
-
-    .svc-aside-metrics{
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:10px;
-      margin-bottom:14px;
-    }
-    .svc-metric{
-      padding:8px 10px;
-      border-radius:14px;
-      background:linear-gradient(135deg,#f5f3ff,#ecfeff);
-      border:1px solid rgba(148,163,184,.35);
-      font-size:.78rem;
-    }
-    .svc-metric strong{
-      display:block;
-      font-size:.95rem;
-      color:var(--brand2);
-    }
-
-    .svc-aside-steps{
-      border-top:1px dashed #e2e8f0;
-      padding-top:10px;
-      margin-top:6px;
-    }
-    .svc-aside-steps-title{
-      font-size:.83rem;
-      font-weight:600;
-      color:var(--brand2);
-      margin-bottom:6px;
-    }
-    .svc-steps{
-      list-style:none;
-      margin:0;
-      padding:0;
-    }
-    .svc-steps li{
-      display:flex;
-      align-items:flex-start;
-      gap:8px;
-      font-size:.8rem;
-      margin-bottom:6px;
-      color:var(--muted);
-    }
-    .svc-step-dot{
-      width:18px;
-      height:18px;
-      border-radius:999px;
-      border:2px solid(var(--accent));
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:.65rem;
-      color:var(--accent);
-      flex-shrink:0;
-      background:#f0fbff;
-    }
-
-    .svc-aside-note{
-      margin-top:8px;
-      font-size:.78rem;
-      color:#64748b;
-      background:#f8fafc;
-      border-radius:10px;
-      padding:8px 10px;
-    }
-
-    /* Aside içi RANDEVU butonu */
-    .svc-aside-cta{
-      margin-top:10px;
-      width:100%;
-      justify-content:center;
-    }
-
-    .svc-main-area{
-      min-width:0;
-    }
-
-    /* Kategori blokları */
-    .svc-section{padding:18px 0}
-    .svc-section h2{
-      margin:0 0 12px;
-      display:inline-block;
-      position:relative;
-      font-size:1.2rem;
-    }
-    .svc-section h2::after{
-      content:"";
-      position:absolute;
-      left:0;
-      bottom:-8px;
-      width:72px;
-      height:3px;
-      border-radius:999px;
-      background:linear-gradient(90deg,var(--brand),var(--accent));
-    }
-
-    /* Kart grid’i */
-    .services-grid{
-      margin-top:6px;
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-      gap:22px;
-    }
-
-    /* Kart */
-    .s-card{
-      position:relative;
-      background:#ffffff;
-      border-radius:18px;
-      padding:18px 18px 16px;
-      border:1px solid var(--card-border);
-      box-shadow:0 10px 24px rgba(15,23,42,.05);
-      overflow:hidden;
-      transition:transform .18s, box-shadow .18s, border-color .18s;
-    }
-    .s-card::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:radial-gradient(120% 120% at -10% -10%, rgba(255,255,255,.4), transparent 55%);
-      opacity:0;
-      transition:opacity .22s ease;
-      pointer-events:none;
-    }
-    .s-card:hover{
-      transform:translateY(-4px);
-      box-shadow:0 18px 38px rgba(15,23,42,.12);
-      border-color:#c7d8e4;
-    }
-    .s-card:hover::before{opacity:1;}
-
-    .s-icon{
-      width:48px;
-      height:48px;
-      border-radius:16px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      background:radial-gradient(80% 80% at 30% 20%, #ffffff 0%, #eaf6f8 55%, #d9f0f2 100%);
-      color:var(--brand2);
-      margin-bottom:8px;
-      border:1px solid #d8ecef;
-      box-shadow:0 6px 16px rgba(15,23,42,.1);
-      position:relative;
-      overflow:hidden;
-    }
-    .s-icon::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:radial-gradient(60% 60% at 30% 20%, rgba(255,255,255,.22), transparent 60%);
-      mix-blend-mode:screen;
-    }
-    .s-icon i{
-      font-size:1.2rem;
-      filter:drop-shadow(0 1px 1px rgba(0,0,0,.22));
-    }
-    .s-icon svg{
-      width:24px;
-      height:24px;
-    }
-    .s-icon svg .i{
-      stroke-width:2.2 !important;
-      vector-effect:non-scaling-stroke;
-    }
-
-    .s-body{margin-top:4px}
-    .s-title{
-      margin:0 0 6px;
-      font-size:1.05rem;
-      font-weight:800;
-      color:#111822;
-    }
-    .s-text{
-      margin:0 0 14px;
-      color:var(--muted);
-      font-size:.93rem;
-      line-height:1.55;
-    }
-    .s-link{
-      position:relative;
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      font-size:.9rem;
-      color:var(--brand2);
-      font-weight:600;
-      text-decoration:none;
-    }
-    .s-link::after{
-      content:"";
-      position:absolute;
-      left:0;
-      bottom:-2px;
-      width:100%;
-      height:1.5px;
-      border-radius:999px;
-      background:linear-gradient(90deg,var(--brand),var(--accent));
-      transform:scaleX(.3);
-      transform-origin:left;
-      opacity:.15;
-      transition:transform .2s ease, opacity .2s ease;
-    }
-    .s-link:hover::after{
-      transform:scaleX(1);
-      opacity:.9;
-    }
-
-    /* Favori kalp */
-    .favorite-btn{
-      position:absolute;
-      top:10px;
-      right:10px;
-      width:32px;
-      height:32px;
-      border-radius:999px;
-      border:none;
-      background:#ffffff;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      cursor:pointer;
-      box-shadow:0 6px 16px rgba(15,23,42,.14);
-      color:#cbd2dc;
-      transition:transform .16s, box-shadow .16s, background .16s, color .16s;
-      z-index:2;
-    }
-    .favorite-btn i{font-size:.95rem;}
-    .favorite-btn:hover{
-      transform:translateY(-1px) scale(1.05);
-      box-shadow:0 10px 22px rgba(15,23,42,.2);
-    }
-    .favorite-btn.active{
-      color:#ff4b5c;
-      background:rgba(255,75,92,.08);
-    }
-
-    /* MODAL */
-    .service-modal{
-      position:fixed;
-      inset:0;
-      background:rgba(15,23,42,.55);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      z-index:1000;
-      animation:fadeIn .2s ease-out;
-      padding:16px;
-    }
-    .modal-content{
-      background:#ffffff;
-      border-radius:20px;
-      max-width:640px;
-      width:100%;
-      padding:24px 24px 20px;
-      box-shadow:0 24px 60px rgba(15,23,42,.55);
-      position:relative;
-      animation:slideUp .2s ease-out;
-    }
-    .modal-close{
-      position:absolute;
-      top:10px;
-      right:10px;
-      border:none;
-      background:none;
-      cursor:pointer;
-      color:#94a3b8;
-      font-size:1.1rem;
-    }
-    .modal-content h3{
-      margin:0 0 8px;
-      font-size:1.05rem;
-    }
-    .modal-body{
-      margin:0 0 16px;
-      font-size:.95rem;
-      color:var(--muted);
-      line-height:1.6;
-      max-height:60vh;
-      overflow-y:auto;
-    }
-    .modal-body p{
-      margin:0 0 10px;
-    }
-    .modal-actions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-    }
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      gap:7px;
-      padding:9px 20px;
-      border-radius:999px;
-      border:1px solid var(--card-border);
-      background:#fff;
-      font-size:.9rem;
-      font-weight:600;
-      cursor:pointer;
-      text-decoration:none;
-      transition:background-position .3s, box-shadow .18s, transform .18s, color .15s, border-color .15s;
-    }
-    .btn.primary{
-      background-image:linear-gradient(90deg,var(--brand) 0%,var(--accent) 100%);
-      background-size:200% 100%;
-      background-position:0% 50%;
-      color:#fff !important;
-      border:0;
-      box-shadow:0 8px 22px rgba(16,179,209,.22);
-    }
-    .btn.primary:hover{
-      background-position:100% 50%;
-      transform:translateY(-2px);
-      box-shadow:0 12px 28px rgba(16,179,209,.28);
-    }
-    .btn.secondary{
-      background:#ffffff;
-      color:var(--brand2);
-      border-color:var(--brand2);
-    }
-    .btn.secondary:hover{
-      background:rgba(90,31,168,.06);
-      transform:translateY(-1px);
-    }
-
-    @keyframes fadeIn{
-      from{opacity:0}
-      to{opacity:1}
-    }
-    @keyframes slideUp{
-      from{opacity:0;transform:translateY(22px)}
-      to{opacity:1;transform:translateY(0)}
-    }
-
-    /* ===== FOOTER ===== */
-    footer.footer-new{
-      background:linear-gradient(135deg,#241043,#5a1fa8);
-      color:#f1fbff;
-      padding:50px 0 20px;
-    }
-    .footer-container{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-      gap:26px;
-      margin-bottom:26px;
-    }
-    .footer-col h3{
-      font-size:1.05rem;
-      margin-bottom:12px;
-    }
-    .footer-col p{
-      font-size:.9rem;
-      color:#dbeafe;
-    }
-    .social-links{
-      display:flex;
-      gap:10px;
-      margin-top:8px;
-    }
-    .social-links a{
-      width:34px;
-      height:34px;
-      border-radius:999px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:rgba(15,23,42,.35);
-      color:#e5f2ff;
-      text-decoration:none;
-      font-size:.9rem;
-      transition:background .18s, transform .18s;
-    }
-    .social-links a:hover{
-      background:rgba(255,255,255,.2);
-      transform:translateY(-1px);
-    }
-
-    .footer-links,
-    .footer-contact{
-      list-style:none;
-    }
-    .footer-links li,
-    .footer-contact li{
-      margin-bottom:8px;
-      font-size:.9rem;
-    }
-    .footer-links a,
-    .footer-contact a{
-      color:#dbeafe;
-      text-decoration:none;
-    }
-    .footer-links a:hover,
-    .footer-contact a:hover{
-      color:#ffffff;
-    }
-    .footer-contact i{
-      margin-right:8px;
-      color:var(--accent);
-      width:18px;
-    }
-    .footer-bottom{
-      border-top:1px solid rgba(15,23,42,.4);
-      text-align:center;
-      padding-top:12px;
-      font-size:.8rem;
-      color:#cbd5f5;
-    }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width:900px){
-      .header-main .container{
-        flex-direction:column;
-        align-items:flex-start;
-      }
-      nav ul{
-        flex-wrap:wrap;
-        justify-content:flex-start;
-      }
-      .svc-layout{
-        grid-template-columns:1fr;
-      }
-      .svc-aside{
-        position:static;
-        order:-1;
-      }
-    }
-
-    @media (max-width:768px){
-      .header-top .container{
-        flex-direction:column;
-        align-items:flex-start;
-      }
-      .svc-toolbar{
-        flex-direction:column;
-        align-items:stretch;
-      }
-      .svc-search{
-        width:100%;
-      }
-      .services-grid{
-        grid-template-columns:1fr;
-      }
-    }
-
-    @media (max-width:600px){
-      .header-main .container{
-        padding:8px 16px;
-      }
-      .logo-text h1{
-        font-size:1.35rem;
-      }
-    }
-  </style>
-
-  <!-- === THEME OVERRIDE — Elçi Paleti (about/index ile birebir) === -->
-  <style id="theme-elciKonya-override">
     :root{
       --brand:#5a1fa8;
       --brand2:#36106b;
@@ -852,101 +51,346 @@
       --line:#e7edf1;
       --bg:#f7fbfc;
       --paper:#fff;
-
+      --hero-start:#241043;
+      --hero-mid:#36106b;
+      --hero-end:#0f7188;
       --footer-start:#241043;
       --footer-end:#5a1fa8;
-
-      /* HERO (INDEX İLE BİREBİR) */
-      --hero-start:#30105f;
-      --hero-end:#27d4e8;
-
-      --icon-ink:#0a4f60;
+      --danger:#d84a4a;
+      --danger2:#a72b42;
+      --shadow:0 18px 45px rgba(38,17,80,.10);
     }
 
-    /* Logo paneli okunaklı (about ile aynı cam efekt) */
-    .header-main .logo-text{
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-      padding:8px 12px;
-      border-radius:14px;
-      background:linear-gradient(90deg, rgba(0,0,0,.24), rgba(0,0,0,.10));
-      box-shadow:0 6px 18px rgba(0,0,0,.28);
-      -webkit-backdrop-filter:saturate(120%) blur(1px);
-      backdrop-filter:saturate(120%) blur(1px);
-    }
-    .header-main .logo-text h1{
-      color:#fff;
-      margin:0;
-      text-shadow:0 2px 10px rgba(0,0,0,.35);
-      letter-spacing:.2px;
-    }
-    .header-main .logo-text span{
-      color:#e8fbff;
-      opacity:.96;
-      text-shadow:0 1px 8px rgba(0,0,0,.3);
-    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:110px}
+    body{margin:0;background:#fff;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;line-height:1.6}
+    body.menu-open{overflow:hidden}
+    img{max-width:100%}
+    button,input{font:inherit}
+    .container,.page-wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+    .skip-link{position:fixed;left:16px;top:-80px;z-index:9999;padding:10px 14px;border-radius:10px;background:#fff;color:var(--brand2);font-weight:800;box-shadow:0 10px 30px rgba(0,0,0,.22)}
+    .skip-link:focus{top:14px}
+    .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 
-    /* Hero — markanın degrade stili */
-    .hero{
+    /* Header */
+    .header-top{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff}
+    .header-top .container{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:5px;padding-bottom:5px;flex-wrap:wrap}
+    .header-contact{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+    .header-contact span,.header-contact a{display:inline-flex;align-items:center;gap:7px;color:#f4f7ff;text-decoration:none;font-size:.83rem}
+    .header-contact a:hover{color:#fff}
+
+    .header-main{position:sticky;top:0;z-index:120;background:linear-gradient(90deg,#511b98,#2f0d61);color:#fff;box-shadow:0 8px 26px rgba(28,8,61,.18)}
+    .header-main .container{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:9px;padding-bottom:9px}
+    .header-main .logo-text{padding:0;background:transparent;border:0;box-shadow:none}
+    .brand-lockup{
+      display:flex;align-items:center;gap:12px;min-width:320px;padding:9px 14px 9px 10px;
+      border:1px solid rgba(255,255,255,.20);border-radius:18px;
+      background:linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.045));
+      box-shadow:0 12px 32px rgba(18,5,43,.28),inset 0 1px 0 rgba(255,255,255,.16);
+      color:#fff;text-decoration:none;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
+    }
+    .brand-lockup:hover{transform:translateY(-2px);border-color:rgba(192,243,255,.54);box-shadow:0 16px 38px rgba(18,5,43,.34),inset 0 1px 0 rgba(255,255,255,.20)}
+    .brand-mark{width:54px;height:54px;flex:0 0 54px;display:grid;place-items:center;border-radius:16px;background:linear-gradient(145deg,#fff,#e9faff);box-shadow:0 8px 22px rgba(0,0,0,.22);overflow:hidden}
+    .brand-mark img{width:48px;height:48px;object-fit:contain}
+    .brand-copy{display:flex;flex-direction:column;line-height:1.05}
+    .brand-copy strong{color:#fff;font-size:1.24rem;letter-spacing:.15px;text-shadow:0 2px 10px rgba(0,0,0,.32)}
+    .signature-tagline{position:relative;display:inline-block;width:max-content;font-family:"Great Vibes","Segoe Script","Brush Script MT",cursive;font-weight:400;letter-spacing:.006em;line-height:.94;transform:rotate(-1.7deg);transform-origin:left center;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+    .signature-tagline::after{content:"";position:absolute;left:10%;width:96%;bottom:-.18em;height:2px;border-radius:999px;background:linear-gradient(90deg,transparent 0%,currentColor 14%,currentColor 78%,transparent 100%);opacity:.72;transform:skewX(-24deg) rotate(-1deg);transform-origin:left center;box-shadow:0 1px 5px rgba(0,0,0,.18)}
+    .header-signature{margin-top:7px;color:#dffaff!important;font-size:1.32rem;text-shadow:0 2px 10px rgba(0,0,0,.30)}
+
+    nav{display:flex;align-items:center}
+    nav ul{display:flex;align-items:center;gap:17px;margin:0;padding:0;list-style:none}
+    nav li{position:relative}
+    nav a{position:relative;color:#eaf6f8;text-decoration:none;font-size:.89rem;font-weight:650;padding:8px 0}
+    nav a::after{content:"";position:absolute;left:0;bottom:2px;width:0;height:2px;border-radius:999px;background:#c0f3ff;transition:width .18s ease}
+    nav a:hover,nav a:focus{color:#fff}
+    nav a:hover::after,nav a.active::after,nav a[aria-current="page"]::after{width:100%}
+    nav a.active,nav a[aria-current="page"]{color:#c0f3ff}
+    .mobile-menu-btn{display:none;width:42px;height:42px;border:1px solid rgba(255,255,255,.25);border-radius:13px;background:rgba(255,255,255,.10);color:#fff;align-items:center;justify-content:center;cursor:pointer}
+
+    /* Hero */
+    .services-hero{
+      position:relative;overflow:hidden;padding:68px 0 74px;color:#fff;
       background:
-        radial-gradient(1400px 700px at 85% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
-        linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%) !important;
-      color:#fff;
+        radial-gradient(780px 470px at 92% 10%,rgba(39,212,232,.34),transparent 62%),
+        radial-gradient(600px 410px at 4% 98%,rgba(133,73,214,.28),transparent 65%),
+        linear-gradient(125deg,var(--hero-start) 0%,var(--hero-mid) 43%,var(--hero-end) 100%);
     }
-    .hero h1{
-      color:#fff;
-      text-shadow:0 2px 18px rgba(0,0,0,.22);
+    .services-hero::before{content:"";position:absolute;inset:-34%;background:radial-gradient(circle at 0 0,rgba(255,255,255,.08),transparent 55%),radial-gradient(circle at 100% 100%,rgba(255,255,255,.10),transparent 55%);opacity:.7;pointer-events:none}
+    .services-hero::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.23;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(90deg,#000,transparent 88%)}
+    .hero-layout{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.23fr) minmax(320px,.77fr);gap:48px;align-items:center}
+    .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;margin:0 0 17px;padding:8px 13px;border:1px solid rgba(255,255,255,.23);border-radius:999px;background:rgba(255,255,255,.10);color:#e8fbff;font-size:.86rem;font-weight:850;letter-spacing:.25px}
+    .hero-copy h1{margin:0;color:#fff;font-size:clamp(44px,6vw,72px);line-height:1.02;letter-spacing:-1.4px;text-shadow:0 3px 20px rgba(0,0,0,.26);text-wrap:balance}
+    .hero-signature{margin:16px 0 17px;color:#e2fbff;font-size:clamp(2.35rem,4.2vw,3.75rem);text-shadow:0 4px 18px rgba(0,0,0,.28)}
+    .hero-divider{width:104px;height:3px;margin:24px 0 22px;border-radius:999px;background:linear-gradient(90deg,var(--accent),#fff)}
+    .hero-sub{max-width:720px;margin:0 0 27px;color:#eafcff;font-size:1.06rem;line-height:1.72}
+    .hero-cta{display:flex;flex-wrap:wrap;gap:11px}
+    .hero-note{display:flex;align-items:flex-start;gap:9px;margin:18px 0 0;color:#dff9fc;font-size:.9rem;line-height:1.5}
+    .hero-note i{margin-top:3px;color:#9cf5ff}
+
+    .hero-panel{
+      position:relative;isolation:isolate;padding:29px 28px;border:1px solid rgba(255,255,255,.25);border-radius:30px;
+      background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.07));
+      box-shadow:0 30px 70px rgba(8,4,26,.33),inset 0 1px 0 rgba(255,255,255,.22);
+      backdrop-filter:blur(14px) saturate(125%);overflow:hidden;
     }
-    .hero .hero-sub{
-      color:#e8fbff;
-      opacity:.98;
+    .hero-panel::before{content:"";position:absolute;inset:1px;z-index:-2;border-radius:29px;background:radial-gradient(circle at 52% 0,rgba(255,255,255,.18),transparent 54%)}
+    .hero-panel-orbit{position:absolute;top:-90px;right:-86px;width:240px;height:240px;z-index:-1;border:1px solid rgba(191,247,255,.24);border-radius:50%;box-shadow:0 0 0 28px rgba(191,247,255,.055),0 0 0 58px rgba(191,247,255,.035)}
+    .hero-panel-logo{width:88px;height:88px;display:grid;place-items:center;margin-bottom:18px;border-radius:27px;background:linear-gradient(145deg,#fff,#e8fbff);box-shadow:0 16px 34px rgba(0,0,0,.25)}
+    .hero-panel-logo img{width:76px;height:76px;object-fit:contain}
+    .hero-panel-kicker{margin:0 0 6px;color:#bdf8ff;font-size:.76rem;font-weight:900;letter-spacing:1.15px;text-transform:uppercase}
+    .hero-panel h2{margin:0 0 17px;color:#fff;font-size:clamp(1.45rem,2.5vw,2rem);line-height:1.18}
+    .hero-panel-list{display:grid;gap:11px}
+    .hero-panel-item{display:flex;gap:11px;padding-top:11px;border-top:1px solid rgba(255,255,255,.14);color:#e9fbfd;font-size:.92rem;line-height:1.48}
+    .hero-panel-item i{width:22px;margin-top:3px;color:#a8f5ff}
+    .hero-panel-item strong{display:block;color:#fff}
+
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 24px;border:1px solid var(--line);
+      border-radius:999px;background:#fff;color:var(--brand);font-weight:750;text-decoration:none;cursor:pointer;
+      transition:background-position .35s ease,box-shadow .2s ease,transform .2s ease,color .15s ease,border-color .15s ease;
     }
-    .hero .btn{
-      border-color:transparent;
+    .btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
+    .btn.primary{background:linear-gradient(90deg,var(--brand),var(--accent));color:#fff!important;border:0;box-shadow:0 8px 22px rgba(16,179,209,.22);background-size:200% 100%}
+    .btn.primary:hover{background-position:100% 0%;box-shadow:0 12px 28px rgba(16,179,209,.28)}
+    .btn.ghost{background:#ffffff16;color:#fff;border-color:#ffffff70}
+    .btn.ghost:hover{background:#ffffff28;border-color:#ffffffb0}
+    .btn.secondary{background:#fff;color:var(--brand2);border-color:rgba(90,31,168,.25)}
+    .btn.secondary:hover{background:#f8f2ff;border-color:rgba(90,31,168,.42)}
+
+    /* Emergency strip */
+    .emergency-alert{position:relative;z-index:3;background:linear-gradient(100deg,#8f203a,#d4544e);color:#fff;box-shadow:0 13px 32px rgba(126,32,52,.22)}
+    .emergency-alert .page-wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:13px;padding-bottom:13px}
+    .alert-main{display:flex;align-items:center;gap:13px;min-width:0}
+    .alert-icon{width:44px;height:44px;flex:0 0 44px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.28);border-radius:15px;background:rgba(255,255,255,.12);font-size:1.15rem}
+    .alert-text{font-size:.9rem;line-height:1.45}
+    .alert-text strong{display:block;margin-bottom:2px;color:#fff;font-size:1rem}
+    .alert-text span{color:#fff1f3}
+    .alert-text a{color:#fff;font-weight:850}
+    .alert-btn{display:inline-flex;align-items:center;gap:8px;flex:0 0 auto;padding:10px 18px;border-radius:999px;background:#fff;color:#9e2940;font-weight:850;text-decoration:none;box-shadow:0 7px 18px rgba(0,0,0,.18)}
+    .alert-btn:hover{transform:translateY(-2px)}
+
+    /* Main */
+    main{background:linear-gradient(180deg,#fff 0,#f7fbfc 45%,#fff 100%)}
+    .services-main{padding:68px 0 76px}
+    .section-head{max-width:850px;margin-bottom:28px}
+    .section-kicker{display:flex;width:max-content;align-items:center;gap:8px;margin:0 0 11px;color:var(--brand);font-size:.78rem;font-weight:900;letter-spacing:1.2px;text-transform:uppercase}
+    .section-head h2{position:relative;display:inline-block;margin:0;color:var(--ink);font-size:clamp(31px,4.5vw,47px);line-height:1.12;letter-spacing:-.75px}
+    .section-head h2::after{content:"";position:absolute;left:0;bottom:-11px;width:82px;height:3px;border-radius:999px;background:linear-gradient(90deg,var(--brand),var(--accent))}
+    .section-head p{margin:24px 0 0;color:var(--muted);font-size:1rem;line-height:1.72}
+
+    .svc-toolbar{
+      display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,.42fr);gap:16px;align-items:start;
+      margin:0 0 25px;padding:18px;border:1px solid #e4ebef;border-radius:23px;background:rgba(255,255,255,.94);
+      box-shadow:0 16px 40px rgba(34,16,73,.08);backdrop-filter:blur(10px);
     }
-    .hero .btn.ghost{
-      background:#ffffff1a;
-      color:#fff;
+    .svc-toolbar-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .chipbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .chip{
+      display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border:1px solid #dfe7ec;border-radius:999px;
+      background:#fff;color:#53636d;font-size:.82rem;font-weight:700;cursor:pointer;
+      transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease,color .18s ease;
     }
-    .hero .btn.ghost:hover{
-      background:#ffffff2b;
+    .chip:hover{transform:translateY(-1px);border-color:rgba(39,212,232,.65);box-shadow:0 7px 16px rgba(15,23,42,.07)}
+    .chip.active{border-color:rgba(90,31,168,.30);background:linear-gradient(135deg,#f7f0ff,#eafcff);color:var(--brand2);box-shadow:0 8px 18px rgba(90,31,168,.10)}
+    #favoriteChip i{color:#e04962}
+    .svc-search{display:grid;gap:5px}
+    .svc-search input{
+      width:100%;height:45px;padding:10px 13px 10px 41px;border:1px solid #dce5ea;border-radius:14px;background:
+      #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="%235f6b74" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>') no-repeat 13px center;
+      color:var(--ink);outline:none;transition:border-color .18s ease,box-shadow .18s ease;
+    }
+    .svc-search input:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(39,212,232,.15)}
+    .search-results-count{min-height:18px;color:var(--brand2);font-size:.78rem;font-weight:750}
+
+    .svc-layout{display:grid;grid-template-columns:minmax(250px,294px) minmax(0,1fr);gap:27px;align-items:start}
+    .svc-aside{
+      position:sticky;top:102px;padding:22px 20px;border:1px solid #e3eaf0;border-radius:24px;background:#fff;
+      box-shadow:0 18px 45px rgba(34,16,73,.09);
+    }
+    .svc-aside-header{display:flex;align-items:flex-start;gap:11px;margin-bottom:17px}
+    .svc-aside-icon{width:43px;height:43px;flex:0 0 43px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(135deg,var(--brand),var(--accent));color:#fff;box-shadow:0 10px 24px rgba(90,31,168,.22)}
+    .svc-aside-title{color:var(--ink);font-size:1rem;font-weight:850;line-height:1.3}
+    .svc-aside-sub{margin-top:3px;color:var(--muted);font-size:.82rem;line-height:1.45}
+    .svc-aside-facts{display:grid;gap:9px;margin:0 0 17px}
+    .svc-fact{display:flex;align-items:flex-start;gap:10px;padding:12px 12px;border:1px solid #e7edf1;border-radius:15px;background:linear-gradient(145deg,#fff,#f8fbfd)}
+    .svc-fact i{width:21px;margin-top:3px;color:var(--brand)}
+    .svc-fact strong{display:block;color:var(--ink);font-size:.87rem}
+    .svc-fact span{display:block;margin-top:2px;color:var(--muted);font-size:.78rem;line-height:1.4}
+    .svc-aside-steps{padding-top:14px;border-top:1px dashed #dce5ea}
+    .svc-aside-steps-title{margin-bottom:9px;color:var(--brand2);font-size:.84rem;font-weight:850}
+    .svc-steps{display:grid;gap:9px;margin:0;padding:0;list-style:none}
+    .svc-steps li{display:flex;align-items:flex-start;gap:9px;color:var(--muted);font-size:.8rem;line-height:1.45}
+    .svc-step-dot{width:21px;height:21px;flex:0 0 21px;display:grid;place-items:center;border:1px solid rgba(90,31,168,.25);border-radius:50%;background:#f7f0ff;color:var(--brand);font-size:.68rem;font-weight:900}
+    .svc-aside-note{margin-top:14px;padding:11px 12px;border-left:3px solid var(--accent);border-radius:10px;background:#f2fbfd;color:#4d616b;font-size:.78rem;line-height:1.5}
+    .svc-aside-cta{width:100%;margin-top:14px}
+
+    .svc-main-area{min-width:0}
+    .svc-section{padding:0 0 32px;scroll-margin-top:110px}
+    .svc-section + .svc-section{padding-top:7px}
+    .svc-section h2{position:relative;display:inline-block;margin:0 0 20px;color:var(--ink);font-size:clamp(1.45rem,3vw,2rem);line-height:1.2}
+    .svc-section h2::after{content:"";position:absolute;left:0;bottom:-9px;width:65px;height:3px;border-radius:999px;background:linear-gradient(90deg,var(--brand),var(--accent))}
+    .services-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+    .s-card{
+      position:relative;overflow:hidden;min-height:250px;display:flex;flex-direction:column;padding:20px 19px 18px;
+      border:1px solid #e3eaf0;border-radius:22px;background:linear-gradient(145deg,#fff,#fbfdfe);
+      box-shadow:0 12px 30px rgba(15,23,42,.06);
+      transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+    }
+    .s-card::before{content:"";position:absolute;inset:-45% -45% auto auto;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,rgba(39,212,232,.12),transparent 66%);pointer-events:none}
+    .s-card:hover{transform:translateY(-5px);border-color:rgba(90,31,168,.22);box-shadow:0 20px 42px rgba(46,23,89,.12)}
+    .s-icon{width:49px;height:49px;display:grid;place-items:center;margin-bottom:13px;border:1px solid rgba(90,31,168,.13);border-radius:16px;background:linear-gradient(135deg,#f7f0ff,#e9fbff);color:var(--brand2);box-shadow:0 9px 20px rgba(54,16,107,.10)}
+    .s-icon i{font-size:1.14rem}
+    .s-icon svg{width:25px;height:25px}
+    .s-body{display:flex;flex:1;flex-direction:column}
+    .s-title{margin:0 42px 8px 0;color:var(--ink);font-size:1.05rem;font-weight:850;line-height:1.35}
+    .s-text{margin:0 0 17px;color:var(--muted);font-size:.91rem;line-height:1.57}
+    .s-link{display:inline-flex;align-items:center;gap:7px;width:max-content;margin-top:auto;color:var(--brand);font-size:.87rem;font-weight:850;text-decoration:none}
+    .s-link::after{content:"\f061";font-family:"Font Awesome 6 Free";font-weight:900;font-size:.72rem;transition:transform .18s ease}
+    .s-link:hover::after{transform:translateX(3px)}
+    .favorite-btn{position:absolute;top:13px;right:13px;width:34px;height:34px;display:grid;place-items:center;border:1px solid #e4eaee;border-radius:50%;background:rgba(255,255,255,.92);color:#c3cbd2;cursor:pointer;box-shadow:0 7px 17px rgba(15,23,42,.10);z-index:2;transition:transform .16s ease,color .16s ease,border-color .16s ease,background .16s ease}
+    .favorite-btn:hover{transform:scale(1.06);border-color:#f0abb7;color:#e04962}
+    .favorite-btn.active{border-color:#f0abb7;background:#fff3f5;color:#e04962}
+
+    /* Modal */
+    .service-modal{position:fixed;inset:0;z-index:1500;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(18,7,38,.68);backdrop-filter:blur(6px);animation:fadeIn .18s ease}
+    .modal-content{position:relative;width:min(680px,100%);max-height:min(82vh,760px);overflow:auto;padding:28px 27px 24px;border:1px solid rgba(255,255,255,.3);border-radius:26px;background:#fff;box-shadow:0 30px 80px rgba(0,0,0,.38);outline:none;animation:slideUp .2s ease}
+    .modal-close{position:absolute;top:14px;right:14px;width:38px;height:38px;display:grid;place-items:center;border:1px solid #e1e8ec;border-radius:50%;background:#fff;color:#70808a;cursor:pointer}
+    .modal-content h3{margin:0 48px 12px 0;color:var(--ink);font-size:clamp(1.35rem,3vw,1.8rem);line-height:1.25}
+    .modal-body{color:#4f616b;font-size:.94rem;line-height:1.72}
+    .modal-body p{margin:0 0 12px}
+    .modal-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;padding-top:17px;border-top:1px solid #e7edf1}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes slideUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+    .services-empty{padding:28px;border:1px dashed #cad8e0;border-radius:20px;background:#fff;color:var(--muted)}
+
+    /* Closing CTA */
+    .closing-cta{position:relative;overflow:hidden;padding:56px 0;color:#fff;background:linear-gradient(135deg,#241043,#36106b 58%,#0f7188)}
+    .closing-cta::before{content:"";position:absolute;inset:-30%;background:radial-gradient(circle at 15% 15%,rgba(39,212,232,.20),transparent 35%),radial-gradient(circle at 90% 85%,rgba(133,73,214,.24),transparent 37%)}
+    .closing-inner{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:28px;padding:28px 30px;border:1px solid rgba(255,255,255,.20);border-radius:26px;background:rgba(255,255,255,.08);box-shadow:0 20px 50px rgba(0,0,0,.20);backdrop-filter:blur(10px)}
+    .closing-copy h2{margin:0 0 8px;color:#fff;font-size:clamp(1.8rem,4vw,2.7rem);line-height:1.18}
+    .closing-copy p{max-width:700px;margin:0;color:#def8fb;line-height:1.65}
+    .closing-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px;flex:0 0 auto}
+
+    /* Footer */
+    footer.footer-new{background:linear-gradient(135deg,var(--footer-start),var(--footer-end));color:#eaffff;padding:50px 0 0}
+    .footer-container{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px;padding-bottom:32px}
+    .footer-col h3{margin:0 0 13px;color:#fff;font-size:1.03rem}
+    .footer-col p{margin:0;color:#dff3f8;font-size:.89rem;line-height:1.62}
+    .social-links{display:flex;gap:9px;margin-top:14px}
+    .social-links a{width:35px;height:35px;display:grid;place-items:center;border-radius:50%;background:rgba(255,255,255,.10);color:#eaffff;text-decoration:none;transition:transform .18s ease,background .18s ease}
+    .social-links a:hover{transform:translateY(-2px);background:rgba(255,255,255,.20)}
+    .footer-links,.footer-contact{margin:0;padding:0;list-style:none}
+    .footer-links li,.footer-contact li{margin-bottom:8px;color:#dff3f8;font-size:.88rem;line-height:1.5}
+    .footer-links a,.footer-contact a{color:#eaffff;text-decoration:none}
+    .footer-links a:hover,.footer-contact a:hover{color:#fff;text-decoration:underline}
+    .footer-contact i{width:19px;margin-right:5px;color:#92f0f8}
+    .footer-bottom{background:rgba(0,0,0,.18)}
+    .footer-bottom .container{padding-top:13px;padding-bottom:13px;text-align:center}
+    .footer-bottom p{margin:0;color:#d9edf2;font-size:.78rem}
+
+    /* Mobile CTA */
+    .mobile-quickbar{display:none}
+
+    @media (max-width:1050px){
+      .header-main .container{gap:12px}
+      .brand-lockup{min-width:0}
+      nav ul{gap:12px}
+      nav a{font-size:.84rem}
+      .hero-layout{grid-template-columns:minmax(0,1.12fr) minmax(290px,.88fr);gap:32px}
+      .services-grid{grid-template-columns:1fr}
+      .footer-container{grid-template-columns:repeat(2,minmax(0,1fr))}
     }
 
-    .breadcrumb a{
-      color:var(--brand);
+    @media (max-width:900px){
+      .header-top{display:none}
+      .header-main .container{flex-wrap:wrap}
+      .mobile-menu-btn{display:flex}
+      nav{margin-left:auto}
+      #mainMenu{
+        position:absolute;left:0;right:0;top:100%;display:none;flex-direction:column;align-items:stretch;gap:0;
+        max-height:calc(100vh - 78px);overflow:auto;padding:12px 16px 18px;background:linear-gradient(180deg,#341064,#241043);
+        border-top:1px solid rgba(255,255,255,.14);box-shadow:0 18px 34px rgba(0,0,0,.24);
+      }
+      #mainMenu.show{display:flex}
+      #mainMenu > li{width:100%}
+      #mainMenu > li > a{display:block;padding:11px 3px;border-bottom:1px solid rgba(255,255,255,.10)}
+      .dropdown-content{position:static!important;display:block!important;min-width:0!important;margin:0!important;padding:4px 0 7px 14px!important;background:transparent!important;border:0!important;box-shadow:none!important}
+      .dropdown-content a{padding:7px 0!important;color:#d7f7fa!important;font-size:.82rem!important}
+      .hero-layout{grid-template-columns:1fr}
+      .hero-panel{max-width:620px}
+      .svc-layout{grid-template-columns:1fr}
+      .svc-aside{position:static;order:-1}
+      .svc-aside-facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .closing-inner{align-items:flex-start;flex-direction:column}
+      .closing-actions{justify-content:flex-start}
     }
 
-    /* Footer degrade override */
-    footer.footer-new{
-      background:linear-gradient(135deg, var(--footer-start), var(--footer-end));
-      color:#eaffff;
-    }
-    .footer-links a,
-    .footer-contact a{
-      color:#eaffff;
-    }
-    .footer-bottom{
-      background:rgba(0,0,0,.18);
+    @media (max-width:720px){
+      body{padding-bottom:69px}
+      .header-main .container{padding-top:7px;padding-bottom:7px}
+      .brand-lockup{padding:7px 9px}
+      .brand-mark{width:46px;height:46px;flex-basis:46px;border-radius:13px}
+      .brand-mark img{width:41px;height:41px}
+      .brand-copy strong{font-size:1.02rem}
+      .header-signature{font-size:1.14rem}
+      .services-hero{padding:52px 0 58px}
+      .hero-copy{text-align:center}
+      .hero-eyebrow,.hero-signature{margin-left:auto;margin-right:auto}
+      .hero-copy h1{font-size:clamp(39px,12vw,55px)}
+      .hero-divider{margin-left:auto;margin-right:auto}
+      .hero-sub{font-size:.99rem}
+      .hero-cta{justify-content:center}
+      .hero-note{justify-content:center;text-align:left}
+      .hero-panel{padding:24px 21px;text-align:left}
+      .emergency-alert .page-wrap{align-items:flex-start}
+      .alert-btn{width:100%;justify-content:center}
+      .svc-toolbar{grid-template-columns:1fr;padding:15px;border-radius:20px}
+      .svc-aside-facts{grid-template-columns:1fr}
+      .section-head{text-align:center}
+      .section-kicker{margin-left:auto;margin-right:auto}
+      .section-head h2::after{left:50%;transform:translateX(-50%)}
+      .services-grid{grid-template-columns:1fr}
+      .s-card{min-height:0}
+      .closing-cta{padding:44px 0}
+      .closing-inner{padding:23px 20px}
+      .closing-actions{width:100%}
+      .closing-actions .btn{width:100%}
+      .footer-container{grid-template-columns:1fr}
+      .mobile-quickbar{
+        position:fixed;left:0;right:0;bottom:0;z-index:1300;display:grid;grid-template-columns:repeat(3,1fr);
+        padding:8px max(9px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(9px,env(safe-area-inset-left));
+        border-top:1px solid rgba(54,16,107,.13);background:rgba(255,255,255,.96);box-shadow:0 -10px 30px rgba(25,10,54,.14);backdrop-filter:blur(12px);
+      }
+      .mobile-quickbar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--brand2);font-size:.7rem;font-weight:850;text-decoration:none}
+      .mobile-quickbar i{font-size:1.02rem;color:var(--brand)}
+      .mobile-quickbar a:nth-child(2){margin:-1px 6px;padding:7px 5px;border-radius:14px;background:linear-gradient(135deg,var(--brand),var(--accent));color:#fff}
+      .mobile-quickbar a:nth-child(2) i{color:#fff}
     }
 
-    .social-links a svg{
-      width:20px;
-      height:20px;
-      display:block;
+    @media (max-width:430px){
+      .brand-copy strong{font-size:.92rem}
+      .header-signature{font-size:1.02rem}
+      .brand-mark{width:43px;height:43px;flex-basis:43px}
+      .brand-mark img{width:38px;height:38px}
+      .mobile-menu-btn{width:39px;height:39px}
+      .hero-panel-logo{width:76px;height:76px}
+      .hero-panel-logo img{width:66px;height:66px}
+      .chip{font-size:.77rem;padding:7px 11px}
+      .s-title{font-size:1rem}
     }
-    .social-links a{
-      color:#eaffff;
-      opacity:.95;
-    }
-    .social-links a:hover{
-      opacity:1;
+
+    @media (prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
     }
   </style>
 </head>
 
 <body class="theme-elciKonya" data-page="services">
-  <!-- HEADER -->
+  <a class="skip-link" href="#ana-icerik">İçeriğe geç</a>
+
   <header>
     <div class="header-top">
       <div class="container">
@@ -963,30 +407,37 @@
     <div class="header-main">
       <div class="container">
         <div class="logo-text">
-          <h1>Elçi Veteriner Kliniği</h1>
-          <span>Sağlığın Elçi'leriyiz</span>
+          <a class="brand-lockup" href="/" aria-label="Elçi Veteriner Kliniği ana sayfa">
+            <span class="brand-mark">
+              <img src="/assets/img/uploads/elci-logo.png?v=1" alt="" width="48" height="48"/>
+            </span>
+            <span class="brand-copy">
+              <strong>Elçi Veteriner Kliniği</strong>
+              <span class="signature-tagline header-signature">Sağlığın Elçi’leriyiz</span>
+            </span>
+          </a>
         </div>
 
         <nav aria-label="Birincil">
-          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç/kapat">
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç veya kapat" aria-expanded="false" aria-controls="mainMenu">
             <i class="fa-solid fa-bars"></i>
           </button>
           <ul id="mainMenu">
-            <li><a href="/index.html">Ana Sayfa</a></li>
+            <li><a href="/">Ana Sayfa</a></li>
             <li class="dropdown">
-              <a href="/about.html" aria-haspopup="true" aria-expanded="false">Hakkımızda</a>
+              <a href="/about" aria-haspopup="true" aria-expanded="false">Hakkımızda</a>
               <div class="dropdown-content" role="menu">
-                <a href="/about.html#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
-                <a href="/about.html#ekibimiz" role="menuitem">Ekibimiz</a>
-                <a href="/about.html#klinik" role="menuitem">Kliniğimiz</a>
-                <a href="/about.html#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
-                <a href="/about.html#degerler" role="menuitem">Değerlerimiz</a>
+                <a href="/about#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
+                <a href="/about#ekibimiz" role="menuitem">Ekibimiz</a>
+                <a href="/about#klinik" role="menuitem">Kliniğimiz</a>
+                <a href="/about#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
+                <a href="/about#degerler" role="menuitem">Değerlerimiz</a>
               </div>
             </li>
             <li class="dropdown">
-              <a href="/hizmetler.html" class="active" aria-current="page">Hizmetlerimiz</a>
+              <a href="/hizmetler.html" class="active" aria-current="page" aria-haspopup="true" aria-expanded="false">Hizmetlerimiz</a>
               <div class="dropdown-content" role="menu">
-                <a href="#acil" role="menuitem">Acil Veteriner</a>
+                <a href="#acil" role="menuitem">Acil Ön Değerlendirme</a>
                 <a href="#koruyucu" role="menuitem">Koruyucu Hekimlik</a>
                 <a href="#cerrahi" role="menuitem">Cerrahi Operasyonlar</a>
                 <a href="#agiz-dis" role="menuitem">Ağız ve Diş Sağlığı</a>
@@ -1010,217 +461,188 @@
                 <a href="/hasta-iliskileri.html#online-randevu" role="menuitem">Online Randevu</a>
                 <a href="/hasta-iliskileri.html#memnuniyet-anketi" role="menuitem">Memnuniyet Anketi</a>
                 <a href="/hasta-iliskileri.html#basari-hikayeleri" role="menuitem">Başarı Hikayeleri</a>
-                <a href="/hasta-iliskileri.html#sikayet-oneri" role="menuitem">Şikayet & Öneri</a>
+                <a href="/hasta-iliskileri.html#sikayet-oneri" role="menuitem">Şikayet &amp; Öneri</a>
               </div>
             </li>
           </ul>
         </nav>
-
       </div>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-center">
-        <div class="hero-icon">
-          <img class="hero-logo" src="/assets/img/uploads/elci-logo.png?v=1" alt="Elçi Veteriner Kliniği Logosu" width="96" height="96" loading="eager" decoding="async">
-        </div>
-        <h1>Hizmetlerimiz</h1>
-        <div class="hero-divider" role="presentation"></div>
-        <p class="hero-sub">
-          Acil ön değerlendirme ve ilk müdahaleden cerrahiye, laboratuvar ve görüntüleme yönlendirmesinden ağız ve diş sağlığına kadar;
-          kanıta dayalı, protokolleri standartize edilmiş kapsamlı hizmetler.
-        </p>
-        <div class="hero-cta">
-          <a class="btn primary" href="/hasta-iliskileri.html#online-randevu">Randevu Al</a>
-          <a class="btn ghost" href="#svcSections">Hizmetleri İncele</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ACİL ÖN DEĞERLENDİRME BANNER -->
-  <section class="emergency-alert" aria-label="Acil durum uyarısı">
-    <div class="page-wrap">
-      <div class="alert-icon">
-        <i class="fa-solid fa-triangle-exclamation"></i>
-      </div>
-      <div class="alert-text">
-        <strong>Acil Durumlarda Önce Telefonla İletişim</strong>
-        <span>Telefonla ön değerlendirme sonrasında uygun vakalarda ilk müdahale sağlanır veya gerekli yönlendirme yapılır:
-          <a href="tel:03323223220">0332 322 32 20</a>
-        </span>
-      </div>
-      <a href="tel:03323223220" class="alert-btn">
-        <i class="fa-solid fa-phone"></i>
-        Hemen Ara
-      </a>
-    </div>
-  </section>
-
-  <!-- HİZMETLER İÇERİK -->
-  <main class="page-wrap">
-    <!-- Filtre / Arama -->
-    <div class="svc-toolbar" aria-label="Hizmet filtreleri">
-      <div class="svc-toolbar-left">
-        <div id="chipBar" class="chipbar" role="group" aria-label="Hizmet kategorileri"></div>
-        <button id="favoriteChip" class="chip" type="button">
-          <i class="fa-solid fa-heart"></i> Favorilerim
-        </button>
-      </div>
-      <div class="svc-search">
-        <input id="svcSearch" type="search" placeholder="Hizmet ara… (örn. cerrahi, diş, röntgen)"/>
-        <div id="svcCount" class="search-results-count"></div>
-      </div>
-    </div>
-
-    <!-- İçindekiler -->
-    <nav aria-label="İçindekiler">
-      <ul id="svcToc"></ul>
-    </nav>
-
-    <!-- İKİ SÜTUNLU LAYOUT -->
-    <div class="svc-layout">
-      <!-- Sol panel: profesyonel özet -->
-      <aside class="svc-aside" aria-label="Hizmet özeti">
-        <div class="svc-aside-header">
-          <div class="svc-aside-icon">
-            <i class="fa-solid fa-hospital"></i>
-          </div>
-          <div>
-            <div class="svc-aside-title">Elçi Veteriner Kliniği Hizmet Özet Paneli</div>
-            <div class="svc-aside-sub">Konya Meram’da muayene, cerrahi, laboratuvar, ilk müdahale ve yönlendirme süreçleri.</div>
-          </div>
-        </div>
-
-        <div class="svc-aside-metrics">
-          <div class="svc-metric">
-            <strong>10+ hizmet alanı</strong>
-            <span>Koruyucu hekimlikten gerekli uzman yönlendirmelerine kadar.</span>
-          </div>
-          <div class="svc-metric">
-            <strong>Acil ön değerlendirme</strong>
-            <span>Telefonla değerlendirme, uygun vakalarda ilk müdahale ve yönlendirme.</span>
-          </div>
-          <div class="svc-metric">
-            <strong>Cerrahi blok</strong>
-            <span>Yumuşak doku, ortopedik ve jinekolojik operasyonlar.</span>
-          </div>
-          <div class="svc-metric">
-            <strong>Laboratuvar & Yönlendirme</strong>
-            <span>Laboratuvar testleri ve gerektiğinde görüntüleme için süreç yönetimi.</span>
-          </div>
-        </div>
-
-        <div class="svc-aside-steps">
-          <div class="svc-aside-steps-title">Randevuya gelmeden önce:</div>
-          <ul class="svc-steps">
-            <li>
-              <span class="svc-step-dot">1</span>
-              <span>İhtiyacınızı seçin: acil, rutin muayene, cerrahi, diş, iç hastalıkları veya konaklama.</span>
-            </li>
-            <li>
-              <span class="svc-step-dot">2</span>
-              <span>Hizmet kartlarından detayları inceleyin, gerekirse favorilerinize ekleyin.</span>
-            </li>
-            <li>
-              <span class="svc-step-dot">3</span>
-              <span>İhtiyacınıza en uygun hizmette “Detaylı Bilgi”ye tıklayıp Online Randevu veya Telefon ile bize ulaşın.</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="svc-aside-note">
-          Acil durumda önce telefonla iletişime geçin; <strong>Acil Ön Değerlendirme & İlk Müdahale</strong> veya
-          <strong>Laboratuvar & Görüntüleme Yönlendirme</strong> kartlarından süreç hakkında bilgi alabilirsiniz.
-        </div>
-
-        <!-- Sol blok altında Randevu butonu -->
-        <a href="/hasta-iliskileri.html#online-randevu" class="btn primary svc-aside-cta">
-          <i class="fa-solid fa-calendar-check"></i>
-          Randevu Al
-        </a>
-      </aside>
-
-      <!-- Sağ taraf: dinamik kart alanı -->
-      <div class="svc-main-area">
-        <!-- Dinamik içerik -->
-        <div id="svcSections" aria-live="polite"></div>
-      </div>
-    </div>
-
-    <!-- JSON yoksa fallback -->
-    <template id="svcFallback">
-      <section class="svc-section">
-        <h2>Tüm Hizmetler</h2>
-        <div class="services-grid">
-          <article class="s-card" id="acil">
-            <button class="favorite-btn" type="button" aria-label="Favorilere ekle">
-              <i class="fa-regular fa-heart"></i>
-            </button>
-            <span class="s-icon"><i class="fa-solid fa-shield-heart"></i></span>
-            <div class="s-body">
-              <h3 class="s-title">Acil Ön Değerlendirme &amp; İlk Müdahale</h3>
-              <p class="s-text">Acil durumlarda telefonla ön değerlendirme yapılır. Uygun vakalarda ilk müdahale, sıvı desteği ve oksijen desteği sağlanır; ileri yoğun bakım veya 24 saat kesintisiz izlem gerektiren hastalarda hasta sahibi bilgilendirilerek uygun merkeze yönlendirme yapılır.</p>
-              <a class="s-link" href="#acil">Detaylı Bilgi</a>
+  <main id="ana-icerik">
+    <section class="services-hero" aria-labelledby="hero-title">
+      <div class="container">
+        <div class="hero-layout">
+          <div class="hero-copy">
+            <p class="hero-eyebrow"><i class="fa-solid fa-location-dot"></i> Meram / Konya</p>
+            <h1 id="hero-title">Hizmetlerimiz</h1>
+            <p class="signature-tagline hero-signature">Sağlığın Elçi’leriyiz</p>
+            <div class="hero-divider" aria-hidden="true"></div>
+            <p class="hero-sub">Muayeneden koruyucu hekimliğe, laboratuvardan cerrahi değerlendirmeye kadar sunduğumuz hizmetleri tek sayfada inceleyin.</p>
+            <div class="hero-cta">
+              <a class="btn primary" href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i> Randevu Talebi</a>
+              <a class="btn ghost" href="tel:03323223220"><i class="fa-solid fa-phone"></i> Hemen Ara</a>
             </div>
-          </article>
-          <article class="s-card" id="koruyucu">
-            <button class="favorite-btn" type="button" aria-label="Favorilere ekle">
-              <i class="fa-regular fa-heart"></i>
-            </button>
-            <span class="s-icon"><i class="fa-solid fa-stethoscope"></i></span>
-            <div class="s-body">
-              <h3 class="s-title">Muayene &amp; Koruyucu</h3>
-              <p class="s-text">Aşı planı, parazit kontrolü, mikroçip ve check-up.</p>
-              <a class="s-link" href="#koruyucu">Detaylı Bilgi</a>
+            <p class="hero-note"><i class="fa-solid fa-circle-info"></i> Planlı randevu talepleri en erken üç gün sonrası için alınır ve telefonla teyit edildiğinde kesinleşir.</p>
+          </div>
+
+          <aside class="hero-panel" aria-label="Hizmet süreci özeti">
+            <span class="hero-panel-orbit" aria-hidden="true"></span>
+            <div class="hero-panel-logo"><img src="/assets/img/uploads/elci-logo.png?v=1" alt="Elçi Veteriner Kliniği logosu" width="76" height="76"/></div>
+            <p class="hero-panel-kicker">Klinik yaklaşımı</p>
+            <h2>Her vaka kendi bulgularına göre değerlendirilir.</h2>
+            <div class="hero-panel-list">
+              <div class="hero-panel-item"><i class="fa-solid fa-stethoscope"></i><span><strong>Önce muayene</strong> Tanı ve tedavi planı klinik değerlendirmeye göre oluşturulur.</span></div>
+              <div class="hero-panel-item"><i class="fa-solid fa-flask-vial"></i><span><strong>Gerektiğinde tetkik</strong> Laboratuvar ve ihtiyaç hâlinde görüntüleme yönlendirmesi planlanır.</span></div>
+              <div class="hero-panel-item"><i class="fa-solid fa-clipboard-check"></i><span><strong>Takipli süreç</strong> Kontrol, evde bakım ve sonraki adımlar açık biçimde anlatılır.</span></div>
             </div>
-          </article>
-          <article class="s-card" id="goruntuleme-lab">
-            <button class="favorite-btn" type="button" aria-label="Favorilere ekle">
-              <i class="fa-regular fa-heart"></i>
-            </button>
-            <span class="s-icon"><i class="fa-solid fa-x-ray"></i></span>
-            <div class="s-body">
-              <h3 class="s-title">Laboratuvar &amp; Görüntüleme Yönlendirme</h3>
-              <p class="s-text">Hemogram, biyokimya, hormon testleri, hızlı testler ve sitolojik değerlendirme yapılır. Gerekli durumlarda röntgen ve ultrason gibi görüntüleme işlemleri için randevulu veya dış merkez yönlendirmeli süreç yönetimi sağlanır.</p>
-              <a class="s-link" href="#goruntuleme-lab">Detaylı Bilgi</a>
-            </div>
-          </article>
+          </aside>
         </div>
-      </section>
-    </template>
+      </div>
+    </section>
+
+    <section class="emergency-alert" aria-label="Acil durum bilgisi">
+      <div class="page-wrap">
+        <div class="alert-main">
+          <div class="alert-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <div class="alert-text">
+            <strong>Acil durumda online formu beklemeyin.</strong>
+            <span>Önce <a href="tel:03323223220">0332 322 32 20</a> numarasını arayın. Klinik uygunluğu ve yönlendirme telefonla değerlendirilir.</span>
+          </div>
+        </div>
+        <a href="tel:03323223220" class="alert-btn"><i class="fa-solid fa-phone"></i> Hemen Ara</a>
+      </div>
+    </section>
+
+    <section class="services-main" aria-labelledby="services-title">
+      <div class="page-wrap">
+        <div class="section-head">
+          <p class="section-kicker"><i class="fa-solid fa-paw"></i> Hizmet rehberi</p>
+          <h2 id="services-title">İhtiyacınıza uygun hizmeti bulun</h2>
+          <p>Kategorileri seçebilir, hizmet adıyla arama yapabilir ve ayrıntıları açarak randevu sürecine geçebilirsiniz.</p>
+        </div>
+
+        <div class="svc-toolbar" aria-label="Hizmet arama ve filtreleme">
+          <div class="svc-toolbar-left">
+            <div id="chipBar" class="chipbar" role="group" aria-label="Hizmet kategorileri"></div>
+            <button id="favoriteChip" class="chip" type="button" aria-pressed="false">
+              <i class="fa-solid fa-heart"></i> Kaydettiklerim
+            </button>
+          </div>
+          <div class="svc-search">
+            <label class="sr-only" for="svcSearch">Hizmet ara</label>
+            <input id="svcSearch" type="search" placeholder="Hizmet ara: cerrahi, diş, laboratuvar…"/>
+            <div id="svcCount" class="search-results-count" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <div class="svc-layout">
+          <aside class="svc-aside" aria-label="Hizmet süreci">
+            <div class="svc-aside-header">
+              <div class="svc-aside-icon"><i class="fa-solid fa-hospital"></i></div>
+              <div>
+                <div class="svc-aside-title">Hizmet süreci</div>
+                <div class="svc-aside-sub">Kliniğe gelişten sonraki temel adımlar.</div>
+              </div>
+            </div>
+
+            <div class="svc-aside-facts">
+              <div class="svc-fact"><i class="fa-solid fa-user-doctor"></i><span><strong>Klinik muayene</strong><span>Şikâyet, öykü ve fizik muayene birlikte değerlendirilir.</span></span></div>
+              <div class="svc-fact"><i class="fa-solid fa-vials"></i><span><strong>Laboratuvar</strong><span>Gerekli görülen kan, idrar ve hızlı testler planlanır.</span></span></div>
+              <div class="svc-fact"><i class="fa-solid fa-x-ray"></i><span><strong>Görüntüleme</strong><span>Röntgen ve ultrason gerektiğinde randevulu veya dış merkez süreci yönetilir.</span></span></div>
+              <div class="svc-fact"><i class="fa-solid fa-notes-medical"></i><span><strong>Kontrol ve takip</strong><span>Tedavi, evde bakım ve kontrol zamanı hastaya göre belirlenir.</span></span></div>
+            </div>
+
+            <div class="svc-aside-steps">
+              <div class="svc-aside-steps-title">Randevu öncesi</div>
+              <ul class="svc-steps">
+                <li><span class="svc-step-dot">1</span><span>Hizmet ayrıntılarını inceleyin.</span></li>
+                <li><span class="svc-step-dot">2</span><span>Online randevu talebinizi oluşturun.</span></li>
+                <li><span class="svc-step-dot">3</span><span>Telefon teyidinden sonra belirlenen saatte kliniğe gelin.</span></li>
+              </ul>
+            </div>
+
+            <div class="svc-aside-note">Sitedeki bilgiler genel bilgilendirme amaçlıdır; muayene, tanı veya tedavinin yerine geçmez.</div>
+            <a href="/hasta-iliskileri.html#online-randevu" class="btn primary svc-aside-cta"><i class="fa-solid fa-calendar-check"></i> Randevu Talebi</a>
+          </aside>
+
+          <div class="svc-main-area">
+            <div id="svcSections" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <template id="svcFallback">
+          <section class="svc-section">
+            <h2>Temel Hizmetler</h2>
+            <div class="services-grid">
+              <article class="s-card" id="acil">
+                <button class="favorite-btn" type="button" aria-label="Favorilere ekle"><i class="fa-regular fa-heart"></i></button>
+                <span class="s-icon"><i class="fa-solid fa-shield-heart"></i></span>
+                <div class="s-body">
+                  <h3 class="s-title">Acil Ön Değerlendirme &amp; İlk Müdahale</h3>
+                  <p class="s-text">Telefonla ön değerlendirme sonrasında klinik uygunluğu belirlenir; gerekli ilk müdahale veya yönlendirme planlanır.</p>
+                  <a class="s-link" href="#acil">Detayları Gör</a>
+                </div>
+              </article>
+              <article class="s-card" id="koruyucu">
+                <button class="favorite-btn" type="button" aria-label="Favorilere ekle"><i class="fa-regular fa-heart"></i></button>
+                <span class="s-icon"><i class="fa-solid fa-stethoscope"></i></span>
+                <div class="s-body">
+                  <h3 class="s-title">Muayene &amp; Koruyucu Hekimlik</h3>
+                  <p class="s-text">Aşı planı, iç-dış parazit kontrolü, mikroçip, rutin muayene ve sağlık takibi.</p>
+                  <a class="s-link" href="#koruyucu">Detayları Gör</a>
+                </div>
+              </article>
+              <article class="s-card" id="goruntuleme-lab">
+                <button class="favorite-btn" type="button" aria-label="Favorilere ekle"><i class="fa-regular fa-heart"></i></button>
+                <span class="s-icon"><i class="fa-solid fa-flask-vial"></i></span>
+                <div class="s-body">
+                  <h3 class="s-title">Laboratuvar &amp; Görüntüleme Yönlendirme</h3>
+                  <p class="s-text">Laboratuvar testleri klinikte planlanır; gerektiğinde görüntüleme için randevulu veya dış merkez süreci yönetilir.</p>
+                  <a class="s-link" href="#goruntuleme-lab">Detayları Gör</a>
+                </div>
+              </article>
+            </div>
+          </section>
+        </template>
+      </div>
+    </section>
+
+    <section class="closing-cta" aria-labelledby="closing-title">
+      <div class="container">
+        <div class="closing-inner">
+          <div class="closing-copy">
+            <h2 id="closing-title">Hangi hizmetin uygun olduğundan emin değil misiniz?</h2>
+            <p>Belirtileri kısaca paylaşın; uygun randevu türü veya acil yönlendirme konusunda telefonla bilgi alın.</p>
+          </div>
+          <div class="closing-actions">
+            <a class="btn primary" href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i> Randevu Talebi</a>
+            <a class="btn ghost" href="tel:03323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <!-- FOOTER -->
   <footer class="footer-new">
     <div class="container footer-container">
       <div class="footer-col">
         <h3>Elçi Veteriner Kliniği</h3>
-        <p>Konya'nın Meram ilçesinde, Hayvan sağlığında hızlı, güvenilir ve etik müdahalelerle yaşamın yanında yer alıyoruz.</p>
+        <p>Meram/Konya'da muayene, koruyucu hekimlik, laboratuvar, cerrahi değerlendirme ve takip hizmetleri.</p>
         <div class="social-links">
-          <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook">
-            <i class="fa-brands fa-facebook-f"></i>
-          </a>
-          <a href="https://www.instagram.com/elcivetklinik" target="_blank" rel="noopener" aria-label="Instagram">
-            <i class="fa-brands fa-instagram"></i>
-          </a>
-          <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter">
-            <i class="fa-brands fa-x-twitter"></i>
-          </a>
-          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube">
-            <i class="fa-brands fa-youtube"></i>
-          </a>
+          <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/elcivetklinik" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
         </div>
       </div>
 
       <div class="footer-col">
         <h3>Hızlı Linkler</h3>
         <ul class="footer-links">
-          <li><a href="/index.html">Ana Sayfa</a></li>
-          <li><a href="/about.html">Hakkımızda</a></li>
+          <li><a href="/">Ana Sayfa</a></li>
+          <li><a href="/about">Hakkımızda</a></li>
           <li><a href="/hizmetler.html">Hizmetlerimiz</a></li>
           <li><a href="/blog.html">Blog</a></li>
           <li><a href="/sss.html">SSS</a></li>
@@ -1229,64 +651,82 @@
       </div>
 
       <div class="footer-col">
-        <h3>Konya Veteriner Hizmetlerimiz</h3>
+        <h3>Öne Çıkan Hizmetler</h3>
         <ul class="footer-links">
-          <li><a href="#acil">Konya Acil Veteriner</a></li>
-          <li><a href="#cerrahi">Konya’da Cerrahi Operasyonlar</a></li>
-          <li><a href="#agiz-dis">Konya’da Ağız ve Diş Sağlığı</a></li>
-          <li><a href="#ic-hastaliklari">Konya’da İç Hastalıkları</a></li>
-          <li><a href="#ftr">Konya’da Fizik Tedavi</a></li>
+          <li><a href="#acil">Acil Ön Değerlendirme</a></li>
+          <li><a href="#cerrahi">Cerrahi Operasyonlar</a></li>
+          <li><a href="#agiz-dis">Ağız ve Diş Sağlığı</a></li>
+          <li><a href="#ic-hastaliklari">İç Hastalıkları</a></li>
+          <li><a href="#goruntuleme-lab">Laboratuvar ve Görüntüleme</a></li>
         </ul>
       </div>
 
       <div class="footer-col">
-        <h3>Konya İletişim</h3>
+        <h3>İletişim</h3>
         <ul class="footer-contact">
-          <li><i class="fa-solid fa-location-dot"></i>
-            <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener">
-              Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya
-            </a>
-          </li>
-          <li><i class="fa-solid fa-phone"></i> <a href="tel:03323223220">0332 322 32 20</a></li>
-          <li><i class="fa-solid fa-envelope"></i> <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></li>
-          <li><i class="fa-regular fa-clock"></i> <span>Her gün: 09:00–23:00</span></li>
+          <li><i class="fa-solid fa-location-dot"></i><a href="https://www.google.com/maps/dir/?api=1&destination=Havzan+Mah.+Yeni+Meram+Cad.+17/1+Meram+Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a></li>
+          <li><i class="fa-solid fa-phone"></i><a href="tel:03323223220">0332 322 32 20</a></li>
+          <li><i class="fa-solid fa-envelope"></i><a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></li>
+          <li><i class="fa-solid fa-clock"></i><span>Her gün: 09.00–21.00</span></li>
         </ul>
       </div>
     </div>
-
-    <div class="footer-bottom">
-      <div class="container">
-        <p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p>
-      </div>
-    </div>
+    <div class="footer-bottom"><div class="container"><p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p></div></div>
   </footer>
 
-  <!-- Şema -->
+  <nav class="mobile-quickbar" aria-label="Hızlı işlemler">
+    <a href="tel:03323223220"><i class="fa-solid fa-phone"></i><span>Ara</span></a>
+    <a href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i><span>Randevu</span></a>
+    <a href="https://www.google.com/maps/dir/?api=1&destination=Havzan+Mah.+Yeni+Meram+Cad.+17/1+Meram+Konya" target="_blank" rel="noopener"><i class="fa-solid fa-location-dot"></i><span>Konum</span></a>
+  </nav>
+
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
-    "@type":"Service",
-    "serviceType":"VeterinaryCare",
-    "provider":{"@type":"Organization","name":"Elçi Veteriner Kliniği"},
-    "areaServed":"Konya",
-    "url":"https://elciveteriner.com/hizmetler.html"
+    "@type":"VeterinaryCare",
+    "name":"Elçi Veteriner Kliniği",
+    "legalName":"Elçi Veterinerlik Sanayi Ticaret Limited Şirketi",
+    "url":"https://elciveteriner.com/hizmetler.html",
+    "logo":"https://elciveteriner.com/assets/img/uploads/elci-logo.png",
+    "telephone":"+90 332 322 32 20",
+    "email":"elcivetklinik@gmail.com",
+    "address":{
+      "@type":"PostalAddress",
+      "streetAddress":"Havzan Mah. Yeni Meram Cad. 17/1",
+      "addressLocality":"Meram",
+      "addressRegion":"Konya",
+      "addressCountry":"TR"
+    },
+    "openingHours":"Mo-Su 09:00-21:00"
   }
   </script>
 
-  <!-- Başlangıç JS: yıl + mobil menü -->
   <script>
     window.addEventListener('DOMContentLoaded', function(){
-      const y=document.getElementById('yil'); if(y) y.textContent=new Date().getFullYear();
-      const btn=document.getElementById('mobileMenuBtn'), menu=document.getElementById('mainMenu');
+      const y=document.getElementById('yil');
+      if(y) y.textContent=new Date().getFullYear();
+
+      const btn=document.getElementById('mobileMenuBtn');
+      const menu=document.getElementById('mainMenu');
       if(btn && menu){
-        const toggle=state=>{menu.classList.toggle('show',state);document.body.classList.toggle('menu-open',state);};
+        const toggle=(state)=>{
+          menu.classList.toggle('show',state);
+          document.body.classList.toggle('menu-open',state);
+          btn.setAttribute('aria-expanded',String(state));
+          const icon=btn.querySelector('i');
+          if(icon){
+            icon.classList.toggle('fa-bars',!state);
+            icon.classList.toggle('fa-xmark',state);
+          }
+        };
         btn.addEventListener('click',()=>toggle(!menu.classList.contains('show')));
         menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>toggle(false)));
+        document.addEventListener('keydown',e=>{if(e.key==='Escape') toggle(false);});
       }
     });
   </script>
 
-  <!-- HİZMETLER SAYFASI LOADER + FAVORİLER + MODAL -->
+<!-- HİZMETLER SAYFASI LOADER + FAVORİLER + MODAL -->
   <script>
   (function(){
     const sectionsWrap = document.getElementById('svcSections');
@@ -1385,12 +825,6 @@
         <p>Konaklama sürecinde; günlük mama–su takibi, tuvalet alanı kontrolü, temel sağlık izlemi ve gerekli ise ilaç uygulamaları plan doğrultusunda yapılır. Stresin azaltılması için sakinleştirici çevresel düzenlemeler ve sosyal–bireysel ihtiyaçlar göz önünde bulundurulur.</p>
         <p>Her konaklayan hasta için kayıt tutulur ve sahiplerine düzenli bilgilendirme yapılır. Amaç, ev ortamına en yakın konforu klinik güvencesiyle birleştirmektir.</p>
       `,
-      'Egzotik Hayvanlar': `
-        <p>Egzotik hayvan hizmetleri; kuşlar, kemirgenler ve küçük memeliler gibi özel bakım gerektiren türlerin sağlık kontrollerini ve temel tedavilerini kapsar. Türlere özgü sindirim, solunum, tüy–deri ve iskelet sistemi sorunları bu birimde değerlendirilir.</p>
-        <p>Muayene sürecinde; çevre koşulları, kafes–yaşam alanı düzeni, beslenme alışkanlıkları ve türün doğal davranışları dikkate alınır. Gerekli durumlarda laboratuvar ve görüntüleme testleri ile tanı desteklenir.</p>
-        <p>Ayrıca, doğru beslenme, barınma, zenginleştirme ve bakım protokolleri hakkında sahiplerine ayrıntılı danışmanlık verilir. Amaç, egzotik dostların türlerine uygun, sağlıklı ve konforlu bir yaşam sürmesini sağlamaktır.</p>
-      `,
-
       /* Olası alternatif başlıklar için kopyalar */
       'Muayene & Koruyucu Hekimlik': null,
       'Görüntüleme & Laboratuvar': null,
@@ -1430,7 +864,20 @@
 
     // Yardımcılar
     const pick=(o,...keys)=>{ for(const k of keys){ if(o && o[k]!=null) return o[k]; } };
-    const anchor=(c)=>'cat-'+c.toLowerCase().replace(/\s+/g,'-').replace(/[^\w\-]+/g,'');
+    const normalizeText=(value)=>String(value || '')
+      .toLocaleLowerCase('tr-TR')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g,'');
+    const slugify=(value)=>normalizeText(value)
+      .replace(/ı/g,'i')
+      .replace(/ş/g,'s')
+      .replace(/ğ/g,'g')
+      .replace(/ü/g,'u')
+      .replace(/ö/g,'o')
+      .replace(/ç/g,'c')
+      .replace(/[^a-z0-9]+/g,'-')
+      .replace(/^-+|-+$/g,'');
+    const anchor=(c)=>'cat-'+slugify(c);
 
     function iconHTML(icon){
       const raw = (icon || '').toString().trim();
@@ -1472,7 +919,7 @@
           <div class="s-body">
             <h3 class="s-title">${ttl}</h3>
             <p class="s-text">${sum}</p>
-            <a class="s-link" href="${href}">Detaylı Bilgi</a>
+            <a class="s-link" href="${href}">Detayları Gör</a>
           </div>
         </article>`;
     }
@@ -1484,7 +931,7 @@
         (pick(it,'title','baslik','name') || '') + ' ' +
         (pick(it,'summary','ozet','text','aciklama') || '');
 
-      const text = textSource.toLowerCase();
+      const text = normalizeText(textSource);
       const okCat = (activeCat === 'Tümü') || (cat === activeCat);
       const okQ   = !q || text.includes(q);
       const okFav = !favMode || (id && favorites.includes(id));
@@ -1497,7 +944,7 @@
       if(!n){
         countEl.textContent = 'Hiç hizmet bulunamadı';
       }else{
-        countEl.textContent = n + ' hizmet bulundu';
+        countEl.textContent = n === 1 ? '1 hizmet bulundu' : (n + ' hizmet bulundu');
       }
     }
 
@@ -1567,7 +1014,7 @@
       const modal = document.createElement('div');
       modal.className = 'service-modal';
       modal.innerHTML = `
-        <div class="modal-content" role="dialog" aria-labelledby="svc-modal-title">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="svc-modal-title" tabindex="-1">
           <button class="modal-close" type="button" aria-label="Kapat">
             <i class="fa-solid fa-xmark"></i>
           </button>
@@ -1578,7 +1025,7 @@
           <div class="modal-actions">
             <button class="btn primary" type="button">
               <i class="fa-solid fa-calendar-check"></i>
-              Online Randevu Al
+              Randevu Talebi Oluştur
             </button>
             <button class="btn secondary" type="button">
               <i class="fa-solid fa-phone"></i>
@@ -1592,6 +1039,15 @@
       const close = ()=>modal.remove();
       modal.querySelector('.modal-close')?.addEventListener('click', close);
       modal.addEventListener('click',e=>{ if(e.target===modal) close(); });
+      const modalPanel = modal.querySelector('.modal-content');
+      modalPanel?.focus();
+      const onKeydown = (e)=>{
+        if(e.key === 'Escape'){
+          document.removeEventListener('keydown', onKeydown);
+          close();
+        }
+      };
+      document.addEventListener('keydown', onKeydown, {once:true});
 
       const btnPrimary  = modal.querySelector('.btn.primary');
       const btnSecondary= modal.querySelector('.btn.secondary');
@@ -1698,7 +1154,7 @@
     function wireFilters(){
       if(searchBox){
         searchBox.addEventListener('input',e=>{
-          q = String(e.target.value || '').trim().toLowerCase();
+          q = normalizeText(e.target.value).trim();
           renderSections();
         });
       }
@@ -1742,6 +1198,14 @@
       items = Array.isArray(data?.items) ? data.items.slice()
             : (Array.isArray(data) ? data.slice() : []);
 
+      /* Klinik hizmet kapsamı dışında bırakılan içerikler */
+      items = items.filter(function(it){
+        const title = normalizeText(pick(it,'title','baslik','name') || '');
+        const id = normalizeText(pick(it,'id','slug','anchor') || '');
+        const category = normalizeText(pick(it,'category','kategori') || '');
+        return !title.includes('egzotik') && !id.includes('egzotik') && !category.includes('egzotik');
+      });
+
       if(!items.length){
         const frag = fallback?.content?.cloneNode(true);
         if(frag){
@@ -1771,7 +1235,7 @@
   })();
   </script>
 
-  <!-- SVG ICON SPRITE -->
+<!-- SVG ICON SPRITE -->
   <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden">
     <defs>
       <style>
