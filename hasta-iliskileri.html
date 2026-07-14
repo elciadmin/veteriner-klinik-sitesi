@@ -118,15 +118,29 @@
       animation:successFadeIn .4s ease;
     }
 
-    /* Datepicker (tek ay, tıklayınca açılır) */
-    .date-input{position:relative}
+    /* Datepicker: form kartından taşmadan, ortalanmış ve mobil uyumlu */
+    .appointment-shell{overflow:visible !important;isolation:isolate}
+    .date-input{position:relative;z-index:80;min-width:0}
     .date-display{
       width:100%;height:44px;border:1px solid rgba(0,0,0,.12);border-radius:12px;padding:10px 12px;background:#fff;
     }
     .date-display:focus{outline:2px solid #10b3d133;border-color:#10b3d1}
     .dp-pop{
-      position:absolute;left:0;right:0;top:50px;z-index:60;background:#fff;border:1px solid rgba(0,0,0,.1);
-      border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.12);padding:12px;display:none;
+      position:absolute;
+      left:50%;
+      right:auto;
+      top:50px;
+      z-index:120;
+      width:min(390px,calc(100vw - 32px));
+      max-width:390px;
+      box-sizing:border-box;
+      transform:translateX(-50%);
+      background:#fff;
+      border:1px solid rgba(90,31,168,.15);
+      border-radius:18px;
+      box-shadow:0 18px 48px rgba(31,20,55,.22);
+      padding:14px;
+      display:none;
     }
     .dp-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
     .dp-month-nav{display:flex;align-items:center;gap:8px;min-width:0}
@@ -134,11 +148,11 @@
     .dp-nav-btn{width:34px;height:34px;border-radius:999px;border:1px solid rgba(90,31,168,.16);background:#fff;color:var(--brand);display:grid;place-items:center;cursor:pointer}
     .dp-nav-btn:hover:not(:disabled){background:#f4effb}
     .dp-nav-btn:disabled{opacity:.35;cursor:not-allowed}
-    .dp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+    .dp-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
     .dp-grid .dow{font-size:12px;color:#6b7a7c;text-align:center}
     .dcell{
-      height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;
-      border:1px solid rgba(0,0,0,.06); background:#f8fbfa;
+      width:100%;min-width:0;height:36px;padding:0;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;
+      border:1px solid rgba(0,0,0,.06);background:#f8fbfa;font:inherit;
     }
     .dcell.block{background:#ffecec;border-color:#f5c2c2;color:#b94a48;cursor:not-allowed}
     .dcell.ok{background:#eaf6f1;border-color:#cce7db;color:#083}
@@ -148,6 +162,38 @@
     .legend i{width:14px;height:14px;border-radius:6px;display:inline-block;border:1px solid rgba(0,0,0,.08)}
     .legend .lg-ok i{background:#eaf6f1;border-color:#cce7db}
     .legend .lg-no i{background:#ffecec;border-color:#f5c2c2}
+
+
+    .schedule-note{
+      margin:10px 0 0;
+      padding:10px 12px;
+      border-left:3px solid var(--accent);
+      border-radius:0 12px 12px 0;
+      background:#f7fbff;
+      color:var(--muted);
+      font-size:.92rem;
+      line-height:1.55;
+    }
+    .schedule-note strong{color:var(--ink)}
+
+    @media(max-width:640px){
+      .dp-pop{
+        position:fixed;
+        left:16px;
+        right:16px;
+        top:50% !important;
+        bottom:auto !important;
+        width:auto;
+        max-width:none;
+        max-height:82vh;
+        overflow:auto;
+        transform:translateY(-50%);
+      }
+      .dp-head{align-items:flex-start;flex-wrap:wrap}
+      .dp-month-nav{width:100%;justify-content:space-between}
+      .dp-month-nav strong{min-width:0;flex:1}
+      .dp-head > #dpClose{margin-left:auto}
+    }
 
     /* Hizmet Şartları */
     .terms-wrap{border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:12px;background:#f8fbfc}
@@ -721,7 +767,7 @@
         <p>Randevu talepleri bugünden en erken 3 gün sonrası ve en fazla 30 gün ileri için alınır.</p>
       </div>
 
-      <div class="form-shell">
+      <div class="form-shell appointment-shell">
       <div class="alert critical" role="alert">
         <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
         <div><strong>Hayati risk varsa formu beklemeden <a href="tel:03323223220">0332 322 32 20</a> numarasını arayın.</strong><br>Bu form yalnızca randevu talebi oluşturur; randevu, kliniğimizin telefonla teyidinden sonra kesinleşir.</div>
@@ -732,6 +778,8 @@
         <input type="hidden" name="talep_zamani" id="talepZamani" value=""/>
         <input type="hidden" name="tarih_iso" id="randevuTarihIso" value=""/>
         <input type="hidden" name="randevu_durumu" value="onay-bekleyen-talep"/>
+        <input type="hidden" name="standart_randevu_suresi" value="50 dakika"/>
+        <input type="hidden" name="randevular_arasi_hazirlik" value="10 dakika"/>
         <input type="hidden" name="kvkk_aydinlatma_surumu" value="2026-07-14"/>
         <input type="hidden" name="randevu_kosullari_surumu" value="2026-07-14"/>
         <p style="display:none"><label>Bot alanı: <input name="bot-field"/></label></p>
@@ -739,7 +787,13 @@
         <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
           <input type="text" name="ad" placeholder="Ad Soyad" autocomplete="name" required/>
           <input type="tel" name="tel" placeholder="Telefon" inputmode="tel" autocomplete="tel" required pattern="^[0-9+()\\s-]{7,}$" />
-          <input type="text" name="pet" placeholder="Evcil Hayvan (Kedi/Köpek vb.)" required/>
+          <input type="text" name="pet" placeholder="Hayvanın Adı" required/>
+          <select name="hayvan_turu" required>
+            <option value="">Hayvan Türü</option>
+            <option value="Kedi">Kedi</option>
+            <option value="Köpek">Köpek</option>
+            <option value="Diğer">Diğer</option>
+          </select>
 
           <!-- Özel datepicker -->
           <div class="date-input">
@@ -757,35 +811,41 @@
                 <!-- JS doldurur -->
               </div>
               <div class="legend">
-                <span class="lg-ok"><i></i> Müsait</span>
-                <span class="lg-no"><i></i> Dolu/Kapalı</span>
+                <span class="lg-ok"><i></i> Talep alınabilir</span>
+                <span class="lg-no"><i></i> Seçilemez</span>
               </div>
             </div>
           </div>
         </div>
 
         <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
-          <select name="hizmet" required>
+          <select name="hizmet" id="hizmetTuru" required>
             <option value="">Hizmet Türü</option>
             <option>Genel Muayene</option>
-            <option>Aşı & Koruyucu</option>
+            <option>Aşı & Koruyucu Sağlık</option>
+            <option>Kısırlaştırma Operasyonu</option>
             <option>Diş & Ağız Sağlığı</option>
             <option>Laboratuvar & Görüntüleme Yönlendirme</option>
             <option>Laboratuvar (Kan/İdrar)</option>
             <option>Cerrahi Değerlendirme</option>
             <option>Diğer</option>
           </select>
-          <select name="tercih_edilen_zaman_araligi" required>
-            <option value="">Tercih Edilen Zaman Aralığı</option>
-            <option>09:00–12:00</option>
-            <option>12:00–15:00</option>
-            <option>15:00–18:00</option>
-            <option>18:00–20:00</option>
+          <select name="tercih_edilen_zaman_araligi" id="randevuSaati" required>
+            <option value="">Tercih Edilen Randevu Saati</option>
+            <option value="11:00–11:50">11:00–11:50</option>
+            <option value="12:00–12:50">12:00–12:50</option>
+            <option value="13:00–13:50">13:00–13:50</option>
+            <option value="14:00–14:50">14:00–14:50</option>
+            <option value="15:00–15:50">15:00–15:50</option>
+            <option value="16:00–16:50">16:00–16:50</option>
+            <option value="17:00–17:50">17:00–17:50</option>
           </select>
           <input type="text" name="mikrocip" placeholder="Mikroçip No (varsa)"/>
           <input type="text" name="irk" placeholder="Irk/Cins (opsiyonel)"/>
           <input type="number" step="0.1" name="kilo" placeholder="Kilo (kg, opsiyonel)"/>
         </div>
+
+        <p class="schedule-note"><strong>Randevu düzeni:</strong> Standart görüşmeler 50 dakika olarak planlanır ve her randevudan sonra 10 dakikalık hazırlık aralığı bırakılır. Kısırlaştırma seçiminde bu saat, hastanın kliniğe kabulü ve ön değerlendirme talebidir; operasyonun kesin saati ve süresi telefonla ayrıca teyit edilir.</p>
 
         <textarea name="not" placeholder="Kısaca şikâyet/istek (son 12 saatte ilaç, kusma/ishal, iştah vb.)" rows="4"></textarea>
 
@@ -1132,8 +1192,16 @@
       render(currentMonth);
       pop.style.display='block';
       const rect = input.getBoundingClientRect();
-      if(window.innerHeight - rect.bottom < 350){ pop.style.top = 'auto'; pop.style.bottom = '52px'; }
-      else{ pop.style.top='50px'; pop.style.bottom='auto'; }
+      if(window.matchMedia('(max-width:640px)').matches){
+        pop.style.top='50%';
+        pop.style.bottom='auto';
+      } else if(window.innerHeight - rect.bottom < 350){
+        pop.style.top='auto';
+        pop.style.bottom='52px';
+      } else {
+        pop.style.top='50px';
+        pop.style.bottom='auto';
+      }
     }
 
     if(input){
@@ -1177,7 +1245,7 @@
           <h4>2) İşlenen Kişisel Veri Kategorileri</h4>
           <ul>
             <li>Kimlik ve iletişim verileri: ad-soyad, telefon, e-posta.</li>
-            <li>Randevu ve işlem verileri: talep tarihi, tercih edilen gün/zaman aralığı, hizmet türü, form notları ve iletişim kayıtları.</li>
+            <li>Randevu ve işlem verileri: talep tarihi, tercih edilen gün ve randevu saati, hizmet türü, form notları ve iletişim kayıtları.</li>
             <li>Evcil hayvana ilişkin, sahibiyle ilişkilendirilebilen bilgiler: tür, ırk, kilo, mikroçip numarası, şikâyet ve bakım bilgileri.</li>
             <li>İşlem güvenliği verileri: form gönderim zamanı ile barındırma ve güvenlik altyapısınca oluşturulabilen teknik kayıtlar.</li>
           </ul>
@@ -1225,33 +1293,36 @@
         <div class="content muted">
           <p><strong>Metin sürümü:</strong> 14.07.2026</p>
           <h4>1) Talebin Niteliği ve Kesinleşme</h4>
-          <p>Çevrim içi form, kesin randevu oluşturmaz. Seçilen tarih ve zaman aralığı bir <strong>tercih/talep</strong> niteliğindedir. Randevu, Elçi Veteriner Kliniği tarafından telefonla teyit edilip tarih ve saat açıkça bildirildiğinde kesinleşir. Teyit alınmadan kliniğe gelinmesi hâlinde bekleme veya başka bir güne planlama gerekebilir.</p>
+          <p>Çevrim içi form, kesin randevu oluşturmaz. Seçilen tarih ve saat bir <strong>tercih/talep</strong> niteliğindedir. Randevu, Elçi Veteriner Kliniği tarafından telefonla teyit edilip tarih ve saat açıkça bildirildiğinde kesinleşir. Teyit alınmadan kliniğe gelinmesi hâlinde bekleme veya başka bir güne planlama gerekebilir.</p>
 
-          <h4>2) Tarih Sınırı ve Kapasite</h4>
-          <p>Form üzerinden yalnızca bugünden itibaren <strong>en erken 3 gün sonrası</strong> ve <strong>en fazla 30 gün ileri</strong> için talep oluşturulabilir. Resmî tatil, özel çalışma saati, teknik arıza, personel durumu, acil vakalar veya klinik kapasitesi nedeniyle alternatif tarih/saat önerilebilir ya da talep reddedilebilir.</p>
+          <h4>2) Tarih, Saat ve Kapasite Sınırı</h4>
+          <p>Form üzerinden yalnızca bugünden itibaren <strong>en erken 3 gün sonrası</strong> ve <strong>en fazla 30 gün ileri</strong> için; 11.00–18.00 çalışma aralığındaki yayımlanmış saatlerden talep oluşturulabilir. Resmî tatil, özel çalışma saati, teknik arıza, personel durumu, acil vakalar veya klinik kapasitesi nedeniyle alternatif tarih/saat önerilebilir ya da talep reddedilebilir.</p>
 
-          <h4>3) Acil ve Hayati Riskli Durumlar</h4>
+          <h4>3) Standart Süre, Hazırlık Aralığı ve Operasyon Talepleri</h4>
+          <p>Standart muayene ve görüşme randevuları <strong>50 dakika</strong> olarak planlanır; sonraki hasta için hazırlık ve düzenleme amacıyla <strong>10 dakika</strong> ara bırakılır. Bu süreler planlama ölçüsüdür; acil vakalar, hastanın klinik durumu veya gerekli işlemler nedeniyle başlangıç ve bitiş saatleri değişebilir. <strong>Kısırlaştırma operasyonu</strong> seçildiğinde formda belirtilen saat, hastanın kliniğe kabulü ve ön değerlendirme için tercih edilen saattir; operasyonun kesin zamanı, açlık hazırlığı, gerekli tetkikler, süresi ve taburculuk planı telefonla ayrıca teyit edilir.</p>
+
+          <h4>4) Acil ve Hayati Riskli Durumlar</h4>
           <p>Bu form acil triyaj veya acil müdahale kanalı değildir. Solunum güçlüğü, bilinç kaybı, kontrolsüz kanama, zehirlenme şüphesi, nöbet, travma veya benzeri hayati risklerde form yanıtını beklemeyin; çalışma saatlerinde <a href="tel:+903323223220">0332 322 32 20</a> numarasını arayın. Kliniğe ulaşılamıyorsa en yakın kesintisiz acil hizmet sunan merkeze başvurun.</p>
 
-          <h4>4) Her Talep İçin Tek Hasta</h4>
+          <h4>5) Her Talep İçin Tek Hasta</h4>
           <p>Her randevu talebi tek bir evcil hayvan içindir. Birden fazla hayvan için ayrı form oluşturulması, yeterli zaman planlanabilmesi açısından gereklidir.</p>
 
-          <h4>5) Bilgilerin Doğruluğu ve Klinik Değerlendirme</h4>
+          <h4>6) Bilgilerin Doğruluğu ve Klinik Değerlendirme</h4>
           <p>Hasta sahibi; bilinen hastalıklar, kullanılan ilaçlar, alerji/reaksiyon öyküsü, gebelik ihtimali, saldırganlık veya ısırma riski ve son gelişmeler hakkında doğru ve eksiksiz bilgi vermelidir. Form üzerinden tanı konulmaz, reçete düzenlenmez ve tedavi garantisi verilmez. Tanı ve tedavi planı klinik muayene ve gerekli görülen tetkikler sonrasında belirlenir.</p>
 
-          <h4>6) Saat, Gecikme ve İptal</h4>
-          <p>Hasta sahibinin teyit edilen saatten yaklaşık 10 dakika önce klinikte olması önerilir. On beş dakikayı aşan gecikmeler, sonraki randevuların aksamaması için bekleme veya yeniden planlama sonucunu doğurabilir. Gelemeyeceğiniz randevuyu mümkünse en az 6 saat önce bildirmeniz rica olunur.</p>
+          <h4>7) Saat, Gecikme ve İptal</h4>
+          <p>Hasta sahibinin teyit edilen saatten yaklaşık 10 dakika önce klinikte olması önerilir. Randevular 50 dakikalık planlandığından, on beş dakikayı aşan gecikmeler kalan muayene süresini azaltabilir veya sonraki randevuların aksamaması için bekleme ya da yeniden planlama sonucunu doğurabilir. Gelemeyeceğiniz randevuyu mümkünse en az 6 saat önce bildirmeniz rica olunur.</p>
 
-          <h4>7) Ücret ve Ek İşlemler</h4>
+          <h4>8) Ücret ve Ek İşlemler</h4>
           <p>Formda veya telefon görüşmesinde verilen bilgiler kesin fiyat teklifi değildir. Muayene, tetkik, ilaç, sarf, anestezi, cerrahi ve diğer işlemler ayrı ücretlendirilebilir. Planlanan ek işlemler ve önemli maliyet değişiklikleri, uygulanmadan önce hasta sahibine açıklanır ve onayı alınır; mevzuattan doğan zorunluluklar saklıdır.</p>
 
-          <h4>8) Yönlendirme ve Hizmet Sınırları</h4>
+          <h4>9) Yönlendirme ve Hizmet Sınırları</h4>
           <p>Kliniğin teknik imkânını veya izlem kapasitesini aşan ileri görüntüleme, yoğun bakım, kesintisiz takip veya uzmanlık gerektiren durumlarda hasta sahibi bilgilendirilerek uygun merkeze yönlendirme yapılabilir. Yönlendirme, hastanın ihtiyacına göre güvenli hizmet planlamasının bir parçasıdır.</p>
 
-          <h4>9) İletişim</h4>
+          <h4>10) İletişim</h4>
           <p>Randevu teyidi, saat değişikliği, hizmete ilişkin ön bilgi ve kontrol hatırlatması için telefon veya e-posta yoluyla iletişim kurulabilir. Bu iletişim pazarlama amacı taşımaz. Kampanya veya tanıtım iletileri için ayrıca gerekli izin alınır.</p>
 
-          <h4>10) Kanuni Haklar</h4>
+          <h4>11) Kanuni Haklar</h4>
           <p>Bu koşullar, hasta sahibinin tüketici mevzuatı ve diğer kanunlardan doğan haklarını ortadan kaldırmaz; kliniğin kanundan doğan sorumluluğunu bertaraf eden bir feragat veya sorumsuzluk kaydı niteliğinde değildir.</p>
         </div>
         <form method="dialog" style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px">
