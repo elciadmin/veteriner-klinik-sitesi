@@ -3,12 +3,18 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Hasta İlişkileri | Elçi Veteriner Kliniği</title>
-  <meta name="description" content="Online randevu, memnuniyet anketi, başarı hikayeleri ve şikayet-öneri formları. Konya Meram Elçi Veteriner Kliniği."/>
+  <title>Hasta İlişkileri | Elçi Veteriner Kliniği – Meram Konya</title>
+  <meta name="description" content="Elçi Veteriner Kliniği hasta ilişkileri: online randevu talebi, memnuniyet anketi, başarı hikâyeleri ve şikâyet-öneri iletişim alanı."/>
   <link rel="canonical" href="https://elciveteriner.com/hasta-iliskileri.html"/>
 
   <!-- Global CSS -->
-  <link rel="stylesheet" href="/assets/css/styles.css"/>
+  <link rel="stylesheet" href="/assets/css/tokens.css?v=20251106"/>
+  <link rel="stylesheet" href="/assets/css/styles.css?v=20251106"/>
+
+  <!-- Ana sayfadaki imza tipi slogan -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <!-- Sayfaya özel stiller (mümkün olduğunca az ve kapsüllenmiş) -->
@@ -377,8 +383,189 @@
       outline-offset:2px;
     }
   </style>
+
+  <!-- Premium Hasta İlişkileri tasarımı -->
+  <style id="patient-relations-premium">
+    :root{
+      --brand:#5a1fa8;
+      --brand2:#36106b;
+      --accent:#27d4e8;
+      --ink:#0f1b22;
+      --muted:#62717b;
+      --line:#e4eaf0;
+      --paper:#fff;
+      --soft:#f6f8fc;
+      --hero-start:#241043;
+      --hero-mid:#36106b;
+      --hero-end:#0f7188;
+      --footer-start:#241043;
+      --footer-end:#5a1fa8;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:112px}
+    body.patient-relations-page{margin:0;color:var(--ink);background:#fff}
+    .container{max-width:1180px;margin:0 auto;padding:0 16px}
+    .skip-link{position:fixed;left:16px;top:-80px;z-index:9999;padding:10px 14px;border-radius:10px;background:#fff;color:var(--brand2);font-weight:800;box-shadow:0 10px 30px rgba(0,0,0,.22)}
+    .skip-link:focus{top:14px}
+
+    /* Ana sayfa ve Hakkımızda ile aynı marka kilidi */
+    .header-top{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff}
+    .header-main{background:linear-gradient(90deg,color-mix(in srgb,var(--brand),#000 8%),color-mix(in srgb,var(--brand2),#000 6%));color:#fff}
+    nav a{color:#eaf6f8}
+    nav a:hover,nav a:focus{color:#fff}
+    nav a.active,nav a[aria-current="page"]{color:#c0f3ff}
+    nav a::after{background:#c0f3ff}
+    .header-main .logo-text{padding:0;border-radius:18px;background:transparent;box-shadow:none;backdrop-filter:none}
+    .brand-lockup{
+      display:flex;align-items:center;gap:12px;min-width:320px;padding:9px 14px 9px 10px;
+      border:1px solid rgba(255,255,255,.20);border-radius:18px;
+      background:linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.045));
+      box-shadow:0 12px 32px rgba(18,5,43,.28),inset 0 1px 0 rgba(255,255,255,.16);
+      color:#fff;text-decoration:none;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
+    }
+    .brand-lockup:hover{transform:translateY(-2px);border-color:rgba(192,243,255,.54);box-shadow:0 16px 38px rgba(18,5,43,.34),inset 0 1px 0 rgba(255,255,255,.20)}
+    .brand-mark{width:54px;height:54px;flex:0 0 54px;display:grid;place-items:center;border-radius:16px;background:linear-gradient(145deg,#fff,#e9faff);box-shadow:0 8px 22px rgba(0,0,0,.22);overflow:hidden}
+    .brand-mark img{width:48px;height:48px;object-fit:contain}
+    .brand-copy{display:flex;flex-direction:column;line-height:1.05}
+    .brand-copy strong{color:#fff;font-size:1.24rem;letter-spacing:.15px;text-shadow:0 2px 10px rgba(0,0,0,.32)}
+    .signature-tagline{position:relative;display:inline-block;width:max-content;font-family:"Great Vibes","Segoe Script","Brush Script MT",cursive;font-weight:400;letter-spacing:.006em;line-height:.94;transform:rotate(-1.7deg);transform-origin:left center;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+    .signature-tagline::after{content:"";position:absolute;left:10%;width:96%;bottom:-.18em;height:2px;border-radius:999px;background:linear-gradient(90deg,transparent 0%,currentColor 14%,currentColor 78%,transparent 100%);opacity:.72;transform:skewX(-24deg) rotate(-1deg);transform-origin:left center;box-shadow:0 1px 5px rgba(0,0,0,.18)}
+    .header-signature{margin-top:7px;color:#dffaff!important;font-size:1.32rem;text-shadow:0 2px 10px rgba(0,0,0,.30)}
+
+    /* Hero */
+    .patient-hero{position:relative;overflow:hidden;padding:70px 0 78px;color:#fff;background:radial-gradient(800px 520px at 92% 12%,rgba(39,212,232,.34),transparent 62%),radial-gradient(620px 420px at 5% 95%,rgba(133,73,214,.28),transparent 65%),linear-gradient(125deg,var(--hero-start) 0%,var(--hero-mid) 42%,var(--hero-end) 100%)}
+    .patient-hero::before{content:"";position:absolute;inset:-36%;background:radial-gradient(circle at 0 0,rgba(255,255,255,.08),transparent 55%),radial-gradient(circle at 100% 100%,rgba(255,255,255,.11),transparent 55%);opacity:.65;pointer-events:none}
+    .patient-hero::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.25;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(90deg,#000,transparent 84%)}
+    .patient-hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.12fr) minmax(330px,.88fr);align-items:center;gap:48px}
+    .patient-hero-copy{max-width:720px}
+    .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;margin:0 0 18px;padding:8px 13px;border:1px solid rgba(255,255,255,.23);border-radius:999px;background:rgba(255,255,255,.10);color:#e8fbff;font-size:.88rem;font-weight:800;letter-spacing:.25px}
+    .patient-hero h1{margin:0;color:#fff;font-size:clamp(44px,6vw,72px);line-height:1.02;letter-spacing:-1.4px;text-shadow:0 3px 20px rgba(0,0,0,.26);text-wrap:balance}
+    .hero-signature{margin:17px 0;color:#e2fbff;font-size:clamp(2.35rem,4.2vw,3.75rem);text-shadow:0 4px 18px rgba(0,0,0,.28)}
+    .hero-divider{width:104px;height:3px;margin:24px 0 22px;border-radius:999px;background:linear-gradient(90deg,var(--accent),#fff)}
+    .hero-sub{max-width:680px;margin:0 0 28px;color:#eafcff;font-size:1.08rem;line-height:1.72}
+    .hero-cta{display:flex;flex-wrap:wrap;gap:11px}
+    .hero-notice{display:flex;align-items:center;gap:8px;margin:18px 0 0;color:#e8fbff;font-size:.91rem}
+
+    .patient-hero-card{position:relative;isolation:isolate;padding:28px;border:1px solid rgba(255,255,255,.26);border-radius:30px;background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.07));box-shadow:0 30px 70px rgba(8,4,26,.34),inset 0 1px 0 rgba(255,255,255,.22);backdrop-filter:blur(14px) saturate(125%);overflow:hidden}
+    .patient-hero-card::before{content:"";position:absolute;inset:1px;z-index:-1;border-radius:29px;background:radial-gradient(circle at 50% 0,rgba(255,255,255,.18),transparent 52%)}
+    .hero-card-kicker{margin:0 0 15px;color:#d9faff;font-size:.78rem;font-weight:850;letter-spacing:1.2px;text-transform:uppercase}
+    .hero-action-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .hero-action{min-height:112px;display:flex;flex-direction:column;justify-content:space-between;gap:12px;padding:16px;border:1px solid rgba(255,255,255,.18);border-radius:18px;background:rgba(255,255,255,.09);color:#fff;text-decoration:none;transition:transform .22s ease,background .22s ease,border-color .22s ease,box-shadow .22s ease}
+    .hero-action:hover{transform:translateY(-4px);background:rgba(255,255,255,.15);border-color:rgba(205,249,255,.48);box-shadow:0 15px 34px rgba(0,0,0,.18)}
+    .hero-action i{width:39px;height:39px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,rgba(90,31,168,.96),rgba(39,212,232,.72));box-shadow:0 10px 24px rgba(0,0,0,.18)}
+    .hero-action strong{font-size:.95rem;line-height:1.25}
+
+    .btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 22px;border-radius:999px;font-weight:750;border:1px solid var(--line);background:#fff;color:var(--brand);cursor:pointer;text-decoration:none;transition:background-position .35s ease,box-shadow .2s ease,transform .18s ease,color .12s ease,border-color .18s ease}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 9px 22px rgba(0,0,0,.11)}
+    .btn.primary{background:linear-gradient(90deg,var(--brand),var(--accent));color:#fff!important;border:0;box-shadow:0 8px 22px rgba(16,179,209,.22);background-size:200% 100%}
+    .btn.primary:hover{background-position:100% 0%;box-shadow:0 12px 28px rgba(16,179,209,.28)}
+    .btn.ghost{background:#ffffff16;color:#fff!important;border-color:#ffffff70}
+    .btn.ghost:hover{background:#ffffff28;border-color:#ffffffb0}
+
+    /* Bölümler */
+    .section{padding:72px 0}
+    .section-soft{background:linear-gradient(180deg,#f7f9fc,#fff)}
+    .section-dark{position:relative;overflow:hidden;background:linear-gradient(135deg,#241043,#401275 56%,#0e6d83);color:#fff}
+    .section-dark::before{content:"";position:absolute;inset:-30%;pointer-events:none;background:radial-gradient(circle at 10% 10%,rgba(39,212,232,.15),transparent 34%),radial-gradient(circle at 90% 85%,rgba(139,77,219,.18),transparent 35%)}
+    .section-dark .container{position:relative;z-index:1}
+    .section-head{max-width:820px;margin-bottom:30px}
+    .section-kicker{display:inline-flex;align-items:center;gap:8px;margin:0 0 12px;color:#66747d;font-size:.82rem;font-weight:850;letter-spacing:1.1px;text-transform:uppercase}
+    .section-dark .section-kicker{color:#d5f9ff}
+    .section-head h2{position:relative;display:inline-block;margin:0;color:var(--ink);font-size:clamp(30px,4.4vw,46px);line-height:1.12;letter-spacing:-.7px}
+    .section-dark .section-head h2{color:#fff}
+    .section-head h2::after{content:"";position:absolute;left:0;bottom:-11px;width:80px;height:3px;border-radius:999px;background:linear-gradient(90deg,var(--brand),var(--accent))}
+    .section-dark .section-head h2::after{background:linear-gradient(90deg,var(--accent),#fff)}
+    .section-head p:last-child{margin:25px 0 0;color:var(--muted);font-size:1.02rem;line-height:1.7}
+    .section-dark .section-head p:last-child{color:#dcf8fb}
+
+    /* Süreç kartları */
+    .process-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
+    .process-card{position:relative;min-height:230px;padding:25px;border:1px solid #e1e7ee;border-radius:24px;background:#fff;box-shadow:0 16px 38px rgba(24,29,52,.08);transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease;overflow:hidden}
+    .process-card::after{content:"";position:absolute;right:-48px;bottom:-58px;width:145px;height:145px;border-radius:50%;background:linear-gradient(145deg,rgba(90,31,168,.06),rgba(39,212,232,.12))}
+    .process-card:hover{transform:translateY(-6px);border-color:rgba(90,31,168,.22);box-shadow:0 24px 48px rgba(24,29,52,.13)}
+    .process-no{display:block;margin-bottom:18px;color:var(--brand);font-size:.76rem;font-weight:950;letter-spacing:1.4px}
+    .process-icon{width:52px;height:52px;display:grid;place-items:center;margin-bottom:18px;border-radius:17px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 12px 28px rgba(54,16,107,.24)}
+    .process-card h3{position:relative;z-index:1;margin:0 0 10px;font-size:1.25rem}
+    .process-card p{position:relative;z-index:1;margin:0;color:var(--muted);line-height:1.65}
+
+    /* Form panelleri */
+    .form-shell{position:relative;overflow:hidden;padding:28px;border:1px solid #dfe6ed;border-radius:28px;background:#fff;box-shadow:0 20px 50px rgba(24,29,52,.09)}
+    .form-shell::before{content:"";position:absolute;top:-130px;right:-120px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(39,212,232,.12),transparent 68%);pointer-events:none}
+    .form{position:relative;z-index:1}
+    .form input,.form select,.form textarea,.date-display{width:100%;border:1px solid #dce4ea!important;border-radius:14px!important;background:#fbfcfe!important;color:var(--ink)!important;min-height:48px;padding:12px 14px!important;box-shadow:none!important;transition:border-color .18s ease,box-shadow .18s ease,background .18s ease}
+    .form textarea{min-height:118px;resize:vertical}
+    .form input:focus,.form select:focus,.form textarea:focus,.date-display:focus{outline:0!important;border-color:rgba(90,31,168,.52)!important;background:#fff!important;box-shadow:0 0 0 4px rgba(90,31,168,.09)!important}
+    .form-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
+    .alert.critical{display:flex;align-items:flex-start;gap:10px;margin:0 0 18px;padding:14px 16px;border:1px solid #f0c5c8;border-radius:16px;background:#fff7f8;color:#7a242a;line-height:1.55}
+    .alert.critical i{margin:3px 0 0;color:#b7353f}
+    .alert.critical a{color:inherit;font-weight:900}
+    .terms-wrap{margin-top:16px;border:1px solid #dfe6ed!important;border-radius:18px!important;padding:16px!important;background:#f7f9fc!important}
+    .consent{background:#fff!important}
+
+    /* İki kolonlu geri bildirim alanları */
+    .feedback-layout{display:grid;grid-template-columns:minmax(0,.68fr) minmax(0,1.32fr);gap:28px;align-items:start}
+    .feedback-aside{position:sticky;top:125px;padding:26px;border:1px solid #e2e8ee;border-radius:24px;background:linear-gradient(145deg,#fff,#f7f9fc);box-shadow:0 16px 38px rgba(24,29,52,.07)}
+    .feedback-aside-icon{width:56px;height:56px;display:grid;place-items:center;margin-bottom:18px;border-radius:18px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 12px 26px rgba(54,16,107,.24);font-size:1.25rem}
+    .feedback-aside h3{margin:0 0 10px;font-size:1.4rem}
+    .feedback-aside p{margin:0;color:var(--muted);line-height:1.7}
+
+
+    .feedback-section .btn.ghost,
+    .complaint-section .btn.ghost{background:linear-gradient(90deg,var(--brand),var(--accent));color:#fff!important;border:0;box-shadow:0 8px 22px rgba(16,179,209,.20)}
+    .feedback-section .btn.ghost:hover,
+    .complaint-section .btn.ghost:hover{background-position:100% 0%;box-shadow:0 12px 28px rgba(16,179,209,.26)}
+
+    /* Başarı hikâyeleri */
+    .success-section .success-highlight .s-card,.success-section .services-grid .s-card{border:1px solid rgba(255,255,255,.22);background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.08));color:#fff;box-shadow:0 18px 44px rgba(0,0,0,.18);backdrop-filter:blur(12px)}
+    .success-section .s-card .s-text,.success-section .tagline,.success-section .meta{color:#dcf8fb!important}
+    .success-section .s-icon{background:linear-gradient(135deg,rgba(90,31,168,.95),rgba(39,212,232,.65));color:#fff;border:1px solid rgba(255,255,255,.20)}
+    .success-section .s-card:hover{transform:translateY(-6px);border-color:rgba(197,247,255,.48);box-shadow:0 26px 54px rgba(0,0,0,.26)}
+    .success-section .s-title{color:#fff}
+
+    /* Footer ve mobil çubuk */
+    footer.footer-new{background:linear-gradient(135deg,var(--footer-start),var(--footer-end));color:#eaffff}
+    .footer-links a,.footer-contact a{color:#eaffff}
+    .footer-bottom{background:rgba(0,0,0,.18)}
+    .mobile-action-bar{display:none}
+
+    @media(max-width:980px){
+      .patient-hero-grid{grid-template-columns:1fr;gap:32px}
+      .patient-hero-card{max-width:760px}
+      .process-grid{grid-template-columns:1fr}
+      .feedback-layout{grid-template-columns:1fr}
+      .feedback-aside{position:static}
+      .brand-lockup{min-width:0}
+    }
+    @media(max-width:700px){
+      .patient-hero{padding:54px 0 60px}
+      .patient-hero h1{font-size:clamp(38px,12vw,54px)}
+      .hero-signature{font-size:clamp(2.05rem,11vw,3rem)}
+      .hero-action-grid{grid-template-columns:1fr 1fr}
+      .section{padding:58px 0}
+      .form-shell{padding:18px;border-radius:22px}
+      .header-top .container{gap:8px}
+      .brand-mark{width:48px;height:48px;flex-basis:48px}
+      .brand-mark img{width:43px;height:43px}
+      .brand-copy strong{font-size:1.02rem}
+      .header-signature{font-size:1.1rem}
+      body{padding-bottom:72px}
+      .mobile-action-bar{position:fixed;left:10px;right:10px;bottom:10px;z-index:999;display:grid;grid-template-columns:repeat(3,1fr);overflow:hidden;border:1px solid rgba(255,255,255,.25);border-radius:20px;background:linear-gradient(135deg,rgba(36,16,67,.96),rgba(90,31,168,.94));box-shadow:0 16px 38px rgba(0,0,0,.28);backdrop-filter:blur(14px)}
+      .mobile-action-bar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:58px;color:#fff;text-decoration:none;font-size:.72rem;font-weight:800}
+      .mobile-action-bar a+a{border-left:1px solid rgba(255,255,255,.17)}
+      .mobile-action-bar i{font-size:1rem;color:#c9f8ff}
+    }
+    @media(max-width:460px){
+      .hero-action-grid{grid-template-columns:1fr}
+      .patient-hero-card{padding:20px}
+      .hero-cta .btn{width:100%}
+      .brand-lockup{padding:7px 9px}
+    }
+  </style>
+
 </head>
-<body>
+<body class="patient-relations-page">
+  <a class="skip-link" href="#ana-icerik">İçeriğe geç</a>
 
   <!-- ===== SABİT HEADER ===== -->
   <header>
@@ -396,20 +583,28 @@
 
     <div class="header-main">
       <div class="container">
-        <div class="logo-text"><h1>Elçi Veteriner Kliniği</h1><span>Sağlığın Elçi'leriyiz</span></div>
+        <div class="logo-text">
+          <a class="brand-lockup" href="/" aria-label="Elçi Veteriner Kliniği ana sayfa">
+            <span class="brand-mark"><img src="/assets/img/uploads/elci-logo.png?v=3" alt="" width="48" height="48" loading="eager" decoding="async"></span>
+            <span class="brand-copy">
+              <strong>Elçi Veteriner Kliniği</strong>
+              <span class="signature-tagline header-signature">Sağlığın Elçi’leriyiz</span>
+            </span>
+          </a>
+        </div>
         <nav aria-label="Birincil">
           <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç/kapat"><i class="fa-solid fa-bars"></i></button>
           <ul id="mainMenu">
-            <li><a href="/index.html">Ana Sayfa</a></li>
+            <li><a href="/">Ana Sayfa</a></li>
 
             <li class="dropdown">
-              <a href="/about.html" aria-haspopup="true" aria-expanded="false">Hakkımızda</a>
+              <a href="/about" aria-haspopup="true" aria-expanded="false">Hakkımızda</a>
               <div class="dropdown-content" role="menu">
-                <a href="/about.html#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
-                <a href="/about.html#ekibimiz" role="menuitem">Ekibimiz</a>
-                <a href="/about.html#klinik" role="menuitem">Kliniğimiz</a>
-                <a href="/about.html#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
-                <a href="/about.html#degerler" role="menuitem">Değerlerimiz</a>
+                <a href="/about#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
+                <a href="/about#ekibimiz" role="menuitem">Ekibimiz</a>
+                <a href="/about#klinik" role="menuitem">Kliniğimiz</a>
+                <a href="/about#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
+                <a href="/about#degerler" role="menuitem">Değerlerimiz</a>
               </div>
             </li>
 
@@ -430,7 +625,7 @@
             <li><a href="/sss.html">SSS</a></li>
 
             <li class="dropdown">
-              <a href="/hasta-iliskileri.html" class="active" aria-haspopup="true" aria-expanded="false">Hasta İlişkileri</a>
+              <a href="/hasta-iliskileri.html" class="active" aria-current="page" aria-haspopup="true" aria-expanded="false">Hasta İlişkileri</a>
               <div class="dropdown-content" role="menu">
                 <a href="#online-randevu" role="menuitem">Online Randevu</a>
                 <a href="#memnuniyet-anketi" role="menuitem">Memnuniyet Anketi</a>
@@ -444,61 +639,81 @@
     </div>
   </header>
 
-  <!-- ===== SAYFA KAFA ===== -->
-  <section class="page-hero">
+  <!-- ===== PREMIUM SAYFA KAFA ===== -->
+  <main id="ana-icerik">
+  <section class="patient-hero">
     <div class="container">
-      <div class="hero-center">
-        <div class="hero-icon">
-          <img class="hero-logo" src="/assets/img/uploads/elci-logo.png?v=1" alt="Elçi Veteriner Kliniği Logosu" width="96" height="96" loading="eager" decoding="async">
+      <div class="patient-hero-grid">
+        <div class="patient-hero-copy">
+          <p class="hero-eyebrow"><i class="fa-solid fa-heart-pulse"></i> İletişim ve takip merkezi</p>
+          <h1>Hasta İlişkileri</h1>
+          <p class="signature-tagline hero-signature">Sağlığın Elçi’leriyiz</p>
+          <div class="hero-divider" aria-hidden="true"></div>
+          <p class="hero-sub">Randevu, geri bildirim ve takip süreçlerinizi tek sayfadan yönetin.</p>
+          <div class="hero-cta">
+            <a class="btn primary" href="#online-randevu"><i class="fa-solid fa-calendar-check"></i> Randevu Talebi</a>
+            <a class="btn ghost" href="tel:+903323223220"><i class="fa-solid fa-phone"></i> Hemen Ara</a>
+            <a class="btn ghost" href="https://www.google.com/maps/dir/?api=1&destination=Havzan+Mah.+Yeni+Meram+Cad.+17/1+Meram+Konya" target="_blank" rel="noopener"><i class="fa-solid fa-location-dot"></i> Yol Tarifi</a>
+          </div>
+          <p class="hero-notice"><i class="fa-solid fa-clock"></i> Her gün 09.00–21.00</p>
         </div>
-        <h1>Hasta İlişkileri</h1>
-        <p class="muted">Online randevu, memnuniyet anketi, başarı hikayeleri ve öneri-şikâyet formları.</p>
 
-        <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center">
-          <a class="chip" href="#online-randevu"><i class="fa-solid fa-calendar-check"></i> Online Randevu</a>
-          <a class="chip" href="#memnuniyet-anketi"><i class="fa-solid fa-face-smile"></i> Memnuniyet</a>
-          <a class="chip" href="#basari-hikayeleri"><i class="fa-solid fa-heart"></i> Başarı Hikayeleri</a>
-          <a class="chip" href="#sikayet-oneri"><i class="fa-solid fa-comment-dots"></i> Şikayet & Öneri</a>
-        </div>
+        <aside class="patient-hero-card" aria-label="Hasta ilişkileri hızlı işlemler">
+          <p class="hero-card-kicker">Hızlı işlemler</p>
+          <div class="hero-action-grid">
+            <a class="hero-action" href="#online-randevu"><i class="fa-solid fa-calendar-days"></i><strong>Online Randevu</strong></a>
+            <a class="hero-action" href="#memnuniyet-anketi"><i class="fa-solid fa-face-smile"></i><strong>Memnuniyet Anketi</strong></a>
+            <a class="hero-action" href="#basari-hikayeleri"><i class="fa-solid fa-heart"></i><strong>Başarı Hikâyeleri</strong></a>
+            <a class="hero-action" href="#sikayet-oneri"><i class="fa-solid fa-comment-dots"></i><strong>Şikâyet ve Öneri</strong></a>
+          </div>
+        </aside>
       </div>
     </div>
   </section>
 
-  <!-- ===== ADIM ŞERİDİ ===== -->
-  <section class="section">
+  <section class="section section-soft process-section">
     <div class="container">
-      <div class="services-grid">
-        <article class="s-card show">
-          <span class="s-icon"><svg viewBox="0 0 24 24"><use href="#i-clipboard"/></svg></span>
-          <h3 class="s-title">1) Talep Oluştur</h3>
-          <p class="s-text">Randevu ya da geri bildirim formunu doldurun. Ekibimiz kaydınızı anında görür.</p>
+      <div class="section-head">
+        <p class="section-kicker"><i class="fa-solid fa-route"></i> Süreç</p>
+        <h2>Nasıl İşliyor?</h2>
+      </div>
+      <div class="process-grid">
+        <article class="process-card">
+          <span class="process-no">ADIM 01</span>
+          <div class="process-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+          <h3>Talebinizi iletin</h3>
+          <p>Randevu veya geri bildirim formunu doldurun.</p>
         </article>
-        <article class="s-card show">
-          <span class="s-icon"><svg viewBox="0 0 24 24"><use href="#i-phone-bubble"/></svg></span>
-          <h3 class="s-title">2) Hızlı Dönüş</h3>
-          <p class="s-text">Uygunluk doğrulaması ve ön bilgilendirme için sizi arayalım.</p>
+        <article class="process-card">
+          <span class="process-no">ADIM 02</span>
+          <div class="process-icon"><i class="fa-solid fa-phone-volume"></i></div>
+          <h3>Teyit için arayalım</h3>
+          <p>Uygunluk ve gerekli ön bilgileri telefonla netleştirelim.</p>
         </article>
-        <article class="s-card show">
-          <span class="s-icon"><svg viewBox="0 0 24 24"><use href="#i-stethoscope"/></svg></span>
-          <h3 class="s-title">3) Muayene & Takip</h3>
-          <p class="s-text">Şeffaf süreç, yazılı taburcu planı ve gerektiğinde kontrol randevusu.</p>
+        <article class="process-card">
+          <span class="process-no">ADIM 03</span>
+          <div class="process-icon"><i class="fa-solid fa-stethoscope"></i></div>
+          <h3>Muayene ve takip</h3>
+          <p>Muayene, taburculuk ve kontrol planını birlikte yürütelim.</p>
         </article>
       </div>
     </div>
   </section>
 
   <!-- ===== ONLINE RANDEVU ===== -->
-  <section class="section" id="online-randevu">
+  <section class="section appointment-section" id="online-randevu">
     <div class="container">
-      <h2>Online Randevu</h2>
-
-      <div class="alert critical" role="alert" style="margin-bottom:12px">
-        <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
-        <strong>Hayati risk varsa hemen arayın: <a href="tel:03323223220">0332 322 32 20</a>.</strong>
-        <br/>Bu form ön bilgi içindir; triyaj için telefon şarttır.
+      <div class="section-head">
+        <p class="section-kicker"><i class="fa-solid fa-calendar-check"></i> Randevu</p>
+        <h2>Online Randevu</h2>
+        <p>Uygun günü seçin; teyit için sizi arayalım.</p>
       </div>
 
-      <p class="muted" style="margin-top:6px">Uygun zamanınızı iletin; en kısa sürede teyit edelim.</p>
+      <div class="form-shell">
+      <div class="alert critical" role="alert">
+        <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+        <div><strong>Hayati risk varsa formu beklemeden <a href="tel:03323223220">0332 322 32 20</a> numarasını arayın.</strong><br>Bu form randevu talebi içindir.</div>
+      </div>
 
       <form name="online-randevu" class="form" method="POST" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="online-randevu"/>
@@ -564,7 +779,7 @@
           </div>
         </div>
 
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+        <div class="form-actions">
           <button class="btn primary" type="submit">Randevu Talep Et</button>
           <a id="btnKonum" class="btn" href="https://www.google.com/maps/dir/?api=1&destination=Havzan+Mah.+Yeni+Meram+Cad.+17/1+Meram+Konya" target="_blank" rel="noopener">
             <i class="fa-solid fa-map-location-dot"></i> Konum
@@ -574,16 +789,25 @@
           </a>
         </div>
       </form>
+      </div>
     </div>
   </section>
 
   <!-- ===== MEMNUNİYET ANKETİ ===== -->
-  <section class="section" id="memnuniyet-anketi">
+  <section class="section section-soft feedback-section" id="memnuniyet-anketi">
     <div class="container">
-      <h2>Memnuniyet Anketi</h2>
-      <p class="muted">Hizmet kalitemizi geliştirmek için görüşünüz bizim için çok değerli.</p>
-
-      <form name="memnuniyet" class="form" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <div class="section-head">
+        <p class="section-kicker"><i class="fa-solid fa-face-smile"></i> Geri bildirim</p>
+        <h2>Memnuniyet Anketi</h2>
+      </div>
+      <div class="feedback-layout">
+        <aside class="feedback-aside">
+          <div class="feedback-aside-icon"><i class="fa-solid fa-heart"></i></div>
+          <h3>Deneyiminizi paylaşın</h3>
+          <p>Görüşünüz, hizmetimizi geliştirmemize yardımcı olur.</p>
+        </aside>
+        <div class="form-shell">
+        <form name="memnuniyet" class="form" method="POST" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="memnuniyet"/>
         <p style="display:none"><label>Bot alanı: <input name="bot-field"/></label></p>
 
@@ -600,19 +824,23 @@
 
         <textarea name="yorum" placeholder="Görüşünüz" rows="4"></textarea>
 
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
+        <div class="form-actions">
           <button class="btn" type="submit">Gönder</button>
           <a class="btn ghost" href="#basari-hikayeleri"><i class="fa-solid fa-heart"></i> Başarı Hikayeleri</a>
         </div>
       </form>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- ===== BAŞARI HİKAYELERİ ===== -->
-  <section class="section" id="basari-hikayeleri">
+  <section class="section section-dark success-section" id="basari-hikayeleri">
     <div class="container">
-      <h2>Başarı Hikayeleri</h2>
-      <p class="muted">Kliniğimizde tedavi olan dostlarımızın iyileşme yolculukları. Bu alan Decap CMS üzerinden yönetilir.</p>
+      <div class="section-head">
+        <p class="section-kicker"><i class="fa-solid fa-heart-pulse"></i> İyileşme yolculukları</p>
+        <h2>Başarı Hikâyeleri</h2>
+      </div>
 
       <!-- Otomatik dönen highlight kart -->
       <div class="success-highlight" aria-live="polite">
@@ -629,12 +857,20 @@
   </section>
 
   <!-- ===== ŞİKAYET & ÖNERİ ===== -->
-  <section class="section" id="sikayet-oneri">
+  <section class="section complaint-section" id="sikayet-oneri">
     <div class="container">
-      <h2>Şikayet & Öneri</h2>
-      <p class="muted">Geri bildiriminiz geliştirme planımıza doğrudan yansır.</p>
-
-      <form name="sikayet-oneri" class="form" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <div class="section-head">
+        <p class="section-kicker"><i class="fa-solid fa-comment-dots"></i> İletişim</p>
+        <h2>Şikâyet ve Öneri</h2>
+      </div>
+      <div class="feedback-layout">
+        <aside class="feedback-aside">
+          <div class="feedback-aside-icon"><i class="fa-solid fa-comments"></i></div>
+          <h3>Sizi dinliyoruz</h3>
+          <p>Mesajınız doğrudan değerlendirme sürecine alınır.</p>
+        </aside>
+        <div class="form-shell">
+        <form name="sikayet-oneri" class="form" method="POST" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="sikayet-oneri"/>
         <p style="display:none"><label>Bot alanı: <input name="bot-field"/></label></p>
 
@@ -653,24 +889,33 @@
 
         <textarea name="mesaj" placeholder="Mesajınız" rows="5" required></textarea>
 
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
+        <div class="form-actions">
           <button class="btn" type="submit">Gönder</button>
           <a class="btn ghost" href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> E-posta</a>
           <a class="btn ghost" href="tel:03323223220"><i class="fa-solid fa-phone"></i> Ara</a>
         </div>
       </form>
+        </div>
+      </div>
     </div>
   </section>
+  </main>
+
+  <div class="mobile-action-bar" aria-label="Hızlı iletişim">
+    <a href="tel:+903323223220"><i class="fa-solid fa-phone"></i><span>Ara</span></a>
+    <a href="#online-randevu"><i class="fa-solid fa-calendar-check"></i><span>Randevu</span></a>
+    <a href="https://www.google.com/maps/dir/?api=1&destination=Havzan+Mah.+Yeni+Meram+Cad.+17/1+Meram+Konya" target="_blank" rel="noopener"><i class="fa-solid fa-location-dot"></i><span>Konum</span></a>
+  </div>
 
   <!-- ===== FOOTER ===== -->
   <footer class="footer-new">
     <div class="container footer-container">
       <div class="footer-col">
         <h3>Elçi Veteriner Kliniği</h3>
-        <p>Konya'nın Meram ilçesinde, Hayvan sağlığında hızlı, güvenilir ve etik müdahalelerle yaşamın yanında yer alıyoruz.</p>
+        <p>Meram'da açık iletişim, planlı takip ve bilimsel veterinerlik yaklaşımıyla hizmet veriyoruz.</p>
         <div class="social-links">
           <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/elcivetklinik" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
           <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
           <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
         </div>
@@ -679,8 +924,8 @@
       <div class="footer-col">
         <h3>Hızlı Linkler</h3>
         <ul class="footer-links">
-          <li><a href="/index.html">Ana Sayfa</a></li>
-          <li><a href="/about.html">Hakkımızda</a></li>
+          <li><a href="/">Ana Sayfa</a></li>
+          <li><a href="/about">Hakkımızda</a></li>
           <li><a href="/hizmetler.html">Hizmetlerimiz</a></li>
           <li><a href="/blog.html">Blog</a></li>
           <li><a href="/sss.html">SSS</a></li>
@@ -707,7 +952,7 @@
           </li>
           <li><i class="fa-solid fa-phone"></i> <a href="tel:03323223220">0332 322 32 20</a></li>
           <li><i class="fa-solid fa-envelope"></i> <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></li>
-          <li><i class="fa-solid fa-clock"></i> <span>Her gün: 09:00–23:00</span></li>
+          <li><i class="fa-solid fa-clock"></i> <span>Her gün: 09:00–21:00</span></li>
         </ul>
       </div>
     </div>
@@ -719,12 +964,38 @@
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
-    "@type":"Organization",
-    "name":"Elçi Veteriner Kliniği",
-    "url":"https://elciveteriner.com/hasta-iliskileri.html",
-    "logo":"https://elciveteriner.com/assets/img/uploads/elci-logo.png",
-    "contactPoint":[{"@type":"ContactPoint","telephone":"+90-332-322-32-20","contactType":"customer service","areaServed":"TR","availableLanguage":["tr","en"]}],
-    "address":{"@type":"PostalAddress","streetAddress":"Havzan Mah. Yeni Meram Cad. 17/1","addressLocality":"Meram","addressRegion":"Konya","addressCountry":"TR"}
+    "@graph":[
+      {
+        "@type":"ContactPage",
+        "@id":"https://elciveteriner.com/hasta-iliskileri.html#webpage",
+        "url":"https://elciveteriner.com/hasta-iliskileri.html",
+        "name":"Hasta İlişkileri | Elçi Veteriner Kliniği",
+        "description":"Online randevu, geri bildirim ve hasta iletişim alanı.",
+        "isPartOf":{"@id":"https://elciveteriner.com/#website"},
+        "about":{"@id":"https://elciveteriner.com/#clinic"}
+      },
+      {
+        "@type":"VeterinaryCare",
+        "@id":"https://elciveteriner.com/#clinic",
+        "name":"Elçi Veteriner Kliniği",
+        "url":"https://elciveteriner.com/",
+        "telephone":"+903323223220",
+        "image":"https://elciveteriner.com/assets/img/uploads/elci-logo.png",
+        "address":{
+          "@type":"PostalAddress",
+          "streetAddress":"Havzan Mah. Yeni Meram Cad. 17/1",
+          "addressLocality":"Meram",
+          "addressRegion":"Konya",
+          "addressCountry":"TR"
+        },
+        "openingHoursSpecification":[{
+          "@type":"OpeningHoursSpecification",
+          "dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+          "opens":"09:00",
+          "closes":"21:00"
+        }]
+      }
+    ]
   }
   </script>
 
@@ -843,8 +1114,8 @@
             <li>Saklama: Mevzuat ve sözleşme ilişkisi süresince.</li>
             <li>Haklar: Bilgi talebi, düzeltme, silme, itiraz vb. başvurular için <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a>.</li>
           </ul>
-          <h4>3) İletişim ve Onam</h4>
-          <p>Telefon/e-posta ile bilgilendirme yapılabilir. Randevu oluşturmanız bu koşulları kabul ettiğiniz anlamına gelir.</p>
+          <h4>3) İletişim</h4>
+          <p>Randevu teyidi ve hizmet süreci hakkında telefon veya e-posta ile iletişim kurulabilir.</p>
         </div>
         <form method="dialog" style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px">
           <button class="btn" value="cancel">Kapat</button>
