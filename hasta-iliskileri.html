@@ -208,24 +208,44 @@
 
     dialog#termsModal,
     dialog#privacyModal,
-    dialog#storyModal{
+    dialog#storyModal,
+    dialog#reviewThanksModal{
       max-width:900px;width:92%;border-radius:18px;border:1px solid rgba(0,0,0,.1);padding:0;
     }
     dialog#termsModal .inner,
     dialog#privacyModal .inner,
-    dialog#storyModal .inner{
+    dialog#storyModal .inner,
+    dialog#reviewThanksModal .inner{
       padding:18px;
     }
     dialog#termsModal header,
     dialog#privacyModal header,
-    dialog#storyModal header{
+    dialog#storyModal header,
+    dialog#reviewThanksModal header{
       display:flex;justify-content:space-between;align-items:center;gap:10px;
     }
     dialog#termsModal .content,
     dialog#privacyModal .content,
-    dialog#storyModal .content{
+    dialog#storyModal .content,
+    dialog#reviewThanksModal .content{
       max-height:min(65vh,600px);overflow:auto;margin-top:8px;
     }
+    #reviewThanksModal{max-width:620px}
+    #reviewThanksModal .inner{padding:26px}
+    #reviewThanksModal .review-success-icon{
+      width:64px;height:64px;border-radius:20px;display:grid;place-items:center;
+      margin:0 0 16px;background:linear-gradient(135deg,var(--brand),var(--accent));
+      color:#fff;font-size:1.55rem;box-shadow:0 14px 34px rgba(63,50,155,.24)
+    }
+    #reviewThanksModal .review-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    #reviewThanksModal .review-copy-note{font-size:.9rem;color:var(--muted);margin-top:10px}
+    #reviewThanksModal .btn-google{
+      background:linear-gradient(90deg,#4285f4 0%,#34a853 100%);
+      color:#fff !important;border:0;box-shadow:0 10px 24px rgba(52,168,83,.20)
+    }
+    #reviewThanksModal .btn-google:hover{box-shadow:0 14px 30px rgba(66,133,244,.24)}
+    .feedback-submit-status{min-height:1.35em;margin:10px 0 0;color:var(--muted);font-size:.92rem}
+
     dialog::backdrop{background:rgba(0,0,0,.25)}
 
     /* Ara butonu masaüstü balonu */
@@ -788,12 +808,18 @@
           <input type="text" name="ad" placeholder="Ad Soyad" autocomplete="name" required/>
           <input type="tel" name="tel" placeholder="Telefon" inputmode="tel" autocomplete="tel" required pattern="^[0-9+()\\s-]{7,}$" />
           <input type="text" name="pet" placeholder="Hayvanın Adı" required/>
-          <select name="hayvan_turu" required>
+          <select name="hayvan_turu" id="hayvanTuru" required>
             <option value="">Hayvan Türü</option>
             <option value="Kedi">Kedi</option>
             <option value="Köpek">Köpek</option>
             <option value="Diğer">Diğer</option>
           </select>
+          <input type="text"
+                 name="hayvan_turu_diger"
+                 id="digerHayvanTuru"
+                 placeholder="Hayvan türünü yazınız"
+                 autocomplete="off"
+                 hidden/>
 
           <!-- Özel datepicker -->
           <div class="date-input">
@@ -914,12 +940,13 @@
           <input type="text" name="pet" placeholder="Evcil Hayvan (opsiyonel)"/>
         </div>
 
-        <textarea name="yorum" placeholder="Görüşünüz" rows="4"></textarea>
+        <textarea name="yorum" placeholder="Deneyiminizi kısaca yazın" rows="5" required></textarea>
 
         <div class="form-actions">
-          <button class="btn" type="submit">Gönder</button>
-          <a class="btn ghost" href="#basari-hikayeleri"><i class="fa-solid fa-heart"></i> Başarı Hikayeleri</a>
+          <button class="btn primary" type="submit"><i class="fa-solid fa-paper-plane"></i> Geri Bildirimi Gönder</button>
+          <a class="btn ghost" href="#basari-hikayeleri"><i class="fa-solid fa-heart"></i> Başarı Hikâyeleri</a>
         </div>
+        <p class="feedback-submit-status" id="feedbackSubmitStatus" aria-live="polite"></p>
       </form>
         </div>
       </div>
@@ -1121,6 +1148,27 @@
     const closeBtn = document.getElementById('dpClose');
     const prevBtn = document.getElementById('dpPrev');
     const nextBtn = document.getElementById('dpNext');
+
+    /* ===== Hayvan türü: "Diğer" seçildiğinde elle giriş ===== */
+    const hayvanTuru = document.getElementById('hayvanTuru');
+    const digerHayvanTuru = document.getElementById('digerHayvanTuru');
+
+    function syncOtherAnimalType(){
+      if (!hayvanTuru || !digerHayvanTuru) return;
+      const isOther = hayvanTuru.value === 'Diğer';
+      digerHayvanTuru.hidden = !isOther;
+      digerHayvanTuru.required = isOther;
+      digerHayvanTuru.disabled = !isOther;
+      if (!isOther) digerHayvanTuru.value = '';
+      if (isOther) {
+        requestAnimationFrame(() => digerHayvanTuru.focus());
+      }
+    }
+
+    if (hayvanTuru && digerHayvanTuru){
+      hayvanTuru.addEventListener('change', syncOtherAnimalType);
+      syncOtherAnimalType();
+    }
 
     const today = new Date();
     today.setHours(0,0,0,0);
@@ -1373,10 +1421,102 @@
           input?.focus();
           return;
         }
+        if (hayvanTuru?.value === 'Diğer' && !digerHayvanTuru?.value.trim()){
+          e.preventDefault();
+          alert('Lütfen hayvan türünü yazın.');
+          digerHayvanTuru?.focus();
+          return;
+        }
         if (!termsCheck?.checked){
           e.preventDefault();
           alert('Randevu ve ön bilgilendirme koşullarını kabul etmeniz gerekir.');
           termsCheck?.focus();
+        }
+      });
+    }
+
+
+    /* ===== Memnuniyet formu: kayıt + herkese eşit Google değerlendirme daveti ===== */
+    const feedbackForm = document.querySelector('form[name="memnuniyet"]');
+    const feedbackStatus = document.getElementById('feedbackSubmitStatus');
+    const GOOGLE_BUSINESS_URL = 'https://www.google.com/maps/search/?api=1&query=El%C3%A7i%20Veteriner%20Klini%C4%9Fi%20Meram%20Konya';
+    let lastFeedbackText = '';
+
+    const reviewThanksModal = document.createElement('dialog');
+    reviewThanksModal.id = 'reviewThanksModal';
+    reviewThanksModal.innerHTML = `
+      <div class="inner">
+        <header>
+          <div>
+            <div class="review-success-icon" aria-hidden="true"><i class="fa-solid fa-circle-check"></i></div>
+            <h3 style="margin:0 0 7px">Geri bildiriminiz bize ulaştı</h3>
+            <p class="muted" style="margin:0">Teşekkür ederiz. Deneyiminizi Google'da da paylaşmanız, bölgemizde veteriner arayan hayvan sahiplerinin doğru bilgiye ulaşmasına yardımcı olur.</p>
+          </div>
+          <form method="dialog"><button class="btn" aria-label="Pencereyi kapat">Kapat</button></form>
+        </header>
+        <div class="review-actions">
+          <button class="btn" type="button" id="copyFeedbackBtn"><i class="fa-regular fa-copy"></i> Yorum Metnini Kopyala</button>
+          <a class="btn btn-google" id="googleReviewBtn" href="${GOOGLE_BUSINESS_URL}" target="_blank" rel="noopener"><i class="fa-brands fa-google"></i> Google'da Değerlendir</a>
+        </div>
+        <p class="review-copy-note">Google yorumu, yalnızca sizin Google hesabınızdan ve sizin onayınızla yayımlanır. Bu davet verilen puandan bağımsız olarak herkese gösterilir.</p>
+      </div>`;
+    document.body.appendChild(reviewThanksModal);
+
+    const copyFeedbackBtn = reviewThanksModal.querySelector('#copyFeedbackBtn');
+    if (copyFeedbackBtn){
+      copyFeedbackBtn.addEventListener('click', async ()=>{
+        if (!lastFeedbackText) return;
+        try{
+          await navigator.clipboard.writeText(lastFeedbackText);
+          copyFeedbackBtn.innerHTML = '<i class="fa-solid fa-check"></i> Kopyalandı';
+          setTimeout(()=>{ copyFeedbackBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Yorum Metnini Kopyala'; }, 2200);
+        }catch(err){
+          const helper = document.createElement('textarea');
+          helper.value = lastFeedbackText;
+          helper.setAttribute('readonly','');
+          helper.style.position = 'fixed';
+          helper.style.opacity = '0';
+          document.body.appendChild(helper);
+          helper.select();
+          document.execCommand('copy');
+          helper.remove();
+          copyFeedbackBtn.innerHTML = '<i class="fa-solid fa-check"></i> Kopyalandı';
+        }
+      });
+    }
+
+    if (feedbackForm){
+      feedbackForm.addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        if (!feedbackForm.reportValidity()) return;
+
+        const submit = feedbackForm.querySelector('button[type="submit"]');
+        const formData = new FormData(feedbackForm);
+        lastFeedbackText = String(formData.get('yorum') || '').trim();
+        const body = new URLSearchParams();
+        formData.forEach((value, key)=> body.append(key, String(value)));
+
+        if (submit){ submit.disabled = true; submit.setAttribute('aria-busy','true'); }
+        if (feedbackStatus) feedbackStatus.textContent = 'Geri bildiriminiz güvenli biçimde gönderiliyor…';
+
+        try{
+          const response = await fetch('/', {
+            method:'POST',
+            headers:{'Content-Type':'application/x-www-form-urlencoded'},
+            body:body.toString()
+          });
+          if (!response.ok) throw new Error('Form gönderilemedi');
+
+          feedbackForm.reset();
+          if (feedbackStatus) feedbackStatus.textContent = '';
+          reviewThanksModal.showModal();
+        }catch(err){
+          console.error('Memnuniyet formu AJAX gönderimi başarısız:', err);
+          if (feedbackStatus) feedbackStatus.textContent = 'Standart gönderim sayfasına yönlendiriliyorsunuz…';
+          HTMLFormElement.prototype.submit.call(feedbackForm);
+          return;
+        }finally{
+          if (submit){ submit.disabled = false; submit.removeAttribute('aria-busy'); }
         }
       });
     }
