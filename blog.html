@@ -975,6 +975,188 @@
   }
 </style>
 
+
+  <style id="elci-blog-layout-v4">
+    /* Blog V4: sabit ve çakışmasız masaüstü düzeni */
+    .blog-layout{
+      display:grid!important;
+      grid-template-columns:260px minmax(0,1fr)!important;
+      gap:28px!important;
+      align-items:start!important;
+      width:100%!important;
+      min-width:0!important;
+    }
+    .blog-sidebar,
+    .blog-main,
+    .side-card,
+    .side-cta,
+    .sidebar-list,
+    .sidebar-list a,
+    .sidebar-list a span{
+      min-width:0!important;
+      max-width:100%!important;
+      box-sizing:border-box!important;
+    }
+    .blog-sidebar{
+      position:sticky!important;
+      top:112px!important;
+      width:260px!important;
+      overflow:hidden!important;
+    }
+    .sidebar-list a{
+      overflow:hidden!important;
+    }
+    .sidebar-list a span{
+      display:-webkit-box!important;
+      overflow:hidden!important;
+      overflow-wrap:anywhere!important;
+      word-break:break-word!important;
+      -webkit-box-orient:vertical!important;
+      -webkit-line-clamp:2!important;
+    }
+    .blog-main,
+    .blog-main #blog,
+    .blog-toolbar,
+    #blogGrid{
+      width:100%!important;
+      min-width:0!important;
+      max-width:100%!important;
+      box-sizing:border-box!important;
+    }
+    .blog-toolbar{
+      display:grid!important;
+      grid-template-columns:minmax(0,1fr) minmax(240px,330px)!important;
+      align-items:center!important;
+      gap:18px!important;
+    }
+    .blog-filter-area{min-width:0}
+    #blogFilters{min-width:0!important}
+    .blog-sort-note{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      margin-top:11px;
+      color:#74818a;
+      font-size:.76rem;
+      font-weight:700;
+    }
+    .blog-sort-note i{color:var(--brand)}
+    .blog-search-wrap{
+      width:100%!important;
+      max-width:none!important;
+      min-width:0!important;
+    }
+    #blogGrid{
+      grid-template-columns:repeat(2,minmax(0,1fr))!important;
+      gap:20px!important;
+    }
+    #blogGrid .b-card{
+      min-width:0!important;
+      max-width:100%!important;
+    }
+    #blogGrid .b-title,
+    #blogGrid .b-title a,
+    #blogGrid .b-summary{
+      overflow-wrap:anywhere!important;
+      word-break:break-word!important;
+    }
+    #blogGrid .b-title{
+      display:-webkit-box;
+      overflow:hidden;
+      -webkit-box-orient:vertical;
+      -webkit-line-clamp:3;
+    }
+    #blogGrid .b-summary{
+      display:-webkit-box;
+      overflow:hidden;
+      -webkit-box-orient:vertical;
+      -webkit-line-clamp:4;
+    }
+
+    /* İlk sayfadaki en yeni yazı öne çıkar */
+    #blogGrid.blog-grid-featured .b-card:first-child{
+      grid-column:1/-1!important;
+      display:grid!important;
+      grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr)!important;
+      min-height:330px!important;
+      max-height:430px!important;
+      overflow:hidden!important;
+    }
+    #blogGrid.blog-grid-featured .b-card:first-child .b-cover{
+      min-height:330px!important;
+      height:100%!important;
+      aspect-ratio:auto!important;
+    }
+    #blogGrid.blog-grid-featured .b-card:first-child .b-body{
+      min-width:0!important;
+      justify-content:center!important;
+      padding:34px!important;
+    }
+    #blogGrid.blog-grid-featured .b-card:first-child .b-title{
+      font-size:clamp(1.55rem,2.6vw,2.2rem)!important;
+      line-height:1.16!important;
+      -webkit-line-clamp:3!important;
+    }
+    #blogGrid.blog-grid-featured .b-card:first-child .b-summary{
+      -webkit-line-clamp:4!important;
+    }
+
+    /* Alt sırada tek kart kalırsa kontrollü genişler */
+    #blogGrid.blog-grid-standard .b-card:last-child:nth-child(odd),
+    #blogGrid.blog-grid-featured .b-card:last-child:nth-child(even){
+      grid-column:1/-1!important;
+      display:grid!important;
+      grid-template-columns:minmax(230px,.72fr) minmax(0,1.28fr)!important;
+    }
+
+    @media(max-width:1050px){
+      .blog-layout{
+        grid-template-columns:230px minmax(0,1fr)!important;
+        gap:22px!important;
+      }
+      .blog-sidebar{width:230px!important}
+      .blog-toolbar{
+        grid-template-columns:1fr!important;
+      }
+    }
+    @media(max-width:930px){
+      .blog-layout{grid-template-columns:1fr!important}
+      .blog-sidebar{
+        position:static!important;
+        width:100%!important;
+        display:grid!important;
+        grid-template-columns:minmax(0,1fr) minmax(260px,.72fr)!important;
+        gap:16px!important;
+        overflow:visible!important;
+      }
+      .blog-sidebar .side-card,
+      .blog-sidebar .side-cta{height:100%}
+    }
+    @media(max-width:760px){
+      .blog-sidebar{grid-template-columns:1fr!important}
+      #blogGrid{grid-template-columns:1fr!important}
+      #blogGrid.blog-grid-featured .b-card:first-child,
+      #blogGrid.blog-grid-standard .b-card:last-child:nth-child(odd),
+      #blogGrid.blog-grid-featured .b-card:last-child:nth-child(even){
+        grid-column:auto!important;
+        display:flex!important;
+        grid-template-columns:none!important;
+        min-height:0!important;
+        max-height:none!important;
+      }
+      #blogGrid.blog-grid-featured .b-card:first-child .b-cover,
+      #blogGrid.blog-grid-standard .b-card:last-child:nth-child(odd) .b-cover,
+      #blogGrid.blog-grid-featured .b-card:last-child:nth-child(even) .b-cover{
+        height:auto!important;
+        min-height:0!important;
+        aspect-ratio:16/9!important;
+      }
+      #blogGrid.blog-grid-featured .b-card:first-child .b-body{
+        padding:22px!important;
+      }
+    }
+  </style>
+
 </head>
 <body data-page="blog">
   <a class="skip-link" href="#main-content">İçeriğe geç</a>
@@ -1127,7 +1309,10 @@
           <div class="blog-main">
             <section id="blog" data-json="/assets/data/blog.json" aria-label="Blog yazıları">
               <div class="blog-toolbar reveal">
-                <div id="blogFilters" aria-label="Blog kategorileri"></div>
+                <div class="blog-filter-area">
+                  <div id="blogFilters" aria-label="Blog kategorileri"></div>
+                  <span class="blog-sort-note"><i class="fa-solid fa-arrow-down-wide-short"></i> En yeni yazılar önce</span>
+                </div>
                 <label class="blog-search-wrap">
                   <span class="skip-link">Yazılarda ara</span>
                   <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
@@ -1317,7 +1502,7 @@
   </script>
 
   <script defer src="/assets/js/main.js?v=18"></script>
-  <script defer src="/assets/js/blog.js?v=3"></script>
+  <script defer src="/assets/js/blog.js?v=4"></script>
 
   <script>
   (function(){
