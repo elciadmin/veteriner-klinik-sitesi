@@ -2,15 +2,14 @@ backend:
   name: git-gateway
   branch: main
 
-site_url: "https://xn--eliveterinerklinii-8ub94i.com"
-display_url: "https://xn--eliveterinerklinii-8ub94i.com"
+site_url: "https://veteriner-klinik-sitesi.netlify.app"
+display_url: "https://veteriner-klinik-sitesi.netlify.app"
 logo_url: "/assets/img/uploads/elci-logo.png"
 
 media_folder: "assets/img/uploads"
 public_folder: "/assets/img/uploads"
 
-# Taslak -> inceleme -> yayın akışı.
-publish_mode: editorial_workflow
+# Tek yönetici için doğrudan kaydetme/yayınlama modu.
 locale: "tr"
 
 collections:
