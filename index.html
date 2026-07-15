@@ -1034,6 +1034,110 @@
     }
   </style>
 
+
+  <style id="elci-home-faq-dynamic-style">
+    #faq{
+      padding:64px 0 72px;
+      background:
+        radial-gradient(650px 250px at 100% 0,rgba(39,212,232,.08),transparent 68%),
+        linear-gradient(180deg,#fff,#f8fbfc);
+      border-top:1px solid var(--line);
+    }
+    #faq .section-head{
+      max-width:790px;
+      margin-bottom:25px;
+    }
+    #faq .section-head p{
+      margin:26px 0 0;
+      color:var(--muted);
+      line-height:1.7;
+    }
+    #homeFaqList{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:14px;
+    }
+    #homeFaqList details.home-faq-item{
+      position:relative;
+      margin:0;
+      padding:0;
+      overflow:hidden;
+      border:1px solid rgba(90,31,168,.12);
+      border-radius:18px;
+      background:#fff;
+      box-shadow:0 10px 25px rgba(30,24,58,.06);
+      transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease;
+    }
+    #homeFaqList details.home-faq-item:hover{
+      transform:translateY(-2px);
+      border-color:rgba(90,31,168,.25);
+      box-shadow:0 15px 30px rgba(30,24,58,.10);
+    }
+    #homeFaqList details.home-faq-item[open]{
+      border-color:rgba(39,212,232,.42);
+    }
+    #homeFaqList .home-faq-summary{
+      list-style:none;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      min-height:76px;
+      padding:17px 18px;
+      color:#151d25;
+      font-weight:800;
+      line-height:1.45;
+      cursor:pointer;
+    }
+    #homeFaqList .home-faq-summary::-webkit-details-marker{display:none}
+    #homeFaqList .home-faq-question{
+      display:flex;
+      align-items:flex-start;
+      gap:11px;
+    }
+    #homeFaqList .home-faq-dot{
+      width:11px;
+      height:11px;
+      flex:0 0 11px;
+      margin-top:.36em;
+      border-radius:50%;
+      background:linear-gradient(135deg,var(--brand),var(--accent));
+      box-shadow:0 0 0 5px rgba(39,212,232,.10);
+    }
+    #homeFaqList .home-faq-chevron{
+      color:var(--brand);
+      transition:transform .2s ease;
+    }
+    #homeFaqList details[open] .home-faq-chevron{transform:rotate(180deg)}
+    #homeFaqList .home-faq-answer{
+      padding:0 18px 18px 40px;
+      color:var(--muted);
+      line-height:1.72;
+    }
+    #homeFaqList .home-faq-answer p{margin:0 0 12px}
+    #homeFaqList .home-faq-answer a{
+      color:var(--brand);
+      font-weight:700;
+    }
+    #faq .home-faq-footer{
+      display:flex;
+      justify-content:flex-end;
+      margin-top:18px;
+    }
+    #homeFaqList .home-faq-status{
+      grid-column:1/-1;
+      padding:18px;
+      border:1px dashed rgba(90,31,168,.24);
+      border-radius:16px;
+      background:#fff;
+      color:var(--muted);
+    }
+    @media(max-width:760px){
+      #homeFaqList{grid-template-columns:1fr}
+      #homeFaqList .home-faq-summary{min-height:0}
+    }
+  </style>
+
 </head> 
 
 <body class="theme-elciKonya" data-page="home">
@@ -1459,16 +1563,15 @@
       <div class="section-head">
         <h2>Sık Sorulan Sorular</h2>
         <p class="muted">
-          Muayene, ücret, randevu ve ameliyat süreçleriyle ilgili en sık sorulan birkaç soruyu aşağıda bulabilirsiniz.
-          Tüm liste için SSS sayfamızı ziyaret edebilirsiniz.
+          Randevu, ücret, operasyon ve koruyucu sağlık süreçleriyle ilgili öne çıkan yanıtları burada bulabilirsiniz.
         </p>
       </div>
 
       <!-- JS burayı dolduracak -->
       <div id="homeFaqList" aria-live="polite"></div>
 
-      <div style="margin-top:16px;display:flex;justify-content:flex-end">
-        <a href="/sss.html" class="btn">Tüm SSS'leri Gör</a>
+      <div class="home-faq-footer">
+        <a href="/sss.html" class="btn">Tüm Soruları İncele</a>
       </div>
     </div>
   </section>
@@ -1680,95 +1783,142 @@
     });
   </script>
 
-  <!-- ANA SAYFA SSS ÖNİZLEME (faq.json'dan ilk 4 soru) -->
-  <script>
+
+  <!-- ANA SAYFA SSS: panelde seçilen en fazla 6 soru -->
+  <script id="elci-home-faq-loader">
   (function(){
     const wrap = document.getElementById('homeFaqList');
-    if (!wrap) return;
+    if(!wrap) return;
 
-    function faqItemHTML(it){
-      const id   = it.id || '';
-      const href = id ? ('/sss.html#' + id) : '/sss.html';
-      const q    = it.q || 'Soru';
-      const a    = it.a || '';
+    const MAX_ITEMS = 6;
+
+    function escapeHtml(value){
+      return String(value ?? '').replace(/[&<>"']/g, char => ({
+        '&':'&amp;',
+        '<':'&lt;',
+        '>':'&gt;',
+        '"':'&quot;',
+        "'":'&#39;'
+      }[char]));
+    }
+
+    function answerHtml(value){
+      let output = escapeHtml(value).replace(/
+/g,'<br>');
+      output = output.replace(
+        /0332 322 32 20/g,
+        '<a href="tel:03323223220">0332 322 32 20</a>'
+      );
+      return output;
+    }
+
+    function faqItemHTML(item){
+      const id = String(item.id || '').trim();
+      const href = id ? '/sss.html#' + encodeURIComponent(id) : '/sss.html';
       return `
-        <details class="faq">
-          <summary>
-            <span class="q">
-              <span class="dot"></span>${q}
+        <details class="home-faq-item">
+          <summary class="home-faq-summary">
+            <span class="home-faq-question">
+              <span class="home-faq-dot" aria-hidden="true"></span>
+              <span>${escapeHtml(item.q || 'Soru')}</span>
             </span>
+            <i class="fa-solid fa-chevron-down home-faq-chevron" aria-hidden="true"></i>
           </summary>
-          <p>${a}</p>
-          <a href="${href}" class="s-link">Detaylı Oku</a>
+          <div class="home-faq-answer">
+            <p>${answerHtml(item.a || '')}</p>
+            <a href="${href}">SSS sayfasında aç</a>
+          </div>
         </details>`;
     }
 
-    const faqCache = {
-      key: 'elciFaqCache',
-      ttl: 10 * 60 * 1000,
-      get() {
-        try {
-          const cached = localStorage.getItem(this.key);
-          if (!cached) return null;
-          const { data, timestamp } = JSON.parse(cached);
-          if (!Array.isArray(data)) return null;
-          if (Date.now() - timestamp > this.ttl) {
-            localStorage.removeItem(this.key);
-            return null;
-          }
-          return data;
-        } catch (e) { return null; }
-      },
-      set(data) {
-        try {
-          if (!Array.isArray(data)) return;
-          localStorage.setItem(this.key, JSON.stringify({ data, timestamp: Date.now() }));
-        } catch (e) {}
-      }
-    };
+    function collectItems(data){
+      const allItems = [];
+      const groups = Array.isArray(data?.groups) ? data.groups : [];
 
-    (async function loadFaqPreview(){
-      const cachedFaq = faqCache.get();
-      if (cachedFaq && cachedFaq.length) {
-        wrap.innerHTML = cachedFaq.slice(0, 4).map(faqItemHTML).join('');
-        return;
-      }
+      groups.forEach((group, groupIndex) => {
+        if(!group || group.published === false) return;
+        const items = Array.isArray(group.items) ? group.items : [];
 
-      try {
-        const res = await fetch('/assets/data/faq.json?v=20251106', { cache: 'default' });
-        if (!res.ok) throw new Error('FAQ JSON bulunamadı');
-        const data = await res.json();
-
-        let items = [];
-        if (Array.isArray(data.groups)) {
-          data.groups.forEach(group => {
-            const list = Array.isArray(group.items) ? group.items : [];
-            list.forEach(qItem => {
-              items.push({
-                id: qItem.id || '',
-                q:  qItem.q  || '',
-                a:  qItem.a  || ''
-              });
-            });
+        items.forEach((item, itemIndex) => {
+          if(!item || item.published === false || !item.q || !item.a) return;
+          allItems.push({
+            ...item,
+            _groupIndex: groupIndex,
+            _itemIndex: itemIndex
           });
-        }
+        });
+      });
 
-        if (!items.length) {
-          wrap.innerHTML = '<p class="muted">SSS içeriği henüz eklenmedi. Panelden soru ekleyebilirsiniz.</p>';
+      const explicitlySelected = allItems.filter(item => item.showOnHome === true);
+      const source = explicitlySelected.length ? explicitlySelected : allItems;
+
+      return source
+        .sort((a,b) => {
+          const orderA = Number.isFinite(Number(a.homeOrder)) ? Number(a.homeOrder) : 9999;
+          const orderB = Number.isFinite(Number(b.homeOrder)) ? Number(b.homeOrder) : 9999;
+          return orderA - orderB ||
+                 a._groupIndex - b._groupIndex ||
+                 a._itemIndex - b._itemIndex;
+        })
+        .slice(0,MAX_ITEMS);
+    }
+
+    async function loadFaq(){
+      wrap.innerHTML = '<p class="home-faq-status">Sorular hazırlanıyor…</p>';
+
+      try{
+        const response = await fetch(
+          '/assets/data/faq.json?v=20260715-home-faq-v2',
+          {cache:'no-store'}
+        );
+        if(!response.ok) throw new Error('FAQ JSON bulunamadı');
+
+        const data = await response.json();
+        const items = collectItems(data);
+
+        if(!items.length){
+          wrap.innerHTML = `
+            <p class="home-faq-status">
+              Henüz yayımlanmış bir soru bulunmuyor.
+              <a href="/sss.html">SSS sayfasını inceleyebilirsiniz.</a>
+            </p>`;
           return;
         }
 
-        faqCache.set(items);
-        wrap.innerHTML = items.slice(0, 4).map(faqItemHTML).join('');
-      } catch (e) {
-        console.error(e);
+        wrap.innerHTML = items.map(faqItemHTML).join('');
+
+        const schema = {
+          "@context":"https://schema.org",
+          "@type":"FAQPage",
+          "mainEntity":items.map(item => ({
+            "@type":"Question",
+            "name":item.q,
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":item.a
+            }
+          }))
+        };
+
+        let schemaEl = document.getElementById('homeFaqSchema');
+        if(!schemaEl){
+          schemaEl = document.createElement('script');
+          schemaEl.id = 'homeFaqSchema';
+          schemaEl.type = 'application/ld+json';
+          document.head.appendChild(schemaEl);
+        }
+        schemaEl.textContent = JSON.stringify(schema);
+      }catch(error){
+        console.error('Ana sayfa SSS yüklenemedi:',error);
         wrap.innerHTML = `
-          <p class="muted">
-            Sık sorulan sorular yüklenemedi. Tüm liste için
-            <a href="/sss.html">SSS sayfasını</a> ziyaret edebilirsiniz.
+          <p class="home-faq-status">
+            Sorular şu anda yüklenemedi.
+            <a href="/sss.html">Tüm SSS sayfasını açabilirsiniz.</a>
           </p>`;
       }
-    })();
+    }
+
+    loadFaq();
   })();
   </script>
 
