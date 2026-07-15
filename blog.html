@@ -963,6 +963,18 @@
   }
 </style>
 
+
+<style id="elci-blog-cover-fallback-style">
+  .b-cover img.is-cover-fallback,
+  .editorial-visual img.is-cover-fallback{
+    object-fit:contain !important;
+    padding:28px !important;
+    background:
+      radial-gradient(circle at 50% 30%,rgba(39,212,232,.15),transparent 55%),
+      linear-gradient(135deg,#f8f4ff,#eefcff) !important;
+  }
+</style>
+
 </head>
 <body data-page="blog">
   <a class="skip-link" href="#main-content">İçeriğe geç</a>
@@ -1305,7 +1317,7 @@
   </script>
 
   <script defer src="/assets/js/main.js?v=18"></script>
-  <script defer src="/assets/js/blog.js?v=2"></script>
+  <script defer src="/assets/js/blog.js?v=3"></script>
 
   <script>
   (function(){
@@ -1774,6 +1786,23 @@
   modal.addEventListener('close',function(){
     document.body.classList.remove('blog-reader-open');
   });
+})();
+</script>
+
+
+<script id="elci-blog-cover-fallback">
+(function(){
+  const fallback='/assets/img/uploads/elci-logo.png?v=1';
+  document.addEventListener('error',function(event){
+    const image=event.target;
+    if(!(image instanceof HTMLImageElement)) return;
+    if(!image.closest('.b-cover,.editorial-visual,.blog-reader-cover')) return;
+    if(image.dataset.fallbackApplied==='1') return;
+    image.dataset.fallbackApplied='1';
+    image.classList.add('is-cover-fallback');
+    image.src=fallback;
+    image.alt='Elçi Veteriner Kliniği';
+  },true);
 })();
 </script>
 
