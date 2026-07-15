@@ -2,143 +2,169 @@ backend:
   name: git-gateway
   branch: main
 
-site_url: https://veteriner-klinik-sitesi.netlify.app
-logo_url: /assets/img/uploads/elci-logo.png
+site_url: "https://xn--eliveterinerklinii-8ub94i.com"
+display_url: "https://xn--eliveterinerklinii-8ub94i.com"
+logo_url: "/assets/img/uploads/elci-logo.png"
 
-media_folder: "assets/img/uploads"     # repo içi dosya yolu
-public_folder: "/assets/img/uploads"   # sitedeki URL
+media_folder: "assets/img/uploads"
+public_folder: "/assets/img/uploads"
 
+# Taslak -> inceleme -> yayın akışı.
 publish_mode: editorial_workflow
-local_backend: true
-
-# i18n — KOŞUL: locales + default_locale gerekli
-i18n:
-  structure: single_file
-  locales: [tr]
-  default_locale: tr
+locale: "tr"
 
 collections:
-  # 1) Blog yazıları
-  - name: "blog"
+  - name: "blog_data"
     label: "Blog Yazıları"
-    folder: "assets/data/blog"
-    create: true
-    format: "json"
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    i18n: true
-    fields:
-      - { label: "Başlık", name: "title", widget: "string", i18n: true }
-      - { label: "Kısa Açıklama", name: "excerpt", widget: "text", required: false, i18n: true }
-      - { label: "Tarih (Yayın)", name: "date", widget: "datetime", i18n: true }
-      - { label: "Kapak Görseli", name: "cover", widget: "image", required: false, i18n: true }
-      - { label: "Etiketler", name: "tags", widget: "list", required: false, i18n: true, field: { label: "Etiket", name: "tag", widget: "string" } }
-      - { label: "İçerik (Markdown)", name: "body", widget: "markdown", i18n: true }
-
-  # 2) SSS — Sık Sorulan Sorular
-  - name: "faq"
-    label: "SSS"
     delete: false
-    editor: { preview: false }
+    editor:
+      preview: false
+    files:
+      - file: "assets/data/blog.json"
+        label: "Blog Yazıları"
+        name: "blog_file"
+        format: "json"
+        fields:
+          - label: "Yazılar"
+            name: "posts"
+            widget: "list"
+            summary: "{{fields.title}}"
+            minimize_collapsed: true
+            fields:
+              - { label: "Yayında mı?", name: "published", widget: "boolean", default: true }
+              - { label: "Başlık", name: "title", widget: "string" }
+              - label: "Kısa bağlantı adı"
+                name: "slug"
+                widget: "string"
+                hint: "Küçük harf ve tire kullanın. Örnek: kedilerde-asi-takvimi"
+                pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Yalnızca küçük harf, rakam ve tire kullanın."]
+              - { label: "Yayın tarihi", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ssZ", date_format: "DD.MM.YYYY", time_format: "HH:mm" }
+              - { label: "Kısa açıklama", name: "summary", widget: "text" }
+              - { label: "Kapak görseli", name: "cover", widget: "image", required: false }
+              - label: "Kategoriler"
+                name: "categories"
+                widget: "list"
+                required: false
+                field: { label: "Kategori", name: "category", widget: "string" }
+              - label: "Etiketler"
+                name: "tags"
+                widget: "list"
+                required: false
+                field: { label: "Etiket", name: "tag", widget: "string" }
+              - { label: "Yazar", name: "author", widget: "string", default: "Elçi Veteriner Kliniği" }
+              - { label: "Tahmini okuma süresi (dakika)", name: "readingMinutes", widget: "number", value_type: "int", min: 1, default: 3 }
+              - { label: "SEO başlığı", name: "seoTitle", widget: "string", required: false }
+              - { label: "SEO açıklaması", name: "seoDescription", widget: "text", required: false }
+              - label: "Yazının tam içeriği"
+                name: "content"
+                widget: "text"
+                hint: "Paragraflar arasında bir boş satır bırakın."
+              - { label: "YouTube video kimliği", name: "youtubeId", widget: "string", required: false }
+              - { label: "Özel bağlantı", name: "url", widget: "string", required: false, hint: "Boş bırakılabilir." }
+
+  - name: "faq_data"
+    label: "Sık Sorulan Sorular"
+    delete: false
+    editor:
+      preview: false
     files:
       - file: "assets/data/faq.json"
-        label: "Sık Sorulan Sorular"
-        name: "faqpage"
+        label: "SSS Yönetimi"
+        name: "faq_file"
         format: "json"
-        i18n: true
         fields:
-          - label: "Gruplar"
+          - { label: "Sayfa başlığı", name: "title", widget: "string", default: "Sık Sorulan Sorular" }
+          - label: "Kategoriler"
             name: "groups"
             widget: "list"
-            i18n: true
+            summary: "{{fields.category}}"
+            minimize_collapsed: true
             fields:
-              - { label: "Kategori", name: "category", widget: "string", i18n: true }
+              - { label: "Kategori yayında mı?", name: "published", widget: "boolean", default: true }
+              - { label: "Kategori adı", name: "category", widget: "string" }
               - label: "Sorular"
                 name: "items"
                 widget: "list"
-                i18n: true
+                summary: "{{fields.q}}"
+                minimize_collapsed: true
                 fields:
-                  - { label: "Soru", name: "q", widget: "string", i18n: true }
-                  - { label: "Yanıt", name: "a", widget: "text", i18n: true }
-                  - { label: "Kimlik (id)", name: "id", widget: "string", required: false, i18n: false }
+                  - { label: "Yayında mı?", name: "published", widget: "boolean", default: true }
+                  - label: "Ana sayfada göster"
+                    name: "showOnHome"
+                    widget: "boolean"
+                    default: false
+                    required: false
+                    hint: "Açık olduğunda bu soru ana sayfadaki Sık Sorulan Sorular bölümünde gösterilebilir."
+                  - label: "Ana sayfa sırası"
+                    name: "homeOrder"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    required: false
+                    hint: "Ana sayfada gösterilen soruların sırası. 1 en üst sıradır."
+                  - label: "Kimlik"
+                    name: "id"
+                    widget: "string"
+                    hint: "Küçük harf ve tire kullanın. Örnek: muayene-ucreti"
+                    pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Yalnızca küçük harf, rakam ve tire kullanın."]
+                  - { label: "Soru", name: "q", widget: "string" }
+                  - { label: "Yanıt", name: "a", widget: "text" }
 
-  # 3) Hizmetler (cards) — services.json
-  - name: "services"
-    label: "Hizmet Kartları"
+  - name: "services_data"
+    label: "Hizmetler"
     delete: false
-    editor: { preview: false }
+    editor:
+      preview: false
     files:
       - file: "assets/data/services.json"
-        label: "Hizmetler"
-        name: "servicesfile"
+        label: "Hizmet Yönetimi"
+        name: "services_file"
         format: "json"
-        i18n: true
         fields:
-          - label: "Kartlar"
+          - { label: "Bölüm başlığı", name: "title", widget: "string", default: "Hizmetlerimiz" }
+          - label: "Hizmetler"
             name: "items"
             widget: "list"
-            i18n: true
+            summary: "{{fields.title}}"
+            minimize_collapsed: true
             fields:
-              - { label: "Başlık", name: "title", widget: "string", i18n: true }
-              - { label: "Açıklama", name: "desc", widget: "text", i18n: true }
-              - { label: "İkon (ID veya sınıf)", name: "icon", widget: "string", required: false, i18n: false }
-              - { label: "Bağlantı (URL)", name: "href", widget: "string", required: false, i18n: false }
+              - label: "Kimlik"
+                name: "id"
+                widget: "string"
+                hint: "Mevcut hizmetlerde bu alanı değiştirmeyin."
+              - { label: "Başlık", name: "title", widget: "string" }
+              - { label: "Kısa açıklama", name: "summary", widget: "text" }
+              - { label: "Detaylı açıklama", name: "detail", widget: "text", required: false }
+              - { label: "İkon kimliği", name: "icon", widget: "string", required: false }
+              - { label: "Bağlantı", name: "href", widget: "string", required: false }
 
-  # 4) İletişim / Klinik bilgileri — contacts.json
-  - name: "contacts"
-    label: "İletişim & Klinik"
+  - name: "success_stories_data"
+    label: "Başarı Hikâyeleri"
     delete: false
-    editor: { preview: false }
+    editor:
+      preview: false
     files:
-      - file: "assets/data/contacts.json"
-        label: "İletişim Ayarları"
-        name: "contactsfile"
+      - file: "assets/data/successStories.json"
+        label: "Başarı Hikâyeleri"
+        name: "success_stories_file"
         format: "json"
-        i18n: true
         fields:
-          - { label: "Adres", name: "address", widget: "string", i18n: true }
-          - { label: "Telefon", name: "phone", widget: "string", i18n: false }
-          - { label: "E-posta", name: "email", widget: "string", i18n: false }
-          - { label: "Çalışma Saatleri", name: "hours", widget: "string", i18n: true }
-          - { label: "Google Maps Embed URL", name: "mapEmbed", widget: "string", i18n: false }
-
-  # 5) Ana sayfa — index.json
-  - name: "siteindex"
-    label: "Ana Sayfa İçerikleri"
-    delete: false
-    editor: { preview: false }
-    files:
-      - file: "assets/data/index.json"
-        label: "Index Ayarları"
-        name: "indexdata"
-        format: "json"
-        i18n: true
-        fields:
-          - { label: "Hero Başlığı", name: "heroTitle", widget: "string", i18n: true }
-          - { label: "Hero Altbaşlık", name: "heroSub", widget: "text", i18n: true }
-          - { label: "YouTube Video ID'leri", name: "youtubeIds", widget: "list", i18n: false, field: { label: "Video ID", name: "id", widget: "string" } }
-          - { label: "Instagram JSON Kaynağı", name: "instagramJson", widget: "string", required: false, i18n: false }
-
-  # 6) Başarı Hikayeleri — successStories.json
-  - name: "successStories"
-    label: "Başarı Hikayeleri"
-    delete: false
-    editor: { preview: false }
-    files:
-      - file: "assets/data/successStories.json"   # DİKKAT: başında / YOK
-        label: "Başarı Hikayeleri Listesi"
-        name: "successStoriesFile"
-        format: "json"
-        i18n: true
-        fields:
-          - label: "Hikayeler"
+          - label: "Hikâyeler"
             name: "stories"
             widget: "list"
-            i18n: true
+            summary: "{{fields.title}}"
+            minimize_collapsed: true
             fields:
-              - { label: "Başlık", name: "title", widget: "string", i18n: true }
-              - { label: "Evcil Adı", name: "petName", widget: "string", i18n: true }
-              - { label: "Tür (Kedi/Köpek vb.)", name: "species", widget: "string", required: false, i18n: true }
-              - { label: "Kısa Özet", name: "summary", widget: "text", i18n: true }
-              - { label: "Detaylı Hikaye", name: "body", widget: "markdown", i18n: true }
-              - { label: "Simge ID (i-paw, i-xray, i-tooth-clean vb.)", name: "icon", widget: "string", required: false, i18n: false }
-              - { label: "Öne Çıkan mı?", name: "featured", widget: "boolean", required: false, default: false, i18n: false }
+              - label: "Kimlik"
+                name: "id"
+                widget: "string"
+                pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Yalnızca küçük harf, rakam ve tire kullanın."]
+              - { label: "Başlık", name: "title", widget: "string" }
+              - { label: "Hayvanın adı", name: "petName", widget: "string" }
+              - { label: "Tür", name: "species", widget: "string", required: false }
+              - { label: "Kısa vurgu", name: "tagline", widget: "string", required: false }
+              - { label: "Kısa özet", name: "summary", widget: "text" }
+              - { label: "Detaylı hikâye", name: "body", widget: "text" }
+              - { label: "Simge kimliği", name: "icon", widget: "string", required: false, default: "#i-paw" }
+              - { label: "Öne çıkar", name: "featured", widget: "boolean", default: false, required: false }
