@@ -615,6 +615,354 @@
     }
   </style>
 
+<style id="elci-home-footer-exact">
+  footer.footer-new{
+    margin:0 !important;
+    padding:54px 0 0 !important;
+    background:linear-gradient(135deg,#241043 0%,#5a1fa8 100%) !important;
+    color:#eaffff !important;
+  }
+  footer.footer-new .footer-container{
+    display:grid !important;
+    grid-template-columns:1.15fr .85fr 1fr 1.15fr !important;
+    gap:38px !important;
+    padding-top:0 !important;
+    padding-bottom:40px !important;
+  }
+  footer.footer-new .footer-col h3{
+    position:relative !important;
+    margin:0 0 23px !important;
+    color:#fff !important;
+    font-size:1.05rem !important;
+    line-height:1.25 !important;
+  }
+  footer.footer-new .footer-col h3::after{
+    content:"" !important;
+    position:absolute !important;
+    left:0 !important;
+    bottom:-10px !important;
+    width:54px !important;
+    height:3px !important;
+    border-radius:999px !important;
+    background:#27d4e8 !important;
+  }
+  footer.footer-new .footer-col p{
+    margin:0 !important;
+    color:#dce8f4 !important;
+    font-size:.88rem !important;
+    line-height:1.68 !important;
+  }
+  footer.footer-new .social-links{
+    display:flex !important;
+    gap:10px !important;
+    margin-top:17px !important;
+  }
+  footer.footer-new .social-links a{
+    width:42px !important;
+    height:42px !important;
+    display:grid !important;
+    place-items:center !important;
+    border-radius:999px !important;
+    background:rgba(255,255,255,.12) !important;
+    color:#eaffff !important;
+    opacity:.95 !important;
+    text-decoration:none !important;
+    transition:transform .18s ease,background .18s ease,opacity .18s ease !important;
+  }
+  footer.footer-new .social-links a:hover{
+    transform:translateY(-2px) !important;
+    background:rgba(255,255,255,.19) !important;
+    opacity:1 !important;
+  }
+  footer.footer-new .social-links svg{
+    width:20px !important;
+    height:20px !important;
+    display:block !important;
+  }
+  footer.footer-new .footer-links,
+  footer.footer-new .footer-contact{
+    margin:0 !important;
+  }
+  footer.footer-new .footer-links{
+    padding-left:18px !important;
+    list-style:disc !important;
+    display:grid !important;
+    gap:7px !important;
+  }
+  footer.footer-new .footer-links li{
+    display:list-item !important;
+    margin:0 !important;
+    color:#eaffff !important;
+  }
+  footer.footer-new .footer-links a,
+  footer.footer-new .footer-contact a{
+    color:#eaffff !important;
+    text-decoration:none !important;
+    font-size:.88rem !important;
+  }
+  footer.footer-new .footer-links a:hover,
+  footer.footer-new .footer-contact a:hover{
+    color:#fff !important;
+    text-decoration:underline !important;
+    text-underline-offset:3px !important;
+  }
+  footer.footer-new .footer-contact{
+    padding:0 !important;
+    list-style:none !important;
+    display:grid !important;
+    gap:9px !important;
+  }
+  footer.footer-new .footer-contact li{
+    display:flex !important;
+    align-items:flex-start !important;
+    gap:10px !important;
+    margin:0 !important;
+    color:#e5edf7 !important;
+    font-size:.87rem !important;
+    line-height:1.55 !important;
+  }
+  footer.footer-new .footer-contact svg{
+    width:19px !important;
+    height:19px !important;
+    flex:0 0 19px !important;
+    margin-top:2px !important;
+    color:#27d4e8 !important;
+  }
+  footer.footer-new .footer-contact small{
+    color:#cfdbe8 !important;
+  }
+  footer.footer-new .footer-bottom{
+    margin:0 !important;
+    background:rgba(0,0,0,.18) !important;
+  }
+  footer.footer-new .footer-bottom .container{
+    padding-top:16px !important;
+    padding-bottom:16px !important;
+    text-align:center !important;
+  }
+  footer.footer-new .footer-bottom p{
+    margin:0 !important;
+    color:#d9e4ef !important;
+    font-size:.8rem !important;
+  }
+
+  @media(max-width:900px){
+    footer.footer-new .footer-container{
+      grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    }
+  }
+  @media(max-width:600px){
+    footer.footer-new{
+      padding-bottom:70px !important;
+    }
+    footer.footer-new .footer-container{
+      grid-template-columns:1fr !important;
+      gap:31px !important;
+    }
+  }
+</style>
+
+<style id="elci-blog-reader-and-footer-final">
+  /* === Sayfa içinde blog okuma penceresi === */
+  dialog.blog-reader{
+    width:min(960px,calc(100vw - 34px)) !important;
+    max-width:960px !important;
+    max-height:min(90vh,920px) !important;
+    padding:0 !important;
+    border:1px solid rgba(90,31,168,.16) !important;
+    border-radius:28px !important;
+    background:#fff !important;
+    color:#101820 !important;
+    box-shadow:0 34px 90px rgba(24,8,52,.34) !important;
+    overflow:hidden !important;
+  }
+  dialog.blog-reader[open]{
+    animation:elciReaderIn .28s cubic-bezier(.22,.78,.24,1);
+  }
+  dialog.blog-reader::backdrop{
+    background:rgba(21,8,44,.72) !important;
+    -webkit-backdrop-filter:blur(7px);
+    backdrop-filter:blur(7px);
+  }
+  .blog-reader-shell{
+    display:flex;
+    flex-direction:column;
+    max-height:min(90vh,920px);
+    background:#fff;
+  }
+  .blog-reader-head{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:24px;
+    padding:25px 28px 21px;
+    border-bottom:1px solid #e6edf1;
+    background:
+      radial-gradient(700px 240px at 100% 0,rgba(39,212,232,.14),transparent 65%),
+      linear-gradient(135deg,#fbf8ff,#f4fdff);
+  }
+  .blog-reader-heading{min-width:0}
+  .blog-reader-kicker{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    margin-bottom:9px;
+    color:#5a1fa8;
+    font-size:.74rem;
+    font-weight:850;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+  .blog-reader-head h2{
+    margin:0;
+    color:#101820;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+    font-size:clamp(1.55rem,3.3vw,2.45rem);
+    font-weight:850;
+    line-height:1.14;
+    letter-spacing:-.6px;
+    text-wrap:balance;
+  }
+  .blog-reader-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px 13px;
+    margin-top:10px;
+    color:#65727b;
+    font-size:.8rem;
+  }
+  .blog-reader-meta span{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+  .blog-reader-close{
+    width:43px;
+    height:43px;
+    flex:0 0 43px;
+    display:grid;
+    place-items:center;
+    border:1px solid rgba(90,31,168,.14);
+    border-radius:50%;
+    background:#fff;
+    color:#401276;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(35,17,72,.10);
+    transition:transform .18s ease,background .18s ease,color .18s ease;
+  }
+  .blog-reader-close:hover{
+    transform:rotate(5deg) scale(1.04);
+    background:#5a1fa8;
+    color:#fff;
+  }
+  .blog-reader-cover{
+    flex:0 0 auto;
+    max-height:340px;
+    overflow:hidden;
+    background:#eef6f8;
+  }
+  .blog-reader-cover img{
+    display:block;
+    width:100%;
+    max-height:340px;
+    object-fit:cover;
+  }
+  .blog-reader-body{
+    min-height:240px;
+    padding:30px clamp(23px,5vw,58px) 36px;
+    overflow:auto;
+    color:#26343d;
+    font-size:1rem;
+    line-height:1.82;
+    overscroll-behavior:contain;
+  }
+  .blog-reader-body > :first-child{margin-top:0}
+  .blog-reader-body > :last-child{margin-bottom:0}
+  .blog-reader-body h2,
+  .blog-reader-body h3,
+  .blog-reader-body h4{
+    color:#241043;
+    line-height:1.3;
+  }
+  .blog-reader-body h2{margin:1.7em 0 .55em;font-size:1.55rem}
+  .blog-reader-body h3{margin:1.5em 0 .5em;font-size:1.25rem}
+  .blog-reader-body p{margin:0 0 1.15em}
+  .blog-reader-body ul,
+  .blog-reader-body ol{margin:0 0 1.2em;padding-left:1.35em}
+  .blog-reader-body li{margin:.35em 0}
+  .blog-reader-body img{
+    max-width:100%;
+    height:auto;
+    display:block;
+    margin:22px auto;
+    border-radius:18px;
+  }
+  .blog-reader-body blockquote{
+    margin:1.35em 0;
+    padding:16px 18px;
+    border-left:4px solid #27d4e8;
+    border-radius:0 15px 15px 0;
+    background:#f2fcfe;
+    color:#34444c;
+  }
+  .blog-reader-body a{color:#5a1fa8}
+  .blog-reader-loading{
+    min-height:210px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    color:#5a1fa8;
+    font-weight:750;
+  }
+  .blog-reader-frame{
+    display:block;
+    width:100%;
+    min-height:62vh;
+    border:0;
+    background:#fff;
+  }
+  .blog-reader-notice{
+    padding:18px;
+    border:1px solid #dce9ed;
+    border-radius:16px;
+    background:#f6fbfc;
+    color:#52616a;
+  }
+  .blog-reader-actions{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:16px 25px;
+    border-top:1px solid #e6edf1;
+    background:#f8fbfc;
+  }
+  body.blog-reader-open{overflow:hidden}
+
+  @keyframes elciReaderIn{
+    from{opacity:0;transform:translateY(18px) scale(.985)}
+    to{opacity:1;transform:none}
+  }
+
+  @media(max-width:640px){
+    dialog.blog-reader{
+      width:calc(100vw - 16px) !important;
+      max-height:94vh !important;
+      border-radius:22px !important;
+    }
+    .blog-reader-shell{max-height:94vh}
+    .blog-reader-head{padding:20px 18px 17px;gap:12px}
+    .blog-reader-close{width:39px;height:39px;flex-basis:39px}
+    .blog-reader-body{padding:23px 19px 29px;font-size:.95rem;line-height:1.72}
+    .blog-reader-actions{padding:13px 16px}
+    .blog-reader-actions .btn{padding:9px 12px;font-size:.78rem}
+  }
+  @media(prefers-reduced-motion:reduce){
+    dialog.blog-reader[open]{animation:none}
+  }
+</style>
+
 </head>
 <body data-page="blog">
   <a class="skip-link" href="#main-content">İçeriğe geç</a>
@@ -817,55 +1165,112 @@
     </section>
   </main>
 
-  <footer class="footer-new">
-    <div class="container footer-container">
-      <div class="footer-col">
-        <h3>Elçi Veteriner Kliniği</h3>
-        <p>Konya'nın Meram ilçesinde kedi ve köpeklerin sağlığı için anlaşılır bilgilendirme, etik yaklaşım ve düzenli takip sunuyoruz.</p>
-        <div class="social-links">
-          <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 10h3l.5-3H13V5.5c0-.9.3-1.5 1.7-1.5H17V1h-3c-3 0-4.5 1.6-4.5 4.4V7H7v3h2.5v9h3v-9z"/></svg></a>
-          <a href="https://www.instagram.com/elcivetklinik" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><path d="M17.5 6.5h.01" stroke-width="2"/></svg></a>
-          <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.8c-.8.4-1.6.6-2.5.7.9-.6 1.5-1.4 1.8-2.4-.8.5-1.8.9-2.8 1.1A3.7 3.7 0 0 0 12 8.4c0 .3 0 .7.1 1A10.5 10.5 0 0 1 3 5.2a3.7 3.7 0 0 0 1.1 5 3.6 3.6 0 0 1-1.7-.5v.1c0 1.8 1.3 3.3 3 3.7-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1.5 1.5 1.9 2.6 3.6 2.6A7.5 7.5 0 0 1 3 19.5 10.6 10.6 0 0 0 9.7 21c6.3 0 9.7-5.2 9.7-9.7v-.4c.8-.6 1.5-1.4 2-2.3z"/></svg></a>
-          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5a4 4 0 0 0-3-3.1C18.3 4 12 4 12 4s-6.3 0-8 .4A4 4 0 0 0 1 7.5 41 41 0 0 0 1 16.5a4 4 0 0 0 3 3.1c1.7.4 8 .4 8 .4s6.3 0 8-.4a4 4 0 0 0 3-3.1 41 41 0 0 0 0-9zM10 15.5v-7l6 3.5-6 3.5z"/></svg></a>
+  
+  <dialog id="blogReaderModal" class="blog-reader" aria-labelledby="blogReaderTitle">
+    <div class="blog-reader-shell">
+      <header class="blog-reader-head">
+        <div class="blog-reader-heading">
+          <span class="blog-reader-kicker"><i class="fa-regular fa-file-lines"></i> Elçi sağlık notları</span>
+          <h2 id="blogReaderTitle">Blog yazısı</h2>
+          <div id="blogReaderMeta" class="blog-reader-meta"></div>
         </div>
+        <button id="blogReaderClose" class="blog-reader-close" type="button" aria-label="Yazıyı kapat">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </header>
+
+      <div id="blogReaderCover" class="blog-reader-cover" hidden>
+        <img id="blogReaderImage" alt="" loading="eager" decoding="async">
       </div>
 
-      <div class="footer-col">
-        <h3>Hızlı Linkler</h3>
-        <ul class="footer-links">
-          <li><a href="/">Ana Sayfa</a></li>
-          <li><a href="/about">Hakkımızda</a></li>
-          <li><a href="/hizmetler.html">Hizmetlerimiz</a></li>
-          <li><a href="/blog.html">Blog</a></li>
-          <li><a href="/sss.html">SSS</a></li>
-          <li><a href="/hasta-iliskileri.html">Hasta İlişkileri</a></li>
-        </ul>
-      </div>
+      <article id="blogReaderBody" class="blog-reader-body">
+        <div class="blog-reader-loading" role="status">
+          <i class="fa-solid fa-circle-notch fa-spin"></i>
+          <span>Yazı hazırlanıyor…</span>
+        </div>
+      </article>
 
-      <div class="footer-col">
-        <h3>Blog Konuları</h3>
-        <ul class="footer-links">
-          <li><a href="#blog">Koruyucu hekimlik</a></li>
-          <li><a href="#blog">Acil belirtiler</a></li>
-          <li><a href="#blog">Ağız ve diş sağlığı</a></li>
-          <li><a href="#blog">Cerrahi ve bakım süreçleri</a></li>
-          <li><a href="#youtube">Video bilgilendirmeler</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h3>İletişim</h3>
-        <ul class="footer-contact">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"/><circle cx="12" cy="11" r="2.5"/></svg><a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.5v2a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3.1 19 19 0 0 1-6-6A2 2 0 0 1 7.5 9h2l2 3-1.5 1.5a16 16 0 0 0 6 6L18 18l3 2.5z"/></svg><a href="tel:+903323223220">0332 322 32 20</a></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg><a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg><span>Her gün: 09:00–21:00<br/><small>Özel gün saatleri için Google profilimizi kontrol ediniz.</small></span></li>
-        </ul>
-      </div>
+      <footer class="blog-reader-actions">
+        <button id="blogReaderCloseBottom" class="btn" type="button">
+          <i class="fa-solid fa-arrow-left"></i> Yazılara Dön
+        </button>
+        <a class="btn primary" href="/hasta-iliskileri.html#online-randevu">
+          <i class="fa-solid fa-calendar-check"></i> Online Randevu
+        </a>
+      </footer>
     </div>
+  </dialog>
 
-    <div class="footer-bottom"><div class="container"><p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p></div></div>
-  </footer>
+
+<footer class="footer-new">
+<div class="container footer-container">
+<div class="footer-col">
+<h3>Elçi Veteriner Kliniği</h3>
+<p>Konya'nın Meram ilçesinde kedi ve köpeklerin sağlığı için anlaşılır bilgilendirme, etik yaklaşım ve düzenli takip sunuyoruz.</p>
+<div class="social-links">
+<a aria-label="Facebook" href="https://www.facebook.com/elciveteriner" rel="noopener" target="_blank">
+<svg fill="currentColor" viewbox="0 0 24 24"><path d="M13 10h3l.5-3H13V5.5c0-.9.3-1.5 1.7-1.5H17V1h-3c-3 0-4.5 1.6-4.5 4.4V7H7v3h2.5v9h3v-9z"></path></svg>
+</a>
+<a aria-label="Instagram" href="https://www.instagram.com/elcivetklinik" rel="noopener" target="_blank">
+<svg fill="none" stroke="currentColor" stroke-width="1.6" viewbox="0 0 24 24"><rect height="18" rx="5" width="18" x="3" y="3"></rect><circle cx="12" cy="12" r="3.5"></circle><path d="M17.5 6.5h.01" stroke-width="2"></path></svg>
+</a>
+<a aria-label="X" href="https://twitter.com/elciveteriner" rel="noopener" target="_blank">
+<svg fill="currentColor" viewbox="0 0 24 24"><path d="M22 5.8c-.8.4-1.6.6-2.5.7.9-.6 1.5-1.4 1.8-2.4-.8.5-1.8.9-2.8 1.1A3.7 3.7 0 0 0 12 8.4c0 .3 0 .7.1 1A10.5 10.5 0 0 1 3 5.2a3.7 3.7 0 0 0 1.1 5 3.6 3.6 0 0 1-1.7-.5v.1c0 1.8 1.3 3.3 3 3.7-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1.5 1.5 1.9 2.6 3.6 2.6A7.5 7.5 0 0 1 3 19.5 10.6 10.6 0 0 0 9.7 21c6.3 0 9.7-5.2 9.7-9.7v-.4c.8-.6 1.5-1.4 2-2.3z"></path></svg>
+</a>
+<a aria-label="YouTube" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" rel="noopener" target="_blank">
+<svg fill="currentColor" viewbox="0 0 24 24"><path d="M23 7.5a4 4 0 0 0-3-3.1C18.3 4 12 4 12 4s-6.3 0-8 .4A4 4 0 0 0 1 7.5 41 41 0 0 0 1 16.5a4 4 0 0 0 3 3.1c1.7.4 8 .4 8 .4s6.3 0 8-.4a4 4 0 0 0 3-3.1 41 41 0 0 0 0-9zM10 15.5v-7l6 3.5-6 3.5z"></path></svg>
+</a>
+</div>
+</div>
+<div class="footer-col">
+<h3>Hızlı Linkler</h3>
+<ul class="footer-links">
+<li><a href="/">Ana Sayfa</a></li>
+<li><a href="/about">Hakkımızda</a></li>
+<li><a href="/hizmetler.html">Hizmetlerimiz</a></li>
+<li><a href="/blog.html">Blog</a></li>
+<li><a href="/sss.html">SSS</a></li>
+<li><a href="/hasta-iliskileri.html">Hasta İlişkileri</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h3>Öne Çıkan Hizmetler</h3>
+<ul class="footer-links">
+<li><a href="/hizmetler.html#acil">Acil ön değerlendirme</a></li>
+<li><a href="/hizmetler.html#cerrahi">Kısırlaştırma ve cerrahi</a></li>
+<li><a href="/hizmetler.html#agiz-dis">Ağız ve diş sağlığı</a></li>
+<li><a href="/hizmetler.html#ic-hastaliklari">İç hastalıkları ve laboratuvar</a></li>
+<li><a href="/hizmetler.html#fizik-tedavi">Fizik tedavi ve rehabilitasyon</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h3>İletişim</h3>
+<ul class="footer-contact">
+<li>
+<svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"></path><circle cx="12" cy="11" r="2.5"></circle></svg>
+<a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" rel="noopener" target="_blank">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a>
+</li>
+<li>
+<svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M22 16.5v2a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3.1 19 19 0 0 1-6-6A2 2 0 0 1 7.5 9h2l2 3-1.5 1.5a16 16 0 0 0 6 6L18 18l3 2.5z"></path></svg>
+<a href="tel:+903323223220">0332 322 32 20</a>
+</li>
+<li>
+<svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 4h16v16H4z"></path><path d="M22 6l-10 7L2 6"></path></svg>
+<a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a>
+</li>
+<li>
+<svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v6l4 2"></path></svg>
+<span>Her gün: 09:00–21:00<br/><small>Özel gün saatleri için Google profilimizi kontrol ediniz.</small></span>
+</li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<div class="container">
+<p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p>
+</div>
+</div>
+</footer>
 
   <nav class="mobile-contact-bar" aria-label="Hızlı iletişim">
     <a href="tel:+903323223220"><i class="fa-solid fa-phone"></i><span>Ara</span></a>
@@ -1073,6 +1478,304 @@
       }
     });
   </script>
+
+
+<script id="elci-blog-reader-script">
+(function(){
+  const modal = document.getElementById('blogReaderModal');
+  const titleEl = document.getElementById('blogReaderTitle');
+  const metaEl = document.getElementById('blogReaderMeta');
+  const bodyEl = document.getElementById('blogReaderBody');
+  const coverEl = document.getElementById('blogReaderCover');
+  const imageEl = document.getElementById('blogReaderImage');
+  const closeTop = document.getElementById('blogReaderClose');
+  const closeBottom = document.getElementById('blogReaderCloseBottom');
+  const blogSection = document.getElementById('blog');
+  if(!modal || !blogSection) return;
+
+  let posts = [];
+  let lastFocus = null;
+  const dataSource = blogSection.getAttribute('data-json') || '/assets/data/blog.json';
+
+  function localeValue(value){
+    if(value == null) return '';
+    if(typeof value === 'string') return value;
+    if(typeof value === 'object'){
+      if(typeof value.tr === 'string') return value.tr;
+      for(const key of Object.keys(value)){
+        if(typeof value[key] === 'string') return value[key];
+      }
+    }
+    return String(value);
+  }
+
+  function absoluteUrl(value){
+    try{return new URL(value || '', location.href).href.replace(/\/$/,'');}
+    catch(_){return String(value || '').replace(/\/$/,'');}
+  }
+
+  function normalizeText(value){
+    return String(value || '').trim().toLocaleLowerCase('tr-TR');
+  }
+
+  function findPost(anchor){
+    const href = absoluteUrl(anchor.getAttribute('href'));
+    let post = posts.find(function(item){
+      return item.url && absoluteUrl(item.url) === href;
+    });
+    if(post) return post;
+
+    const card = anchor.closest('.b-card');
+    const cardTitle = card ? card.querySelector('.b-title')?.textContent : '';
+    const linkTitle = anchor.querySelector('span')?.textContent || anchor.textContent;
+    const wanted = normalizeText(cardTitle || linkTitle);
+    return posts.find(function(item){
+      return normalizeText(localeValue(item.title)) === wanted;
+    }) || null;
+  }
+
+  function stripUnsafe(root){
+    root.querySelectorAll('script,style,link,meta,base,object,embed,form,input,textarea,select,button,noscript').forEach(function(node){
+      node.remove();
+    });
+    root.querySelectorAll('*').forEach(function(node){
+      [...node.attributes].forEach(function(attr){
+        const name = attr.name.toLowerCase();
+        const value = String(attr.value || '').trim().toLowerCase();
+        if(name.startsWith('on') || name === 'srcdoc'){
+          node.removeAttribute(attr.name);
+        }
+        if((name === 'href' || name === 'src') && value.startsWith('javascript:')){
+          node.removeAttribute(attr.name);
+        }
+      });
+      if(node.tagName === 'A'){
+        node.setAttribute('target','_blank');
+        node.setAttribute('rel','noopener noreferrer');
+      }
+    });
+    return root.innerHTML;
+  }
+
+  function safeHtml(value){
+    const raw = localeValue(value).trim();
+    if(!raw) return '';
+    const appearsHtml = /<\/?[a-z][\s\S]*>/i.test(raw);
+    if(!appearsHtml){
+      return raw
+        .split(/\n{2,}/)
+        .map(function(paragraph){
+          const escaped = paragraph
+            .replace(/&/g,'&amp;')
+            .replace(/</g,'&lt;')
+            .replace(/>/g,'&gt;')
+            .replace(/"/g,'&quot;')
+            .replace(/'/g,'&#039;')
+            .replace(/\n/g,'<br>');
+          return '<p>'+escaped+'</p>';
+        }).join('');
+    }
+    const doc = new DOMParser().parseFromString('<div id="safeRoot">'+raw+'</div>','text/html');
+    return stripUnsafe(doc.getElementById('safeRoot'));
+  }
+
+  function dateLabel(value){
+    if(!value) return '';
+    const date = new Date(value);
+    if(Number.isNaN(date.getTime())) return String(value);
+    return date.toLocaleDateString('tr-TR',{day:'2-digit',month:'long',year:'numeric'});
+  }
+
+  function renderMeta(post){
+    const parts = [];
+    const category = localeValue(post.category || post.kategori);
+    const date = dateLabel(post.date || post.tarih);
+    const author = localeValue(post.author || post.yazar);
+    if(category) parts.push('<span><i class="fa-solid fa-tag"></i>'+category+'</span>');
+    if(date) parts.push('<span><i class="fa-regular fa-calendar"></i>'+date+'</span>');
+    if(author) parts.push('<span><i class="fa-regular fa-user"></i>'+author+'</span>');
+    metaEl.innerHTML = parts.join('');
+  }
+
+  function renderCover(post){
+    const image = localeValue(
+      post.image || post.cover || post.thumbnail || post.featuredImage ||
+      post.gorsel || post.resim
+    );
+    if(image){
+      imageEl.src = image;
+      imageEl.alt = localeValue(post.title) || 'Blog yazısı görseli';
+      coverEl.hidden = false;
+    }else{
+      imageEl.removeAttribute('src');
+      imageEl.alt = '';
+      coverEl.hidden = true;
+    }
+  }
+
+  function directContent(post){
+    return post.content ?? post.body ?? post.html ?? post.article ??
+           post.fullText ?? post.full_content ?? post.icerik ?? post.metin ?? '';
+  }
+
+  function showLoading(){
+    bodyEl.innerHTML = '<div class="blog-reader-loading" role="status"><i class="fa-solid fa-circle-notch fa-spin"></i><span>Yazı hazırlanıyor…</span></div>';
+  }
+
+  function extractArticleFromDocument(doc){
+    const selectors = [
+      'article .post-content',
+      'article .entry-content',
+      'article .article-content',
+      'article .blog-post-content',
+      '.post-content',
+      '.entry-content',
+      '.article-content',
+      '.blog-post-content',
+      'article',
+      'main article',
+      'main'
+    ];
+    for(const selector of selectors){
+      const node = doc.querySelector(selector);
+      if(node && node.textContent.trim().length > 140){
+        const clone = node.cloneNode(true);
+        clone.querySelectorAll('header,footer,nav,.mobile-contact-bar,.share,.social-share,.post-navigation').forEach(function(n){n.remove();});
+        return stripUnsafe(clone);
+      }
+    }
+    return '';
+  }
+
+  function showIframe(url){
+    bodyEl.innerHTML = '';
+    const frame = document.createElement('iframe');
+    frame.className = 'blog-reader-frame';
+    frame.title = titleEl.textContent + ' yazısı';
+    frame.loading = 'eager';
+    frame.src = url;
+    bodyEl.appendChild(frame);
+
+    frame.addEventListener('load', function(){
+      try{
+        const doc = frame.contentDocument;
+        if(!doc) return;
+        doc.querySelectorAll('header,footer,nav,.mobile-contact-bar').forEach(function(node){
+          node.style.display = 'none';
+        });
+      }catch(_){}
+    });
+  }
+
+  async function loadPostContent(post, url){
+    const direct = directContent(post);
+    if(localeValue(direct).trim()){
+      bodyEl.innerHTML = safeHtml(direct);
+      return;
+    }
+
+    if(url && url !== absoluteUrl('#blog')){
+      try{
+        const response = await fetch(url,{cache:'no-store',credentials:'same-origin'});
+        if(!response.ok) throw new Error('Yazı sayfası yüklenemedi');
+        const pageHtml = await response.text();
+        const doc = new DOMParser().parseFromString(pageHtml,'text/html');
+        const extracted = extractArticleFromDocument(doc);
+        if(extracted){
+          bodyEl.innerHTML = extracted;
+          return;
+        }
+      }catch(_){
+        /* İframe yedeğine geçilir. */
+      }
+      showIframe(url);
+      return;
+    }
+
+    const fallback = post.summary ?? post.ozet ?? post.description ?? post.aciklama ?? '';
+    if(localeValue(fallback).trim()){
+      bodyEl.innerHTML = safeHtml(fallback);
+    }else{
+      bodyEl.innerHTML = '<div class="blog-reader-notice">Bu yazının tam içeriği henüz eklenmemiş. Yönetim panelinde yazının içerik alanı doldurulduğunda burada otomatik olarak görüntülenecek.</div>';
+    }
+  }
+
+  async function openReader(post, anchor){
+    if(!post) return;
+    lastFocus = anchor || document.activeElement;
+    const title = localeValue(post.title || post.baslik) || 'Blog yazısı';
+    const url = post.url ? absoluteUrl(post.url) : absoluteUrl(anchor?.getAttribute('href'));
+
+    titleEl.textContent = title;
+    renderMeta(post);
+    renderCover(post);
+    showLoading();
+
+    if(typeof modal.showModal === 'function'){
+      modal.showModal();
+    }else{
+      modal.setAttribute('open','');
+    }
+    document.body.classList.add('blog-reader-open');
+    closeTop.focus({preventScroll:true});
+
+    await loadPostContent(post,url);
+    bodyEl.scrollTop = 0;
+  }
+
+  function closeReader(){
+    if(modal.open && typeof modal.close === 'function') modal.close();
+    else modal.removeAttribute('open');
+    document.body.classList.remove('blog-reader-open');
+    if(lastFocus && typeof lastFocus.focus === 'function'){
+      setTimeout(function(){lastFocus.focus({preventScroll:true});},30);
+    }
+  }
+
+  fetch(dataSource,{cache:'no-store'})
+    .then(function(response){
+      if(!response.ok) throw new Error('Blog verisi yüklenemedi');
+      return response.json();
+    })
+    .then(function(data){
+      posts = (Array.isArray(data) ? data : (data.posts || [])).slice();
+    })
+    .catch(function(){posts = [];});
+
+  document.addEventListener('click', function(event){
+    const anchor = event.target.closest && event.target.closest('.b-card a, #sidebarRecent a');
+    if(!anchor) return;
+    if(anchor.target === '_blank' || anchor.hasAttribute('download')) return;
+
+    const rawHref = anchor.getAttribute('href') || '';
+    if(!rawHref || rawHref.startsWith('mailto:') || rawHref.startsWith('tel:')) return;
+    if(rawHref === '#blog' || rawHref === '#') return;
+
+    const label = normalizeText(anchor.textContent);
+    if(label.includes('paylaş') || label.includes('facebook') || label === 'x') return;
+
+    const post = findPost(anchor);
+    if(!post) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    openReader(post,anchor);
+  }, true);
+
+  closeTop.addEventListener('click',closeReader);
+  closeBottom.addEventListener('click',closeReader);
+
+  modal.addEventListener('click',function(event){
+    const rect = modal.getBoundingClientRect();
+    const outside = event.clientX < rect.left || event.clientX > rect.right ||
+                    event.clientY < rect.top || event.clientY > rect.bottom;
+    if(outside) closeReader();
+  });
+  modal.addEventListener('close',function(){
+    document.body.classList.remove('blog-reader-open');
+  });
+})();
+</script>
 
 </body>
 </html>
