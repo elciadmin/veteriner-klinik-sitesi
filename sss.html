@@ -761,7 +761,155 @@
     .linkcopy{right:13px;bottom:12px}
     .location-card{padding:22px}
   }
-</style></head>
+</style>
+<style id="elci-home-footer-exact">
+  footer.footer-new{
+    margin:0 !important;
+    padding:54px 0 0 !important;
+    background:linear-gradient(135deg,#241043 0%,#5a1fa8 100%) !important;
+    color:#eaffff !important;
+  }
+  footer.footer-new .footer-container{
+    display:grid !important;
+    grid-template-columns:1.15fr .85fr 1fr 1.15fr !important;
+    gap:38px !important;
+    padding-top:0 !important;
+    padding-bottom:40px !important;
+  }
+  footer.footer-new .footer-col h3{
+    position:relative !important;
+    margin:0 0 23px !important;
+    color:#fff !important;
+    font-size:1.05rem !important;
+    line-height:1.25 !important;
+  }
+  footer.footer-new .footer-col h3::after{
+    content:"" !important;
+    position:absolute !important;
+    left:0 !important;
+    bottom:-10px !important;
+    width:54px !important;
+    height:3px !important;
+    border-radius:999px !important;
+    background:#27d4e8 !important;
+  }
+  footer.footer-new .footer-col p{
+    margin:0 !important;
+    color:#dce8f4 !important;
+    font-size:.88rem !important;
+    line-height:1.68 !important;
+  }
+  footer.footer-new .social-links{
+    display:flex !important;
+    gap:10px !important;
+    margin-top:17px !important;
+  }
+  footer.footer-new .social-links a{
+    width:42px !important;
+    height:42px !important;
+    display:grid !important;
+    place-items:center !important;
+    border-radius:999px !important;
+    background:rgba(255,255,255,.12) !important;
+    color:#eaffff !important;
+    opacity:.95 !important;
+    text-decoration:none !important;
+    transition:transform .18s ease,background .18s ease,opacity .18s ease !important;
+  }
+  footer.footer-new .social-links a:hover{
+    transform:translateY(-2px) !important;
+    background:rgba(255,255,255,.19) !important;
+    opacity:1 !important;
+  }
+  footer.footer-new .social-links svg{
+    width:20px !important;
+    height:20px !important;
+    display:block !important;
+  }
+  footer.footer-new .footer-links,
+  footer.footer-new .footer-contact{
+    margin:0 !important;
+  }
+  footer.footer-new .footer-links{
+    padding-left:18px !important;
+    list-style:disc !important;
+    display:grid !important;
+    gap:7px !important;
+  }
+  footer.footer-new .footer-links li{
+    display:list-item !important;
+    margin:0 !important;
+    color:#eaffff !important;
+  }
+  footer.footer-new .footer-links a,
+  footer.footer-new .footer-contact a{
+    color:#eaffff !important;
+    text-decoration:none !important;
+    font-size:.88rem !important;
+  }
+  footer.footer-new .footer-links a:hover,
+  footer.footer-new .footer-contact a:hover{
+    color:#fff !important;
+    text-decoration:underline !important;
+    text-underline-offset:3px !important;
+  }
+  footer.footer-new .footer-contact{
+    padding:0 !important;
+    list-style:none !important;
+    display:grid !important;
+    gap:9px !important;
+  }
+  footer.footer-new .footer-contact li{
+    display:flex !important;
+    align-items:flex-start !important;
+    gap:10px !important;
+    margin:0 !important;
+    color:#e5edf7 !important;
+    font-size:.87rem !important;
+    line-height:1.55 !important;
+  }
+  footer.footer-new .footer-contact svg{
+    width:19px !important;
+    height:19px !important;
+    flex:0 0 19px !important;
+    margin-top:2px !important;
+    color:#27d4e8 !important;
+  }
+  footer.footer-new .footer-contact small{
+    color:#cfdbe8 !important;
+  }
+  footer.footer-new .footer-bottom{
+    margin:0 !important;
+    background:rgba(0,0,0,.18) !important;
+  }
+  footer.footer-new .footer-bottom .container{
+    padding-top:16px !important;
+    padding-bottom:16px !important;
+    text-align:center !important;
+  }
+  footer.footer-new .footer-bottom p{
+    margin:0 !important;
+    color:#d9e4ef !important;
+    font-size:.8rem !important;
+  }
+
+  @media(max-width:900px){
+    footer.footer-new .footer-container{
+      grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    }
+  }
+  @media(max-width:600px){
+    footer.footer-new{
+      padding-bottom:70px !important;
+    }
+    footer.footer-new .footer-container{
+      grid-template-columns:1fr !important;
+      gap:31px !important;
+    }
+  }
+</style>
+
+</head>
 <body data-page="faq">
 <header>
 <div class="header-top">
@@ -1104,49 +1252,77 @@
 </main>
 
 <footer class="footer-new">
-<div class="container footer-container">
-<div class="footer-col">
-<h3>Elçi Veteriner Kliniği</h3>
-<p>Konya'nın Meram ilçesinde kedi ve köpeklerin sağlığı için anlaşılır bilgilendirme, etik yaklaşım ve düzenli takip sunuyoruz.</p>
-<div class="social-links">
-<a aria-label="Facebook" href="https://www.facebook.com/elciveteriner" rel="noopener" target="_blank"><svg fill="currentColor" viewbox="0 0 24 24"><path d="M13 10h3l.5-3H13V5.5c0-.9.3-1.5 1.7-1.5H17V1h-3c-3 0-4.5 1.6-4.5 4.4V7H7v3h2.5v9h3v-9z"></path></svg></a>
-<a aria-label="Instagram" href="https://www.instagram.com/elcivetklinik" rel="noopener" target="_blank"><svg fill="none" stroke="currentColor" stroke-width="1.6" viewbox="0 0 24 24"><rect height="18" rx="5" width="18" x="3" y="3"></rect><circle cx="12" cy="12" r="3.5"></circle><path d="M17.5 6.5h.01" stroke-width="2"></path></svg></a>
-<a aria-label="X" href="https://twitter.com/elciveteriner" rel="noopener" target="_blank"><svg fill="currentColor" viewbox="0 0 24 24"><path d="M22 5.8c-.8.4-1.6.6-2.5.7.9-.6 1.5-1.4 1.8-2.4-.8.5-1.8.9-2.8 1.1A3.7 3.7 0 0 0 12 8.4c0 .3 0 .7.1 1A10.5 10.5 0 0 1 3 5.2a3.7 3.7 0 0 0 1.1 5 3.6 3.6 0 0 1-1.7-.5v.1c0 1.8 1.3 3.3 3 3.7-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1.5 1.5 1.9 2.6 3.6 2.6A7.5 7.5 0 0 1 3 19.5 10.6 10.6 0 0 0 9.7 21c6.3 0 9.7-5.2 9.7-9.7v-.4c.8-.6 1.5-1.4 2-2.3z"></path></svg></a>
-<a aria-label="YouTube" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" rel="noopener" target="_blank"><svg fill="currentColor" viewbox="0 0 24 24"><path d="M23 7.5a4 4 0 0 0-3-3.1C18.3 4 12 4 12 4s-6.3 0-8 .4A4 4 0 0 0 1 7.5 41 41 0 0 0 1 16.5a4 4 0 0 0 3 3.1c1.7.4 8 .4 8 .4s6.3 0 8-.4a4 4 0 0 0 3-3.1 41 41 0 0 0 0-9zM10 15.5v-7l6 3.5-6 3.5z"></path></svg></a>
-</div>
-</div>
-<div class="footer-col">
-<h3>Hızlı Linkler</h3>
-<ul class="footer-links">
-<li><a href="/">Ana Sayfa</a></li>
-<li><a href="/about">Hakkımızda</a></li>
-<li><a href="/hizmetler.html">Hizmetlerimiz</a></li>
-<li><a href="/blog.html">Blog</a></li>
-<li><a href="/sss.html">SSS</a></li>
-<li><a href="/hasta-iliskileri.html">Hasta İlişkileri</a></li>
-</ul>
-</div>
-<div class="footer-col">
-<h3>SSS Başlıkları</h3>
-<ul class="footer-links">
-<li><a href="#fiyat">Fiyat &amp; ödeme</a></li>
-<li><a href="#surec">Randevu &amp; süreç</a></li>
-<li><a href="#asi-koruyucu">Aşı &amp; koruyucu hekimlik</a></li>
-<li><a href="#ameliyat-anestezi">Ameliyat &amp; anestezi</a></li>
-<li><a href="#acil">Acil durumlar</a></li>
-</ul>
-</div>
-<div class="footer-col">
-<h3>İletişim</h3>
-<ul class="footer-contact">
-<li><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"></path><circle cx="12" cy="11" r="2.5"></circle></svg><a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" rel="noopener" target="_blank">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a></li>
-<li><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M22 16.5v2a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3.1 19 19 0 0 1-6-6A2 2 0 0 1 7.5 9h2l2 3-1.5 1.5a16 16 0 0 0 6 6L18 18l3 2.5z"></path></svg><a href="tel:+903323223220">0332 322 32 20</a></li>
-<li><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 4h16v16H4z"></path><path d="M22 6l-10 7L2 6"></path></svg><a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></li>
-<li><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v6l4 2"></path></svg><span>Her gün: 09:00–21:00<br/><small>Özel gün saatleri için Google profilimizi kontrol ediniz.</small></span></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom"><div class="container"><p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p></div></div>
+  <div class="container footer-container">
+    <div class="footer-col">
+      <h3>Elçi Veteriner Kliniği</h3>
+      <p>Konya'nın Meram ilçesinde kedi ve köpeklerin sağlığı için anlaşılır bilgilendirme, etik yaklaşım ve düzenli takip sunuyoruz.</p>
+      <div class="social-links">
+        <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 10h3l.5-3H13V5.5c0-.9.3-1.5 1.7-1.5H17V1h-3c-3 0-4.5 1.6-4.5 4.4V7H7v3h2.5v9h3v-9z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/elcivetklinik" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><path d="M17.5 6.5h.01" stroke-width="2"/></svg>
+        </a>
+        <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="X">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.8c-.8.4-1.6.6-2.5.7.9-.6 1.5-1.4 1.8-2.4-.8.5-1.8.9-2.8 1.1A3.7 3.7 0 0 0 12 8.4c0 .3 0 .7.1 1A10.5 10.5 0 0 1 3 5.2a3.7 3.7 0 0 0 1.1 5 3.6 3.6 0 0 1-1.7-.5v.1c0 1.8 1.3 3.3 3 3.7-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1.5 1.5 1.9 2.6 3.6 2.6A7.5 7.5 0 0 1 3 19.5 10.6 10.6 0 0 0 9.7 21c6.3 0 9.7-5.2 9.7-9.7v-.4c.8-.6 1.5-1.4 2-2.3z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5a4 4 0 0 0-3-3.1C18.3 4 12 4 12 4s-6.3 0-8 .4A4 4 0 0 0 1 7.5 41 41 0 0 0 1 16.5a4 4 0 0 0 3 3.1c1.7.4 8 .4 8 .4s6.3 0 8-.4a4 4 0 0 0 3-3.1 41 41 0 0 0 0-9zM10 15.5v-7l6 3.5-6 3.5z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h3>Hızlı Linkler</h3>
+      <ul class="footer-links">
+        <li><a href="/">Ana Sayfa</a></li>
+        <li><a href="/about">Hakkımızda</a></li>
+        <li><a href="/hizmetler.html">Hizmetlerimiz</a></li>
+        <li><a href="/blog.html">Blog</a></li>
+        <li><a href="/sss.html">SSS</a></li>
+        <li><a href="/hasta-iliskileri.html">Hasta İlişkileri</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Öne Çıkan Hizmetler</h3>
+      <ul class="footer-links">
+        <li><a href="/hizmetler.html#acil">Acil ön değerlendirme</a></li>
+        <li><a href="/hizmetler.html#cerrahi">Kısırlaştırma ve cerrahi</a></li>
+        <li><a href="/hizmetler.html#agiz-dis">Ağız ve diş sağlığı</a></li>
+        <li><a href="/hizmetler.html#ic-hastaliklari">İç hastalıkları ve laboratuvar</a></li>
+        <li><a href="/hizmetler.html#fizik-tedavi">Fizik tedavi ve rehabilitasyon</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>İletişim</h3>
+      <ul class="footer-contact">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"/><circle cx="12" cy="11" r="2.5"/></svg>
+          <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.5v2a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3.1 19 19 0 0 1-6-6A2 2 0 0 1 7.5 9h2l2 3-1.5 1.5a16 16 0 0 0 6 6L18 18l3 2.5z"/></svg>
+          <a href="tel:+903323223220">0332 322 32 20</a>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+          <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
+          <span>Her gün: 09:00–21:00<br><small>Özel gün saatleri için Google profilimizi kontrol ediniz.</small></span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container">
+      <p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p>
+    </div>
+  </div>
 </footer>
 <nav aria-label="Hızlı iletişim" class="mobile-contact-bar">
 <a href="tel:+903323223220"><i class="fa-solid fa-phone"></i><span>Ara</span></a>
