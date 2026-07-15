@@ -1,4 +1,4 @@
-// assets/js/blog.js — Elçi Veteriner Kliniği (v3)
+// assets/js/blog.js — Elçi Veteriner Kliniği (v4)
 (function () {
   'use strict';
 
@@ -377,9 +377,16 @@
     const style = document.createElement('style');
     style.id = 'elci-blog-v3-fixes';
     style.textContent = `
+      .blog-layout{min-width:0!important}
+      .blog-sidebar,.blog-main,.side-card,.side-cta,.sidebar-list,.sidebar-list a,.sidebar-list a span{
+        min-width:0!important;max-width:100%!important;box-sizing:border-box!important
+      }
+      .sidebar-list a span,.b-title,.b-title a,.b-summary{
+        overflow-wrap:anywhere!important;word-break:break-word!important
+      }
       .blog-main,
       .blog-main #blog,
-      #blogGrid{min-width:0;width:100%}
+      #blogGrid{min-width:0;width:100%;max-width:100%;box-sizing:border-box}
 
       #blogGrid .b-cover img.is-cover-fallback{
         object-fit:contain!important;
@@ -459,7 +466,7 @@
 
   observeRecentBox();
 
-  fetch(src + (src.includes('?') ? '&' : '?') + 'v=20260715-blog-v3', {
+  fetch(src + (src.includes('?') ? '&' : '?') + 'v=20260715-blog-v4', {
     cache: 'no-store'
   })
     .then(response => {
@@ -472,6 +479,7 @@
       allPosts = rawPosts
         .map(normalizePost)
         .filter(isPublished)
+        // Blog standardı: en yeni yayın tarihi en üstte gösterilir.
         .sort((a, b) => {
           const dateA = validDate(a.date)?.getTime() || 0;
           const dateB = validDate(b.date)?.getTime() || 0;
