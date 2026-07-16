@@ -641,7 +641,91 @@
     }
   </style>
 
-</head>
+<style id="appointment-ajax-v3">
+  .appointment-submit-status{
+    position:fixed;
+    left:50%;
+    top:50%;
+    z-index:10050;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    width:min(430px,calc(100vw - 32px));
+    box-sizing:border-box;
+    padding:16px 18px;
+    border-radius:18px;
+    line-height:1.45;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transform:translate(-50%,-50%) scale(.94);
+    transition:opacity .22s ease,transform .22s ease,visibility .22s ease;
+    box-shadow:0 24px 70px rgba(19,27,38,.28);
+    backdrop-filter:blur(10px);
+  }
+  .appointment-submit-status::before{
+    flex:0 0 42px;
+    width:42px;
+    height:42px;
+    display:grid;
+    place-items:center;
+    border-radius:14px;
+    font-family:"Font Awesome 6 Free";
+    font-weight:900;
+    font-size:1.05rem;
+  }
+  .appointment-submit-status.show{
+    opacity:1;
+    visibility:visible;
+    transform:translate(-50%,-50%) scale(1);
+  }
+  .appointment-submit-status.success{
+    border:1px solid rgba(33,145,85,.28);
+    background:rgba(239,251,244,.97);
+    color:#155c36;
+  }
+  .appointment-submit-status.success::before{
+    content:"00c";
+    background:#d8f3e3;
+    color:#167542;
+  }
+  .appointment-submit-status.error{
+    border:1px solid rgba(197,55,55,.25);
+    background:rgba(255,244,244,.98);
+    color:#842d2d;
+  }
+  .appointment-submit-status.error::before{
+    content:"071";
+    background:#ffe0e0;
+    color:#b72f2f;
+  }
+  .appointment-submit-status strong{
+    display:block;
+    margin-bottom:2px;
+    font-size:1rem;
+  }
+  .appointment-submit-status span{
+    display:block;
+    font-size:.91rem;
+  }
+  form[name="online-randevu"][aria-busy="true"]{
+    opacity:.78;
+    pointer-events:none;
+  }
+  @media(max-width:520px){
+    .appointment-submit-status{
+      top:48%;
+      padding:14px 15px;
+      border-radius:16px;
+    }
+    .appointment-submit-status::before{
+      flex-basis:38px;
+      width:38px;
+      height:38px;
+      border-radius:12px;
+    }
+  }
+</style></head>
 <body class="patient-relations-page">
   <a class="skip-link" href="#ana-icerik">İçeriğe geç</a>
 
@@ -793,8 +877,10 @@
         <div><strong>Hayati risk varsa formu beklemeden <a href="tel:03323223220">0332 322 32 20</a> numarasını arayın.</strong><br>Bu form yalnızca randevu talebi oluşturur; randevu, kliniğimizin telefonla teyidinden sonra kesinleşir.</div>
       </div>
 
-      <form name="online-randevu" class="form" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <form name="online-randevu" class="form" method="POST" action="/hasta-iliskileri.html?form=success#online-randevu" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="online-randevu"/>
+        <input type="hidden" name="subject" value="Yeni randevu talebi — %{submissionId}"/>
+        <input type="hidden" name="form_surumu" value="2026-07-admin-v5"/>
         <input type="hidden" name="talep_zamani" id="talepZamani" value=""/>
         <input type="hidden" name="tarih_iso" id="randevuTarihIso" value=""/>
         <input type="hidden" name="randevu_durumu" value="onay-bekleyen-talep"/>
@@ -805,10 +891,27 @@
         <p style="display:none"><label>Bot alanı: <input name="bot-field"/></label></p>
 
         <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
-          <input type="text" name="ad" placeholder="Ad Soyad" autocomplete="name" required/>
-          <input type="tel" name="tel" placeholder="Telefon" inputmode="tel" autocomplete="tel" required pattern="^[0-9+()\\s-]{7,}$" />
-          <input type="text" name="pet" placeholder="Hayvanın Adı" required/>
-          <select name="hayvan_turu" id="hayvanTuru" required>
+          <input type="text" name="ad" placeholder="Ad Soyad *" autocomplete="name" required aria-label="Ad Soyad"/>
+          <input type="tel" name="tel" placeholder="Telefon *" inputmode="tel" autocomplete="tel" required pattern="^[0-9+()\\s-]{7,}$" aria-label="Telefon"/>
+          <input type="email" name="email" placeholder="E-posta *" autocomplete="email" required aria-label="E-posta"/>
+          <input type="text" name="pet" placeholder="Hayvanın Adı *" required aria-label="Hayvanın Adı"/>
+          <select name="hayvan_yasi" id="hayvanYasi" required aria-label="Hayvanın Yaşı">
+            <option value="" selected disabled>Hayvanın Yaşını Seçiniz *</option>
+            <option value="0-3 ay">0–3 ay</option>
+            <option value="4-6 ay">4–6 ay</option>
+            <option value="7-11 ay">7–11 ay</option>
+            <option value="1-3 yaş">1–3 yaş</option>
+            <option value="4-5 yaş">4–5 yaş</option>
+            <option value="6-8 yaş">6–8 yaş</option>
+            <option value="9-11 yaş">9–11 yaş</option>
+            <option value="12-14 yaş">12–14 yaş</option>
+            <option value="15-17 yaş">15–17 yaş</option>
+            <option value="18-20 yaş">18–20 yaş</option>
+            <option value="20 yaş üzeri">20 yaş üzeri</option>
+            <option value="Bilinmiyor">Yaşı bilinmiyor</option>
+          </select>
+          <input type="text" name="irk_cins" placeholder="Irk / Cins (örn. Tekir, British) *" required aria-label="Irk veya Cins"/>
+          <select name="hayvan_turu" id="hayvanTuru" required aria-label="Hayvan Türü">
             <option value="">Hayvan Türü</option>
             <option value="Kedi">Kedi</option>
             <option value="Köpek">Köpek</option>
@@ -866,9 +969,6 @@
             <option value="16:00–16:50">16:00–16:50</option>
             <option value="17:00–17:50">17:00–17:50</option>
           </select>
-          <input type="text" name="mikrocip" placeholder="Mikroçip No (varsa)"/>
-          <input type="text" name="irk" placeholder="Irk/Cins (opsiyonel)"/>
-          <input type="number" step="0.1" name="kilo" placeholder="Kilo (kg, opsiyonel)"/>
         </div>
 
         <p class="schedule-note"><strong>Randevu düzeni:</strong> Standart görüşmeler 50 dakika olarak planlanır ve her randevudan sonra 10 dakikalık hazırlık aralığı bırakılır. Kısırlaştırma seçiminde bu saat, hastanın kliniğe kabulü ve ön değerlendirme talebidir; operasyonun kesin saati ve süresi telefonla ayrıca teyit edilir.</p>
@@ -906,6 +1006,7 @@
             <i class="fa-solid fa-phone"></i> Ara
           </a>
         </div>
+        <div id="appointmentSubmitStatus" class="appointment-submit-status" role="status" aria-live="polite"></div>
       </form>
       </div>
     </div>
@@ -1403,35 +1504,49 @@
       }
     });
 
-    if (appointmentForm){
-      appointmentForm.addEventListener('submit', (e)=>{
-        if (requestTime) requestTime.value = new Date().toISOString();
-        if (!isoInput || !isoInput.value){
-          e.preventDefault();
-          alert('Lütfen takvimden geçerli bir randevu tarihi seçin.');
-          input?.focus();
-          return;
-        }
-        const selected = new Date(isoInput.value + 'T00:00:00');
-        if (selected < min || selected > max || blockedDates.has(isoInput.value)){
-          e.preventDefault();
-          input.value = '';
-          isoInput.value = '';
-          alert('Randevu tarihi bugünden en erken 3 gün sonrası ve en fazla 30 gün ileri olmalıdır.');
-          input?.focus();
-          return;
-        }
-        if (hayvanTuru?.value === 'Diğer' && !digerHayvanTuru?.value.trim()){
-          e.preventDefault();
-          alert('Lütfen hayvan türünü yazın.');
-          digerHayvanTuru?.focus();
-          return;
-        }
-        if (!termsCheck?.checked){
-          e.preventDefault();
-          alert('Randevu ve ön bilgilendirme koşullarını kabul etmeniz gerekir.');
-          termsCheck?.focus();
-        }
+    let appointmentStatusTimer = 0;
+
+    function setAppointmentStatus(type,title,message){
+      const statusEl = document.getElementById('appointmentSubmitStatus');
+      if(!statusEl) return;
+
+      window.clearTimeout(appointmentStatusTimer);
+      statusEl.className = `appointment-submit-status ${type}`;
+      statusEl.innerHTML = `<div><strong>${title}</strong><span>${message}</span></div>`;
+
+      void statusEl.offsetWidth;
+      statusEl.classList.add('show');
+
+      const visibleDuration = type === 'success' ? 4500 : 6500;
+      appointmentStatusTimer = window.setTimeout(()=>{
+        statusEl.classList.remove('show');
+      }, visibleDuration);
+    }
+
+    if(appointmentForm){
+      const query=new URLSearchParams(window.location.search);
+      if(query.get('form')==='success'){
+        setAppointmentStatus('success','Randevu talebiniz alınmıştır.','Tarih ve saat telefonla teyit edilecektir.');
+        history.replaceState({},'',location.pathname+'#online-randevu');
+      }
+      appointmentForm.addEventListener('submit',async(e)=>{
+        e.preventDefault();
+        if(requestTime)requestTime.value=new Date().toISOString();
+        if(!isoInput||!isoInput.value){alert('Lütfen takvimden geçerli bir randevu tarihi seçin.');input?.focus();return}
+        const selected=new Date(isoInput.value+'T00:00:00');
+        if(selected<min||selected>max||blockedDates.has(isoInput.value)){input.value='';isoInput.value='';alert('Randevu tarihi bugünden en erken 3 gün sonrası ve en fazla 30 gün ileri olmalıdır.');input?.focus();return}
+        if(hayvanTuru?.value==='Diğer'&&!digerHayvanTuru?.value.trim()){alert('Lütfen hayvan türünü yazın.');digerHayvanTuru?.focus();return}
+        if(!termsCheck?.checked){alert('Randevu ve ön bilgilendirme koşullarını kabul etmeniz gerekir.');termsCheck?.focus();return}
+        const submit=appointmentForm.querySelector('button[type="submit"]'),oldText=submit?.textContent||'Randevu Talep Et';
+        try{
+          appointmentForm.setAttribute('aria-busy','true');if(submit){submit.disabled=true;submit.textContent='Gönderiliyor…'}
+          const body=new URLSearchParams(new FormData(appointmentForm)).toString();
+          const response=await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},body});
+          if(!response.ok)throw new Error(`Gönderim hatası: ${response.status}`);
+          setAppointmentStatus('success','Randevu talebiniz alınmıştır.','Tarih ve saat telefonla teyit edilecektir.');
+          appointmentForm.reset();if(input)input.value='';if(isoInput)isoInput.value='';if(digerHayvanTuru){digerHayvanTuru.hidden=true;digerHayvanTuru.required=false}syncConsentUI();
+        }catch(error){console.error('Randevu gönderimi başarısız:',error);setAppointmentStatus('error','Talebiniz gönderilemedi.','İnternet bağlantınızı kontrol edip tekrar deneyin. Acil durumlarda 0332 322 32 20 numarasını arayın.')}
+        finally{appointmentForm.removeAttribute('aria-busy');if(submit){submit.disabled=!termsCheck?.checked;submit.textContent=oldText}}
       });
     }
 
@@ -1656,7 +1771,7 @@
             icon:    s.icon || '#i-paw'
           };
         }).filter(function(s){
-          return s.title || s.summary;
+          return s.published !== false && (s.title || s.summary);
         });
 
         initStories();
