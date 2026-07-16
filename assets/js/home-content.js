@@ -2,7 +2,7 @@
   'use strict';
 
   const INSTAGRAM_PROFILE = 'https://www.instagram.com/elciveteriner';
-  const VERSION = 'content-v29';
+  const VERSION = 'content-v30';
 
   async function fetchJson(url, fallback) {
     try {
@@ -92,12 +92,14 @@
       'elci-instagram-slider-v25',
       'elci-instagram-carousel-v26',
       'elci-instagram-film-v28',
-      'elci-instagram-film-v29'
+      'elci-instagram-film-v29',
+      'elci-instagram-film-v30'
     ].forEach(id => document.getElementById(id)?.remove());
 
     const style = document.createElement('style');
     style.id = 'elci-instagram-film-v28',
-      'elci-instagram-film-v29';
+      'elci-instagram-film-v29',
+      'elci-instagram-film-v30';
 
     style.textContent = `
       #insta {
@@ -136,9 +138,9 @@
         width: 100% !important;
         max-width: 100% !important;
         min-width: 0 !important;
-        height: 326px !important;
+        height: 338px !important;
         margin: 0 !important;
-        padding: 12px 0 !important;
+        padding: 24px 0 !important;
         overflow: hidden !important;
         box-sizing: border-box !important;
         border: 1px solid rgba(90,31,168,.10);
@@ -177,7 +179,7 @@
       }
 
       #instaTrack.insta-track {
-        --elci-film-gap: 16px;
+        --elci-film-gap: 24px;
         --elci-film-duration: 260s;
 
         display: flex !important;
@@ -219,11 +221,11 @@
       #instaTrack .elci-insta-card {
         position: relative;
         display: block;
-        flex: 0 0 246px !important;
-        width: 246px !important;
-        min-width: 246px !important;
-        max-width: 246px !important;
-        height: 286px !important;
+        flex: 0 0 220px !important;
+        width: 220px !important;
+        min-width: 220px !important;
+        max-width: 220px !important;
+        height: 258px !important;
         margin: 0 !important;
         overflow: hidden;
         box-sizing: border-box !important;
@@ -235,17 +237,38 @@
         box-shadow: 0 14px 30px rgba(31,42,56,.14);
         transform: translateZ(0);
         transition:
-          box-shadow .24s ease,
           border-color .24s ease !important;
       }
 
-      #instaTrack .elci-insta-card.is-featured {
-        flex-basis: 330px !important;
-        width: 330px !important;
-        min-width: 330px !important;
-        max-width: 330px !important;
-        height: 286px !important;
-        box-shadow: 0 20px 40px rgba(55,30,95,.19);
+      /*
+        Öne çıkma fareyle değil, kartların kendi animasyonuyla olur.
+        Ölçek küçük tutulur ve kartlar arasında geniş boşluk bırakılır;
+        böylece komşu görseller kapanmaz ve kart çerçeve içinde kalır.
+      */
+      #instaTrack .elci-insta-card.is-pulse {
+        z-index: 2;
+        animation:
+          elciInstagramPulse var(--elci-pulse-duration, 9s)
+          ease-in-out var(--elci-pulse-delay, 0s)
+          infinite;
+        transform-origin: center center;
+      }
+
+      @keyframes elciInstagramPulse {
+        0%, 68%, 100% {
+          transform: translate3d(0,0,0) scale(1);
+          box-shadow: 0 14px 30px rgba(31,42,56,.14);
+        }
+
+        78% {
+          transform: translate3d(0,-2px,0) scale(1.075);
+          box-shadow: 0 24px 46px rgba(55,30,95,.24);
+        }
+
+        88% {
+          transform: translate3d(0,0,0) scale(1);
+          box-shadow: 0 14px 30px rgba(31,42,56,.14);
+        }
       }
 
       #instaTrack .elci-insta-card:hover {
@@ -253,7 +276,6 @@
       }
 
       #instaTrack .elci-insta-card:focus-visible {
-        transform: none !important;
         outline: 3px solid rgba(39,212,232,.55);
         outline-offset: 3px;
       }
@@ -308,7 +330,7 @@
         }
 
         #insta .insta-track-wrap {
-          height: 318px !important;
+          height: 314px !important;
           border-radius: 23px;
         }
 
@@ -318,7 +340,7 @@
         }
 
         #instaTrack.insta-track {
-          --elci-film-gap: 13px;
+          --elci-film-gap: 18px;
           --elci-film-duration: 220s;
         }
 
@@ -332,25 +354,29 @@
         }
 
         #instaTrack .elci-insta-card {
-          flex-basis: 70vw !important;
-          width: 70vw !important;
-          min-width: 70vw !important;
-          max-width: 70vw !important;
-          height: 268px !important;
+          flex-basis: 62vw !important;
+          width: 62vw !important;
+          min-width: 62vw !important;
+          max-width: 62vw !important;
+          height: 244px !important;
         }
 
         #instaTrack .elci-insta-card.is-featured {
-          flex-basis: 84vw !important;
-          width: 84vw !important;
-          min-width: 84vw !important;
-          max-width: 84vw !important;
-          height: 268px !important;
+          flex-basis: 62vw !important;
+          width: 62vw !important;
+          min-width: 62vw !important;
+          max-width: 62vw !important;
+          height: 244px !important;
         }
       }
 
       @media (prefers-reduced-motion: reduce) {
         #instaTrack.insta-track {
-          animation-duration: 180s;
+          animation-duration: 360s;
+        }
+
+        #instaTrack .elci-insta-card.is-pulse {
+          animation: none;
         }
       }
     `;
@@ -438,32 +464,45 @@
       .slice(0, 80);
   }
 
-  function featuredIndexes(length) {
-    const selected = new Set();
-    if (!length) return selected;
+  function pulseSchedule(length) {
+    const schedule = new Map();
+    if (!length) return schedule;
 
     /*
-      Aynı oturumda düzen sabit kalır; sayfa yeniden açıldığında
-      öne çıkan görseller farklılaşabilir.
+      Her kart aynı anda büyümez. Kartların yaklaşık üçte biri,
+      rastgele gecikmelerle kısa süreli öne çıkar.
     */
-    const storageKey = 'elci-instagram-feature-seed-v29';
-    let seed = Number(sessionStorage.getItem(storageKey));
+    for (let index = 0; index < length; index += 1) {
+      const shouldPulse = Math.random() < 0.34;
 
-    if (!Number.isInteger(seed) || seed < 0 || seed > 5) {
-      seed = Math.floor(Math.random() * 6);
-      sessionStorage.setItem(storageKey, String(seed));
+      if (shouldPulse) {
+        schedule.set(index, {
+          delay: -(Math.random() * 18),
+          duration: 8.5 + Math.random() * 5.5
+        });
+      }
     }
 
-    for (let index = seed; index < length; index += 6) {
-      selected.add(index);
+    /*
+      Hiç kart seçilmediyse en az iki kartın hareket etmesini garanti eder.
+    */
+    if (!schedule.size) {
+      schedule.set(0, { delay: -2.5, duration: 10.5 });
+
+      if (length > 3) {
+        schedule.set(Math.floor(length / 2), {
+          delay: -7.5,
+          duration: 12
+        });
+      }
     }
 
-    return selected;
+    return schedule;
   }
 
-  function createCard(item, isFeatured, duplicate) {
+  function createCard(item, pulse, duplicate) {
     const link = document.createElement('a');
-    link.className = `elci-insta-card${isFeatured ? ' is-featured' : ''}`;
+    link.className = `elci-insta-card${pulse ? ' is-pulse' : ''}`;
     link.href = item.instagramUrl || INSTAGRAM_PROFILE;
     link.target = '_blank';
     link.rel = 'noopener';
@@ -475,6 +514,11 @@
     if (duplicate) {
       link.setAttribute('aria-hidden', 'true');
       link.tabIndex = -1;
+    }
+
+    if (pulse) {
+      link.style.setProperty('--elci-pulse-delay', `${pulse.delay}s`);
+      link.style.setProperty('--elci-pulse-duration', `${pulse.duration}s`);
     }
 
     const image = document.createElement('img');
@@ -508,7 +552,7 @@
     return link;
   }
 
-  function buildGroup(items, featured, duplicate) {
+  function buildGroup(items, pulseMap, duplicate) {
     const group = document.createElement('div');
     group.className = 'elci-insta-group';
 
@@ -518,7 +562,7 @@
 
     items.forEach((item, index) => {
       group.appendChild(
-        createCard(item, featured.has(index), duplicate)
+        createCard(item, pulseMap.get(index), duplicate)
       );
     });
 
@@ -553,7 +597,7 @@
     cleanInstagramHeader();
 
     const items = normalizeInstagram(manualItems, fallbackItems);
-    const featured = featuredIndexes(items.length);
+    const pulseMap = pulseSchedule(items.length);
 
     track.innerHTML = '';
 
@@ -573,15 +617,15 @@
       böylece başlangıç ve bitiş noktası fark edilmez.
     */
     track.append(
-      buildGroup(items, featured, false),
-      buildGroup(items, featured, true)
+      buildGroup(items, pulseMap, false),
+      buildGroup(items, pulseMap, true)
     );
 
     /*
       Görsel sayısına göre hız dengelenir.
       Çok görsel olduğunda şerit gereksiz hızlanmaz.
     */
-    const duration = Math.max(180, Math.min(720, items.length * 7.2));
+    const duration = Math.max(260, Math.min(960, items.length * 10.5));
     track.style.setProperty('--elci-film-duration', `${duration}s`);
   }
 
