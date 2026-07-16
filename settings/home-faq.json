@@ -1,0 +1,23 @@
+{
+  "title": "Ana Sayfa SSS",
+  "items": [
+    {
+      "faq": "randevu-gerekli-mi"
+    },
+    {
+      "faq": "muayene-ucreti"
+    },
+    {
+      "faq": "kisirlastirma-sureci"
+    },
+    {
+      "faq": "ameliyat-oncesi-aclik"
+    },
+    {
+      "faq": "acil-ilk"
+    },
+    {
+      "faq": "laboratuvar-ac"
+    }
+  ]
+}
