@@ -1,3 +1,4 @@
+
 :root{
   --brand:#5a1fa8;--brand-dark:#2e0d58;--cyan:#25cfe5;--ink:#17202a;
   --muted:#687782;--bg:#f5f7fb;--paper:#fff;--line:#e4e9ef;
@@ -5,7 +6,7 @@
 *{box-sizing:border-box}
 body{margin:0;min-height:100vh;background:linear-gradient(180deg,#f8f6fc,#eef4f7);color:var(--ink);font:15px/1.5 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 a{color:inherit}
-.hidden{display:none!important}
+.shell.hidden,.auth-gate.hidden{display:none!important}
 .shell{max-width:1380px;margin:auto;padding:18px}
 .topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 18px;border-radius:22px;background:linear-gradient(135deg,var(--brand-dark),var(--brand));color:#fff;box-shadow:0 18px 45px rgba(46,13,88,.22)}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none}.brand img{width:54px;height:54px;padding:4px;object-fit:contain;border-radius:16px;background:#fff}.brand strong{display:block;font-size:18px}.brand small{display:block;color:#dffbff}
@@ -29,9 +30,21 @@ a{color:inherit}
 .search-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px;margin-top:13px}.search-row input{width:100%;min-height:44px;padding:10px 12px;border:1px solid #dbe3ea;border-radius:13px;background:#fbfcfe;font:inherit}
 .results{display:grid;gap:8px;margin-top:12px}.result{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 13px;border:1px solid var(--line);border-radius:14px;background:#fcfdff}.result strong{display:block}.result small{display:block;color:var(--muted)}
 .empty{padding:14px;border:1px dashed #ccd6df;border-radius:14px;color:var(--muted)}
-.auth-gate{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:18px;background:linear-gradient(135deg,#241043,#5a1fa8)}
+.auth-gate{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:18px;background:linear-gradient(135deg,#241043,#5a1fa8)}
 .auth-card{width:min(440px,100%);padding:28px;border:1px solid rgba(255,255,255,.24);border-radius:28px;background:rgba(255,255,255,.12);color:#fff;text-align:center;box-shadow:0 25px 70px rgba(0,0,0,.25);backdrop-filter:blur(14px)}
 .auth-card img{width:82px;height:82px;padding:5px;object-fit:contain;border-radius:22px;background:#fff}.auth-card p{color:#dffbff}
 @media(max-width:1050px){.stats{grid-template-columns:repeat(3,1fr)}.cards{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:850px){.layout{grid-template-columns:1fr}.sidebar{position:static;display:flex;overflow:auto}.nav-link{min-width:190px}.stats{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:620px){.shell{padding:8px}.topbar{align-items:flex-start;flex-direction:column}.cards,.stats{grid-template-columns:1fr}.search-row{grid-template-columns:1fr}.result{align-items:flex-start;flex-direction:column}}
+
+
+/* Netlify Identity giriş penceresi mor giriş ekranının üzerinde görünür. */
+.netlify-identity-widget,
+.netlify-identity-widget *,
+[class*="netlify-identity"]{
+  --elci-identity-layer:30000;
+}
+.netlify-identity-widget{
+  position:relative;
+  z-index:30000!important;
+}
