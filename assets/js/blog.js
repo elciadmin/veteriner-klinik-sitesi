@@ -1,4 +1,4 @@
-// assets/js/blog.js — Elçi Veteriner Kliniği (v4)
+// assets/js/blog.js — Elçi Veteriner Kliniği (v5 — Admin V2)
 (function () {
   'use strict';
 
@@ -466,7 +466,7 @@
 
   observeRecentBox();
 
-  fetch(src + (src.includes('?') ? '&' : '?') + 'v=20260715-blog-v4', {
+  fetch(src + (src.includes('?') ? '&' : '?') + 'v=20260716-blog-v5', {
     cache: 'no-store'
   })
     .then(response => {
