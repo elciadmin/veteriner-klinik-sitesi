@@ -1,114 +1,373 @@
 backend:
   name: git-gateway
   branch: main
+  commit_messages:
+    create: "Panel: {{collection}} oluşturuldu — {{slug}}"
+    update: "Panel: {{collection}} güncellendi — {{slug}}"
+    delete: "Panel: {{collection}} silindi — {{slug}}"
+    uploadMedia: "Panel: görsel yüklendi — {{path}}"
+    deleteMedia: "Panel: görsel silindi — {{path}}"
 
 site_url: "https://veteriner-klinik-sitesi.netlify.app"
 display_url: "https://veteriner-klinik-sitesi.netlify.app"
-logo_url: "/assets/img/uploads/elci-logo.png"
+logo:
+  src: "/assets/img/uploads/elci-logo.png"
+  show_in_header: true
 
 media_folder: "assets/img/uploads"
 public_folder: "/assets/img/uploads"
-
-# Tek yönetici için doğrudan kaydetme/yayınlama modu.
 locale: "tr"
+search: true
+show_preview_links: false
+
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "-"
 
 collections:
-  - name: "blog_data"
+  - name: "blog"
     label: "Blog Yazıları"
-    delete: false
+    label_singular: "Blog Yazısı"
+    description: "Yeni yayın oluşturun; mevcut yazıları başlık, kategori veya hayvan türüne göre arayın."
+    folder: "content/blog"
+    create: true
+    delete: true
+    extension: "json"
+    format: "json"
+    identifier_field: "title"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{fields.date}} — {{title}}"
+    sortable_fields: ["date", "title", "category", "published"]
+    view_filters:
+      - label: "Yayındaki yazılar"
+        field: "published"
+        pattern: true
+      - label: "Taslak / gizli yazılar"
+        field: "published"
+        pattern: false
+    view_groups:
+      - label: "Ana kategori"
+        field: "category"
+      - label: "Hayvan türü"
+        field: "species"
     editor:
       preview: false
-    files:
-      - file: "assets/data/blog.json"
-        label: "Blog Yazıları"
-        name: "blog_file"
-        format: "json"
+    fields:
+      - label: "Sitede göster"
+        name: "published"
+        widget: "boolean"
+        default: true
+        hint: "Kapalı olduğunda yazı panelde kalır fakat sitede görünmez."
+      - label: "Başlık"
+        name: "title"
+        widget: "string"
+      - label: "Yayın tarihi"
+        name: "date"
+        widget: "datetime"
+        default: "{{now}}"
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+        date_format: "DD.MM.YYYY"
+        time_format: "HH:mm"
+      - label: "Ana kategori"
+        name: "category"
+        widget: "select"
+        options:
+          - "Koruyucu Sağlık"
+          - "Hastalıklar ve Belirtiler"
+          - "Cerrahi ve Operasyonlar"
+          - "Ağız ve Diş Sağlığı"
+          - "Beslenme ve Günlük Bakım"
+          - "Acil Durumlar"
+          - "Mevsimsel Sağlık"
+          - "Klinik Duyuruları"
+      - label: "Hayvan türü"
+        name: "species"
+        widget: "select"
+        default: "Genel"
+        options:
+          - "Genel"
+          - "Kedi"
+          - "Köpek"
+          - "Kedi ve Köpek"
+      - label: "Etiketler"
+        name: "tags"
+        widget: "select"
+        multiple: true
+        required: false
+        max: 4
+        options:
+          - "Aşı"
+          - "İç-Dış Parazit"
+          - "Mikroçip"
+          - "Check-up"
+          - "Kısırlaştırma"
+          - "Anestezi"
+          - "Ameliyat Öncesi"
+          - "Ameliyat Sonrası"
+          - "İlk Yardım"
+          - "Zehirlenme"
+          - "Travma"
+          - "Diş Taşı"
+          - "Beslenme"
+          - "Davranış"
+          - "Yavru Bakımı"
+          - "Yaşlı Hayvan Bakımı"
+          - "Sıcak Çarpması"
+          - "Laboratuvar"
+          - "Deri Sağlığı"
+          - "Göz Sağlığı"
+      - label: "Kısa açıklama"
+        name: "summary"
+        widget: "text"
+        hint: "Blog kartında görünen 1–3 cümlelik özet."
+      - label: "Kapak görseli"
+        name: "cover"
+        widget: "image"
+        required: false
+        choose_url: false
+        media_folder: "/assets/img/uploads/blog"
+        public_folder: "/assets/img/uploads/blog"
+        media_library:
+          config:
+            max_file_size: 2500000
+        hint: "Yatay 16:9 JPG veya WebP önerilir. Görsel olmazsa logo görünür."
+      - label: "Yazının içeriği"
+        name: "content"
+        widget: "richtext"
+        hint: "Paragraflar, alt başlıklar ve maddeler kullanabilirsiniz."
+      - label: "Gelişmiş ayarlar"
+        name: "advanced"
+        widget: "object"
+        required: false
+        collapsed: true
+        summary: "SEO, bağlantı ve video ayarları"
         fields:
-          - label: "Yazılar"
-            name: "posts"
-            widget: "list"
-            summary: "{{fields.title}}"
-            minimize_collapsed: true
-            fields:
-              - { label: "Yayında mı?", name: "published", widget: "boolean", default: true }
-              - { label: "Başlık", name: "title", widget: "string" }
-              - label: "Kısa bağlantı adı"
-                name: "slug"
-                widget: "string"
-                hint: "Küçük harf ve tire kullanın. Örnek: kedilerde-asi-takvimi"
-                pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Yalnızca küçük harf, rakam ve tire kullanın."]
-              - { label: "Yayın tarihi", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ssZ", date_format: "DD.MM.YYYY", time_format: "HH:mm" }
-              - { label: "Kısa açıklama", name: "summary", widget: "text" }
-              - { label: "Kapak görseli", name: "cover", widget: "image", required: false }
-              - label: "Kategoriler"
-                name: "categories"
-                widget: "list"
-                required: false
-                field: { label: "Kategori", name: "category", widget: "string" }
-              - label: "Etiketler"
-                name: "tags"
-                widget: "list"
-                required: false
-                field: { label: "Etiket", name: "tag", widget: "string" }
-              - { label: "Yazar", name: "author", widget: "string", default: "Elçi Veteriner Kliniği" }
-              - { label: "Tahmini okuma süresi (dakika)", name: "readingMinutes", widget: "number", value_type: "int", min: 1, default: 3 }
-              - { label: "SEO başlığı", name: "seoTitle", widget: "string", required: false }
-              - { label: "SEO açıklaması", name: "seoDescription", widget: "text", required: false }
-              - label: "Yazının tam içeriği"
-                name: "content"
-                widget: "text"
-                hint: "Paragraflar arasında bir boş satır bırakın."
-              - { label: "YouTube video kimliği", name: "youtubeId", widget: "string", required: false }
-              - { label: "Özel bağlantı", name: "url", widget: "string", required: false, hint: "Boş bırakılabilir." }
+          - label: "Özel kısa bağlantı"
+            name: "slug"
+            widget: "string"
+            required: false
+            hint: "Boş bırakabilirsiniz; sistem başlıktan otomatik üretir."
+          - { label: "SEO başlığı", name: "seoTitle", widget: "string", required: false }
+          - { label: "SEO açıklaması", name: "seoDescription", widget: "text", required: false }
+          - { label: "YouTube video kimliği", name: "youtubeId", widget: "string", required: false }
+          - { label: "Yazar", name: "author", widget: "string", required: false, default: "Elçi Veteriner Kliniği" }
 
-  - name: "faq_data"
+  - name: "faq"
     label: "Sık Sorulan Sorular"
+    label_singular: "Soru"
+    description: "Yeni soru ekleyin veya mevcut soruyu arayıp düzenleyin."
+    folder: "content/faq"
+    create: true
+    delete: true
+    extension: "json"
+    format: "json"
+    identifier_field: "title"
+    slug: "{{slug}}"
+    summary: "{{title}}"
+    sortable_fields: ["title", "category", "published"]
+    view_filters:
+      - label: "Yayındaki sorular"
+        field: "published"
+        pattern: true
+      - label: "Gizli sorular"
+        field: "published"
+        pattern: false
+    view_groups:
+      - label: "Kategori"
+        field: "category"
+    editor:
+      preview: false
+    fields:
+      - { label: "Sitede göster", name: "published", widget: "boolean", default: true }
+      - { label: "Soru", name: "title", widget: "string" }
+      - label: "Kategori"
+        name: "category"
+        widget: "select"
+        options:
+          - "Randevu ve Acil"
+          - "Ücret ve Ödeme"
+          - "Muayene ve Laboratuvar"
+          - "Aşı ve Koruyucu Sağlık"
+          - "Operasyonlar"
+          - "Ağız ve Diş Sağlığı"
+          - "Konaklama ve Klinik Süreç"
+      - { label: "Yanıt", name: "answer", widget: "text" }
+
+  - name: "home_faq"
+    label: "Ana Sayfa SSS"
     delete: false
+    description: "Ana sayfada görünen en fazla 6 soruyu arayarak seçin ve sürükleyerek sıralayın."
     editor:
       preview: false
     files:
-      - file: "assets/data/faq.json"
-        label: "SSS Yönetimi"
-        name: "faq_file"
+      - file: "settings/home-faq.json"
+        label: "Ana Sayfadaki 6 Soru"
+        name: "home_faq_file"
         format: "json"
         fields:
-          - { label: "Sayfa başlığı", name: "title", widget: "string", default: "Sık Sorulan Sorular" }
-          - label: "Kategoriler"
-            name: "groups"
+          - { label: "Başlık", name: "title", widget: "hidden", default: "Ana Sayfa SSS" }
+          - label: "Ana sayfada gösterilecek sorular"
+            name: "items"
             widget: "list"
-            summary: "{{fields.category}}"
-            minimize_collapsed: true
+            min: 1
+            max: 6
+            allow_reorder: true
+            collapsed: true
+            summary: "{{fields.faq}}"
+            label_singular: "Soru Seç"
             fields:
-              - { label: "Kategori yayında mı?", name: "published", widget: "boolean", default: true }
-              - { label: "Kategori adı", name: "category", widget: "string" }
-              - label: "Sorular"
-                name: "items"
-                widget: "list"
-                summary: "{{fields.q}}"
-                minimize_collapsed: true
-                fields:
-                  - { label: "Yayında mı?", name: "published", widget: "boolean", default: true }
-                  - label: "Ana sayfada göster"
-                    name: "showOnHome"
-                    widget: "boolean"
-                    default: false
-                    required: false
-                    hint: "Açık olduğunda bu soru ana sayfadaki Sık Sorulan Sorular bölümünde gösterilebilir."
-                  - label: "Ana sayfa sırası"
-                    name: "homeOrder"
-                    widget: "number"
-                    value_type: "int"
-                    min: 1
-                    max: 99
-                    required: false
-                    hint: "Ana sayfada gösterilen soruların sırası. 1 en üst sıradır."
-                  - label: "Kimlik"
-                    name: "id"
-                    widget: "string"
-                    hint: "Küçük harf ve tire kullanın. Örnek: muayene-ucreti"
-                    pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Yalnızca küçük harf, rakam ve tire kullanın."]
-                  - { label: "Soru", name: "q", widget: "string" }
-                  - { label: "Yanıt", name: "a", widget: "text" }
+              - label: "Soru ara ve seç"
+                name: "faq"
+                widget: "relation"
+                collection: "faq"
+                search_fields: ["title", "category"]
+                value_field: "{{slug}}"
+                display_fields: ["{{title}} — {{category}}"]
+                options_length: 100
+                filters:
+                  - field: "published"
+                    values: [true]
+
+  - name: "reviews"
+    label: "Google Yorumları"
+    label_singular: "Google Yorumu"
+    description: "Google'daki gerçek yorumu elle ekleyin; mevcut yorumları isim veya metinle arayın."
+    folder: "content/reviews"
+    create: true
+    delete: true
+    extension: "json"
+    format: "json"
+    identifier_field: "title"
+    slug: "{{slug}}"
+    summary: "{{fields.author}} — {{fields.time}}"
+    sortable_fields: ["author", "time", "rating", "published"]
+    view_filters:
+      - label: "Sitede kullanılabilir"
+        field: "published"
+        pattern: true
+      - label: "Gizli"
+        field: "published"
+        pattern: false
+    editor:
+      preview: false
+    fields:
+      - { label: "Kullanılabilir", name: "published", widget: "boolean", default: true }
+      - label: "Kayıt başlığı"
+        name: "title"
+        widget: "string"
+        hint: "Örn. Ayşe K. — Temmuz 2026. Bu alan yalnızca panelde ayırt etmek içindir."
+      - { label: "Yorum sahibinin adı", name: "author", widget: "string" }
+      - label: "Yıldız"
+        name: "rating"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        max: 5
+        default: 5
+      - label: "Google'da görünen tarih"
+        name: "time"
+        widget: "string"
+        required: false
+        hint: "Örn. 2 hafta önce veya 15 Tem 2026."
+      - { label: "Yorum metni", name: "text", widget: "text" }
+      - label: "Google yorum bağlantısı"
+        name: "sourceUrl"
+        widget: "string"
+        required: false
+
+  - name: "home_reviews"
+    label: "Ana Sayfa Yorumları"
+    delete: false
+    description: "Sitede sunulacak yorumları arayarak seçin ve sürükleyerek sıralayın."
+    editor:
+      preview: false
+    files:
+      - file: "settings/home-reviews.json"
+        label: "Sunulan Google Yorumları"
+        name: "home_reviews_file"
+        format: "json"
+        fields:
+          - { label: "Başlık", name: "title", widget: "hidden", default: "Ana Sayfa Google Yorumları" }
+          - label: "Google'daki toplam değerlendirme sayısı"
+            name: "totalCount"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            default: 194
+            hint: "Google profilinizde sayı değiştiğinde burayı güncelleyin."
+          - label: "Sitede gösterilecek yorumlar"
+            name: "items"
+            widget: "list"
+            min: 1
+            max: 12
+            allow_reorder: true
+            collapsed: true
+            summary: "{{fields.review}}"
+            label_singular: "Yorum Seç"
+            fields:
+              - label: "Yorum ara ve seç"
+                name: "review"
+                widget: "relation"
+                collection: "reviews"
+                search_fields: ["author", "text", "time"]
+                value_field: "{{slug}}"
+                display_fields: ["{{author}} — {{time}}"]
+                options_length: 100
+                filters:
+                  - field: "published"
+                    values: [true]
+
+  - name: "instagram_posts"
+    label: "Instagram Galerisi"
+    label_singular: "Galeri Görseli"
+    description: "Yeni görsel yükleyin. Yeni tarihli görseller ana sayfada önce görünür."
+    folder: "content/instagram"
+    create: true
+    delete: true
+    extension: "json"
+    format: "json"
+    identifier_field: "title"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{fields.date}} — {{title}}"
+    sortable_fields: ["date", "title", "published"]
+    view_filters:
+      - label: "Sitede gösterilenler"
+        field: "published"
+        pattern: true
+      - label: "Gizli görseller"
+        field: "published"
+        pattern: false
+    editor:
+      preview: false
+    fields:
+      - { label: "Sitede göster", name: "published", widget: "boolean", default: true }
+      - { label: "Kısa açıklama", name: "title", widget: "string" }
+      - label: "Yayın tarihi"
+        name: "date"
+        widget: "datetime"
+        default: "{{now}}"
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+        date_format: "DD.MM.YYYY"
+        time_format: "HH:mm"
+      - label: "Görsel"
+        name: "image"
+        widget: "image"
+        choose_url: false
+        media_folder: "/assets/img/uploads/instagram"
+        public_folder: "/assets/img/uploads/instagram"
+        media_library:
+          config:
+            max_file_size: 2500000
+        hint: "JPG veya WebP önerilir. Hasta sahibi bilgisi içeren görsel yüklemeyin."
+      - label: "Görsel açıklaması"
+        name: "alt"
+        widget: "string"
+        hint: "Görme engelli ziyaretçiler ve Google için fotoğrafı kısa biçimde tarif edin."
+      - label: "Instagram gönderi bağlantısı"
+        name: "instagramUrl"
+        widget: "string"
+        required: false
 
   - name: "services_data"
     label: "Hizmetler"
@@ -125,18 +384,19 @@ collections:
           - label: "Hizmetler"
             name: "items"
             widget: "list"
+            allow_add: false
+            allow_remove: false
+            allow_reorder: true
+            collapsed: true
             summary: "{{fields.title}}"
-            minimize_collapsed: true
             fields:
-              - label: "Kimlik"
-                name: "id"
-                widget: "string"
-                hint: "Mevcut hizmetlerde bu alanı değiştirmeyin."
+              - { label: "Yayında", name: "published", widget: "boolean", default: true }
               - { label: "Başlık", name: "title", widget: "string" }
               - { label: "Kısa açıklama", name: "summary", widget: "text" }
               - { label: "Detaylı açıklama", name: "detail", widget: "text", required: false }
-              - { label: "İkon kimliği", name: "icon", widget: "string", required: false }
-              - { label: "Bağlantı", name: "href", widget: "string", required: false }
+              - { label: "Kimlik", name: "id", widget: "hidden" }
+              - { label: "İkon", name: "icon", widget: "hidden", required: false }
+              - { label: "Bağlantı", name: "href", widget: "hidden", required: false }
 
   - name: "success_stories_data"
     label: "Başarı Hikâyeleri"
@@ -150,20 +410,34 @@ collections:
         format: "json"
         fields:
           - label: "Hikâyeler"
+            label_singular: "Yeni Hikâye"
             name: "stories"
             widget: "list"
+            add_to_top: true
+            allow_reorder: true
+            collapsed: true
             summary: "{{fields.title}}"
-            minimize_collapsed: true
             fields:
-              - label: "Kimlik"
-                name: "id"
-                widget: "string"
-                pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Yalnızca küçük harf, rakam ve tire kullanın."]
+              - { label: "Yayında", name: "published", widget: "boolean", default: true }
               - { label: "Başlık", name: "title", widget: "string" }
               - { label: "Hayvanın adı", name: "petName", widget: "string" }
-              - { label: "Tür", name: "species", widget: "string", required: false }
+              - label: "Tür"
+                name: "species"
+                widget: "select"
+                options: ["Kedi", "Köpek", "Diğer"]
               - { label: "Kısa vurgu", name: "tagline", widget: "string", required: false }
               - { label: "Kısa özet", name: "summary", widget: "text" }
               - { label: "Detaylı hikâye", name: "body", widget: "text" }
-              - { label: "Simge kimliği", name: "icon", widget: "string", required: false, default: "#i-paw" }
+              - label: "Görsel"
+                name: "image"
+                widget: "image"
+                required: false
+                choose_url: false
+                media_folder: "/assets/img/uploads/basari-hikayeleri"
+                public_folder: "/assets/img/uploads/basari-hikayeleri"
+                media_library:
+                  config:
+                    max_file_size: 2500000
               - { label: "Öne çıkar", name: "featured", widget: "boolean", default: false, required: false }
+              - { label: "Kimlik", name: "id", widget: "hidden", required: false, default: "" }
+              - { label: "Simge", name: "icon", widget: "hidden", required: false, default: "#i-paw" }
