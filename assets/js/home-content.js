@@ -2,7 +2,7 @@
   'use strict';
 
   const INSTAGRAM_PROFILE = 'https://www.instagram.com/elciveteriner';
-  const VERSION = 'content-v25';
+  const VERSION = 'content-v27';
 
   async function fetchJson(url, fallback) {
     try {
@@ -83,158 +83,147 @@
     });
   }
 
-  /* ---------------- INSTAGRAM GALERİSİ ---------------- */
+  /* ---------------- INSTAGRAM FİLM ŞERİDİ ---------------- */
 
   function injectInstagramStyles() {
-    const oldStyle = document.getElementById('elci-instagram-slider-v24');
-    if (oldStyle) oldStyle.remove();
-
-    if (document.getElementById('elci-instagram-slider-v25')) return;
+    [
+      'elci-instagram-grid-fix-v23',
+      'elci-instagram-slider-v24',
+      'elci-instagram-slider-v25',
+      'elci-instagram-carousel-v26',
+      'elci-instagram-film-v27'
+    ].forEach(id => document.getElementById(id)?.remove());
 
     const style = document.createElement('style');
-    style.id = 'elci-instagram-slider-v25';
+    style.id = 'elci-instagram-film-v27';
 
     style.textContent = `
       #insta {
         overflow: hidden !important;
-        padding: 64px 0 58px !important;
+        padding: 62px 0 58px !important;
         background: #fff;
       }
 
       #insta .container {
-        width: 100% !important;
+        width: min(1180px, calc(100% - 32px)) !important;
         max-width: 1180px !important;
         min-width: 0 !important;
         margin: 0 auto !important;
-        padding: 0 16px !important;
-        overflow: visible !important;
+        padding: 0 !important;
         box-sizing: border-box !important;
+        overflow: visible !important;
       }
 
       #insta .insta-head {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-        gap: 20px !important;
+        display: block !important;
         width: 100% !important;
-        min-width: 0 !important;
-        margin: 0 0 28px !important;
+        margin: 0 0 26px !important;
       }
 
       #insta .insta-head h2 {
         margin: 0 !important;
       }
 
-      #insta .elci-insta-controls {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex: 0 0 auto;
+      #insta .elci-insta-controls,
+      #insta .elci-insta-heading-copy p {
+        display: none !important;
       }
 
-      #insta .elci-insta-arrow {
-        width: 42px;
-        height: 42px;
-        display: grid;
-        place-items: center;
-        padding: 0;
-        border: 1px solid rgba(90,31,168,.18);
-        border-radius: 50%;
-        background: #fff;
-        color: var(--brand,#5a1fa8);
-        font-size: 1.05rem;
-        font-weight: 900;
-        cursor: pointer;
-        box-shadow: 0 9px 22px rgba(31,42,56,.08);
-        transition:
-          transform .2s ease,
-          border-color .2s ease,
-          box-shadow .2s ease,
-          background .2s ease;
-      }
-
-      #insta .elci-insta-arrow:hover,
-      #insta .elci-insta-arrow:focus-visible {
-        transform: translateY(-2px);
-        border-color: rgba(90,31,168,.34);
-        background: #faf7ff;
-        box-shadow: 0 13px 28px rgba(31,42,56,.12);
-        outline: none;
-      }
-
-      /*
-        Dış alan daima sayfa genişliğinde sabit kalır.
-        Yalnızca içindeki fotoğraf kartları sağa-sola kayar.
-      */
       #insta .insta-track-wrap {
         position: relative !important;
-        display: block !important;
         width: 100% !important;
         max-width: 100% !important;
         min-width: 0 !important;
-        height: 386px !important;
+        height: 370px !important;
         margin: 0 !important;
-        padding: 18px 16px 12px !important;
+        padding: 18px 0 !important;
         overflow: hidden !important;
         box-sizing: border-box !important;
         border: 1px solid rgba(90,31,168,.10);
         border-radius: 28px;
         background:
-          radial-gradient(circle at 10% 15%, rgba(39,212,232,.11), transparent 30%),
-          radial-gradient(circle at 90% 85%, rgba(90,31,168,.09), transparent 34%),
+          radial-gradient(circle at 8% 15%, rgba(39,212,232,.10), transparent 28%),
+          radial-gradient(circle at 92% 84%, rgba(90,31,168,.08), transparent 34%),
           linear-gradient(145deg,#ffffff,#fbf9ff);
         box-shadow: 0 18px 48px rgba(31,42,56,.07);
         isolation: isolate;
-        contain: layout paint;
+      }
+
+      /*
+        Kenarlardaki hafif geçiş sabit çerçeveye aittir.
+        Hareket eden yalnızca fotoğraf kartlarıdır.
+      */
+      #insta .insta-track-wrap::before,
+      #insta .insta-track-wrap::after {
+        content: "";
+        position: absolute;
+        z-index: 5;
+        top: 0;
+        bottom: 0;
+        width: 48px;
+        pointer-events: none;
+      }
+
+      #insta .insta-track-wrap::before {
+        left: 0;
+        background: linear-gradient(90deg,#fff,rgba(255,255,255,0));
+      }
+
+      #insta .insta-track-wrap::after {
+        right: 0;
+        background: linear-gradient(270deg,#fff,rgba(255,255,255,0));
       }
 
       #instaTrack.insta-track {
+        --elci-film-gap: 16px;
+        --elci-film-duration: 105s;
+
         display: flex !important;
-        align-items: flex-end !important;
-        gap: 16px !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
+        align-items: center !important;
+        gap: var(--elci-film-gap) !important;
+        width: max-content !important;
+        min-width: max-content !important;
+        max-width: none !important;
         height: 100% !important;
         margin: 0 !important;
-        padding: 10px 5px 16px !important;
-        overflow-x: auto !important;
-        overflow-y: hidden !important;
+        padding: 0 !important;
+        overflow: visible !important;
         box-sizing: border-box !important;
-        scroll-snap-type: x proximity;
-        scroll-padding-inline: 5px;
-        scrollbar-gutter: stable;
-        scrollbar-width: thin;
-        scrollbar-color: rgba(90,31,168,.30) transparent;
-        overscroll-behavior-inline: contain;
-        -webkit-overflow-scrolling: touch;
+        transform: translate3d(0,0,0);
+        animation: elciInstagramFilm var(--elci-film-duration) linear infinite;
+        will-change: transform;
       }
 
-      #instaTrack.insta-track::-webkit-scrollbar {
-        height: 7px;
+      #instaTrack .elci-insta-group {
+        display: flex;
+        align-items: center;
+        gap: var(--elci-film-gap);
+        flex: 0 0 auto;
+        min-width: max-content;
       }
 
-      #instaTrack.insta-track::-webkit-scrollbar-track {
-        background: transparent;
+      @keyframes elciInstagramFilm {
+        from {
+          transform: translate3d(0,0,0);
+        }
+        to {
+          transform: translate3d(calc(-50% - 8px),0,0);
+        }
       }
 
-      #instaTrack.insta-track::-webkit-scrollbar-thumb {
-        border-radius: 999px;
-        background: linear-gradient(
-          90deg,
-          rgba(90,31,168,.34),
-          rgba(39,212,232,.52)
-        );
+      #insta .insta-track-wrap:hover #instaTrack,
+      #insta .insta-track-wrap:focus-within #instaTrack {
+        animation-play-state: paused;
       }
 
       #instaTrack .elci-insta-card {
         position: relative;
         display: block;
-        flex: 0 0 226px !important;
-        width: 226px !important;
-        min-width: 226px !important;
-        max-width: 226px !important;
-        height: 284px !important;
+        flex: 0 0 218px !important;
+        width: 218px !important;
+        min-width: 218px !important;
+        max-width: 218px !important;
+        height: 276px !important;
         margin: 0 !important;
         overflow: hidden;
         box-sizing: border-box !important;
@@ -243,35 +232,29 @@
         background: #f1edf7;
         color: #fff;
         text-decoration: none;
-        scroll-snap-align: start;
         box-shadow: 0 14px 30px rgba(31,42,56,.14);
-        transform: none !important;
+        transform: translateZ(0);
         transition:
           transform .24s ease,
           box-shadow .24s ease,
           border-color .24s ease !important;
       }
 
-      /*
-        Her açılışta aralıklı birkaç kart rastgele öne çıkar.
-        Büyük kartlar birbirine yığılmadığı için düzen dengeli kalır.
-      */
       #instaTrack .elci-insta-card.is-featured {
-        flex-basis: 304px !important;
-        width: 304px !important;
-        min-width: 304px !important;
-        max-width: 304px !important;
-        height: 334px !important;
-        border-color: rgba(255,255,255,.98);
-        box-shadow: 0 20px 40px rgba(55,30,95,.20);
+        flex-basis: 292px !important;
+        width: 292px !important;
+        min-width: 292px !important;
+        max-width: 292px !important;
+        height: 324px !important;
+        box-shadow: 0 20px 40px rgba(55,30,95,.19);
       }
 
       #instaTrack .elci-insta-card:hover,
       #instaTrack .elci-insta-card:focus-visible {
-        z-index: 3;
-        transform: translateY(-6px) !important;
+        z-index: 4;
+        transform: translateY(-5px) !important;
         border-color: #fff;
-        box-shadow: 0 22px 42px rgba(31,42,56,.21);
+        box-shadow: 0 23px 44px rgba(31,42,56,.22);
         outline: none;
       }
 
@@ -308,9 +291,8 @@
       }
 
       #instaTrack .elci-insta-empty {
-        width: 100%;
-        align-self: center;
-        margin: 0;
+        width: min(760px,calc(100vw - 64px));
+        margin: auto 24px;
         padding: 28px;
         color: var(--muted,#667085);
         text-align: center;
@@ -322,102 +304,58 @@
         }
 
         #insta .container {
-          padding: 0 14px !important;
-        }
-
-        #insta .insta-head {
-          margin-bottom: 22px !important;
-        }
-
-        #insta .elci-insta-arrow {
-          width: 39px;
-          height: 39px;
+          width: min(100% - 24px,1180px) !important;
         }
 
         #insta .insta-track-wrap {
-          height: 360px !important;
-          padding: 14px 10px 9px !important;
+          height: 342px !important;
           border-radius: 23px;
         }
 
+        #insta .insta-track-wrap::before,
+        #insta .insta-track-wrap::after {
+          width: 26px;
+        }
+
         #instaTrack.insta-track {
-          gap: 13px !important;
-          padding: 8px 3px 14px !important;
+          --elci-film-gap: 13px;
+          --elci-film-duration: 92s;
+        }
+
+        @keyframes elciInstagramFilm {
+          from {
+            transform: translate3d(0,0,0);
+          }
+          to {
+            transform: translate3d(calc(-50% - 6.5px),0,0);
+          }
         }
 
         #instaTrack .elci-insta-card {
-          flex-basis: 68vw !important;
-          width: 68vw !important;
-          min-width: 68vw !important;
-          max-width: 68vw !important;
-          height: 278px !important;
+          flex-basis: 64vw !important;
+          width: 64vw !important;
+          min-width: 64vw !important;
+          max-width: 64vw !important;
+          height: 258px !important;
         }
 
         #instaTrack .elci-insta-card.is-featured {
-          flex-basis: 82vw !important;
-          width: 82vw !important;
-          min-width: 82vw !important;
-          max-width: 82vw !important;
-          height: 318px !important;
+          flex-basis: 78vw !important;
+          width: 78vw !important;
+          min-width: 78vw !important;
+          max-width: 78vw !important;
+          height: 300px !important;
         }
       }
 
-      @media (max-width: 430px) {
-        #insta .insta-track-wrap {
-          height: 342px !important;
-        }
-
-        #instaTrack .elci-insta-card {
-          flex-basis: 72vw !important;
-          width: 72vw !important;
-          min-width: 72vw !important;
-          max-width: 72vw !important;
-          height: 264px !important;
-        }
-
-        #instaTrack .elci-insta-card.is-featured {
-          flex-basis: 84vw !important;
-          width: 84vw !important;
-          min-width: 84vw !important;
-          max-width: 84vw !important;
-          height: 302px !important;
+      @media (prefers-reduced-motion: reduce) {
+        #instaTrack.insta-track {
+          animation-duration: 180s;
         }
       }
     `;
 
     document.head.appendChild(style);
-  }
-
-  function randomOffset() {
-    const key = 'elci-instagram-feature-offset-v25';
-    const saved = Number(sessionStorage.getItem(key));
-
-    if (Number.isInteger(saved) && saved >= 0 && saved <= 4) {
-      return saved;
-    }
-
-    const offset = Math.floor(Math.random() * 5);
-    sessionStorage.setItem(key, String(offset));
-    return offset;
-  }
-
-  function featuredIndexes(length) {
-    const selected = new Set();
-
-    if (length <= 0) return selected;
-
-    if (length < 5) {
-      selected.add(Math.floor(Math.random() * length));
-      return selected;
-    }
-
-    const offset = randomOffset();
-
-    for (let index = offset; index < length; index += 5) {
-      selected.add(index);
-    }
-
-    return selected;
   }
 
   function imageCandidates(item) {
@@ -462,8 +400,8 @@
 
   function normalizeInstagram(manualItems, fallbackItems) {
     /*
-      Yönetim panelinden eklenen görseller her zaman en başta görünür.
-      Eski arşiv görselleri arkadan devam eder.
+      Panelden eklenen yeni görseller en başta yer alır.
+      Mevcut Instagram arşivi kesintisiz şekilde arkasından devam eder.
     */
     const manual = (Array.isArray(manualItems) ? manualItems : [])
       .filter(item => item && item.published !== false && item.image)
@@ -497,18 +435,101 @@
         seen.add(key);
         return true;
       })
-      .slice(0, 30);
+      .slice(0, 36);
   }
 
-  function prepareHeader(track) {
+  function featuredIndexes(length) {
+    const selected = new Set();
+    if (!length) return selected;
+
+    /*
+      Aynı oturumda düzen sabit kalır; sayfa yeniden açıldığında
+      öne çıkan görseller farklılaşabilir.
+    */
+    const storageKey = 'elci-instagram-feature-seed-v27';
+    let seed = Number(sessionStorage.getItem(storageKey));
+
+    if (!Number.isInteger(seed) || seed < 0 || seed > 5) {
+      seed = Math.floor(Math.random() * 6);
+      sessionStorage.setItem(storageKey, String(seed));
+    }
+
+    for (let index = seed; index < length; index += 6) {
+      selected.add(index);
+    }
+
+    return selected;
+  }
+
+  function createCard(item, isFeatured, duplicate) {
+    const link = document.createElement('a');
+    link.className = `elci-insta-card${isFeatured ? ' is-featured' : ''}`;
+    link.href = item.instagramUrl || INSTAGRAM_PROFILE;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.setAttribute(
+      'aria-label',
+      item.title || item.alt || 'Instagram gönderisini aç'
+    );
+
+    if (duplicate) {
+      link.setAttribute('aria-hidden', 'true');
+      link.tabIndex = -1;
+    }
+
+    const image = document.createElement('img');
+    image.className = 'elci-insta-image';
+    image.alt = duplicate
+      ? ''
+      : item.alt || item.title || 'Elçi Veteriner Kliniği galeri görseli';
+    image.loading = 'lazy';
+    image.decoding = 'async';
+
+    const overlay = document.createElement('span');
+    overlay.className = 'elci-insta-overlay';
+
+    const caption = document.createElement('strong');
+    caption.textContent = item.title || 'Elçi Veteriner Kliniği';
+
+    const label = document.createElement('small');
+    label.textContent = item.fallback
+      ? 'Instagram paylaşımı'
+      : 'Gönderiyi aç';
+
+    overlay.append(caption, label);
+    link.append(image, overlay);
+
+    setImageWithFallback(
+      image,
+      imageCandidates(item),
+      () => link.remove()
+    );
+
+    return link;
+  }
+
+  function buildGroup(items, featured, duplicate) {
+    const group = document.createElement('div');
+    group.className = 'elci-insta-group';
+
+    if (duplicate) {
+      group.setAttribute('aria-hidden', 'true');
+    }
+
+    items.forEach((item, index) => {
+      group.appendChild(
+        createCard(item, featured.has(index), duplicate)
+      );
+    });
+
+    return group;
+  }
+
+  function cleanInstagramHeader() {
     const section = document.getElementById('insta');
     const head = section?.querySelector('.insta-head');
     if (!head) return;
 
-    /*
-      Önceki sürümde eklenen yardımcı yazıyı kaldırır.
-      Başlık tekrar sitenin diğer bölüm başlıklarıyla aynı görünür.
-    */
     const oldCopy = head.querySelector('.elci-insta-heading-copy');
 
     if (oldCopy) {
@@ -522,70 +543,6 @@
     }
 
     head.querySelectorAll('.elci-insta-controls').forEach(control => control.remove());
-
-    const controls = document.createElement('div');
-    controls.className = 'elci-insta-controls';
-
-    const previous = document.createElement('button');
-    previous.type = 'button';
-    previous.className = 'elci-insta-arrow';
-    previous.setAttribute('aria-label', 'Önceki Instagram görselleri');
-    previous.textContent = '←';
-
-    const next = document.createElement('button');
-    next.type = 'button';
-    next.className = 'elci-insta-arrow';
-    next.setAttribute('aria-label', 'Sonraki Instagram görselleri');
-    next.textContent = '→';
-
-    previous.addEventListener('click', () => scrollSlider(track, -1));
-    next.addEventListener('click', () => scrollSlider(track, 1));
-
-    controls.append(previous, next);
-    head.appendChild(controls);
-  }
-
-  function scrollSlider(track, direction) {
-    const firstCard = track.querySelector('.elci-insta-card');
-
-    const amount = firstCard
-      ? firstCard.getBoundingClientRect().width + 16
-      : Math.max(260, Math.round(track.clientWidth * .72));
-
-    track.scrollBy({
-      left: direction * amount,
-      behavior: 'smooth'
-    });
-  }
-
-  function enableKeyboard(track) {
-    track.tabIndex = 0;
-    track.setAttribute(
-      'aria-label',
-      'Instagram görselleri. Sağ ve sol ok tuşlarıyla gezebilirsiniz.'
-    );
-
-    track.addEventListener('keydown', event => {
-      if (event.key === 'ArrowLeft') {
-        event.preventDefault();
-        scrollSlider(track, -1);
-      }
-
-      if (event.key === 'ArrowRight') {
-        event.preventDefault();
-        scrollSlider(track, 1);
-      }
-    });
-  }
-
-  function showInstagramEmpty(track) {
-    if (track.querySelector('.elci-insta-card')) return;
-
-    track.innerHTML = `
-      <p class="elci-insta-empty">
-        Yönetim panelinden eklediğiniz galeri görselleri burada yayınlanacak.
-      </p>
-    `;
   }
 
   function renderInstagram(manualItems, fallbackItems) {
@@ -593,65 +550,39 @@
     if (!track) return;
 
     injectInstagramStyles();
-    prepareHeader(track);
+    cleanInstagramHeader();
 
     const items = normalizeInstagram(manualItems, fallbackItems);
     const featured = featuredIndexes(items.length);
 
     track.innerHTML = '';
-    track.scrollLeft = 0;
 
     if (!items.length) {
-      showInstagramEmpty(track);
+      const empty = document.createElement('p');
+      empty.className = 'elci-insta-empty';
+      empty.textContent =
+        'Yönetim panelinden eklediğiniz galeri görselleri burada yayınlanacak.';
+      track.appendChild(empty);
+      track.style.animation = 'none';
       return;
     }
 
-    items.forEach((item, itemIndex) => {
-      const link = document.createElement('a');
-      link.className = `elci-insta-card${featured.has(itemIndex) ? ' is-featured' : ''}`;
-      link.href = item.instagramUrl || INSTAGRAM_PROFILE;
-      link.target = '_blank';
-      link.rel = 'noopener';
-      link.setAttribute(
-        'aria-label',
-        item.title || item.alt || 'Instagram gönderisini aç'
-      );
+    /*
+      Aynı görsel grubu iki kez eklenir.
+      İlk grup ekrandan çıkarken ikinci grup arkasından devam eder;
+      böylece başlangıç ve bitiş noktası fark edilmez.
+    */
+    track.append(
+      buildGroup(items, featured, false),
+      buildGroup(items, featured, true)
+    );
 
-      const image = document.createElement('img');
-      image.className = 'elci-insta-image';
-      image.alt =
-        item.alt ||
-        item.title ||
-        'Elçi Veteriner Kliniği galeri görseli';
-      image.loading = itemIndex < 4 ? 'eager' : 'lazy';
-      image.decoding = 'async';
-
-      const overlay = document.createElement('span');
-      overlay.className = 'elci-insta-overlay';
-
-      const caption = document.createElement('strong');
-      caption.textContent = item.title || 'Elçi Veteriner Kliniği';
-
-      const label = document.createElement('small');
-      label.textContent = item.fallback
-        ? 'Instagram paylaşımı'
-        : 'Gönderiyi aç';
-
-      overlay.append(caption, label);
-      link.append(image, overlay);
-      track.appendChild(link);
-
-      setImageWithFallback(
-        image,
-        imageCandidates(item),
-        () => {
-          link.remove();
-          window.setTimeout(() => showInstagramEmpty(track), 40);
-        }
-      );
-    });
-
-    enableKeyboard(track);
+    /*
+      Görsel sayısına göre hız dengelenir.
+      Çok görsel olduğunda şerit gereksiz hızlanmaz.
+    */
+    const duration = Math.max(70, Math.min(145, items.length * 3.2));
+    track.style.setProperty('--elci-film-duration', `${duration}s`);
   }
 
   /* ---------------- VERİLERİ YÜKLE ---------------- */
@@ -674,10 +605,6 @@
   }
 
   function start() {
-    /*
-      Yalnızca bir kez oluşturulur.
-      Önceki sürümdeki tekrar tekrar çizim, genişlik değişimi ve titreme kaldırıldı.
-    */
     renderAll();
   }
 
