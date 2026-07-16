@@ -2,7 +2,7 @@
   'use strict';
 
   const INSTAGRAM_PROFILE = 'https://www.instagram.com/elciveteriner';
-  const VERSION = 'content-v27';
+  const VERSION = 'content-v28';
 
   async function fetchJson(url, fallback) {
     try {
@@ -91,11 +91,11 @@
       'elci-instagram-slider-v24',
       'elci-instagram-slider-v25',
       'elci-instagram-carousel-v26',
-      'elci-instagram-film-v27'
+      'elci-instagram-film-v28'
     ].forEach(id => document.getElementById(id)?.remove());
 
     const style = document.createElement('style');
-    style.id = 'elci-instagram-film-v27';
+    style.id = 'elci-instagram-film-v28';
 
     style.textContent = `
       #insta {
@@ -134,9 +134,9 @@
         width: 100% !important;
         max-width: 100% !important;
         min-width: 0 !important;
-        height: 370px !important;
+        height: 326px !important;
         margin: 0 !important;
-        padding: 18px 0 !important;
+        padding: 8px 0 !important;
         overflow: hidden !important;
         box-sizing: border-box !important;
         border: 1px solid rgba(90,31,168,.10);
@@ -176,7 +176,7 @@
 
       #instaTrack.insta-track {
         --elci-film-gap: 16px;
-        --elci-film-duration: 105s;
+        --elci-film-duration: 120s;
 
         display: flex !important;
         align-items: center !important;
@@ -191,6 +191,7 @@
         box-sizing: border-box !important;
         transform: translate3d(0,0,0);
         animation: elciInstagramFilm var(--elci-film-duration) linear infinite;
+        animation-delay: -7s;
         will-change: transform;
       }
 
@@ -198,6 +199,8 @@
         display: flex;
         align-items: center;
         gap: var(--elci-film-gap);
+        padding-right: var(--elci-film-gap);
+        box-sizing: border-box;
         flex: 0 0 auto;
         min-width: max-content;
       }
@@ -207,7 +210,7 @@
           transform: translate3d(0,0,0);
         }
         to {
-          transform: translate3d(calc(-50% - 8px),0,0);
+          transform: translate3d(-50%,0,0);
         }
       }
 
@@ -219,11 +222,11 @@
       #instaTrack .elci-insta-card {
         position: relative;
         display: block;
-        flex: 0 0 218px !important;
-        width: 218px !important;
-        min-width: 218px !important;
-        max-width: 218px !important;
-        height: 276px !important;
+        flex: 0 0 248px !important;
+        width: 248px !important;
+        min-width: 248px !important;
+        max-width: 248px !important;
+        height: 298px !important;
         margin: 0 !important;
         overflow: hidden;
         box-sizing: border-box !important;
@@ -241,10 +244,10 @@
       }
 
       #instaTrack .elci-insta-card.is-featured {
-        flex-basis: 292px !important;
-        width: 292px !important;
-        min-width: 292px !important;
-        max-width: 292px !important;
+        flex-basis: 322px !important;
+        width: 322px !important;
+        min-width: 322px !important;
+        max-width: 322px !important;
         height: 324px !important;
         box-shadow: 0 20px 40px rgba(55,30,95,.19);
       }
@@ -327,24 +330,24 @@
             transform: translate3d(0,0,0);
           }
           to {
-            transform: translate3d(calc(-50% - 6.5px),0,0);
+            transform: translate3d(-50%,0,0);
           }
         }
 
         #instaTrack .elci-insta-card {
-          flex-basis: 64vw !important;
-          width: 64vw !important;
-          min-width: 64vw !important;
-          max-width: 64vw !important;
-          height: 258px !important;
+          flex-basis: 70vw !important;
+          width: 70vw !important;
+          min-width: 70vw !important;
+          max-width: 70vw !important;
+          height: 274px !important;
         }
 
         #instaTrack .elci-insta-card.is-featured {
-          flex-basis: 78vw !important;
-          width: 78vw !important;
-          min-width: 78vw !important;
-          max-width: 78vw !important;
-          height: 300px !important;
+          flex-basis: 84vw !important;
+          width: 84vw !important;
+          min-width: 84vw !important;
+          max-width: 84vw !important;
+          height: 306px !important;
         }
       }
 
@@ -435,7 +438,7 @@
         seen.add(key);
         return true;
       })
-      .slice(0, 36);
+      .slice(0, 80);
   }
 
   function featuredIndexes(length) {
@@ -446,7 +449,7 @@
       Aynı oturumda düzen sabit kalır; sayfa yeniden açıldığında
       öne çıkan görseller farklılaşabilir.
     */
-    const storageKey = 'elci-instagram-feature-seed-v27';
+    const storageKey = 'elci-instagram-feature-seed-v28';
     let seed = Number(sessionStorage.getItem(storageKey));
 
     if (!Number.isInteger(seed) || seed < 0 || seed > 5) {
@@ -581,7 +584,7 @@
       Görsel sayısına göre hız dengelenir.
       Çok görsel olduğunda şerit gereksiz hızlanmaz.
     */
-    const duration = Math.max(70, Math.min(145, items.length * 3.2));
+    const duration = Math.max(90, Math.min(260, items.length * 3.15));
     track.style.setProperty('--elci-film-duration', `${duration}s`);
   }
 
