@@ -1,0 +1,22 @@
+{
+  "published": true,
+  "title": "Sıcak Havalarda Serin Kalma İpuçları",
+  "date": "2025-07-02T11:00:00+03:00",
+  "category": "Mevsimsel Sağlık",
+  "species": "Kedi ve Köpek",
+  "tags": [
+    "yaz",
+    "ısı stresi",
+    "egzersiz"
+  ],
+  "summary": "Sıcak çarpmasına karşı su tüketimi, gölgeleme ve yürüyüş saatleri ayarı.",
+  "cover": "/assets/img/uploads/yaz-ipuclari.jpg",
+  "content": "Gündüz saatlerinde egzersizi azaltın, asfalttan kaçının ve su kabını her zaman dolu tutun. Sıcak çarpması acil durumdur.",
+  "advanced": {
+    "slug": "sicak-havalarda-serin-kalma-ipuclari",
+    "seoTitle": "Sıcakta Evcil Dostları Korumak | Elçi Veteriner",
+    "seoDescription": "Yazın sıcak çarpmasına karşı pratik öneriler ve dikkat edilmesi gerekenler.",
+    "youtubeId": "",
+    "author": "Elçi Veteriner"
+  }
+}
