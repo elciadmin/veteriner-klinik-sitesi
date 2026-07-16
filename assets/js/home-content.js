@@ -2,8 +2,7 @@
   'use strict';
 
   const INSTAGRAM_PROFILE = 'https://www.instagram.com/elciveteriner';
-  const VERSION = 'content-v24';
-  let autoplayTimer = null;
+  const VERSION = 'content-v25';
 
   async function fetchJson(url, fallback) {
     try {
@@ -15,12 +14,16 @@
     }
   }
 
+  /* ---------------- GOOGLE YORUMLARI ---------------- */
+
   function makeStars(value) {
     const stars = document.createElement('div');
     stars.className = 'elci-review-stars';
+
     const rating = Math.max(1, Math.min(5, Number(value) || 5));
     stars.setAttribute('aria-label', `${rating} yıldız`);
     stars.textContent = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+
     return stars;
   }
 
@@ -46,6 +49,7 @@
     items.forEach(item => {
       const article = document.createElement('article');
       article.className = 'review-card elci-review-card';
+
       article.appendChild(makeStars(item.rating));
 
       const quote = document.createElement('p');
@@ -79,257 +83,347 @@
     });
   }
 
+  /* ---------------- INSTAGRAM GALERİSİ ---------------- */
+
   function injectInstagramStyles() {
-    if (document.getElementById('elci-instagram-slider-v24')) return;
+    const oldStyle = document.getElementById('elci-instagram-slider-v24');
+    if (oldStyle) oldStyle.remove();
+
+    if (document.getElementById('elci-instagram-slider-v25')) return;
 
     const style = document.createElement('style');
-    style.id = 'elci-instagram-slider-v24';
+    style.id = 'elci-instagram-slider-v25';
+
     style.textContent = `
-      html,body{max-width:100%;overflow-x:hidden}
-
-      #insta{
-        overflow:hidden!important;
-        padding-top:54px!important;
-        padding-bottom:48px!important;
+      #insta {
+        overflow: hidden !important;
+        padding: 64px 0 58px !important;
+        background: #fff;
       }
 
-      #insta .container{
-        overflow:hidden!important;
+      #insta .container {
+        width: 100% !important;
+        max-width: 1180px !important;
+        min-width: 0 !important;
+        margin: 0 auto !important;
+        padding: 0 16px !important;
+        overflow: visible !important;
+        box-sizing: border-box !important;
       }
 
-      #insta .insta-head{
-        display:flex;
-        align-items:flex-end;
-        justify-content:space-between;
-        gap:18px;
-        margin-bottom:4px;
+      #insta .insta-head {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 20px !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 0 28px !important;
       }
 
-      #insta .elci-insta-heading-copy small{
-        display:block!important;
-        margin-top:8px;
-        color:var(--muted,#667085);
-        font-size:.92rem;
+      #insta .insta-head h2 {
+        margin: 0 !important;
       }
 
-      #insta .elci-insta-controls{
-        display:flex;
-        gap:10px;
-        flex:0 0 auto;
+      #insta .elci-insta-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: 0 0 auto;
       }
 
-      #insta .elci-insta-arrow{
-        width:44px;
-        height:44px;
-        display:grid;
-        place-items:center;
-        border:1px solid rgba(90,31,168,.18);
-        border-radius:50%;
-        background:#fff;
-        color:var(--brand,#5a1fa8);
-        font-size:1.15rem;
-        font-weight:900;
-        cursor:pointer;
-        box-shadow:0 10px 22px rgba(31,42,56,.09);
-        transition:transform .2s ease,box-shadow .2s ease,background .2s ease;
+      #insta .elci-insta-arrow {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        padding: 0;
+        border: 1px solid rgba(90,31,168,.18);
+        border-radius: 50%;
+        background: #fff;
+        color: var(--brand,#5a1fa8);
+        font-size: 1.05rem;
+        font-weight: 900;
+        cursor: pointer;
+        box-shadow: 0 9px 22px rgba(31,42,56,.08);
+        transition:
+          transform .2s ease,
+          border-color .2s ease,
+          box-shadow .2s ease,
+          background .2s ease;
       }
 
       #insta .elci-insta-arrow:hover,
-      #insta .elci-insta-arrow:focus-visible{
-        transform:translateY(-2px);
-        background:#f8f3ff;
-        box-shadow:0 14px 28px rgba(31,42,56,.14);
-        outline:none;
+      #insta .elci-insta-arrow:focus-visible {
+        transform: translateY(-2px);
+        border-color: rgba(90,31,168,.34);
+        background: #faf7ff;
+        box-shadow: 0 13px 28px rgba(31,42,56,.12);
+        outline: none;
       }
 
-      #insta .insta-track-wrap{
-        position:relative;
-        width:100%;
-        max-width:100%;
-        overflow:hidden!important;
-        margin:0!important;
-        padding:24px 0 24px!important;
+      /*
+        Dış alan daima sayfa genişliğinde sabit kalır.
+        Yalnızca içindeki fotoğraf kartları sağa-sola kayar.
+      */
+      #insta .insta-track-wrap {
+        position: relative !important;
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        height: 386px !important;
+        margin: 0 !important;
+        padding: 18px 16px 12px !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+        border: 1px solid rgba(90,31,168,.10);
+        border-radius: 28px;
+        background:
+          radial-gradient(circle at 10% 15%, rgba(39,212,232,.11), transparent 30%),
+          radial-gradient(circle at 90% 85%, rgba(90,31,168,.09), transparent 34%),
+          linear-gradient(145deg,#ffffff,#fbf9ff);
+        box-shadow: 0 18px 48px rgba(31,42,56,.07);
+        isolation: isolate;
+        contain: layout paint;
       }
 
-      #instaTrack.insta-track{
-        display:flex!important;
-        align-items:flex-end!important;
-        gap:18px!important;
-        width:100%;
-        max-width:100%;
-        height:365px;
-        overflow-x:auto!important;
-        overflow-y:hidden!important;
-        padding:12px 6px 18px!important;
-        scroll-padding-inline:6px;
-        scroll-snap-type:x proximity;
-        overscroll-behavior-inline:contain;
-        scrollbar-width:thin;
-        scrollbar-color:rgba(90,31,168,.35) transparent;
-        -webkit-overflow-scrolling:touch;
+      #instaTrack.insta-track {
+        display: flex !important;
+        align-items: flex-end !important;
+        gap: 16px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        height: 100% !important;
+        margin: 0 !important;
+        padding: 10px 5px 16px !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        box-sizing: border-box !important;
+        scroll-snap-type: x proximity;
+        scroll-padding-inline: 5px;
+        scrollbar-gutter: stable;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(90,31,168,.30) transparent;
+        overscroll-behavior-inline: contain;
+        -webkit-overflow-scrolling: touch;
       }
 
-      #instaTrack.insta-track::-webkit-scrollbar{height:8px}
-      #instaTrack.insta-track::-webkit-scrollbar-track{background:transparent}
-      #instaTrack.insta-track::-webkit-scrollbar-thumb{
-        background:linear-gradient(90deg,rgba(90,31,168,.34),rgba(39,212,232,.5));
-        border-radius:999px;
+      #instaTrack.insta-track::-webkit-scrollbar {
+        height: 7px;
       }
 
-      #instaTrack .elci-insta-card{
-        position:relative;
-        display:block;
-        flex:0 0 245px!important;
-        width:245px!important;
-        min-width:245px!important;
-        height:292px!important;
-        overflow:hidden;
-        border:4px solid #fff;
-        border-radius:24px;
-        background:#f1edf7;
-        box-shadow:0 15px 32px rgba(31,42,56,.15);
-        text-decoration:none;
-        color:#fff;
-        scroll-snap-align:start;
-        transform:none!important;
-        transition:transform .25s ease,box-shadow .25s ease!important;
+      #instaTrack.insta-track::-webkit-scrollbar-track {
+        background: transparent;
       }
 
-      #instaTrack .elci-insta-card.is-featured{
-        flex-basis:355px!important;
-        width:355px!important;
-        min-width:355px!important;
-        height:342px!important;
-        border-color:rgba(255,255,255,.98);
-        box-shadow:0 22px 44px rgba(55,30,95,.23);
+      #instaTrack.insta-track::-webkit-scrollbar-thumb {
+        border-radius: 999px;
+        background: linear-gradient(
+          90deg,
+          rgba(90,31,168,.34),
+          rgba(39,212,232,.52)
+        );
+      }
+
+      #instaTrack .elci-insta-card {
+        position: relative;
+        display: block;
+        flex: 0 0 226px !important;
+        width: 226px !important;
+        min-width: 226px !important;
+        max-width: 226px !important;
+        height: 284px !important;
+        margin: 0 !important;
+        overflow: hidden;
+        box-sizing: border-box !important;
+        border: 4px solid #fff;
+        border-radius: 22px;
+        background: #f1edf7;
+        color: #fff;
+        text-decoration: none;
+        scroll-snap-align: start;
+        box-shadow: 0 14px 30px rgba(31,42,56,.14);
+        transform: none !important;
+        transition:
+          transform .24s ease,
+          box-shadow .24s ease,
+          border-color .24s ease !important;
+      }
+
+      /*
+        Her açılışta aralıklı birkaç kart rastgele öne çıkar.
+        Büyük kartlar birbirine yığılmadığı için düzen dengeli kalır.
+      */
+      #instaTrack .elci-insta-card.is-featured {
+        flex-basis: 304px !important;
+        width: 304px !important;
+        min-width: 304px !important;
+        max-width: 304px !important;
+        height: 334px !important;
+        border-color: rgba(255,255,255,.98);
+        box-shadow: 0 20px 40px rgba(55,30,95,.20);
       }
 
       #instaTrack .elci-insta-card:hover,
-      #instaTrack .elci-insta-card:focus-visible{
-        z-index:5;
-        transform:translateY(-7px)!important;
-        box-shadow:0 24px 46px rgba(31,42,56,.23);
-        outline:none;
+      #instaTrack .elci-insta-card:focus-visible {
+        z-index: 3;
+        transform: translateY(-6px) !important;
+        border-color: #fff;
+        box-shadow: 0 22px 42px rgba(31,42,56,.21);
+        outline: none;
       }
 
-      #instaTrack .elci-insta-image{
-        width:100%;
-        height:100%;
-        display:block;
-        object-fit:cover;
+      #instaTrack .elci-insta-image {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
       }
 
-      #instaTrack .elci-insta-overlay{
-        position:absolute;
-        inset:auto 0 0;
-        display:flex;
-        flex-direction:column;
-        gap:3px;
-        padding:52px 17px 16px;
-        background:linear-gradient(transparent,rgba(8,11,18,.82));
+      #instaTrack .elci-insta-overlay {
+        position: absolute;
+        inset: auto 0 0;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        padding: 48px 16px 15px;
+        background: linear-gradient(transparent,rgba(7,11,18,.82));
       }
 
-      #instaTrack .elci-insta-overlay strong{
-        overflow:hidden;
-        display:-webkit-box;
-        -webkit-box-orient:vertical;
-        -webkit-line-clamp:2;
-        font-size:.96rem;
-        line-height:1.35;
+      #instaTrack .elci-insta-overlay strong {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        font-size: .94rem;
+        line-height: 1.35;
       }
 
-      #instaTrack .elci-insta-overlay small{
-        color:#e9fbff;
-        font-weight:700;
+      #instaTrack .elci-insta-overlay small {
+        color: #e9fbff;
+        font-size: .78rem;
+        font-weight: 700;
       }
 
-      #instaTrack .elci-insta-empty{
-        width:100%;
-        margin:auto 0;
-        padding:24px;
-        border:1px dashed rgba(90,31,168,.2);
-        border-radius:18px;
-        background:#fbf9ff;
-        color:var(--muted,#667085);
-        text-align:center;
+      #instaTrack .elci-insta-empty {
+        width: 100%;
+        align-self: center;
+        margin: 0;
+        padding: 28px;
+        color: var(--muted,#667085);
+        text-align: center;
       }
 
-      @media(max-width:760px){
-        #insta .insta-head{align-items:center}
-        #insta .elci-insta-heading-copy small{font-size:.82rem}
-        #insta .elci-insta-arrow{width:40px;height:40px}
-        #instaTrack.insta-track{height:352px;gap:14px!important}
-        #instaTrack .elci-insta-card{
-          flex-basis:72vw!important;
-          width:72vw!important;
-          min-width:72vw!important;
-          height:290px!important;
+      @media (max-width: 760px) {
+        #insta {
+          padding: 52px 0 48px !important;
         }
-        #instaTrack .elci-insta-card.is-featured{
-          flex-basis:86vw!important;
-          width:86vw!important;
-          min-width:86vw!important;
-          height:330px!important;
+
+        #insta .container {
+          padding: 0 14px !important;
+        }
+
+        #insta .insta-head {
+          margin-bottom: 22px !important;
+        }
+
+        #insta .elci-insta-arrow {
+          width: 39px;
+          height: 39px;
+        }
+
+        #insta .insta-track-wrap {
+          height: 360px !important;
+          padding: 14px 10px 9px !important;
+          border-radius: 23px;
+        }
+
+        #instaTrack.insta-track {
+          gap: 13px !important;
+          padding: 8px 3px 14px !important;
+        }
+
+        #instaTrack .elci-insta-card {
+          flex-basis: 68vw !important;
+          width: 68vw !important;
+          min-width: 68vw !important;
+          max-width: 68vw !important;
+          height: 278px !important;
+        }
+
+        #instaTrack .elci-insta-card.is-featured {
+          flex-basis: 82vw !important;
+          width: 82vw !important;
+          min-width: 82vw !important;
+          max-width: 82vw !important;
+          height: 318px !important;
         }
       }
 
-      @media(max-width:430px){
-        #insta .elci-insta-heading-copy small{display:none!important}
-        #instaTrack.insta-track{height:335px}
-        #instaTrack .elci-insta-card{
-          flex-basis:76vw!important;
-          width:76vw!important;
-          min-width:76vw!important;
-          height:278px!important;
+      @media (max-width: 430px) {
+        #insta .insta-track-wrap {
+          height: 342px !important;
         }
-        #instaTrack .elci-insta-card.is-featured{
-          flex-basis:88vw!important;
-          width:88vw!important;
-          min-width:88vw!important;
-          height:316px!important;
+
+        #instaTrack .elci-insta-card {
+          flex-basis: 72vw !important;
+          width: 72vw !important;
+          min-width: 72vw !important;
+          max-width: 72vw !important;
+          height: 264px !important;
+        }
+
+        #instaTrack .elci-insta-card.is-featured {
+          flex-basis: 84vw !important;
+          width: 84vw !important;
+          min-width: 84vw !important;
+          max-width: 84vw !important;
+          height: 302px !important;
         }
       }
     `;
+
     document.head.appendChild(style);
   }
 
-  function getSessionSeed() {
-    const key = 'elci-instagram-feature-seed';
-    let value = Number(sessionStorage.getItem(key));
-    if (!Number.isFinite(value) || value <= 0) {
-      value = Math.floor(Math.random() * 2147483646) + 1;
-      sessionStorage.setItem(key, String(value));
+  function randomOffset() {
+    const key = 'elci-instagram-feature-offset-v25';
+    const saved = Number(sessionStorage.getItem(key));
+
+    if (Number.isInteger(saved) && saved >= 0 && saved <= 4) {
+      return saved;
     }
-    return value;
-  }
 
-  function seededShuffle(values, seed) {
-    const result = [...values];
-    let state = seed % 2147483647;
-    if (state <= 0) state += 2147483646;
-
-    const random = () => {
-      state = state * 16807 % 2147483647;
-      return (state - 1) / 2147483646;
-    };
-
-    for (let index = result.length - 1; index > 0; index -= 1) {
-      const target = Math.floor(random() * (index + 1));
-      [result[index], result[target]] = [result[target], result[index]];
-    }
-    return result;
+    const offset = Math.floor(Math.random() * 5);
+    sessionStorage.setItem(key, String(offset));
+    return offset;
   }
 
   function featuredIndexes(length) {
-    if (length <= 0) return new Set();
-    const count = Math.min(3, Math.max(1, Math.round(length / 5)));
-    const choices = seededShuffle(Array.from({ length }, (_, index) => index), getSessionSeed());
-    return new Set(choices.slice(0, count));
+    const selected = new Set();
+
+    if (length <= 0) return selected;
+
+    if (length < 5) {
+      selected.add(Math.floor(Math.random() * length));
+      return selected;
+    }
+
+    const offset = randomOffset();
+
+    for (let index = offset; index < length; index += 5) {
+      selected.add(index);
+    }
+
+    return selected;
   }
 
   function imageCandidates(item) {
     if (item.image) {
       const clean = String(item.image).trim();
+
       return [
         clean,
         clean.startsWith('/') ? clean : `/${clean}`
@@ -349,15 +443,16 @@
   }
 
   function setImageWithFallback(image, candidates, onAllFailed) {
-    const unique = [...new Set(candidates.filter(Boolean))];
+    const uniqueCandidates = [...new Set(candidates.filter(Boolean))];
     let index = 0;
 
     const tryNext = () => {
-      if (index >= unique.length) {
+      if (index >= uniqueCandidates.length) {
         onAllFailed?.();
         return;
       }
-      image.src = unique[index];
+
+      image.src = uniqueCandidates[index];
       index += 1;
     };
 
@@ -366,6 +461,10 @@
   }
 
   function normalizeInstagram(manualItems, fallbackItems) {
+    /*
+      Yönetim panelinden eklenen görseller her zaman en başta görünür.
+      Eski arşiv görselleri arkadan devam eder.
+    */
     const manual = (Array.isArray(manualItems) ? manualItems : [])
       .filter(item => item && item.published !== false && item.image)
       .map(item => ({
@@ -389,96 +488,99 @@
       .filter(item => item.file);
 
     const seen = new Set();
-    return [...manual, ...fallback].filter(item => {
-      const key = item.sourceKey;
-      if (!key || seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    }).slice(0, 24);
+
+    return [...manual, ...fallback]
+      .filter(item => {
+        const key = item.sourceKey;
+        if (!key || seen.has(key)) return false;
+
+        seen.add(key);
+        return true;
+      })
+      .slice(0, 30);
   }
 
-  function ensureSliderControls(track) {
+  function prepareHeader(track) {
     const section = document.getElementById('insta');
     const head = section?.querySelector('.insta-head');
     if (!head) return;
 
-    let headingCopy = head.querySelector('.elci-insta-heading-copy');
-    if (!headingCopy) {
-      const heading = head.querySelector('h2');
-      headingCopy = document.createElement('div');
-      headingCopy.className = 'elci-insta-heading-copy';
-      if (heading) headingCopy.appendChild(heading);
+    /*
+      Önceki sürümde eklenen yardımcı yazıyı kaldırır.
+      Başlık tekrar sitenin diğer bölüm başlıklarıyla aynı görünür.
+    */
+    const oldCopy = head.querySelector('.elci-insta-heading-copy');
 
-      const hint = document.createElement('small');
-      hint.textContent = 'Fotoğrafları sürükleyin veya oklarla kaydırın';
-      headingCopy.appendChild(hint);
-      head.prepend(headingCopy);
+    if (oldCopy) {
+      const heading = oldCopy.querySelector('h2');
+
+      if (heading) {
+        head.insertBefore(heading, oldCopy);
+      }
+
+      oldCopy.remove();
     }
 
-    let controls = head.querySelector('.elci-insta-controls');
-    if (!controls) {
-      controls = document.createElement('div');
-      controls.className = 'elci-insta-controls';
+    head.querySelectorAll('.elci-insta-controls').forEach(control => control.remove());
 
-      const previous = document.createElement('button');
-      previous.type = 'button';
-      previous.className = 'elci-insta-arrow';
-      previous.setAttribute('aria-label', 'Önceki Instagram görselleri');
-      previous.textContent = '←';
+    const controls = document.createElement('div');
+    controls.className = 'elci-insta-controls';
 
-      const next = document.createElement('button');
-      next.type = 'button';
-      next.className = 'elci-insta-arrow';
-      next.setAttribute('aria-label', 'Sonraki Instagram görselleri');
-      next.textContent = '→';
+    const previous = document.createElement('button');
+    previous.type = 'button';
+    previous.className = 'elci-insta-arrow';
+    previous.setAttribute('aria-label', 'Önceki Instagram görselleri');
+    previous.textContent = '←';
 
-      previous.addEventListener('click', () => scrollSlider(track, -1));
-      next.addEventListener('click', () => scrollSlider(track, 1));
+    const next = document.createElement('button');
+    next.type = 'button';
+    next.className = 'elci-insta-arrow';
+    next.setAttribute('aria-label', 'Sonraki Instagram görselleri');
+    next.textContent = '→';
 
-      controls.append(previous, next);
-      head.appendChild(controls);
-    }
+    previous.addEventListener('click', () => scrollSlider(track, -1));
+    next.addEventListener('click', () => scrollSlider(track, 1));
+
+    controls.append(previous, next);
+    head.appendChild(controls);
   }
 
-  function scrollSlider(track, direction = 1) {
-    const amount = Math.max(280, Math.round(track.clientWidth * .72));
-    track.scrollBy({ left: direction * amount, behavior: 'smooth' });
+  function scrollSlider(track, direction) {
+    const firstCard = track.querySelector('.elci-insta-card');
+
+    const amount = firstCard
+      ? firstCard.getBoundingClientRect().width + 16
+      : Math.max(260, Math.round(track.clientWidth * .72));
+
+    track.scrollBy({
+      left: direction * amount,
+      behavior: 'smooth'
+    });
   }
 
-  function startAutoplay(track) {
-    window.clearInterval(autoplayTimer);
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (track.children.length < 4) return;
+  function enableKeyboard(track) {
+    track.tabIndex = 0;
+    track.setAttribute(
+      'aria-label',
+      'Instagram görselleri. Sağ ve sol ok tuşlarıyla gezebilirsiniz.'
+    );
 
-    const resume = () => {
-      window.clearInterval(autoplayTimer);
-      autoplayTimer = window.setInterval(() => {
-        const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 30;
-        if (atEnd) {
-          track.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          scrollSlider(track, 1);
-        }
-      }, 4800);
-    };
+    track.addEventListener('keydown', event => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        scrollSlider(track, -1);
+      }
 
-    const pause = () => window.clearInterval(autoplayTimer);
-
-    if (!track.dataset.autoplayBound) {
-      track.dataset.autoplayBound = 'true';
-      track.addEventListener('mouseenter', pause);
-      track.addEventListener('mouseleave', resume);
-      track.addEventListener('focusin', pause);
-      track.addEventListener('focusout', resume);
-      track.addEventListener('touchstart', pause, { passive: true });
-      track.addEventListener('touchend', resume, { passive: true });
-    }
-
-    resume();
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        scrollSlider(track, 1);
+      }
+    });
   }
 
   function showInstagramEmpty(track) {
     if (track.querySelector('.elci-insta-card')) return;
+
     track.innerHTML = `
       <p class="elci-insta-empty">
         Yönetim panelinden eklediğiniz galeri görselleri burada yayınlanacak.
@@ -491,11 +593,13 @@
     if (!track) return;
 
     injectInstagramStyles();
-    ensureSliderControls(track);
+    prepareHeader(track);
 
     const items = normalizeInstagram(manualItems, fallbackItems);
     const featured = featuredIndexes(items.length);
+
     track.innerHTML = '';
+    track.scrollLeft = 0;
 
     if (!items.length) {
       showInstagramEmpty(track);
@@ -508,11 +612,17 @@
       link.href = item.instagramUrl || INSTAGRAM_PROFILE;
       link.target = '_blank';
       link.rel = 'noopener';
-      link.setAttribute('aria-label', item.title || item.alt || 'Instagram gönderisini aç');
+      link.setAttribute(
+        'aria-label',
+        item.title || item.alt || 'Instagram gönderisini aç'
+      );
 
       const image = document.createElement('img');
       image.className = 'elci-insta-image';
-      image.alt = item.alt || item.title || 'Elçi Veteriner Kliniği galeri görseli';
+      image.alt =
+        item.alt ||
+        item.title ||
+        'Elçi Veteriner Kliniği galeri görseli';
       image.loading = itemIndex < 4 ? 'eager' : 'lazy';
       image.decoding = 'async';
 
@@ -523,23 +633,36 @@
       caption.textContent = item.title || 'Elçi Veteriner Kliniği';
 
       const label = document.createElement('small');
-      label.textContent = item.fallback ? 'Instagram paylaşımı' : 'Gönderiyi aç';
+      label.textContent = item.fallback
+        ? 'Instagram paylaşımı'
+        : 'Gönderiyi aç';
 
       overlay.append(caption, label);
       link.append(image, overlay);
       track.appendChild(link);
 
-      setImageWithFallback(image, imageCandidates(item), () => {
-        link.remove();
-        window.setTimeout(() => showInstagramEmpty(track), 50);
-      });
+      setImageWithFallback(
+        image,
+        imageCandidates(item),
+        () => {
+          link.remove();
+          window.setTimeout(() => showInstagramEmpty(track), 40);
+        }
+      );
     });
 
-    window.setTimeout(() => startAutoplay(track), 250);
+    enableKeyboard(track);
   }
 
+  /* ---------------- VERİLERİ YÜKLE ---------------- */
+
   async function renderAll() {
-    const [reviews, siteSettings, manualInstagram, fallbackInstagram] = await Promise.all([
+    const [
+      reviews,
+      siteSettings,
+      manualInstagram,
+      fallbackInstagram
+    ] = await Promise.all([
       fetchJson(`/assets/data/reviews.json?v=${VERSION}`, []),
       fetchJson(`/assets/data/site-settings.json?v=${VERSION}`, {}),
       fetchJson(`/assets/data/instagram-manual.json?v=${VERSION}`, []),
@@ -551,13 +674,15 @@
   }
 
   function start() {
+    /*
+      Yalnızca bir kez oluşturulur.
+      Önceki sürümdeki tekrar tekrar çizim, genişlik değişimi ve titreme kaldırıldı.
+    */
     renderAll();
-    window.setTimeout(renderAll, 800);
-    window.setTimeout(renderAll, 1700);
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', start);
+    document.addEventListener('DOMContentLoaded', start, { once: true });
   } else {
     start();
   }
