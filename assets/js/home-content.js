@@ -2,7 +2,7 @@
   'use strict';
 
   const INSTAGRAM_PROFILE = 'https://www.instagram.com/elciveteriner';
-  const VERSION = 'content-v28';
+  const VERSION = 'content-v29';
 
   async function fetchJson(url, fallback) {
     try {
@@ -91,11 +91,13 @@
       'elci-instagram-slider-v24',
       'elci-instagram-slider-v25',
       'elci-instagram-carousel-v26',
-      'elci-instagram-film-v28'
+      'elci-instagram-film-v28',
+      'elci-instagram-film-v29'
     ].forEach(id => document.getElementById(id)?.remove());
 
     const style = document.createElement('style');
-    style.id = 'elci-instagram-film-v28';
+    style.id = 'elci-instagram-film-v28',
+      'elci-instagram-film-v29';
 
     style.textContent = `
       #insta {
@@ -136,7 +138,7 @@
         min-width: 0 !important;
         height: 326px !important;
         margin: 0 !important;
-        padding: 8px 0 !important;
+        padding: 12px 0 !important;
         overflow: hidden !important;
         box-sizing: border-box !important;
         border: 1px solid rgba(90,31,168,.10);
@@ -176,11 +178,11 @@
 
       #instaTrack.insta-track {
         --elci-film-gap: 16px;
-        --elci-film-duration: 120s;
+        --elci-film-duration: 260s;
 
         display: flex !important;
         align-items: center !important;
-        gap: var(--elci-film-gap) !important;
+        gap: 0 !important;
         width: max-content !important;
         min-width: max-content !important;
         max-width: none !important;
@@ -191,7 +193,7 @@
         box-sizing: border-box !important;
         transform: translate3d(0,0,0);
         animation: elciInstagramFilm var(--elci-film-duration) linear infinite;
-        animation-delay: -7s;
+        animation-delay: -18s;
         will-change: transform;
       }
 
@@ -214,19 +216,14 @@
         }
       }
 
-      #insta .insta-track-wrap:hover #instaTrack,
-      #insta .insta-track-wrap:focus-within #instaTrack {
-        animation-play-state: paused;
-      }
-
       #instaTrack .elci-insta-card {
         position: relative;
         display: block;
-        flex: 0 0 248px !important;
-        width: 248px !important;
-        min-width: 248px !important;
-        max-width: 248px !important;
-        height: 298px !important;
+        flex: 0 0 246px !important;
+        width: 246px !important;
+        min-width: 246px !important;
+        max-width: 246px !important;
+        height: 286px !important;
         margin: 0 !important;
         overflow: hidden;
         box-sizing: border-box !important;
@@ -238,27 +235,27 @@
         box-shadow: 0 14px 30px rgba(31,42,56,.14);
         transform: translateZ(0);
         transition:
-          transform .24s ease,
           box-shadow .24s ease,
           border-color .24s ease !important;
       }
 
       #instaTrack .elci-insta-card.is-featured {
-        flex-basis: 322px !important;
-        width: 322px !important;
-        min-width: 322px !important;
-        max-width: 322px !important;
-        height: 324px !important;
+        flex-basis: 330px !important;
+        width: 330px !important;
+        min-width: 330px !important;
+        max-width: 330px !important;
+        height: 286px !important;
         box-shadow: 0 20px 40px rgba(55,30,95,.19);
       }
 
-      #instaTrack .elci-insta-card:hover,
+      #instaTrack .elci-insta-card:hover {
+        transform: none !important;
+      }
+
       #instaTrack .elci-insta-card:focus-visible {
-        z-index: 4;
-        transform: translateY(-5px) !important;
-        border-color: #fff;
-        box-shadow: 0 23px 44px rgba(31,42,56,.22);
-        outline: none;
+        transform: none !important;
+        outline: 3px solid rgba(39,212,232,.55);
+        outline-offset: 3px;
       }
 
       #instaTrack .elci-insta-image {
@@ -311,7 +308,7 @@
         }
 
         #insta .insta-track-wrap {
-          height: 342px !important;
+          height: 318px !important;
           border-radius: 23px;
         }
 
@@ -322,7 +319,7 @@
 
         #instaTrack.insta-track {
           --elci-film-gap: 13px;
-          --elci-film-duration: 92s;
+          --elci-film-duration: 220s;
         }
 
         @keyframes elciInstagramFilm {
@@ -339,7 +336,7 @@
           width: 70vw !important;
           min-width: 70vw !important;
           max-width: 70vw !important;
-          height: 274px !important;
+          height: 268px !important;
         }
 
         #instaTrack .elci-insta-card.is-featured {
@@ -347,7 +344,7 @@
           width: 84vw !important;
           min-width: 84vw !important;
           max-width: 84vw !important;
-          height: 306px !important;
+          height: 268px !important;
         }
       }
 
@@ -449,7 +446,7 @@
       Aynı oturumda düzen sabit kalır; sayfa yeniden açıldığında
       öne çıkan görseller farklılaşabilir.
     */
-    const storageKey = 'elci-instagram-feature-seed-v28';
+    const storageKey = 'elci-instagram-feature-seed-v29';
     let seed = Number(sessionStorage.getItem(storageKey));
 
     if (!Number.isInteger(seed) || seed < 0 || seed > 5) {
@@ -584,7 +581,7 @@
       Görsel sayısına göre hız dengelenir.
       Çok görsel olduğunda şerit gereksiz hızlanmaz.
     */
-    const duration = Math.max(90, Math.min(260, items.length * 3.15));
+    const duration = Math.max(180, Math.min(720, items.length * 7.2));
     track.style.setProperty('--elci-film-duration', `${duration}s`);
   }
 
