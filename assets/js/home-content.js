@@ -2,7 +2,7 @@
   'use strict';
 
   const INSTAGRAM_PROFILE = 'https://www.instagram.com/elciveteriner';
-  const VERSION = 'content-v30';
+  const VERSION = 'content-v31';
 
   async function fetchJson(url, fallback) {
     try {
@@ -93,13 +93,15 @@
       'elci-instagram-carousel-v26',
       'elci-instagram-film-v28',
       'elci-instagram-film-v29',
-      'elci-instagram-film-v30'
+      'elci-instagram-film-v30',
+      'elci-instagram-film-v31'
     ].forEach(id => document.getElementById(id)?.remove());
 
     const style = document.createElement('style');
     style.id = 'elci-instagram-film-v28',
       'elci-instagram-film-v29',
-      'elci-instagram-film-v30';
+      'elci-instagram-film-v30',
+      'elci-instagram-film-v31';
 
     style.textContent = `
       #insta {
@@ -138,9 +140,9 @@
         width: 100% !important;
         max-width: 100% !important;
         min-width: 0 !important;
-        height: 338px !important;
+        height: 326px !important;
         margin: 0 !important;
-        padding: 24px 0 !important;
+        padding: 28px 0 !important;
         overflow: hidden !important;
         box-sizing: border-box !important;
         border: 1px solid rgba(90,31,168,.10);
@@ -179,7 +181,7 @@
       }
 
       #instaTrack.insta-track {
-        --elci-film-gap: 24px;
+        --elci-film-gap: 28px;
         --elci-film-duration: 260s;
 
         display: flex !important;
@@ -221,11 +223,11 @@
       #instaTrack .elci-insta-card {
         position: relative;
         display: block;
-        flex: 0 0 220px !important;
-        width: 220px !important;
-        min-width: 220px !important;
-        max-width: 220px !important;
-        height: 258px !important;
+        flex: 0 0 208px !important;
+        width: 208px !important;
+        min-width: 208px !important;
+        max-width: 208px !important;
+        height: 246px !important;
         margin: 0 !important;
         overflow: hidden;
         box-sizing: border-box !important;
@@ -241,24 +243,40 @@
       }
 
       /*
-        Öne çıkma fareyle değil, kartların kendi animasyonuyla olur.
-        Ölçek küçük tutulur ve kartlar arasında geniş boşluk bırakılır;
-        böylece komşu görseller kapanmaz ve kart çerçeve içinde kalır.
+        Fare hiçbir kartı büyütmez. JS, ekranda görünen farklı kartları
+        sırayla ve rastgele seçerek tek seferlik öne çıkarır.
       */
-      #instaTrack .elci-insta-card.is-pulse {
-        z-index: 2;
-        animation:
-          elciInstagramPulse var(--elci-pulse-duration, 9s)
-          ease-in-out var(--elci-pulse-delay, 0s)
-          infinite;
+      #instaTrack .elci-insta-card.is-random-focus {
+        z-index: 8;
+        animation: elciInstagramRandomFocus 2.45s ease-in-out 1;
         transform-origin: center center;
       }
 
-      @keyframes elciInstagramPulse {
-        0%, 68%, 100% {
+      @keyframes elciInstagramRandomFocus {
+        0%, 100% {
           transform: translate3d(0,0,0) scale(1);
           box-shadow: 0 14px 30px rgba(31,42,56,.14);
         }
+
+        42%, 62% {
+          transform: translate3d(0,-2px,0) scale(1.065);
+          box-shadow: 0 25px 48px rgba(55,30,95,.25);
+        }
+      }
+
+      /*
+        index.html içindeki eski grup-hover kuralını tamamen etkisizleştirir.
+        Böylece fare bir görsele geldiğinde bütün şerit büyümez.
+      */
+      #insta #instaTrack.insta-track > .elci-insta-group,
+      #insta #instaTrack.insta-track > .elci-insta-group:hover,
+      #insta #instaTrack.insta-track > .elci-insta-group:focus-within {
+        z-index: 1 !important;
+        transform: none !important;
+        filter: none !important;
+        transition: none !important;
+        will-change: auto !important;
+      }
 
         78% {
           transform: translate3d(0,-2px,0) scale(1.075);
@@ -269,10 +287,6 @@
           transform: translate3d(0,0,0) scale(1);
           box-shadow: 0 14px 30px rgba(31,42,56,.14);
         }
-      }
-
-      #instaTrack .elci-insta-card:hover {
-        transform: none !important;
       }
 
       #instaTrack .elci-insta-card:focus-visible {
@@ -340,7 +354,7 @@
         }
 
         #instaTrack.insta-track {
-          --elci-film-gap: 18px;
+          --elci-film-gap: 22px;
           --elci-film-duration: 220s;
         }
 
@@ -354,19 +368,19 @@
         }
 
         #instaTrack .elci-insta-card {
-          flex-basis: 62vw !important;
-          width: 62vw !important;
-          min-width: 62vw !important;
-          max-width: 62vw !important;
-          height: 244px !important;
+          flex-basis: 59vw !important;
+          width: 59vw !important;
+          min-width: 59vw !important;
+          max-width: 59vw !important;
+          height: 232px !important;
         }
 
         #instaTrack .elci-insta-card.is-featured {
-          flex-basis: 62vw !important;
-          width: 62vw !important;
-          min-width: 62vw !important;
-          max-width: 62vw !important;
-          height: 244px !important;
+          flex-basis: 59vw !important;
+          width: 59vw !important;
+          min-width: 59vw !important;
+          max-width: 59vw !important;
+          height: 232px !important;
         }
       }
 
@@ -375,7 +389,7 @@
           animation-duration: 360s;
         }
 
-        #instaTrack .elci-insta-card.is-pulse {
+        #instaTrack .elci-insta-card.is-random-focus {
           animation: none;
         }
       }
@@ -464,45 +478,10 @@
       .slice(0, 80);
   }
 
-  function pulseSchedule(length) {
-    const schedule = new Map();
-    if (!length) return schedule;
-
-    /*
-      Her kart aynı anda büyümez. Kartların yaklaşık üçte biri,
-      rastgele gecikmelerle kısa süreli öne çıkar.
-    */
-    for (let index = 0; index < length; index += 1) {
-      const shouldPulse = Math.random() < 0.34;
-
-      if (shouldPulse) {
-        schedule.set(index, {
-          delay: -(Math.random() * 18),
-          duration: 8.5 + Math.random() * 5.5
-        });
-      }
-    }
-
-    /*
-      Hiç kart seçilmediyse en az iki kartın hareket etmesini garanti eder.
-    */
-    if (!schedule.size) {
-      schedule.set(0, { delay: -2.5, duration: 10.5 });
-
-      if (length > 3) {
-        schedule.set(Math.floor(length / 2), {
-          delay: -7.5,
-          duration: 12
-        });
-      }
-    }
-
-    return schedule;
-  }
-
-  function createCard(item, pulse, duplicate) {
+  function createCard(item, itemIndex, duplicate) {
     const link = document.createElement('a');
-    link.className = `elci-insta-card${pulse ? ' is-pulse' : ''}`;
+    link.className = 'elci-insta-card';
+    link.dataset.itemIndex = String(itemIndex);
     link.href = item.instagramUrl || INSTAGRAM_PROFILE;
     link.target = '_blank';
     link.rel = 'noopener';
@@ -516,10 +495,6 @@
       link.tabIndex = -1;
     }
 
-    if (pulse) {
-      link.style.setProperty('--elci-pulse-delay', `${pulse.delay}s`);
-      link.style.setProperty('--elci-pulse-duration', `${pulse.duration}s`);
-    }
 
     const image = document.createElement('img');
     image.className = 'elci-insta-image';
@@ -552,7 +527,7 @@
     return link;
   }
 
-  function buildGroup(items, pulseMap, duplicate) {
+  function buildGroup(items, duplicate) {
     const group = document.createElement('div');
     group.className = 'elci-insta-group';
 
@@ -562,11 +537,74 @@
 
     items.forEach((item, index) => {
       group.appendChild(
-        createCard(item, pulseMap.get(index), duplicate)
+        createCard(item, index, duplicate)
       );
     });
 
     return group;
+  }
+
+
+  let randomFocusTimer = 0;
+  let lastFocusedIndex = -1;
+
+  function scheduleRandomFocus(track) {
+    window.clearTimeout(randomFocusTimer);
+
+    const run = () => {
+      const wrapper = track.closest('.insta-track-wrap');
+
+      if (!wrapper || document.hidden) {
+        randomFocusTimer = window.setTimeout(run, 3000);
+        return;
+      }
+
+      const wrapperRect = wrapper.getBoundingClientRect();
+      const allCards = [...track.querySelectorAll('.elci-insta-card')];
+
+      const visibleCards = allCards.filter(card => {
+        const rect = card.getBoundingClientRect();
+
+        return (
+          rect.right > wrapperRect.left + 24 &&
+          rect.left < wrapperRect.right - 24 &&
+          rect.bottom > wrapperRect.top + 18 &&
+          rect.top < wrapperRect.bottom - 18
+        );
+      });
+
+      const differentCards = visibleCards.filter(
+        card => Number(card.dataset.itemIndex) !== lastFocusedIndex
+      );
+
+      const candidates = differentCards.length ? differentCards : visibleCards;
+
+      if (candidates.length) {
+        const selected =
+          candidates[Math.floor(Math.random() * candidates.length)];
+
+        const selectedIndex = Number(selected.dataset.itemIndex);
+        lastFocusedIndex = Number.isFinite(selectedIndex)
+          ? selectedIndex
+          : lastFocusedIndex;
+
+        selected.classList.remove('is-random-focus');
+        void selected.offsetWidth;
+        selected.classList.add('is-random-focus');
+
+        window.setTimeout(() => {
+          selected.classList.remove('is-random-focus');
+        }, 2550);
+      }
+
+      const nextDelay = 3300 + Math.random() * 3600;
+      randomFocusTimer = window.setTimeout(run, nextDelay);
+    };
+
+    randomFocusTimer = window.setTimeout(
+      run,
+      1800 + Math.random() * 2200
+    );
   }
 
   function cleanInstagramHeader() {
@@ -597,7 +635,6 @@
     cleanInstagramHeader();
 
     const items = normalizeInstagram(manualItems, fallbackItems);
-    const pulseMap = pulseSchedule(items.length);
 
     track.innerHTML = '';
 
@@ -617,16 +654,17 @@
       böylece başlangıç ve bitiş noktası fark edilmez.
     */
     track.append(
-      buildGroup(items, pulseMap, false),
-      buildGroup(items, pulseMap, true)
+      buildGroup(items, false),
+      buildGroup(items, true)
     );
 
     /*
       Görsel sayısına göre hız dengelenir.
       Çok görsel olduğunda şerit gereksiz hızlanmaz.
     */
-    const duration = Math.max(260, Math.min(960, items.length * 10.5));
+    const duration = Math.max(340, Math.min(1200, items.length * 13.5));
     track.style.setProperty('--elci-film-duration', `${duration}s`);
+    scheduleRandomFocus(track);
   }
 
   /* ---------------- VERİLERİ YÜKLE ---------------- */
