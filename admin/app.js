@@ -1,15 +1,17 @@
 (() => {
   'use strict';
 
+  const RUNTIME = window.ELCI_RUNTIME_CONFIG || {};
   const GIT_GATEWAY = '/.netlify/git/github';
-  const BRANCH = 'main';
+  const BRANCH = RUNTIME.branch || 'main';
   const APPOINTMENTS_API = '/.netlify/functions/appointments';
-  const PREVIEW_MODE = location.protocol === 'file:' || ['localhost', '127.0.0.1'].includes(location.hostname);
-  const RESOURCES = ['blog', 'faq', 'reviews', 'instagram', 'services', 'stories', 'calendar', 'settings'];
-  const ROUTES = new Set(['dashboard', 'appointments', 'calendar', 'blog', 'faq', 'reviews', 'instagram', 'services', 'stories', 'archive']);
+  const PREVIEW_MODE = document.documentElement.dataset.preview === 'true' || location.protocol === 'file:' || ['localhost', '127.0.0.1'].includes(location.hostname);
+  const RESOURCES = ['blog', 'faq', 'reviews', 'instagram', 'services', 'stories', 'calendar', 'pages', 'settings'];
+  const ROUTES = new Set(['dashboard', 'appointments', 'calendar', 'blog', 'faq', 'reviews', 'instagram', 'services', 'stories', 'pages', 'settings', 'archive']);
   const LABELS = {
     blog: 'Blog', faq: 'SSS', reviews: 'Google Yorumları', instagram: 'Instagram Galerisi',
-    services: 'Hizmetler', stories: 'Başarı Hikâyeleri', calendar: 'Paylaşım Takvimi'
+    services: 'Hizmetler', stories: 'Başarı Hikâyeleri', calendar: 'Paylaşım Takvimi',
+    pages: 'Sayfa Başlıkları', settings: 'Site Ayarları'
   };
 
   const state = {
@@ -21,7 +23,9 @@
     calendarDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
     uploadTarget: null,
     dirty: false,
-    appointmentPoll: 0
+    appointmentPoll: 0,
+    gatewayReady: PREVIEW_MODE,
+    readFallbacks: []
   };
 
   const $ = selector => document.querySelector(selector);
@@ -105,7 +109,7 @@
       blog: '/assets/data/blog.json', faq: '/assets/data/faq.json', reviews: '/assets/data/reviews.json',
       instagram: '/assets/data/instagram.json', services: '/assets/data/services.json',
       stories: '/assets/data/successStories.json', calendar: '/assets/data/calendar.json',
-      settings: '/assets/data/site-settings.json'
+      pages: '/assets/data/pages.json', settings: '/assets/data/site-settings.json'
     }[resource];
   }
 
@@ -163,15 +167,29 @@
     });
   }
 
+  async function loadStaticResource(resource) {
+    const response = await fetch(`${staticPath(resource)}?admin-v=4`, { cache: 'no-store' });
+    if (!response.ok) throw new Error(`${LABELS[resource] || resource} verisi bulunamadı (${response.status}).`);
+    return response.json();
+  }
+
   async function loadResource(resource) {
-    if (PREVIEW_MODE) {
-      const stored = localStorage.getItem(`elci-preview-${resource}`);
-      if (stored) return JSON.parse(stored);
-      const response = await fetch(staticPath(resource), { cache: 'no-store' });
-      return response.json();
+    const stored = PREVIEW_MODE ? localStorage.getItem(`elci-preview-${resource}`) : '';
+    if (stored) return JSON.parse(stored);
+
+    // Önce o anda açık olan deploy'un JSON verisini oku. Böylece test dalı,
+    // main dalında henüz olmayan dosyalar nedeniyle tamamen kilitlenmez.
+    const staticData = await loadStaticResource(resource);
+    if (PREVIEW_MODE) return staticData;
+
+    try {
+      const file = await readRepositoryFile(repositoryPath(resource));
+      state.gatewayReady = true;
+      return JSON.parse(file.content);
+    } catch (error) {
+      state.readFallbacks.push({ resource, message: error.message });
+      return staticData;
     }
-    const file = await readRepositoryFile(repositoryPath(resource));
-    return JSON.parse(file.content);
   }
 
   async function saveResource(resource, message) {
@@ -182,8 +200,9 @@
     }
     const content = `${JSON.stringify(state.data[resource], null, 2)}\n`;
     await writeRepositoryFile(repositoryPath(resource), content, message);
+    state.gatewayReady = true;
     state.dirty = false;
-    toast('Değişiklik kaydedildi', 'Netlify yeni sürümü otomatik yayımlayacak.', 'success');
+    toast('Değişiklik kaydedildi', `${BRANCH} dalına işlendi; Netlify yeni sürümü hazırlayacak.`, 'success');
   }
 
   function imageFolder(resource) {
@@ -218,6 +237,7 @@
     if (resource === 'services') return data?.items || [];
     if (resource === 'stories') return data?.stories || [];
     if (resource === 'calendar') return data?.events || [];
+    if (resource === 'pages') return data?.items || [];
     return Array.isArray(data) ? data : [];
   }
 
@@ -227,6 +247,7 @@
     else if (resource === 'services') state.data.services.items = items;
     else if (resource === 'stories') state.data.stories.stories = items;
     else if (resource === 'calendar') state.data.calendar.events = items;
+    else if (resource === 'pages') state.data.pages.items = items;
     else state.data[resource] = items;
     state.dirty = true;
   }
@@ -262,9 +283,10 @@
     if (resource === 'faq') return { ...base, q: '', a: '', category: 'Muayene ve Laboratuvar', showOnHome: false, homeOrder: null };
     if (resource === 'reviews') return { ...base, author: '', rating: 5, time: '', text: '', sourceUrl: '', showOnHome: false, homeOrder: null };
     if (resource === 'instagram') return { ...base, image: '', file: '', title: 'Elçi Veteriner Kliniği', caption: '', alt: '', instagramUrl: 'https://www.instagram.com/elciveteriner' };
-    if (resource === 'services') return { ...base, title: '', summary: '', detail: '', icon: '#i-stethoscope', href: '' };
+    if (resource === 'services') return { ...base, title: '', summary: '', detail: '', icon: '#i-stethoscope', iconClass: '', href: '', group: 'Diğer hizmetler', order: 99, homeFeatured: false };
     if (resource === 'stories') return { ...base, title: '', petName: '', species: 'Kedi', tagline: '', summary: '', full: '', image: '', icon: '#i-paw' };
     if (resource === 'calendar') return { ...base, title: '', type: 'blog', date: '', time: '19:00', channels: ['Site'], notes: '', status: 'planned', linkedId: '' };
+    if (resource === 'pages') return { ...base, id: '', label: '', eyebrow: '', title: '', subtitle: '', seoTitle: '', seoDescription: '', status: 'published', published: true };
     return base;
   }
 
@@ -335,15 +357,19 @@
   async function checkApiStatus() {
     const el = $('#apiStatus');
     if (PREVIEW_MODE) {
-      el.className = 'status-dot ok'; el.textContent = 'Yerel önizleme modu'; return;
+      el.className = 'status-dot ok';
+      el.textContent = 'Yerel önizleme modu';
+      return;
     }
     try {
       await readRepositoryFile(repositoryPath('settings'));
+      state.gatewayReady = true;
       el.className = 'status-dot ok';
-      el.textContent = 'Git Gateway hazır';
+      el.textContent = `${BRANCH} dalına bağlı`;
     } catch (error) {
+      state.gatewayReady = false;
       el.className = 'status-dot error';
-      el.textContent = 'Git Gateway bağlantısını kontrol edin';
+      el.textContent = 'Site verisi açık; yayın bağlantısı kontrol edilmeli';
     }
   }
 
@@ -421,8 +447,9 @@
       faq: { title: 'Sık Sorulan Sorular', description: 'Soru, cevap, yayın durumu ve ana sayfa seçimi aynı kayıtta yönetilir.', newLabel: 'Yeni Soru' },
       reviews: { title: 'Google Yorumları', description: 'Gerçek yorumları ekleyin; ana sayfada gösterilecekleri tek kutucukla seçin.', newLabel: 'Yeni Yorum' },
       instagram: { title: 'Instagram Galerisi', description: 'Yeni görselleri yükleyin, film şeridinde yayınlayın veya arşive alın.', newLabel: 'Yeni Görsel' },
-      services: { title: 'Hizmetler', description: 'Mevcut hizmet başlıklarını ve açıklamalarını doğrudan düzenleyin.', newLabel: 'Yeni Hizmet' },
-      stories: { title: 'Başarı Hikâyeleri', description: 'Eski hikâyeleri düzenleyin veya yeni bir vaka hikâyesi ekleyin.', newLabel: 'Yeni Hikâye' }
+      services: { title: 'Hizmetler', description: 'Başlık, kısa açıklama, ayrıntı, sıra, kategori ve ana sayfa görünürlüğü buradan yönetilir.', newLabel: 'Yeni Hizmet' },
+      stories: { title: 'Başarı Hikâyeleri', description: 'Eski hikâyeleri düzenleyin veya yeni bir vaka hikâyesi ekleyin.', newLabel: 'Yeni Hikâye' },
+      pages: { title: 'Sayfa Başlıkları', description: 'Ana sayfa, Hakkımızda, Hizmetler, Blog, SSS ve Hasta İlişkileri başlıklarını ve SEO metinlerini düzenleyin.', newLabel: '' }
     }[resource];
   }
 
@@ -431,13 +458,17 @@
     if (resource === 'faq') return [item.q, item.a, item.category].join(' ');
     if (resource === 'reviews') return [item.author, item.text, item.time].join(' ');
     if (resource === 'instagram') return [item.title, item.caption, item.alt].join(' ');
-    if (resource === 'services') return [item.title, item.summary, item.detail].join(' ');
+    if (resource === 'services') return [item.title, item.summary, item.detail, item.group].join(' ');
     if (resource === 'stories') return [item.title, item.petName, item.species, item.summary].join(' ');
+    if (resource === 'pages') return [item.label, item.eyebrow, item.title, item.subtitle, item.seoTitle, item.seoDescription].join(' ');
     return JSON.stringify(item);
   }
 
   function itemTitle(resource, item) {
-    return resource === 'faq' ? item.q : resource === 'reviews' ? item.author : item.title || item.petName || 'İçerik';
+    if (resource === 'faq') return item.q;
+    if (resource === 'reviews') return item.author;
+    if (resource === 'pages') return item.label || item.title || 'Sayfa';
+    return item.title || item.petName || 'İçerik';
   }
 
   function itemSubtitle(resource, item) {
@@ -445,8 +476,9 @@
     if (resource === 'faq') return `${item.category || 'Genel'}${item.showOnHome ? ' • Ana sayfada' : ''}`;
     if (resource === 'reviews') return `${'★'.repeat(Number(item.rating) || 5)}${item.showOnHome ? ' • Ana sayfada' : ''}`;
     if (resource === 'instagram') return item.caption || item.alt || 'Instagram görseli';
-    if (resource === 'services') return item.summary || '';
+    if (resource === 'services') return `${item.group || 'Diğer hizmetler'}${item.homeFeatured ? ' • Ana sayfada' : ''} • Sıra ${Number(item.order) || '—'}`;
     if (resource === 'stories') return `${item.petName || ''} • ${item.species || ''}`;
+    if (resource === 'pages') return item.title || '';
     return '';
   }
 
@@ -459,8 +491,9 @@
   function renderContentList(resource) {
     const config = listConfig(resource);
     const active = resourceItems(resource).filter(item => effectiveStatus(item) !== 'archived');
-    const categories = [...new Set(active.map(item => item.category || item.species || '').filter(Boolean))].sort((a, b) => a.localeCompare(b, 'tr'));
+    const categories = [...new Set(active.map(item => item.category || item.species || item.group || '').filter(Boolean))].sort((a, b) => a.localeCompare(b, 'tr'));
     main.innerHTML = `
+      ${connectionBanner()}
       ${sectionHead(config.title, config.description, config.newLabel, resource)}
       <section class="panel">
         <div class="toolbar">
@@ -480,9 +513,9 @@
       const wantedCategory = category?.value || 'all';
       const items = active.filter(item => {
         if (wantedStatus !== 'all' && effectiveStatus(item) !== wantedStatus) return false;
-        if (wantedCategory !== 'all' && ![item.category, item.species].includes(wantedCategory)) return false;
+        if (wantedCategory !== 'all' && ![item.category, item.species, item.group].includes(wantedCategory)) return false;
         return !query || normalize(searchableText(resource, item)).includes(query);
-      });
+      }).sort((a, b) => resource === 'services' ? (Number(a.order) || 9999) - (Number(b.order) || 9999) : 0);
       $('#listContainer').innerHTML = items.length ? `
         <table class="content-table"><thead><tr><th>İçerik</th><th>Durum</th><th>Güncelleme</th><th></th></tr></thead><tbody>
         ${items.map(item => {
@@ -491,7 +524,7 @@
             <td data-label="İçerik"><div class="item-title">${image ? `<img class="item-thumb" src="${safeAttr(image)}" alt="">` : ''}<div><strong>${escapeHtml(itemTitle(resource, item))}</strong><small>${escapeHtml(itemSubtitle(resource, item))}</small></div></div></td>
             <td data-label="Durum">${statusChip(item)}</td>
             <td data-label="Güncelleme">${formatDate(item.updatedAt || item.date || item.createdAt)}</td>
-            <td><div class="row-actions"><button class="button compact" data-edit="${safeAttr(itemId(item))}">Düzenle</button><button class="button compact danger" data-archive="${safeAttr(itemId(item))}">Arşivle</button></div></td>
+            <td><div class="row-actions"><button class="button compact" data-edit="${safeAttr(itemId(item))}">Düzenle</button>${resource !== 'pages' ? `<button class="button compact danger" data-archive="${safeAttr(itemId(item))}">Arşivle</button>` : ''}</div></td>
           </tr>`;
         }).join('')}</tbody></table>` : '<div class="empty-state"><strong>Kayıt bulunamadı</strong><span>Aramayı değiştirin veya yeni içerik ekleyin.</span></div>';
       $('#listContainer').querySelectorAll('[data-edit]').forEach(button => button.addEventListener('click', () => openEditor(resource, button.dataset.edit)));
@@ -590,6 +623,49 @@
     main.querySelectorAll('[data-delete-resource]').forEach(button => button.addEventListener('click', () => permanentlyDelete(button.dataset.deleteResource, button.dataset.deleteId)));
   }
 
+  function connectionBanner() {
+    if (PREVIEW_MODE) return '<div class="read-mode-banner success"><strong>Yerel önizleme:</strong> Değişiklikler yalnızca bu tarayıcıda saklanır.</div>';
+    if (state.gatewayReady) return `<div class="read-mode-banner success"><strong>${escapeHtml(BRANCH)} dalı bağlı:</strong> Kaydettiğiniz değişiklikler test dalına işlenir.</div>`;
+    return `<div class="read-mode-banner"><strong>Görüntüleme hazır:</strong> Site verileri açıldı; kaydetme bağlantısı kurulamazsa Git Gateway/Identity ayarı kontrol edilmelidir.</div>`;
+  }
+
+  function renderSettings() {
+    const data = state.data.settings || {};
+    const brand = data.brand || {};
+    const contact = data.contact || {};
+    const social = data.social || {};
+    main.innerHTML = `
+      ${connectionBanner()}
+      ${sectionHead('Site Ayarları', 'Logo, klinik adı, slogan, telefon, e-posta, adres, çalışma saatleri ve sosyal bağlantıları tek yerden yönetin.')}
+      <form id="settingsForm" class="panel settings-form">
+        <div class="settings-grid">
+          <section><h2>Marka</h2><div class="form-grid"><div class="form-group full"><label>Klinik adı</label><input name="brandName" required value="${safeAttr(brand.name || '')}"></div><div class="form-group full"><label>Slogan</label><input name="tagline" value="${safeAttr(brand.tagline || '')}"></div><div class="form-group full"><label>Logo yolu</label><input name="logo" value="${safeAttr(brand.logo || '')}"></div></div></section>
+          <section><h2>İletişim</h2><div class="form-grid"><div class="form-group"><label>Telefon (görünen)</label><input name="phoneDisplay" value="${safeAttr(contact.phoneDisplay || '')}"></div><div class="form-group"><label>Telefon (bağlantı)</label><input name="phone" value="${safeAttr(contact.phone || '')}"></div><div class="form-group full"><label>E-posta</label><input type="email" name="email" value="${safeAttr(contact.email || '')}"></div><div class="form-group full"><label>Kısa adres</label><input name="addressShort" value="${safeAttr(contact.addressShort || '')}"></div><div class="form-group full"><label>Çalışma saatleri</label><input name="workingHours" value="${safeAttr(contact.workingHours || '')}"></div></div></section>
+          <section><h2>Sosyal medya ve sayaçlar</h2><div class="form-grid"><div class="form-group full"><label>Instagram bağlantısı</label><input type="url" name="instagram" value="${safeAttr(social.instagram || '')}"></div><div class="form-group full"><label>YouTube bağlantısı</label><input type="url" name="youtube" value="${safeAttr(social.youtube || '')}"></div><div class="form-group"><label>Toplam Google yorumu</label><input type="number" min="0" name="totalGoogleReviews" value="${safeAttr(data.totalGoogleReviews || 0)}"></div></div></section>
+        </div>
+        <div class="settings-actions"><span>Bu bilgiler ortak üst alan ve ilgili iletişim bölümlerinde kullanılır.</span><button class="button primary" type="submit">Site Ayarlarını Kaydet</button></div>
+      </form>`;
+    $('#settingsForm').addEventListener('submit', async event => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const submit = form.querySelector('[type="submit"]');
+      submit.disabled = true; submit.textContent = 'Kaydediliyor…';
+      try {
+        state.data.settings = {
+          ...data,
+          brand: { ...brand, name: clean(formValue(form, 'brandName')), tagline: clean(formValue(form, 'tagline')), logo: clean(formValue(form, 'logo')) },
+          contact: { ...contact, phone: clean(formValue(form, 'phone')).replace(/\D+/g, ''), phoneDisplay: clean(formValue(form, 'phoneDisplay')), email: clean(formValue(form, 'email')), addressShort: clean(formValue(form, 'addressShort')), workingHours: clean(formValue(form, 'workingHours')) },
+          social: { ...social, instagram: clean(formValue(form, 'instagram')), youtube: clean(formValue(form, 'youtube')) },
+          totalGoogleReviews: Number(formValue(form, 'totalGoogleReviews')) || 0,
+          updatedAt: nowIso()
+        };
+        await saveResource('settings', 'Panel: site ayarları güncellendi');
+        renderSettings();
+      } catch (error) { toast('Site ayarları kaydedilemedi', error.message, 'error'); }
+      finally { submit.disabled = false; submit.textContent = 'Site Ayarlarını Kaydet'; }
+    });
+  }
+
   function renderRoute() {
     if (!state.loaded) return;
     const route = location.hash.replace(/^#/, '').split('/')[0] || 'dashboard';
@@ -599,6 +675,7 @@
     else if (safeRoute === 'calendar') renderCalendar();
     else if (safeRoute === 'appointments') renderAppointments();
     else if (safeRoute === 'archive') renderArchive();
+    else if (safeRoute === 'settings') renderSettings();
     else renderContentList(safeRoute);
     main.focus({ preventScroll: true });
   }
@@ -615,10 +692,10 @@
   }
 
   function editorHtml(resource, item, isNew) {
-    const footer = (extra = '') => `<div class="editor-footer"><div>${extra}</div><div class="footer-actions"><button type="button" class="button" data-close-modal>Vazgeç</button>${!isNew ? '<button type="button" class="button danger" data-editor-archive>Arşive Kaldır</button>' : ''}<button type="submit" class="button primary">${!isNew && effectiveStatus(item) === 'published' ? 'Değişiklikleri Kaydet' : 'Kaydet'}</button></div></div>`;
+    const footer = (extra = '', allowArchive = resource !== 'pages') => `<div class="editor-footer"><div>${extra}</div><div class="footer-actions"><button type="button" class="button" data-close-modal>Vazgeç</button>${!isNew && allowArchive ? '<button type="button" class="button danger" data-editor-archive>Arşive Kaldır</button>' : ''}<button type="submit" class="button primary">${!isNew && effectiveStatus(item) === 'published' ? 'Değişiklikleri Kaydet' : 'Kaydet'}</button></div></div>`;
     const statusFields = (resourceName = resource) => `<div class="form-group"><label>Yayın durumu</label>${editorStatusOptions(item, resourceName)}</div><div class="form-group" id="scheduleGroup"><label>Yayın tarihi ve saati</label><input type="datetime-local" name="scheduledAt" value="${safeAttr(localDateTimeValue(item.scheduledAt || item.date))}"><span class="form-help">Yalnızca “İleri tarihte yayınla” seçildiğinde kullanılır.</span></div>`;
 
-    if (resource === 'blog') return `<form id="editorForm" class="form-grid"><div class="form-group full"><label>Başlık *</label><input name="title" required value="${safeAttr(item.title)}" placeholder="Yazı başlığı"></div>${statusFields()}<div class="form-group"><label>Kategori *</label><input name="category" required value="${safeAttr(item.category || item.categories?.[0] || '')}" list="blogCategories"><datalist id="blogCategories"><option>Koruyucu Sağlık</option><option>Cerrahi ve Operasyonlar</option><option>Acil Durumlar</option><option>Ağız ve Diş Sağlığı</option><option>Mevsimsel Sağlık</option><option>Klinik Duyuruları</option></datalist></div><div class="form-group"><label>Hayvan türü</label><select name="species"><option ${item.species === 'Genel' ? 'selected' : ''}>Genel</option><option ${item.species === 'Kedi' ? 'selected' : ''}>Kedi</option><option ${item.species === 'Köpek' ? 'selected' : ''}>Köpek</option><option ${item.species === 'Kedi ve Köpek' ? 'selected' : ''}>Kedi ve Köpek</option><option ${item.species === 'Egzotik' ? 'selected' : ''}>Egzotik</option></select></div><div class="form-group full"><label>Kısa özet *</label><textarea name="summary" required rows="3">${escapeHtml(item.summary)}</textarea></div>${imageEditor('blog', item, 'cover')}<div class="form-group full"><label>Yazı içeriği *</label><div class="rich-toolbar"><button type="button" data-insert="<strong>|</strong>">B</button><button type="button" data-insert="<h2>|</h2>">H2</button><button type="button" data-insert="<ul><li>|</li></ul>">• Liste</button><button type="button" data-insert="<p>|</p>">¶</button></div><textarea name="content" id="contentEditor" required rows="12">${escapeHtml(item.content)}</textarea><span class="form-help">Düz metin yazabilirsiniz. Paragraflar otomatik okunur; araç çubuğu temel biçimlendirme ekler.</span></div><div class="form-group"><label>Etiketler <small>(virgülle)</small></label><input name="tags" value="${safeAttr((item.tags || []).join(', '))}"></div><div class="form-group"><label>Yazar</label><input name="author" value="${safeAttr(item.author || 'Elçi Veteriner Kliniği')}"></div><details class="form-group full"><summary><strong>SEO ve gelişmiş ayarlar</strong></summary><div class="form-grid" style="margin-top:12px"><div class="form-group"><label>Bağlantı adı</label><input name="slug" value="${safeAttr(item.slug)}" placeholder="otomatik-olusturulur"></div><div class="form-group"><label>YouTube video kimliği</label><input name="youtubeId" value="${safeAttr(item.youtubeId)}"></div><div class="form-group full"><label>SEO başlığı</label><input name="seoTitle" value="${safeAttr(item.seoTitle)}"></div><div class="form-group full"><label>SEO açıklaması</label><textarea name="seoDescription" rows="3">${escapeHtml(item.seoDescription)}</textarea></div></div></details>${footer()}</form>`;
+    if (resource === 'blog') return `<form id="editorForm" class="form-grid"><div class="form-group full"><label>Başlık *</label><input name="title" required value="${safeAttr(item.title)}" placeholder="Yazı başlığı"></div>${statusFields()}<div class="form-group"><label>Kategori *</label><input name="category" required value="${safeAttr(item.category || item.categories?.[0] || '')}" list="blogCategories"><datalist id="blogCategories"><option>Koruyucu Sağlık</option><option>Cerrahi ve Operasyonlar</option><option>Acil Durumlar</option><option>Ağız ve Diş Sağlığı</option><option>Mevsimsel Sağlık</option><option>Klinik Duyuruları</option></datalist></div><div class="form-group"><label>Hayvan türü</label><select name="species"><option ${item.species === 'Genel' ? 'selected' : ''}>Genel</option><option ${item.species === 'Kedi' ? 'selected' : ''}>Kedi</option><option ${item.species === 'Köpek' ? 'selected' : ''}>Köpek</option><option ${item.species === 'Kedi ve Köpek' ? 'selected' : ''}>Kedi ve Köpek</option></select></div><div class="form-group full"><label>Kısa özet *</label><textarea name="summary" required rows="3">${escapeHtml(item.summary)}</textarea></div>${imageEditor('blog', item, 'cover')}<div class="form-group full"><label>Yazı içeriği *</label><div class="rich-toolbar"><button type="button" data-insert="<strong>|</strong>">B</button><button type="button" data-insert="<h2>|</h2>">H2</button><button type="button" data-insert="<ul><li>|</li></ul>">• Liste</button><button type="button" data-insert="<p>|</p>">¶</button></div><textarea name="content" id="contentEditor" required rows="12">${escapeHtml(item.content)}</textarea><span class="form-help">Düz metin yazabilirsiniz. Paragraflar otomatik okunur; araç çubuğu temel biçimlendirme ekler.</span></div><div class="form-group"><label>Etiketler <small>(virgülle)</small></label><input name="tags" value="${safeAttr((item.tags || []).join(', '))}"></div><div class="form-group"><label>Yazar</label><input name="author" value="${safeAttr(item.author || 'Elçi Veteriner Kliniği')}"></div><details class="form-group full"><summary><strong>SEO ve gelişmiş ayarlar</strong></summary><div class="form-grid" style="margin-top:12px"><div class="form-group"><label>Bağlantı adı</label><input name="slug" value="${safeAttr(item.slug)}" placeholder="otomatik-olusturulur"></div><div class="form-group"><label>YouTube video kimliği</label><input name="youtubeId" value="${safeAttr(item.youtubeId)}"></div><div class="form-group full"><label>SEO başlığı</label><input name="seoTitle" value="${safeAttr(item.seoTitle)}"></div><div class="form-group full"><label>SEO açıklaması</label><textarea name="seoDescription" rows="3">${escapeHtml(item.seoDescription)}</textarea></div></div></details>${footer()}</form>`;
 
     if (resource === 'faq') return `<form id="editorForm" class="form-grid"><div class="form-group full"><label>Soru *</label><input name="q" required value="${safeAttr(item.q)}"></div>${statusFields()}<div class="form-group full"><label>Cevap *</label><textarea name="a" required rows="7">${escapeHtml(item.a)}</textarea></div><div class="form-group"><label>Kategori *</label><input name="category" required value="${safeAttr(item.category)}" list="faqCategories"><datalist id="faqCategories"><option>Randevu & İletişim</option><option>Muayene ve Laboratuvar</option><option>Ameliyat & Anestezi</option><option>Bakım & Beslenme</option><option>Koruyucu Sağlık</option></datalist></div><div class="form-group"><label>Ana sayfa sırası</label><input type="number" min="1" max="6" name="homeOrder" value="${safeAttr(item.homeOrder || '')}" placeholder="1–6"></div><div class="form-group full"><label class="check-row"><input type="checkbox" name="showOnHome" ${item.showOnHome ? 'checked' : ''}><span>Ana sayfada göster <small>(en fazla 6 soru)</small></span></label></div>${footer()}</form>`;
 
@@ -626,9 +703,11 @@
 
     if (resource === 'instagram') return `<form id="editorForm" class="form-grid">${imageEditor('instagram', item)}${statusFields()}<div class="form-group"><label>Kısa başlık</label><input name="title" value="${safeAttr(item.title)}"></div><div class="form-group"><label>Instagram gönderi bağlantısı</label><input type="url" name="instagramUrl" value="${safeAttr(item.instagramUrl)}"></div><div class="form-group full"><label>Açıklama</label><textarea name="caption" rows="4">${escapeHtml(item.caption)}</textarea></div><div class="form-group full"><label>Görsel açıklaması <small>(erişilebilirlik)</small></label><input name="alt" value="${safeAttr(item.alt)}"></div>${footer()}</form>`;
 
-    if (resource === 'services') return `<form id="editorForm" class="form-grid">${statusFields()}<div class="form-group"><label>Hizmet başlığı *</label><input name="title" required value="${safeAttr(item.title)}"></div><div class="form-group"><label>Sayfa bağlantısı</label><input name="href" value="${safeAttr(item.href)}"></div><div class="form-group full"><label>Kısa açıklama *</label><textarea name="summary" required rows="4">${escapeHtml(item.summary)}</textarea></div><div class="form-group full"><label>Detay</label><textarea name="detail" rows="7">${escapeHtml(item.detail)}</textarea></div><div class="form-group"><label>İkon kodu</label><input name="icon" value="${safeAttr(item.icon)}"></div>${footer()}</form>`;
+    if (resource === 'services') return `<form id="editorForm" class="form-grid">${statusFields()}<div class="form-group"><label>Hizmet başlığı *</label><input name="title" required value="${safeAttr(item.title)}"></div><div class="form-group"><label>Sayfa bağlantısı</label><input name="href" value="${safeAttr(item.href)}" placeholder="/hizmetler.html#hizmet-adi"></div><div class="form-group"><label>Hizmet grubu</label><input name="group" value="${safeAttr(item.group || 'Diğer hizmetler')}" list="serviceGroups"><datalist id="serviceGroups"><option>Dahili branşlar</option><option>Cerrahi, hareket ve üreme</option><option>Destek ve özel süreçler</option><option>Diğer hizmetler</option></datalist></div><div class="form-group"><label>Sıralama</label><input type="number" min="1" name="order" value="${safeAttr(item.order || 99)}"></div><div class="form-group full"><label>Kısa açıklama *</label><textarea name="summary" required rows="4">${escapeHtml(item.summary)}</textarea></div><div class="form-group full"><label>Detaylı açıklama</label><textarea name="detail" rows="7">${escapeHtml(item.detail)}</textarea></div><div class="form-group"><label>İkon kodu</label><input name="icon" value="${safeAttr(item.icon)}" placeholder="#i-stethoscope"></div><div class="form-group"><label>Font Awesome sınıfı <small>(isteğe bağlı)</small></label><input name="iconClass" value="${safeAttr(item.iconClass || '')}" placeholder="fa-solid fa-stethoscope"></div><div class="form-group full"><label class="check-row"><input type="checkbox" name="homeFeatured" ${item.homeFeatured ? 'checked' : ''}><span>Ana sayfadaki ilk 6 hizmet içinde göster</span></label></div>${footer()}</form>`;
 
-    if (resource === 'stories') return `<form id="editorForm" class="form-grid">${statusFields()}<div class="form-group full"><label>Hikâye başlığı *</label><input name="title" required value="${safeAttr(item.title)}"></div><div class="form-group"><label>Hayvanın adı</label><input name="petName" value="${safeAttr(item.petName)}"></div><div class="form-group"><label>Tür</label><select name="species"><option ${item.species === 'Kedi' ? 'selected' : ''}>Kedi</option><option ${item.species === 'Köpek' ? 'selected' : ''}>Köpek</option><option ${item.species === 'Egzotik' ? 'selected' : ''}>Egzotik</option></select></div>${imageEditor('stories', item)}<div class="form-group full"><label>Kısa vurgu</label><input name="tagline" value="${safeAttr(item.tagline)}"></div><div class="form-group full"><label>Özet *</label><textarea name="summary" required rows="4">${escapeHtml(item.summary)}</textarea></div><div class="form-group full"><label>Tam hikâye</label><textarea name="full" rows="9">${escapeHtml(item.full)}</textarea></div>${footer()}</form>`;
+    if (resource === 'stories') return `<form id="editorForm" class="form-grid">${statusFields()}<div class="form-group full"><label>Hikâye başlığı *</label><input name="title" required value="${safeAttr(item.title)}"></div><div class="form-group"><label>Hayvanın adı</label><input name="petName" value="${safeAttr(item.petName)}"></div><div class="form-group"><label>Tür</label><select name="species"><option ${item.species === 'Kedi' ? 'selected' : ''}>Kedi</option><option ${item.species === 'Köpek' ? 'selected' : ''}>Köpek</option></select></div>${imageEditor('stories', item)}<div class="form-group full"><label>Kısa vurgu</label><input name="tagline" value="${safeAttr(item.tagline)}"></div><div class="form-group full"><label>Özet *</label><textarea name="summary" required rows="4">${escapeHtml(item.summary)}</textarea></div><div class="form-group full"><label>Tam hikâye</label><textarea name="full" rows="9">${escapeHtml(item.full)}</textarea></div>${footer()}</form>`;
+
+    if (resource === 'pages') return `<form id="editorForm" class="form-grid"><div class="form-group"><label>Sayfa</label><input name="label" value="${safeAttr(item.label)}" readonly></div><div class="form-group"><label>Teknik kimlik</label><input name="pageId" value="${safeAttr(item.id)}" readonly></div><div class="form-group full"><label>Üst küçük başlık</label><input name="eyebrow" value="${safeAttr(item.eyebrow)}"></div><div class="form-group full"><label>Ana başlık *</label><input name="title" required value="${safeAttr(item.title)}"></div><div class="form-group full"><label>Alt açıklama</label><textarea name="subtitle" rows="4">${escapeHtml(item.subtitle)}</textarea></div><div class="form-group full"><label>SEO başlığı</label><input name="seoTitle" value="${safeAttr(item.seoTitle)}"></div><div class="form-group full"><label>SEO açıklaması</label><textarea name="seoDescription" rows="4">${escapeHtml(item.seoDescription)}</textarea></div>${footer('', false)}</form>`;
 
     if (resource === 'calendar') return `<form id="editorForm" class="form-grid"><div class="form-group full"><label>İçerik başlığı *</label><input name="title" required value="${safeAttr(item.title)}"></div><div class="form-group"><label>İçerik türü</label><select name="type"><option value="blog" ${item.type === 'blog' ? 'selected' : ''}>Blog</option><option value="instagram" ${item.type === 'instagram' ? 'selected' : ''}>Instagram</option><option value="google" ${item.type === 'google' ? 'selected' : ''}>Google gönderisi</option><option value="sss" ${['sss','faq'].includes(item.type) ? 'selected' : ''}>SSS</option><option value="announcement" ${item.type === 'announcement' ? 'selected' : ''}>Duyuru</option><option value="story" ${item.type === 'story' ? 'selected' : ''}>Başarı hikâyesi</option></select></div><div class="form-group"><label>Durum</label><select name="calendarStatus"><option value="idea" ${item.status === 'idea' ? 'selected' : ''}>Fikir</option><option value="draft" ${item.status === 'draft' ? 'selected' : ''}>Taslak</option><option value="planned" ${item.status === 'planned' ? 'selected' : ''}>Planlandı</option><option value="published" ${item.status === 'published' ? 'selected' : ''}>Yayınlandı</option></select></div><div class="form-group"><label>Tarih *</label><input type="date" name="date" required value="${safeAttr(item.date)}"></div><div class="form-group"><label>Saat</label><input type="time" name="time" value="${safeAttr(item.time || '19:00')}"></div><div class="form-group full"><label>Kanallar <small>(virgülle)</small></label><input name="channels" value="${safeAttr((item.channels || []).join(', '))}" placeholder="Site, Instagram, Google"></div><div class="form-group full"><label>Notlar</label><textarea name="notes" rows="5">${escapeHtml(item.notes)}</textarea></div>${footer()}</form>`;
     return '';
@@ -693,6 +772,15 @@
       if (resource === 'calendar') {
         updated.title = clean(formValue(form, 'title')); updated.type = formValue(form, 'type'); updated.status = formValue(form, 'calendarStatus');
         updated.date = formValue(form, 'date'); updated.time = formValue(form, 'time'); updated.channels = splitList(formValue(form, 'channels')); updated.notes = clean(formValue(form, 'notes'));
+      } else if (resource === 'pages') {
+        updated.id = clean(formValue(form, 'pageId')) || updated.id;
+        updated.label = clean(formValue(form, 'label')) || updated.label;
+        updated.eyebrow = clean(formValue(form, 'eyebrow'));
+        updated.title = clean(formValue(form, 'title'));
+        updated.subtitle = clean(formValue(form, 'subtitle'));
+        updated.seoTitle = clean(formValue(form, 'seoTitle')) || updated.title;
+        updated.seoDescription = clean(formValue(form, 'seoDescription')) || updated.subtitle;
+        updated.status = 'published'; updated.published = true;
       } else {
         const status = formValue(form, 'status') || 'draft';
         updated.status = status; updated.published = status === 'published' || status === 'scheduled';
@@ -724,7 +812,14 @@
           if (!updated.image) throw new Error('Instagram galerisi için görsel yükleyin.');
         }
         if (resource === 'services') {
-          updated.title = clean(formValue(form, 'title')); updated.summary = clean(formValue(form, 'summary')); updated.detail = clean(formValue(form, 'detail')); updated.icon = clean(formValue(form, 'icon')); updated.href = clean(formValue(form, 'href')); updated.id = updated.id || slugify(updated.title);
+          updated.title = clean(formValue(form, 'title')); updated.summary = clean(formValue(form, 'summary')); updated.detail = clean(formValue(form, 'detail'));
+          updated.icon = clean(formValue(form, 'icon')); updated.iconClass = clean(formValue(form, 'iconClass')); updated.href = clean(formValue(form, 'href'));
+          updated.group = clean(formValue(form, 'group')) || 'Diğer hizmetler'; updated.order = Number(formValue(form, 'order')) || 99; updated.homeFeatured = formChecked(form, 'homeFeatured');
+          updated.id = updated.id || slugify(updated.title); updated.href = updated.href || `/hizmetler.html#${updated.id}`;
+          if (updated.homeFeatured) {
+            const others = resourceItems('services').filter(entry => itemId(entry) !== updated.id && entry.homeFeatured && effectiveStatus(entry) !== 'archived');
+            if (others.length >= 6) throw new Error('Ana sayfada en fazla 6 hizmet öne çıkarılabilir. Önce başka bir hizmetin seçimini kaldırın.');
+          }
         }
         if (resource === 'stories') {
           updated.title = clean(formValue(form, 'title')); updated.petName = clean(formValue(form, 'petName')); updated.species = formValue(form, 'species'); updated.tagline = clean(formValue(form, 'tagline')); updated.summary = clean(formValue(form, 'summary')); updated.full = clean(formValue(form, 'full')); updated.image = clean(formValue(form, 'image')); updated.id = updated.id || slugify(updated.title);
@@ -811,20 +906,35 @@
   });
   $('#modalClose').addEventListener('click', () => closeEditor());
   modalBackdrop.addEventListener('click', event => { if (event.target === modalBackdrop) closeEditor(); });
+  window.addEventListener('keydown', event => { if (event.key === 'Escape' && !modalBackdrop.classList.contains('is-hidden')) closeEditor(); });
   $('#menuToggle').addEventListener('click', () => $('#sidebar').classList.toggle('open'));
   $('#notificationButton').addEventListener('click', () => { location.hash = '#appointments'; });
   $('#logoutBtn').addEventListener('click', () => window.netlifyIdentity?.logout());
-  $('#loginBtn').addEventListener('click', () => window.netlifyIdentity?.open('login'));
+  $('#loginBtn').addEventListener('click', () => {
+    if (window.netlifyIdentity) window.netlifyIdentity.open('login');
+    else toast('Giriş sistemi yüklenemedi', 'Sayfayı yenileyin; sorun sürerse Netlify Identity ayarını kontrol edin.', 'error');
+  });
   window.addEventListener('hashchange', renderRoute);
   window.addEventListener('beforeunload', event => { if (state.dirty) { event.preventDefault(); event.returnValue = ''; } });
 
-  function showApp(user = { email: 'Yerel Önizleme' }) {
-    state.user = user; $('#userEmail').textContent = user.email || '';
+  function showApp(user = { email: 'Önizleme Modu' }) {
+    state.user = user;
+    $('#userEmail').textContent = user.email || '';
+    const badge = $('#branchBadge');
+    const live = Boolean(RUNTIME.production && BRANCH === 'main');
+    badge.textContent = live ? 'CANLI · MAIN' : `TEST · ${BRANCH}`;
+    badge.className = `branch-badge ${live ? 'live' : 'test'}`;
+    modalBackdrop.classList.add('is-hidden'); modalBackdrop.setAttribute('aria-hidden', 'true'); document.body.style.overflow = '';
     gate.classList.add('is-hidden'); appShell.classList.remove('is-hidden');
     loadAll();
     startAppointmentPolling();
   }
-  function showLogin() { state.user = null; appShell.classList.add('is-hidden'); gate.classList.remove('is-hidden'); }
+
+  function showLogin() {
+    state.user = null; state.editor = null; state.dirty = false;
+    modalBackdrop.classList.add('is-hidden'); modalBackdrop.setAttribute('aria-hidden', 'true'); document.body.style.overflow = '';
+    appShell.classList.add('is-hidden'); gate.classList.remove('is-hidden');
+  }
 
   if (PREVIEW_MODE) {
     showApp();

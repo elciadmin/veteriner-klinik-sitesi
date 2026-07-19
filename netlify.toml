@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build"
+  command = "node scripts/build-site.mjs"
   publish = "dist"
   functions = "netlify/functions"
 
@@ -13,6 +13,36 @@
   from = "/admin"
   to = "/admin/"
   status = 301
+
+[[redirects]]
+  from = "/about"
+  to = "/about.html"
+  status = 301
+
+[[redirects]]
+  from = "/services.html"
+  to = "/hizmetler.html"
+  status = 301
+
+[[redirects]]
+  from = "/team.html"
+  to = "/about.html"
+  status = 301
+
+[[redirects]]
+  from = "/gallery.html"
+  to = "/about.html"
+  status = 301
+
+[[redirects]]
+  from = "/contact.html"
+  to = "/hasta-iliskileri.html"
+  status = 301
+
+[[redirects]]
+  from = "/randevu-gonderildi"
+  to = "/hasta-iliskileri.html?form=success"
+  status = 302
 
 [[headers]]
   for = "/admin/*"

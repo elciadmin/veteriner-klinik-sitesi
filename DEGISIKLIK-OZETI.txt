@@ -1,43 +1,61 @@
-ELÇİ YÖNETİM MERKEZİ V3 — NELER DEĞİŞTİ?
-==========================================
+ELCI YONETIM MERKEZI V4 - TEST GUNCELLEMESI
+Tarih: 19.07.2026
 
-KALDIRILAN KARMAŞIKLIK
-----------------------
-- content klasöründeki her içerik için ayrı dosya sistemi kaldırıldı.
-- settings/home-faq ve settings/home-reviews gibi ikinci seçim katmanı kaldırıldı.
-- İçerikleri yeniden birleştiren karmaşık build sistemi kaldırıldı.
-- Günlük kullanımda Decap CMS koleksiyon ekranları devre dışı bırakıldı.
-- GitHub kişisel erişim anahtarı gereksinimi kaldırıldı.
+BU SURUMDE DUZELTILENLER
+1. Yönetim panelinin Not Found hatasına düşmesi engellendi.
+   - Panel önce açık olan Netlify test sürümündeki JSON dosyalarını okur.
+   - Git Gateway bağlantısı açıksa değişiklikleri aktif test dalına kaydeder.
+   - Bir veri dosyası eksik olsa bile panelin tamamı kilitlenmez.
 
-YENİ TEK-JSON ALTYAPISI
------------------------
-- assets/data/blog.json
-- assets/data/faq.json
-- assets/data/reviews.json
-- assets/data/instagram.json
-- assets/data/services.json
-- assets/data/successStories.json
-- assets/data/calendar.json
+2. Yönetim paneli gerçek çok sayfalı yönetim merkezine çevrildi.
+   - Ana ekran
+   - Randevular
+   - Paylaşım takvimi
+   - Blog
+   - SSS
+   - Google yorumları
+   - Instagram galerisi
+   - Hizmetler
+   - Sayfa başlıkları
+   - Site ayarları
+   - Başarı hikâyeleri
+   - Arşiv
 
-YENİ PANEL
-----------
-- Blogger benzeri sade liste ve düzenleme ekranları
-- Eski yayınları düzenleme
-- Taslak / şimdi yayınla / ileri tarihte yayınla
-- Arşivleme ve geri getirme
-- Arama ve filtreler
-- Görsel yükleme
-- Paylaşım takvimi
-- Site aktivite uyarıları
-- Yönetim panelinde randevu bildirimi ve durum takibi
+3. Hizmet yönetimi genişletildi.
+   - Başlık
+   - Kısa açıklama
+   - Detaylı açıklama
+   - Hizmet grubu
+   - Sıralama
+   - İkon
+   - Sayfa bağlantısı
+   - Ana sayfada öne çıkarma
+   - Taslak / yayın / arşiv
+   Yeni eklenen veya kaldırılan hizmetler ana sayfa ve Hizmetler sayfasına JSON üzerinden yansır.
 
-KORUNANLAR
-----------
-- Mevcut site tasarımı
-- 6 blog yazısı
-- Mevcut 21 SSS kaydı
-- 33 Google yorumu; ana sayfada seçili 6 yorum
-- 77 Instagram görseli ve onaylanan kesintisiz film şeridi
-- 16 hizmet
-- 3 başarı hikâyesi
-- 09:00–21:00 çalışma saatleri
+4. Sayfa başlıkları yönetilebilir hale getirildi.
+   - Ana sayfa, Hakkımızda, Hizmetler, Blog, SSS ve Hasta İlişkileri
+   - Küçük üst başlık, ana başlık, alt açıklama ve SEO metinleri
+
+5. Site ayarları yönetilebilir hale getirildi.
+   - Klinik adı, slogan, logo
+   - Telefon, e-posta, adres, çalışma saatleri
+   - Instagram ve YouTube bağlantıları
+   - Google yorum sayacı
+
+6. Sayfa standardizasyonu yapıldı.
+   - Tüm ana sayfalarda üst alan genişliği: 1180 px
+   - Aynı logo kutusu, logo ölçüsü, menü aralığı ve header yüksekliği
+   - Blog ve SSS'ye özel kalan farklı menü/başlık animasyonları kaldırıldı
+   - Ortak reveal ve kart hover ritmi uygulandı
+   - Sayfaların kendine özgü hero tasarımı korundu
+   - Mobil menü kapalı/açık durumu düzeltildi
+
+7. Test dalı güvenliği eklendi.
+   - Netlify deploy preview aktif dalı runtime-config ile tanır.
+   - Panel üstünde TEST veya CANLI dal etiketi gösterilir.
+   - Güncelleme BAT dosyası main dalında çalışmayı engeller.
+
+RESMI SITEYE AKTARIM
+Bu paket önce elci-yonetim-v3-test dalında test edilmelidir.
+Kullanıcı onayı olmadan main dalına aktarılmamalıdır.

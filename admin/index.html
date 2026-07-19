@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#4e188f">
   <title>Elçi Yönetim Merkezi</title>
   <link rel="icon" href="/assets/img/uploads/elci-logo.png">
-  <link rel="stylesheet" href="/admin/admin.css?v=3.1">
+  <link rel="stylesheet" href="/admin/admin.css?v=4.0">
 </head>
 <body>
   <section class="auth-gate" id="authGate">
@@ -32,6 +32,7 @@
         <button class="notification-button" id="notificationButton" type="button" title="Yeni randevular">
           <span aria-hidden="true">🔔</span><b id="notificationCount">0</b>
         </button>
+        <span class="branch-badge" id="branchBadge">DAL</span>
         <span class="user-email" id="userEmail"></span>
         <a class="button ghost compact" href="/" target="_blank" rel="noopener">Siteyi Aç</a>
         <button class="button ghost compact" id="logoutBtn" type="button">Çıkış</button>
@@ -49,6 +50,8 @@
           <a href="#reviews" data-route="reviews"><span>★</span>Google Yorumları</a>
           <a href="#instagram" data-route="instagram"><span>◎</span>Instagram Galerisi</a>
           <a href="#services" data-route="services"><span>＋</span>Hizmetler</a>
+          <a href="#pages" data-route="pages"><span>▧</span>Sayfa Başlıkları</a>
+          <a href="#settings" data-route="settings"><span>⚙</span>Site Ayarları</a>
           <a href="#stories" data-route="stories"><span>♡</span>Başarı Hikâyeleri</a>
           <a href="#archive" data-route="archive"><span>▤</span>Arşiv</a>
         </nav>
@@ -79,6 +82,7 @@
   <input type="file" id="hiddenFileInput" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
 
   <script>if(!["localhost","127.0.0.1"].includes(location.hostname)){document.write('<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"><\/script>')}</script>
-  <script src="/admin/app.js?v=3.1"></script>
+  <script src="/admin/runtime-config.js"></script>
+  <script src="/admin/app.js?v=4.0"></script>
 </body>
 </html>

@@ -2,6 +2,19 @@
   "title": "Sık Sorulan Sorular",
   "items": [
     {
+      "id": "acil-ilk",
+      "q": "Acil durumda ilk ne yapmalıyım?",
+      "a": "Önce 0332 322 32 20 numarasını arayın. Panik yapmadan güvenli taşıyın; kedi veya köpek için uygun taşıma çantası kullanın. Zehirlenme şüphesinde kendi başınıza kusturmaya çalışmayın.",
+      "category": "Acil Durum",
+      "published": true,
+      "status": "published",
+      "showOnHome": false,
+      "homeOrder": null,
+      "scheduledAt": "",
+      "createdAt": "",
+      "updatedAt": ""
+    },
+    {
       "id": "sicak-carpmasi",
       "q": "Sıcak çarpmasında evde ne yapabilirim?",
       "a": "Serin, hava akımı olan bir ortama alın; ıslak havlu ile hafif serinletin, buz uygulamayın. En kısa sürede kliniğe ulaşın.",

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://example.com/</loc></url>
-<url><loc>https://example.com/about.html</loc></url>
-<url><loc>https://example.com/services.html</loc></url>
-<url><loc>https://example.com/team.html</loc></url>
-<url><loc>https://example.com/gallery.html</loc></url>
-<url><loc>https://example.com/blog.html</loc></url>
-<url><loc>https://example.com/contact.html</loc></url>
-<url><loc>https://example.com/sss.html</loc></url>
+  <url><loc>https://elciveteriner.com/</loc></url>
+  <url><loc>https://elciveteriner.com/about.html</loc></url>
+  <url><loc>https://elciveteriner.com/hizmetler.html</loc></url>
+  <url><loc>https://elciveteriner.com/blog.html</loc></url>
+  <url><loc>https://elciveteriner.com/sss.html</loc></url>
+  <url><loc>https://elciveteriner.com/hasta-iliskileri.html</loc></url>
+  <url><loc>https://elciveteriner.com/kvkk.html</loc></url>
 </urlset>

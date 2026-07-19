@@ -1,45 +1,30 @@
-import { promises as fs } from 'node:fs';
-import path from 'node:path';
+import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { extname, join } from 'node:path';
 
-const ROOT = process.cwd();
-const DIST = path.join(ROOT, 'dist');
-const EXCLUDED = new Set([
-  '.git', '.github', '.netlify', 'dist', 'node_modules',
-  'netlify', 'scripts', 'content', 'settings', 'package.json', 'package-lock.json', 'netlify.toml',
-  'README.md', 'KURULUM-TEK-SEFER.txt', 'PANEL-KULLANIMI.txt', 'DEGISIKLIK-OZETI.txt', 'TEST-RAPORU.txt', 'NETLIFY-SON-AYARLAR.txt'
-]);
+const root = process.cwd();
+const dist = join(root, 'dist');
+rmSync(dist, { recursive: true, force: true });
+mkdirSync(dist, { recursive: true });
 
-async function copyTree(source, target, level = 0) {
-  await fs.mkdir(target, { recursive: true });
-  const entries = await fs.readdir(source, { withFileTypes: true });
-  for (const entry of entries) {
-    if (level === 0 && EXCLUDED.has(entry.name)) continue;
-    if (entry.name.endsWith('.zip')) continue;
-    const src = path.join(source, entry.name);
-    const dst = path.join(target, entry.name);
-    if (entry.isDirectory()) await copyTree(src, dst, level + 1);
-    else await fs.copyFile(src, dst);
+for (const directory of ['admin', 'assets']) {
+  const source = join(root, directory);
+  if (existsSync(source)) cpSync(source, join(dist, directory), { recursive: true });
+}
+for (const name of readdirSync(root)) {
+  if (['.html', '.txt', '.xml'].includes(extname(name)) || name === 'site.webmanifest' || name === 'robots.txt') {
+    cpSync(join(root, name), join(dist, name));
   }
 }
 
-await fs.rm(DIST, { recursive: true, force: true });
-await copyTree(ROOT, DIST);
-
-const required = [
-  'assets/data/blog.json',
-  'assets/data/faq.json',
-  'assets/data/reviews.json',
-  'assets/data/instagram.json',
-  'assets/data/services.json',
-  'assets/data/successStories.json',
-  'assets/data/calendar.json',
-  'admin/index.html',
-  'admin/app.js',
-  'admin/admin.css'
-];
-
-for (const relative of required) {
-  await fs.access(path.join(DIST, relative));
-}
-
-console.log('Elçi Yönetim Merkezi: doğrudan JSON altyapısı hazırlandı.');
+const context = process.env.CONTEXT || 'local';
+const branch = (context === 'deploy-preview' ? process.env.HEAD : process.env.BRANCH) || process.env.HEAD || 'main';
+const runtime = {
+  context,
+  branch,
+  production: context === 'production',
+  deployPreview: context === 'deploy-preview',
+  reviewId: process.env.REVIEW_ID || '',
+  commitRef: process.env.COMMIT_REF || ''
+};
+writeFileSync(join(dist, 'admin', 'runtime-config.js'), `window.ELCI_RUNTIME_CONFIG=${JSON.stringify(runtime)};\n`, 'utf8');
+console.log(`[Elçi] ${context} bağlamı, ${branch} dalı için dist hazırlandı.`);

@@ -14,3 +14,5 @@ NETLIFY — SON AYAR KONTROL LİSTESİ
 Randevu e-postası kod tarafından doğrudan gönderilmez. Netlify'ın form bildirim ayarı
 kullanılır. Formdaki email alanı sayesinde bildirim e-postasında hasta sahibine yanıt
 vermek kolaylaşır.
+
+[ ] Build command netlify.toml dosyasından geliyor; Netlify arayüzünde farklı bir komut tanımlı değil

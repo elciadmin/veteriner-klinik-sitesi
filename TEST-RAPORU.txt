@@ -1,30 +1,26 @@
-ELÇİ YÖNETİM MERKEZİ V3 — TEST RAPORU
-=====================================
+ELCI V4 TEKNIK TEST RAPORU
 
-YEREL OLARAK DOĞRULANANLAR
---------------------------
-- Tüm JavaScript ve Netlify Function dosyaları sözdizimi kontrolünden geçti.
-- 12 JSON veri dosyasının tamamı geçerli.
-- Netlify build komutu başarıyla çalıştı ve dist klasörü üretildi.
-- Yönetim ana ekranı; sayaçlar, menü ve uyarılar çalıştı.
-- Blog listesi 6 eski kaydı gösterdi.
-- Yeni blog formu açıldı ve yerel kaydetme denemesi çalıştı.
-- Yayın durumu seçenekleri: taslak, şimdi yayınla, ileri tarih.
-- İleri tarih alanı yalnızca planlı yayın seçilince açılıyor.
-- Eski kayıt düzenleme, arşivleme ve geri getirme akışları çalıştı.
-- SSS tam sayfası 21 kaydı doğrudan faq.json'dan yükledi.
-- Ana sayfa 6 seçili SSS'yi yükledi.
-- Ana sayfa 6 seçili Google yorumunu ve toplam 194 değerlendirme başlığını yükledi.
-- Instagram film şeridi 77 görselden kesintisiz iki grup oluşturdu.
-- Randevu formunda ad soyad, telefon, e-posta, hayvan adı, yaş, ırk/cins,
-  hayvan türü, tarih ve koşul onayı zorunludur.
+BASARILI KONTROLLER
+- admin/app.js JavaScript sözdizimi
+- site-standard.js JavaScript sözdizimi
+- content-sync.js JavaScript sözdizimi
+- Netlify deploy-preview build
+- runtime-config test dalı üretimi
+- Yönetim panelindeki 12 menü rotasının açılması
+- Hizmet editöründe başlık, kısa açıklama, detay, grup, sıra ve ana sayfa seçimi
+- Sayfa başlıkları editörü
+- Site ayarları formu
+- 6 ana sayfada ortak header genişliği: 1180 px
+- 6 ana sayfada ortak header yüksekliği: 100 px
+- 6 ana sayfada ortak marka kutusu: 320 x 74 px
+- Blog özel başlık/menü animasyonlarının ortak kurala alınması
+- Mobil menünün kapalı ve açık durumu
+- 15 yayındaki hizmetin Hizmetler sayfasında JSON'dan oluşturulması
+- Yerel HTML/CSS/JS/görsel bağlantılarında eksik dosya bulunmaması
+- Tüm JSON dosyalarının geçerli olması
+- Egzotik hayvan hizmetinin bulunmaması
 
-CANLI ORTAMDA BİR KEZ DOĞRULANACAKLAR
--------------------------------------
-- Netlify Identity JWT ile Git Gateway üzerinden gerçek GitHub kaydı
-- Netlify Forms doğrulamasından sonra randevunun Blobs'a düşmesi
-- Netlify e-posta form bildirimi
-
-Bu üç işlem canlı Netlify hesabı ve giriş yapılmış yönetici gerektirdiği için paket
-kurulduktan sonra KURULUM-TEK-SEFER.txt içindeki güvenli taslak ve test randevusu
-kontrolüyle doğrulanmalıdır.
+NOT
+Netlify Identity ve Git Gateway üzerinden gerçek kaydetme işlemi yalnızca deploy preview üzerinde,
+yönetici hesabıyla giriş yapıldıktan sonra doğrulanabilir. Panel veri okuma tarafı artık Git Gateway
+hatasında tamamen kilitlenmez ve açık test sürümünün statik verisine geri döner.

@@ -1,3 +1,20 @@
 {
-  "totalGoogleReviews": 194
+  "brand": {
+    "name": "Elçi Veteriner Kliniği",
+    "tagline": "Sağlığın Elçi’leriyiz",
+    "logo": "/assets/img/uploads/elci-logo.png"
+  },
+  "contact": {
+    "phone": "03323223220",
+    "phoneDisplay": "0332 322 32 20",
+    "email": "elcivetklinik@gmail.com",
+    "addressShort": "Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya",
+    "workingHours": "Her gün 09.00–21.00"
+  },
+  "social": {
+    "instagram": "https://www.instagram.com/elciveteriner",
+    "youtube": "https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi"
+  },
+  "totalGoogleReviews": 194,
+  "updatedAt": ""
 }

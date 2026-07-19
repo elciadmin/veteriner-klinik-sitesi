@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build-site.mjs",
-    "check": "node --check admin/app.js && node --check assets/js/home-content.js && node --check assets/js/blog.js"
+    "check": "node --check admin/app.js && node --check assets/js/site-standard.js && node --check assets/js/content-sync.js && node --check assets/js/home-content.js && node --check assets/js/blog.js && node --check assets/js/faq-direct.js"
   },
   "dependencies": {
     "@netlify/blobs": "^10.7.9",

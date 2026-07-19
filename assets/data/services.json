@@ -9,47 +9,67 @@
       "href": "/hizmetler.html#acil",
       "published": true,
       "status": "published",
-      "updatedAt": ""
+      "updatedAt": "",
+      "detail": "Kliniğimiz 24 saat kesintisiz yoğun bakım merkezi değildir. İleri yoğun bakım veya sürekli izlem gereken hastalarda uygun merkeze yönlendirme yapılır.",
+      "group": "Destek ve özel süreçler",
+      "homeFeatured": true,
+      "order": 1
     },
     {
       "id": "koruyucu",
       "title": "Muayene & Koruyucu",
-      "summary": "Aşı planı, parazit kontrolü, mikroçip ve check-up.",
+      "summary": "Yaşa, yaşam koşullarına ve bireysel risklere göre oluşturulan aşı, iç-dış parazit, mikroçip ve rutin kontrol programlarıyla uzun dönem sağlık takibi yapılır.",
       "icon": "#i-stethoscope",
       "href": "/hizmetler.html#koruyucu",
       "published": true,
       "status": "published",
-      "updatedAt": ""
+      "updatedAt": "",
+      "homeFeatured": true,
+      "order": 2,
+      "group": "Diğer hizmetler",
+      "detail": ""
     },
     {
       "id": "ic-hastaliklari",
       "title": "İç Hastalıkları",
-      "summary": "Hemogram, biyokimya, hormon, idrar analizi ve tanısal yaklaşım.",
+      "summary": "Kusma, ishal, iştahsızlık, kilo değişimi, halsizlik, solunum ve üriner sistem belirtileri gibi çok sayıda şikâyet; klinik muayene ile laboratuvar sonuçları birlikte değerlendirilerek ele alınır.",
       "icon": "#i-clipboard",
       "href": "/hizmetler.html#ic-hastaliklari",
       "published": true,
       "status": "published",
-      "updatedAt": ""
+      "updatedAt": "",
+      "homeFeatured": true,
+      "order": 3,
+      "group": "Diğer hizmetler",
+      "detail": ""
     },
     {
       "id": "cerrahi",
       "title": "Cerrahi Operasyonlar",
-      "summary": "Yumuşak doku, ortopedi, sterilizasyon, ağrı yönetimi.",
+      "summary": "Kedi ve köpeklerde kısırlaştırma, yumuşak doku cerrahileri, yabancı cisim operasyonları ve vaka uygunluğuna göre ortopedik girişimler; ön değerlendirme ve planlı takip ile yürütülür.",
       "icon": "#i-scissors",
       "href": "/hizmetler.html#cerrahi",
       "published": true,
       "status": "published",
-      "updatedAt": ""
+      "updatedAt": "",
+      "homeFeatured": true,
+      "order": 4,
+      "group": "Diğer hizmetler",
+      "detail": ""
     },
     {
       "id": "agiz-dis",
       "title": "Ağız & Diş Sağlığı",
-      "summary": "Diş taşı temizliği, ağız muayenesi, diş eti hastalıklarının değerlendirilmesi, gerekli durumlarda diş çekimi ve ileri dental değerlendirme için yönlendirme.",
+      "summary": "Diş taşı, diş eti hastalıkları, kırık dişler ve ağız içi sorunlar muayene edilir; gerekli temizlik, çekim veya ileri değerlendirme süreci hasta özelinde planlanır.",
       "icon": "#i-tooth-clean",
       "href": "/hizmetler.html#agiz-dis",
       "published": true,
       "status": "published",
-      "updatedAt": ""
+      "updatedAt": "",
+      "homeFeatured": true,
+      "order": 5,
+      "group": "Diğer hizmetler",
+      "detail": ""
     },
     {
       "id": "goruntuleme-lab",
@@ -59,7 +79,11 @@
       "href": "/hizmetler.html#goruntuleme-lab",
       "published": true,
       "status": "published",
-      "updatedAt": ""
+      "updatedAt": "",
+      "homeFeatured": true,
+      "order": 6,
+      "group": "Diğer hizmetler",
+      "detail": ""
     },
     {
       "id": "kardiyoloji",
@@ -69,97 +93,124 @@
       "href": "/hizmetler.html#kardiyoloji",
       "published": true,
       "status": "published",
-      "updatedAt": ""
+      "updatedAt": "",
+      "detail": "Kalp ve akciğer dinlemesi ile genel klinik muayene yapılır. İleri kardiyolojik görüntüleme veya uzman değerlendirmesi gereken hastalar uygun merkeze yönlendirilir.",
+      "group": "Dahili branşlar",
+      "homeFeatured": false,
+      "order": 101
     },
     {
       "id": "dogum-jinekoloji",
       "title": "Doğum & Jinekoloji",
-      "summary": "Gebelik takibi, doğum desteği, yavru ve postpartum bakım.",
+      "summary": "Üreme sistemi hastalıkları, gebelik ve doğum süreci ile doğum sonrası sorunlar klinik olarak değerlendirilir.",
       "icon": "#i-repro",
       "href": "/hizmetler.html#dogum-jinekoloji",
       "published": true,
       "status": "published",
-      "updatedAt": ""
+      "updatedAt": "",
+      "detail": "Pyometra, doğum güçlüğü, düzensiz kızgınlık ve üreme sistemi sorunlarında muayene, laboratuvar ve gerekli görüntüleme süreci planlanır. Acil doğum vakalarında önce telefonla iletişim kurulmalıdır.",
+      "group": "Cerrahi, hareket ve üreme sağlığı",
+      "homeFeatured": false,
+      "order": 102
     },
     {
       "id": "endokrinoloji",
       "title": "Endokrinoloji",
-      "summary": "Tiroid, DM, Cushing/Addison tarama ve yönetimi.",
+      "summary": "Diyabet, tiroid ve adrenal bez hastalıkları gibi hormonal sorunlarda test, tedavi ve uzun dönem takip planlanır.",
       "icon": "#i-endo",
       "href": "/hizmetler.html#endokrinoloji",
       "published": true,
       "status": "published",
-      "updatedAt": ""
+      "updatedAt": "",
+      "detail": "Kan ve idrar testleri ile gerekli hormon profilleri klinik bulgularla birlikte değerlendirilir. Kronik hastalıklarda ilaç, beslenme ve kontrol aralıkları düzenlenir.",
+      "group": "Dahili branşlar",
+      "homeFeatured": false,
+      "order": 103
     },
     {
       "id": "uroloji",
       "title": "Üroloji",
-      "summary": "İYE, taşlar, kateterizasyon ve takip.",
+      "summary": "İdrar yolu enfeksiyonları, kristal ve taş şüphesi, mesane sorunları ve idrar tıkanıklıkları değerlendirilir.",
       "icon": "#i-uro",
       "href": "/hizmetler.html#uroloji",
       "published": true,
       "status": "published",
-      "updatedAt": ""
+      "updatedAt": "",
+      "detail": "İdrar analizi, kan testleri ve klinik muayene temel alınır. Görüntüleme gerektiğinde randevulu ya da dış merkez süreci planlanır. İdrar yapamama acil bir durumdur.",
+      "group": "Dahili branşlar",
+      "homeFeatured": false,
+      "order": 104
     },
     {
       "id": "ortopedi",
       "title": "Ortopedi",
-      "summary": "Kırık-çıkık, bağ yaralanmaları, ortopedik muayene/operasyon.",
+      "summary": "Topallık, kırık, çıkık, eklem ve bağ yaralanmalarında ortopedik muayene ve tedavi planı oluşturulur.",
       "icon": "#i-ortho",
       "href": "/hizmetler.html#ortopedi",
       "published": true,
       "status": "published",
-      "updatedAt": ""
+      "updatedAt": "",
+      "detail": "Röntgen gerektiğinde randevulu veya dış merkez süreci yönetilir. Tedavi medikal yaklaşım, bandaj-atel uygulamaları, cerrahi değerlendirme ve rehabilitasyonu içerebilir.",
+      "group": "Cerrahi, hareket ve üreme sağlığı",
+      "homeFeatured": false,
+      "order": 105
     },
     {
       "id": "goz",
       "title": "Göz Hastalıkları",
-      "summary": "Ülser, entropion/ektropion, göz muayenesi ve tedaviler.",
+      "summary": "Akıntı, kızarıklık, gözünü kapatma, travma ve kornea hasarı şüphesi zaman kaybetmeden değerlendirilir.",
       "icon": "#i-eye",
       "href": "/hizmetler.html#goz",
       "published": true,
       "status": "published",
-      "updatedAt": ""
+      "updatedAt": "",
+      "detail": "Göz muayenesi ve gerekli temel testler yapılır. İleri cerrahi veya uzman değerlendirmesi gereken hastalarda yönlendirme planlanır. Ani göz belirtilerinde gecikmeden telefonla iletişim kurulmalıdır.",
+      "group": "Dahili branşlar",
+      "homeFeatured": false,
+      "order": 106
     },
     {
       "id": "dermatoloji",
       "title": "Dermatoloji",
-      "summary": "Alerjiler, deri enfeksiyonları, paraziter hastalıklar.",
+      "summary": "Kaşıntı, tüy dökülmesi, deri enfeksiyonları, parazitler ve kronik cilt sorunları neden odaklı değerlendirilir.",
       "icon": "#i-derm",
       "href": "/hizmetler.html#dermatoloji",
       "published": true,
       "status": "published",
-      "updatedAt": ""
+      "updatedAt": "",
+      "detail": "Deri kazıntısı, sitoloji ve gerekli diğer testler klinik bulgularla birlikte planlanır. Kronik dermatolojik hastalıklarda uzun dönem takip ve bakım düzeni önemlidir.",
+      "group": "Dahili branşlar",
+      "homeFeatured": false,
+      "order": 107
     },
     {
       "id": "ftr",
       "title": "Fizik Tedavi & Rehabilitasyon",
-      "summary": "Ağrı yönetimi, mobilizasyon, egzersiz, post-op bakım.",
+      "summary": "Ortopedik operasyon sonrası, hareket kısıtlılığı ve kas kaybında hastaya uygun egzersiz ve takip planı oluşturulur.",
       "icon": "#i-pt",
       "href": "/hizmetler.html#ftr",
       "published": true,
       "status": "published",
-      "updatedAt": ""
+      "updatedAt": "",
+      "detail": "Pasif ve aktif hareketler, ev düzenlemeleri ve kontrollü egzersizler hastanın tanısı, ağrı düzeyi ve hareket kapasitesine göre planlanır.",
+      "group": "Cerrahi, hareket ve üreme sağlığı",
+      "homeFeatured": false,
+      "order": 108
     },
     {
       "id": "konaklama",
       "title": "Konaklama",
-      "summary": "Güvenli/hijyenik konaklama, günlük raporlama.",
+      "summary": "Kısa süreli konaklama talepleri, hayvanın sağlık durumu, aşıları, mizacı ve klinik kapasitesi değerlendirilerek planlanır.",
       "icon": "#i-boarding",
       "href": "/hizmetler.html#konaklama",
       "published": true,
       "status": "published",
-      "updatedAt": ""
-    },
-    {
-      "id": "egzotik",
-      "title": "Egzotik Hayvanlar",
-      "summary": "Kuş, kemirgen temel muayene ve bakım danışmanlığı.",
-      "icon": "#i-exotic",
-      "href": "/hizmetler.html#egzotik",
-      "published": true,
-      "status": "published",
-      "updatedAt": ""
+      "updatedAt": "",
+      "detail": "Kabul öncesinde sağlık ve davranış uygunluğu değerlendirilir. İlaç kullanımı veya özel bakım gereksinimi varsa önceden bildirilmelidir. Her talep otomatik olarak kabul edilmez.",
+      "group": "Destek ve özel süreçler",
+      "homeFeatured": false,
+      "order": 109
     }
-  ]
+  ],
+  "updatedAt": ""
 }

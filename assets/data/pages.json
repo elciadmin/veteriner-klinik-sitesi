@@ -1,0 +1,70 @@
+{
+  "items": [
+    {
+      "id": "home",
+      "label": "Ana Sayfa",
+      "eyebrow": "MERAM / KONYA",
+      "title": "Elçi Veteriner Kliniği",
+      "subtitle": "Kedi ve köpekler için muayene, koruyucu sağlık, laboratuvar, cerrahi ve planlı takip hizmetleri.",
+      "seoTitle": "Elçi Veteriner Kliniği | Meram Konya",
+      "seoDescription": "Meram Konya'da kedi ve köpekler için muayene, laboratuvar, aşı, kısırlaştırma, cerrahi ve koruyucu sağlık hizmetleri.",
+      "status": "published",
+      "published": true
+    },
+    {
+      "id": "about",
+      "label": "Hakkımızda",
+      "eyebrow": "ELÇİ VETERİNER KLİNİĞİ",
+      "title": "Hakkımızda",
+      "subtitle": "Bilimsel yaklaşımı, açık iletişimi ve hayvan refahını merkeze alan klinik anlayışımızı tanıyın.",
+      "seoTitle": "Hakkımızda | Elçi Veteriner Kliniği",
+      "seoDescription": "Elçi Veteriner Kliniği'nin hekimlik yaklaşımı, değerleri ve klinik hizmet anlayışı.",
+      "status": "published",
+      "published": true
+    },
+    {
+      "id": "services",
+      "label": "Hizmetlerimiz",
+      "eyebrow": "KEDİ VE KÖPEK SAĞLIĞI",
+      "title": "Hizmetlerimiz",
+      "subtitle": "Muayeneden cerrahiye, koruyucu hekimlikten uzun dönem takibe kadar ihtiyaca göre planlanan veterinerlik hizmetleri.",
+      "seoTitle": "Veterinerlik Hizmetleri | Elçi Veteriner Kliniği",
+      "seoDescription": "Meram Konya'da muayene, koruyucu hekimlik, laboratuvar, kısırlaştırma, cerrahi, ağız-diş sağlığı ve takip hizmetleri.",
+      "status": "published",
+      "published": true
+    },
+    {
+      "id": "blog",
+      "label": "Blog",
+      "eyebrow": "KEDİ VE KÖPEK SAĞLIĞI REHBERİ",
+      "title": "Blog",
+      "subtitle": "Evcil dostunuzun sağlığıyla ilgili doğru kararları destekleyen; anlaşılır, özenli ve klinik deneyime dayalı bilgilendirmeler.",
+      "seoTitle": "Veteriner Blogu | Elçi Veteriner Kliniği",
+      "seoDescription": "Kedi ve köpek sağlığı, koruyucu hekimlik, bakım ve klinik süreçler hakkında veteriner hekim bilgilendirmeleri.",
+      "status": "published",
+      "published": true
+    },
+    {
+      "id": "faq",
+      "label": "Sık Sorulan Sorular",
+      "eyebrow": "MERAK ETTİKLERİNİZ",
+      "title": "Sık Sorulan Sorular",
+      "subtitle": "Randevu, muayene, ameliyat, laboratuvar ve bakım süreçleriyle ilgili en sık sorulan soruların yanıtları.",
+      "seoTitle": "Sık Sorulan Sorular | Elçi Veteriner Kliniği",
+      "seoDescription": "Veteriner muayenesi, randevu, laboratuvar, ameliyat ve bakım süreçleri hakkında sık sorulan sorular.",
+      "status": "published",
+      "published": true
+    },
+    {
+      "id": "patientRelations",
+      "label": "Hasta İlişkileri",
+      "eyebrow": "İLETİŞİM VE TAKİP",
+      "title": "Hasta İlişkileri",
+      "subtitle": "Randevu, geri bildirim, iletişim ve tedavi sonrası takip süreçlerine tek yerden ulaşın.",
+      "seoTitle": "Hasta İlişkileri ve Randevu | Elçi Veteriner Kliniği",
+      "seoDescription": "Elçi Veteriner Kliniği iletişim, online randevu, geri bildirim ve tedavi sonrası takip bilgileri.",
+      "status": "published",
+      "published": true
+    }
+  ]
+}

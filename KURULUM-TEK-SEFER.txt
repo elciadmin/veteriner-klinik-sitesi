@@ -1,4 +1,4 @@
-ELÇİ YÖNETİM MERKEZİ V3 — TEK SEFERLİK KURULUM
+ELÇİ YÖNETİM MERKEZİ V3.1 — TEK SEFERLİK KURULUM
 ================================================
 
 ÖNEMLİ
@@ -31,7 +31,7 @@ C) GITHUB'A GÖNDERME
 --------------------
 1. GitHub Desktop'a dönün.
 2. Sol alttaki Summary alanına şunu yazın:
-   Yönetim Merkezi V3
+   Yönetim Merkezi V3.1
 3. Commit to main düğmesine basın.
 4. Üstte Push origin düğmesine basın.
 5. Netlify Deploys ekranında yeni yayının Published olmasını bekleyin.
@@ -69,4 +69,4 @@ E) İLK KONTROL
    geldiğini doğrulayın.
 
 Değişikliklerin sitede görünmesi GitHub kaydı ve Netlify deploy nedeniyle genellikle
-1–3 dakika sürebilir.
+Netlify deploy tamamlandığında görünür.
