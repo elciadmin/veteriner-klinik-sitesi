@@ -27,6 +27,22 @@ const excludedTop = new Set([
   'package.json', 'package-lock.json', 'netlify.toml',
 ]);
 
+
+const SAFE_DEPLOY_SEGMENT = /^[A-Za-z0-9._-]+$/;
+
+async function validateDeployableNames(source, relative = '') {
+  const entries = await fs.readdir(source, { withFileTypes: true });
+  const invalid = [];
+  for (const entry of entries) {
+    if (!relative && excludedTop.has(entry.name)) continue;
+    if (entry.name.endsWith('.zip')) continue;
+    const rel = path.join(relative, entry.name);
+    if (!SAFE_DEPLOY_SEGMENT.test(entry.name)) invalid.push(rel);
+    if (entry.isDirectory()) invalid.push(...await validateDeployableNames(path.join(source, entry.name), rel));
+  }
+  return invalid;
+}
+
 const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({
   '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
 }[char]));
@@ -271,6 +287,13 @@ async function buildSettings(reviewResult) {
   await writeDistJson('assets/data/site-settings.json', merged);
   await writeDistJson('assets/data/pages.json', pages);
   return merged;
+}
+
+const invalidDeployNames = await validateDeployableNames(ROOT);
+if (invalidDeployNames.length) {
+  throw new Error(`Netlify ile uyumsuz dosya adı bulundu:
+${invalidDeployNames.map(name => `- ${name}`).join('\n')}
+Dosya adlarında yalnızca İngilizce harf, rakam, nokta, tire ve alt çizgi kullanın.`);
 }
 
 await fs.rm(DIST, { recursive:true, force:true });
