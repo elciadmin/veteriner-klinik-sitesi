@@ -1,2 +1,461 @@
-# Eski Decap yapılandırması devre dışıdır.
-# Yeni panel /admin/ altında doğrudan JSON altyapısını kullanır.
+backend:
+  name: git-gateway
+  branch: main
+  commit_messages:
+    create: "Panel: {{collection}} oluşturuldu — {{slug}}"
+    update: "Panel: {{collection}} güncellendi — {{slug}}"
+    delete: "Panel: {{collection}} arşivlendi/silindi — {{slug}}"
+    uploadMedia: "Panel: görsel yüklendi — {{path}}"
+    deleteMedia: "Panel: görsel silindi — {{path}}"
+
+site_url: "https://elciveteriner.com"
+display_url: "https://elciveteriner.com"
+logo:
+  src: "/assets/img/uploads/elci-logo.png"
+  show_in_header: true
+media_folder: "assets/img/uploads"
+public_folder: "/assets/img/uploads"
+locale: "tr"
+search: true
+show_preview_links: false
+
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "-"
+
+collections:
+  - name: "blog"
+    label: "Blog ve Duyurular"
+    label_singular: "Yayın"
+    description: "Blog yazısı veya güncel duyuru oluşturun; taslak, ileri tarih ve arşiv durumunu yönetin."
+    folder: "content/blog"
+    create: true
+    delete: true
+    extension: "json"
+    format: "json"
+    identifier_field: "title"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{fields.date}} — {{title}}"
+    sortable_fields: ["date", "title", "status", "contentType"]
+    view_filters:
+      - { label: "Yayında", field: "status", pattern: "published" }
+      - { label: "Taslak", field: "status", pattern: "draft" }
+      - { label: "Arşiv", field: "status", pattern: "archived" }
+      - { label: "Duyurular", field: "contentType", pattern: "announcement" }
+    view_groups:
+      - { label: "İçerik türü", field: "contentType" }
+      - { label: "Hayvan türü", field: "species" }
+    editor:
+      preview: false
+    fields:
+      - label: "Durum"
+        name: "status"
+        widget: "select"
+        default: "published"
+        options:
+          - { label: "Yayında / yayın tarihinde göster", value: "published" }
+          - { label: "Taslak", value: "draft" }
+          - { label: "Arşiv", value: "archived" }
+      - label: "İçerik türü"
+        name: "contentType"
+        widget: "select"
+        default: "blog"
+        options:
+          - { label: "Blog yazısı", value: "blog" }
+          - { label: "Güncel duyuru", value: "announcement" }
+      - { label: "Başlık", name: "title", widget: "string" }
+      - label: "Yayın tarihi ve saati"
+        name: "date"
+        widget: "datetime"
+        default: "{{now}}"
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+        date_format: "DD.MM.YYYY"
+        time_format: "HH:mm"
+        hint: "İleri bir tarih seçerseniz içerik o tarihe kadar sitede görünmez."
+      - label: "Hazır kategoriler"
+        name: "categories"
+        widget: "select"
+        multiple: true
+        required: false
+        options:
+          - "Kedi Bakımı"
+          - "Köpek Bakımı"
+          - "Koruyucu Sağlık"
+          - "Aşı ve Parazit"
+          - "Hastalıklar ve Belirtiler"
+          - "Cerrahi ve Operasyonlar"
+          - "Ağız ve Diş Sağlığı"
+          - "Beslenme ve Günlük Bakım"
+          - "Acil Durumlar"
+          - "Mevsimsel Sağlık"
+          - "Laboratuvar"
+          - "Klinik Duyuruları"
+      - label: "Ek kategoriler"
+        name: "customCategories"
+        widget: "list"
+        required: false
+        hint: "Hazır listede yoksa yeni kategori yazabilirsiniz. Birden fazla eklenebilir."
+        field: { label: "Kategori", name: "category", widget: "string" }
+      - label: "Hayvan türü"
+        name: "species"
+        widget: "select"
+        default: "Genel"
+        options: ["Genel", "Kedi", "Köpek", "Kedi ve Köpek"]
+      - label: "Etiketler"
+        name: "tags"
+        widget: "list"
+        required: false
+        field: { label: "Etiket", name: "tag", widget: "string" }
+      - { label: "Kısa açıklama", name: "summary", widget: "text", hint: "Kartta ve ana sayfada görünen özet." }
+      - label: "Yazı görseli"
+        name: "cover"
+        widget: "image"
+        required: false
+        choose_url: false
+        media_folder: "/assets/img/uploads/blog"
+        public_folder: "/assets/img/uploads/blog"
+        hint: "Görsel, okuma ekranında ilk paragraftan sonra dergi düzeninde gösterilir."
+      - { label: "Yazının içeriği", name: "content", widget: "richtext" }
+      - label: "Gelişmiş ayarlar"
+        name: "advanced"
+        widget: "object"
+        required: false
+        collapsed: true
+        fields:
+          - { label: "Özel kısa bağlantı", name: "slug", widget: "string", required: false }
+          - { label: "SEO başlığı", name: "seoTitle", widget: "string", required: false }
+          - { label: "SEO açıklaması", name: "seoDescription", widget: "text", required: false }
+          - { label: "YouTube video kimliği", name: "youtubeId", widget: "string", required: false }
+          - { label: "Yazar", name: "author", widget: "string", required: false, default: "Elçi Veteriner Kliniği" }
+
+  - name: "home_blog"
+    label: "Ana Sayfa Blog Seçimi"
+    delete: false
+    editor: { preview: false }
+    files:
+      - file: "settings/home-blog.json"
+        label: "Ana Sayfada Gösterilecek Yazılar"
+        name: "home_blog_file"
+        format: "json"
+        fields:
+          - { label: "Başlık", name: "title", widget: "hidden", default: "Ana Sayfa Blog Yazıları" }
+          - label: "Yazılar"
+            name: "items"
+            widget: "list"
+            required: false
+            max: 6
+            allow_reorder: true
+            collapsed: true
+            summary: "{{fields.blog}}"
+            fields:
+              - label: "Blog yazısı ara ve seç"
+                name: "blog"
+                widget: "relation"
+                collection: "blog"
+                search_fields: ["title", "summary", "categories", "customCategories"]
+                value_field: "{{slug}}"
+                display_fields: ["{{title}} — {{date}}"]
+                options_length: 100
+
+  - name: "home_announcements"
+    label: "Ana Sayfa Duyuruları"
+    delete: false
+    editor: { preview: false }
+    files:
+      - file: "settings/home-announcements.json"
+        label: "Ana Sayfada Gösterilecek Duyurular"
+        name: "home_announcements_file"
+        format: "json"
+        fields:
+          - { label: "Başlık", name: "title", widget: "hidden", default: "Ana Sayfa Güncel Duyurular" }
+          - label: "Duyurular"
+            name: "items"
+            widget: "list"
+            required: false
+            max: 3
+            allow_reorder: true
+            collapsed: true
+            summary: "{{fields.announcement}}"
+            fields:
+              - label: "Duyuru ara ve seç"
+                name: "announcement"
+                widget: "relation"
+                collection: "blog"
+                search_fields: ["title", "summary"]
+                value_field: "{{slug}}"
+                display_fields: ["{{title}} — {{date}}"]
+                options_length: 100
+
+  - name: "faq"
+    label: "Sık Sorulan Sorular"
+    label_singular: "Soru"
+    folder: "content/faq"
+    create: true
+    delete: true
+    extension: "json"
+    format: "json"
+    identifier_field: "title"
+    slug: "{{slug}}"
+    summary: "{{title}}"
+    sortable_fields: ["title", "category", "status"]
+    view_groups:
+      - { label: "Kategori", field: "category" }
+    editor: { preview: false }
+    fields:
+      - label: "Durum"
+        name: "status"
+        widget: "select"
+        default: "published"
+        options:
+          - { label: "Yayında", value: "published" }
+          - { label: "Taslak", value: "draft" }
+          - { label: "Arşiv", value: "archived" }
+      - { label: "Soru", name: "title", widget: "string" }
+      - label: "Kategori"
+        name: "category"
+        widget: "select"
+        options:
+          - "Randevu ve Acil"
+          - "Ücret ve Ödeme"
+          - "Muayene ve Laboratuvar"
+          - "Aşı ve Koruyucu Sağlık"
+          - "Operasyonlar ve Anestezi"
+          - "Ağız ve Diş Sağlığı"
+          - "Bakım ve Beslenme"
+          - "Konaklama ve Klinik Süreç"
+      - { label: "Yanıt", name: "answer", widget: "text" }
+
+  - name: "home_faq"
+    label: "Ana Sayfa SSS Seçimi"
+    delete: false
+    editor: { preview: false }
+    files:
+      - file: "settings/home-faq.json"
+        label: "Ana Sayfadaki Sorular"
+        name: "home_faq_file"
+        format: "json"
+        fields:
+          - { label: "Başlık", name: "title", widget: "hidden", default: "Ana Sayfa SSS" }
+          - label: "Sorular"
+            name: "items"
+            widget: "list"
+            required: false
+            max: 6
+            allow_reorder: true
+            collapsed: true
+            summary: "{{fields.faq}}"
+            fields:
+              - label: "Soru ara ve seç"
+                name: "faq"
+                widget: "relation"
+                collection: "faq"
+                search_fields: ["title", "category"]
+                value_field: "{{slug}}"
+                display_fields: ["{{title}} — {{category}}"]
+                options_length: 100
+
+  - name: "reviews"
+    label: "Google Yorumları"
+    label_singular: "Yorum"
+    folder: "content/reviews"
+    create: true
+    delete: true
+    extension: "json"
+    format: "json"
+    identifier_field: "title"
+    slug: "{{slug}}"
+    summary: "{{fields.author}} — {{fields.time}}"
+    sortable_fields: ["author", "time", "rating", "status"]
+    editor: { preview: false }
+    fields:
+      - label: "Durum"
+        name: "status"
+        widget: "select"
+        default: "published"
+        options:
+          - { label: "Kullanılabilir", value: "published" }
+          - { label: "Taslak", value: "draft" }
+          - { label: "Arşiv", value: "archived" }
+      - { label: "Panel kayıt başlığı", name: "title", widget: "string", hint: "Örn. Ayşe K. — Temmuz 2026" }
+      - { label: "Yorum sahibinin adı", name: "author", widget: "string" }
+      - { label: "Yıldız", name: "rating", widget: "number", value_type: "int", min: 1, max: 5, default: 5 }
+      - { label: "Google'da görünen tarih", name: "time", widget: "string", required: false }
+      - { label: "Yorum metni", name: "text", widget: "text" }
+      - { label: "Google yorum bağlantısı", name: "sourceUrl", widget: "string", required: false }
+
+  - name: "home_reviews"
+    label: "Ana Sayfa Yorum Seçimi"
+    delete: false
+    editor: { preview: false }
+    files:
+      - file: "settings/home-reviews.json"
+        label: "Ana Sayfadaki Yorumlar"
+        name: "home_reviews_file"
+        format: "json"
+        fields:
+          - { label: "Başlık", name: "title", widget: "hidden", default: "Ana Sayfa Google Yorumları" }
+          - { label: "Google toplam değerlendirme sayısı", name: "totalCount", widget: "number", value_type: "int", min: 0, default: 194 }
+          - label: "Yorumlar"
+            name: "items"
+            widget: "list"
+            required: false
+            max: 6
+            allow_reorder: true
+            collapsed: true
+            summary: "{{fields.review}}"
+            fields:
+              - label: "Yorum ara ve seç"
+                name: "review"
+                widget: "relation"
+                collection: "reviews"
+                search_fields: ["author", "text", "time"]
+                value_field: "{{slug}}"
+                display_fields: ["{{author}} — {{time}}"]
+                options_length: 200
+
+  - name: "services_data"
+    label: "Hizmetler"
+    delete: false
+    editor: { preview: false }
+    files:
+      - file: "assets/data/services.json"
+        label: "Tüm Hizmet Kartları"
+        name: "services_file"
+        format: "json"
+        fields:
+          - { label: "Bölüm başlığı", name: "title", widget: "string", default: "Hizmetlerimiz" }
+          - { label: "Bölüm açıklaması", name: "description", widget: "text", required: false }
+          - { label: "Ana sayfa kart sınırı", name: "homeLimit", widget: "hidden", default: 6 }
+          - label: "Hizmetler"
+            name: "items"
+            widget: "list"
+            allow_reorder: true
+            collapsed: true
+            summary: "{{fields.title}} — {{fields.status}}"
+            fields:
+              - { label: "Sabit kimlik", name: "id", widget: "string", hint: "Bağlantı için kullanılır; mevcut kayıtlarda değiştirmeyin." }
+              - label: "Durum"
+                name: "status"
+                widget: "select"
+                default: "published"
+                options:
+                  - { label: "Yayında", value: "published" }
+                  - { label: "Taslak", value: "draft" }
+                  - { label: "Arşiv", value: "archived" }
+              - { label: "Yayında", name: "published", widget: "hidden", default: true }
+              - { label: "Ana sayfada göster", name: "showOnHome", widget: "boolean", default: false, hint: "Seçilen hizmetlerden listede önde olan ilk 6 kart ana sayfada görünür." }
+              - { label: "Başlık", name: "title", widget: "string" }
+              - { label: "Kısa açıklama", name: "summary", widget: "text" }
+              - { label: "Detaylı açıklama", name: "detail", widget: "text", required: false }
+              - label: "Hizmet grubu"
+                name: "group"
+                widget: "select"
+                options: ["Öne Çıkanlar", "Dahili Branşlar", "Cerrahi, Hareket ve Üreme", "Destek Hizmetleri", "Diğer Hizmetler"]
+              - { label: "Ana sayfa SVG ikonu", name: "icon", widget: "string", default: "#i-stethoscope" }
+              - { label: "Hizmet sayfası ikon sınıfı", name: "faIcon", widget: "string", required: false, hint: "Mevcut hizmetlerde boş bırakılırsa sayfadaki özgün ikon korunur." }
+              - { label: "Bağlantı", name: "href", widget: "string" }
+              - { label: "Sıra", name: "order", widget: "number", value_type: "int", min: 1 }
+
+  - name: "instagram_posts"
+    label: "Instagram Galerisi"
+    label_singular: "Galeri Görseli"
+    folder: "content/instagram"
+    create: true
+    delete: true
+    extension: "json"
+    format: "json"
+    identifier_field: "title"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{fields.date}} — {{title}}"
+    editor: { preview: false }
+    fields:
+      - label: "Durum"
+        name: "status"
+        widget: "select"
+        default: "published"
+        options:
+          - { label: "Yayında", value: "published" }
+          - { label: "Taslak", value: "draft" }
+          - { label: "Arşiv", value: "archived" }
+      - { label: "Başlık", name: "title", widget: "string" }
+      - { label: "Tarih", name: "date", widget: "datetime", default: "{{now}}", format: "YYYY-MM-DDTHH:mm:ssZ" }
+      - { label: "Görsel", name: "image", widget: "image", choose_url: false }
+      - { label: "Görsel açıklaması", name: "alt", widget: "string", required: false }
+      - { label: "Instagram gönderi bağlantısı", name: "instagramUrl", widget: "string", required: false }
+
+  - name: "site_settings"
+    label: "Site Ayarları"
+    delete: false
+    editor: { preview: false }
+    files:
+      - file: "settings/site.json"
+        label: "Klinik ve İletişim Bilgileri"
+        name: "site_file"
+        format: "json"
+        fields:
+          - { label: "Klinik adı", name: "clinicName", widget: "string" }
+          - { label: "Slogan", name: "tagline", widget: "string" }
+          - { label: "Adres", name: "address", widget: "string" }
+          - { label: "Telefon görünümü", name: "phoneDisplay", widget: "string" }
+          - { label: "Telefon bağlantısı", name: "phoneHref", widget: "string" }
+          - { label: "E-posta", name: "email", widget: "string" }
+          - { label: "Çalışma saatleri", name: "hours", widget: "string" }
+          - { label: "Instagram bağlantısı", name: "instagramUrl", widget: "string" }
+          - { label: "Google değerlendirme sayısı", name: "googleReviewsTotal", widget: "number", value_type: "int", min: 0 }
+          - { label: "Site adresi", name: "siteUrl", widget: "string" }
+
+  - name: "page_settings"
+    label: "Sayfa Başlıkları"
+    delete: false
+    editor: { preview: false }
+    files:
+      - file: "settings/pages.json"
+        label: "Sayfa Başlık ve Alt Başlıkları"
+        name: "pages_file"
+        format: "json"
+        fields:
+          - label: "Hakkımızda"
+            name: "about"
+            widget: "object"
+            fields: [{ label: "Başlık", name: "title", widget: "string" }, { label: "Alt başlık", name: "subtitle", widget: "string" }]
+          - label: "Hizmetler"
+            name: "services"
+            widget: "object"
+            fields: [{ label: "Başlık", name: "title", widget: "string" }, { label: "Alt başlık", name: "subtitle", widget: "string" }]
+          - label: "Blog"
+            name: "blog"
+            widget: "object"
+            fields: [{ label: "Başlık", name: "title", widget: "string" }, { label: "Alt başlık", name: "subtitle", widget: "string" }]
+          - label: "SSS"
+            name: "faq"
+            widget: "object"
+            fields: [{ label: "Başlık", name: "title", widget: "string" }, { label: "Alt başlık", name: "subtitle", widget: "string" }]
+          - label: "Hasta İlişkileri"
+            name: "patientRelations"
+            widget: "object"
+            fields: [{ label: "Başlık", name: "title", widget: "string" }, { label: "Alt başlık", name: "subtitle", widget: "string" }]
+
+  - name: "success_stories"
+    label: "Başarı Hikâyeleri"
+    delete: false
+    editor: { preview: false }
+    files:
+      - file: "settings/success-stories.json"
+        label: "Başarı Hikâyeleri"
+        name: "success_file"
+        format: "json"
+        fields:
+          - label: "Hikâyeler"
+            name: "stories"
+            widget: "list"
+            allow_reorder: true
+            fields:
+              - { label: "Kimlik", name: "id", widget: "string" }
+              - { label: "Başlık", name: "title", widget: "string" }
+              - { label: "Hayvan adı", name: "petName", widget: "string" }
+              - { label: "Tür", name: "species", widget: "select", options: ["Kedi", "Köpek"] }
+              - { label: "Kısa vurgu", name: "tagline", widget: "string" }
+              - { label: "Özet", name: "summary", widget: "text" }
+              - { label: "Tam hikâye", name: "full", widget: "text" }
+              - { label: "İkon", name: "icon", widget: "string", default: "#i-paw" }

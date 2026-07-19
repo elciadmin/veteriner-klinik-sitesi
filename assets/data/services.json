@@ -4,16 +4,16 @@
     {
       "id": "acil",
       "title": "Acil Ön Değerlendirme & İlk Müdahale",
-      "summary": "Acil durumlarda telefonla ön değerlendirme yapılır. Uygun vakalarda ilk müdahale, sıvı desteği ve oksijen desteği sağlanır; ileri yoğun bakım veya 24 saat kesintisiz izlem gerektiren hastalarda hasta sahibi bilgilendirilerek uygun merkeze yönlendirme yapılır.",
+      "summary": "Acil belirtilerde telefonla ön değerlendirme yapılır; klinik uygunluğuna göre ilk müdahale veya yönlendirme planlanır.",
       "icon": "#i-shield-cross",
       "href": "/hizmetler.html#acil",
       "published": true,
       "status": "published",
-      "updatedAt": "",
+      "showOnHome": true,
+      "order": 1,
+      "group": "Öne Çıkanlar",
       "detail": "Kliniğimiz 24 saat kesintisiz yoğun bakım merkezi değildir. İleri yoğun bakım veya sürekli izlem gereken hastalarda uygun merkeze yönlendirme yapılır.",
-      "group": "Destek ve özel süreçler",
-      "homeFeatured": true,
-      "order": 1
+      "faIcon": "fa-solid fa-truck-medical"
     },
     {
       "id": "koruyucu",
@@ -23,11 +23,11 @@
       "href": "/hizmetler.html#koruyucu",
       "published": true,
       "status": "published",
-      "updatedAt": "",
-      "homeFeatured": true,
+      "showOnHome": true,
       "order": 2,
-      "group": "Diğer hizmetler",
-      "detail": ""
+      "group": "Öne Çıkanlar",
+      "detail": "Aşı planı, parazit kontrolü, mikroçip ve check-up.",
+      "faIcon": ""
     },
     {
       "id": "ic-hastaliklari",
@@ -37,11 +37,11 @@
       "href": "/hizmetler.html#ic-hastaliklari",
       "published": true,
       "status": "published",
-      "updatedAt": "",
-      "homeFeatured": true,
+      "showOnHome": true,
       "order": 3,
-      "group": "Diğer hizmetler",
-      "detail": ""
+      "group": "Öne Çıkanlar",
+      "detail": "Hemogram, biyokimya, hormon, idrar analizi ve tanısal yaklaşım.",
+      "faIcon": ""
     },
     {
       "id": "cerrahi",
@@ -51,11 +51,11 @@
       "href": "/hizmetler.html#cerrahi",
       "published": true,
       "status": "published",
-      "updatedAt": "",
-      "homeFeatured": true,
+      "showOnHome": true,
       "order": 4,
-      "group": "Diğer hizmetler",
-      "detail": ""
+      "group": "Öne Çıkanlar",
+      "detail": "Yumuşak doku, ortopedi, sterilizasyon, ağrı yönetimi.",
+      "faIcon": ""
     },
     {
       "id": "agiz-dis",
@@ -65,11 +65,11 @@
       "href": "/hizmetler.html#agiz-dis",
       "published": true,
       "status": "published",
-      "updatedAt": "",
-      "homeFeatured": true,
+      "showOnHome": true,
       "order": 5,
-      "group": "Diğer hizmetler",
-      "detail": ""
+      "group": "Öne Çıkanlar",
+      "detail": "Diş taşı temizliği, ağız muayenesi, diş eti hastalıklarının değerlendirilmesi, gerekli durumlarda diş çekimi ve ileri dental değerlendirme için yönlendirme.",
+      "faIcon": ""
     },
     {
       "id": "goruntuleme-lab",
@@ -79,25 +79,24 @@
       "href": "/hizmetler.html#goruntuleme-lab",
       "published": true,
       "status": "published",
-      "updatedAt": "",
-      "homeFeatured": true,
+      "showOnHome": true,
       "order": 6,
-      "group": "Diğer hizmetler",
-      "detail": ""
+      "group": "Öne Çıkanlar",
+      "detail": "Hemogram, biyokimya, hormon testleri, hızlı testler ve sitolojik değerlendirme yapılır. Gerekli durumlarda röntgen ve ultrason gibi görüntüleme işlemleri için randevulu veya dış merkez yönlendirmeli süreç yönetimi sağlanır."
     },
     {
       "id": "kardiyoloji",
       "title": "Kardiyoloji",
-      "summary": "Kalp muayenesi, klinik değerlendirme, tedavi ve gerekli durumlarda ileri kardiyolojik inceleme için yönlendirme.",
+      "summary": "Öksürük, efor intoleransı, nefes darlığı, bayılma ve ritim sorunu şüphesinde klinik değerlendirme yapılır.",
       "icon": "#i-ecg",
       "href": "/hizmetler.html#kardiyoloji",
       "published": true,
       "status": "published",
-      "updatedAt": "",
+      "showOnHome": false,
+      "order": 7,
+      "group": "Dahili Branşlar",
       "detail": "Kalp ve akciğer dinlemesi ile genel klinik muayene yapılır. İleri kardiyolojik görüntüleme veya uzman değerlendirmesi gereken hastalar uygun merkeze yönlendirilir.",
-      "group": "Dahili branşlar",
-      "homeFeatured": false,
-      "order": 101
+      "faIcon": "fa-solid fa-heart-pulse"
     },
     {
       "id": "dogum-jinekoloji",
@@ -107,11 +106,11 @@
       "href": "/hizmetler.html#dogum-jinekoloji",
       "published": true,
       "status": "published",
-      "updatedAt": "",
+      "showOnHome": false,
+      "order": 8,
+      "group": "Cerrahi, Hareket ve Üreme",
       "detail": "Pyometra, doğum güçlüğü, düzensiz kızgınlık ve üreme sistemi sorunlarında muayene, laboratuvar ve gerekli görüntüleme süreci planlanır. Acil doğum vakalarında önce telefonla iletişim kurulmalıdır.",
-      "group": "Cerrahi, hareket ve üreme sağlığı",
-      "homeFeatured": false,
-      "order": 102
+      "faIcon": "fa-solid fa-venus"
     },
     {
       "id": "endokrinoloji",
@@ -121,11 +120,11 @@
       "href": "/hizmetler.html#endokrinoloji",
       "published": true,
       "status": "published",
-      "updatedAt": "",
+      "showOnHome": false,
+      "order": 9,
+      "group": "Dahili Branşlar",
       "detail": "Kan ve idrar testleri ile gerekli hormon profilleri klinik bulgularla birlikte değerlendirilir. Kronik hastalıklarda ilaç, beslenme ve kontrol aralıkları düzenlenir.",
-      "group": "Dahili branşlar",
-      "homeFeatured": false,
-      "order": 103
+      "faIcon": "fa-solid fa-droplet"
     },
     {
       "id": "uroloji",
@@ -135,11 +134,11 @@
       "href": "/hizmetler.html#uroloji",
       "published": true,
       "status": "published",
-      "updatedAt": "",
+      "showOnHome": false,
+      "order": 10,
+      "group": "Dahili Branşlar",
       "detail": "İdrar analizi, kan testleri ve klinik muayene temel alınır. Görüntüleme gerektiğinde randevulu ya da dış merkez süreci planlanır. İdrar yapamama acil bir durumdur.",
-      "group": "Dahili branşlar",
-      "homeFeatured": false,
-      "order": 104
+      "faIcon": "fa-solid fa-kidneys"
     },
     {
       "id": "ortopedi",
@@ -149,11 +148,11 @@
       "href": "/hizmetler.html#ortopedi",
       "published": true,
       "status": "published",
-      "updatedAt": "",
+      "showOnHome": false,
+      "order": 11,
+      "group": "Cerrahi, Hareket ve Üreme",
       "detail": "Röntgen gerektiğinde randevulu veya dış merkez süreci yönetilir. Tedavi medikal yaklaşım, bandaj-atel uygulamaları, cerrahi değerlendirme ve rehabilitasyonu içerebilir.",
-      "group": "Cerrahi, hareket ve üreme sağlığı",
-      "homeFeatured": false,
-      "order": 105
+      "faIcon": "fa-solid fa-bone"
     },
     {
       "id": "goz",
@@ -163,11 +162,11 @@
       "href": "/hizmetler.html#goz",
       "published": true,
       "status": "published",
-      "updatedAt": "",
+      "showOnHome": false,
+      "order": 12,
+      "group": "Dahili Branşlar",
       "detail": "Göz muayenesi ve gerekli temel testler yapılır. İleri cerrahi veya uzman değerlendirmesi gereken hastalarda yönlendirme planlanır. Ani göz belirtilerinde gecikmeden telefonla iletişim kurulmalıdır.",
-      "group": "Dahili branşlar",
-      "homeFeatured": false,
-      "order": 106
+      "faIcon": "fa-solid fa-eye"
     },
     {
       "id": "dermatoloji",
@@ -177,11 +176,11 @@
       "href": "/hizmetler.html#dermatoloji",
       "published": true,
       "status": "published",
-      "updatedAt": "",
+      "showOnHome": false,
+      "order": 13,
+      "group": "Dahili Branşlar",
       "detail": "Deri kazıntısı, sitoloji ve gerekli diğer testler klinik bulgularla birlikte planlanır. Kronik dermatolojik hastalıklarda uzun dönem takip ve bakım düzeni önemlidir.",
-      "group": "Dahili branşlar",
-      "homeFeatured": false,
-      "order": 107
+      "faIcon": "fa-solid fa-allergies"
     },
     {
       "id": "ftr",
@@ -191,11 +190,11 @@
       "href": "/hizmetler.html#ftr",
       "published": true,
       "status": "published",
-      "updatedAt": "",
+      "showOnHome": false,
+      "order": 14,
+      "group": "Cerrahi, Hareket ve Üreme",
       "detail": "Pasif ve aktif hareketler, ev düzenlemeleri ve kontrollü egzersizler hastanın tanısı, ağrı düzeyi ve hareket kapasitesine göre planlanır.",
-      "group": "Cerrahi, hareket ve üreme sağlığı",
-      "homeFeatured": false,
-      "order": 108
+      "faIcon": "fa-solid fa-person-walking"
     },
     {
       "id": "konaklama",
@@ -205,12 +204,13 @@
       "href": "/hizmetler.html#konaklama",
       "published": true,
       "status": "published",
-      "updatedAt": "",
+      "showOnHome": false,
+      "order": 15,
+      "group": "Destek Hizmetleri",
       "detail": "Kabul öncesinde sağlık ve davranış uygunluğu değerlendirilir. İlaç kullanımı veya özel bakım gereksinimi varsa önceden bildirilmelidir. Her talep otomatik olarak kabul edilmez.",
-      "group": "Destek ve özel süreçler",
-      "homeFeatured": false,
-      "order": 109
+      "faIcon": "fa-solid fa-house-chimney"
     }
   ],
-  "updatedAt": ""
+  "homeLimit": 6,
+  "description": "Kedi ve köpekler için koruyucu sağlık, tanısal değerlendirme, cerrahi ve takip hizmetleri."
 }

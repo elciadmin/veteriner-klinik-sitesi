@@ -1,5 +1,5 @@
 [build]
-  command = "node scripts/build-site.mjs"
+  command = "npm run build"
   publish = "dist"
   functions = "netlify/functions"
 
@@ -8,41 +8,6 @@
 
 [functions]
   node_bundler = "esbuild"
-
-[[redirects]]
-  from = "/admin"
-  to = "/admin/"
-  status = 301
-
-[[redirects]]
-  from = "/about"
-  to = "/about.html"
-  status = 301
-
-[[redirects]]
-  from = "/services.html"
-  to = "/hizmetler.html"
-  status = 301
-
-[[redirects]]
-  from = "/team.html"
-  to = "/about.html"
-  status = 301
-
-[[redirects]]
-  from = "/gallery.html"
-  to = "/about.html"
-  status = 301
-
-[[redirects]]
-  from = "/contact.html"
-  to = "/hasta-iliskileri.html"
-  status = 301
-
-[[redirects]]
-  from = "/randevu-gonderildi"
-  to = "/hasta-iliskileri.html?form=success"
-  status = 302
 
 [[headers]]
   for = "/admin/*"
@@ -53,12 +18,6 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "no-referrer"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-
-[[headers]]
-  for = "/assets/data/*"
-  [headers.values]
-    Cache-Control = "public, max-age=60, must-revalidate"
-    X-Content-Type-Options = "nosniff"
 
 [[headers]]
   for = "/*"

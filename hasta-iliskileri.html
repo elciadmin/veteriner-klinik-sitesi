@@ -685,7 +685,7 @@
     color:#155c36;
   }
   .appointment-submit-status.success::before{
-    content:"\f00c";
+    content:"00c";
     background:#d8f3e3;
     color:#167542;
   }
@@ -695,7 +695,7 @@
     color:#842d2d;
   }
   .appointment-submit-status.error::before{
-    content:"\f071";
+    content:"071";
     background:#ffe0e0;
     color:#b72f2f;
   }
@@ -725,7 +725,9 @@
       border-radius:12px;
     }
   }
-</style>  <link rel="stylesheet" href="/assets/css/site-standard.css?v=4.0">
+</style>
+<link rel="stylesheet" href="/assets/css/site-standard.css?v=final-1">
+<link rel="stylesheet" href="/assets/css/managed-content.css?v=final-1">
 </head>
 <body class="patient-relations-page">
   <a class="skip-link" href="#ana-icerik">İçeriğe geç</a>
@@ -761,13 +763,13 @@
             <li><a href="/">Ana Sayfa</a></li>
 
             <li class="dropdown">
-              <a href="/about.html" aria-haspopup="true" aria-expanded="false">Hakkımızda</a>
+              <a href="/about" aria-haspopup="true" aria-expanded="false">Hakkımızda</a>
               <div class="dropdown-content" role="menu">
-                <a href="/about.html#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
-                <a href="/about.html#ekibimiz" role="menuitem">Ekibimiz</a>
-                <a href="/about.html#klinik" role="menuitem">Kliniğimiz</a>
-                <a href="/about.html#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
-                <a href="/about.html#degerler" role="menuitem">Değerlerimiz</a>
+                <a href="/about#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
+                <a href="/about#ekibimiz" role="menuitem">Ekibimiz</a>
+                <a href="/about#klinik" role="menuitem">Kliniğimiz</a>
+                <a href="/about#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
+                <a href="/about#degerler" role="menuitem">Değerlerimiz</a>
               </div>
             </li>
 
@@ -779,7 +781,7 @@
                 <a href="/hizmetler.html#cerrahi" role="menuitem">Cerrahi Operasyonlar</a>
                 <a href="/hizmetler.html#agiz-dis" role="menuitem">Ağız ve Diş Sağlığı</a>
                 <a href="/hizmetler.html#ic-hastaliklari" role="menuitem">İç Hastalıkları</a>
-                <a href="/hizmetler.html#ftr" role="menuitem">Fizik Tedavi</a>
+                <a href="/hizmetler.html#fizik-tedavi" role="menuitem">Fizik Tedavi</a>
                 <a href="/hizmetler.html#konaklama" role="menuitem">Konaklama</a>
               </div>
             </li>
@@ -880,7 +882,7 @@
 
       <form name="online-randevu" class="form" method="POST" action="/hasta-iliskileri.html?form=success#online-randevu" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="online-randevu"/>
-        <input type="hidden" name="subject" data-remove-prefix value="Yeni randevu talebi — %{submissionId}"/>
+        <input type="hidden" name="subject" value="Yeni randevu talebi — %{submissionId}"/>
         <input type="hidden" name="form_surumu" value="2026-07-admin-v5"/>
         <input type="hidden" name="talep_zamani" id="talepZamani" value=""/>
         <input type="hidden" name="tarih_iso" id="randevuTarihIso" value=""/>
@@ -1146,7 +1148,7 @@
         <h3>Hızlı Linkler</h3>
         <ul class="footer-links">
           <li><a href="/">Ana Sayfa</a></li>
-          <li><a href="/about.html">Hakkımızda</a></li>
+          <li><a href="/about">Hakkımızda</a></li>
           <li><a href="/hizmetler.html">Hizmetlerimiz</a></li>
           <li><a href="/blog.html">Blog</a></li>
           <li><a href="/sss.html">SSS</a></li>
@@ -1161,7 +1163,7 @@
           <li><a href="/hizmetler.html#cerrahi">Konya’da Cerrahi Operasyonlar</a></li>
           <li><a href="/hizmetler.html#agiz-dis">Konya’da Ağız ve Diş Sağlığı</a></li>
           <li><a href="/hizmetler.html#ic-hastaliklari">Konya’da İç Hastalıkları</a></li>
-          <li><a href="/hizmetler.html#ftr">Konya’da Fizik Tedavi</a></li>
+          <li><a href="/hizmetler.html#fizik-tedavi">Konya’da Fizik Tedavi</a></li>
         </ul>
       </div>
 
@@ -1806,6 +1808,8 @@
     /* ===== Konum butonu: yönlendirme hazır (href zaten rota) ===== */
   })();
   </script>
-  <script defer src="/assets/js/site-standard.js?v=4.0"></script>
+
+<script defer src="/assets/js/site-settings.js?v=final-1"></script>
+<script defer src="/assets/js/page-settings.js?v=final-1"></script>
 </body>
 </html>

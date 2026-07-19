@@ -1,0 +1,27 @@
+{
+  "published": true,
+  "title": "Hoş Geldiniz: Kliniğimizin Resmî Web Sitesi Yayında",
+  "date": "2025-09-18T10:00:00+03:00",
+  "species": "Genel",
+  "tags": [
+    "duyuru",
+    "web sitesi"
+  ],
+  "summary": "Elçi Veteriner Kliniği’nin yeni web sitesi yayında. Randevu, hizmetler ve iletişim artık çok daha hızlı.",
+  "cover": "/assets/img/uploads/sample1.webp",
+  "content": "Yeni web sitemizle randevu almak, hizmetlerimizi incelemek ve duyurularımızı takip etmek çok daha kolay. Görüş ve önerileriniz için bize yazın.",
+  "advanced": {
+    "slug": "hos-geldiniz-web-sitesi-yayinda",
+    "seoTitle": "Elçi Veteriner | Yeni Web Sitemiz Yayında",
+    "seoDescription": "Randevu, hizmetler, iletişim ve duyurular artık daha hızlı ve kolay.",
+    "youtubeId": "",
+    "author": "Elçi Veteriner"
+  },
+  "status": "published",
+  "contentType": "announcement",
+  "categories": [
+    "Klinik Duyuruları"
+  ],
+  "customCategories": [],
+  "author": "Elçi Veteriner Kliniği"
+}

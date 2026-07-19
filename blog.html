@@ -1157,7 +1157,9 @@
     }
   </style>
 
-  <link rel="stylesheet" href="/assets/css/site-standard.css?v=4.0">
+
+<link rel="stylesheet" href="/assets/css/site-standard.css?v=final-1">
+<link rel="stylesheet" href="/assets/css/managed-content.css?v=final-1">
 </head>
 <body data-page="blog">
   <a class="skip-link" href="#main-content">İçeriğe geç</a>
@@ -1196,13 +1198,13 @@
           <ul id="mainMenu">
             <li><a href="/">Ana Sayfa</a></li>
             <li class="dropdown">
-              <a href="/about.html" aria-haspopup="true" aria-expanded="false">Hakkımızda</a>
+              <a href="/about" aria-haspopup="true" aria-expanded="false">Hakkımızda</a>
               <div class="dropdown-content" role="menu">
-                <a href="/about.html#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
-                <a href="/about.html#ekibimiz" role="menuitem">Ekibimiz</a>
-                <a href="/about.html#klinik" role="menuitem">Kliniğimiz</a>
-                <a href="/about.html#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
-                <a href="/about.html#degerler" role="menuitem">Değerlerimiz</a>
+                <a href="/about#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
+                <a href="/about#ekibimiz" role="menuitem">Ekibimiz</a>
+                <a href="/about#klinik" role="menuitem">Kliniğimiz</a>
+                <a href="/about#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
+                <a href="/about#degerler" role="menuitem">Değerlerimiz</a>
               </div>
             </li>
             <li class="dropdown">
@@ -1213,7 +1215,7 @@
                 <a href="/hizmetler.html#cerrahi" role="menuitem">Cerrahi Operasyonlar</a>
                 <a href="/hizmetler.html#agiz-dis" role="menuitem">Ağız ve Diş Sağlığı</a>
                 <a href="/hizmetler.html#ic-hastaliklari" role="menuitem">İç Hastalıkları</a>
-                <a href="/hizmetler.html#ftr" role="menuitem">Fizik Tedavi</a>
+                <a href="/hizmetler.html#fizik-tedavi" role="menuitem">Fizik Tedavi</a>
                 <a href="/hizmetler.html#konaklama" role="menuitem">Konaklama</a>
               </div>
             </li>
@@ -1409,7 +1411,7 @@
 <a aria-label="Facebook" href="https://www.facebook.com/elciveteriner" rel="noopener" target="_blank">
 <svg fill="currentColor" viewbox="0 0 24 24"><path d="M13 10h3l.5-3H13V5.5c0-.9.3-1.5 1.7-1.5H17V1h-3c-3 0-4.5 1.6-4.5 4.4V7H7v3h2.5v9h3v-9z"></path></svg>
 </a>
-<a aria-label="Instagram" href="https://www.instagram.com/elciveteriner" rel="noopener" target="_blank">
+<a aria-label="Instagram" href="https://www.instagram.com/elcivetklinik" rel="noopener" target="_blank">
 <svg fill="none" stroke="currentColor" stroke-width="1.6" viewbox="0 0 24 24"><rect height="18" rx="5" width="18" x="3" y="3"></rect><circle cx="12" cy="12" r="3.5"></circle><path d="M17.5 6.5h.01" stroke-width="2"></path></svg>
 </a>
 <a aria-label="X" href="https://twitter.com/elciveteriner" rel="noopener" target="_blank">
@@ -1424,7 +1426,7 @@
 <h3>Hızlı Linkler</h3>
 <ul class="footer-links">
 <li><a href="/">Ana Sayfa</a></li>
-<li><a href="/about.html">Hakkımızda</a></li>
+<li><a href="/about">Hakkımızda</a></li>
 <li><a href="/hizmetler.html">Hizmetlerimiz</a></li>
 <li><a href="/blog.html">Blog</a></li>
 <li><a href="/sss.html">SSS</a></li>
@@ -1438,7 +1440,7 @@
 <li><a href="/hizmetler.html#cerrahi">Kısırlaştırma ve cerrahi</a></li>
 <li><a href="/hizmetler.html#agiz-dis">Ağız ve diş sağlığı</a></li>
 <li><a href="/hizmetler.html#ic-hastaliklari">İç hastalıkları ve laboratuvar</a></li>
-<li><a href="/hizmetler.html#ftr">Fizik tedavi ve rehabilitasyon</a></li>
+<li><a href="/hizmetler.html#fizik-tedavi">Fizik tedavi ve rehabilitasyon</a></li>
 </ul>
 </div>
 <div class="footer-col">
@@ -1503,7 +1505,7 @@
   </script>
 
   <script defer src="/assets/js/main.js?v=18"></script>
-  <script defer src="/assets/js/blog.js?v=5"></script>
+  <script defer src="/assets/js/blog.js?v=final-1"></script>
 
   <script>
   (function(){
@@ -1678,320 +1680,13 @@
   </script>
 
 
-<script id="elci-blog-reader-script">
-(function(){
-  const modal = document.getElementById('blogReaderModal');
-  const titleEl = document.getElementById('blogReaderTitle');
-  const metaEl = document.getElementById('blogReaderMeta');
-  const bodyEl = document.getElementById('blogReaderBody');
-  const coverEl = document.getElementById('blogReaderCover');
-  const imageEl = document.getElementById('blogReaderImage');
-  const closeTop = document.getElementById('blogReaderClose');
-  const closeBottom = document.getElementById('blogReaderCloseBottom');
-  const blogSection = document.getElementById('blog');
-  if(!modal || !blogSection) return;
-
-  let posts = [];
-  let lastFocus = null;
-  const dataSource = blogSection.getAttribute('data-json') || '/assets/data/blog.json';
-
-  function localeValue(value){
-    if(value == null) return '';
-    if(typeof value === 'string') return value;
-    if(typeof value === 'object'){
-      if(typeof value.tr === 'string') return value.tr;
-      for(const key of Object.keys(value)){
-        if(typeof value[key] === 'string') return value[key];
-      }
-    }
-    return String(value);
-  }
-
-  function absoluteUrl(value){
-    try{return new URL(value || '', location.href).href.replace(/\/$/,'');}
-    catch(_){return String(value || '').replace(/\/$/,'');}
-  }
-
-  function normalizeText(value){
-    return String(value || '').trim().toLocaleLowerCase('tr-TR');
-  }
-
-  function findPost(anchor){
-    const href = absoluteUrl(anchor.getAttribute('href'));
-    let post = posts.find(function(item){
-      return item.url && absoluteUrl(item.url) === href;
-    });
-    if(post) return post;
-
-    const card = anchor.closest('.b-card');
-    const cardTitle = card ? card.querySelector('.b-title')?.textContent : '';
-    const linkTitle = anchor.querySelector('span')?.textContent || anchor.textContent;
-    const wanted = normalizeText(cardTitle || linkTitle);
-    return posts.find(function(item){
-      return normalizeText(localeValue(item.title)) === wanted;
-    }) || null;
-  }
-
-  function stripUnsafe(root){
-    root.querySelectorAll('script,style,link,meta,base,object,embed,form,input,textarea,select,button,noscript').forEach(function(node){
-      node.remove();
-    });
-    root.querySelectorAll('*').forEach(function(node){
-      [...node.attributes].forEach(function(attr){
-        const name = attr.name.toLowerCase();
-        const value = String(attr.value || '').trim().toLowerCase();
-        if(name.startsWith('on') || name === 'srcdoc'){
-          node.removeAttribute(attr.name);
-        }
-        if((name === 'href' || name === 'src') && value.startsWith('javascript:')){
-          node.removeAttribute(attr.name);
-        }
-      });
-      if(node.tagName === 'A'){
-        node.setAttribute('target','_blank');
-        node.setAttribute('rel','noopener noreferrer');
-      }
-    });
-    return root.innerHTML;
-  }
-
-  function safeHtml(value){
-    const raw = localeValue(value).trim();
-    if(!raw) return '';
-    const appearsHtml = /<\/?[a-z][\s\S]*>/i.test(raw);
-    if(!appearsHtml){
-      return raw
-        .split(/\n{2,}/)
-        .map(function(paragraph){
-          const escaped = paragraph
-            .replace(/&/g,'&amp;')
-            .replace(/</g,'&lt;')
-            .replace(/>/g,'&gt;')
-            .replace(/"/g,'&quot;')
-            .replace(/'/g,'&#039;')
-            .replace(/\n/g,'<br>');
-          return '<p>'+escaped+'</p>';
-        }).join('');
-    }
-    const doc = new DOMParser().parseFromString('<div id="safeRoot">'+raw+'</div>','text/html');
-    return stripUnsafe(doc.getElementById('safeRoot'));
-  }
-
-  function dateLabel(value){
-    if(!value) return '';
-    const date = new Date(value);
-    if(Number.isNaN(date.getTime())) return String(value);
-    return date.toLocaleDateString('tr-TR',{day:'2-digit',month:'long',year:'numeric'});
-  }
-
-  function renderMeta(post){
-    const parts = [];
-    const category = localeValue(post.category || post.kategori);
-    const date = dateLabel(post.date || post.tarih);
-    const author = localeValue(post.author || post.yazar);
-    if(category) parts.push('<span><i class="fa-solid fa-tag"></i>'+category+'</span>');
-    if(date) parts.push('<span><i class="fa-regular fa-calendar"></i>'+date+'</span>');
-    if(author) parts.push('<span><i class="fa-regular fa-user"></i>'+author+'</span>');
-    metaEl.innerHTML = parts.join('');
-  }
-
-  function renderCover(post){
-    const image = localeValue(
-      post.image || post.cover || post.thumbnail || post.featuredImage ||
-      post.gorsel || post.resim
-    );
-    if(image){
-      imageEl.src = image;
-      imageEl.alt = localeValue(post.title) || 'Blog yazısı görseli';
-      coverEl.hidden = false;
-    }else{
-      imageEl.removeAttribute('src');
-      imageEl.alt = '';
-      coverEl.hidden = true;
-    }
-  }
-
-  function directContent(post){
-    return post.content ?? post.body ?? post.html ?? post.article ??
-           post.fullText ?? post.full_content ?? post.icerik ?? post.metin ?? '';
-  }
-
-  function showLoading(){
-    bodyEl.innerHTML = '<div class="blog-reader-loading" role="status"><i class="fa-solid fa-circle-notch fa-spin"></i><span>Yazı hazırlanıyor…</span></div>';
-  }
-
-  function extractArticleFromDocument(doc){
-    const selectors = [
-      'article .post-content',
-      'article .entry-content',
-      'article .article-content',
-      'article .blog-post-content',
-      '.post-content',
-      '.entry-content',
-      '.article-content',
-      '.blog-post-content',
-      'article',
-      'main article',
-      'main'
-    ];
-    for(const selector of selectors){
-      const node = doc.querySelector(selector);
-      if(node && node.textContent.trim().length > 140){
-        const clone = node.cloneNode(true);
-        clone.querySelectorAll('header,footer,nav,.mobile-contact-bar,.share,.social-share,.post-navigation').forEach(function(n){n.remove();});
-        return stripUnsafe(clone);
-      }
-    }
-    return '';
-  }
-
-  function showIframe(url){
-    bodyEl.innerHTML = '';
-    const frame = document.createElement('iframe');
-    frame.className = 'blog-reader-frame';
-    frame.title = titleEl.textContent + ' yazısı';
-    frame.loading = 'eager';
-    frame.src = url;
-    bodyEl.appendChild(frame);
-
-    frame.addEventListener('load', function(){
-      try{
-        const doc = frame.contentDocument;
-        if(!doc) return;
-        doc.querySelectorAll('header,footer,nav,.mobile-contact-bar').forEach(function(node){
-          node.style.display = 'none';
-        });
-      }catch(_){}
-    });
-  }
-
-  async function loadPostContent(post, url){
-    const direct = directContent(post);
-    if(localeValue(direct).trim()){
-      bodyEl.innerHTML = safeHtml(direct);
-      return;
-    }
-
-    if(url && url !== absoluteUrl('#blog')){
-      try{
-        const response = await fetch(url,{cache:'no-store',credentials:'same-origin'});
-        if(!response.ok) throw new Error('Yazı sayfası yüklenemedi');
-        const pageHtml = await response.text();
-        const doc = new DOMParser().parseFromString(pageHtml,'text/html');
-        const extracted = extractArticleFromDocument(doc);
-        if(extracted){
-          bodyEl.innerHTML = extracted;
-          return;
-        }
-      }catch(_){
-        /* İframe yedeğine geçilir. */
-      }
-      showIframe(url);
-      return;
-    }
-
-    const fallback = post.summary ?? post.ozet ?? post.description ?? post.aciklama ?? '';
-    if(localeValue(fallback).trim()){
-      bodyEl.innerHTML = safeHtml(fallback);
-    }else{
-      bodyEl.innerHTML = '<div class="blog-reader-notice">Bu yazının tam içeriği henüz eklenmemiş. Yönetim panelinde yazının içerik alanı doldurulduğunda burada otomatik olarak görüntülenecek.</div>';
-    }
-  }
-
-  async function openReader(post, anchor){
-    if(!post) return;
-    lastFocus = anchor || document.activeElement;
-    const title = localeValue(post.title || post.baslik) || 'Blog yazısı';
-    const url = post.url ? absoluteUrl(post.url) : absoluteUrl(anchor?.getAttribute('href'));
-
-    titleEl.textContent = title;
-    renderMeta(post);
-    renderCover(post);
-    showLoading();
-
-    if(typeof modal.showModal === 'function'){
-      modal.showModal();
-    }else{
-      modal.setAttribute('open','');
-    }
-    document.body.classList.add('blog-reader-open');
-    closeTop.focus({preventScroll:true});
-
-    await loadPostContent(post,url);
-    bodyEl.scrollTop = 0;
-  }
-
-  function closeReader(){
-    if(modal.open && typeof modal.close === 'function') modal.close();
-    else modal.removeAttribute('open');
-    document.body.classList.remove('blog-reader-open');
-    if(lastFocus && typeof lastFocus.focus === 'function'){
-      setTimeout(function(){lastFocus.focus({preventScroll:true});},30);
-    }
-  }
-
-  fetch(dataSource,{cache:'no-store'})
-    .then(function(response){
-      if(!response.ok) throw new Error('Blog verisi yüklenemedi');
-      return response.json();
-    })
-    .then(function(data){
-      posts = (Array.isArray(data) ? data : (data.posts || [])).slice();
-    })
-    .catch(function(){posts = [];});
-
-  document.addEventListener('click', function(event){
-    const anchor = event.target.closest && event.target.closest('.b-card a, #sidebarRecent a');
-    if(!anchor) return;
-    if(anchor.target === '_blank' || anchor.hasAttribute('download')) return;
-
-    const rawHref = anchor.getAttribute('href') || '';
-    if(!rawHref || rawHref.startsWith('mailto:') || rawHref.startsWith('tel:')) return;
-    if(rawHref === '#blog' || rawHref === '#') return;
-
-    const label = normalizeText(anchor.textContent);
-    if(label.includes('paylaş') || label.includes('facebook') || label === 'x') return;
-
-    const post = findPost(anchor);
-    if(!post) return;
-
-    event.preventDefault();
-    event.stopPropagation();
-    openReader(post,anchor);
-  }, true);
-
-  closeTop.addEventListener('click',closeReader);
-  closeBottom.addEventListener('click',closeReader);
-
-  modal.addEventListener('click',function(event){
-    const rect = modal.getBoundingClientRect();
-    const outside = event.clientX < rect.left || event.clientX > rect.right ||
-                    event.clientY < rect.top || event.clientY > rect.bottom;
-    if(outside) closeReader();
-  });
-  modal.addEventListener('close',function(){
-    document.body.classList.remove('blog-reader-open');
-  });
-})();
-</script>
 
 
-<script id="elci-blog-cover-fallback">
-(function(){
-  const fallback='/assets/img/uploads/elci-logo.png?v=1';
-  document.addEventListener('error',function(event){
-    const image=event.target;
-    if(!(image instanceof HTMLImageElement)) return;
-    if(!image.closest('.b-cover,.editorial-visual,.blog-reader-cover')) return;
-    if(image.dataset.fallbackApplied==='1') return;
-    image.dataset.fallbackApplied='1';
-    image.classList.add('is-cover-fallback');
-    image.src=fallback;
-    image.alt='Elçi Veteriner Kliniği';
-  },true);
-})();
-</script>
 
-  <script defer src="/assets/js/site-standard.js?v=4.0"></script>
+
+
+
+<script defer src="/assets/js/site-settings.js?v=final-1"></script>
+<script defer src="/assets/js/page-settings.js?v=final-1"></script>
 </body>
 </html>

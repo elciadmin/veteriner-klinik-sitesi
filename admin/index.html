@@ -1,88 +1,22 @@
-<!doctype html>
-<html lang="tr">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="robots" content="noindex,nofollow,noarchive">
-  <meta name="theme-color" content="#4e188f">
-  <title>Elçi Yönetim Merkezi</title>
-  <link rel="icon" href="/assets/img/uploads/elci-logo.png">
-  <link rel="stylesheet" href="/admin/admin.css?v=4.0">
-</head>
-<body>
-  <section class="auth-gate" id="authGate">
-    <div class="auth-card">
-      <img src="/assets/img/uploads/elci-logo.png" alt="Elçi Veteriner Kliniği">
-      <span class="eyebrow">GÜVENLİ YÖNETİM</span>
-      <h1>Elçi Yönetim Merkezi</h1>
-      <p>Site içeriklerini, paylaşım takvimini ve randevu taleplerini tek yerden yönetin.</p>
-      <button class="button primary large" id="loginBtn" type="button">Giriş Yap</button>
-      <small>Yalnızca davetli yönetici hesabı erişebilir.</small>
-    </div>
-  </section>
-
-  <div class="app-shell is-hidden" id="appShell">
-    <header class="topbar">
-      <button class="icon-button mobile-menu" id="menuToggle" type="button" aria-label="Menüyü aç">☰</button>
-      <a class="brand" href="#dashboard">
-        <img src="/assets/img/uploads/elci-logo.png" alt="">
-        <span><strong>Elçi Veteriner Kliniği</strong><small>Yönetim Merkezi</small></span>
-      </a>
-      <div class="topbar-actions">
-        <button class="notification-button" id="notificationButton" type="button" title="Yeni randevular">
-          <span aria-hidden="true">🔔</span><b id="notificationCount">0</b>
-        </button>
-        <span class="branch-badge" id="branchBadge">DAL</span>
-        <span class="user-email" id="userEmail"></span>
-        <a class="button ghost compact" href="/" target="_blank" rel="noopener">Siteyi Aç</a>
-        <button class="button ghost compact" id="logoutBtn" type="button">Çıkış</button>
-      </div>
-    </header>
-
-    <div class="workspace">
-      <aside class="sidebar" id="sidebar">
-        <nav aria-label="Yönetim menüsü">
-          <a href="#dashboard" data-route="dashboard"><span>⌂</span>Ana Ekran</a>
-          <a href="#appointments" data-route="appointments"><span>▣</span>Randevular <b class="nav-badge" id="appointmentNavBadge">0</b></a>
-          <a href="#calendar" data-route="calendar"><span>▦</span>Paylaşım Takvimi</a>
-          <a href="#blog" data-route="blog"><span>✎</span>Blog</a>
-          <a href="#faq" data-route="faq"><span>?</span>SSS</a>
-          <a href="#reviews" data-route="reviews"><span>★</span>Google Yorumları</a>
-          <a href="#instagram" data-route="instagram"><span>◎</span>Instagram Galerisi</a>
-          <a href="#services" data-route="services"><span>＋</span>Hizmetler</a>
-          <a href="#pages" data-route="pages"><span>▧</span>Sayfa Başlıkları</a>
-          <a href="#settings" data-route="settings"><span>⚙</span>Site Ayarları</a>
-          <a href="#stories" data-route="stories"><span>♡</span>Başarı Hikâyeleri</a>
-          <a href="#archive" data-route="archive"><span>▤</span>Arşiv</a>
-        </nav>
-        <div class="sidebar-help">
-          <strong>Yayın sistemi</strong>
-          <p>Kaydettiğiniz değişiklikler GitHub’a işlenir ve Netlify tarafından otomatik yayımlanır.</p>
-          <span id="apiStatus" class="status-dot pending">Bağlantı kontrol ediliyor</span>
-        </div>
-      </aside>
-
-      <main class="main" id="mainContent" tabindex="-1">
-        <div class="page-loading"><span class="spinner"></span><p>Yönetim merkezi hazırlanıyor…</p></div>
-      </main>
-    </div>
-  </div>
-
-  <div class="modal-backdrop is-hidden" id="modalBackdrop" aria-hidden="true">
-    <section class="editor-modal" role="dialog" aria-modal="true" aria-labelledby="editorTitle">
-      <header class="editor-header">
-        <div><span class="eyebrow" id="editorEyebrow">İÇERİK</span><h2 id="editorTitle">Düzenle</h2></div>
-        <button class="icon-button" id="modalClose" type="button" aria-label="Kapat">×</button>
-      </header>
-      <div class="editor-body" id="editorBody"></div>
-    </section>
-  </div>
-
-  <div class="toast-stack" id="toastStack" aria-live="polite"></div>
-  <input type="file" id="hiddenFileInput" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
-
-  <script>if(!["localhost","127.0.0.1"].includes(location.hostname)){document.write('<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"><\/script>')}</script>
-  <script src="/admin/runtime-config.js"></script>
-  <script src="/admin/app.js?v=4.0"></script>
-</body>
-</html>
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow,noarchive"><title>Yönetim Merkezi | Elçi Veteriner Kliniği</title><link rel="stylesheet" href="/admin/admin.css?v=final-1"><link rel="icon" href="/assets/img/uploads/elci-logo.png"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></head><body>
+<div class="auth-gate" id="authGate"><div class="auth-card"><img src="/assets/img/uploads/elci-logo.png" alt=""><h1>Elçi Yönetim Merkezi</h1><p>Site içerikleri ve randevu talepleri için güvenli giriş yapın.</p><button class="btn" id="loginBtn"><i class="fa-solid fa-lock"></i> Giriş Yap</button></div></div>
+<div class="shell hidden" id="dashboard"><header class="topbar"><a class="brand" href="/admin/"><img src="/assets/img/uploads/elci-logo.png" alt=""><span><strong>Elçi Veteriner Kliniği</strong><small>Yönetim Merkezi</small></span></a><div class="actions"><span class="environment-badge" id="environmentBadge">Bağlantı</span><span class="user-email" id="userEmail"></span><a class="btn ghost" href="/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Siteyi Aç</a><button class="btn ghost" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Çıkış</button></div></header>
+<div class="layout"><aside class="sidebar"><a class="nav-link active" href="/admin/"><span class="nav-icon"><i class="fa-solid fa-house"></i></span>Ana Ekran</a><a class="nav-link" href="/admin/calendar.html"><span class="nav-icon"><i class="fa-solid fa-calendar-days"></i></span>Paylaşım Takvimi</a><a class="nav-link" href="/admin/cms.html#/collections/blog"><span class="nav-icon"><i class="fa-solid fa-pen"></i></span>Blog ve Duyurular</a><a class="nav-link" href="/admin/cms.html#/collections/services_data/entries/services_file"><span class="nav-icon"><i class="fa-solid fa-stethoscope"></i></span>Hizmetler</a><a class="nav-link" href="/admin/cms.html#/collections/faq"><span class="nav-icon"><i class="fa-solid fa-circle-question"></i></span>SSS</a><a class="nav-link" href="/admin/cms.html#/collections/reviews"><span class="nav-icon"><i class="fa-solid fa-star"></i></span>Google Yorumları</a><a class="nav-link" href="/admin/cms.html#/collections/instagram_posts"><span class="nav-icon"><i class="fa-brands fa-instagram"></i></span>Instagram</a><a class="nav-link" href="/admin/randevular.html"><span class="nav-icon"><i class="fa-solid fa-calendar-check"></i></span>Randevular <b class="nav-count" id="appointmentNavCount">0</b></a><a class="nav-link" href="/admin/cms.html#/collections/site_settings/entries/site_file"><span class="nav-icon"><i class="fa-solid fa-gear"></i></span>Site Ayarları</a></aside>
+<main class="main"><section class="hero"><span class="kicker">BLOGGER BENZERİ SADE YÖNETİM</span><h1>Siteyi tek merkezden yönetin</h1><p>Yeni içerik ekleyin, eski kayıtları düzenleyin, ileri tarih planlayın ve ana sayfada gösterilecek kayıtları ayrı seçim ekranlarından yönetin. Yeni kayıt eklemek ana sayfa sınırları nedeniyle engellenmez.</p></section>
+<section class="status-panel" id="dataStatus"><strong><i class="fa-solid fa-circle-notch fa-spin"></i> Veri dosyaları kontrol ediliyor…</strong></section>
+<section class="stats"><div class="stat"><span>Blog ve duyuru</span><strong id="blogCount">—</strong></div><div class="stat"><span>Yayındaki SSS</span><strong id="faqCount">—</strong></div><div class="stat"><span>Google yorumu</span><strong id="reviewCount">—</strong></div><div class="stat"><span>Hizmet</span><strong id="serviceCount">—</strong></div><div class="stat"><span>Yeni randevu</span><strong id="appointmentCount">—</strong></div></section>
+<section class="cards">
+<article class="card"><div class="card-icon"><i class="fa-solid fa-pen-to-square"></i></div><h2>Blog ve Duyurular</h2><p>Blog yazısı, bayram çalışma saati veya klinik duyurusu ekleyin. Taslak ve ileri tarih seçenekleri mevcuttur.</p><div class="card-actions"><a class="btn primary" href="/admin/cms.html#/collections/blog/new">Yeni Yayın</a><a class="btn" href="/admin/cms.html#/collections/blog">Tümünü Yönet</a></div></article>
+<article class="card"><div class="card-icon"><i class="fa-solid fa-house-chimney-window"></i></div><h2>Ana Sayfa Yayınları</h2><p>Ana sayfada gösterilecek en fazla 6 blog yazısını ve 3 güncel duyuruyu sürükleyerek sıralayın.</p><div class="card-actions"><a class="btn primary" href="/admin/cms.html#/collections/home_blog/entries/home_blog_file">Blog Seç</a><a class="btn" href="/admin/cms.html#/collections/home_announcements/entries/home_announcements_file">Duyuru Seç</a></div></article>
+<article class="card"><div class="card-icon"><i class="fa-solid fa-stethoscope"></i></div><h2>Hizmetler</h2><p>Başlık, kısa ve detaylı açıklama, sıra, yayın durumu ve ana sayfa seçimini aynı listeden yönetin.</p><div class="card-actions"><a class="btn primary" href="/admin/cms.html#/collections/services_data/entries/services_file">Hizmetleri Düzenle</a></div></article>
+<article class="card"><div class="card-icon"><i class="fa-solid fa-circle-question"></i></div><h2>Sık Sorulan Sorular</h2><p>Sınırsız soru ekleyin. Ana sayfadaki 6 soru ayrı seçim ekranından yönetilir; sıra çakışması oluşmaz.</p><div class="card-actions"><a class="btn primary" href="/admin/cms.html#/collections/faq/new">Yeni Soru</a><a class="btn" href="/admin/cms.html#/collections/home_faq/entries/home_faq_file">Ana Sayfa Seçimi</a></div></article>
+<article class="card"><div class="card-icon"><i class="fa-solid fa-star"></i></div><h2>Google Yorumları</h2><p>İstediğiniz kadar yorum kaydedin. Ana sayfada gösterilecek 6 yorumu ayrı ekrandan seçin.</p><div class="card-actions"><a class="btn primary" href="/admin/cms.html#/collections/reviews/new">Yeni Yorum</a><a class="btn" href="/admin/cms.html#/collections/home_reviews/entries/home_reviews_file">Ana Sayfa Seçimi</a></div></article>
+<article class="card"><div class="card-icon"><i class="fa-solid fa-calendar-days"></i></div><h2>Paylaşım Takvimi</h2><p>Blog, duyuru, taslak ve ileri tarihli yayınların aylık görünümünü inceleyin.</p><div class="card-actions"><a class="btn primary" href="/admin/calendar.html">Takvimi Aç</a></div></article>
+<article class="card"><div class="card-icon"><i class="fa-brands fa-instagram"></i></div><h2>Instagram Galerisi</h2><p>Yeni görsel, açıklama ve Instagram gönderi bağlantısı ekleyin.</p><div class="card-actions"><a class="btn primary" href="/admin/cms.html#/collections/instagram_posts/new">Görsel Ekle</a><a class="btn" href="/admin/cms.html#/collections/instagram_posts">Galeriyi Yönet</a></div></article>
+<article class="card"><div class="card-icon"><i class="fa-solid fa-heart"></i></div><h2>Başarı Hikâyeleri</h2><p>Mevcut vaka hikâyelerini düzenleyin, yenilerini ekleyin ve sıralayın.</p><div class="card-actions"><a class="btn" href="/admin/cms.html#/collections/success_stories/entries/success_file">Hikâyeleri Yönet</a></div></article>
+<article class="card"><div class="card-icon"><i class="fa-solid fa-sliders"></i></div><h2>Site ve Sayfa Ayarları</h2><p>Klinik adı, iletişim bilgileri, çalışma saatleri ve ana sayfa başlıklarını yönetin.</p><div class="card-actions"><a class="btn primary" href="/admin/cms.html#/collections/site_settings/entries/site_file">Site Ayarları</a><a class="btn" href="/admin/cms.html#/collections/page_settings/entries/pages_file">Sayfa Başlıkları</a></div></article>
+<article class="card"><div class="card-icon"><i class="fa-solid fa-calendar-check"></i></div><h2>Randevular</h2><p>Yeni talepleri görün; onaylandı, tamamlandı ve iptal edildi durumlarıyla takip edin.</p><div class="card-actions"><a class="btn primary" href="/admin/randevular.html">Randevuları Aç</a></div></article>
+</section>
+<section class="panel"><h2>Blog yazılarında hızlı arama</h2><p>Başlık, kategori veya etiket yazıp doğrudan düzenleme ekranını açın.</p><div class="search-row"><input id="blogSearch" type="search" placeholder="Örn. kedi bakımı, aşı, bayram…"><a class="btn" href="/admin/cms.html#/collections/blog">Gelişmiş Arama</a></div><div class="results" id="blogResults"></div></section>
+</main></div></div>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script><script src="/admin/dashboard.js?v=final-1"></script></body></html>

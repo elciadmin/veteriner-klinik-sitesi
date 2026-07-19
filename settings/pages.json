@@ -1,0 +1,22 @@
+{
+  "about": {
+    "title": "Hakkımızda",
+    "subtitle": "Sağlığın Elçi’leriyiz"
+  },
+  "services": {
+    "title": "Hizmetlerimiz",
+    "subtitle": "Sağlığın Elçi’leriyiz"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Sağlığın Elçi’leriyiz"
+  },
+  "faq": {
+    "title": "Sık Sorulan Sorular",
+    "subtitle": "Merak ettiklerinize hızlı yanıtlar"
+  },
+  "patientRelations": {
+    "title": "Hasta İlişkileri",
+    "subtitle": "Sağlığın Elçi’leriyiz"
+  }
+}

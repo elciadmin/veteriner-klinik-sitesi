@@ -1,0 +1,28 @@
+{
+  "published": true,
+  "title": "Acil Durumlarda İlk Yardım: Evde Yapabilecekleriniz",
+  "date": "2025-06-10T17:45:00+03:00",
+  "species": "Genel",
+  "tags": [
+    "ilk yardım",
+    "acil",
+    "travma"
+  ],
+  "summary": "Kanama, zehirlenme veya travma şüphesinde temel adımlar ve kliniğe ulaşana kadar yapılacaklar.",
+  "cover": "/assets/img/uploads/acil-ilk-yardim.jpg",
+  "content": "Panik yapmayın, güvenli taşıyın ve hemen bizi arayın: 0332 322 32 20. Evde yanlış müdahale durumu kötüleştirebilir.",
+  "advanced": {
+    "slug": "acil-durum-ilk-yardim-evde",
+    "seoTitle": "Evde İlk Yardım İpuçları | Elçi Veteriner",
+    "seoDescription": "Acil durumda panik yapmadan doğru adımları atmak için kısa rehber.",
+    "youtubeId": "",
+    "author": "Elçi Veteriner"
+  },
+  "status": "published",
+  "contentType": "blog",
+  "categories": [
+    "Acil Durumlar"
+  ],
+  "customCategories": [],
+  "author": "Elçi Veteriner Kliniği"
+}

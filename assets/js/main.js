@@ -222,14 +222,14 @@
     }, 2800);
   })();
 
-  // ---- GOOGLE YORUMLARI (8’li)
+  // ---- GOOGLE YORUMLARI (ana sayfa için seçilen 6 kayıt)
   (async function initReviews8(){
     const section = $("#reviews");
     const grid = $("#reviewGrid");
     if(!section || !grid) return;
 
-    const SRC = section.getAttribute("data-json") || "/assets/data/reviews.json";
-    const VISIBLE = 8;
+    const SRC = "/assets/data/home-reviews.json?v=final-1";
+    const VISIBLE = 6;
     const INTERVAL = 10000;
     const STAGGER = 50;
     let all = [], idx = 0, timer=null, paused=false;
@@ -430,7 +430,7 @@
     // İstatistikler sadece about.html içindeki HTML + kendi animasyon JS'iyle çalışacak.
   }
 
-  // SSS sayfası kendi doğrudan JSON yükleyicisini kullanır.
+  hydrateFAQ();
   hydrateAbout();
 })();
 

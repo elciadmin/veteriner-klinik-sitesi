@@ -1,15 +1,18 @@
-<!doctype html>
-<html lang="tr">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="robots" content="noindex,follow">
-  <meta http-equiv="refresh" content="0;url=/hasta-iliskileri.html#online-randevu">
-  <link rel="canonical" href="https://elciveteriner.com/hasta-iliskileri.html">
-  <title>Online Randevu | Elçi Veteriner Kliniği</title>
-  <script>location.replace("/hasta-iliskileri.html#online-randevu");</script>
-</head>
-<body>
-  <p>Doğru sayfaya yönlendiriliyorsunuz. <a href="/hasta-iliskileri.html#online-randevu">Devam edin</a>.</p>
-</body>
-</html>
+<form name="randevu"
+      method="POST"
+      data-netlify="true"
+      action="/randevu-gonderildi"
+      netlify-honeypot="bot-field">
+  <input type="hidden" name="form-name" value="randevu">
+  <p class="hidden"><label>Bot: <input name="bot-field"></label></p>
+
+  <label>Ad Soyad <input type="text" name="adsoyad" required></label>
+  <label>Telefon (WhatsApp) <input type="tel" name="telefon" required></label>
+  <label>Evcil Türü
+    <select name="tur"><option>Kedi</option><option>Köpek</option><option>Diğer</option></select>
+  </label>
+  <label>İstenen Tarih/Saat <input type="datetime-local" name="tarih" required></label>
+  <label>Notlar <textarea name="not"></textarea></label>
+
+  <button type="submit">Randevu Al</button>
+</form>
