@@ -1,157 +1,259 @@
 (() => {
   'use strict';
 
-  const DATA_URL = '/assets/data/services.json?v=4';
+  /*
+    Tek hizmet kaynağı: /assets/data/services.json
+    - Ana sayfa ve Hizmetler sayfası aynı kayıtları kullanır.
+    - Mevcut kart DOM'u klonlanır/güncellenir; tasarım sınıfları ve HTML yapısı korunur.
+    - JSON dosyası bu pakette yer almaz; paneldeki test kayıtları üzerine yazılmaz.
+  */
+  const DATA_URL = '/assets/data/services.json?v=6';
   const text = value => String(value ?? '').trim();
-  const isVisible = item => item && item.published !== false && !['archived', 'draft'].includes(item.status);
-  const sorted = items => [...items].sort((a, b) => (Number(a.order) || 9999) - (Number(b.order) || 9999) || text(a.title).localeCompare(text(b.title), 'tr'));
-  const iconMap = {
-    '#i-shield-cross': 'fa-solid fa-truck-medical', '#i-stethoscope': 'fa-solid fa-stethoscope',
-    '#i-clipboard': 'fa-solid fa-clipboard-check', '#i-scissors': 'fa-solid fa-scissors',
-    '#i-tooth-clean': 'fa-solid fa-tooth', '#i-xray': 'fa-solid fa-vial-circle-check',
-    '#i-ecg': 'fa-solid fa-heart-pulse', '#i-repro': 'fa-solid fa-venus-mars',
-    '#i-endo': 'fa-solid fa-droplet', '#i-uro': 'fa-solid fa-flask-vial',
-    '#i-ortho': 'fa-solid fa-bone', '#i-eye': 'fa-solid fa-eye',
-    '#i-derm': 'fa-solid fa-allergies', '#i-pt': 'fa-solid fa-person-walking',
-    '#i-boarding': 'fa-solid fa-house-chimney'
+  const lower = value => text(value).toLocaleLowerCase('tr-TR');
+  const normalizeId = value => lower(value)
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/ı/g, 'i').replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+  const isVisible = item => item && item.published !== false && !['archived', 'draft'].includes(lower(item.status));
+  const sorted = items => [...items].sort((a, b) =>
+    (Number(a.order) || 9999) - (Number(b.order) || 9999) ||
+    text(a.title).localeCompare(text(b.title), 'tr')
+  );
+  const normalizeItems = data => {
+    if (Array.isArray(data)) return data;
+    if (Array.isArray(data?.items)) return data.items;
+    if (Array.isArray(data?.services)) return data.services;
+    return [];
   };
 
-  function homeCard(item) {
-    const article = document.createElement('article');
-    article.className = 's-card';
-    article.id = item.id;
-    article.dataset.elciCard = '1';
-    article.dataset.serviceId = item.id;
-
-    const icon = document.createElement('span');
-    icon.className = 's-icon';
-    icon.setAttribute('aria-hidden', 'true');
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('viewBox', '0 0 24 24');
-    const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+  function setSvgIcon(card, item) {
+    const use = card.querySelector('.s-icon use');
+    if (!use) return;
     const symbol = text(item.icon) || '#i-stethoscope';
     use.setAttribute('href', symbol);
     use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', symbol);
-    svg.appendChild(use); icon.appendChild(svg);
+  }
 
-    const title = document.createElement('h3'); title.className = 's-title'; title.textContent = text(item.title);
-    const summary = document.createElement('p'); summary.className = 's-text'; summary.textContent = text(item.summary);
-    const link = document.createElement('a'); link.className = 's-link'; link.href = text(item.href) || `/hizmetler.html#${encodeURIComponent(item.id)}`; link.textContent = 'Detaylı Bilgi';
-    article.append(icon, title, summary, link);
-    return article;
+  function updateHomeCard(card, item) {
+    card.hidden = false;
+    card.id = text(item.id) || normalizeId(item.title);
+    card.dataset.elciCard = '1';
+    card.dataset.serviceId = card.id;
+    setSvgIcon(card, item);
+    const title = card.querySelector('.s-title');
+    const summary = card.querySelector('.s-text');
+    const link = card.querySelector('.s-link');
+    if (title) title.textContent = text(item.title);
+    if (summary) summary.textContent = text(item.summary || item.detail);
+    if (link) {
+      link.href = text(item.href) || `/hizmetler.html#${encodeURIComponent(card.id)}`;
+      if (!text(link.textContent)) link.textContent = 'Detaylı Bilgi';
+    }
+    return card;
+  }
+
+  function cloneHomeCard(template, item) {
+    if (!template) return null;
+    const card = template.cloneNode(true);
+    card.removeAttribute('style');
+    card.classList.remove('is-hidden');
+    return updateHomeCard(card, item);
   }
 
   function renderHome(items) {
     const featured = document.getElementById('servicesFeatured');
     const track = document.getElementById('servicesTrack');
     if (!featured || !track) return false;
+
     const visible = sorted(items.filter(isVisible));
-    let featuredItems = visible.filter(item => item.homeFeatured).slice(0, 6);
-    if (!featuredItems.length) featuredItems = visible.slice(0, 6);
-    const featuredIds = new Set(featuredItems.map(item => item.id));
-    const otherItems = visible.filter(item => !featuredIds.has(item.id));
-    featured.replaceChildren(...featuredItems.map(homeCard));
-    track.replaceChildren(...otherItems.map(homeCard));
+    if (!visible.length) throw new Error('services.json içinde yayındaki hizmet bulunamadı');
+
+    const allExisting = [...featured.querySelectorAll('.s-card'), ...track.querySelectorAll('.s-card')];
+    const existingById = new Map(allExisting.map(card => [normalizeId(card.dataset.serviceId || card.id), card]));
+    const featuredTemplate = featured.querySelector('.s-card')?.cloneNode(true) || track.querySelector('.s-card')?.cloneNode(true);
+    const trackTemplate = track.querySelector('.s-card')?.cloneNode(true) || featuredTemplate?.cloneNode(true);
+
+    let featuredItems = visible.filter(item => item.homeFeatured === true);
+    if (!featuredItems.length) featuredItems = visible;
+    featuredItems = featuredItems.slice(0, 6);
+    const featuredIds = new Set(featuredItems.map(item => normalizeId(item.id || item.title)));
+    const otherItems = visible.filter(item => !featuredIds.has(normalizeId(item.id || item.title)));
+
+    const used = new Set();
+    const cardFor = (item, template) => {
+      const id = normalizeId(item.id || item.title);
+      let card = existingById.get(id);
+      if (card && used.has(card)) card = null;
+      if (!card) card = cloneHomeCard(template, item);
+      if (!card) return null;
+      used.add(card);
+      return updateHomeCard(card, item);
+    };
+
+    const featuredCards = featuredItems.map(item => cardFor(item, featuredTemplate)).filter(Boolean);
+    const otherCards = otherItems.map(item => cardFor(item, trackTemplate)).filter(Boolean);
+
+    /* Var olan kartlar yeniden yaratılmak yerine aynı DOM yapısıyla taşınır. */
+    featured.replaceChildren(...featuredCards);
+    track.replaceChildren(...otherCards);
+    featured.dataset.servicesReady = 'json';
+    track.dataset.servicesReady = 'json';
+
     const more = document.getElementById('servicesMoreWrap');
-    if (more) more.hidden = !otherItems.length;
+    if (more) more.hidden = otherCards.length === 0;
     return true;
   }
 
-  function findOrCreateGroup(groupName) {
-    const groupsRoot = document.querySelector('.service-groups');
-    if (!groupsRoot) return null;
-    const name = text(groupName) || 'Diğer hizmetler';
-    const existing = [...groupsRoot.querySelectorAll('.service-group')].find(group => text(group.querySelector('.group-head h3')?.textContent) === name);
-    if (existing) return existing.querySelector('.service-grid');
+  const GROUP_ALIASES = new Map([
+    ['dahili-branslar', 'Dahili branşlar'],
+    ['cerrahi-hareket-ve-ureme', 'Cerrahi, hareket ve üreme sağlığı'],
+    ['cerrahi-hareket-ve-ureme-sagligi', 'Cerrahi, hareket ve üreme sağlığı'],
+    ['destek-ve-ozel-surecler', 'Destek ve özel süreçler'],
+    ['diger-hizmetler', 'Diğer hizmetler']
+  ]);
 
-    const group = document.createElement('div'); group.className = 'service-group';
-    const head = document.createElement('div'); head.className = 'group-head reveal is-visible';
-    const h3 = document.createElement('h3'); h3.textContent = name;
-    const p = document.createElement('p'); p.textContent = 'Yönetim panelinden eklenen ve güncellenen hizmetler.';
-    head.append(h3, p);
-    const grid = document.createElement('div'); grid.className = 'service-grid';
-    group.append(head, grid); groupsRoot.appendChild(group);
-    return grid;
+  function canonicalGroup(value) {
+    const raw = text(value) || 'Diğer hizmetler';
+    return GROUP_ALIASES.get(normalizeId(raw)) || raw;
   }
 
-  function servicePageCard(item) {
-    const article = document.createElement('article');
-    article.className = 'service-card cms-service reveal is-visible';
-    article.id = item.id;
-    article.dataset.serviceId = item.id;
-    article.dataset.serviceTitle = text(item.title);
-
-    const icon = document.createElement('div'); icon.className = 'service-icon';
-    const i = document.createElement('i'); i.className = text(item.iconClass) || iconMap[text(item.icon)] || 'fa-solid fa-paw'; icon.appendChild(i);
-    const title = document.createElement('h4'); title.textContent = text(item.title);
-    const summary = document.createElement('p'); summary.dataset.cms = 'summary'; summary.textContent = text(item.summary);
-    const details = document.createElement('details');
-    const detailsTitle = document.createElement('summary'); detailsTitle.textContent = 'Hizmet kapsamı';
-    const body = document.createElement('div'); body.className = 'detail-body'; body.dataset.cms = 'detail';
-    const detail = document.createElement('p'); detail.textContent = text(item.detail) || text(item.summary);
-    const actions = document.createElement('div'); actions.className = 'detail-actions';
-    const appointment = document.createElement('a'); appointment.className = 'mini-btn primary'; appointment.href = '/hasta-iliskileri.html#online-randevu'; appointment.textContent = 'Randevu';
-    actions.appendChild(appointment); body.append(detail, actions); details.append(detailsTitle, body);
-    article.append(icon, title, summary, details);
-    return article;
+  function groupTitle(group) {
+    return text(group.querySelector('.group-head h3, :scope > h2, :scope > h3'));
   }
 
-  function updateExistingNode(node, item) {
-    node.hidden = !isVisible(item);
-    if (node.hidden) return;
-    const title = node.querySelector('.s-title,h3,h4'); if (title && text(item.title)) title.textContent = text(item.title);
-    const summary = node.querySelector('.s-text,[data-cms="summary"]'); if (summary) summary.textContent = text(item.summary);
-    const detailBox = node.querySelector('[data-cms="detail"]');
+  function findGroupRoot(name) {
+    const root = document.querySelector('.service-groups');
+    if (!root) return null;
+    const wanted = canonicalGroup(name);
+    let group = [...root.querySelectorAll(':scope > .service-group')]
+      .find(node => canonicalGroup(groupTitle(node)) === wanted);
+    if (group) return group;
+
+    const source = root.querySelector(':scope > .service-group');
+    if (!source) return null;
+    group = source.cloneNode(true);
+    group.querySelectorAll('.service-card').forEach(node => node.remove());
+    const heading = group.querySelector('.group-head h3, :scope > h2, :scope > h3');
+    if (heading) heading.textContent = wanted;
+    const description = group.querySelector('.group-head p');
+    if (description) description.textContent = 'Yönetim panelinden eklenen ve aynı hizmet verisinden yayınlanan hizmetler.';
+    group.classList.add('is-visible');
+    root.appendChild(group);
+    return group;
+  }
+
+  function updateFontAwesomeIcon(card, item, isNew = false) {
+    const icon = card.querySelector('.service-icon i');
+    if (!icon) return;
+    const wanted = text(item.iconClass);
+    if (wanted) icon.className = wanted;
+    else if (isNew) icon.className = 'fa-solid fa-stethoscope';
+  }
+
+  function updateServicePageCard(card, item, isNew = false) {
+    card.hidden = !isVisible(item);
+    if (card.hidden) return card;
+    const id = text(item.id) || normalizeId(item.title);
+    card.id = id;
+    card.dataset.serviceId = id;
+    card.dataset.serviceTitle = text(item.title);
+
+    /* Kart türü ne olursa olsun mevcut sınıflar ve iç tasarım korunur. */
+    const title = card.querySelector('h3, h4');
+    const summary = card.querySelector('[data-cms="summary"], .s-text');
+    const detailBox = card.querySelector('[data-cms="detail"]');
+    if (title) title.textContent = text(item.title);
+    if (summary) summary.textContent = text(item.summary || item.detail);
     if (detailBox) {
-      let p = detailBox.querySelector('p');
-      if (!p) { p = document.createElement('p'); detailBox.prepend(p); }
-      p.textContent = text(item.detail) || text(item.summary);
+      let paragraph = detailBox.querySelector('p');
+      if (!paragraph) {
+        paragraph = document.createElement('p');
+        detailBox.prepend(paragraph);
+      }
+      paragraph.textContent = text(item.detail || item.summary);
     }
-    const link = node.querySelector('.s-link'); if (link) link.href = text(item.href) || `/hizmetler.html#${encodeURIComponent(item.id)}`;
-    node.dataset.serviceTitle = text(item.title);
+    updateFontAwesomeIcon(card, item, isNew);
+    if (isNew) card.classList.add('is-visible');
+    return card;
+  }
+
+  function createSimpleServiceCard(template, item) {
+    if (!template) return null;
+    const card = template.cloneNode(true);
+    card.classList.remove('reverse');
+    card.removeAttribute('style');
+    return updateServicePageCard(card, item, true);
   }
 
   function renderServicePage(items) {
-    const existingNodes = [...document.querySelectorAll('.cms-service[data-service-id], [data-service-id].feature-service')];
-    const byId = new Map(items.map(item => [text(item.id), item]));
-    const existingIds = new Set();
+    const root = document.querySelector('.service-groups');
+    const featuredStack = document.querySelector('.featured-stack');
+    if (!root && !featuredStack) return false;
 
-    existingNodes.forEach(node => {
-      const id = text(node.dataset.serviceId || node.id);
-      existingIds.add(id);
-      const item = byId.get(id);
-      if (!item) { node.hidden = true; return; }
-      updateExistingNode(node, item);
+    const visible = sorted(items.filter(isVisible));
+    if (!visible.length) throw new Error('services.json içinde yayındaki hizmet bulunamadı');
+    const byId = new Map(visible.map(item => [normalizeId(item.id || item.title), item]));
+
+    const featuredNodes = [...document.querySelectorAll('.featured-stack .cms-service[data-service-id]')];
+    featuredNodes.forEach(card => {
+      const item = byId.get(normalizeId(card.dataset.serviceId || card.id));
+      card.hidden = !item;
+      if (item) updateServicePageCard(card, item);
     });
 
-    sorted(items.filter(isVisible)).forEach(item => {
-      if (existingIds.has(item.id)) return;
-      const grid = findOrCreateGroup(item.group);
-      if (grid) grid.appendChild(servicePageCard(item));
+    const simpleExisting = [...root?.querySelectorAll('.service-card.cms-service[data-service-id]') || []];
+    const simpleById = new Map(simpleExisting.map(card => [normalizeId(card.dataset.serviceId || card.id), card]));
+    const template = simpleExisting[0]?.cloneNode(true) || null;
+    const featuredIds = new Set(featuredNodes.map(card => normalizeId(card.dataset.serviceId || card.id)));
+
+    /* JSON'da bulunmayan eski statik kartlar görünmez; JSON tek kaynak olur. */
+    simpleExisting.forEach(card => {
+      if (!byId.has(normalizeId(card.dataset.serviceId || card.id))) card.hidden = true;
     });
 
-    document.querySelectorAll('.service-grid').forEach(grid => {
-      const cards = [...grid.querySelectorAll('[data-service-id]')];
-      cards.sort((a, b) => {
-        const ai = byId.get(text(a.dataset.serviceId));
-        const bi = byId.get(text(b.dataset.serviceId));
-        return (Number(ai?.order) || 9999) - (Number(bi?.order) || 9999);
-      }).forEach(card => grid.appendChild(card));
+    const groupsUsed = new Set();
+    visible.forEach(item => {
+      const id = normalizeId(item.id || item.title);
+      if (featuredIds.has(id)) return;
+      const group = findGroupRoot(item.group);
+      const grid = group?.querySelector('.service-grid');
+      if (!grid) return;
+      groupsUsed.add(group);
+      let card = simpleById.get(id);
+      if (!card) card = createSimpleServiceCard(template, item);
+      if (!card) return;
+      updateServicePageCard(card, item, !simpleById.has(id));
+      grid.appendChild(card); // JSON sırasına göre mevcut kartı güvenle taşır.
     });
-    return existingNodes.length > 0 || Boolean(document.querySelector('.service-groups'));
+
+    [...root.querySelectorAll(':scope > .service-group')].forEach(group => {
+      const hasVisibleCard = [...group.querySelectorAll('.service-card')].some(card => !card.hidden);
+      group.hidden = !hasVisibleCard;
+    });
+    root.dataset.servicesReady = 'json';
+    return true;
+  }
+
+  function report(status, detail = {}) {
+    document.documentElement.dataset.servicesStatus = status;
+    document.dispatchEvent(new CustomEvent('elci:services-rendered', { detail: { status, ...detail } }));
   }
 
   async function sync() {
     try {
-      const response = await fetch(DATA_URL, { cache: 'no-store' });
+      const response = await fetch(DATA_URL, { cache: 'no-store', headers: { Accept: 'application/json' } });
       if (!response.ok) throw new Error(`Hizmet verisi alınamadı (${response.status})`);
       const data = await response.json();
-      const items = Array.isArray(data?.items) ? data.items : [];
-      renderHome(items);
-      renderServicePage(items);
-      document.dispatchEvent(new CustomEvent('elci:services-rendered', { detail: { count: items.filter(isVisible).length } }));
+      const items = normalizeItems(data);
+      if (!items.length) throw new Error('Hizmet JSON biçimi geçersiz veya liste boş');
+      const homeRendered = renderHome(items);
+      const pageRendered = renderServicePage(items);
+      report('ready', { count: items.filter(isVisible).length, homeRendered, pageRendered });
     } catch (error) {
-      console.error('Hizmet içerikleri eşitlenemedi:', error);
+      console.error('[Elçi Hizmet Senkronizasyonu]', error);
+      document.getElementById('servicesFeatured')?.setAttribute('data-services-ready', 'error');
+      document.querySelector('.service-groups')?.setAttribute('data-services-ready', 'error');
+      report('error', { message: error.message });
     }
   }
 
