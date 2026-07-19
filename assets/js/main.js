@@ -430,7 +430,7 @@
     // İstatistikler sadece about.html içindeki HTML + kendi animasyon JS'iyle çalışacak.
   }
 
-  hydrateFAQ();
+  // SSS sayfası kendi doğrudan JSON yükleyicisini kullanır.
   hydrateAbout();
 })();
 

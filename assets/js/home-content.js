@@ -2,7 +2,7 @@
   'use strict';
 
   const INSTAGRAM_PROFILE = 'https://www.instagram.com/elciveteriner';
-  const VERSION = 'content-v31';
+  const VERSION = 'direct-json-v32';
 
   async function fetchJson(url, fallback) {
     try {
@@ -94,14 +94,12 @@
       'elci-instagram-film-v28',
       'elci-instagram-film-v29',
       'elci-instagram-film-v30',
-      'elci-instagram-film-v31'
+      'elci-instagram-film-v31',
+      'elci-instagram-film-v32'
     ].forEach(id => document.getElementById(id)?.remove());
 
     const style = document.createElement('style');
-    style.id = 'elci-instagram-film-v28',
-      'elci-instagram-film-v29',
-      'elci-instagram-film-v30',
-      'elci-instagram-film-v31';
+    style.id = 'elci-instagram-film-v32';
 
     style.textContent = `
       #insta {
@@ -438,44 +436,33 @@
     tryNext();
   }
 
-  function normalizeInstagram(manualItems, fallbackItems) {
-    /*
-      Panelden eklenen yeni görseller en başta yer alır.
-      Mevcut Instagram arşivi kesintisiz şekilde arkasından devam eder.
-    */
-    const manual = (Array.isArray(manualItems) ? manualItems : [])
-      .filter(item => item && item.published !== false && item.image)
-      .map(item => ({
-        ...item,
-        sourceKey: item.image,
-        fallback: false
-      }));
+  function normalizeInstagram(items) {
+    const now = new Date();
+    const visible = (Array.isArray(items) ? items : []).filter(item => {
+      if (!item || item.published === false || item.status === 'draft' || item.status === 'archived') return false;
+      const planned = item.scheduledAt ? new Date(item.scheduledAt) : null;
+      return !planned || Number.isNaN(planned.getTime()) || planned <= now;
+    });
 
-    const fallback = (Array.isArray(fallbackItems) ? fallbackItems : [])
-      .slice()
-      .reverse()
-      .map(item => ({
-        image: '',
-        file: item.file || '',
-        title: 'Elçi Veteriner Kliniği',
-        alt: 'Elçi Veteriner Kliniği Instagram paylaşımı',
-        instagramUrl: INSTAGRAM_PROFILE,
-        sourceKey: item.file || '',
-        fallback: true
-      }))
-      .filter(item => item.file);
-
+    const recent = visible
+      .filter(item => item.createdAt)
+      .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+    const legacy = visible.filter(item => !item.createdAt).slice().reverse();
     const seen = new Set();
 
-    return [...manual, ...fallback]
-      .filter(item => {
-        const key = item.sourceKey;
-        if (!key || seen.has(key)) return false;
-
-        seen.add(key);
-        return true;
-      })
-      .slice(0, 80);
+    return [...recent, ...legacy].map(item => ({
+      ...item,
+      image: item.image || (item.file ? `/assets/img/insta/${item.file}` : ''),
+      title: item.title || 'Elçi Veteriner Kliniği',
+      alt: item.alt || item.title || 'Elçi Veteriner Kliniği Instagram paylaşımı',
+      instagramUrl: item.instagramUrl || INSTAGRAM_PROFILE,
+      sourceKey: item.image || item.file || item.id,
+      fallback: !item.createdAt
+    })).filter(item => {
+      if (!item.sourceKey || seen.has(item.sourceKey)) return false;
+      seen.add(item.sourceKey);
+      return Boolean(item.image || item.file);
+    }).slice(0, 80);
   }
 
   function createCard(item, itemIndex, duplicate) {
@@ -627,14 +614,14 @@
     head.querySelectorAll('.elci-insta-controls').forEach(control => control.remove());
   }
 
-  function renderInstagram(manualItems, fallbackItems) {
+  function renderInstagram(items) {
     const track = document.getElementById('instaTrack');
     if (!track) return;
 
     injectInstagramStyles();
     cleanInstagramHeader();
 
-    const items = normalizeInstagram(manualItems, fallbackItems);
+    items = normalizeInstagram(items);
 
     track.innerHTML = '';
 
@@ -670,20 +657,23 @@
   /* ---------------- VERİLERİ YÜKLE ---------------- */
 
   async function renderAll() {
-    const [
-      reviews,
-      siteSettings,
-      manualInstagram,
-      fallbackInstagram
-    ] = await Promise.all([
+    const [reviewsRaw, siteSettings, instagram] = await Promise.all([
       fetchJson(`/assets/data/reviews.json?v=${VERSION}`, []),
       fetchJson(`/assets/data/site-settings.json?v=${VERSION}`, {}),
-      fetchJson(`/assets/data/instagram-manual.json?v=${VERSION}`, []),
       fetchJson(`/assets/data/instagram.json?v=${VERSION}`, [])
     ]);
 
-    renderReviews(reviews, siteSettings.totalGoogleReviews);
-    renderInstagram(manualInstagram, fallbackInstagram);
+    const now = new Date();
+    const publishedReviews = (Array.isArray(reviewsRaw) ? reviewsRaw : []).filter(item => {
+      if (!item || item.published === false || item.status === 'draft' || item.status === 'archived') return false;
+      const planned = item.scheduledAt ? new Date(item.scheduledAt) : null;
+      return !planned || Number.isNaN(planned.getTime()) || planned <= now;
+    });
+    const homeReviews = publishedReviews.filter(item => item.showOnHome === true)
+      .sort((a, b) => (Number(a.homeOrder) || 999) - (Number(b.homeOrder) || 999));
+
+    renderReviews((homeReviews.length ? homeReviews : publishedReviews).slice(0, 12), siteSettings.totalGoogleReviews);
+    renderInstagram(instagram);
   }
 
   function start() {

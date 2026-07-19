@@ -4,134 +4,81 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex,nofollow,noarchive">
-  <title>Yönetim Merkezi | Elçi Veteriner Kliniği</title>
-  <link rel="stylesheet" href="/admin/admin.css?v=2.2">
+  <meta name="theme-color" content="#4e188f">
+  <title>Elçi Yönetim Merkezi</title>
   <link rel="icon" href="/assets/img/uploads/elci-logo.png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/admin/admin.css?v=3.1">
 </head>
 <body>
-  <div class="auth-gate" id="authGate">
+  <section class="auth-gate" id="authGate">
     <div class="auth-card">
-      <img src="/assets/img/uploads/elci-logo.png" alt="">
+      <img src="/assets/img/uploads/elci-logo.png" alt="Elçi Veteriner Kliniği">
+      <span class="eyebrow">GÜVENLİ YÖNETİM</span>
       <h1>Elçi Yönetim Merkezi</h1>
-      <p>İçerikleri ve randevu taleplerini yönetmek için güvenli giriş yapın.</p>
-      <button class="btn" id="loginBtn"><i class="fa-solid fa-lock"></i> Giriş Yap</button>
+      <p>Site içeriklerini, paylaşım takvimini ve randevu taleplerini tek yerden yönetin.</p>
+      <button class="button primary large" id="loginBtn" type="button">Giriş Yap</button>
+      <small>Yalnızca davetli yönetici hesabı erişebilir.</small>
     </div>
-  </div>
+  </section>
 
-  <div class="shell hidden" id="dashboard">
+  <div class="app-shell is-hidden" id="appShell">
     <header class="topbar">
-      <a class="brand" href="/admin/">
+      <button class="icon-button mobile-menu" id="menuToggle" type="button" aria-label="Menüyü aç">☰</button>
+      <a class="brand" href="#dashboard">
         <img src="/assets/img/uploads/elci-logo.png" alt="">
         <span><strong>Elçi Veteriner Kliniği</strong><small>Yönetim Merkezi</small></span>
       </a>
-      <div class="actions">
+      <div class="topbar-actions">
+        <button class="notification-button" id="notificationButton" type="button" title="Yeni randevular">
+          <span aria-hidden="true">🔔</span><b id="notificationCount">0</b>
+        </button>
         <span class="user-email" id="userEmail"></span>
-        <a class="btn ghost" href="/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Siteyi Aç</a>
-        <button class="btn ghost" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Çıkış</button>
+        <a class="button ghost compact" href="/" target="_blank" rel="noopener">Siteyi Aç</a>
+        <button class="button ghost compact" id="logoutBtn" type="button">Çıkış</button>
       </div>
     </header>
 
-    <div class="layout">
-      <aside class="sidebar">
-        <a class="nav-link active" href="/admin/"><span class="nav-icon"><i class="fa-solid fa-house"></i></span>Ana ekran</a>
-        <a class="nav-link" href="/admin/cms.html#/collections/blog/new"><span class="nav-icon"><i class="fa-solid fa-pen"></i></span>Yeni yayın</a>
-        <a class="nav-link" href="/admin/cms.html#/collections/home_faq/entries/home_faq_file"><span class="nav-icon"><i class="fa-solid fa-circle-question"></i></span>Ana Sayfa SSS</a>
-        <a class="nav-link" href="/admin/cms.html#/collections/reviews"><span class="nav-icon"><i class="fa-solid fa-star"></i></span>Google yorumları</a>
-        <a class="nav-link" href="/admin/cms.html#/collections/instagram_posts"><span class="nav-icon"><i class="fa-brands fa-instagram"></i></span>Instagram galerisi</a>
-        <a class="nav-link" href="/admin/randevular.html"><span class="nav-icon"><i class="fa-solid fa-calendar-check"></i></span>Randevular</a>
-        <a class="nav-link" href="/admin/cms.html#/media"><span class="nav-icon"><i class="fa-solid fa-images"></i></span>Görsel arşivi</a>
+    <div class="workspace">
+      <aside class="sidebar" id="sidebar">
+        <nav aria-label="Yönetim menüsü">
+          <a href="#dashboard" data-route="dashboard"><span>⌂</span>Ana Ekran</a>
+          <a href="#appointments" data-route="appointments"><span>▣</span>Randevular <b class="nav-badge" id="appointmentNavBadge">0</b></a>
+          <a href="#calendar" data-route="calendar"><span>▦</span>Paylaşım Takvimi</a>
+          <a href="#blog" data-route="blog"><span>✎</span>Blog</a>
+          <a href="#faq" data-route="faq"><span>?</span>SSS</a>
+          <a href="#reviews" data-route="reviews"><span>★</span>Google Yorumları</a>
+          <a href="#instagram" data-route="instagram"><span>◎</span>Instagram Galerisi</a>
+          <a href="#services" data-route="services"><span>＋</span>Hizmetler</a>
+          <a href="#stories" data-route="stories"><span>♡</span>Başarı Hikâyeleri</a>
+          <a href="#archive" data-route="archive"><span>▤</span>Arşiv</a>
+        </nav>
+        <div class="sidebar-help">
+          <strong>Yayın sistemi</strong>
+          <p>Kaydettiğiniz değişiklikler GitHub’a işlenir ve Netlify tarafından otomatik yayımlanır.</p>
+          <span id="apiStatus" class="status-dot pending">Bağlantı kontrol ediliyor</span>
+        </div>
       </aside>
 
-      <main class="main">
-        <section class="hero">
-          <span class="kicker">SADE VE GÜNLÜK KULLANIM</span>
-          <h1>Bugün ne ekleyeceğiz?</h1>
-          <p>Ana sayfanın tasarımı sabit kalır. Buradan yalnızca siteyi canlı tutan içerikleri ve güvenli randevu taleplerini yönetirsiniz.</p>
-        </section>
-
-        <section class="stats">
-          <div class="stat"><span>Yayındaki blog</span><strong id="blogCount">—</strong></div>
-          <div class="stat"><span>Yayındaki SSS</span><strong id="faqCount">—</strong></div>
-          <div class="stat"><span>Sunulan yorum</span><strong id="reviewCount">—</strong></div>
-          <div class="stat"><span>Yeni galeri görseli</span><strong id="galleryCount">—</strong></div>
-          <div class="stat"><span>Yeni randevu</span><strong id="appointmentCount">—</strong></div>
-        </section>
-
-        <section class="cards">
-          <article class="card">
-            <div class="card-icon"><i class="fa-solid fa-pen-to-square"></i></div>
-            <h2>Blog</h2>
-            <p>Yeni yayın oluşturun veya mevcut yazıyı arayıp düzenleyin.</p>
-            <div class="card-actions">
-              <a class="btn primary" href="/admin/cms.html#/collections/blog/new">Yeni Yayın</a>
-              <a class="btn" href="/admin/cms.html#/collections/blog">Yazılarda Ara</a>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="card-icon"><i class="fa-solid fa-circle-question"></i></div>
-            <h2>Ana Sayfa SSS</h2>
-            <p>Ana sayfada görünen 6 soruyu arayarak seçin ve sürükleyerek sıralayın.</p>
-            <div class="card-actions">
-              <a class="btn primary" href="/admin/cms.html#/collections/home_faq/entries/home_faq_file">6 Soruyu Yönet</a>
-              <a class="btn" href="/admin/cms.html#/collections/faq">Tüm Sorular</a>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="card-icon"><i class="fa-solid fa-star"></i></div>
-            <h2>Google Yorumları</h2>
-            <p>Gerçek Google yorumunu elle ekleyin ve sitede sunulacak yorumları seçin.</p>
-            <div class="card-actions">
-              <a class="btn primary" href="/admin/cms.html#/collections/reviews/new">Yeni Yorum</a>
-              <a class="btn" href="/admin/cms.html#/collections/home_reviews/entries/home_reviews_file">Sunumu Düzenle</a>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="card-icon"><i class="fa-brands fa-instagram"></i></div>
-            <h2>Instagram Galerisi</h2>
-            <p>Yeni görsel yükleyin; açıklama ve Instagram gönderi bağlantısı ekleyin.</p>
-            <div class="card-actions">
-              <a class="btn primary" href="/admin/cms.html#/collections/instagram_posts/new">Görsel Yükle</a>
-              <a class="btn" href="/admin/cms.html#/collections/instagram_posts">Galeriyi Aç</a>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="card-icon"><i class="fa-solid fa-stethoscope"></i></div>
-            <h2>Hizmetler</h2>
-            <p>Mevcut hizmet başlıklarını ve açıklamalarını düzenleyin.</p>
-            <div class="card-actions">
-              <a class="btn" href="/admin/cms.html#/collections/services_data/entries/services_file">Hizmetleri Düzenle</a>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="card-icon"><i class="fa-solid fa-calendar-check"></i></div>
-            <h2>Randevular</h2>
-            <p>Yeni, onaylandı, tamamlandı ve iptal durumlarını güvenli alanda takip edin.</p>
-            <div class="card-actions">
-              <a class="btn primary" href="/admin/randevular.html">Randevuları Aç</a>
-            </div>
-          </article>
-        </section>
-
-        <section class="panel">
-          <h2>Blog yazılarında hızlı arama</h2>
-          <p>Başlığı yazıp doğrudan düzenleme ekranını açabilirsiniz.</p>
-          <div class="search-row">
-            <input id="blogSearch" type="search" placeholder="Örn. aşı, kısırlaştırma, diş taşı…">
-            <a class="btn" href="/admin/cms.html#/collections/blog">Gelişmiş Arama</a>
-          </div>
-          <div class="results" id="blogResults"></div>
-        </section>
+      <main class="main" id="mainContent" tabindex="-1">
+        <div class="page-loading"><span class="spinner"></span><p>Yönetim merkezi hazırlanıyor…</p></div>
       </main>
     </div>
   </div>
 
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script src="/admin/dashboard.js?v=2.2"></script>
+  <div class="modal-backdrop is-hidden" id="modalBackdrop" aria-hidden="true">
+    <section class="editor-modal" role="dialog" aria-modal="true" aria-labelledby="editorTitle">
+      <header class="editor-header">
+        <div><span class="eyebrow" id="editorEyebrow">İÇERİK</span><h2 id="editorTitle">Düzenle</h2></div>
+        <button class="icon-button" id="modalClose" type="button" aria-label="Kapat">×</button>
+      </header>
+      <div class="editor-body" id="editorBody"></div>
+    </section>
+  </div>
+
+  <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+  <input type="file" id="hiddenFileInput" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+
+  <script>if(!["localhost","127.0.0.1"].includes(location.hostname)){document.write('<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"><\/script>')}</script>
+  <script src="/admin/app.js?v=3.1"></script>
 </body>
 </html>

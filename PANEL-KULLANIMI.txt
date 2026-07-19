@@ -1,0 +1,70 @@
+ELÇİ YÖNETİM MERKEZİ V3 — KULLANIM
+===================================
+
+ANA EKRAN
+---------
+- Yayındaki blog, SSS, ana sayfa yorumu, galeri ve yeni randevu sayılarını gösterir.
+- Önümüzdeki 7 gün boşsa paylaşım uyarısı verir.
+- Son blog paylaşımı uzun süredir güncellenmediyse hatırlatır.
+
+BLOG
+----
+- Eski ve yeni bütün yazılar aynı listede görünür.
+- Arama ve durum filtresi vardır.
+- Düzenle ile yayınlanmış eski yazılar değiştirilebilir.
+- Yayın seçenekleri yalnızca üç tanedir:
+  1. Taslak olarak kaydet
+  2. Şimdi yayınla
+  3. İleri tarihte yayınla
+- İleri tarih alanı yalnızca üçüncü seçenek seçilince açılır.
+- Yayınlanmış eski kayıtta düğme “Değişiklikleri Kaydet” olur.
+
+SSS
+---
+- Soru, cevap ve kategori tek ekrandan düzenlenir.
+- “Ana sayfada göster” seçilirse ana sayfaya gelir.
+- Ana sayfada en fazla 6 soru gösterilir.
+- Ana sayfa sırası 1–6 olarak verilebilir.
+- Ayrı bir “Ana Sayfa SSS” ekranı yoktur.
+
+GOOGLE YORUMLARI
+----------------
+- Gerçek Google yorumları elle eklenir ve eski kayıtlar düzenlenebilir.
+- Ana sayfada en fazla 6 yorum seçilir.
+- Yıldız, tarih açıklaması ve Google yorum bağlantısı saklanabilir.
+
+INSTAGRAM GALERİSİ
+------------------
+- Görsel Yükle düğmesiyle fotoğraf doğrudan yüklenir.
+- Kaydedilen yeni görsel kesintisiz film şeridine katılır.
+- Film şeridinde bazı görseller fareden bağımsız olarak rastgele öne çıkar.
+- Taslak ve arşivdeki görseller sitede gösterilmez.
+
+PAYLAŞIM TAKVİMİ
+----------------
+- Takvimde bir güne tek tıklayarak yeni plan oluşturabilirsiniz.
+- Blog, Instagram, Google, SSS, duyuru ve başarı hikâyesi planlanabilir.
+- İleri tarihli site içerikleri takvimde otomatik görünür.
+- Blog, SSS, yorum ve Instagram içeriği zamanı gelince site tarafında otomatik görünür.
+- Instagram ve Google'a otomatik gönderim yapılmaz; takvim hatırlatma ve planlama içindir.
+
+RANDEVULAR
+----------
+- Formdan gelen doğrulanmış randevular panele düşer.
+- Panel yeni randevuları yaklaşık 60 saniyede bir kontrol eder.
+- Durumlar: Yeni, Arandı, Onaylandı, Tamamlandı, İptal, Arşiv.
+- Telefon, e-posta, hayvan adı, türü, ırk/cinsi, yaş aralığı ve talep tarihi görünür.
+- Klinik içi not eklenebilir.
+- Randevu bilgileri açık GitHub deposuna yazılmaz; Netlify Blobs'ta tutulur.
+
+ARŞİV
+-----
+- İçerikler doğrudan silinmek yerine önce arşive kaldırılır.
+- Arşivden geri getirilebilir.
+- Kalıcı silme ayrıca onay ister.
+
+KAYDETME SONRASI
+----------------
+- İçerik GitHub'daki ilgili tek JSON dosyasına kaydedilir.
+- Netlify otomatik yayın başlatır.
+- Yayın genellikle 1–3 dakika içinde sitede görünür.

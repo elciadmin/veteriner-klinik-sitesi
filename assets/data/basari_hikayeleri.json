@@ -7,7 +7,12 @@
     "tagline": "Ağır seyretti, yakın klinik izlemle toparladı.",
     "summary": "Parvo pozitif gelen Mira, klinik kapasitesine uygun izlem ve sıvı desteği sonrası iştahı açılarak taburcu edildi.",
     "full": "Mira kliniğimize ileri derecede halsizlik, iştahsızlık ve kanlı ishal ile başvurdu. Hızlı testlerinde Parvovirüs pozitifliği saptandı. Klinik kapasitesine uygun izlem planı kapsamında sıvı desteği, semptomatik tedavi ve beslenme desteği uygulandı. İlk günlerde ciddi dehidratasyon ve elektrolit dengesizliği varken takip sürecinde iştahı ve genel durumu belirgin şekilde düzeldi. Taburculuk sonrası kontrol muayenesinde kilo alımı ve aktif hareketliliğiyle Mira artık evinde oyunlarına devam ediyor.",
-    "icon": "#i-paw"
+    "icon": "#i-paw",
+    "published": true,
+    "status": "published",
+    "image": "",
+    "createdAt": "",
+    "updatedAt": ""
   },
   {
     "id": "duman-femur",
@@ -17,7 +22,12 @@
     "tagline": "Travma sonrası başarılı cerrahi ve fizik tedavi.",
     "summary": "Araç çarpması sonrası femur kırığı olan Duman, cerrahi tespit ve kontrollü rehabilitasyon ile tam yük vermeye başladı.",
     "full": "Duman kliniğimize araç çarpması sonrası arka bacak kullanımında ciddi kısıtlılıkla getirildi. Gerekli görüntüleme süreci planlanarak femur şaft kırığı tespit edildi. Genel durumu stabilize edildikten sonra plak-vida sistemi ile cerrahi fiksasyon yapıldı. Ameliyat sonrası dönemde ağrı kontrolü, düzenli bandaj değişimi ve kontrollü hareket protokolü uygulandı. 4. haftadan itibaren hafif yük vermeye başlamasıyla birlikte basamak egzersizleri ve pasif eklem hareketleri eklendi. Son kontrolde, Duman koşup zıplayabilecek düzeyde aktif ve ağrısız bir yürüyüşe kavuştu.",
-    "icon": "#i-xray"
+    "icon": "#i-xray",
+    "published": true,
+    "status": "published",
+    "image": "",
+    "createdAt": "",
+    "updatedAt": ""
   },
   {
     "id": "boncuk-dental",
@@ -27,6 +37,11 @@
     "tagline": "Ağız kokusu ve ağrı ortadan kalktı.",
     "summary": "İleri diş taşı ve gingivit nedeniyle genel anestezi altında dental temizlik ve gerekli diş çekimleri yapıldı.",
     "full": "Boncuk, belirgin ağız kokusu, yemek yerken zorlanma ve salya artışı şikayetiyle muayene edildi. Ağız içi muayenesinde ileri derecede diş taşı, diş eti çekilmesi ve bazı dişlerde mobilite tespit edildi. Kan tahlilleri ile anestezi için uygunluğu değerlendirildikten sonra, genel anestezi altında dental tartar temizliği ve prognozu kötü olan dişlerin çekimi yapıldı. Operasyon sonrası dönemde kısa süreli ağrı kesici ve antibiyotik tedavisi uygulandı. Kontrol muayenesinde Boncuk’un iştahının düzeldiği, ağız kokusunun azaldığı ve günlük hayat kalitesinin belirgin şekilde arttığı gözlendi.",
-    "icon": "#i-tooth-clean"
+    "icon": "#i-tooth-clean",
+    "published": true,
+    "status": "published",
+    "image": "",
+    "createdAt": "",
+    "updatedAt": ""
   }
 ]

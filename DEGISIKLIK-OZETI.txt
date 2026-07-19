@@ -1,0 +1,43 @@
+ELÇİ YÖNETİM MERKEZİ V3 — NELER DEĞİŞTİ?
+==========================================
+
+KALDIRILAN KARMAŞIKLIK
+----------------------
+- content klasöründeki her içerik için ayrı dosya sistemi kaldırıldı.
+- settings/home-faq ve settings/home-reviews gibi ikinci seçim katmanı kaldırıldı.
+- İçerikleri yeniden birleştiren karmaşık build sistemi kaldırıldı.
+- Günlük kullanımda Decap CMS koleksiyon ekranları devre dışı bırakıldı.
+- GitHub kişisel erişim anahtarı gereksinimi kaldırıldı.
+
+YENİ TEK-JSON ALTYAPISI
+-----------------------
+- assets/data/blog.json
+- assets/data/faq.json
+- assets/data/reviews.json
+- assets/data/instagram.json
+- assets/data/services.json
+- assets/data/successStories.json
+- assets/data/calendar.json
+
+YENİ PANEL
+----------
+- Blogger benzeri sade liste ve düzenleme ekranları
+- Eski yayınları düzenleme
+- Taslak / şimdi yayınla / ileri tarihte yayınla
+- Arşivleme ve geri getirme
+- Arama ve filtreler
+- Görsel yükleme
+- Paylaşım takvimi
+- Site aktivite uyarıları
+- Yönetim panelinde randevu bildirimi ve durum takibi
+
+KORUNANLAR
+----------
+- Mevcut site tasarımı
+- 6 blog yazısı
+- Mevcut 21 SSS kaydı
+- 33 Google yorumu; ana sayfada seçili 6 yorum
+- 77 Instagram görseli ve onaylanan kesintisiz film şeridi
+- 16 hizmet
+- 3 başarı hikâyesi
+- 09:00–21:00 çalışma saatleri

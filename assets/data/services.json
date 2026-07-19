@@ -1,22 +1,165 @@
 {
   "title": "Hizmetlerimiz",
   "items": [
-    { "id":"acil","title":"Acil Ön Değerlendirme & İlk Müdahale","summary":"Acil durumlarda telefonla ön değerlendirme yapılır. Uygun vakalarda ilk müdahale, sıvı desteği ve oksijen desteği sağlanır; ileri yoğun bakım veya 24 saat kesintisiz izlem gerektiren hastalarda hasta sahibi bilgilendirilerek uygun merkeze yönlendirme yapılır.","icon":"#i-shield-cross","href":"/hizmetler.html#acil" },
-    { "id":"koruyucu","title":"Muayene & Koruyucu","summary":"Aşı planı, parazit kontrolü, mikroçip ve check-up.","icon":"#i-stethoscope","href":"/hizmetler.html#koruyucu" },
-    { "id":"ic-hastaliklari","title":"İç Hastalıkları","summary":"Hemogram, biyokimya, hormon, idrar analizi ve tanısal yaklaşım.","icon":"#i-clipboard","href":"/hizmetler.html#ic-hastaliklari" },
-    { "id":"cerrahi","title":"Cerrahi Operasyonlar","summary":"Yumuşak doku, ortopedi, sterilizasyon, ağrı yönetimi.","icon":"#i-scissors","href":"/hizmetler.html#cerrahi" },
-    { "id":"agiz-dis","title":"Ağız & Diş Sağlığı","summary":"Diş taşı temizliği, ağız muayenesi, diş eti hastalıklarının değerlendirilmesi, gerekli durumlarda diş çekimi ve ileri dental değerlendirme için yönlendirme.","icon":"#i-tooth-clean","href":"/hizmetler.html#agiz-dis" },
-    { "id":"goruntuleme-lab","title":"Laboratuvar & Görüntüleme Yönlendirme","summary":"Hemogram, biyokimya, hormon testleri, hızlı testler ve sitolojik değerlendirme yapılır. Gerekli durumlarda röntgen ve ultrason gibi görüntüleme işlemleri için randevulu veya dış merkez yönlendirmeli süreç yönetimi sağlanır.","icon":"#i-xray","href":"/hizmetler.html#goruntuleme-lab" },
-
-    { "id":"kardiyoloji","title":"Kardiyoloji","summary":"Kalp muayenesi, klinik değerlendirme, tedavi ve gerekli durumlarda ileri kardiyolojik inceleme için yönlendirme.","icon":"#i-ecg","href":"/hizmetler.html#kardiyoloji" },
-    { "id":"dogum-jinekoloji","title":"Doğum & Jinekoloji","summary":"Gebelik takibi, doğum desteği, yavru ve postpartum bakım.","icon":"#i-repro","href":"/hizmetler.html#dogum-jinekoloji" },
-    { "id":"endokrinoloji","title":"Endokrinoloji","summary":"Tiroid, DM, Cushing/Addison tarama ve yönetimi.","icon":"#i-endo","href":"/hizmetler.html#endokrinoloji" },
-    { "id":"uroloji","title":"Üroloji","summary":"İYE, taşlar, kateterizasyon ve takip.","icon":"#i-uro","href":"/hizmetler.html#uroloji" },
-    { "id":"ortopedi","title":"Ortopedi","summary":"Kırık-çıkık, bağ yaralanmaları, ortopedik muayene/operasyon.","icon":"#i-ortho","href":"/hizmetler.html#ortopedi" },
-    { "id":"goz","title":"Göz Hastalıkları","summary":"Ülser, entropion/ektropion, göz muayenesi ve tedaviler.","icon":"#i-eye","href":"/hizmetler.html#goz" },
-    { "id":"dermatoloji","title":"Dermatoloji","summary":"Alerjiler, deri enfeksiyonları, paraziter hastalıklar.","icon":"#i-derm","href":"/hizmetler.html#dermatoloji" },
-    { "id":"ftr","title":"Fizik Tedavi & Rehabilitasyon","summary":"Ağrı yönetimi, mobilizasyon, egzersiz, post-op bakım.","icon":"#i-pt","href":"/hizmetler.html#ftr" },
-    { "id":"konaklama","title":"Konaklama","summary":"Güvenli/hijyenik konaklama, günlük raporlama.","icon":"#i-boarding","href":"/hizmetler.html#konaklama" },
-    { "id":"egzotik","title":"Egzotik Hayvanlar","summary":"Kuş, kemirgen temel muayene ve bakım danışmanlığı.","icon":"#i-exotic","href":"/hizmetler.html#egzotik" }
+    {
+      "id": "acil",
+      "title": "Acil Ön Değerlendirme & İlk Müdahale",
+      "summary": "Acil durumlarda telefonla ön değerlendirme yapılır. Uygun vakalarda ilk müdahale, sıvı desteği ve oksijen desteği sağlanır; ileri yoğun bakım veya 24 saat kesintisiz izlem gerektiren hastalarda hasta sahibi bilgilendirilerek uygun merkeze yönlendirme yapılır.",
+      "icon": "#i-shield-cross",
+      "href": "/hizmetler.html#acil",
+      "published": true,
+      "status": "published",
+      "updatedAt": ""
+    },
+    {
+      "id": "koruyucu",
+      "title": "Muayene & Koruyucu",
+      "summary": "Aşı planı, parazit kontrolü, mikroçip ve check-up.",
+      "icon": "#i-stethoscope",
+      "href": "/hizmetler.html#koruyucu",
+      "published": true,
+      "status": "published",
+      "updatedAt": ""
+    },
+    {
+      "id": "ic-hastaliklari",
+      "title": "İç Hastalıkları",
+      "summary": "Hemogram, biyokimya, hormon, idrar analizi ve tanısal yaklaşım.",
+      "icon": "#i-clipboard",
+      "href": "/hizmetler.html#ic-hastaliklari",
+      "published": true,
+      "status": "published",
+      "updatedAt": ""
+    },
+    {
+      "id": "cerrahi",
+      "title": "Cerrahi Operasyonlar",
+      "summary": "Yumuşak doku, ortopedi, sterilizasyon, ağrı yönetimi.",
+      "icon": "#i-scissors",
+      "href": "/hizmetler.html#cerrahi",
+      "published": true,
+      "status": "published",
+      "updatedAt": ""
+    },
+    {
+      "id": "agiz-dis",
+      "title": "Ağız & Diş Sağlığı",
+      "summary": "Diş taşı temizliği, ağız muayenesi, diş eti hastalıklarının değerlendirilmesi, gerekli durumlarda diş çekimi ve ileri dental değerlendirme için yönlendirme.",
+      "icon": "#i-tooth-clean",
+      "href": "/hizmetler.html#agiz-dis",
+      "published": true,
+      "status": "published",
+      "updatedAt": ""
+    },
+    {
+      "id": "goruntuleme-lab",
+      "title": "Laboratuvar & Görüntüleme Yönlendirme",
+      "summary": "Hemogram, biyokimya, hormon testleri, hızlı testler ve sitolojik değerlendirme yapılır. Gerekli durumlarda röntgen ve ultrason gibi görüntüleme işlemleri için randevulu veya dış merkez yönlendirmeli süreç yönetimi sağlanır.",
+      "icon": "#i-xray",
+      "href": "/hizmetler.html#goruntuleme-lab",
+      "published": true,
+      "status": "published",
+      "updatedAt": ""
+    },
+    {
+      "id": "kardiyoloji",
+      "title": "Kardiyoloji",
+      "summary": "Kalp muayenesi, klinik değerlendirme, tedavi ve gerekli durumlarda ileri kardiyolojik inceleme için yönlendirme.",
+      "icon": "#i-ecg",
+      "href": "/hizmetler.html#kardiyoloji",
+      "published": true,
+      "status": "published",
+      "updatedAt": ""
+    },
+    {
+      "id": "dogum-jinekoloji",
+      "title": "Doğum & Jinekoloji",
+      "summary": "Gebelik takibi, doğum desteği, yavru ve postpartum bakım.",
+      "icon": "#i-repro",
+      "href": "/hizmetler.html#dogum-jinekoloji",
+      "published": true,
+      "status": "published",
+      "updatedAt": ""
+    },
+    {
+      "id": "endokrinoloji",
+      "title": "Endokrinoloji",
+      "summary": "Tiroid, DM, Cushing/Addison tarama ve yönetimi.",
+      "icon": "#i-endo",
+      "href": "/hizmetler.html#endokrinoloji",
+      "published": true,
+      "status": "published",
+      "updatedAt": ""
+    },
+    {
+      "id": "uroloji",
+      "title": "Üroloji",
+      "summary": "İYE, taşlar, kateterizasyon ve takip.",
+      "icon": "#i-uro",
+      "href": "/hizmetler.html#uroloji",
+      "published": true,
+      "status": "published",
+      "updatedAt": ""
+    },
+    {
+      "id": "ortopedi",
+      "title": "Ortopedi",
+      "summary": "Kırık-çıkık, bağ yaralanmaları, ortopedik muayene/operasyon.",
+      "icon": "#i-ortho",
+      "href": "/hizmetler.html#ortopedi",
+      "published": true,
+      "status": "published",
+      "updatedAt": ""
+    },
+    {
+      "id": "goz",
+      "title": "Göz Hastalıkları",
+      "summary": "Ülser, entropion/ektropion, göz muayenesi ve tedaviler.",
+      "icon": "#i-eye",
+      "href": "/hizmetler.html#goz",
+      "published": true,
+      "status": "published",
+      "updatedAt": ""
+    },
+    {
+      "id": "dermatoloji",
+      "title": "Dermatoloji",
+      "summary": "Alerjiler, deri enfeksiyonları, paraziter hastalıklar.",
+      "icon": "#i-derm",
+      "href": "/hizmetler.html#dermatoloji",
+      "published": true,
+      "status": "published",
+      "updatedAt": ""
+    },
+    {
+      "id": "ftr",
+      "title": "Fizik Tedavi & Rehabilitasyon",
+      "summary": "Ağrı yönetimi, mobilizasyon, egzersiz, post-op bakım.",
+      "icon": "#i-pt",
+      "href": "/hizmetler.html#ftr",
+      "published": true,
+      "status": "published",
+      "updatedAt": ""
+    },
+    {
+      "id": "konaklama",
+      "title": "Konaklama",
+      "summary": "Güvenli/hijyenik konaklama, günlük raporlama.",
+      "icon": "#i-boarding",
+      "href": "/hizmetler.html#konaklama",
+      "published": true,
+      "status": "published",
+      "updatedAt": ""
+    },
+    {
+      "id": "egzotik",
+      "title": "Egzotik Hayvanlar",
+      "summary": "Kuş, kemirgen temel muayene ve bakım danışmanlığı.",
+      "icon": "#i-exotic",
+      "href": "/hizmetler.html#egzotik",
+      "published": true,
+      "status": "published",
+      "updatedAt": ""
+    }
   ]
 }

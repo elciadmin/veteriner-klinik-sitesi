@@ -685,7 +685,7 @@
     color:#155c36;
   }
   .appointment-submit-status.success::before{
-    content:"00c";
+    content:"\f00c";
     background:#d8f3e3;
     color:#167542;
   }
@@ -695,7 +695,7 @@
     color:#842d2d;
   }
   .appointment-submit-status.error::before{
-    content:"071";
+    content:"\f071";
     background:#ffe0e0;
     color:#b72f2f;
   }
@@ -879,7 +879,7 @@
 
       <form name="online-randevu" class="form" method="POST" action="/hasta-iliskileri.html?form=success#online-randevu" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="online-randevu"/>
-        <input type="hidden" name="subject" value="Yeni randevu talebi — %{submissionId}"/>
+        <input type="hidden" name="subject" data-remove-prefix value="Yeni randevu talebi — %{submissionId}"/>
         <input type="hidden" name="form_surumu" value="2026-07-admin-v5"/>
         <input type="hidden" name="talep_zamani" id="talepZamani" value=""/>
         <input type="hidden" name="tarih_iso" id="randevuTarihIso" value=""/>

@@ -9,6 +9,11 @@
 [functions]
   node_bundler = "esbuild"
 
+[[redirects]]
+  from = "/admin"
+  to = "/admin/"
+  status = 301
+
 [[headers]]
   for = "/admin/*"
   [headers.values]
@@ -18,6 +23,12 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "no-referrer"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/assets/data/*"
+  [headers.values]
+    Cache-Control = "public, max-age=60, must-revalidate"
+    X-Content-Type-Options = "nosniff"
 
 [[headers]]
   for = "/*"

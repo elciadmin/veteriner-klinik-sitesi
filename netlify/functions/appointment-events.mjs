@@ -1,6 +1,56 @@
-import { getStore } from "@netlify/blobs";
-import { randomUUID } from "node:crypto";
-const STORE_NAME="elci-appointments-v1";
-const clean=(value,max=500)=>String(value??"").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g,"").trim().slice(0,max);
-const first=(data,...keys)=>{for(const key of keys){if(data?.[key]!=null&&String(data[key]).trim()!=="")return data[key]}return""};
-export default{async formSubmitted(event){const data=event?.data||{},formName=clean(first(data,"form-name","form_name","formName"),80),looksLikeAppointment=Boolean(first(data,"pet"))&&Boolean(first(data,"tercih_edilen_zaman_araligi","randevu_saati"));if(formName&&formName!=="online-randevu")return;if(!formName&&!looksLikeAppointment)return;const createdAt=new Date().toISOString(),id=`${createdAt.replace(/[^0-9]/g,"").slice(0,14)}-${randomUUID()}`,record={id,createdAt,updatedAt:createdAt,status:"new",ownerName:clean(first(data,"ad","name"),120),phone:clean(first(data,"tel","phone"),40),petName:clean(first(data,"pet"),100),species:clean(first(data,"hayvan_turu_diger")||first(data,"hayvan_turu"),80),requestedDate:clean(first(data,"tarih_iso","tarih"),20),requestedTime:clean(first(data,"tercih_edilen_zaman_araligi","randevu_saati"),40),service:clean(first(data,"hizmet"),120),note:clean(first(data,"not","message"),1500),internalNote:"",source:"netlify-form",termsAccepted:clean(first(data,"randevu_kosullari_kabul"),20)==="evet",requestTimestamp:clean(first(data,"talep_zamani"),60)};if(!record.ownerName||!record.phone||!record.petName||!record.requestedDate){console.warn("Eksik randevu kaydı Blobs'a aktarılmadı.");return}const store=getStore({name:STORE_NAME,consistency:"strong"});await store.setJSON(`appointment/${id}`,record,{metadata:{createdAt,status:"new"},onlyIfNew:true})}};
+import { getStore } from '@netlify/blobs';
+import { randomUUID } from 'node:crypto';
+
+const STORE_NAME = 'elci-appointments-v1';
+const clean = (value, max = 500) => String(value ?? '')
+  .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '')
+  .trim().slice(0, max);
+const first = (data, ...keys) => {
+  for (const key of keys) if (data?.[key] != null && String(data[key]).trim() !== '') return data[key];
+  return '';
+};
+
+export default {
+  async formSubmitted(event) {
+    const data = event?.data || {};
+    const formName = clean(first(data, 'form-name', 'form_name', 'formName'), 80);
+    const looksLikeAppointment = Boolean(first(data, 'pet')) && Boolean(first(data, 'tercih_edilen_zaman_araligi', 'randevu_saati'));
+    if (formName && formName !== 'online-randevu') return;
+    if (!formName && !looksLikeAppointment) return;
+
+    const createdAt = new Date().toISOString();
+    const id = `${createdAt.replace(/[^0-9]/g, '').slice(0, 14)}-${randomUUID()}`;
+    const record = {
+      id,
+      createdAt,
+      updatedAt: createdAt,
+      status: 'new',
+      ownerName: clean(first(data, 'ad', 'name'), 120),
+      phone: clean(first(data, 'tel', 'phone'), 40),
+      email: clean(first(data, 'email'), 180),
+      petName: clean(first(data, 'pet'), 100),
+      species: clean(first(data, 'hayvan_turu_diger') || first(data, 'hayvan_turu'), 80),
+      breed: clean(first(data, 'irk_cins', 'breed'), 100),
+      petAge: clean(first(data, 'hayvan_yasi', 'age'), 60),
+      requestedDate: clean(first(data, 'tarih_iso', 'tarih'), 20),
+      requestedTime: clean(first(data, 'tercih_edilen_zaman_araligi', 'randevu_saati'), 60),
+      service: clean(first(data, 'hizmet'), 120),
+      note: clean(first(data, 'not', 'message'), 1800),
+      internalNote: '',
+      source: 'netlify-form',
+      termsAccepted: clean(first(data, 'randevu_kosullari_kabul'), 20) === 'evet',
+      requestTimestamp: clean(first(data, 'talep_zamani'), 60)
+    };
+
+    if (!record.ownerName || !record.phone || !record.email || !record.petName || !record.requestedDate) {
+      console.warn('Eksik randevu kaydı Blobs’a aktarılmadı.');
+      return;
+    }
+
+    const store = getStore({ name: STORE_NAME, consistency: 'strong' });
+    await store.setJSON(`appointment/${id}`, record, {
+      metadata: { createdAt, status: 'new' },
+      onlyIfNew: true
+    });
+  }
+};
