@@ -3,13 +3,13 @@
 
   const RUNTIME = window.ELCI_RUNTIME_CONFIG || {};
   const GIT_GATEWAY = '/.netlify/git/github';
-  const BRANCH = RUNTIME.branch || 'main';
+  const BRANCH = RUNTIME.branch || 'elci-yonetim-v3-test';
   const APPOINTMENTS_API = '/.netlify/functions/appointments';
   const PREVIEW_MODE = document.documentElement.dataset.preview === 'true' || location.protocol === 'file:' || ['localhost', '127.0.0.1'].includes(location.hostname);
   const RESOURCES = ['blog', 'faq', 'reviews', 'instagram', 'services', 'stories', 'calendar', 'pages', 'settings'];
   const ROUTES = new Set(['dashboard', 'appointments', 'calendar', 'blog', 'faq', 'reviews', 'instagram', 'services', 'stories', 'pages', 'settings', 'archive']);
   const LABELS = {
-    blog: 'Blog', faq: 'SSS', reviews: 'Google Yorumları', instagram: 'Instagram Galerisi',
+    blog: 'Blog ve Duyurular', faq: 'SSS', reviews: 'Google Yorumları', instagram: 'Instagram Galerisi',
     services: 'Hizmetler', stories: 'Başarı Hikâyeleri', calendar: 'Paylaşım Takvimi',
     pages: 'Sayfa Başlıkları', settings: 'Site Ayarları'
   };
@@ -20,7 +20,8 @@
     appointments: [],
     loaded: false,
     editor: null,
-    calendarDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+    calendarDate: new Date(),
+    calendarView: 'month',
     uploadTarget: null,
     dirty: false,
     appointmentPoll: 0,
@@ -279,11 +280,11 @@
 
   function defaultItem(resource) {
     const base = { id: uid(resource), status: 'draft', published: false, createdAt: nowIso(), updatedAt: nowIso(), scheduledAt: '' };
-    if (resource === 'blog') return { ...base, slug: '', title: '', summary: '', content: '', cover: '', category: 'Klinik Duyuruları', categories: ['Klinik Duyuruları'], species: 'Genel', tags: [], author: 'Elçi Veteriner Kliniği', seoTitle: '', seoDescription: '', youtubeId: '', date: '' };
+    if (resource === 'blog') return { ...base, id: '', slug: '', title: '', summary: '', content: '', blocks: [{ id: uid('block'), type: 'text', html: '' }], contentType: 'blog', cover: '', category: 'Klinik Duyuruları', categories: ['Klinik Duyuruları'], species: 'Genel', tags: [], author: 'Elçi Veteriner Kliniği', seoTitle: '', seoDescription: '', youtubeId: '', date: '', showOnHome: false, homeOrder: null };
     if (resource === 'faq') return { ...base, q: '', a: '', category: 'Muayene ve Laboratuvar', showOnHome: false, homeOrder: null };
     if (resource === 'reviews') return { ...base, author: '', rating: 5, time: '', text: '', sourceUrl: '', showOnHome: false, homeOrder: null };
     if (resource === 'instagram') return { ...base, image: '', file: '', title: 'Elçi Veteriner Kliniği', caption: '', alt: '', instagramUrl: 'https://www.instagram.com/elciveteriner' };
-    if (resource === 'services') return { ...base, title: '', summary: '', detail: '', icon: '#i-stethoscope', iconClass: '', href: '', group: 'Diğer hizmetler', order: 99, homeFeatured: false };
+    if (resource === 'services') return { ...base, id: '', title: '', summary: '', detail: '', icon: '#i-stethoscope', faIcon: '', href: '', group: 'Diğer hizmetler', order: 99, showOnHome: false };
     if (resource === 'stories') return { ...base, title: '', petName: '', species: 'Kedi', tagline: '', summary: '', full: '', image: '', icon: '#i-paw' };
     if (resource === 'calendar') return { ...base, title: '', type: 'blog', date: '', time: '19:00', channels: ['Site'], notes: '', status: 'planned', linkedId: '' };
     if (resource === 'pages') return { ...base, id: '', label: '', eyebrow: '', title: '', subtitle: '', seoTitle: '', seoDescription: '', status: 'published', published: true };
@@ -443,7 +444,7 @@
 
   function listConfig(resource) {
     return {
-      blog: { title: 'Blog Yazıları', description: 'Eski ve yeni yazıları arayın, düzenleyin, taslak kaydedin veya ileri tarihe planlayın.', newLabel: 'Yeni Yazı' },
+      blog: { title: 'Blog ve Duyurular', description: 'Yazıları ve duyuruları bloklarla hazırlayın, taslak kaydedin, ana sayfaya seçin veya ileri tarihe planlayın.', newLabel: 'Yeni İçerik' },
       faq: { title: 'Sık Sorulan Sorular', description: 'Soru, cevap, yayın durumu ve ana sayfa seçimi aynı kayıtta yönetilir.', newLabel: 'Yeni Soru' },
       reviews: { title: 'Google Yorumları', description: 'Gerçek yorumları ekleyin; ana sayfada gösterilecekleri tek kutucukla seçin.', newLabel: 'Yeni Yorum' },
       instagram: { title: 'Instagram Galerisi', description: 'Yeni görselleri yükleyin, film şeridinde yayınlayın veya arşive alın.', newLabel: 'Yeni Görsel' },
@@ -472,11 +473,11 @@
   }
 
   function itemSubtitle(resource, item) {
-    if (resource === 'blog') return `${item.category || 'Genel'} • ${formatDate(item.date || item.scheduledAt)}`;
+    if (resource === 'blog') return `${item.contentType === 'announcement' ? 'Duyuru' : 'Blog'} • ${item.category || 'Genel'}${item.showOnHome ? ' • Ana sayfada' : ''} • ${formatDate(item.date || item.scheduledAt)}`;
     if (resource === 'faq') return `${item.category || 'Genel'}${item.showOnHome ? ' • Ana sayfada' : ''}`;
     if (resource === 'reviews') return `${'★'.repeat(Number(item.rating) || 5)}${item.showOnHome ? ' • Ana sayfada' : ''}`;
     if (resource === 'instagram') return item.caption || item.alt || 'Instagram görseli';
-    if (resource === 'services') return `${item.group || 'Diğer hizmetler'}${item.homeFeatured ? ' • Ana sayfada' : ''} • Sıra ${Number(item.order) || '—'}`;
+    if (resource === 'services') return `${item.group || 'Diğer hizmetler'}${item.showOnHome ? ' • Ana sayfada' : ''} • Sıra ${Number(item.order) || '—'}`;
     if (resource === 'stories') return `${item.petName || ''} • ${item.species || ''}`;
     if (resource === 'pages') return item.title || '';
     return '';
@@ -559,35 +560,42 @@
   }
 
   function renderCalendar() {
-    const viewDate = state.calendarDate;
-    const year = viewDate.getFullYear();
-    const month = viewDate.getMonth();
-    const first = new Date(year, month, 1);
-    const startOffset = (first.getDay() + 6) % 7;
-    const gridStart = new Date(year, month, 1 - startOffset);
+    const viewDate = new Date(state.calendarDate);
     const events = combinedCalendarEvents();
-    const days = [];
-    for (let index = 0; index < 42; index += 1) {
+    const isWeek = state.calendarView === 'week';
+    const mondayOffset = (viewDate.getDay() + 6) % 7;
+    const weekStart = new Date(viewDate); weekStart.setHours(0, 0, 0, 0); weekStart.setDate(viewDate.getDate() - mondayOffset);
+    const monthStart = new Date(viewDate.getFullYear(), viewDate.getMonth(), 1);
+    const startOffset = (monthStart.getDay() + 6) % 7;
+    const gridStart = isWeek ? weekStart : new Date(viewDate.getFullYear(), viewDate.getMonth(), 1 - startOffset);
+    const dayCount = isWeek ? 7 : 42;
+    const cells = [];
+    const today = new Date();
+    for (let index = 0; index < dayCount; index += 1) {
       const day = new Date(gridStart); day.setDate(gridStart.getDate() + index);
       const key = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
-      const dayEvents = events.filter(event => event.date === key).slice(0, 4);
-      const today = new Date();
+      const dayEvents = events.filter(event => event.date === key).slice(0, isWeek ? 12 : 4);
       const isToday = day.toDateString() === today.toDateString();
-      days.push(`<div class="calendar-day ${day.getMonth() !== month ? 'outside' : ''} ${isToday ? 'today' : ''}" data-day="${key}"><span class="day-number">${day.getDate()}</span>${dayEvents.map(event => `<button class="calendar-event ${safeAttr(event.type)}" data-event-source="${safeAttr(event.source)}" data-event-id="${safeAttr(event.linkedId || event.id)}" title="${safeAttr(event.title)}">${escapeHtml(event.time || '')} ${escapeHtml(event.title)}</button>`).join('')}</div>`);
+      const outside = !isWeek && day.getMonth() !== viewDate.getMonth();
+      cells.push(`<div class="calendar-day ${outside ? 'outside' : ''} ${isToday ? 'today' : ''} ${isWeek ? 'week-day' : ''}" data-day="${key}"><span class="day-number">${isWeek ? day.toLocaleDateString('tr-TR', { day: '2-digit', month: 'short' }) : day.getDate()}</span>${dayEvents.map(event => `<button class="calendar-event ${safeAttr(event.type)}" data-event-source="${safeAttr(event.source)}" data-event-id="${safeAttr(event.linkedId || event.id)}" title="${safeAttr(event.title)}">${escapeHtml(event.time || '')} ${escapeHtml(event.title)}</button>`).join('')}</div>`);
     }
     const upcoming = events.filter(event => new Date(`${event.date}T${event.time || '12:00'}`) >= new Date()).sort((a, b) => `${a.date}${a.time}`.localeCompare(`${b.date}${b.time}`)).slice(0, 8);
+    const periodTitle = isWeek
+      ? `${weekStart.toLocaleDateString('tr-TR', { day: '2-digit', month: 'short' })} – ${new Date(weekStart.getFullYear(), weekStart.getMonth(), weekStart.getDate() + 6).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short', year: 'numeric' })}`
+      : viewDate.toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' });
     main.innerHTML = `
-      ${sectionHead('Paylaşım Takvimi', 'Blog, Instagram, Google, SSS ve duyuruları aylık görünümde planlayın.', 'Yeni Plan', 'calendar')}
+      ${sectionHead('Paylaşım Takvimi', 'Blog, duyuru, Instagram, Google ve SSS içeriklerini aylık veya haftalık görünümde planlayın.', 'Yeni Plan', 'calendar')}
       <section class="calendar-layout">
         <div class="panel">
-          <div class="calendar-head"><div class="month-nav"><button class="icon-button" id="prevMonth">‹</button><h2>${viewDate.toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })}</h2><button class="icon-button" id="nextMonth">›</button></div><button class="button compact" id="todayMonth">Bugün</button></div>
-          <div class="calendar-grid">${['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'].map(day => `<div class="calendar-weekday">${day}</div>`).join('')}${days.join('')}</div>
+          <div class="calendar-head"><div class="month-nav"><button class="icon-button" id="prevPeriod" aria-label="Önceki dönem">‹</button><h2>${periodTitle}</h2><button class="icon-button" id="nextPeriod" aria-label="Sonraki dönem">›</button></div><div class="calendar-actions"><div class="view-toggle" role="group" aria-label="Takvim görünümü"><button class="button compact ${!isWeek ? 'primary' : ''}" data-calendar-view="month">Aylık</button><button class="button compact ${isWeek ? 'primary' : ''}" data-calendar-view="week">Haftalık</button></div><button class="button compact" id="todayPeriod">Bugün</button></div></div>
+          <div class="calendar-grid ${isWeek ? 'calendar-grid-week' : ''}">${['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'].map(day => `<div class="calendar-weekday">${day}</div>`).join('')}${cells.join('')}</div>
         </div>
         <aside class="panel"><h2>Yaklaşanlar</h2><p class="panel-sub">Planlanan ilk sekiz içerik.</p><div class="upcoming-list">${upcoming.length ? upcoming.map(event => `<button class="upcoming-item" style="text-align:left;cursor:pointer" data-upcoming-source="${safeAttr(event.source)}" data-upcoming-id="${safeAttr(event.linkedId || event.id)}"><strong>${escapeHtml(event.title)}</strong><small>${formatDate(`${event.date}T${event.time || '12:00'}`, true)} • ${escapeHtml(event.typeLabel)}</small></button>`).join('') : '<div class="empty-state"><strong>Takvim boş</strong><span>Yeni plan ekleyin.</span></div>'}</div></aside>
       </section>`;
-    $('#prevMonth').addEventListener('click', () => { state.calendarDate = new Date(year, month - 1, 1); renderCalendar(); });
-    $('#nextMonth').addEventListener('click', () => { state.calendarDate = new Date(year, month + 1, 1); renderCalendar(); });
-    $('#todayMonth').addEventListener('click', () => { state.calendarDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1); renderCalendar(); });
+    $('#prevPeriod').addEventListener('click', () => { state.calendarDate = isWeek ? new Date(viewDate.getFullYear(), viewDate.getMonth(), viewDate.getDate() - 7) : new Date(viewDate.getFullYear(), viewDate.getMonth() - 1, 1); renderCalendar(); });
+    $('#nextPeriod').addEventListener('click', () => { state.calendarDate = isWeek ? new Date(viewDate.getFullYear(), viewDate.getMonth(), viewDate.getDate() + 7) : new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1); renderCalendar(); });
+    $('#todayPeriod').addEventListener('click', () => { state.calendarDate = new Date(); renderCalendar(); });
+    main.querySelectorAll('[data-calendar-view]').forEach(button => button.addEventListener('click', () => { state.calendarView = button.dataset.calendarView; renderCalendar(); }));
     main.querySelectorAll('.calendar-day').forEach(day => day.addEventListener('click', () => openEditor('calendar', null, { date: day.dataset.day })));
     main.querySelectorAll('[data-event-source],[data-upcoming-source]').forEach(button => button.addEventListener('click', event => {
       event.stopPropagation();
@@ -691,11 +699,47 @@
     return `<div class="form-group full"><label>Görsel</label><div class="image-field"><img class="image-preview" id="editorImagePreview" src="${safeAttr(value || '/assets/img/uploads/elci-logo.png')}" alt="Görsel önizleme"><div><div class="upload-row"><input name="${field}" id="editorImagePath" value="${safeAttr(value)}" placeholder="/assets/img/uploads/…"><button type="button" class="button" data-upload="${resource}">Görsel Yükle</button></div><p class="form-help">JPG, PNG veya WEBP; en fazla 4 MB.</p></div></div></div>`;
   }
 
+  function normalizeBlogBlocks(item) {
+    const raw = Array.isArray(item?.blocks) ? item.blocks : [];
+    const blocks = raw.filter(block => block && ['text', 'image', 'quote'].includes(block.type)).map(block => ({ ...block, id: block.id || uid('block') }));
+    if (blocks.length) return blocks;
+    if (clean(item?.content)) return [{ id: uid('block'), type: 'text', html: item.content }];
+    return [{ id: uid('block'), type: 'text', html: '' }];
+  }
+
+  function blogBlockRow(block, index) {
+    const controls = `<div class="block-row-actions"><button type="button" class="icon-button" data-block-move="up" title="Yukarı taşı">↑</button><button type="button" class="icon-button" data-block-move="down" title="Aşağı taşı">↓</button><button type="button" class="button compact danger" data-block-remove>Kaldır</button></div>`;
+    const head = `<header class="block-row-head"><div><span class="block-index">${index + 1}</span><strong>${block.type === 'image' ? 'Görsel bloğu' : block.type === 'quote' ? 'Alıntı bloğu' : 'Metin bloğu'}</strong></div>${controls}</header>`;
+    if (block.type === 'image') {
+      const src = block.src || block.image || '';
+      return `<article class="editorial-block-row" data-blog-block data-block-id="${safeAttr(block.id)}" data-block-type="image">${head}<div class="block-image-grid"><img data-block-preview src="${safeAttr(src || '/assets/img/uploads/elci-logo.png')}" alt=""><div><div class="upload-row"><input data-block-field="src" value="${safeAttr(src)}" placeholder="/assets/img/uploads/…"><button type="button" class="button" data-blog-block-upload>Görsel Yükle</button></div><input data-block-field="alt" value="${safeAttr(block.alt || '')}" placeholder="Görsel açıklaması"><input data-block-field="caption" value="${safeAttr(block.caption || '')}" placeholder="İsteğe bağlı görsel alt yazısı"><select data-block-field="layout"><option value="wide" ${block.layout === 'wide' ? 'selected' : ''}>Geniş görsel</option><option value="standard" ${block.layout === 'standard' ? 'selected' : ''}>Standart görsel</option><option value="left" ${block.layout === 'left' ? 'selected' : ''}>Sola yaslı</option><option value="right" ${block.layout === 'right' ? 'selected' : ''}>Sağa yaslı</option></select></div></div></article>`;
+    }
+    if (block.type === 'quote') return `<article class="editorial-block-row" data-blog-block data-block-id="${safeAttr(block.id)}" data-block-type="quote">${head}<textarea data-block-field="text" rows="4" placeholder="Vurgulanacak alıntı veya kısa bilgi">${escapeHtml(block.text || '')}</textarea><input data-block-field="cite" value="${safeAttr(block.cite || '')}" placeholder="Kaynak / imza (isteğe bağlı)"></article>`;
+    return `<article class="editorial-block-row" data-blog-block data-block-id="${safeAttr(block.id)}" data-block-type="text">${head}<div class="rich-toolbar"><button type="button" data-block-insert="<strong>|</strong>">B</button><button type="button" data-block-insert="<h2>|</h2>">H2</button><button type="button" data-block-insert="<ul><li>|</li></ul>">• Liste</button><button type="button" data-block-insert="<p>|</p>">¶</button></div><textarea data-block-field="html" rows="7" placeholder="Paragraf metni veya temel HTML">${escapeHtml(block.html || block.text || '')}</textarea></article>`;
+  }
+
+  function blogBlocksEditor(item) {
+    const blocks = normalizeBlogBlocks(item);
+    return `<div class="form-group full"><label>Editoryal içerik blokları *</label><div class="editorial-block-list" id="blogBlocksEditor">${blocks.map(blogBlockRow).join('')}</div><div class="block-add-row"><button type="button" class="button" data-add-blog-block="text">＋ Metin</button><button type="button" class="button" data-add-blog-block="image">＋ Görsel</button><button type="button" class="button" data-add-blog-block="quote">＋ Alıntı</button></div><span class="form-help">Metin, görsel ve alıntıları istediğiniz sırada ekleyin. Okuma sayfası aynı sırayı korur.</span></div>`;
+  }
+
+  function collectBlogBlocks(includeEmpty = false) {
+    const blocks = [...editorBody.querySelectorAll('[data-blog-block]')].map(row => {
+      const type = row.dataset.blockType;
+      const value = name => clean(row.querySelector(`[data-block-field="${name}"]`)?.value);
+      const block = { id: row.dataset.blockId || uid('block'), type };
+      if (type === 'image') return { ...block, src: value('src'), alt: value('alt'), caption: value('caption'), layout: value('layout') || 'wide' };
+      if (type === 'quote') return { ...block, text: value('text'), cite: value('cite') };
+      return { ...block, html: row.querySelector('[data-block-field="html"]')?.value.trim() || '' };
+    });
+    return includeEmpty ? blocks : blocks.filter(block => block.type === 'image' ? Boolean(block.src) : Boolean(block.html || block.text));
+  }
+
   function editorHtml(resource, item, isNew) {
     const footer = (extra = '', allowArchive = resource !== 'pages') => `<div class="editor-footer"><div>${extra}</div><div class="footer-actions"><button type="button" class="button" data-close-modal>Vazgeç</button>${!isNew && allowArchive ? '<button type="button" class="button danger" data-editor-archive>Arşive Kaldır</button>' : ''}<button type="submit" class="button primary">${!isNew && effectiveStatus(item) === 'published' ? 'Değişiklikleri Kaydet' : 'Kaydet'}</button></div></div>`;
     const statusFields = (resourceName = resource) => `<div class="form-group"><label>Yayın durumu</label>${editorStatusOptions(item, resourceName)}</div><div class="form-group" id="scheduleGroup"><label>Yayın tarihi ve saati</label><input type="datetime-local" name="scheduledAt" value="${safeAttr(localDateTimeValue(item.scheduledAt || item.date))}"><span class="form-help">Yalnızca “İleri tarihte yayınla” seçildiğinde kullanılır.</span></div>`;
 
-    if (resource === 'blog') return `<form id="editorForm" class="form-grid"><div class="form-group full"><label>Başlık *</label><input name="title" required value="${safeAttr(item.title)}" placeholder="Yazı başlığı"></div>${statusFields()}<div class="form-group"><label>Kategori *</label><input name="category" required value="${safeAttr(item.category || item.categories?.[0] || '')}" list="blogCategories"><datalist id="blogCategories"><option>Koruyucu Sağlık</option><option>Cerrahi ve Operasyonlar</option><option>Acil Durumlar</option><option>Ağız ve Diş Sağlığı</option><option>Mevsimsel Sağlık</option><option>Klinik Duyuruları</option></datalist></div><div class="form-group"><label>Hayvan türü</label><select name="species"><option ${item.species === 'Genel' ? 'selected' : ''}>Genel</option><option ${item.species === 'Kedi' ? 'selected' : ''}>Kedi</option><option ${item.species === 'Köpek' ? 'selected' : ''}>Köpek</option><option ${item.species === 'Kedi ve Köpek' ? 'selected' : ''}>Kedi ve Köpek</option></select></div><div class="form-group full"><label>Kısa özet *</label><textarea name="summary" required rows="3">${escapeHtml(item.summary)}</textarea></div>${imageEditor('blog', item, 'cover')}<div class="form-group full"><label>Yazı içeriği *</label><div class="rich-toolbar"><button type="button" data-insert="<strong>|</strong>">B</button><button type="button" data-insert="<h2>|</h2>">H2</button><button type="button" data-insert="<ul><li>|</li></ul>">• Liste</button><button type="button" data-insert="<p>|</p>">¶</button></div><textarea name="content" id="contentEditor" required rows="12">${escapeHtml(item.content)}</textarea><span class="form-help">Düz metin yazabilirsiniz. Paragraflar otomatik okunur; araç çubuğu temel biçimlendirme ekler.</span></div><div class="form-group"><label>Etiketler <small>(virgülle)</small></label><input name="tags" value="${safeAttr((item.tags || []).join(', '))}"></div><div class="form-group"><label>Yazar</label><input name="author" value="${safeAttr(item.author || 'Elçi Veteriner Kliniği')}"></div><details class="form-group full"><summary><strong>SEO ve gelişmiş ayarlar</strong></summary><div class="form-grid" style="margin-top:12px"><div class="form-group"><label>Bağlantı adı</label><input name="slug" value="${safeAttr(item.slug)}" placeholder="otomatik-olusturulur"></div><div class="form-group"><label>YouTube video kimliği</label><input name="youtubeId" value="${safeAttr(item.youtubeId)}"></div><div class="form-group full"><label>SEO başlığı</label><input name="seoTitle" value="${safeAttr(item.seoTitle)}"></div><div class="form-group full"><label>SEO açıklaması</label><textarea name="seoDescription" rows="3">${escapeHtml(item.seoDescription)}</textarea></div></div></details>${footer()}</form>`;
+    if (resource === 'blog') return `<form id="editorForm" class="form-grid"><div class="form-group full"><label>Başlık *</label><input name="title" required value="${safeAttr(item.title)}" placeholder="İçerik başlığı"></div>${statusFields()}<div class="form-group"><label>İçerik türü</label><select name="contentType"><option value="blog" ${item.contentType !== 'announcement' ? 'selected' : ''}>Blog yazısı</option><option value="announcement" ${item.contentType === 'announcement' ? 'selected' : ''}>Duyuru</option></select></div><div class="form-group"><label>Kategori *</label><input name="category" required value="${safeAttr(item.category || item.categories?.[0] || '')}" list="blogCategories"><datalist id="blogCategories"><option>Koruyucu Sağlık</option><option>Cerrahi ve Operasyonlar</option><option>Acil Durumlar</option><option>Ağız ve Diş Sağlığı</option><option>Mevsimsel Sağlık</option><option>Klinik Duyuruları</option></datalist></div><div class="form-group"><label>Hayvan türü</label><select name="species"><option ${item.species === 'Genel' ? 'selected' : ''}>Genel</option><option ${item.species === 'Kedi' ? 'selected' : ''}>Kedi</option><option ${item.species === 'Köpek' ? 'selected' : ''}>Köpek</option><option ${item.species === 'Kedi ve Köpek' ? 'selected' : ''}>Kedi ve Köpek</option></select></div><div class="form-group"><label>Ana sayfa sırası</label><input type="number" min="1" max="6" name="homeOrder" value="${safeAttr(item.homeOrder || '')}" placeholder="1–6"></div><div class="form-group full"><label class="check-row"><input type="checkbox" name="showOnHome" ${item.showOnHome ? 'checked' : ''}><span>Ana sayfada göster <small>(blog için 6, duyuru için 3 içerik)</small></span></label></div><div class="form-group full"><label>Kısa özet *</label><textarea name="summary" required rows="3">${escapeHtml(item.summary)}</textarea></div>${imageEditor('blog', item, 'cover')}${blogBlocksEditor(item)}<div class="form-group"><label>Etiketler <small>(virgülle)</small></label><input name="tags" value="${safeAttr((item.tags || []).join(', '))}"></div><div class="form-group"><label>Yazar</label><input name="author" value="${safeAttr(item.author || 'Elçi Veteriner Kliniği')}"></div><details class="form-group full"><summary><strong>SEO ve gelişmiş ayarlar</strong></summary><div class="form-grid" style="margin-top:12px"><div class="form-group"><label>Bağlantı adı</label><input name="slug" value="${safeAttr(item.slug)}" placeholder="otomatik-olusturulur"></div><div class="form-group"><label>YouTube video kimliği</label><input name="youtubeId" value="${safeAttr(item.youtubeId)}"></div><div class="form-group full"><label>SEO başlığı</label><input name="seoTitle" value="${safeAttr(item.seoTitle)}"></div><div class="form-group full"><label>SEO açıklaması</label><textarea name="seoDescription" rows="3">${escapeHtml(item.seoDescription)}</textarea></div></div></details>${footer()}</form>`;
 
     if (resource === 'faq') return `<form id="editorForm" class="form-grid"><div class="form-group full"><label>Soru *</label><input name="q" required value="${safeAttr(item.q)}"></div>${statusFields()}<div class="form-group full"><label>Cevap *</label><textarea name="a" required rows="7">${escapeHtml(item.a)}</textarea></div><div class="form-group"><label>Kategori *</label><input name="category" required value="${safeAttr(item.category)}" list="faqCategories"><datalist id="faqCategories"><option>Randevu & İletişim</option><option>Muayene ve Laboratuvar</option><option>Ameliyat & Anestezi</option><option>Bakım & Beslenme</option><option>Koruyucu Sağlık</option></datalist></div><div class="form-group"><label>Ana sayfa sırası</label><input type="number" min="1" max="6" name="homeOrder" value="${safeAttr(item.homeOrder || '')}" placeholder="1–6"></div><div class="form-group full"><label class="check-row"><input type="checkbox" name="showOnHome" ${item.showOnHome ? 'checked' : ''}><span>Ana sayfada göster <small>(en fazla 6 soru)</small></span></label></div>${footer()}</form>`;
 
@@ -703,7 +747,7 @@
 
     if (resource === 'instagram') return `<form id="editorForm" class="form-grid">${imageEditor('instagram', item)}${statusFields()}<div class="form-group"><label>Kısa başlık</label><input name="title" value="${safeAttr(item.title)}"></div><div class="form-group"><label>Instagram gönderi bağlantısı</label><input type="url" name="instagramUrl" value="${safeAttr(item.instagramUrl)}"></div><div class="form-group full"><label>Açıklama</label><textarea name="caption" rows="4">${escapeHtml(item.caption)}</textarea></div><div class="form-group full"><label>Görsel açıklaması <small>(erişilebilirlik)</small></label><input name="alt" value="${safeAttr(item.alt)}"></div>${footer()}</form>`;
 
-    if (resource === 'services') return `<form id="editorForm" class="form-grid">${statusFields()}<div class="form-group"><label>Hizmet başlığı *</label><input name="title" required value="${safeAttr(item.title)}"></div><div class="form-group"><label>Sayfa bağlantısı</label><input name="href" value="${safeAttr(item.href)}" placeholder="/hizmetler.html#hizmet-adi"></div><div class="form-group"><label>Hizmet grubu</label><input name="group" value="${safeAttr(item.group || 'Diğer hizmetler')}" list="serviceGroups"><datalist id="serviceGroups"><option>Dahili branşlar</option><option>Cerrahi, hareket ve üreme</option><option>Destek ve özel süreçler</option><option>Diğer hizmetler</option></datalist></div><div class="form-group"><label>Sıralama</label><input type="number" min="1" name="order" value="${safeAttr(item.order || 99)}"></div><div class="form-group full"><label>Kısa açıklama *</label><textarea name="summary" required rows="4">${escapeHtml(item.summary)}</textarea></div><div class="form-group full"><label>Detaylı açıklama</label><textarea name="detail" rows="7">${escapeHtml(item.detail)}</textarea></div><div class="form-group"><label>İkon kodu</label><input name="icon" value="${safeAttr(item.icon)}" placeholder="#i-stethoscope"></div><div class="form-group"><label>Font Awesome sınıfı <small>(isteğe bağlı)</small></label><input name="iconClass" value="${safeAttr(item.iconClass || '')}" placeholder="fa-solid fa-stethoscope"></div><div class="form-group full"><label class="check-row"><input type="checkbox" name="homeFeatured" ${item.homeFeatured ? 'checked' : ''}><span>Ana sayfadaki ilk 6 hizmet içinde göster</span></label></div>${footer()}</form>`;
+    if (resource === 'services') return `<form id="editorForm" class="form-grid">${statusFields()}<div class="form-group"><label>Hizmet başlığı *</label><input name="title" required value="${safeAttr(item.title)}"></div><div class="form-group"><label>Sayfa bağlantısı</label><input name="href" value="${safeAttr(item.href)}" placeholder="/hizmetler.html#hizmet-adi"></div><div class="form-group"><label>Hizmet grubu</label><input name="group" value="${safeAttr(item.group || 'Diğer hizmetler')}" list="serviceGroups"><datalist id="serviceGroups"><option>Dahili branşlar</option><option>Cerrahi, hareket ve üreme</option><option>Destek ve özel süreçler</option><option>Diğer hizmetler</option></datalist></div><div class="form-group"><label>Sıralama</label><input type="number" min="1" name="order" value="${safeAttr(item.order || 99)}"></div><div class="form-group full"><label>Kısa açıklama *</label><textarea name="summary" required rows="4">${escapeHtml(item.summary)}</textarea></div><div class="form-group full"><label>Detaylı açıklama</label><textarea name="detail" rows="7">${escapeHtml(item.detail)}</textarea></div><div class="form-group"><label>SVG ikon kodu</label><input name="icon" value="${safeAttr(item.icon)}" placeholder="#i-stethoscope"></div><div class="form-group"><label>Font Awesome sınıfı <small>(isteğe bağlı)</small></label><input name="faIcon" value="${safeAttr(item.faIcon || '')}" placeholder="fa-solid fa-stethoscope"></div><div class="form-group full"><label class="check-row"><input type="checkbox" name="showOnHome" ${item.showOnHome ? 'checked' : ''}><span>Ana sayfada göster <small>(en fazla 6 hizmet)</small></span></label></div>${footer()}</form>`;
 
     if (resource === 'stories') return `<form id="editorForm" class="form-grid">${statusFields()}<div class="form-group full"><label>Hikâye başlığı *</label><input name="title" required value="${safeAttr(item.title)}"></div><div class="form-group"><label>Hayvanın adı</label><input name="petName" value="${safeAttr(item.petName)}"></div><div class="form-group"><label>Tür</label><select name="species"><option ${item.species === 'Kedi' ? 'selected' : ''}>Kedi</option><option ${item.species === 'Köpek' ? 'selected' : ''}>Köpek</option></select></div>${imageEditor('stories', item)}<div class="form-group full"><label>Kısa vurgu</label><input name="tagline" value="${safeAttr(item.tagline)}"></div><div class="form-group full"><label>Özet *</label><textarea name="summary" required rows="4">${escapeHtml(item.summary)}</textarea></div><div class="form-group full"><label>Tam hikâye</label><textarea name="full" rows="9">${escapeHtml(item.full)}</textarea></div>${footer()}</form>`;
 
@@ -757,6 +801,45 @@
       state.uploadTarget = { resource: button.currentTarget.dataset.upload, input: $('#editorImagePath'), preview: $('#editorImagePreview') };
       fileInput.value = ''; fileInput.click();
     });
+
+    const blockEditor = $('#blogBlocksEditor');
+    if (blockEditor) {
+      const redraw = blocks => {
+        blockEditor.innerHTML = blocks.map(blogBlockRow).join('');
+        state.dirty = true;
+        wireBlocks();
+      };
+      const readAll = () => collectBlogBlocks(true);
+      const wireBlocks = () => {
+        blockEditor.querySelectorAll('[data-block-remove]').forEach(button => button.addEventListener('click', () => {
+          const row = button.closest('[data-blog-block]');
+          const blocks = readAll(); const index = [...blockEditor.children].indexOf(row);
+          blocks.splice(index, 1); redraw(blocks.length ? blocks : [{ id: uid('block'), type: 'text', html: '' }]);
+        }));
+        blockEditor.querySelectorAll('[data-block-move]').forEach(button => button.addEventListener('click', () => {
+          const row = button.closest('[data-blog-block]'); const blocks = readAll(); const index = [...blockEditor.children].indexOf(row);
+          const next = button.dataset.blockMove === 'up' ? index - 1 : index + 1;
+          if (next < 0 || next >= blocks.length) return;
+          [blocks[index], blocks[next]] = [blocks[next], blocks[index]]; redraw(blocks);
+        }));
+        blockEditor.querySelectorAll('[data-block-insert]').forEach(button => button.addEventListener('click', () => {
+          const textarea = button.closest('[data-blog-block]')?.querySelector('[data-block-field="html"]'); if (!textarea) return;
+          const [before, after = ''] = button.dataset.blockInsert.split('|'); const start = textarea.selectionStart; const end = textarea.selectionEnd; const selected = textarea.value.slice(start, end) || 'metin';
+          textarea.setRangeText(`${before}${selected}${after}`, start, end, 'end'); textarea.dispatchEvent(new Event('input', { bubbles: true })); textarea.focus();
+        }));
+        blockEditor.querySelectorAll('[data-blog-block-upload]').forEach(button => button.addEventListener('click', () => {
+          const row = button.closest('[data-blog-block]');
+          state.uploadTarget = { resource: 'blog', input: row.querySelector('[data-block-field="src"]'), preview: row.querySelector('[data-block-preview]') };
+          fileInput.value = ''; fileInput.click();
+        }));
+      };
+      editorBody.querySelectorAll('[data-add-blog-block]').forEach(button => button.addEventListener('click', () => {
+        const blocks = readAll(); const type = button.dataset.addBlogBlock;
+        blocks.push(type === 'image' ? { id: uid('block'), type, src: '', alt: '', caption: '', layout: 'wide' } : type === 'quote' ? { id: uid('block'), type, text: '', cite: '' } : { id: uid('block'), type: 'text', html: '' });
+        redraw(blocks);
+      }));
+      wireBlocks();
+    }
   }
 
   function formValue(form, name) { return form.elements[name]?.value ?? ''; }
@@ -792,9 +875,14 @@
         }
         if (resource === 'blog') {
           updated.title = clean(formValue(form, 'title')); updated.slug = clean(formValue(form, 'slug')) || slugify(updated.title); updated.id = updated.id || updated.slug;
-          updated.summary = clean(formValue(form, 'summary')); updated.content = formValue(form, 'content').trim(); updated.cover = clean(formValue(form, 'cover'));
+          updated.summary = clean(formValue(form, 'summary')); updated.cover = clean(formValue(form, 'cover')); updated.contentType = formValue(form, 'contentType') === 'announcement' ? 'announcement' : 'blog';
+          updated.blocks = collectBlogBlocks();
+          if (!updated.blocks.length) throw new Error('En az bir dolu metin, görsel veya alıntı bloğu ekleyin.');
+          updated.content = updated.blocks.filter(block => block.type === 'text').map(block => block.html).filter(Boolean).join('\n');
           updated.category = clean(formValue(form, 'category')); updated.categories = [updated.category]; updated.species = formValue(form, 'species'); updated.tags = splitList(formValue(form, 'tags'));
           updated.author = clean(formValue(form, 'author')); updated.youtubeId = clean(formValue(form, 'youtubeId')); updated.seoTitle = clean(formValue(form, 'seoTitle')) || updated.title; updated.seoDescription = clean(formValue(form, 'seoDescription')) || updated.summary;
+          updated.showOnHome = formChecked(form, 'showOnHome'); updated.homeOrder = Number(formValue(form, 'homeOrder')) || null;
+          if (updated.showOnHome) enforceBlogHomeLimit(updated.id, updated.contentType);
           updated.date = updated.status === 'scheduled' ? updated.scheduledAt : (updated.date || updated.scheduledAt || nowIso()); updated.url = `/blog.html#${updated.slug}`;
         }
         if (resource === 'faq') {
@@ -813,13 +901,10 @@
         }
         if (resource === 'services') {
           updated.title = clean(formValue(form, 'title')); updated.summary = clean(formValue(form, 'summary')); updated.detail = clean(formValue(form, 'detail'));
-          updated.icon = clean(formValue(form, 'icon')); updated.iconClass = clean(formValue(form, 'iconClass')); updated.href = clean(formValue(form, 'href'));
-          updated.group = clean(formValue(form, 'group')) || 'Diğer hizmetler'; updated.order = Number(formValue(form, 'order')) || 99; updated.homeFeatured = formChecked(form, 'homeFeatured');
+          updated.icon = clean(formValue(form, 'icon')); updated.faIcon = clean(formValue(form, 'faIcon')); delete updated.faIcon; updated.href = clean(formValue(form, 'href'));
+          updated.group = clean(formValue(form, 'group')) || 'Diğer hizmetler'; updated.order = Number(formValue(form, 'order')) || 99; updated.showOnHome = formChecked(form, 'showOnHome');
           updated.id = updated.id || slugify(updated.title); updated.href = updated.href || `/hizmetler.html#${updated.id}`;
-          if (updated.homeFeatured) {
-            const others = resourceItems('services').filter(entry => itemId(entry) !== updated.id && entry.homeFeatured && effectiveStatus(entry) !== 'archived');
-            if (others.length >= 6) throw new Error('Ana sayfada en fazla 6 hizmet öne çıkarılabilir. Önce başka bir hizmetin seçimini kaldırın.');
-          }
+          if (updated.showOnHome) enforceHomeLimit('services', updated.id, 6);
         }
         if (resource === 'stories') {
           updated.title = clean(formValue(form, 'title')); updated.petName = clean(formValue(form, 'petName')); updated.species = formValue(form, 'species'); updated.tagline = clean(formValue(form, 'tagline')); updated.summary = clean(formValue(form, 'summary')); updated.full = clean(formValue(form, 'full')); updated.image = clean(formValue(form, 'image')); updated.id = updated.id || slugify(updated.title);
@@ -836,6 +921,12 @@
     } finally {
       submit.disabled = false; submit.textContent = 'Kaydet';
     }
+  }
+
+  function enforceBlogHomeLimit(currentId, contentType) {
+    const max = contentType === 'announcement' ? 3 : 6;
+    const selected = resourceItems('blog').filter(item => itemId(item) !== currentId && item.showOnHome && (item.contentType === 'announcement' ? 'announcement' : 'blog') === contentType && effectiveStatus(item) !== 'archived');
+    if (selected.length >= max) throw new Error(`Ana sayfada en fazla ${max} ${contentType === 'announcement' ? 'duyuru' : 'blog yazısı'} gösterilebilir. Önce başka bir kaydın seçimini kaldırın.`);
   }
 
   function enforceHomeLimit(resource, currentId, max) {

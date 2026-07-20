@@ -1,6 +1,6 @@
 (()=>{
   'use strict';
-  const DATA_URL='/assets/data/services.json?v=final-1';
+  const DATA_URL='/assets/data/services.json?v=unified-2';
   const esc=v=>String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   const visible=i=>i && i.published!==false && !['draft','archived'].includes(String(i.status||'').toLowerCase());
   const sorted=items=>[...items].filter(visible).sort((a,b)=>(Number(a.order)||9999)-(Number(b.order)||9999)||String(a.title||'').localeCompare(String(b.title||''),'tr'));

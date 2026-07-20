@@ -1,167 +1,300 @@
 {
   "posts": [
     {
-      "scheduledAt": "2025-09-18T10:00:00+03:00",
-      "summary": "Elçi Veteriner Kliniği’nin yeni web sitesi yayında. Randevu, hizmetler ve iletişim artık çok daha hızlı.",
-      "author": "Elçi Veteriner",
-      "slug": "hos-geldiniz-web-sitesi-yayinda",
-      "published": true,
-      "date": "2025-09-18T10:00:00+03:00",
-      "url": "/blog.html#hos-geldiniz",
-      "readingMinutes": 2,
-      "cover": "/assets/img/uploads/sample1.webp",
-      "title": "Hoş Geldiniz: Kliniğimizin Resmî Web Sitesi Yayında",
-      "tags": [
-        "duyuru",
-        "web sitesi"
-      ],
-      "content": "<p>Yeni web sitemizle randevu almak, hizmetlerimizi incelemek ve duyurularımızı takip etmek çok daha kolay. Görüş ve önerileriniz için bize yazın.</p>",
-      "seoTitle": "Elçi Veteriner | Yeni Web Sitemiz Yayında",
-      "categories": [
-        "Duyuru"
-      ],
-      "youtubeId": "",
-      "seoDescription": "Randevu, hizmetler, iletişim ve duyurular artık daha hızlı ve kolay."
-    },
-    {
-      "scheduledAt": "2025-09-28T09:30:00+03:00",
-      "summary": "Kedi dostlarımız için temel/opsiyonel aşılar, zamanlama ve sık yapılan hatalar.",
-      "author": "Elçi Veteriner",
-      "slug": "kedilerde-asi-takvimi-2025",
-      "published": true,
-      "date": "2025-09-28T09:30:00+03:00",
-      "url": "/blog.html#kedi-asi-2025",
-      "readingMinutes": 4,
-      "cover": "/assets/img/uploads/kedi-asi.jpg",
       "title": "Kedilerde Aşı Takvimi: 2025 Rehberi",
+      "slug": "kedilerde-asi-takvimi-2025",
+      "date": "2025-09-28T09:30:00+03:00",
+      "scheduledAt": "2025-09-28T09:30:00+03:00",
+      "status": "published",
+      "contentType": "blog",
+      "published": true,
+      "summary": "Kedi dostlarımız için temel/opsiyonel aşılar, zamanlama ve sık yapılan hatalar.",
+      "cover": "",
+      "youtubeId": "",
+      "category": "Koruyucu Sağlık",
+      "categories": [
+        "Koruyucu Sağlık"
+      ],
+      "species": "Kedi",
       "tags": [
         "kedi",
         "aşı",
         "takvim"
       ],
-      "content": "<p>Karma, kuduz ve lösemi aşılarının planlanması bağışıklık için kritiktir. İlk yıl ve sonrasında hatırlatma dozlarını aksatmayın.</p>",
+      "author": "Elçi Veteriner Kliniği",
+      "readingMinutes": 1,
       "seoTitle": "Kedilerde Aşı Takvimi 2025 | Elçi Veteriner",
-      "categories": [
-        "Koruyucu Hekimlik"
-      ],
-      "youtubeId": "",
-      "seoDescription": "Kediler için temel ve opsiyonel aşı programı, hatırlatma dozları ve ipuçları."
+      "seoDescription": "Kediler için temel ve opsiyonel aşı programı, hatırlatma dozları ve ipuçları.",
+      "url": "/blog.html#kedilerde-asi-takvimi-2025",
+      "content": "<p>Karma, kuduz ve lösemi aşılarının planlanması bağışıklık için kritiktir. İlk yıl ve sonrasında hatırlatma dozlarını aksatmayın.</p>",
+      "cmsEntry": "2025-09-28-kedilerde-asi-takvimi-2025",
+      "sourceFile": "2025-09-28-kedilerde-asi-takvimi-2025.json",
+      "showOnHome": true,
+      "homeOrder": 1,
+      "dateLabel": "28 Eyl 2025",
+      "id": "kedilerde-asi-takvimi-2025",
+      "blocks": [
+        {
+          "type": "text",
+          "html": "<p>Karma, kuduz ve lösemi aşılarının planlanması bağışıklık için kritiktir. İlk yıl ve sonrasında hatırlatma dozlarını aksatmayın.</p>"
+        }
+      ]
     },
     {
-      "scheduledAt": "2025-08-14T14:00:00+03:00",
-      "summary": "Ağız kokusu, diş eti çekilmesi ve sistemik hastalık riskini azaltmanın anahtarı: düzenli dental bakım.",
-      "author": "Elçi Veteriner",
-      "slug": "kopeklerde-dis-tasi-temizligi",
+      "title": "Hoş Geldiniz: Kliniğimizin Resmî Web Sitesi Yayında",
+      "slug": "hos-geldiniz-web-sitesi-yayinda",
+      "date": "2025-09-18T10:00:00+03:00",
+      "scheduledAt": "2025-09-18T10:00:00+03:00",
+      "status": "published",
+      "contentType": "announcement",
       "published": true,
-      "date": "2025-08-14T14:00:00+03:00",
-      "url": "/blog.html#kopek-dis-tasi",
-      "readingMinutes": 3,
-      "cover": "/assets/img/uploads/kopek-dis.jpg",
+      "summary": "Elçi Veteriner Kliniği’nin yeni web sitesi yayında. Randevu, hizmetler ve iletişim artık çok daha hızlı.",
+      "cover": "/assets/img/uploads/sample1.webp",
+      "youtubeId": "",
+      "category": "Klinik Duyuruları",
+      "categories": [
+        "Klinik Duyuruları"
+      ],
+      "species": "Genel",
+      "tags": [
+        "duyuru",
+        "web sitesi"
+      ],
+      "author": "Elçi Veteriner Kliniği",
+      "readingMinutes": 1,
+      "seoTitle": "Elçi Veteriner | Yeni Web Sitemiz Yayında",
+      "seoDescription": "Randevu, hizmetler, iletişim ve duyurular artık daha hızlı ve kolay.",
+      "url": "/blog.html#hos-geldiniz-web-sitesi-yayinda",
+      "content": "<p>Yeni web sitemizle randevu almak, hizmetlerimizi incelemek ve duyurularımızı takip etmek çok daha kolay. Görüş ve önerileriniz için bize yazın.</p>",
+      "cmsEntry": "2025-09-18-hos-geldiniz-web-sitesi-yayinda",
+      "sourceFile": "2025-09-18-hos-geldiniz-web-sitesi-yayinda.json",
+      "showOnHome": true,
+      "homeOrder": 1,
+      "dateLabel": "18 Eyl 2025",
+      "id": "hos-geldiniz-web-sitesi-yayinda",
+      "blocks": [
+        {
+          "type": "text",
+          "html": "<p>Yeni web sitemizle randevu almak, hizmetlerimizi incelemek ve duyurularımızı takip etmek çok daha kolay. Görüş ve önerileriniz için bize yazın.</p>"
+        },
+        {
+          "type": "image",
+          "src": "/assets/img/uploads/sample1.webp",
+          "alt": "Hoş Geldiniz: Kliniğimizin Resmî Web Sitesi Yayında",
+          "caption": "Hoş Geldiniz: Kliniğimizin Resmî Web Sitesi Yayında — Elçi Veteriner Kliniği",
+          "layout": "wide"
+        }
+      ]
+    },
+    {
       "title": "Köpeklerde Diş Taşı Temizliği Neden Önemli?",
+      "slug": "kopeklerde-dis-tasi-temizligi",
+      "date": "2025-08-14T14:00:00+03:00",
+      "scheduledAt": "2025-08-14T14:00:00+03:00",
+      "status": "published",
+      "contentType": "blog",
+      "published": true,
+      "summary": "Ağız kokusu, diş eti çekilmesi ve sistemik hastalık riskini azaltmanın anahtarı: düzenli dental bakım.",
+      "cover": "",
+      "youtubeId": "",
+      "category": "Ağız ve Diş Sağlığı",
+      "categories": [
+        "Ağız ve Diş Sağlığı"
+      ],
+      "species": "Köpek",
       "tags": [
         "köpek",
         "diş taşı",
         "periodontal"
       ],
-      "content": "<p>Diş taşı; bakterilerin tutunmasına, diş eti iltihabına ve ağrıya yol açar. Periyodik muayene ve profesyonel temizlik önerilir.</p>",
+      "author": "Elçi Veteriner Kliniği",
+      "readingMinutes": 1,
       "seoTitle": "Köpeklerde Diş Taşı Temizliği | Elçi Veteriner",
-      "categories": [
-        "Dental Sağlık"
-      ],
-      "youtubeId": "",
-      "seoDescription": "Diş taşı ve periodontal hastalık riskini azaltmak için düzenli dental bakım neden şart?"
+      "seoDescription": "Diş taşı ve periodontal hastalık riskini azaltmak için düzenli dental bakım neden şart?",
+      "url": "/blog.html#kopeklerde-dis-tasi-temizligi",
+      "content": "<p>Diş taşı; bakterilerin tutunmasına, diş eti iltihabına ve ağrıya yol açar. Periyodik muayene ve profesyonel temizlik önerilir.</p>",
+      "cmsEntry": "2025-08-14-kopeklerde-dis-tasi-temizligi",
+      "sourceFile": "2025-08-14-kopeklerde-dis-tasi-temizligi.json",
+      "showOnHome": true,
+      "homeOrder": 2,
+      "dateLabel": "14 Ağu 2025",
+      "id": "kopeklerde-dis-tasi-temizligi",
+      "blocks": [
+        {
+          "type": "text",
+          "html": "<p>Diş taşı; bakterilerin tutunmasına, diş eti iltihabına ve ağrıya yol açar. Periyodik muayene ve profesyonel temizlik önerilir.</p>"
+        }
+      ]
     },
     {
-      "scheduledAt": "2025-07-02T11:00:00+03:00",
-      "summary": "Sıcak çarpmasına karşı su tüketimi, gölgeleme ve yürüyüş saatleri ayarı.",
-      "author": "Elçi Veteriner",
-      "slug": "sicak-havalarda-serin-kalma-ipuclari",
-      "published": true,
-      "date": "2025-07-02T11:00:00+03:00",
-      "url": "/blog.html#sicak-ipuclari",
-      "readingMinutes": 3,
-      "cover": "/assets/img/uploads/yaz-ipuclari.jpg",
       "title": "Sıcak Havalarda Serin Kalma İpuçları",
+      "slug": "sicak-havalarda-serin-kalma-ipuclari",
+      "date": "2025-07-02T11:00:00+03:00",
+      "scheduledAt": "2025-07-02T11:00:00+03:00",
+      "status": "published",
+      "contentType": "blog",
+      "published": true,
+      "summary": "Sıcak çarpmasına karşı su tüketimi, gölgeleme ve yürüyüş saatleri ayarı.",
+      "cover": "",
+      "youtubeId": "",
+      "category": "Mevsimsel Sağlık",
+      "categories": [
+        "Mevsimsel Sağlık"
+      ],
+      "species": "Kedi ve Köpek",
       "tags": [
         "yaz",
         "ısı stresi",
         "egzersiz"
       ],
-      "content": "<p>Gündüz saatlerinde egzersizi azaltın, asfalttan kaçının ve su kabını her zaman dolu tutun. Sıcak çarpması acil durumdur.</p>",
+      "author": "Elçi Veteriner Kliniği",
+      "readingMinutes": 1,
       "seoTitle": "Sıcakta Evcil Dostları Korumak | Elçi Veteriner",
-      "categories": [
-        "Mevsimsel Bakım"
-      ],
-      "youtubeId": "",
-      "seoDescription": "Yazın sıcak çarpmasına karşı pratik öneriler ve dikkat edilmesi gerekenler."
+      "seoDescription": "Yazın sıcak çarpmasına karşı pratik öneriler ve dikkat edilmesi gerekenler.",
+      "url": "/blog.html#sicak-havalarda-serin-kalma-ipuclari",
+      "content": "<p>Gündüz saatlerinde egzersizi azaltın, asfalttan kaçının ve su kabını her zaman dolu tutun. Sıcak çarpması acil durumdur.</p>",
+      "cmsEntry": "2025-07-02-sicak-havalarda-serin-kalma-ipuclari",
+      "sourceFile": "2025-07-02-sicak-havalarda-serin-kalma-ipuclari.json",
+      "showOnHome": true,
+      "homeOrder": 3,
+      "dateLabel": "02 Tem 2025",
+      "id": "sicak-havalarda-serin-kalma-ipuclari",
+      "blocks": [
+        {
+          "type": "text",
+          "html": "<p>Gündüz saatlerinde egzersizi azaltın, asfalttan kaçının ve su kabını her zaman dolu tutun. Sıcak çarpması acil durumdur.</p>"
+        }
+      ]
     },
     {
-      "scheduledAt": "2025-06-10T17:45:00+03:00",
-      "summary": "Kanama, zehirlenme veya travma şüphesinde temel adımlar ve kliniğe ulaşana kadar yapılacaklar.",
-      "author": "Elçi Veteriner",
-      "slug": "acil-durum-ilk-yardim-evde",
-      "published": true,
-      "date": "2025-06-10T17:45:00+03:00",
-      "url": "/blog.html#acil-ilk-yardim",
-      "readingMinutes": 4,
-      "cover": "/assets/img/uploads/acil-ilk-yardim.jpg",
       "title": "Acil Durumlarda İlk Yardım: Evde Yapabilecekleriniz",
+      "slug": "acil-durum-ilk-yardim-evde",
+      "date": "2025-06-10T17:45:00+03:00",
+      "scheduledAt": "2025-06-10T17:45:00+03:00",
+      "status": "published",
+      "contentType": "blog",
+      "published": true,
+      "summary": "Kanama, zehirlenme veya travma şüphesinde temel adımlar ve kliniğe ulaşana kadar yapılacaklar.",
+      "cover": "",
+      "youtubeId": "",
+      "category": "Acil Durumlar",
+      "categories": [
+        "Acil Durumlar"
+      ],
+      "species": "Genel",
       "tags": [
         "ilk yardım",
         "acil",
         "travma"
       ],
-      "content": "<p>Panik yapmayın, güvenli taşıyın ve hemen bizi arayın: 0332 322 32 20. Evde yanlış müdahale durumu kötüleştirebilir.</p>",
+      "author": "Elçi Veteriner Kliniği",
+      "readingMinutes": 1,
       "seoTitle": "Evde İlk Yardım İpuçları | Elçi Veteriner",
-      "categories": [
-        "Acil"
-      ],
-      "youtubeId": "",
-      "seoDescription": "Acil durumda panik yapmadan doğru adımları atmak için kısa rehber."
+      "seoDescription": "Acil durumda panik yapmadan doğru adımları atmak için kısa rehber.",
+      "url": "/blog.html#acil-durum-ilk-yardim-evde",
+      "content": "<p>Panik yapmayın, güvenli taşıyın ve hemen bizi arayın: 0332 322 32 20. Evde yanlış müdahale durumu kötüleştirebilir.</p>",
+      "cmsEntry": "2025-06-10-acil-durum-ilk-yardim-evde",
+      "sourceFile": "2025-06-10-acil-durum-ilk-yardim-evde.json",
+      "showOnHome": false,
+      "homeOrder": null,
+      "dateLabel": "10 Haz 2025",
+      "id": "acil-durum-ilk-yardim-evde",
+      "blocks": [
+        {
+          "type": "text",
+          "html": "<p>Panik yapmayın, güvenli taşıyın ve hemen bizi arayın: 0332 322 32 20. Evde yanlış müdahale durumu kötüleştirebilir.</p>"
+        }
+      ]
     },
     {
-      "scheduledAt": "2025-05-05T13:20:00+03:00",
-      "summary": "Operasyon süreci, iyileşme dönemi ve uzun vadeli sağlık faydaları.",
-      "author": "Elçi Veteriner",
-      "slug": "kisirlastirma-sterilizasyon-merak-edilenler",
-      "published": true,
-      "date": "2025-05-05T13:20:00+03:00",
-      "url": "/blog.html#kisirlastirma",
-      "readingMinutes": 4,
-      "cover": "/assets/img/uploads/sterilizasyon.jpg",
       "title": "Kısırlaştırma (Sterilizasyon) Hakkında Merak Edilenler",
+      "slug": "kisirlastirma-sterilizasyon-merak-edilenler",
+      "date": "2025-05-05T13:20:00+03:00",
+      "scheduledAt": "2025-05-05T13:20:00+03:00",
+      "status": "published",
+      "contentType": "blog",
+      "published": true,
+      "summary": "Operasyon süreci, iyileşme dönemi ve uzun vadeli sağlık faydaları.",
+      "cover": "",
+      "youtubeId": "",
+      "category": "Cerrahi ve Operasyonlar",
+      "categories": [
+        "Cerrahi ve Operasyonlar"
+      ],
+      "species": "Kedi ve Köpek",
       "tags": [
         "kısırlaştırma",
         "operasyon",
         "iyileşme"
       ],
-      "content": "<p>Kısırlaştırma; bazı tümör risklerini düşürür, istenmeyen gebelikleri önler ve davranışsal faydalar sağlayabilir.</p>",
+      "author": "Elçi Veteriner Kliniği",
+      "readingMinutes": 1,
       "seoTitle": "Kısırlaştırma Rehberi | Elçi Veteriner",
-      "categories": [
-        "Cerrahi"
-      ],
-      "youtubeId": "",
-      "seoDescription": "Operasyon öncesi-sonrası süreçler ve uzun vadeli sağlık etkileri."
+      "seoDescription": "Operasyon öncesi-sonrası süreçler ve uzun vadeli sağlık etkileri.",
+      "url": "/blog.html#kisirlastirma-sterilizasyon-merak-edilenler",
+      "content": "<p>Kısırlaştırma; bazı tümör risklerini düşürür, istenmeyen gebelikleri önler ve davranışsal faydalar sağlayabilir.</p>",
+      "cmsEntry": "2025-05-05-kisirlastirma-sterilizasyon-merak-edilenler",
+      "sourceFile": "2025-05-05-kisirlastirma-sterilizasyon-merak-edilenler.json",
+      "showOnHome": false,
+      "homeOrder": null,
+      "dateLabel": "05 May 2025",
+      "id": "kisirlastirma-sterilizasyon-merak-edilenler",
+      "blocks": [
+        {
+          "type": "text",
+          "html": "<p>Kısırlaştırma; bazı tümör risklerini düşürür, istenmeyen gebelikleri önler ve davranışsal faydalar sağlayabilir.</p>"
+        }
+      ]
     },
     {
-      "published": true,
+      "published": false,
       "author": "Elçi Veteriner Kliniği",
       "readingMinutes": 3,
       "title": " mader madde to me",
       "slug": "kedilerde-uyuz",
       "date": "2026-07-15T23:01:00+03:00",
       "summary": "nananannasdmasnfjlafmzxcnmözxcbnzxbvkjdshjkvnm ",
-      "content": "asdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghj"
+      "content": "asdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghj",
+      "id": "kedilerde-uyuz",
+      "status": "archived",
+      "showOnHome": false,
+      "homeOrder": null,
+      "contentType": "blog",
+      "category": "Genel Sağlık",
+      "categories": [
+        "Genel Sağlık"
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "html": "asdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghj"
+        }
+      ]
     },
     {
-      "published": true,
+      "published": false,
       "author": "Elçi Veteriner Kliniği",
       "readingMinutes": 3,
       "title": "asdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghj",
       "slug": "asdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghj",
       "summary": "asdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghj",
       "date": "2026-07-15T23:02:00+03:00",
-      "content": "asdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghj"
+      "content": "asdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghj",
+      "id": "asdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghj",
+      "status": "archived",
+      "showOnHome": false,
+      "homeOrder": null,
+      "contentType": "blog",
+      "category": "Genel Sağlık",
+      "categories": [
+        "Genel Sağlık"
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "html": "asdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghjasdsadghsdghjsadghdasdsajghgjhghghsdajsdghjsadghghj"
+        }
+      ]
     }
   ]
 }

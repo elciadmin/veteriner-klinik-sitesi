@@ -1,200 +1,464 @@
 [
   {
-    "author": "Elif Parlar",
-    "rating": 5,
-    "time": "2 gün önce",
-    "text": "İlgi ve alakasıyla gönlümüz rahat bir şekilde her zaman tercih edip önerebileceğim bir veteriner. Kedim hiç stres olmuyor ❤️🙏🏻"
-  },
-  {
-    "author": "Masume Akyürek",
-    "rating": 5,
-    "time": "3 gün önce",
-    "text": "Çok ilgililer, sayelerinde yavru kedimiz hayata geri tutundu. 💫"
-  },
-  {
-    "author": "Esma Nur Tuğral",
-    "rating": 5,
-    "time": "2 hafta önce",
-    "text": "Hasan beye kedimizi kısırlaştırmak için gittik. Çok ilgiliydi, detaylı bilgi verdi, ameliyat başarılı geçti. Sokak hayvanlarıyla da aynı hassasiyetle ilgilendi. Teşekkür ederiz."
-  },
-  {
-    "author": "Kübra Duran",
-    "rating": 5,
-    "time": "3 hafta önce",
-    "text": "Yakın zamanda tanıştık, iyi ki de tanımışız. Çok kibar ve anlayışlı. Hayvanlara tutumu harika; işini severek yaptığı belli. Gönül rahatlığıyla tercih edebilirsiniz."
-  },
-  {
-    "author": "İZEL YESARİ",
-    "rating": 5,
-    "time": "3 hafta önce",
-    "text": "Köpek ve kedi kısırlaştırma yaptık; tüm ihtimaller anlatıldı. Sokak canlarına da kendi canları gibi sahip çıkıyorlar. Hasan bey ve ekibine teşekkürler."
-  },
-  {
-    "author": "mukaddes erel",
-    "rating": 5,
-    "time": "4 hafta önce",
-    "text": "Naif kişiliği işine yansıyor. Sadakati ve çözüm odaklı yaklaşımı için teşekkürler. Gönül rahatlığıyla getirebilirsiniz."
-  },
-  {
-    "author": "Fatmanur Akın",
-    "rating": 5,
-    "time": "4 hafta önce",
-    "text": "Hipotermi geçiren 3 aylık kedimizle çok güzel ilgilendiniz. Evinizi açtığınız için minnettarız. Kesinlikle tavsiye ediyorum."
-  },
-  {
-    "author": "Şerife Tiftik",
-    "rating": 5,
-    "time": "7 hafta önce",
-    "text": "İlgi, alaka, samimiyet… mesleğinin hakkını veren bir hekim. Zorlu iki doğumu da başarıyla gerçekleştirdi. Teşekkür ederiz."
-  },
-  {
-    "author": "Mehmet Faik Sevimli",
-    "rating": 5,
-    "time": "9 hafta önce",
-    "text": "Mesleğini seven, özen gösteren pırıl pırıl bir veteriner. Mercan ve İnci çok şanslı."
-  },
-  {
-    "author": "Ayhan Tiftik",
-    "rating": 5,
-    "time": "9 hafta önce",
-    "text": "Kedimiz Peri’nin doğumunda gösterilen ilgi ve alaka için teşekkürler. Özellikle Hasan Bey’e minnettarız. Her yönüyle tavsiye ederim."
-  },
-  {
-    "author": "Yasemin Dasci",
-    "rating": 5,
-    "time": "11 hafta önce",
-    "text": "Kızımız Hira’nın büyük fıtığını tespit edip başarılı bir operasyonla çözdüler. Emekleri için çok teşekkür ederiz."
-  },
-  {
-    "author": "Asuman AKSU",
-    "rating": 5,
-    "time": "13 hafta önce",
-    "text": "Veterinerimiz çok vefakâr, hayvanlara kendi hayvanı gibi sahiplenerek tedavi ediyor. İlgi alaka için minnettarız, iyi ki varsınız."
-  },
-  {
-    "author": "Ayşen Gümüş Duymaz",
-    "rating": 5,
-    "time": "13 hafta önce",
-    "text": "Elçi veterinerlik çok teşekkürler; kedimizi güvenle götürüyoruz."
-  },
-  {
-    "author": "Ahmet Mercan",
-    "rating": 5,
-    "time": "15 hafta önce",
-    "text": "Ailemiz için çok değerli kuşumuz Boncuk’u iyileştiren hekimimize teşekkür ederiz, ailecek minnettarız."
-  },
-  {
-    "author": "Zeliha Çaldıran",
-    "rating": 5,
-    "time": "15 hafta önce",
-    "text": "İşini tüccar gözüyle değil, gerçek bir hayvansever olarak yapan hekimimize teşekkürler ❤️☺️"
-  },
-  {
-    "author": "Hümeyra Öztürk",
-    "rating": 5,
-    "time": "15 hafta önce",
-    "text": "Kedim Atlas’ı içim rahat şekilde götürüyorum. Araştırmacı, çözüm odaklı, iyi bir dinleyici. Başarılarının devamını diliyoruz."
-  },
-  {
-    "author": "Tarık Oktay KIZILKAYA",
-    "rating": 5,
-    "time": "15 hafta önce",
-    "text": "Kedimizin rutin bakımlarını ve aşılarını yaptırdık, ilk gidişte bile çok memnun kaldık; tüm sorularımıza yanıt aldık."
-  },
-  {
-    "author": "Kubra sultan Özel",
-    "rating": 5,
-    "time": "17 hafta önce",
-    "text": "Kısırlaştırma operasyonu çok başarılı geçti. Sonrasında titizlikle bilgilendirdiler. Konya’daki en iyi kliniklerden."
-  },
-  {
-    "author": "Mehmet Ali Kaya",
-    "rating": 5,
-    "time": "18 hafta önce",
-    "text": "İç/dış parazit aşıları yaptırdım. İlgi ve fiyat/performans çok iyi. Konya’da güvenilir veteriner arayanlara tavsiye ederim."
-  },
-  {
-    "author": "Muhammed TURGUT",
-    "rating": 5,
-    "time": "18 hafta önce",
-    "text": "Sokak hayvanlarını getiriyorum, kendi kedisi gibi ilgileniyor. Sonrasında arayıp takip etmesi mutlu etti."
-  },
-  {
-    "author": "bora özdemir",
-    "rating": 5,
-    "time": "19 hafta önce",
-    "text": "Hayvanlara sevgiyle yaklaşan profesyonel bir yer."
-  },
-  {
-    "author": "Börü Taşdelen",
-    "rating": 5,
-    "time": "19 hafta önce",
-    "text": "Güler yüzlü, işinin arkasında duran bir hekim; her şey olması gerektiği gibi."
-  },
-  {
-    "author": "Müzeyyen Eser",
-    "rating": 5,
-    "time": "19 hafta önce",
-    "text": "Yıllardır tanırım; titiz, güler yüzlü, merhametli ve başarılı bir hekim. Başarılarınız daim olsun."
-  },
-  {
-    "author": "Eda Dağlı",
-    "rating": 5,
-    "time": "19 hafta önce",
-    "text": "Kedilerimi gözüm kapalı emanet ediyorum. Operasyonu çok kolay atlattık, her zaman yardımcı oldular. Teşekkür ederiz 😊"
-  },
-  {
-    "author": "Sevil Aygün",
-    "rating": 5,
-    "time": "20 hafta önce",
-    "text": "Bebeğimin tüm aşılarını burada yaptırdım. Yaklaşımı çok güzel; her sorunda telefonla yardımcı oldu. Çok memnunum 🥰"
-  },
-  {
-    "author": "Rabia SADAY",
-    "rating": 5,
-    "time": "20 hafta önce",
-    "text": "Emin ellere teslim ettik; yavrumuzun ameliyatı çok iyi geçti 🥰"
-  },
-  {
-    "author": "Hatice Varkutluca",
-    "rating": 5,
-    "time": "20 hafta önce",
-    "text": "İşinizi aşkla yapıyorsunuz. Kedimin rahatsızlığında ve diğer hayvanlarımızda hep yanımızdaydınız; emeğinize sağlık."
-  },
-  {
+    "id": "abdullah-karacamur-01",
+    "title": "Abdullah Karacamur — 20 hafta önce",
     "author": "Abdullah Karacamur",
     "rating": 5,
     "time": "20 hafta önce",
-    "text": "En güler yüzlü ve samimi veteriner; hayvanlarımı güvenle teslim ediyorum. Gece gündüz ilgilendi, çok teşekkür ederim."
+    "text": "En güler yüzlü ve samimi veteriner; hayvanlarımı güvenle teslim ediyorum. Gece gündüz ilgilendi, çok teşekkür ederim.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "abdullah-karacamur-01"
   },
   {
-    "author": "Sara Kağnıcıoğlu",
+    "id": "ahmet-mercan-01",
+    "title": "Ahmet Mercan — 15 hafta önce",
+    "author": "Ahmet Mercan",
     "rating": 5,
-    "time": "22 hafta önce",
-    "text": "Hiç kuşkusuz emanet ettik ve başarılı bir operasyonla iyileştik. Sıcak yaklaşımı ve verdiği güven için iyi ki Elçi Veteriner."
+    "time": "15 hafta önce",
+    "text": "Ailemiz için çok değerli kuşumuz Boncuk’u iyileştiren hekimimize teşekkür ederiz, ailecek minnettarız.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "ahmet-mercan-01"
   },
   {
+    "id": "asuman-aksu-01",
+    "title": "Asuman AKSU — 13 hafta önce",
+    "author": "Asuman AKSU",
+    "rating": 5,
+    "time": "13 hafta önce",
+    "text": "Veterinerimiz çok vefakâr, hayvanlara kendi hayvanı gibi sahiplenerek tedavi ediyor. İlgi alaka için minnettarız, iyi ki varsınız.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "asuman-aksu-01"
+  },
+  {
+    "id": "ayhan-tiftik-01",
+    "title": "Ayhan Tiftik — 9 hafta önce",
+    "author": "Ayhan Tiftik",
+    "rating": 5,
+    "time": "9 hafta önce",
+    "text": "Kedimiz Peri’nin doğumunda gösterilen ilgi ve alaka için teşekkürler. Özellikle Hasan Bey’e minnettarız. Her yönüyle tavsiye ederim.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "ayhan-tiftik-01"
+  },
+  {
+    "id": "aysen-gumus-duymaz-01",
+    "title": "Ayşen Gümüş Duymaz — 13 hafta önce",
+    "author": "Ayşen Gümüş Duymaz",
+    "rating": 5,
+    "time": "13 hafta önce",
+    "text": "Elçi veterinerlik çok teşekkürler; kedimizi güvenle götürüyoruz.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "aysen-gumus-duymaz-01"
+  },
+  {
+    "id": "bora-ozdemir-01",
+    "title": "bora özdemir — 19 hafta önce",
+    "author": "bora özdemir",
+    "rating": 5,
+    "time": "19 hafta önce",
+    "text": "Hayvanlara sevgiyle yaklaşan profesyonel bir yer.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "bora-ozdemir-01"
+  },
+  {
+    "id": "boru-tasdelen-01",
+    "title": "Börü Taşdelen — 19 hafta önce",
+    "author": "Börü Taşdelen",
+    "rating": 5,
+    "time": "19 hafta önce",
+    "text": "Güler yüzlü, işinin arkasında duran bir hekim; her şey olması gerektiği gibi.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "boru-tasdelen-01"
+  },
+  {
+    "id": "eda-dagli-01",
+    "title": "Eda Dağlı — 19 hafta önce",
+    "author": "Eda Dağlı",
+    "rating": 5,
+    "time": "19 hafta önce",
+    "text": "Kedilerimi gözüm kapalı emanet ediyorum. Operasyonu çok kolay atlattık, her zaman yardımcı oldular. Teşekkür ederiz 😊",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "eda-dagli-01"
+  },
+  {
+    "id": "elif-parlar-01",
+    "title": "Elif Parlar — 2 gün önce",
+    "author": "Elif Parlar",
+    "rating": 5,
+    "time": "2 gün önce",
+    "text": "İlgi ve alakasıyla gönlümüz rahat bir şekilde her zaman tercih edip önerebileceğim bir veteriner. Kedim hiç stres olmuyor ❤️🙏🏻",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": true,
+    "homeOrder": 1,
+    "cmsEntry": "elif-parlar-01"
+  },
+  {
+    "id": "esma-nur-tugral-01",
+    "title": "Esma Nur Tuğral — 2 hafta önce",
+    "author": "Esma Nur Tuğral",
+    "rating": 5,
+    "time": "2 hafta önce",
+    "text": "Hasan beye kedimizi kısırlaştırmak için gittik. Çok ilgiliydi, detaylı bilgi verdi, ameliyat başarılı geçti. Sokak hayvanlarıyla da aynı hassasiyetle ilgilendi. Teşekkür ederiz.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": true,
+    "homeOrder": 3,
+    "cmsEntry": "esma-nur-tugral-01"
+  },
+  {
+    "id": "fatmanur-akin-01",
+    "title": "Fatmanur Akın — 4 hafta önce",
+    "author": "Fatmanur Akın",
+    "rating": 5,
+    "time": "4 hafta önce",
+    "text": "Hipotermi geçiren 3 aylık kedimizle çok güzel ilgilendiniz. Evinizi açtığınız için minnettarız. Kesinlikle tavsiye ediyorum.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "fatmanur-akin-01"
+  },
+  {
+    "id": "hatice-varkutluca-01",
+    "title": "Hatice Varkutluca — 20 hafta önce",
+    "author": "Hatice Varkutluca",
+    "rating": 5,
+    "time": "20 hafta önce",
+    "text": "İşinizi aşkla yapıyorsunuz. Kedimin rahatsızlığında ve diğer hayvanlarımızda hep yanımızdaydınız; emeğinize sağlık.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "hatice-varkutluca-01"
+  },
+  {
+    "id": "hayal-01",
+    "title": "Hayal — 22 hafta önce",
     "author": "Hayal",
     "rating": 5,
     "time": "22 hafta önce",
-    "text": "Klinikte hizmet çok güzel, ilgili ve güler yüzlüler. Sabit kliniğim burası; hiç pişman olmadım."
+    "text": "Klinikte hizmet çok güzel, ilgili ve güler yüzlüler. Sabit kliniğim burası; hiç pişman olmadım.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "hayal-01"
   },
   {
-    "author": "Sevgi Çavuş",
-    "rating": 5,
-    "time": "22 hafta önce",
-    "text": "İlgileri çok iyi, çok memnunum. Teşekkürler."
-  },
-  {
+    "id": "hitame-hacibeyoglu-01",
+    "title": "Hitame Hacıbeyoğlu — 16 Nis 2024",
     "author": "Hitame Hacıbeyoğlu",
     "rating": 5,
     "time": "16 Nis 2024",
-    "text": "Yavru kedimizin ilk kontrolünde çok detaylı bilgilendirdiler. Ürünlerde yönlendirme yapmadan içerik anlattılar. Çip ve aşılarda da çok iyi ilgilendiler. 24 saat ulaşabilmek güzel."
+    "text": "Yavru kedimizin ilk kontrolünde çok detaylı bilgilendirdiler. Ürünlerde yönlendirme yapmadan içerik anlattılar. Çip ve aşılarda da çok iyi ilgilendiler. 24 saat ulaşabilmek güzel.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "hitame-hacibeyoglu-01"
   },
   {
+    "id": "humeyra-ozturk-01",
+    "title": "Hümeyra Öztürk — 15 hafta önce",
+    "author": "Hümeyra Öztürk",
+    "rating": 5,
+    "time": "15 hafta önce",
+    "text": "Kedim Atlas’ı içim rahat şekilde götürüyorum. Araştırmacı, çözüm odaklı, iyi bir dinleyici. Başarılarının devamını diliyoruz.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "humeyra-ozturk-01"
+  },
+  {
+    "id": "izel-yesari-01",
+    "title": "İZEL YESARİ — 3 hafta önce",
+    "author": "İZEL YESARİ",
+    "rating": 5,
+    "time": "3 hafta önce",
+    "text": "Köpek ve kedi kısırlaştırma yaptık; tüm ihtimaller anlatıldı. Sokak canlarına da kendi canları gibi sahip çıkıyorlar. Hasan bey ve ekibine teşekkürler.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": true,
+    "homeOrder": 5,
+    "cmsEntry": "izel-yesari-01"
+  },
+  {
+    "id": "kubra-duran-01",
+    "title": "Kübra Duran — 3 hafta önce",
+    "author": "Kübra Duran",
+    "rating": 5,
+    "time": "3 hafta önce",
+    "text": "Yakın zamanda tanıştık, iyi ki de tanımışız. Çok kibar ve anlayışlı. Hayvanlara tutumu harika; işini severek yaptığı belli. Gönül rahatlığıyla tercih edebilirsiniz.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": true,
+    "homeOrder": 4,
+    "cmsEntry": "kubra-duran-01"
+  },
+  {
+    "id": "kubra-sultan-ozel-01",
+    "title": "Kubra sultan Özel — 17 hafta önce",
+    "author": "Kubra sultan Özel",
+    "rating": 5,
+    "time": "17 hafta önce",
+    "text": "Kısırlaştırma operasyonu çok başarılı geçti. Sonrasında titizlikle bilgilendirdiler. Konya’daki en iyi kliniklerden.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "kubra-sultan-ozel-01"
+  },
+  {
+    "id": "masume-akyurek-01",
+    "title": "Masume Akyürek — 3 gün önce",
+    "author": "Masume Akyürek",
+    "rating": 5,
+    "time": "3 gün önce",
+    "text": "Çok ilgililer, sayelerinde yavru kedimiz hayata geri tutundu. 💫",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": true,
+    "homeOrder": 2,
+    "cmsEntry": "masume-akyurek-01"
+  },
+  {
+    "id": "mehmet-ali-kaya-01",
+    "title": "Mehmet Ali Kaya — 18 hafta önce",
+    "author": "Mehmet Ali Kaya",
+    "rating": 5,
+    "time": "18 hafta önce",
+    "text": "İç/dış parazit aşıları yaptırdım. İlgi ve fiyat/performans çok iyi. Konya’da güvenilir veteriner arayanlara tavsiye ederim.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "mehmet-ali-kaya-01"
+  },
+  {
+    "id": "mehmet-faik-sevimli-01",
+    "title": "Mehmet Faik Sevimli — 9 hafta önce",
+    "author": "Mehmet Faik Sevimli",
+    "rating": 5,
+    "time": "9 hafta önce",
+    "text": "Mesleğini seven, özen gösteren pırıl pırıl bir veteriner. Mercan ve İnci çok şanslı.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "mehmet-faik-sevimli-01"
+  },
+  {
+    "id": "muhammed-turgut-01",
+    "title": "Muhammed TURGUT — 18 hafta önce",
+    "author": "Muhammed TURGUT",
+    "rating": 5,
+    "time": "18 hafta önce",
+    "text": "Sokak hayvanlarını getiriyorum, kendi kedisi gibi ilgileniyor. Sonrasında arayıp takip etmesi mutlu etti.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "muhammed-turgut-01"
+  },
+  {
+    "id": "mukaddes-erel-01",
+    "title": "mukaddes erel — 4 hafta önce",
+    "author": "mukaddes erel",
+    "rating": 5,
+    "time": "4 hafta önce",
+    "text": "Naif kişiliği işine yansıyor. Sadakati ve çözüm odaklı yaklaşımı için teşekkürler. Gönül rahatlığıyla getirebilirsiniz.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": true,
+    "homeOrder": 6,
+    "cmsEntry": "mukaddes-erel-01"
+  },
+  {
+    "id": "muzeyyen-eser-01",
+    "title": "Müzeyyen Eser — 19 hafta önce",
+    "author": "Müzeyyen Eser",
+    "rating": 5,
+    "time": "19 hafta önce",
+    "text": "Yıllardır tanırım; titiz, güler yüzlü, merhametli ve başarılı bir hekim. Başarılarınız daim olsun.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "muzeyyen-eser-01"
+  },
+  {
+    "id": "nagehan-cikrik-01",
+    "title": "Nagehan ÇIKRIK — 23 Şub 2024",
     "author": "Nagehan ÇIKRIK",
     "rating": 5,
     "time": "23 Şub 2024",
-    "text": "Gece acil durumda doğru tanı ve yönlendirme ile çok yardımcı oldular. Koşulsuz yardımları ve hayvan sevgileri için minnettarız."
+    "text": "Gece acil durumda doğru tanı ve yönlendirme ile çok yardımcı oldular. Koşulsuz yardımları ve hayvan sevgileri için minnettarız.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "nagehan-cikrik-01"
+  },
+  {
+    "id": "rabia-saday-01",
+    "title": "Rabia SADAY — 20 hafta önce",
+    "author": "Rabia SADAY",
+    "rating": 5,
+    "time": "20 hafta önce",
+    "text": "Emin ellere teslim ettik; yavrumuzun ameliyatı çok iyi geçti 🥰",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "rabia-saday-01"
+  },
+  {
+    "id": "sara-kagnicioglu-01",
+    "title": "Sara Kağnıcıoğlu — 22 hafta önce",
+    "author": "Sara Kağnıcıoğlu",
+    "rating": 5,
+    "time": "22 hafta önce",
+    "text": "Hiç kuşkusuz emanet ettik ve başarılı bir operasyonla iyileştik. Sıcak yaklaşımı ve verdiği güven için iyi ki Elçi Veteriner.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "sara-kagnicioglu-01"
+  },
+  {
+    "id": "serife-tiftik-01",
+    "title": "Şerife Tiftik — 7 hafta önce",
+    "author": "Şerife Tiftik",
+    "rating": 5,
+    "time": "7 hafta önce",
+    "text": "İlgi, alaka, samimiyet… mesleğinin hakkını veren bir hekim. Zorlu iki doğumu da başarıyla gerçekleştirdi. Teşekkür ederiz.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "serife-tiftik-01"
+  },
+  {
+    "id": "sevgi-cavus-01",
+    "title": "Sevgi Çavuş — 22 hafta önce",
+    "author": "Sevgi Çavuş",
+    "rating": 5,
+    "time": "22 hafta önce",
+    "text": "İlgileri çok iyi, çok memnunum. Teşekkürler.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "sevgi-cavus-01"
+  },
+  {
+    "id": "sevil-aygun-01",
+    "title": "Sevil Aygün — 20 hafta önce",
+    "author": "Sevil Aygün",
+    "rating": 5,
+    "time": "20 hafta önce",
+    "text": "Bebeğimin tüm aşılarını burada yaptırdım. Yaklaşımı çok güzel; her sorunda telefonla yardımcı oldu. Çok memnunum 🥰",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "sevil-aygun-01"
+  },
+  {
+    "id": "tarik-oktay-kizilkaya-01",
+    "title": "Tarık Oktay KIZILKAYA — 15 hafta önce",
+    "author": "Tarık Oktay KIZILKAYA",
+    "rating": 5,
+    "time": "15 hafta önce",
+    "text": "Kedimizin rutin bakımlarını ve aşılarını yaptırdık, ilk gidişte bile çok memnun kaldık; tüm sorularımıza yanıt aldık.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "tarik-oktay-kizilkaya-01"
+  },
+  {
+    "id": "yasemin-dasci-01",
+    "title": "Yasemin Dasci — 11 hafta önce",
+    "author": "Yasemin Dasci",
+    "rating": 5,
+    "time": "11 hafta önce",
+    "text": "Kızımız Hira’nın büyük fıtığını tespit edip başarılı bir operasyonla çözdüler. Emekleri için çok teşekkür ederiz.",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "yasemin-dasci-01"
+  },
+  {
+    "id": "zeliha-caldiran-01",
+    "title": "Zeliha Çaldıran — 15 hafta önce",
+    "author": "Zeliha Çaldıran",
+    "rating": 5,
+    "time": "15 hafta önce",
+    "text": "İşini tüccar gözüyle değil, gerçek bir hayvansever olarak yapan hekimimize teşekkürler ❤️☺️",
+    "sourceUrl": "",
+    "status": "published",
+    "published": true,
+    "showOnHome": false,
+    "homeOrder": null,
+    "cmsEntry": "zeliha-caldiran-01"
   }
 ]

@@ -65,3 +65,38 @@ body.patient-relations-page{overflow-x:clip!important}
   body.patient-relations-page .feedback-card,
   body.patient-relations-page .form-shell{width:100%!important;min-width:0!important;max-width:100%!important}
 }
+
+/* Unified visual system — keeps existing service card geometry untouched. */
+:root{
+  --elci-purple:#5a1fa8;--elci-purple-dark:#35106b;--elci-cyan:#20c4dd;
+  --elci-ink:#17212b;--elci-muted:#667184;--elci-line:rgba(83,45,129,.14);
+  --elci-font:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --elci-section-space:clamp(64px,8vw,112px);--elci-hero-line-width:88px;
+}
+html,body,button,input,textarea,select{font-family:var(--elci-font)!important}
+body{color:var(--elci-ink)}
+main>section:not(.hero):not([class*="hero"]){scroll-margin-top:120px}
+.about-hero,.services-hero,.blog-hero,.faq-hero,.patient-hero,
+.page-hero,.contact-hero,.gallery-hero,.team-hero{position:relative;overflow:hidden}
+.about-hero h1::after,.services-hero h1::after,.blog-hero h1::after,.faq-hero h1::after,.patient-hero h1::after,
+.page-hero h1::after,.contact-hero h1::after,.gallery-hero h1::after,.team-hero h1::after{
+  content:""!important;display:block!important;width:var(--elci-hero-line-width)!important;height:4px!important;
+  margin:20px 0 0!important;border-radius:999px!important;background:linear-gradient(90deg,var(--elci-purple),var(--elci-cyan))!important;
+}
+section{animation-duration:var(--elci-motion-duration)!important;animation-timing-function:cubic-bezier(.2,.75,.25,1)!important}
+.reveal,.fade-up,.animate-in{transition-duration:var(--elci-motion-duration)!important;transition-timing-function:cubic-bezier(.2,.75,.25,1)!important}
+/* Service cards intentionally retain their existing width, height, radius and grid rules. */
+
+/* Blog detail editorial text–image blocks */
+.blog-reader-body .editorial-block{margin:0 0 28px}
+.blog-reader-body .editorial-text{font-size:1.02rem;line-height:1.82;color:#253140}
+.blog-reader-body .editorial-text h2{margin:36px 0 14px;font-size:clamp(1.45rem,2.5vw,2rem);line-height:1.2;color:var(--elci-purple-dark)}
+.blog-reader-body .editorial-text p{margin:0 0 18px}.blog-reader-body .editorial-text ul,.blog-reader-body .editorial-text ol{padding-left:24px;margin:0 0 20px}
+.blog-reader-body .editorial-image{clear:both}.blog-reader-body .editorial-image img{display:block;width:100%;max-height:620px;object-fit:cover;border-radius:22px;box-shadow:0 20px 54px rgba(35,18,66,.13)}
+.blog-reader-body .editorial-image-standard{max-width:760px;margin-inline:auto}.blog-reader-body .editorial-image-left,.blog-reader-body .editorial-image-right{width:min(46%,420px)}
+.blog-reader-body .editorial-image-left{float:left;margin-right:26px}.blog-reader-body .editorial-image-right{float:right;margin-left:26px}
+.blog-reader-body .editorial-image figcaption{margin-top:10px;text-align:center;color:var(--elci-muted);font-size:.82rem;line-height:1.5}
+.blog-reader-body .editorial-quote{padding:22px 25px;border-left:5px solid var(--elci-cyan);border-radius:0 18px 18px 0;background:linear-gradient(135deg,#f4effc,#effbfe);color:var(--elci-purple-dark)}
+.blog-reader-body .editorial-quote p{margin:0;font-size:clamp(1.08rem,2vw,1.35rem);font-weight:720;line-height:1.6}.blog-reader-body .editorial-quote cite{display:block;margin-top:10px;color:var(--elci-muted);font-size:.82rem;font-style:normal}
+@media(max-width:720px){.blog-reader-body .editorial-image-left,.blog-reader-body .editorial-image-right{float:none;width:100%;margin-left:0;margin-right:0}.blog-reader-body .editorial-image img{border-radius:16px}}
+.blog-reader-body .editorial-image-wide{width:100%}
