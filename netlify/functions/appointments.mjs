@@ -1,6 +1,6 @@
 import { getStore } from "@netlify/blobs";
 import { getUser, verifyRequestOrigin } from "@netlify/identity";
-const STORE_NAME="elci-appointments-v1",ALLOWED_STATUSES=new Set(["new","confirmed","completed","cancelled"]);
+const STORE_NAME="elci-appointments-v1",ALLOWED_STATUSES=new Set(["new","contacted","confirmed","completed","cancelled","archived"]);
 const json=(data,status=200)=>Response.json(data,{status,headers:{"Cache-Control":"no-store, private","X-Content-Type-Options":"nosniff"}});
 const allowedEmails=()=>String(process.env.ADMIN_EMAILS||"").split(",").map(x=>x.trim().toLowerCase()).filter(Boolean);
 async function authorize(){const user=await getUser();if(!user)return{error:json({error:"Giriş gerekli"},401)};const roles=Array.isArray(user.roles)?user.roles:[],roleAllowed=roles.some(r=>["admin","randevu"].includes(r)),emailAllowed=allowedEmails().includes(String(user.email||"").toLowerCase());if(!roleAllowed&&!emailAllowed)return{error:json({error:"Bu hesap yetkili değil"},403)};return{user}}

@@ -2,6 +2,7 @@
   "published": true,
   "title": "Kedilerde Aşı Takvimi: 2025 Rehberi",
   "date": "2025-09-28T09:30:00+03:00",
+  "category": "Koruyucu Sağlık",
   "species": "Kedi",
   "tags": [
     "kedi",
@@ -17,12 +18,5 @@
     "seoDescription": "Kediler için temel ve opsiyonel aşı programı, hatırlatma dozları ve ipuçları.",
     "youtubeId": "",
     "author": "Elçi Veteriner"
-  },
-  "status": "published",
-  "contentType": "blog",
-  "categories": [
-    "Koruyucu Sağlık"
-  ],
-  "customCategories": [],
-  "author": "Elçi Veteriner Kliniği"
+  }
 }

@@ -2,6 +2,7 @@
   "published": true,
   "title": "Acil Durumlarda İlk Yardım: Evde Yapabilecekleriniz",
   "date": "2025-06-10T17:45:00+03:00",
+  "category": "Acil Durumlar",
   "species": "Genel",
   "tags": [
     "ilk yardım",
@@ -17,12 +18,5 @@
     "seoDescription": "Acil durumda panik yapmadan doğru adımları atmak için kısa rehber.",
     "youtubeId": "",
     "author": "Elçi Veteriner"
-  },
-  "status": "published",
-  "contentType": "blog",
-  "categories": [
-    "Acil Durumlar"
-  ],
-  "customCategories": [],
-  "author": "Elçi Veteriner Kliniği"
+  }
 }

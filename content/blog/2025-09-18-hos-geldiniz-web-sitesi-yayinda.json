@@ -2,6 +2,7 @@
   "published": true,
   "title": "Hoş Geldiniz: Kliniğimizin Resmî Web Sitesi Yayında",
   "date": "2025-09-18T10:00:00+03:00",
+  "category": "Klinik Duyuruları",
   "species": "Genel",
   "tags": [
     "duyuru",
@@ -16,12 +17,5 @@
     "seoDescription": "Randevu, hizmetler, iletişim ve duyurular artık daha hızlı ve kolay.",
     "youtubeId": "",
     "author": "Elçi Veteriner"
-  },
-  "status": "published",
-  "contentType": "announcement",
-  "categories": [
-    "Klinik Duyuruları"
-  ],
-  "customCategories": [],
-  "author": "Elçi Veteriner Kliniği"
+  }
 }

@@ -676,13 +676,13 @@
       manualInstagram,
       fallbackInstagram
     ] = await Promise.all([
-      fetchJson(`/assets/data/home-reviews.json?v=${VERSION}`, []),
+      fetchJson(`/assets/data/reviews.json?v=${VERSION}`, []),
       fetchJson(`/assets/data/site-settings.json?v=${VERSION}`, {}),
       fetchJson(`/assets/data/instagram-manual.json?v=${VERSION}`, []),
       fetchJson(`/assets/data/instagram.json?v=${VERSION}`, [])
     ]);
 
-    renderReviews(reviews, siteSettings.googleReviewsTotal);
+    renderReviews(reviews, siteSettings.totalGoogleReviews);
     renderInstagram(manualInstagram, fallbackInstagram);
   }
 

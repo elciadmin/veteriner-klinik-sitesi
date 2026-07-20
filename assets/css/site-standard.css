@@ -1,102 +1,85 @@
-/* Elçi site standardı: sayfa kimliğini korur, ortak ölçü ve hareketleri eşitler. */
-:root{--elci-content-width:1180px;--elci-header-logo:54px;--elci-motion-duration:.52s;--elci-motion-distance:18px}
-header .container,main>.container,section>.container,footer .container{width:min(var(--elci-content-width),calc(100% - 32px))!important;max-width:var(--elci-content-width)!important;margin-inline:auto!important}
-.header-top .container,.header-main .container{width:min(var(--elci-content-width),calc(100% - 32px))!important;max-width:var(--elci-content-width)!important}
-.header-main{min-height:112px!important}
-.header-main .container{min-height:112px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:28px!important}
-.logo-text,.brand-lockup{min-width:0!important}
-.brand-lockup{display:flex!important;align-items:center!important;gap:14px!important;width:auto!important;min-height:72px!important;padding:10px 16px!important;border-radius:22px!important}
-.brand-mark{width:var(--elci-header-logo)!important;height:var(--elci-header-logo)!important;min-width:var(--elci-header-logo)!important;display:grid!important;place-items:center!important}
-.brand-mark img{width:var(--elci-header-logo)!important;height:var(--elci-header-logo)!important;object-fit:contain!important}
-.brand-copy strong{font-size:clamp(1rem,1.35vw,1.34rem)!important;line-height:1.15!important}
-.header-signature{font-size:clamp(.9rem,1.15vw,1.12rem)!important;line-height:1.1!important}
-.header-main nav>ul,#mainMenu{gap:clamp(15px,1.6vw,27px)!important;align-items:center!important}
-.header-main nav>ul>li>a,#mainMenu>li>a{font-size:.94rem!important;line-height:1.2!important;padding-block:12px!important}
-.about-hero,.services-hero,.blog-hero,.faq-hero,.patient-hero{min-height:390px!important}
-.about-hero h1,.services-hero h1,.blog-hero h1,.faq-hero h1,.patient-hero h1{font-size:clamp(3rem,5.3vw,5.35rem)!important;line-height:.98!important;letter-spacing:-.045em!important;margin:10px 0 4px!important}
-.about-hero .signature-tagline,.services-hero .signature-tagline,.blog-hero .signature-tagline,.faq-hero .signature-tagline,.patient-hero .signature-tagline{font-size:clamp(2.2rem,4.1vw,4.15rem)!important;line-height:1.05!important}
-.about-hero p,.services-hero p,.blog-hero p,.faq-hero p,.patient-hero p{font-size:clamp(.95rem,1.2vw,1.08rem)!important;line-height:1.75!important;max-width:720px!important}
-.editorial-hero-card,.hero-side-card,.patient-hero-card{min-height:315px!important}
-.reveal{opacity:0;transform:translateY(var(--elci-motion-distance));transition:opacity var(--elci-motion-duration) ease,transform var(--elci-motion-duration) ease!important}
-.reveal.visible,.reveal.is-visible{opacity:1!important;transform:none!important}
-@media(prefers-reduced-motion:reduce){.reveal,.reveal.visible,.reveal.is-visible{opacity:1!important;transform:none!important;transition:none!important}*{scroll-behavior:auto!important}}
-@media(max-width:900px){.header-main{min-height:auto!important}.header-main .container{min-height:88px!important}.brand-lockup{min-height:64px!important;padding:8px 12px!important}.about-hero,.services-hero,.blog-hero,.faq-hero,.patient-hero{min-height:auto!important}.about-hero h1,.services-hero h1,.blog-hero h1,.faq-hero h1,.patient-hero h1{font-size:clamp(2.65rem,11vw,4.4rem)!important}}
-@media(max-width:560px){header .container,main>.container,section>.container,footer .container,.header-top .container,.header-main .container{width:min(100% - 22px,var(--elci-content-width))!important}.brand-mark,.brand-mark img{width:48px!important;height:48px!important;min-width:48px!important}.brand-copy strong{font-size:1rem!important}.header-signature{font-size:.9rem!important}}
-
-/* V7 kesin ortak üst alan ölçüleri */
-@media (min-width:901px){
-  .header-top{min-height:34px!important;height:34px!important;display:flex!important;align-items:center!important}
-  .header-top .container{min-height:34px!important;height:34px!important;display:flex!important;align-items:center!important;justify-content:space-between!important}
-  .brand-lockup{width:330px!important;max-width:330px!important;height:76px!important;min-height:76px!important}
-  .header-main nav{flex:0 0 auto!important}
-}
-
-/* Sayfalardaki eski özel başlık kurallarını kesin olarak eşitle */
-@media (min-width:901px){
-  .header-main .brand-lockup{width:330px!important;max-width:330px!important;min-width:330px!important;height:76px!important;min-height:76px!important;padding:10px 16px!important;gap:14px!important;border-radius:22px!important}
-  .header-main .brand-mark{width:54px!important;height:54px!important;min-width:54px!important;flex:0 0 54px!important;margin:0!important;border-radius:16px!important}
-  .header-main .brand-mark img{width:54px!important;height:54px!important;max-width:54px!important;padding:0!important;object-fit:contain!important}
-}
-@media (max-width:900px){
-  .header-main .brand-lockup{width:auto!important;max-width:100%!important;min-width:0!important;height:auto!important;min-height:64px!important;padding:8px 12px!important;gap:12px!important}
-  .header-main .brand-mark,.header-main .brand-mark img{width:48px!important;height:48px!important;min-width:48px!important;max-width:48px!important;flex-basis:48px!important}
-}
-
-/* Hasta ilişkileri mobil taşma düzeltmesi */
-body.patient-relations-page{overflow-x:clip!important}
-.patient-relations-page main,.patient-relations-page section,.patient-relations-page .container,.patient-relations-page .form-shell,.patient-relations-page .form,.patient-relations-page .process-card{min-width:0!important;max-width:100%!important}
-.patient-relations-page .form .consent input{
-  position:absolute!important;width:1px!important;height:1px!important;min-height:1px!important;
-  inline-size:1px!important;block-size:1px!important;margin:-1px!important;padding:0!important;border:0!important;
-  clip:rect(0 0 0 0)!important;overflow:hidden!important;white-space:nowrap!important
-}
-.patient-relations-page .consent,.patient-relations-page .terms-actions{max-width:100%!important;overflow-wrap:anywhere!important}
-
-/* Final mobile containment: no page may widen the viewport. */
-@media (max-width:700px){
-  html,body{max-width:100%!important;overflow-x:hidden!important}
-  body.patient-relations-page .brand-lockup{min-width:0!important;width:auto!important;max-width:100%!important}
-  body.patient-relations-page .patient-hero-grid,
-  body.patient-relations-page .feedback-layout,
-  body.patient-relations-page .process-grid,
-  body.patient-relations-page .form-grid,
-  body.patient-relations-page .hero-action-grid{min-width:0!important;max-width:100%!important}
-  body.patient-relations-page .patient-hero-card,
-  body.patient-relations-page .feedback-card,
-  body.patient-relations-page .form-shell{width:100%!important;min-width:0!important;max-width:100%!important}
-}
-
-/* Unified visual system — keeps existing service card geometry untouched. */
+/*
+  Elçi Veteriner Kliniği — koruyucu ortak katman.
+  Mevcut sayfa tasarımını, kart ölçülerini, yazı karakterlerini ve hero
+  geometrisini değiştirmez. Yalnızca ortak çizgi, hareket ve yönetilen içerik
+  bileşenlerindeki tutarsızlıkları eşitler.
+*/
 :root{
-  --elci-purple:#5a1fa8;--elci-purple-dark:#35106b;--elci-cyan:#20c4dd;
-  --elci-ink:#17212b;--elci-muted:#667184;--elci-line:rgba(83,45,129,.14);
-  --elci-font:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
-  --elci-section-space:clamp(64px,8vw,112px);--elci-hero-line-width:88px;
+  --elci-motion-duration:.46s;
+  --elci-motion-ease:cubic-bezier(.2,.75,.25,1);
+  --elci-hero-line-width:104px;
+  --elci-hero-line-height:3px;
 }
-html,body,button,input,textarea,select{font-family:var(--elci-font)!important}
-body{color:var(--elci-ink)}
-main>section:not(.hero):not([class*="hero"]){scroll-margin-top:120px}
-.about-hero,.services-hero,.blog-hero,.faq-hero,.patient-hero,
-.page-hero,.contact-hero,.gallery-hero,.team-hero{position:relative;overflow:hidden}
-.about-hero h1::after,.services-hero h1::after,.blog-hero h1::after,.faq-hero h1::after,.patient-hero h1::after,
-.page-hero h1::after,.contact-hero h1::after,.gallery-hero h1::after,.team-hero h1::after{
-  content:""!important;display:block!important;width:var(--elci-hero-line-width)!important;height:4px!important;
-  margin:20px 0 0!important;border-radius:999px!important;background:linear-gradient(90deg,var(--elci-purple),var(--elci-cyan))!important;
-}
-section{animation-duration:var(--elci-motion-duration)!important;animation-timing-function:cubic-bezier(.2,.75,.25,1)!important}
-.reveal,.fade-up,.animate-in{transition-duration:var(--elci-motion-duration)!important;transition-timing-function:cubic-bezier(.2,.75,.25,1)!important}
-/* Service cards intentionally retain their existing width, height, radius and grid rules. */
 
-/* Blog detail editorial text–image blocks */
+html{scroll-behavior:smooth}
+button,input,textarea,select{font-family:inherit}
+main>section{scroll-margin-top:132px}
+
+/* Mevcut hero başlık ve metin ölçülerine dokunulmaz; sadece çizgi eşitlenir. */
+.hero-divider{
+  width:var(--elci-hero-line-width)!important;
+  height:var(--elci-hero-line-height)!important;
+  min-height:var(--elci-hero-line-height)!important;
+  border-radius:999px!important;
+}
+
+/* Sayfalardaki mevcut reveal sistemlerini aynı hızda tamamlar. */
+.reveal,.fade-up,.animate-in{
+  transition-duration:var(--elci-motion-duration)!important;
+  transition-timing-function:var(--elci-motion-ease)!important;
+}
+
+/* Ana sayfa ve SSS sayfasında panelden gelen soru kartları aynı yapıyı kullanır. */
+#faqContent .faq,#homeFaqList .home-faq-item{width:100%;font-family:inherit}
+#faqContent .faq summary,#homeFaqList .home-faq-summary{
+  min-height:62px;
+  font-family:inherit;
+  font-size:1rem;
+  line-height:1.45;
+}
+#faqContent .faq p,#homeFaqList .home-faq-answer{
+  font-family:inherit;
+  font-size:.96rem;
+  line-height:1.72;
+}
+
+/* Blog detaylarında yönetilebilir editoryal metin–görsel akışı. */
+.blog-reader-body::after{content:"";display:block;clear:both}
 .blog-reader-body .editorial-block{margin:0 0 28px}
 .blog-reader-body .editorial-text{font-size:1.02rem;line-height:1.82;color:#253140}
-.blog-reader-body .editorial-text h2{margin:36px 0 14px;font-size:clamp(1.45rem,2.5vw,2rem);line-height:1.2;color:var(--elci-purple-dark)}
-.blog-reader-body .editorial-text p{margin:0 0 18px}.blog-reader-body .editorial-text ul,.blog-reader-body .editorial-text ol{padding-left:24px;margin:0 0 20px}
-.blog-reader-body .editorial-image{clear:both}.blog-reader-body .editorial-image img{display:block;width:100%;max-height:620px;object-fit:cover;border-radius:22px;box-shadow:0 20px 54px rgba(35,18,66,.13)}
-.blog-reader-body .editorial-image-standard{max-width:760px;margin-inline:auto}.blog-reader-body .editorial-image-left,.blog-reader-body .editorial-image-right{width:min(46%,420px)}
-.blog-reader-body .editorial-image-left{float:left;margin-right:26px}.blog-reader-body .editorial-image-right{float:right;margin-left:26px}
-.blog-reader-body .editorial-image figcaption{margin-top:10px;text-align:center;color:var(--elci-muted);font-size:.82rem;line-height:1.5}
-.blog-reader-body .editorial-quote{padding:22px 25px;border-left:5px solid var(--elci-cyan);border-radius:0 18px 18px 0;background:linear-gradient(135deg,#f4effc,#effbfe);color:var(--elci-purple-dark)}
-.blog-reader-body .editorial-quote p{margin:0;font-size:clamp(1.08rem,2vw,1.35rem);font-weight:720;line-height:1.6}.blog-reader-body .editorial-quote cite{display:block;margin-top:10px;color:var(--elci-muted);font-size:.82rem;font-style:normal}
-@media(max-width:720px){.blog-reader-body .editorial-image-left,.blog-reader-body .editorial-image-right{float:none;width:100%;margin-left:0;margin-right:0}.blog-reader-body .editorial-image img{border-radius:16px}}
+.blog-reader-body .editorial-text h2{margin:36px 0 14px;font-size:clamp(1.4rem,2.4vw,1.95rem);line-height:1.25;color:var(--brand,#4a138c)}
+.blog-reader-body .editorial-text p{margin:0 0 18px}
+.blog-reader-body .editorial-text ul,.blog-reader-body .editorial-text ol{padding-left:24px;margin:0 0 20px}
+.blog-reader-body .editorial-image{clear:both}
+.blog-reader-body .editorial-image img{display:block;width:100%;max-height:620px;object-fit:cover;border-radius:20px;box-shadow:0 18px 46px rgba(35,18,66,.12)}
+.blog-reader-body .editorial-image-standard{max-width:760px;margin-inline:auto}
 .blog-reader-body .editorial-image-wide{width:100%}
+.blog-reader-body .editorial-image-left,.blog-reader-body .editorial-image-right{width:min(46%,420px)}
+.blog-reader-body .editorial-image-left{float:left;margin-right:26px}
+.blog-reader-body .editorial-image-right{float:right;margin-left:26px}
+.blog-reader-body .editorial-image figcaption{margin-top:10px;text-align:center;color:#697586;font-size:.82rem;line-height:1.5}
+.blog-reader-body .editorial-quote{padding:22px 25px;border-left:4px solid var(--accent,#10b3d1);border-radius:0 16px 16px 0;background:#f7f4fb;color:#35106b}
+.blog-reader-body .editorial-quote p{margin:0;font-size:clamp(1.04rem,2vw,1.28rem);font-weight:720;line-height:1.6}
+.blog-reader-body .editorial-quote cite{display:block;margin-top:10px;color:#697586;font-size:.82rem;font-style:normal}
+
+/* Hasta ilişkileri ve formlarda yalnızca yatay taşmayı önler. */
+body.patient-relations-page{overflow-x:clip}
+.patient-relations-page main,.patient-relations-page section,.patient-relations-page .container,
+.patient-relations-page .form-shell,.patient-relations-page .form,.patient-relations-page .process-card{min-width:0;max-width:100%}
+.patient-relations-page .form .consent input{
+  position:absolute!important;width:1px!important;height:1px!important;margin:-1px!important;padding:0!important;
+  border:0!important;clip:rect(0 0 0 0)!important;overflow:hidden!important;white-space:nowrap!important
+}
+
+@media(max-width:720px){
+  html,body{max-width:100%;overflow-x:hidden}
+  main>section{scroll-margin-top:112px}
+  .blog-reader-body .editorial-image-left,.blog-reader-body .editorial-image-right{float:none;width:100%;margin-left:0;margin-right:0}
+  .blog-reader-body .editorial-image img{border-radius:15px}
+  #faqContent .faq summary,#homeFaqList .home-faq-summary{min-height:58px;font-size:.96rem}
+}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal,.fade-up,.animate-in{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}
+}

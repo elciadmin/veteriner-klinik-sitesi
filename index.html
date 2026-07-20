@@ -1149,8 +1149,8 @@
 </style>
 
 
-<link rel="stylesheet" href="/assets/css/site-standard.css?v=unified-2">
-<link rel="stylesheet" href="/assets/css/managed-content.css?v=final-1">
+<link rel="stylesheet" href="/assets/css/site-standard.css?v=restore-1">
+<link rel="stylesheet" href="/assets/css/managed-content.css?v=restore-1">
 </head>
 <body class="theme-elciKonya" data-page="home">
 <a class="skip-link" href="#ana-icerik">Ana içeriğe geç</a>
@@ -1190,11 +1190,11 @@
 <li class="dropdown">
 <a aria-expanded="false" aria-haspopup="true" href="/about">Hakkımızda</a>
 <div class="dropdown-content" role="menu">
-<a href="/about.html#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
-<a href="/about.html#ekibimiz" role="menuitem">Ekibimiz</a>
-<a href="/about.html#klinik" role="menuitem">Kliniğimiz</a>
-<a href="/about.html#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
-<a href="/about.html#degerler" role="menuitem">Değerlerimiz</a>
+<a href="/about#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
+<a href="/about#ekibimiz" role="menuitem">Ekibimiz</a>
+<a href="/about#klinik" role="menuitem">Kliniğimiz</a>
+<a href="/about#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
+<a href="/about#degerler" role="menuitem">Değerlerimiz</a>
 </div>
 </li>
 <li class="dropdown">
@@ -1205,7 +1205,7 @@
 <a href="/hizmetler.html#cerrahi" role="menuitem">Cerrahi Operasyonlar</a>
 <a href="/hizmetler.html#agiz-dis" role="menuitem">Ağız ve Diş Sağlığı</a>
 <a href="/hizmetler.html#ic-hastaliklari" role="menuitem">İç Hastalıkları</a>
-<a href="/hizmetler.html#ftr" role="menuitem">Fizik Tedavi</a>
+<a href="/hizmetler.html#fizik-tedavi" role="menuitem">Fizik Tedavi</a>
 <a href="/hizmetler.html#konaklama" role="menuitem">Konaklama</a>
 </div>
 </li>
@@ -1282,7 +1282,7 @@
 <section class="quick-links-band">
 <div class="container">
 <div class="quick-links">
-<a class="quick-link" href="/about.html#ekibimiz">
+<a class="quick-link" href="/about#ekibimiz">
 <div class="quick-icon">
 <i class="fa-solid fa-user-doctor"></i>
 </div>
@@ -1578,7 +1578,7 @@
 <li><a href="/hizmetler.html#cerrahi">Kısırlaştırma ve cerrahi</a></li>
 <li><a href="/hizmetler.html#agiz-dis">Ağız ve diş sağlığı</a></li>
 <li><a href="/hizmetler.html#ic-hastaliklari">İç hastalıkları ve laboratuvar</a></li>
-<li><a href="/hizmetler.html#ftr">Fizik tedavi ve rehabilitasyon</a></li>
+<li><a href="/hizmetler.html#fizik-tedavi">Fizik tedavi ve rehabilitasyon</a></li>
 </ul>
 </div>
 <div class="footer-col">
@@ -1701,6 +1701,17 @@
     window.addEventListener('DOMContentLoaded', function(){
       const y=document.getElementById('yil'); if(y) y.textContent=new Date().getFullYear();
 
+      const btn=document.getElementById('mobileMenuBtn');
+      const menu=document.getElementById('mainMenu');
+      if(btn && menu){
+        const toggleMenu = (state) => {
+          menu.classList.toggle('show', state);
+          document.body.classList.toggle('menu-open', state);
+        };
+        btn.addEventListener('click', ()=> toggleMenu(!menu.classList.contains('show')));
+        menu.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> toggleMenu(false)));
+      }
+
       // Diğer hizmetler: kart kart kayan, boşluksuz ve scroll-snap destekli slider
       const track=document.getElementById('servicesTrack');
       const prev=document.getElementById('svcPrev');
@@ -1724,7 +1735,6 @@
     });
   </script>
 <!-- ANA SAYFA SSS: panelde seçilen en fazla 6 soru -->
-
 <!-- SVG ICON SPRITE (Hizmetler + Index birleşik set) -->
 <svg style="position:absolute;width:0;height:0;overflow:hidden" xmlns="http://www.w3.org/2000/svg">
 <defs><style>
@@ -1828,11 +1838,12 @@
 <path class="i" d="M7.2 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM16.8 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM10.2 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM13.8 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM6.5 15.2c0-2.6 2.3-4.7 5.5-4.7s5.5 2.1 5.5 4.7c0 1.6-1.5 2.8-3.4 2.8-1 0-1.9-.3-2.1-.8-.3.5-1.1.8-2.1.8-1.9 0-3.4-1.2-3.4-2.8z"></path>
 </symbol>
 </svg>
-  <script src="/assets/js/home-content.js?v=2.2"></script>
+<script src="/assets/js/home-content.js?v=2.2"></script>
 
-<script defer src="/assets/js/site-settings.js?v=unified-2"></script>
-<script defer src="/assets/js/page-settings.js?v=unified-2"></script>
-<script defer src="/assets/js/services-sync.js?v=unified-2"></script>
-<script defer src="/assets/js/managed-home.js?v=final-1"></script>
-<script defer src="/assets/js/site-standard.js?v=unified-2"></script></body>
+
+<script defer src="/assets/js/site-settings.js?v=restore-1"></script>
+<script defer src="/assets/js/services-sync.js?v=restore-1"></script>
+<script defer src="/assets/js/managed-home.js?v=restore-1"></script>
+<script defer src="/assets/js/site-standard.js?v=restore-1"></script>
+</body>
 </html>

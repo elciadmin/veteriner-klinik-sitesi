@@ -32,20 +32,7 @@
   (function initHeader(){
     const btn = $("#mobileMenuBtn");
     const menu = $("#mainMenu");
-    const setMenu = open => {
-      if(!btn || !menu) return;
-      menu.classList.toggle("show", Boolean(open));
-      document.body.classList.toggle("menu-open", Boolean(open));
-      btn.setAttribute("aria-expanded", String(Boolean(open)));
-      const icon=btn.querySelector("i");
-      if(icon) icon.className=open?"fa-solid fa-xmark":"fa-solid fa-bars";
-    };
-    if(btn && menu){
-      btn.setAttribute("aria-expanded","false");
-      btn.addEventListener("click", ()=>setMenu(!menu.classList.contains("show")));
-      menu.querySelectorAll(":scope > li > a:not(.dropdown > a), .dropdown-content a").forEach(link=>link.addEventListener("click",()=>setMenu(false)));
-      window.addEventListener("resize",()=>{if(window.innerWidth>992)setMenu(false)});
-    }
+    btn && btn.addEventListener("click", ()=> menu.classList.toggle("show"));
 
     // Mobilde dropdown click ile aç/kapa + aria
     $$("#mainMenu .dropdown > a").forEach(a=>{
@@ -235,14 +222,14 @@
     }, 2800);
   })();
 
-  // ---- GOOGLE YORUMLARI (ana sayfa için seçilen 6 kayıt)
+  // ---- GOOGLE YORUMLARI (8’li)
   (async function initReviews8(){
     const section = $("#reviews");
     const grid = $("#reviewGrid");
     if(!section || !grid) return;
 
-    const SRC = "/assets/data/home-reviews.json?v=final-1";
-    const VISIBLE = 6;
+    const SRC = section.getAttribute("data-json") || "/assets/data/reviews.json";
+    const VISIBLE = 8;
     const INTERVAL = 10000;
     const STAGGER = 50;
     let all = [], idx = 0, timer=null, paused=false;

@@ -26,7 +26,9 @@
 
   function renderFaq(items){
     const wrap=document.getElementById('homeFaqList');if(!wrap)return;
-    wrap.innerHTML=items.length?items.slice(0,6).map(item=>`<details class="faq" id="${esc(item.id)}"><summary>${esc(item.q)}</summary><p>${esc(item.a)}</p></details>`).join(''):'<p class="elci-data-message">Ana sayfa için henüz soru seçilmedi.</p>';
+    const answer=value=>esc(value).replace(/\n/g,'<br>').replace(/0332 322 32 20/g,'<a href="tel:03323223220">0332 322 32 20</a>');
+    wrap.innerHTML=items.length?items.slice(0,6).map(item=>`<details class="home-faq-item" id="${esc(item.id)}"><summary class="home-faq-summary"><span class="home-faq-question"><span class="home-faq-dot" aria-hidden="true"></span><span>${esc(item.q)}</span></span><i class="fa-solid fa-chevron-down home-faq-chevron" aria-hidden="true"></i></summary><div class="home-faq-answer"><p>${answer(item.a)}</p><a href="/sss.html#${encodeURIComponent(item.id||'')}">SSS sayfasında aç</a></div></details>`).join(''):'<p class="home-faq-status">Ana sayfa için henüz soru seçilmedi.</p>';
+    wrap.querySelectorAll('details').forEach(detail=>detail.addEventListener('toggle',()=>{if(!detail.open)return;wrap.querySelectorAll('details[open]').forEach(other=>{if(other!==detail)other.open=false})}));
   }
 
   function stars(rating){return `<div class="stars" aria-label="${rating} yıldız">${Array.from({length:5},(_,i)=>`<span class="s" aria-hidden="true">${i<rating?'★':'☆'}</span>`).join('')}</div>`}

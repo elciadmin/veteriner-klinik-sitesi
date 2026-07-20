@@ -5,7 +5,7 @@ import { execFileSync } from 'node:child_process';
 const ROOT = process.cwd();
 const DIST = path.join(ROOT, 'dist');
 const NOW = Date.now();
-const SAFE_DEPLOY_SEGMENT = /^[A-Za-z0-9._-]+$/;
+const SAFE_DEPLOY_SEGMENT = /^[^\u0000-\u001F/\\]+$/;
 const excludedTop = new Set([
   '.git', '.github', '.netlify', 'dist', 'node_modules', '_ELCI_YEDEK',
   'content', 'settings', 'scripts', 'netlify',

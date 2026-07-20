@@ -1,6 +1,6 @@
 {
+  "published": true,
   "title": "Online randevu talebi gönderildiğinde randevu kesinleşir mi?",
   "category": "Randevu & Süreç",
-  "answer": "Hayır. Form, uygunluk değerlendirmesi için ön talep oluşturur. Randevu, kliniğimiz tarafından telefonla teyit edildikten sonra kesinleşir.",
-  "status": "published"
+  "answer": "Hayır. Form, uygunluk değerlendirmesi için ön talep oluşturur. Randevu, kliniğimiz tarafından telefonla teyit edildikten sonra kesinleşir."
 }

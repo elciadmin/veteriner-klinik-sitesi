@@ -1,0 +1,33 @@
+ELÇİ VETERİNER KLİNİĞİ — DÜZELTİLMİŞ TEST PAKETİ
+
+Koruma kontrolü
+- Paket, main dalındaki profesyonel halka açık sayfalar baz alınarak hazırlandı.
+- 13 mevcut HTML sayfasındaki kullanıcıya görünen statik metinler main ile karşılaştırıldı: 0 fark.
+- Mevcut href/src/action bağlantıları korundu. Eski content-sync.js yalnızca iki sayfayı aynı services.json kaynağına bağlayan services-sync.js ile değiştirildi.
+- Hizmet kartlarının mevcut HTML sınıfları, grid yapıları ve ölçüleri değiştirilmedi.
+- Hero alanındaki kurumsal el yazısı yalnızca “Sağlığın Elçi’leriyiz” metninde bırakıldı; yönetilen açıklama normal hero metnine yazılır.
+
+Yönetim ve veri
+- Tek yönetim arayüzü: /admin/ — Elçi Yönetim Merkezi.
+- Eski admin adresleri ilgili tek-panel bölümlerine yönlenir.
+- Hizmetler: tek kaynak assets/data/services.json; 15 yayında, 6 öne çıkan.
+- Panelden ekleme/düzenleme/arşivleme hem ana sayfaya hem Hizmetler sayfasına yansır.
+- Blog ve duyurular; metin, görsel ve alıntı bloklarıyla yönetilir.
+- SSS, yorumlar, Instagram, başarı hikâyeleri, sayfa başlıkları ve site ayarları yönetilir.
+- Paylaşım takvimi aylık ve haftalık görünümle yönetilir.
+- Netlify form randevuları panelde listelenir; durum ve klinik içi not güncellenir.
+
+Geçen testler
+- npm ci
+- npm run build
+- npm run check
+- Tüm JSON dosyalarının ayrıştırılması
+- Yerel href/src/action bağlantı denetimi
+- JavaScript sözdizimi denetimi
+- 8 CSS dosyasının ayrıştırılması: 0 hata
+- Netlify resmi fonksiyon paketleyicisi: 7/7 fonksiyon başarıyla paketlendi
+
+Güvenlik
+- Varsayılan ve yerel çalışma dalı: elci-yonetim-v3-test
+- main dalına otomatik yazma yapılmaz.
+- Canlıya almadan önce yalnızca Deploy Preview üzerinde onaylanmalıdır.

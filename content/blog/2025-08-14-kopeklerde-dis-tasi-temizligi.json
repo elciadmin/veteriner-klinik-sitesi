@@ -2,6 +2,7 @@
   "published": true,
   "title": "Köpeklerde Diş Taşı Temizliği Neden Önemli?",
   "date": "2025-08-14T14:00:00+03:00",
+  "category": "Ağız ve Diş Sağlığı",
   "species": "Köpek",
   "tags": [
     "köpek",
@@ -17,12 +18,5 @@
     "seoDescription": "Diş taşı ve periodontal hastalık riskini azaltmak için düzenli dental bakım neden şart?",
     "youtubeId": "",
     "author": "Elçi Veteriner"
-  },
-  "status": "published",
-  "contentType": "blog",
-  "categories": [
-    "Ağız ve Diş Sağlığı"
-  ],
-  "customCategories": [],
-  "author": "Elçi Veteriner Kliniği"
+  }
 }

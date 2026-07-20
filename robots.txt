@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-Disallow: /admin/
-Sitemap: https://elciveteriner.com/sitemap.xml
+Sitemap: https://example.com/sitemap.xml

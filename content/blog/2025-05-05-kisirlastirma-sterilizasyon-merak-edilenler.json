@@ -2,6 +2,7 @@
   "published": true,
   "title": "Kısırlaştırma (Sterilizasyon) Hakkında Merak Edilenler",
   "date": "2025-05-05T13:20:00+03:00",
+  "category": "Cerrahi ve Operasyonlar",
   "species": "Kedi ve Köpek",
   "tags": [
     "kısırlaştırma",
@@ -17,12 +18,5 @@
     "seoDescription": "Operasyon öncesi-sonrası süreçler ve uzun vadeli sağlık etkileri.",
     "youtubeId": "",
     "author": "Elçi Veteriner"
-  },
-  "status": "published",
-  "contentType": "blog",
-  "categories": [
-    "Cerrahi ve Operasyonlar"
-  ],
-  "customCategories": [],
-  "author": "Elçi Veteriner Kliniği"
+  }
 }

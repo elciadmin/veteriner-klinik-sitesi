@@ -685,7 +685,7 @@
     color:#155c36;
   }
   .appointment-submit-status.success::before{
-    content:"\f00c";
+    content:"00c";
     background:#d8f3e3;
     color:#167542;
   }
@@ -695,7 +695,7 @@
     color:#842d2d;
   }
   .appointment-submit-status.error::before{
-    content:"\f071";
+    content:"071";
     background:#ffe0e0;
     color:#b72f2f;
   }
@@ -726,8 +726,8 @@
     }
   }
 </style>
-<link rel="stylesheet" href="/assets/css/site-standard.css?v=unified-2">
-<link rel="stylesheet" href="/assets/css/managed-content.css?v=final-1">
+<link rel="stylesheet" href="/assets/css/site-standard.css?v=restore-1">
+<link rel="stylesheet" href="/assets/css/managed-content.css?v=restore-1">
 </head>
 <body class="patient-relations-page">
   <a class="skip-link" href="#ana-icerik">İçeriğe geç</a>
@@ -740,7 +740,7 @@
           <span><i class="fa-solid fa-location-dot"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</span>
         </div>
         <div class="header-contact">
-          <a href="tel:+903323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a>
+          <a href="tel:03323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a>
           <a href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> elcivetklinik@gmail.com</a>
         </div>
       </div>
@@ -765,11 +765,11 @@
             <li class="dropdown">
               <a href="/about" aria-haspopup="true" aria-expanded="false">Hakkımızda</a>
               <div class="dropdown-content" role="menu">
-                <a href="/about.html#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
-                <a href="/about.html#ekibimiz" role="menuitem">Ekibimiz</a>
-                <a href="/about.html#klinik" role="menuitem">Kliniğimiz</a>
-                <a href="/about.html#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
-                <a href="/about.html#degerler" role="menuitem">Değerlerimiz</a>
+                <a href="/about#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
+                <a href="/about#ekibimiz" role="menuitem">Ekibimiz</a>
+                <a href="/about#klinik" role="menuitem">Kliniğimiz</a>
+                <a href="/about#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
+                <a href="/about#degerler" role="menuitem">Değerlerimiz</a>
               </div>
             </li>
 
@@ -781,7 +781,7 @@
                 <a href="/hizmetler.html#cerrahi" role="menuitem">Cerrahi Operasyonlar</a>
                 <a href="/hizmetler.html#agiz-dis" role="menuitem">Ağız ve Diş Sağlığı</a>
                 <a href="/hizmetler.html#ic-hastaliklari" role="menuitem">İç Hastalıkları</a>
-                <a href="/hizmetler.html#ftr" role="menuitem">Fizik Tedavi</a>
+                <a href="/hizmetler.html#fizik-tedavi" role="menuitem">Fizik Tedavi</a>
                 <a href="/hizmetler.html#konaklama" role="menuitem">Konaklama</a>
               </div>
             </li>
@@ -877,7 +877,7 @@
       <div class="form-shell appointment-shell">
       <div class="alert critical" role="alert">
         <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
-        <div><strong>Hayati risk varsa formu beklemeden <a href="tel:+903323223220">0332 322 32 20</a> numarasını arayın.</strong><br>Bu form yalnızca randevu talebi oluşturur; randevu, kliniğimizin telefonla teyidinden sonra kesinleşir.</div>
+        <div><strong>Hayati risk varsa formu beklemeden <a href="tel:03323223220">0332 322 32 20</a> numarasını arayın.</strong><br>Bu form yalnızca randevu talebi oluşturur; randevu, kliniğimizin telefonla teyidinden sonra kesinleşir.</div>
       </div>
 
       <form name="online-randevu" class="form" method="POST" action="/hasta-iliskileri.html?form=success#online-randevu" data-netlify="true" netlify-honeypot="bot-field">
@@ -979,7 +979,7 @@
         <textarea name="not" placeholder="Kısaca şikâyet/istek (son 12 saatte ilaç, kusma/ishal, iştah vb.)" rows="4"></textarea>
 
         <!-- KVKK AYDINLATMA + RANDEVU KOŞULLARI -->
-        <div class="terms-wrap" id="kvkk">
+        <div class="terms-wrap">
           <div class="terms-title"><i class="fa-solid fa-shield-heart"></i><strong>KVKK ve Randevu Koşulları</strong></div>
           <p class="terms-summary">
             Veri sorumlusu <strong>Elçi Veterinerlik Sanayi Ticaret Limited Şirketi</strong>dir; hizmetler <strong>Elçi Veteriner Kliniği</strong> markasıyla sunulur.
@@ -1005,7 +1005,7 @@
           <a id="btnKonum" class="btn" href="https://www.google.com/maps/dir/?api=1&destination=Havzan+Mah.+Yeni+Meram+Cad.+17/1+Meram+Konya" target="_blank" rel="noopener">
             <i class="fa-solid fa-map-location-dot"></i> Konum
           </a>
-          <a id="btnAra" class="btn" href="tel:+903323223220">
+          <a id="btnAra" class="btn" href="tel:03323223220">
             <i class="fa-solid fa-phone"></i> Ara
           </a>
         </div>
@@ -1115,7 +1115,7 @@
         <div class="form-actions">
           <button class="btn" type="submit">Gönder</button>
           <a class="btn ghost" href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> E-posta</a>
-          <a class="btn ghost" href="tel:+903323223220"><i class="fa-solid fa-phone"></i> Ara</a>
+          <a class="btn ghost" href="tel:03323223220"><i class="fa-solid fa-phone"></i> Ara</a>
         </div>
       </form>
         </div>
@@ -1163,7 +1163,7 @@
           <li><a href="/hizmetler.html#cerrahi">Konya’da Cerrahi Operasyonlar</a></li>
           <li><a href="/hizmetler.html#agiz-dis">Konya’da Ağız ve Diş Sağlığı</a></li>
           <li><a href="/hizmetler.html#ic-hastaliklari">Konya’da İç Hastalıkları</a></li>
-          <li><a href="/hizmetler.html#ftr">Konya’da Fizik Tedavi</a></li>
+          <li><a href="/hizmetler.html#fizik-tedavi">Konya’da Fizik Tedavi</a></li>
         </ul>
       </div>
 
@@ -1173,7 +1173,7 @@
           <li><i class="fa-solid fa-location-dot"></i>
             <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a>
           </li>
-          <li><i class="fa-solid fa-phone"></i> <a href="tel:+903323223220">0332 322 32 20</a></li>
+          <li><i class="fa-solid fa-phone"></i> <a href="tel:03323223220">0332 322 32 20</a></li>
           <li><i class="fa-solid fa-envelope"></i> <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></li>
           <li><i class="fa-solid fa-clock"></i> <span>Her gün: 09:00–21:00</span></li>
         </ul>
@@ -1788,7 +1788,7 @@
     const btnAra = document.getElementById('btnAra');
     const callPop = document.createElement('div');
     callPop.className='call-pop';
-    callPop.innerHTML = `Aramak için <a href="tel:+903323223220">0332 322 32 20</a>`;
+    callPop.innerHTML = `Aramak için <a href="tel:03323223220">0332 322 32 20</a>`;
     document.body.appendChild(callPop);
 
     function isMobile(){
@@ -1809,7 +1809,9 @@
   })();
   </script>
 
-<script defer src="/assets/js/site-settings.js?v=unified-2"></script>
-<script defer src="/assets/js/page-settings.js?v=unified-2"></script>
-<script defer src="/assets/js/site-standard.js?v=unified-2"></script></body>
+
+<script defer src="/assets/js/site-settings.js?v=restore-1"></script>
+<script defer src="/assets/js/page-settings.js?v=restore-1"></script>
+<script defer src="/assets/js/site-standard.js?v=restore-1"></script>
+</body>
 </html>

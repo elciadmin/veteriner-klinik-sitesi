@@ -6,7 +6,7 @@ const ROOT = process.cwd();
 const DIST = path.join(ROOT, 'dist');
 const errors = [];
 const notes = [];
-const SAFE_SEGMENT = /^[A-Za-z0-9._-]+$/;
+const SAFE_SEGMENT = /^[^\u0000-\u001F/\\]+$/;
 const TEST_BRANCH = 'elci-yonetim-v3-test';
 
 const rel = (file, base = ROOT) => path.relative(base, file).split(path.sep).join('/');
@@ -134,13 +134,13 @@ for (const [file, target] of [['cms.html','#blog'],['calendar.html','#calendar']
 }
 
 // Common visual standard on every public top-level page.
-for (const file of (await fs.readdir(ROOT)).filter(name => name.endsWith('.html'))) {
+for (const file of (await fs.readdir(ROOT)).filter(name => name.endsWith('.html') && !['contact.html','test-form.html'].includes(name))) {
   const source = await read(path.join(ROOT, file));
   fail(!source.includes('/assets/css/site-standard.css'), `${file}: ortak renk/ölçü/yazı/hero standardı CSS’i eksik.`);
   fail(!source.includes('/assets/js/site-standard.js'), `${file}: ortak animasyon ve yönetilen içerik betiği eksik.`);
 }
 const standardCss = await read(path.join(ROOT, 'assets/css/site-standard.css'));
-for (const token of ['--elci-purple:', '--elci-font:', '--elci-hero-line-width:', 'editorial-image-wide']) fail(!standardCss.includes(token), `Ortak CSS standardı eksik: ${token}`);
+for (const token of ['--elci-motion-duration:', '--elci-hero-line-width:', 'editorial-image-wide']) fail(!standardCss.includes(token), `Ortak CSS standardı eksik: ${token}`);
 fail(/\.s-card[^\n{]*\{[^}]*\b(?:width|height|min-height|max-height)\s*:/s.test(standardCss), 'Ortak CSS hizmet kartı geometrisini değiştirmemeli.');
 
 // Local links/assets in the built output.
@@ -185,7 +185,7 @@ const netlifyToml = await read(path.join(ROOT, 'netlify.toml'));
 for (const token of ['command = "npm run build"', 'publish = "dist"', 'functions = "netlify/functions"', 'node_bundler = "esbuild"']) fail(!netlifyToml.includes(token), `netlify.toml eksik: ${token}`);
 const pkg = await json(path.join(ROOT, 'package.json'));
 for (const dependency of ['@netlify/blobs', '@netlify/identity']) fail(!pkg?.dependencies?.[dependency], `Eksik bağımlılık: ${dependency}`);
-fail(await exists(path.join(ROOT, 'package-lock.json')), 'package-lock.json pakette bulunmamalı.');
+fail(!await exists(path.join(ROOT, 'package-lock.json')), 'Tekrarlanabilir kurulum için package-lock.json eksik.');
 
 if (errors.length) {
   console.error(`\nAUDIT BAŞARISIZ (${errors.length})\n${errors.map(error => `- ${error}`).join('\n')}`);

@@ -477,7 +477,7 @@
     if (resource === 'faq') return `${item.category || 'Genel'}${item.showOnHome ? ' • Ana sayfada' : ''}`;
     if (resource === 'reviews') return `${'★'.repeat(Number(item.rating) || 5)}${item.showOnHome ? ' • Ana sayfada' : ''}`;
     if (resource === 'instagram') return item.caption || item.alt || 'Instagram görseli';
-    if (resource === 'services') return `${item.group || 'Diğer hizmetler'}${item.showOnHome ? ' • Ana sayfada' : ''} • Sıra ${Number(item.order) || '—'}`;
+    if (resource === 'services') return `${item.group || 'Diğer hizmetler'}${item.showOnHome ? ' • Öne çıkan kart' : ' • Ana sayfa alt listesi'} • Sıra ${Number(item.order) || '—'}`;
     if (resource === 'stories') return `${item.petName || ''} • ${item.species || ''}`;
     if (resource === 'pages') return item.title || '';
     return '';
@@ -487,6 +487,46 @@
     if (resource === 'blog') return item.cover;
     if (resource === 'instagram' || resource === 'stories') return item.image || (item.file ? `/assets/img/insta/${item.file}` : '');
     return '';
+  }
+
+  async function updateServiceQuick(id, action) {
+    const items = resourceItems('services');
+    const item = items.find(entry => itemId(entry) === id);
+    if (!item) return;
+    const active = items.filter(entry => effectiveStatus(entry) !== 'archived')
+      .sort((a, b) => (Number(a.order) || 9999) - (Number(b.order) || 9999));
+
+    if (action === 'home') {
+      item.showOnHome = !item.showOnHome;
+      item.updatedAt = nowIso();
+    } else if (action === 'up' || action === 'down') {
+      const index = active.indexOf(item);
+      const nextIndex = action === 'up' ? index - 1 : index + 1;
+      if (index < 0 || nextIndex < 0 || nextIndex >= active.length) return;
+      const other = active[nextIndex];
+      const currentOrder = Number(item.order) || index + 1;
+      item.order = Number(other.order) || nextIndex + 1;
+      other.order = currentOrder;
+      item.updatedAt = nowIso(); other.updatedAt = nowIso();
+    }
+
+    try {
+      await saveResource('services', `Panel: hizmet hızlı düzenleme — ${item.title}`);
+      renderContentList('services');
+    } catch (error) {
+      toast('Hizmet güncellenemedi', error.message, 'error');
+    }
+  }
+
+  function renderServiceCards(items) {
+    const homeCount = items.filter(item => item.showOnHome).length;
+    return `<div class="service-list-summary"><span><strong>${items.length}</strong> aktif hizmet</span><span><strong>${homeCount}</strong> öne çıkan kart</span><small>Ana sayfada tüm aktif hizmetler görünür; işaretli ilk 6 hizmet üst bölümde öne çıkar.</small></div>
+      <div class="service-admin-grid">${items.map((item, index) => `<article class="service-admin-card">
+        <header><span class="service-order">${Number(item.order) || index + 1}</span><div><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.group || 'Diğer hizmetler')}</p></div>${statusChip(item)}</header>
+        <p class="service-admin-summary">${escapeHtml(item.summary || 'Kısa açıklama eklenmemiş.')}</p>
+        <div class="service-badges"><span>Hizmetler sayfasında</span>${item.showOnHome ? '<span class="featured">Ana sayfada öne çıkan</span>' : '<span>Ana sayfa alt listesinde</span>'}</div>
+        <footer><div class="service-order-actions"><button class="icon-button" data-service-action="up" data-service-id="${safeAttr(itemId(item))}" title="Yukarı taşı" aria-label="Yukarı taşı">↑</button><button class="icon-button" data-service-action="down" data-service-id="${safeAttr(itemId(item))}" title="Aşağı taşı" aria-label="Aşağı taşı">↓</button></div><div class="row-actions"><button class="button compact" data-service-action="home" data-service-id="${safeAttr(itemId(item))}">${item.showOnHome ? 'Öne çıkandan çıkar' : 'Öne çıkar'}</button><button class="button compact" data-edit="${safeAttr(itemId(item))}">Düzenle</button><button class="button compact danger" data-archive="${safeAttr(itemId(item))}">Arşivle</button></div></footer>
+      </article>`).join('')}</div>`;
   }
 
   function renderContentList(resource) {
@@ -517,19 +557,26 @@
         if (wantedCategory !== 'all' && ![item.category, item.species, item.group].includes(wantedCategory)) return false;
         return !query || normalize(searchableText(resource, item)).includes(query);
       }).sort((a, b) => resource === 'services' ? (Number(a.order) || 9999) - (Number(b.order) || 9999) : 0);
-      $('#listContainer').innerHTML = items.length ? `
-        <table class="content-table"><thead><tr><th>İçerik</th><th>Durum</th><th>Güncelleme</th><th></th></tr></thead><tbody>
-        ${items.map(item => {
-          const image = itemImage(resource, item);
-          return `<tr>
-            <td data-label="İçerik"><div class="item-title">${image ? `<img class="item-thumb" src="${safeAttr(image)}" alt="">` : ''}<div><strong>${escapeHtml(itemTitle(resource, item))}</strong><small>${escapeHtml(itemSubtitle(resource, item))}</small></div></div></td>
-            <td data-label="Durum">${statusChip(item)}</td>
-            <td data-label="Güncelleme">${formatDate(item.updatedAt || item.date || item.createdAt)}</td>
-            <td><div class="row-actions"><button class="button compact" data-edit="${safeAttr(itemId(item))}">Düzenle</button>${resource !== 'pages' ? `<button class="button compact danger" data-archive="${safeAttr(itemId(item))}">Arşivle</button>` : ''}</div></td>
-          </tr>`;
-        }).join('')}</tbody></table>` : '<div class="empty-state"><strong>Kayıt bulunamadı</strong><span>Aramayı değiştirin veya yeni içerik ekleyin.</span></div>';
-      $('#listContainer').querySelectorAll('[data-edit]').forEach(button => button.addEventListener('click', () => openEditor(resource, button.dataset.edit)));
-      $('#listContainer').querySelectorAll('[data-archive]').forEach(button => button.addEventListener('click', () => archiveItem(resource, button.dataset.archive)));
+
+      const container = $('#listContainer');
+      if (resource === 'services') {
+        container.innerHTML = items.length ? renderServiceCards(items) : '<div class="empty-state"><strong>Kayıt bulunamadı</strong><span>Aramayı değiştirin veya yeni hizmet ekleyin.</span></div>';
+        container.querySelectorAll('[data-service-action]').forEach(button => button.addEventListener('click', () => updateServiceQuick(button.dataset.serviceId, button.dataset.serviceAction)));
+      } else {
+        container.innerHTML = items.length ? `
+          <table class="content-table"><thead><tr><th>İçerik</th><th>Durum</th><th>Güncelleme</th><th></th></tr></thead><tbody>
+          ${items.map(item => {
+            const image = itemImage(resource, item);
+            return `<tr>
+              <td data-label="İçerik"><div class="item-title">${image ? `<img class="item-thumb" src="${safeAttr(image)}" alt="">` : ''}<div><strong>${escapeHtml(itemTitle(resource, item))}</strong><small>${escapeHtml(itemSubtitle(resource, item))}</small></div></div></td>
+              <td data-label="Durum">${statusChip(item)}</td>
+              <td data-label="Güncelleme">${formatDate(item.updatedAt || item.date || item.createdAt)}</td>
+              <td><div class="row-actions"><button class="button compact" data-edit="${safeAttr(itemId(item))}">Düzenle</button>${resource !== 'pages' ? `<button class="button compact danger" data-archive="${safeAttr(itemId(item))}">Arşivle</button>` : ''}</div></td>
+            </tr>`;
+          }).join('')}</tbody></table>` : '<div class="empty-state"><strong>Kayıt bulunamadı</strong><span>Aramayı değiştirin veya yeni içerik ekleyin.</span></div>';
+      }
+      container.querySelectorAll('[data-edit]').forEach(button => button.addEventListener('click', () => openEditor(resource, button.dataset.edit)));
+      container.querySelectorAll('[data-archive]').forEach(button => button.addEventListener('click', () => archiveItem(resource, button.dataset.archive)));
     };
     [search, status, category].filter(Boolean).forEach(element => element.addEventListener('input', draw));
     draw();
@@ -747,7 +794,7 @@
 
     if (resource === 'instagram') return `<form id="editorForm" class="form-grid">${imageEditor('instagram', item)}${statusFields()}<div class="form-group"><label>Kısa başlık</label><input name="title" value="${safeAttr(item.title)}"></div><div class="form-group"><label>Instagram gönderi bağlantısı</label><input type="url" name="instagramUrl" value="${safeAttr(item.instagramUrl)}"></div><div class="form-group full"><label>Açıklama</label><textarea name="caption" rows="4">${escapeHtml(item.caption)}</textarea></div><div class="form-group full"><label>Görsel açıklaması <small>(erişilebilirlik)</small></label><input name="alt" value="${safeAttr(item.alt)}"></div>${footer()}</form>`;
 
-    if (resource === 'services') return `<form id="editorForm" class="form-grid">${statusFields()}<div class="form-group"><label>Hizmet başlığı *</label><input name="title" required value="${safeAttr(item.title)}"></div><div class="form-group"><label>Sayfa bağlantısı</label><input name="href" value="${safeAttr(item.href)}" placeholder="/hizmetler.html#hizmet-adi"></div><div class="form-group"><label>Hizmet grubu</label><input name="group" value="${safeAttr(item.group || 'Diğer hizmetler')}" list="serviceGroups"><datalist id="serviceGroups"><option>Dahili branşlar</option><option>Cerrahi, hareket ve üreme</option><option>Destek ve özel süreçler</option><option>Diğer hizmetler</option></datalist></div><div class="form-group"><label>Sıralama</label><input type="number" min="1" name="order" value="${safeAttr(item.order || 99)}"></div><div class="form-group full"><label>Kısa açıklama *</label><textarea name="summary" required rows="4">${escapeHtml(item.summary)}</textarea></div><div class="form-group full"><label>Detaylı açıklama</label><textarea name="detail" rows="7">${escapeHtml(item.detail)}</textarea></div><div class="form-group"><label>SVG ikon kodu</label><input name="icon" value="${safeAttr(item.icon)}" placeholder="#i-stethoscope"></div><div class="form-group"><label>Font Awesome sınıfı <small>(isteğe bağlı)</small></label><input name="faIcon" value="${safeAttr(item.faIcon || '')}" placeholder="fa-solid fa-stethoscope"></div><div class="form-group full"><label class="check-row"><input type="checkbox" name="showOnHome" ${item.showOnHome ? 'checked' : ''}><span>Ana sayfada göster <small>(en fazla 6 hizmet)</small></span></label></div>${footer()}</form>`;
+    if (resource === 'services') return `<form id="editorForm" class="form-grid">${statusFields()}<div class="form-group"><label>Hizmet başlığı *</label><input name="title" required value="${safeAttr(item.title)}"></div><div class="form-group"><label>Sayfa bağlantısı</label><input name="href" value="${safeAttr(item.href)}" placeholder="/hizmetler.html#hizmet-adi"></div><div class="form-group"><label>Hizmet grubu</label><input name="group" value="${safeAttr(item.group || 'Diğer hizmetler')}" list="serviceGroups"><datalist id="serviceGroups"><option>Dahili branşlar</option><option>Cerrahi, hareket ve üreme</option><option>Destek ve özel süreçler</option><option>Diğer hizmetler</option></datalist></div><div class="form-group"><label>Sıralama</label><input type="number" min="1" name="order" value="${safeAttr(item.order || 99)}"></div><div class="form-group full"><label>Kısa açıklama *</label><textarea name="summary" required rows="4">${escapeHtml(item.summary)}</textarea></div><div class="form-group full"><label>Detaylı açıklama</label><textarea name="detail" rows="7">${escapeHtml(item.detail)}</textarea></div><div class="form-group"><label>SVG ikon kodu</label><input name="icon" value="${safeAttr(item.icon)}" placeholder="#i-stethoscope"></div><div class="form-group"><label>Font Awesome sınıfı <small>(isteğe bağlı)</small></label><input name="faIcon" value="${safeAttr(item.faIcon || '')}" placeholder="fa-solid fa-stethoscope"></div><div class="form-group full"><label class="check-row"><input type="checkbox" name="showOnHome" ${item.showOnHome ? 'checked' : ''}><span>Ana sayfada öne çıkan ilk 6 karttan biri olsun <small>(diğer aktif hizmetler alt listede görünmeye devam eder)</small></span></label></div>${footer()}</form>`;
 
     if (resource === 'stories') return `<form id="editorForm" class="form-grid">${statusFields()}<div class="form-group full"><label>Hikâye başlığı *</label><input name="title" required value="${safeAttr(item.title)}"></div><div class="form-group"><label>Hayvanın adı</label><input name="petName" value="${safeAttr(item.petName)}"></div><div class="form-group"><label>Tür</label><select name="species"><option ${item.species === 'Kedi' ? 'selected' : ''}>Kedi</option><option ${item.species === 'Köpek' ? 'selected' : ''}>Köpek</option></select></div>${imageEditor('stories', item)}<div class="form-group full"><label>Kısa vurgu</label><input name="tagline" value="${safeAttr(item.tagline)}"></div><div class="form-group full"><label>Özet *</label><textarea name="summary" required rows="4">${escapeHtml(item.summary)}</textarea></div><div class="form-group full"><label>Tam hikâye</label><textarea name="full" rows="9">${escapeHtml(item.full)}</textarea></div>${footer()}</form>`;
 
