@@ -685,7 +685,7 @@
     color:#155c36;
   }
   .appointment-submit-status.success::before{
-    content:"00c";
+    content:"\f00c";
     background:#d8f3e3;
     color:#167542;
   }
@@ -695,7 +695,7 @@
     color:#842d2d;
   }
   .appointment-submit-status.error::before{
-    content:"071";
+    content:"\f071";
     background:#ffe0e0;
     color:#b72f2f;
   }
@@ -740,7 +740,7 @@
           <span><i class="fa-solid fa-location-dot"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</span>
         </div>
         <div class="header-contact">
-          <a href="tel:03323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a>
+          <a href="tel:+903323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a>
           <a href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> elcivetklinik@gmail.com</a>
         </div>
       </div>
@@ -765,11 +765,11 @@
             <li class="dropdown">
               <a href="/about" aria-haspopup="true" aria-expanded="false">Hakkımızda</a>
               <div class="dropdown-content" role="menu">
-                <a href="/about#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
-                <a href="/about#ekibimiz" role="menuitem">Ekibimiz</a>
-                <a href="/about#klinik" role="menuitem">Kliniğimiz</a>
-                <a href="/about#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
-                <a href="/about#degerler" role="menuitem">Değerlerimiz</a>
+                <a href="/about.html#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
+                <a href="/about.html#ekibimiz" role="menuitem">Ekibimiz</a>
+                <a href="/about.html#klinik" role="menuitem">Kliniğimiz</a>
+                <a href="/about.html#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
+                <a href="/about.html#degerler" role="menuitem">Değerlerimiz</a>
               </div>
             </li>
 
@@ -877,7 +877,7 @@
       <div class="form-shell appointment-shell">
       <div class="alert critical" role="alert">
         <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
-        <div><strong>Hayati risk varsa formu beklemeden <a href="tel:03323223220">0332 322 32 20</a> numarasını arayın.</strong><br>Bu form yalnızca randevu talebi oluşturur; randevu, kliniğimizin telefonla teyidinden sonra kesinleşir.</div>
+        <div><strong>Hayati risk varsa formu beklemeden <a href="tel:+903323223220">0332 322 32 20</a> numarasını arayın.</strong><br>Bu form yalnızca randevu talebi oluşturur; randevu, kliniğimizin telefonla teyidinden sonra kesinleşir.</div>
       </div>
 
       <form name="online-randevu" class="form" method="POST" action="/hasta-iliskileri.html?form=success#online-randevu" data-netlify="true" netlify-honeypot="bot-field">
@@ -1005,7 +1005,7 @@
           <a id="btnKonum" class="btn" href="https://www.google.com/maps/dir/?api=1&destination=Havzan+Mah.+Yeni+Meram+Cad.+17/1+Meram+Konya" target="_blank" rel="noopener">
             <i class="fa-solid fa-map-location-dot"></i> Konum
           </a>
-          <a id="btnAra" class="btn" href="tel:03323223220">
+          <a id="btnAra" class="btn" href="tel:+903323223220">
             <i class="fa-solid fa-phone"></i> Ara
           </a>
         </div>
@@ -1115,7 +1115,7 @@
         <div class="form-actions">
           <button class="btn" type="submit">Gönder</button>
           <a class="btn ghost" href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> E-posta</a>
-          <a class="btn ghost" href="tel:03323223220"><i class="fa-solid fa-phone"></i> Ara</a>
+          <a class="btn ghost" href="tel:+903323223220"><i class="fa-solid fa-phone"></i> Ara</a>
         </div>
       </form>
         </div>
@@ -1173,7 +1173,7 @@
           <li><i class="fa-solid fa-location-dot"></i>
             <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a>
           </li>
-          <li><i class="fa-solid fa-phone"></i> <a href="tel:03323223220">0332 322 32 20</a></li>
+          <li><i class="fa-solid fa-phone"></i> <a href="tel:+903323223220">0332 322 32 20</a></li>
           <li><i class="fa-solid fa-envelope"></i> <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></li>
           <li><i class="fa-solid fa-clock"></i> <span>Her gün: 09:00–21:00</span></li>
         </ul>
@@ -1788,7 +1788,7 @@
     const btnAra = document.getElementById('btnAra');
     const callPop = document.createElement('div');
     callPop.className='call-pop';
-    callPop.innerHTML = `Aramak için <a href="tel:03323223220">0332 322 32 20</a>`;
+    callPop.innerHTML = `Aramak için <a href="tel:+903323223220">0332 322 32 20</a>`;
     document.body.appendChild(callPop);
 
     function isMobile(){

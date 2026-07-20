@@ -1190,11 +1190,11 @@
 <li class="dropdown">
 <a aria-expanded="false" aria-haspopup="true" href="/about">Hakkımızda</a>
 <div class="dropdown-content" role="menu">
-<a href="/about#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
-<a href="/about#ekibimiz" role="menuitem">Ekibimiz</a>
-<a href="/about#klinik" role="menuitem">Kliniğimiz</a>
-<a href="/about#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
-<a href="/about#degerler" role="menuitem">Değerlerimiz</a>
+<a href="/about.html#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
+<a href="/about.html#ekibimiz" role="menuitem">Ekibimiz</a>
+<a href="/about.html#klinik" role="menuitem">Kliniğimiz</a>
+<a href="/about.html#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
+<a href="/about.html#degerler" role="menuitem">Değerlerimiz</a>
 </div>
 </li>
 <li class="dropdown">
@@ -1282,7 +1282,7 @@
 <section class="quick-links-band">
 <div class="container">
 <div class="quick-links">
-<a class="quick-link" href="/about#ekibimiz">
+<a class="quick-link" href="/about.html#ekibimiz">
 <div class="quick-icon">
 <i class="fa-solid fa-user-doctor"></i>
 </div>
@@ -1701,17 +1701,6 @@
     window.addEventListener('DOMContentLoaded', function(){
       const y=document.getElementById('yil'); if(y) y.textContent=new Date().getFullYear();
 
-      const btn=document.getElementById('mobileMenuBtn');
-      const menu=document.getElementById('mainMenu');
-      if(btn && menu){
-        const toggleMenu = (state) => {
-          menu.classList.toggle('show', state);
-          document.body.classList.toggle('menu-open', state);
-        };
-        btn.addEventListener('click', ()=> toggleMenu(!menu.classList.contains('show')));
-        menu.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> toggleMenu(false)));
-      }
-
       // Diğer hizmetler: kart kart kayan, boşluksuz ve scroll-snap destekli slider
       const track=document.getElementById('servicesTrack');
       const prev=document.getElementById('svcPrev');
@@ -1839,7 +1828,6 @@
 <path class="i" d="M7.2 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM16.8 10.3c.9 0 1.7-.9 1.7-2s-.8-2-1.7-2-1.7.9-1.7 2 .8 2 1.7 2zM10.2 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM13.8 8.7c.9 0 1.6-.8 1.6-1.8s-.7-1.8-1.6-1.8-1.6.8-1.6 1.8.7 1.8 1.6 1.8zM6.5 15.2c0-2.6 2.3-4.7 5.5-4.7s5.5 2.1 5.5 4.7c0 1.6-1.5 2.8-3.4 2.8-1 0-1.9-.3-2.1-.8-.3.5-1.1.8-2.1.8-1.9 0-3.4-1.2-3.4-2.8z"></path>
 </symbol>
 </svg>
-  <script src="/assets/js/content-sync.js?v=2"></script>
   <script src="/assets/js/home-content.js?v=2.2"></script>
 
 <script defer src="/assets/js/site-settings.js?v=final-1"></script>

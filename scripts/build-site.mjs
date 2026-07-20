@@ -22,7 +22,7 @@ const paths = {
 };
 
 const excludedTop = new Set([
-  '.git', '.github', '.netlify', 'dist', 'node_modules',
+  '.git', '.github', '.netlify', 'dist', 'node_modules', '_ELCI_YEDEK',
   'content', 'settings', 'scripts', 'netlify',
   'package.json', 'package-lock.json', 'netlify.toml',
 ]);
@@ -60,6 +60,30 @@ function uniqueStrings(values) {
     .flatMap(value => String(value ?? '').split(','))
     .map(value => value.trim())
     .filter(value => value && !seen.has(value.toLocaleLowerCase('tr-TR')) && seen.add(value.toLocaleLowerCase('tr-TR')));
+}
+
+function localPublicPath(value) {
+  const raw = String(value || '').trim();
+  if (!raw || /^(https?:|data:|blob:)/i.test(raw)) return raw;
+  return raw.startsWith('/') ? raw : `/${raw}`;
+}
+
+async function existingPublicAsset(value) {
+  const publicPath = localPublicPath(value);
+  if (!publicPath || /^(https?:|data:|blob:)/i.test(publicPath)) return publicPath;
+  const candidate = path.join(ROOT, publicPath.replace(/^\/+/, ''));
+  try {
+    const stat = await fs.stat(candidate);
+    return stat.isFile() ? publicPath : '';
+  } catch {
+    return '';
+  }
+}
+
+function normalizeOrder(items) {
+  return [...items]
+    .sort((a,b) => (Number(a.order)||9999) - (Number(b.order)||9999) || String(a.title||'').localeCompare(String(b.title||''),'tr'))
+    .map((item,index) => ({ ...item, order:index+1 }));
 }
 
 function inlineMarkup(text) {
@@ -141,21 +165,27 @@ function isPublic(status, date) {
 async function buildServices() {
   const raw = await readJson(paths.services, null, true);
   if (!Array.isArray(raw?.items)) throw new Error('assets/data/services.json içinde items listesi bulunamadı.');
-  const items = raw.items.map((item, index) => ({
-    id: String(item.id || slugify(item.title)),
-    title: String(item.title || 'Hizmet'),
-    summary: String(item.summary || ''),
-    detail: String(item.detail || item.summary || ''),
-    icon: String(item.icon || '#i-stethoscope'),
-    faIcon: String(item.faIcon || ''),
-    href: String(item.href || `/hizmetler.html#${item.id || slugify(item.title)}`),
-    group: String(item.group || 'Diğer Hizmetler'),
-    status: String(item.status || (item.published === false ? 'archived' : 'published')),
-    published: item.published !== false && !['draft','archived'].includes(String(item.status || '').toLowerCase()),
-    showOnHome: item.showOnHome === true,
-    order: Number(item.order) || index + 1,
-  })).filter(item => item.id !== 'egzotik')
-    .sort((a,b) => a.order - b.order || a.title.localeCompare(b.title, 'tr'));
+  const mapped = raw.items.map((item, index) => {
+    const id = slugify(item.id || item.title);
+    const status = String(item.status || (item.published === false ? 'archived' : 'published')).toLowerCase();
+    return {
+      id,
+      title: String(item.title || 'Hizmet'),
+      summary: String(item.summary || ''),
+      detail: String(item.detail || item.summary || ''),
+      icon: String(item.icon || '#i-stethoscope'),
+      faIcon: String(item.faIcon || ''),
+      href: String(item.href || `/hizmetler.html#${id}`),
+      group: String(item.group || 'Diğer Hizmetler'),
+      status,
+      published: item.published !== false && !['draft','archived'].includes(status),
+      showOnHome: item.showOnHome === true,
+      order: Number(item.order) || index + 1,
+    };
+  }).filter(item => item.id !== 'egzotik');
+  const duplicateIds = mapped.map(item=>item.id).filter((id,index,list)=>list.indexOf(id)!==index);
+  if (duplicateIds.length) throw new Error(`Hizmetlerde yinelenen kimlik bulundu: ${[...new Set(duplicateIds)].join(', ')}`);
+  const items = normalizeOrder(mapped);
   const result = { ...raw, homeLimit: 6, items };
   await writeDistJson('assets/data/services.json', result);
   return result;
@@ -172,7 +202,7 @@ async function buildBlog() {
   const blogOrder = new Map(selectedBlog.map((slug, i) => [slug, i + 1]));
   const announcementOrder = new Map(selectedAnnouncements.map((slug, i) => [slug, i + 1]));
 
-  const posts = entries.map(({ slug: entrySlug, file, data }) => {
+  const posts = await Promise.all(entries.map(async ({ slug: entrySlug, file, data }) => {
     const advanced = data.advanced || {};
     const slug = String(advanced.slug || data.slug || '').trim() || slugify(data.title);
     const date = data.date || data.scheduledAt || new Date().toISOString();
@@ -187,7 +217,7 @@ async function buildBlog() {
     const words = String(content.replace(/<[^>]+>/g, ' ')).trim().split(/\s+/).filter(Boolean).length;
     return {
       title: data.title || '', slug, date, scheduledAt: date, status, contentType,
-      published: isPublic(status, date), summary: data.summary || '', cover: data.cover || '',
+      published: isPublic(status, date), summary: data.summary || '', cover: await existingPublicAsset(data.cover),
       youtubeId: advanced.youtubeId || data.youtubeId || '',
       category: categories[0] || 'Genel Sağlık', categories: categories.length ? categories : ['Genel Sağlık'],
       species: data.species || 'Genel', tags: uniqueStrings(data.tags || []),
@@ -201,7 +231,8 @@ async function buildBlog() {
       homeOrder: contentType === 'blog' ? (blogOrder.get(entrySlug) || null) : (announcementOrder.get(entrySlug) || null),
       dateLabel: new Date(date).toLocaleDateString('tr-TR', { day:'2-digit', month:'short', year:'numeric' }),
     };
-  }).sort((a,b) => new Date(b.date) - new Date(a.date));
+  }));
+  posts.sort((a,b) => new Date(b.date) - new Date(a.date));
 
   await writeDistJson('assets/data/blog.json', { posts });
   await writeDistJson('assets/data/home-blog.json', posts.filter(p => p.published && p.contentType === 'blog' && p.showOnHome).sort((a,b) => a.homeOrder - b.homeOrder).slice(0,6));
@@ -216,6 +247,8 @@ async function buildFaq() {
   ]);
   const selected = selectedSlugs(home, 'faq').slice(0,6);
   const homeOrder = new Map(selected.map((slug,i) => [slug,i+1]));
+  const categoryOrder = ['Randevu ve Acil','Ücret ve Ödeme','Muayene ve Laboratuvar','Aşı ve Koruyucu Sağlık','Operasyonlar ve Anestezi','Ağız ve Diş Sağlığı','Bakım ve Beslenme','Konaklama ve Klinik Süreç'];
+  const categoryRank = new Map(categoryOrder.map((name,index)=>[name,index]));
   const items = entries.map(({slug,data}) => {
     const status = data.status || (data.published === false ? 'draft' : 'published');
     return {
@@ -224,7 +257,7 @@ async function buildFaq() {
       published: status === 'published', showOnHome: homeOrder.has(slug),
       homeOrder: homeOrder.get(slug) || null, cmsEntry: slug,
     };
-  }).sort((a,b) => a.category.localeCompare(b.category,'tr') || a.q.localeCompare(b.q,'tr'));
+  }).sort((a,b) => (categoryRank.get(a.category) ?? 999) - (categoryRank.get(b.category) ?? 999) || a.q.localeCompare(b.q,'tr'));
   await writeDistJson('assets/data/faq.json', { title:'Sık Sorulan Sorular', items });
   await writeDistJson('assets/data/home-faq.json', items.filter(i => i.published && i.showOnHome).sort((a,b)=>a.homeOrder-b.homeOrder).slice(0,6));
   return items;
@@ -314,4 +347,21 @@ await writeDistJson('assets/data/content-manifest.json', {
   successStoryCount:successStories.length,
   clinicName:site.clinicName,
 });
-console.log('Elçi Yönetim Merkezi: tüm JSON kaynakları doğrulandı ve site hazırlandı.');
+
+const invalidDistNames = await validateDeployableNames(DIST);
+if (invalidDistNames.length) {
+  throw new Error(`Üretilen dist klasöründe Netlify ile uyumsuz dosya adı bulundu:
+${invalidDistNames.map(name=>`- ${name}`).join('\n')}`);
+}
+
+const requiredOutputs = [
+  'index.html','about.html','hizmetler.html','blog.html','sss.html','hasta-iliskileri.html',
+  'admin/index.html','admin/cms.html','assets/data/services.json','assets/data/blog.json',
+  'assets/data/faq.json','assets/data/reviews.json','assets/data/content-manifest.json'
+];
+for (const relative of requiredOutputs) {
+  try { await fs.access(path.join(DIST,relative)); }
+  catch { throw new Error(`Zorunlu çıktı üretilemedi: ${relative}`); }
+}
+
+console.log('Elçi Yönetim Merkezi: JSON kaynakları, dosya adları ve zorunlu çıktılar doğrulandı.');

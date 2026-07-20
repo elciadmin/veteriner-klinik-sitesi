@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.netlify/
+package-lock.json
+*.log
+_ELCI_YEDEK/

@@ -931,7 +931,7 @@
 <div class="logo-text">
 <a aria-label="Elçi Veteriner Kliniği ana sayfa" class="brand-lockup" href="/">
 <span aria-hidden="true" class="brand-mark">
-<img alt="" decoding="async" height="48" loading="eager" src="/assets/img/uploads/elci-logo.png?v=3" width="48"/>
+<img alt="" decoding="async" height="54" loading="eager" src="/assets/img/uploads/elci-logo.png?v=3" width="54"/>
 </span>
 <span class="brand-copy">
 <strong>Elçi Veteriner Kliniği</strong>
@@ -948,11 +948,11 @@
 <li class="dropdown">
 <a aria-expanded="false" aria-haspopup="true" href="/about">Hakkımızda</a>
 <div class="dropdown-content" role="menu">
-<a href="/about#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
-<a href="/about#ekibimiz" role="menuitem">Ekibimiz</a>
-<a href="/about#klinik" role="menuitem">Kliniğimiz</a>
-<a href="/about#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
-<a href="/about#degerler" role="menuitem">Değerlerimiz</a>
+<a href="/about.html#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
+<a href="/about.html#ekibimiz" role="menuitem">Ekibimiz</a>
+<a href="/about.html#klinik" role="menuitem">Kliniğimiz</a>
+<a href="/about.html#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
+<a href="/about.html#degerler" role="menuitem">Değerlerimiz</a>
 </div>
 </li>
 <li class="dropdown">
@@ -1077,7 +1077,7 @@
 <details class="faq" id="muayene-ucreti">
 <summary><span class="q"><span class="dot"></span>Muayene ücretiniz nedir?</span></summary>
 <button aria-label="Bağlantıyı kopyala" class="linkcopy" title="Bu sorunun bağlantısını kopyala" type="button"><i class="fa-solid fa-link"></i></button>
-<p>Muayene ücretimiz güncel klinik tarifesine göre belirlenir; kapsam (genel muayene, kontrol, acil) ve ek tetkiklere göre değişebilir. En doğru bilgi için <a href="tel:03323223220">0332 322 32 20</a> numarasından ulaşın.</p>
+<p>Muayene ücretimiz güncel klinik tarifesine göre belirlenir; kapsam (genel muayene, kontrol, acil) ve ek tetkiklere göre değişebilir. En doğru bilgi için <a href="tel:+903323223220">0332 322 32 20</a> numarasından ulaşın.</p>
 </details>
 <details class="faq" id="odeme-yontemleri">
 <summary><span class="q"><span class="dot"></span>Hangi ödeme yöntemlerini kabul ediyorsunuz?</span></summary>
@@ -1177,7 +1177,7 @@
 <details class="faq" id="acil-ilk">
 <summary><span class="q"><span class="dot"></span>Acil durumda ilk ne yapmalıyım?</span></summary>
 <button aria-label="Bağlantıyı kopyala" class="linkcopy" title="Bu sorunun bağlantısını kopyala" type="button"><i class="fa-solid fa-link"></i></button>
-<p>Önce <a href="tel:03323223220">0332 322 32 20</a> numarasını arayın. Panik yapmadan güvenli taşıyın; kedi/köpek taşıma çantası kullanın. Zehirlenme şüphesinde kusturmaya çalışmayın.</p>
+<p>Önce <a href="tel:+903323223220">0332 322 32 20</a> numarasını arayın. Panik yapmadan güvenli taşıyın; kedi/köpek taşıma çantası kullanın. Zehirlenme şüphesinde kusturmaya çalışmayın.</p>
 </details>
 <details class="faq" id="sicak-carpmasi">
 <summary><span class="q"><span class="dot"></span>Sıcak çarpmasında evde ne yapabilirim?</span></summary>
@@ -1534,24 +1534,6 @@
 
   const year = document.getElementById('yil');
   if(year) year.textContent = new Date().getFullYear();
-
-  const menuBtn = document.getElementById('mobileMenuBtn');
-  const menu = document.getElementById('mainMenu');
-  if(menuBtn && menu){
-    menuBtn.setAttribute('aria-expanded','false');
-    menuBtn.addEventListener('click', function(){
-      const open = menu.classList.toggle('show');
-      menuBtn.setAttribute('aria-expanded', String(open));
-      document.body.classList.toggle('menu-open', open);
-    });
-    menu.querySelectorAll('a').forEach(function(link){
-      link.addEventListener('click', function(){
-        menu.classList.remove('show');
-        menuBtn.setAttribute('aria-expanded','false');
-        document.body.classList.remove('menu-open');
-      });
-    });
-  }
 
   const chips = $$('.faq-chip');
   const search = $('#faqSearch');

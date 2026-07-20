@@ -31,7 +31,7 @@ collections:
     description: "Blog yazısı veya güncel duyuru oluşturun; taslak, ileri tarih ve arşiv durumunu yönetin."
     folder: "content/blog"
     create: true
-    delete: true
+    delete: false
     extension: "json"
     format: "json"
     identifier_field: "title"
@@ -192,7 +192,7 @@ collections:
     label_singular: "Soru"
     folder: "content/faq"
     create: true
-    delete: true
+    delete: false
     extension: "json"
     format: "json"
     identifier_field: "title"
@@ -260,7 +260,7 @@ collections:
     label_singular: "Yorum"
     folder: "content/reviews"
     create: true
-    delete: true
+    delete: false
     extension: "json"
     format: "json"
     identifier_field: "title"
@@ -362,7 +362,7 @@ collections:
     label_singular: "Galeri Görseli"
     folder: "content/instagram"
     create: true
-    delete: true
+    delete: false
     extension: "json"
     format: "json"
     identifier_field: "title"

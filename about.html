@@ -835,17 +835,6 @@
       const year=document.getElementById('yil');
       if(year) year.textContent=new Date().getFullYear();
 
-      const btn=document.getElementById('mobileMenuBtn');
-      const menu=document.getElementById('mainMenu');
-      if(btn && menu){
-        const toggleMenu=(state)=>{
-          menu.classList.toggle('show',state);
-          document.body.classList.toggle('menu-open',state);
-          btn.setAttribute('aria-expanded',String(state));
-        };
-        btn.addEventListener('click',()=>toggleMenu(!menu.classList.contains('show')));
-        menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>toggleMenu(false)));
-      }
     });
   </script>
 

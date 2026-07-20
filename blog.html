@@ -1200,11 +1200,11 @@
             <li class="dropdown">
               <a href="/about" aria-haspopup="true" aria-expanded="false">Hakkımızda</a>
               <div class="dropdown-content" role="menu">
-                <a href="/about#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
-                <a href="/about#ekibimiz" role="menuitem">Ekibimiz</a>
-                <a href="/about#klinik" role="menuitem">Kliniğimiz</a>
-                <a href="/about#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
-                <a href="/about#degerler" role="menuitem">Değerlerimiz</a>
+                <a href="/about.html#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
+                <a href="/about.html#ekibimiz" role="menuitem">Ekibimiz</a>
+                <a href="/about.html#klinik" role="menuitem">Kliniğimiz</a>
+                <a href="/about.html#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
+                <a href="/about.html#degerler" role="menuitem">Değerlerimiz</a>
               </div>
             </li>
             <li class="dropdown">
@@ -1511,23 +1511,6 @@
   (function(){
     const year = document.getElementById('yil');
     if(year) year.textContent = new Date().getFullYear();
-
-    const menuBtn = document.getElementById('mobileMenuBtn');
-    const menu = document.getElementById('mainMenu');
-    if(menuBtn && menu){
-      menuBtn.addEventListener('click', function(){
-        const open = menu.classList.toggle('show');
-        menuBtn.setAttribute('aria-expanded', String(open));
-        document.body.classList.toggle('menu-open', open);
-      });
-      menu.querySelectorAll('a').forEach(function(link){
-        link.addEventListener('click', function(){
-          menu.classList.remove('show');
-          menuBtn.setAttribute('aria-expanded','false');
-          document.body.classList.remove('menu-open');
-        });
-      });
-    }
 
     const recentBox = document.getElementById('sidebarRecent');
     const catBox = document.getElementById('sidebarCats');
