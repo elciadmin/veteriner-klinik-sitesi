@@ -72,6 +72,37 @@ function renderRichText(value) {
   }).join("");
 }
 
+
+function renderEditorialSections(sections) {
+  if (!Array.isArray(sections) || !sections.length) return "";
+  const blocks = sections.map(block => {
+    if (!block || typeof block !== "object") return "";
+    const type = String(block.type || "").trim();
+    if (type === "image" && block.image) {
+      const compact = block.size === "compact" ? " is-compact" : "";
+      const caption = block.caption ? `<figcaption>${escapeHtml(block.caption)}</figcaption>` : "";
+      return `<figure class="editorial-section editorial-figure${compact}"><img src="${escapeAttr(block.image)}" alt="${escapeAttr(block.alt || "Blog görseli")}" loading="lazy" decoding="async">${caption}</figure>`;
+    }
+    if (type === "split" && block.image) {
+      const side = block.imageSide === "left" ? " image-left" : "";
+      const heading = block.heading ? `<h2 class="editorial-section-title">${escapeHtml(block.heading)}</h2>` : "";
+      return `<section class="editorial-section editorial-split${side}"><div class="editorial-split-copy">${heading}${renderRichText(block.body || "")}</div><div class="editorial-split-media"><img src="${escapeAttr(block.image)}" alt="${escapeAttr(block.alt || block.heading || "Blog görseli")}" loading="lazy" decoding="async"></div></section>`;
+    }
+    if (type === "callout") {
+      const tone = ["warning","success"].includes(block.tone) ? ` ${block.tone}` : "";
+      const heading = block.heading ? `<h3>${escapeHtml(block.heading)}</h3>` : "";
+      return `<aside class="editorial-section editorial-callout${tone}">${heading}${renderRichText(block.body || "")}</aside>`;
+    }
+    if (type === "steps" && Array.isArray(block.items) && block.items.length) {
+      const heading = block.heading ? `<h2>${escapeHtml(block.heading)}</h2>` : "";
+      const items = block.items.map(item => `<li>${escapeHtml(typeof item === "string" ? item : item?.item || "")}</li>`).join("");
+      return `<section class="editorial-section editorial-steps">${heading}<ol>${items}</ol></section>`;
+    }
+    return "";
+  }).filter(Boolean).join("");
+  return blocks ? `<div class="editorial-sections">${blocks}</div>` : "";
+}
+
 const validDate = value => {
   const date = value ? new Date(value) : null;
   return date && !Number.isNaN(date.getTime()) ? date : null;
@@ -168,7 +199,7 @@ function blogPage(post) {
     <meta name="description" content="${escapeAttr(post.seoDescription || post.summary)}"><meta name="robots" content="${robots}">
     <link rel="canonical" href="${SITE_URL}${post.url}"><meta property="og:type" content="article"><meta property="og:title" content="${escapeAttr(post.title)}"><meta property="og:description" content="${escapeAttr(post.summary)}"><meta property="og:image" content="${SITE_URL}${escapeAttr(cover)}">
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><link rel="stylesheet" href="/assets/css/tokens.css"><link rel="stylesheet" href="/assets/css/styles.css"><link rel="stylesheet" href="/assets/css/elci-system.css?v=20260721-2"><link rel="stylesheet" href="/assets/css/elci-fixes-v33.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-fixes-v34.css?v=20260721-1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><link rel="stylesheet" href="/assets/css/tokens.css"><link rel="stylesheet" href="/assets/css/styles.css"><link rel="stylesheet" href="/assets/css/elci-system.css?v=20260721-2"><link rel="stylesheet" href="/assets/css/elci-fixes-v33.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-fixes-v34.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-final-v35.css?v=20260721-1">
     ${schema}
   </head><body class="blog-article-page" data-runtime-active="${active}" data-publish-at="${escapeAttr(post.date)}" data-unpublish-at="${escapeAttr(post.unpublishAt || "")}">
     ${commonHeader("blog")}<div id="siteAnnouncement" class="site-announcement" hidden></div>
@@ -176,7 +207,7 @@ function blogPage(post) {
       <div class="blog-not-active" id="blogInactive"><h1>Bu yazı şu anda yayında değil.</h1><p>Yazı henüz yayınlanmamış veya yayın süresi sona ermiş olabilir.</p><a class="btn primary" href="/blog.html">Bloga dön</a></div>
       <article class="blog-article" id="blogArticle">
         <header class="blog-article-header"><span class="blog-article-kicker"><i class="fa-regular fa-file-lines"></i> Elçi sağlık notları</span><h1>${escapeHtml(post.title)}</h1><div class="blog-article-meta"><span><i class="fa-solid fa-layer-group"></i> ${escapeHtml(post.category)}</span><span><i class="fa-regular fa-calendar"></i> ${escapeHtml(post.dateLabel)}</span><span><i class="fa-regular fa-clock"></i> ${post.readingMinutes} dk okuma</span><span><i class="fa-regular fa-user"></i> ${escapeHtml(post.author)}</span></div></header><div class="blog-article-cover"><img src="${escapeAttr(cover)}" alt="${escapeAttr(post.title)}" onerror="this.src='/assets/img/uploads/elci-logo.png'"></div>
-        <div class="blog-article-content">${content}<div class="blog-article-note"><strong>Bilgilendirme:</strong> Bu içerik genel bilgi amaçlıdır; muayene, tanı ve hastaya özel tedavi planının yerini tutmaz. Acil bir durumda form beklemeden kliniğimizi arayın.</div></div>
+        <div class="blog-article-content">${content}${post.editorialHtml || ""}<div class="blog-article-note"><strong>Bilgilendirme:</strong> Bu içerik genel bilgi amaçlıdır; muayene, tanı ve hastaya özel tedavi planının yerini tutmaz. Acil bir durumda form beklemeden kliniğimizi arayın.</div></div>
         <footer class="blog-article-actions"><a class="btn" href="/blog.html"><i class="fa-solid fa-arrow-left"></i> Tüm yazılar</a><a class="btn primary" href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i> Randevu talebi</a></footer>
       </article>
     </main>${commonFooter()}<script src="/assets/js/elci-system.js" defer></script>
@@ -199,7 +230,7 @@ async function buildBlog() {
       species:data.species || "Genel", tags:Array.isArray(data.tags) ? data.tags : [], relatedService:data.relatedService || "",
       author:advanced.author || "Elçi Veteriner Kliniği", readingMinutes:Math.max(1, Math.ceil(words / 190)),
       seoTitle:advanced.seoTitle || data.title || "", seoDescription:advanced.seoDescription || data.summary || "",
-      url:`/blog/${encodeURIComponent(slug)}.html`, content:renderRichText(rawContent), cmsEntry:entrySlug, sourceFile:file,
+      url:`/blog/${encodeURIComponent(slug)}.html`, content:renderRichText(rawContent), editorialHtml:renderEditorialSections(data.editorialSections), cmsEntry:entrySlug, sourceFile:file,
       dateLabel:dateLabel(date), updatedAt:data.updatedAt || date,
     };
   }).sort((a,b) => new Date(b.date) - new Date(a.date));

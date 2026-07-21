@@ -253,6 +253,103 @@ collections:
     name: content
     widget: richtext
     hint: Hazır metni doğrudan yapıştırabilirsiniz. Uzun metinde alt başlıklar ve maddeler kullanın.
+  - label: Estetik yazı bölümleri (isteğe bağlı)
+    name: editorialSections
+    widget: list
+    required: false
+    collapsed: true
+    hint: Ana metnin altına görsel, görsel+metin, bilgi kutusu veya adım listesi ekleyin. Kullanmadığınızda boş bırakın.
+    types:
+    - label: Tam genişlik görsel
+      name: image
+      widget: object
+      fields:
+      - label: Görsel
+        name: image
+        widget: image
+        choose_url: false
+        media_folder: /assets/img/uploads/blog
+        public_folder: /assets/img/uploads/blog
+      - label: Görsel açıklaması
+        name: alt
+        widget: string
+      - label: Alt yazı
+        name: caption
+        widget: string
+        required: false
+      - label: Görsel genişliği
+        name: size
+        widget: select
+        default: wide
+        options:
+        - label: Geniş
+          value: wide
+        - label: Daha dar / ortalı
+          value: compact
+    - label: Metin ve görsel yan yana
+      name: split
+      widget: object
+      fields:
+      - label: Bölüm başlığı
+        name: heading
+        widget: string
+        required: false
+      - label: Metin
+        name: body
+        widget: richtext
+      - label: Görsel
+        name: image
+        widget: image
+        choose_url: false
+        media_folder: /assets/img/uploads/blog
+        public_folder: /assets/img/uploads/blog
+      - label: Görsel açıklaması
+        name: alt
+        widget: string
+      - label: Görselin yeri
+        name: imageSide
+        widget: select
+        default: right
+        options:
+        - label: Sağda
+          value: right
+        - label: Solda
+          value: left
+    - label: Bilgi / dikkat kutusu
+      name: callout
+      widget: object
+      fields:
+      - label: Kutunun türü
+        name: tone
+        widget: select
+        default: info
+        options:
+        - label: Bilgi
+          value: info
+        - label: Dikkat
+          value: warning
+        - label: Öneri
+          value: success
+      - label: Başlık
+        name: heading
+        widget: string
+      - label: Metin
+        name: body
+        widget: richtext
+    - label: Numaralı adımlar
+      name: steps
+      widget: object
+      fields:
+      - label: Başlık
+        name: heading
+        widget: string
+      - label: Adımlar
+        name: items
+        widget: list
+        field:
+          label: Adım
+          name: item
+          widget: string
   - label: Gelişmiş ayarlar
     name: advanced
     widget: object
