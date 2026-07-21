@@ -1148,6 +1148,7 @@
 </style>
 <link href="/assets/css/elci-system.css?v=20260721-2" rel="stylesheet"/>
 <link rel="stylesheet" href="/assets/css/elci-shell-v32.css?v=20260721-1">
+<link rel="stylesheet" href="/assets/css/elci-fixes-v33.css?v=20260721-1">
 </head>
 <body class="theme-elciKonya" data-page="home">
 <a class="skip-link" href="#ana-icerik">Ana içeriğe geç</a>
@@ -1444,6 +1445,10 @@
 <div class="container">
 <div class="insta-head">
 <h2>Instagram'dan</h2>
+<div class="insta-controls" aria-label="Instagram galerisi kontrolleri">
+<button class="insta-control" id="instaPrev" type="button" aria-label="Önceki görseller"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
+<button class="insta-control" id="instaNext" type="button" aria-label="Sonraki görseller"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+</div>
 </div>
 <div class="insta-track-wrap">
 <div aria-live="polite" class="insta-track" id="instaTrack"></div>
@@ -1454,7 +1459,44 @@
 <section data-managed="admin-v2-2" id="reviews">
 <div class="container">
 <h2>Google'da 194 Değerlendirme</h2>
-<div aria-live="polite" class="review-grid" id="reviewGrid"></div>
+<div aria-live="polite" class="review-grid" id="reviewGrid">
+<article class="review-card elci-review-card">
+<div class="elci-review-stars" aria-label="5 yıldız">★★★★★</div>
+<p class="review-text">İlgi ve alakasıyla gönlümüz rahat bir şekilde her zaman tercih edip önerebileceğim bir veteriner. Kedim hiç stres olmuyor ❤️🙏🏻</p>
+<div class="review-author">— Elif Parlar</div>
+<div class="review-meta">2 gün önce</div>
+</article>
+<article class="review-card elci-review-card">
+<div class="elci-review-stars" aria-label="5 yıldız">★★★★★</div>
+<p class="review-text">Çok ilgililer, sayelerinde yavru kedimiz hayata geri tutundu. 💫</p>
+<div class="review-author">— Masume Akyürek</div>
+<div class="review-meta">3 gün önce</div>
+</article>
+<article class="review-card elci-review-card">
+<div class="elci-review-stars" aria-label="5 yıldız">★★★★★</div>
+<p class="review-text">Hasan beye kedimizi kısırlaştırmak için gittik. Çok ilgiliydi, detaylı bilgi verdi, ameliyat başarılı geçti. Sokak hayvanlarıyla da aynı hassasiyetle ilgilendi. Teşekkür ederiz.</p>
+<div class="review-author">— Esma Nur Tuğral</div>
+<div class="review-meta">2 hafta önce</div>
+</article>
+<article class="review-card elci-review-card">
+<div class="elci-review-stars" aria-label="5 yıldız">★★★★★</div>
+<p class="review-text">Yakın zamanda tanıştık, iyi ki de tanımışız. Çok kibar ve anlayışlı. Hayvanlara tutumu harika; işini severek yaptığı belli. Gönül rahatlığıyla tercih edebilirsiniz.</p>
+<div class="review-author">— Kübra Duran</div>
+<div class="review-meta">3 hafta önce</div>
+</article>
+<article class="review-card elci-review-card">
+<div class="elci-review-stars" aria-label="5 yıldız">★★★★★</div>
+<p class="review-text">Köpek ve kedi kısırlaştırma yaptık; tüm ihtimaller anlatıldı. Sokak canlarına da kendi canları gibi sahip çıkıyorlar. Hasan bey ve ekibine teşekkürler.</p>
+<div class="review-author">— İZEL YESARİ</div>
+<div class="review-meta">3 hafta önce</div>
+</article>
+<article class="review-card elci-review-card">
+<div class="elci-review-stars" aria-label="5 yıldız">★★★★★</div>
+<p class="review-text">Naif kişiliği işine yansıyor. Sadakati ve çözüm odaklı yaklaşımı için teşekkürler. Gönül rahatlığıyla getirebilirsiniz.</p>
+<div class="review-author">— mukaddes erel</div>
+<div class="review-meta">4 hafta önce</div>
+</article>
+</div>
 </div>
 </section>
 <!-- BLOG -->
@@ -1792,6 +1834,6 @@
 </symbol>
 </svg>
 <script src="/assets/js/content-sync.js?v=2"></script>
-<script src="/assets/js/home-content.js?v=2.2"></script>
+<script src="/assets/js/home-content.js?v=20260721-3"></script>
 <script defer="" src="/assets/js/services-render.js?v=20260721"></script><script defer="" src="/assets/js/home-blog.js?v=20260721"></script><script defer="" src="/assets/js/home-faq.js?v=20260721"></script><script defer="" src="/assets/js/elci-system.js?v=20260721"></script></body>
 </html>

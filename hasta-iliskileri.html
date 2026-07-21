@@ -721,8 +721,9 @@
   }
 </style><link href="/assets/css/elci-system.css?v=20260721-2" rel="stylesheet"/>
 <link rel="stylesheet" href="/assets/css/elci-shell-v32.css?v=20260721-1">
+<link rel="stylesheet" href="/assets/css/elci-fixes-v33.css?v=20260721-1">
 </head>
-<body class="patient-relations-page">
+<body class="patient-relations-page" data-page="patient">
 <a class="skip-link" href="#ana-icerik">İçeriğe geç</a>
 <!-- ===== SABİT HEADER ===== -->
 <header>
@@ -1564,6 +1565,12 @@
     const highlightEl = document.getElementById('successHighlight');
     let stories = [];
 
+    function escHtml(value){
+      return String(value == null ? '' : value).replace(/[&<>"']/g, function(char){
+        return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char];
+      });
+    }
+
     // i18n alanlar için helper
     function tLocale(val){
       if (val == null) return '';
@@ -1619,19 +1626,29 @@
       storyModal.showModal();
     }
 
+    function storyMedia(s, className){
+      if(s.image){
+        return `<div class="${className}"><img src="${escHtml(s.image)}" alt="${escHtml((s.petName || s.title || 'Başarı hikâyesi') + ' görseli')}" loading="lazy" decoding="async"></div>`;
+      }
+      return `<div class="${className}"><div class="success-story-placeholder" aria-hidden="true"><i class="fa-solid fa-paw"></i></div></div>`;
+    }
+
     function updateHighlight(idx){
-      const s = stories[idx];
-      if(!s || !highlightEl) return;
-      const metaLine = [s.petName, s.species].filter(Boolean).join(' • ');
+      const story = stories[idx];
+      if(!story || !highlightEl) return;
+      const metaLine = [story.petName, story.species].filter(Boolean).join(' • ');
 
       highlightEl.classList.remove('is-animating');
       setTimeout(()=>{
         highlightEl.innerHTML = `
-          <span class="s-icon"><svg viewBox="0 0 24 24"><use href="${s.icon || '#i-paw'}"></use></svg></span>
-          <h3 class="s-title">${s.title || ''}</h3>
-          <div class="tagline">${metaLine}</div>
-          <p class="s-text">${s.summary || ''}</p>
-          <div class="meta">Detaylı öyküyü görmek için karta tıklayın.</div>
+          ${storyMedia(story, 'success-story-media')}
+          <div class="success-story-copy">
+            <span class="s-icon"><svg viewBox="0 0 24 24"><use href="${escHtml(story.icon || '#i-paw')}"></use></svg></span>
+            <h3 class="s-title">${escHtml(story.title || '')}</h3>
+            <div class="tagline">${escHtml(metaLine)}</div>
+            <p class="s-text">${escHtml(story.summary || '')}</p>
+            <div class="meta">Detaylı öyküyü görmek için karta tıklayın.</div>
+          </div>
         `;
         highlightEl.classList.add('is-animating');
         highlightEl.onclick = ()=>openStory(idx);
@@ -1650,9 +1667,12 @@
           card.className = 's-card show success-card';
           card.dataset.index = idx;
           card.innerHTML = `
-            <span class="s-icon"><svg viewBox="0 0 24 24"><use href="${s.icon || '#i-paw'}"></use></svg></span>
-            <h3 class="s-title">${s.title || ''}</h3>
-            <p class="s-text">${s.summary || ''}</p>
+            ${storyMedia(s, 'success-card-media')}
+            <div class="success-card-body">
+              <span class="s-icon"><svg viewBox="0 0 24 24"><use href="${escHtml(s.icon || '#i-paw')}"></use></svg></span>
+              <h3 class="s-title">${escHtml(s.title || '')}</h3>
+              <p class="s-text">${escHtml(s.summary || '')}</p>
+            </div>
           `;
           card.addEventListener('click', ()=>openStory(idx));
           gridEl.appendChild(card);
@@ -1691,6 +1711,7 @@
             petName: tLocale(s.petName),
             species: tLocale(s.species),
             body:    tLocale(s.body),
+            image:   typeof s.image === 'string' ? s.image : '',
             icon:    s.icon || '#i-paw'
           };
         }).filter(function(s){
