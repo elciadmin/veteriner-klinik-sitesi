@@ -42,7 +42,7 @@
       const source = item.sourceUrl
         ? `<a class="elci-review-link" href="${esc(item.sourceUrl)}" target="_blank" rel="noopener">Google'da görüntüle</a>`
         : '';
-      return `<article class="review-card elci-review-card">
+      return `<article class="review-card elci-review-card visible">
         <div class="elci-review-stars" aria-label="${rating} yıldız">${'★'.repeat(rating)}${'☆'.repeat(5-rating)}</div>
         <p class="review-text">${esc(item.text || '')}</p>
         <div class="review-author">— ${esc(item.author || 'Google kullanıcısı')}</div>
@@ -95,20 +95,86 @@
   function bindInstagramControls(track) {
     const prev = document.getElementById('instaPrev');
     const next = document.getElementById('instaNext');
-    if (!prev || !next || prev.dataset.bound === 'true') return;
+    if (!prev || !next || track.dataset.bound === 'true') return;
 
+    let timer = null;
+    let scrollFrame = 0;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    const cards = () => Array.from(track.querySelectorAll('.elci-insta-card'));
     const step = () => {
-      const card = track.querySelector('.elci-insta-card');
+      const card = cards()[0];
       if (!card) return Math.max(280, track.clientWidth * .8);
       const style = getComputedStyle(track);
       const gap = parseFloat(style.columnGap || style.gap || '18') || 18;
       return card.getBoundingClientRect().width + gap;
     };
 
-    prev.addEventListener('click', () => track.scrollBy({ left:-step(), behavior:'smooth' }));
-    next.addEventListener('click', () => track.scrollBy({ left:step(), behavior:'smooth' }));
-    prev.dataset.bound = 'true';
-    next.dataset.bound = 'true';
+    const updateFeatured = () => {
+      const list = cards();
+      if (!list.length) return;
+      const viewportCenter = track.getBoundingClientRect().left + track.clientWidth / 2;
+      let featured = list[0];
+      let distance = Infinity;
+      list.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const current = Math.abs((rect.left + rect.width / 2) - viewportCenter);
+        if (current < distance) {
+          distance = current;
+          featured = card;
+        }
+      });
+      list.forEach(card => card.classList.toggle('is-featured', card === featured));
+    };
+
+    const move = direction => {
+      const max = Math.max(0, track.scrollWidth - track.clientWidth);
+      const amount = step();
+      if (direction > 0 && track.scrollLeft >= max - amount * .55) {
+        track.scrollTo({ left:0, behavior:'smooth' });
+      } else if (direction < 0 && track.scrollLeft <= amount * .35) {
+        track.scrollTo({ left:max, behavior:'smooth' });
+      } else {
+        track.scrollBy({ left:direction * amount, behavior:'smooth' });
+      }
+      window.setTimeout(updateFeatured, 430);
+    };
+
+    const stop = () => {
+      if (timer) window.clearInterval(timer);
+      timer = null;
+    };
+
+    const start = () => {
+      stop();
+      if (reducedMotion.matches || cards().length < 2 || document.hidden) return;
+      timer = window.setInterval(() => move(1), 4200);
+    };
+
+    const manual = direction => {
+      move(direction);
+      start();
+    };
+
+    prev.addEventListener('click', () => manual(-1));
+    next.addEventListener('click', () => manual(1));
+    track.addEventListener('scroll', () => {
+      window.cancelAnimationFrame(scrollFrame);
+      scrollFrame = window.requestAnimationFrame(updateFeatured);
+    }, { passive:true });
+    track.addEventListener('mouseenter', stop);
+    track.addEventListener('mouseleave', start);
+    track.addEventListener('focusin', stop);
+    track.addEventListener('focusout', event => {
+      if (!track.contains(event.relatedTarget)) start();
+    });
+    document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+    reducedMotion.addEventListener?.('change', start);
+
+    track.setAttribute('aria-live', 'off');
+    track.dataset.bound = 'true';
+    updateFeatured();
+    start();
   }
 
   function renderInstagram(manual, archive) {

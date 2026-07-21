@@ -501,14 +501,14 @@ collections:
     widget: string
     required: false
 - name: home_reviews
-  label: Ana Sayfa Yorumları
+  label: Ana Sayfa ve Hakkımızda Yorumları
   delete: false
-  description: Ana sayfada gösterilecek yorumları seçin ve sıralayın.
+  description: Ana sayfa ile Hakkımızda sayfasında gösterilecek ortak Google yorumlarını seçin ve sıralayın.
   editor:
     preview: false
   files:
   - file: settings/home-reviews.json
-    label: Sunulan Google Yorumları
+    label: Sitede Sunulan Google Yorumları
     name: home_reviews_file
     format: json
     fields:

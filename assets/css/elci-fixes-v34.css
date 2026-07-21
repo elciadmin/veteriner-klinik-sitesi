@@ -1,0 +1,113 @@
+/* ======================================================================
+   ELÇİ V3.4 — KONTRAST, YORUM VE OTOMATİK INSTAGRAM AKIŞI
+   V3.3 tasarımını korur; yalnızca görünürlük ve akış hatalarını düzeltir.
+   ====================================================================== */
+
+/* 1) Koyu alanlarda başlıklar hiçbir temada siyaha dönmesin. */
+body .why-elci :is(h1,h2,h3,h4,strong),
+body .section-dark :is(h1,h2,h3,h4,strong),
+body .metrics-section :is(h1,h2,h3,h4,strong),
+body .success-section :is(h1,h2,h3,h4,strong),
+body footer.footer-new .footer-col h3,
+body footer.footer-new .footer-col strong{
+  color:#fff!important;
+  -webkit-text-fill-color:#fff!important;
+}
+body .why-elci :is(.why-kicker,.section-kicker),
+body .section-dark :is(.section-kicker,.why-kicker),
+body .metrics-section .section-kicker,
+body .success-section .section-kicker{
+  color:#c9f9ff!important;
+  -webkit-text-fill-color:#c9f9ff!important;
+}
+body .section-dark .section-head>.section-kicker,
+body .metrics-section .section-head>.section-kicker{
+  border-color:rgba(201,249,255,.34)!important;
+  background:rgba(255,255,255,.09)!important;
+  box-shadow:none!important;
+}
+body footer.footer-new :is(p,li,small,span,a){
+  color:#f1f8ff!important;
+  -webkit-text-fill-color:#f1f8ff!important;
+}
+body footer.footer-new .footer-col h3::after{background:#35d7e7!important}
+
+/* 2) Açık CTA kutularında beyaz yazı oluşmasını engelle. */
+body[data-page="blog"] .closing-inner .closing-copy h2,
+body[data-page="faq"] .closing-inner .closing-copy h2,
+body[data-page="about"] .final-cta h2{
+  color:#101824!important;
+  -webkit-text-fill-color:#101824!important;
+}
+body[data-page="blog"] .closing-inner .closing-copy p,
+body[data-page="faq"] .closing-inner .closing-copy p,
+body[data-page="about"] .final-cta p{
+  color:#536474!important;
+  -webkit-text-fill-color:#536474!important;
+}
+body[data-page="blog"] .closing-inner .btn.ghost,
+body[data-page="faq"] .closing-inner .btn.ghost,
+body[data-page="about"] .final-cta .btn:not(.primary){
+  color:#4c1a88!important;
+  -webkit-text-fill-color:#4c1a88!important;
+  border-color:#cbbbe1!important;
+  background:#fff!important;
+}
+
+/* 3) Google yorumları: eski animasyonun opacity:0 kuralını kesin olarak iptal et. */
+body #reviews .review-grid,
+body .js-reviews .review-grid{
+  min-height:0!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+body #reviews .review-card,
+body .js-reviews .review-card,
+body #reviews .review-card.visible,
+body .js-reviews .review-card.visible{
+  visibility:visible!important;
+  opacity:1!important;
+  transform:none!important;
+  animation:none!important;
+}
+body #reviews .review-card .review-text,
+body .js-reviews .review-card .review-text{
+  color:#465463!important;
+  -webkit-text-fill-color:#465463!important;
+}
+body #reviews .review-card .review-author,
+body .js-reviews .review-card .review-author{
+  color:#35115f!important;
+  -webkit-text-fill-color:#35115f!important;
+}
+
+/* 4) Instagram: taşmayan, kendi ilerleyen ve merkezdeki kartı öne çıkaran akış. */
+body #insta .insta-track-wrap{position:relative!important;overflow:hidden!important}
+body #instaTrack{
+  scroll-snap-type:x mandatory!important;
+  scrollbar-width:none!important;
+  -ms-overflow-style:none!important;
+}
+body #instaTrack::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
+body #instaTrack .elci-insta-card{
+  opacity:.78!important;
+  transform:scale(.965)!important;
+  filter:saturate(.92)!important;
+  transition:transform .38s cubic-bezier(.2,.75,.2,1),opacity .38s ease,filter .38s ease,box-shadow .38s ease!important;
+}
+body #instaTrack .elci-insta-card.is-featured{
+  opacity:1!important;
+  transform:translateY(-4px) scale(1.025)!important;
+  filter:saturate(1.04)!important;
+  box-shadow:0 22px 44px rgba(31,20,55,.20)!important;
+}
+body #instaTrack .elci-insta-card:hover,
+body #instaTrack .elci-insta-card:focus-visible{
+  opacity:1!important;
+  transform:translateY(-5px) scale(1.025)!important;
+  filter:saturate(1.06)!important;
+}
+@media (prefers-reduced-motion:reduce){
+  body #instaTrack{scroll-behavior:auto!important}
+  body #instaTrack .elci-insta-card{transition:none!important;opacity:1!important;transform:none!important}
+}
