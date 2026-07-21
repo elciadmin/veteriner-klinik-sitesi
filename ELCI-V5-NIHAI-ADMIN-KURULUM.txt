@@ -1,0 +1,32 @@
+ELÇİ YÖNETİM MERKEZİ V5 — NİHAİ ADMIN YAMASI
+
+Bu paket ziyaretçi sitesinin tasarım dosyalarını değiştirmez.
+Yalnızca admin/index.html, admin/elci-admin-v5.css, admin/elci-admin-v5.js ve npm kaynak ayarlarını içerir.
+
+YÜKLEME
+1. GitHub Desktop > Repository > Show in Explorer.
+2. Yama klasörünün içindeki dosyaları proje köküne kopyalayın.
+3. Hedefteki dosyaları değiştir seçeneğini kabul edin.
+4. Bu TXT dosyasının tikini kaldırın.
+5. Commit özeti: Elçi Yönetim Merkezi V5 nihai düzenleme
+6. Commit ve Push origin.
+7. Netlify yeni Deploy Preview tamamlandıktan sonra /admin/ sayfasında Ctrl+F5.
+
+NETLIFY
+ADMIN_CONTENT_BRANCH production=main, Deploy Previews=elci-yonetim-v3-test olarak kalmalıdır.
+
+V5 DÜZELTMELERİ
+- İçerik listesinde görünür Yayında / Planlı / Taslak / Arşiv / Çöp sekmeleri.
+- Blog etiketlerinde arama, seçili etiketler ve 8 etiket sınırı.
+- İlgili hizmet alanının açık açıklaması.
+- Yayın/bitiş tarihi doğrulaması; yanlışlıkla hemen kalkma engeli.
+- Şimdi yayınla, taslak ve planlama akışlarının güvenli hale getirilmesi.
+- Duyuru formunda konum açıklaması, canlı ön izleme, sade öncelik seçenekleri ve dış tırnak temizliği.
+- İçerik takviminde dönüşümlü fikirler ve otomatik doldurulan blog taslağı.
+- Çöp kutusuna taşıma onayı ve kayıt sırasında çift tıklama koruması.
+
+KONTROL
+- Test dalında bir taslak blog oluşturun.
+- Şimdi yayınla ile test sitesinde görünmesini doğrulayın.
+- Otomatik kalkış boş bırakıldığında yayında kalmasını kontrol edin.
+- Bir duyuru oluşturup panel ön izlemesi ve test sitesindeki üst bandı kontrol edin.
