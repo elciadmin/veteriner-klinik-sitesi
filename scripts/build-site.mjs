@@ -269,10 +269,13 @@ async function buildReviews() {
 
 async function buildInstagram() {
   const entries = await readJsonFolder(SOURCES.instagram);
-  const items = entries.map(({slug,data}) => ({ id:slug,published:data.published !== false,title:data.title || "",date:data.date || "",image:data.image || "",alt:data.alt || data.title || "Elçi Veteriner Kliniği galeri görseli",instagramUrl:data.instagramUrl || "",cmsEntry:slug }))
-    .filter(item => item.published && item.image).sort((a,b) => new Date(b.date||0)-new Date(a.date||0));
-  await writeJson("assets/data/instagram-manual.json", items);
-  return items;
+  const allItems = entries.map(({slug,data}) => ({
+    id:slug, published:data.published !== false, title:data.title || "", date:data.date || "", unpublishAt:data.unpublishAt || "",
+    image:data.image || "", alt:data.alt || data.title || "Elçi Veteriner Kliniği galeri görseli", instagramUrl:data.instagramUrl || "", cmsEntry:slug,
+  }));
+  const visibleItems = allItems.filter(item => item.image && isActive(item)).sort((a,b) => new Date(b.date||0)-new Date(a.date||0));
+  await writeJson("assets/data/instagram-manual.json", visibleItems);
+  return allItems;
 }
 
 async function buildAnnouncements() {
@@ -302,12 +305,13 @@ await buildSitemap(posts);
 const transitions = [
   ...posts.flatMap(post => [post.published !== false ? validDate(post.date) : null, post.published !== false ? validDate(post.unpublishAt) : null]),
   ...announcements.flatMap(item => [item.published !== false ? validDate(item.publishAt) : null, item.published !== false ? validDate(item.unpublishAt) : null]),
+  ...instagram.flatMap(item => [item.published !== false ? validDate(item.date) : null, item.published !== false ? validDate(item.unpublishAt) : null]),
 ].filter(date => date && date > NOW).sort((a,b) => a-b);
 await writeJson("assets/data/content-manifest.json", {
   generatedAt:new Date().toISOString(), activeBlogCount:posts.filter(post => isActive(post)).length,
   scheduledBlogCount:posts.filter(post => post.published !== false && validDate(post.date) > NOW).length,
   faqCount:faq.filter(item => item.published).length, presentedReviewCount:reviews.length,
-  manualInstagramCount:instagram.length, activeAnnouncementCount:announcements.filter(item => isActive({...item,date:item.publishAt})).length,
+  manualInstagramCount:instagram.filter(item => item.image && isActive(item)).length, activeAnnouncementCount:announcements.filter(item => isActive({...item,date:item.publishAt})).length,
   nextContentTransitionAt:transitions[0]?.toISOString() || "",
 });
 console.log("Elçi site içeriği, blog sayfaları ve yayın takvimi hazırlandı.");
