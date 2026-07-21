@@ -1,7 +1,7 @@
 // netlify/functions/youtube-latest.js
 const CHANNEL_ID = "UCj2kiAEEF2LyKko9P78RGPQ"; // Elçi Veteriner Kliniği
 
-export const handler = async (event) => {
+exports.handler = async (event) => {
   try {
     const url = `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
     const r = await fetch(url);

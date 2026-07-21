@@ -1,5 +1,5 @@
 // netlify/functions/instagram.js
-export const handler = async (event) => {
+exports.handler = async (event) => {
   try {
     const origin = process.env.DEPLOY_PRIME_URL || process.env.URL;
     if (!origin) {

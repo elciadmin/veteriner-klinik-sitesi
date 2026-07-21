@@ -1,72 +1,117 @@
-import { promises as fs } from 'node:fs';
-import path from 'node:path';
-import { execFileSync } from 'node:child_process';
+import { promises as fs } from "node:fs";
+import path from "node:path";
 
 const ROOT = process.cwd();
-const DIST = path.join(ROOT, 'dist');
-const NOW = Date.now();
-const SAFE_DEPLOY_SEGMENT = /^[^\u0000-\u001F/\\]+$/;
+const DIST = path.join(ROOT, "dist");
+const SITE_URL = "https://elciveteriner.com";
+const NOW = new Date();
+
+const SOURCES = {
+  blog: path.join(ROOT, "content", "blog"),
+  faq: path.join(ROOT, "content", "faq"),
+  reviews: path.join(ROOT, "content", "reviews"),
+  instagram: path.join(ROOT, "content", "instagram"),
+  announcements: path.join(ROOT, "content", "announcements"),
+  homeFaq: path.join(ROOT, "settings", "home-faq.json"),
+  homeReviews: path.join(ROOT, "settings", "home-reviews.json"),
+};
+
 const excludedTop = new Set([
-  '.git', '.github', '.netlify', 'dist', 'node_modules', '_ELCI_YEDEK',
-  'content', 'settings', 'scripts', 'netlify',
-  'package.json', 'package-lock.json', 'netlify.toml',
+  ".git", ".github", ".netlify", "dist", "node_modules",
+  "content", "settings", "scripts", "netlify",
+  "package.json", "package-lock.json", "netlify.toml",
 ]);
 
-const dataPath = name => path.join(ROOT, 'assets', 'data', name);
-const distDataPath = name => path.join(DIST, 'assets', 'data', name);
-const text = value => String(value ?? '').trim();
-const statusOf = item => text(item?.status || (item?.published === false ? 'draft' : 'published')).toLowerCase();
-const futureDate = value => {
-  const time = value ? new Date(value).getTime() : NaN;
-  return Number.isFinite(time) && time > NOW;
-};
-const isPublic = item => {
-  const status = statusOf(item);
-  if (status === 'published') return true;
-  if (status === 'scheduled') return !futureDate(item.scheduledAt || item.date);
-  return false;
-};
-const slugify = value => text(value).toLocaleLowerCase('tr-TR')
-  .replace(/ç/g, 'c').replace(/ğ/g, 'g').replace(/ı/g, 'i')
-  .replace(/ö/g, 'o').replace(/ş/g, 's').replace(/ü/g, 'u')
-  .normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
-  .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'icerik';
+const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, char => ({
+  "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+}[char]));
 
-async function exists(file) {
-  try { await fs.access(file); return true; } catch { return false; }
+const escapeAttr = escapeHtml;
+
+const slugify = value => String(value || "")
+  .toLocaleLowerCase("tr-TR")
+  .replace(/ç/g,"c").replace(/ğ/g,"g").replace(/ı/g,"i")
+  .replace(/ö/g,"o").replace(/ş/g,"s").replace(/ü/g,"u")
+  .replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"") || "icerik";
+
+const stripHtml = value => String(value || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+
+function sanitizeTrustedHtml(value) {
+  return String(value || "")
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "")
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, "")
+    .replace(/\son\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, "")
+    .replace(/javascript:/gi, "");
+}
+
+function inlineMarkup(text) {
+  return escapeHtml(text)
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*(.+?)\*/g, "<em>$1</em>");
+}
+
+function renderRichText(value) {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+  if (/<(p|h2|h3|h4|ul|ol|li|strong|em|blockquote|a)\b/i.test(raw)) {
+    return sanitizeTrustedHtml(raw);
+  }
+  return raw.replace(/\r/g, "").split(/\n{2,}/).map(block => {
+    const lines = block.split("\n").map(line => line.trim()).filter(Boolean);
+    if (!lines.length) return "";
+    if (lines.every(line => /^[-*] /.test(line))) {
+      return `<ul>${lines.map(line => `<li>${inlineMarkup(line.slice(2))}</li>`).join("")}</ul>`;
+    }
+    if (lines.every(line => /^\d+[.)] /.test(line))) {
+      return `<ol>${lines.map(line => `<li>${inlineMarkup(line.replace(/^\d+[.)] /, ""))}</li>`).join("")}</ol>`;
+    }
+    if (lines[0].startsWith("### ")) return `<h3>${inlineMarkup(lines.join(" ").slice(4))}</h3>`;
+    if (lines[0].startsWith("## ")) return `<h2>${inlineMarkup(lines.join(" ").slice(3))}</h2>`;
+    if (lines[0].startsWith("> ")) return `<blockquote>${inlineMarkup(lines.join(" ").slice(2))}</blockquote>`;
+    return `<p>${inlineMarkup(lines.join(" "))}</p>`;
+  }).join("");
+}
+
+const validDate = value => {
+  const date = value ? new Date(value) : null;
+  return date && !Number.isNaN(date.getTime()) ? date : null;
+};
+
+function isActive(item, at = NOW) {
+  if (!item || item.published === false) return false;
+  const start = validDate(item.date || item.publishAt || item.scheduledAt);
+  const end = validDate(item.unpublishAt);
+  if (start && start > at) return false;
+  if (end && end <= at) return false;
+  return true;
+}
+
+function dateLabel(value) {
+  const date = validDate(value);
+  return date ? date.toLocaleDateString("tr-TR", { day:"2-digit", month:"long", year:"numeric", timeZone:"Europe/Istanbul" }) : "";
 }
 
 async function readJson(file, fallback = null) {
-  try { return JSON.parse(await fs.readFile(file, 'utf8')); }
-  catch (error) {
-    if (fallback !== null) return fallback;
-    throw new Error(`Geçersiz veya okunamayan JSON: ${path.relative(ROOT, file)}\n${error.message}`);
-  }
+  try { return JSON.parse(await fs.readFile(file, "utf8")); }
+  catch { return fallback; }
 }
 
-async function writeJson(file, data) {
-  await fs.mkdir(path.dirname(file), { recursive: true });
-  await fs.writeFile(file, `${JSON.stringify(data, null, 2)}\n`, 'utf8');
+async function readJsonFolder(folder) {
+  try {
+    const names = (await fs.readdir(folder)).filter(name => name.endsWith(".json")).sort();
+    const entries = [];
+    for (const name of names) {
+      entries.push({ slug:name.replace(/\.json$/i, ""), file:name, data:await readJson(path.join(folder, name), {}) });
+    }
+    return entries;
+  } catch { return []; }
 }
 
-async function validateDeployableNames(source, relative = '') {
-  const entries = await fs.readdir(source, { withFileTypes: true });
-  const invalid = [];
-  for (const entry of entries) {
-    if (!relative && excludedTop.has(entry.name)) continue;
-    if (entry.name.endsWith('.zip')) continue;
-    const rel = path.join(relative, entry.name);
-    if (!SAFE_DEPLOY_SEGMENT.test(entry.name)) invalid.push(rel);
-    if (entry.isDirectory()) invalid.push(...await validateDeployableNames(path.join(source, entry.name), rel));
-  }
-  return invalid;
-}
-
-async function copyTree(source, target, relative = '') {
+async function copyTree(source, target, relative = "") {
   await fs.mkdir(target, { recursive: true });
   for (const entry of await fs.readdir(source, { withFileTypes: true })) {
     if (!relative && excludedTop.has(entry.name)) continue;
-    if (entry.name.endsWith('.zip')) continue;
+    if (entry.name.endsWith(".zip")) continue;
     const src = path.join(source, entry.name);
     const dst = path.join(target, entry.name);
     if (entry.isDirectory()) await copyTree(src, dst, path.join(relative, entry.name));
@@ -74,244 +119,164 @@ async function copyTree(source, target, relative = '') {
   }
 }
 
-function normalizeOrder(items) {
-  return [...items]
-    .sort((a, b) => (Number(a.order) || 9999) - (Number(b.order) || 9999) || text(a.title).localeCompare(text(b.title), 'tr'))
-    .map((item, index) => ({ ...item, order: index + 1 }));
+async function writeFile(relative, content) {
+  const target = path.join(DIST, relative);
+  await fs.mkdir(path.dirname(target), { recursive: true });
+  await fs.writeFile(target, content, "utf8");
 }
 
-function readingMinutes(post) {
-  const blockText = Array.isArray(post.blocks)
-    ? post.blocks.map(block => block?.html || block?.text || block?.caption || '').join(' ')
-    : '';
-  const content = `${post.content || ''} ${blockText}`.replace(/<[^>]+>/g, ' ');
-  const words = content.trim().split(/\s+/).filter(Boolean).length;
-  return Math.max(1, Math.ceil(words / 190));
+async function writeJson(relative, data) {
+  await writeFile(relative, JSON.stringify(data, null, 2));
 }
 
-async function buildServices() {
-  const raw = await readJson(dataPath('services.json'));
-  if (!Array.isArray(raw?.items)) throw new Error('assets/data/services.json içinde items listesi bulunamadı.');
-  const seen = new Set();
-  const items = normalizeOrder(raw.items.map((source, index) => {
-    const id = slugify(source.id || source.title);
-    if (seen.has(id)) throw new Error(`Hizmet kimliği yineleniyor: ${id}`);
-    seen.add(id);
-    const status = statusOf(source);
-    return {
-      ...source,
-      id,
-      title: text(source.title) || 'Hizmet',
-      summary: text(source.summary),
-      detail: text(source.detail || source.summary),
-      icon: text(source.icon) || '#i-stethoscope',
-      faIcon: text(source.faIcon || source.iconClass),
-      href: text(source.href) || `/hizmetler.html#${id}`,
-      group: text(source.group) || 'Diğer Hizmetler',
-      status,
-      published: !['draft', 'archived'].includes(status),
-      showOnHome: source.showOnHome === true,
-      order: Number(source.order) || index + 1,
-    };
-  }).filter(item => item.id !== 'egzotik'));
-  const result = { ...raw, homeLimit: 6, items };
-  await writeJson(distDataPath('services.json'), result);
-  return result;
+function commonHeader(active = "blog") {
+  const nav = [
+    ["home", "/", "Ana Sayfa"],
+    ["about", "/about", "Hakkımızda"],
+    ["services", "/hizmetler.html", "Hizmetlerimiz"],
+    ["blog", "/blog.html", "Blog"],
+    ["faq", "/sss.html", "SSS"],
+    ["patient", "/hasta-iliskileri.html", "Hasta İlişkileri"],
+  ].map(([key, href, label]) => `<li><a href="${href}"${key === active ? ' class="active" aria-current="page"' : ""}>${label}</a></li>`).join("");
+  return `<header>
+    <div class="header-top"><div class="container"><div class="header-contact"><span><i class="fa-solid fa-location-dot"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</span></div><div class="header-contact"><a href="tel:+903323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a><a href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> elcivetklinik@gmail.com</a></div></div></div>
+    <div class="header-main"><div class="container"><div class="logo-text"><a class="brand-lockup" href="/" aria-label="Elçi Veteriner Kliniği ana sayfa"><span class="brand-mark"><img src="/assets/img/uploads/elci-logo.png" alt="" width="54" height="54"></span><span class="brand-copy"><strong>Elçi Veteriner Kliniği</strong><span class="signature-tagline header-signature">Sağlığın Elçi’leriyiz</span></span></a></div><nav aria-label="Birincil"><button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç veya kapat" aria-expanded="false" aria-controls="mainMenu"><i class="fa-solid fa-bars"></i></button><ul id="mainMenu">${nav}</ul></nav></div></div>
+  </header>`;
+}
+
+function commonFooter() {
+  return `<footer class="footer-new"><div class="container footer-container"><div class="footer-col"><h3>Elçi Veteriner Kliniği</h3><p>Meram/Konya'da kedi ve köpekler için anlaşılır bilgilendirme, planlı klinik süreç ve düzenli takip.</p></div><div class="footer-col"><h3>Hızlı bağlantılar</h3><ul class="footer-links"><li><a href="/hizmetler.html">Hizmetlerimiz</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/sss.html">Sık Sorulan Sorular</a></li><li><a href="/hasta-iliskileri.html#online-randevu">Online Randevu</a></li></ul></div><div class="footer-col"><h3>İletişim</h3><ul class="footer-contact"><li><a href="tel:+903323223220">0332 322 32 20</a></li><li><a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></li><li>Her gün 09.00–21.00</li></ul></div></div><div class="footer-bottom"><div class="container">© <span id="yil"></span> Elçi Veteriner Kliniği · <a href="/kvkk.html">KVKK Aydınlatma Metni</a></div></div></footer>`;
+}
+
+function blogPage(post) {
+  const active = isActive(post);
+  const robots = active ? "index,follow,max-image-preview:large" : "noindex,nofollow,noarchive";
+  const cover = post.cover || "/assets/img/uploads/elci-logo.png";
+  const content = post.content || `<p>${escapeHtml(post.summary)}</p>`;
+  const schema = active ? `<script type="application/ld+json">${JSON.stringify({
+    "@context":"https://schema.org", "@type":"BlogPosting", headline:post.title,
+    description:post.seoDescription || post.summary, image:`${SITE_URL}${cover}`,
+    datePublished:post.date, dateModified:post.updatedAt || post.date,
+    author:{"@type":"Organization",name:post.author || "Elçi Veteriner Kliniği"},
+    publisher:{"@type":"Organization",name:"Elçi Veteriner Kliniği",logo:{"@type":"ImageObject",url:`${SITE_URL}/assets/img/uploads/elci-logo.png`}},
+    mainEntityOfPage:`${SITE_URL}${post.url}`
+  }).replace(/</g, "\\u003c")}</script>` : "";
+
+  return `<!doctype html><html lang="tr"><head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>${escapeHtml(post.seoTitle || `${post.title} | Elçi Veteriner Kliniği`)}</title>
+    <meta name="description" content="${escapeAttr(post.seoDescription || post.summary)}"><meta name="robots" content="${robots}">
+    <link rel="canonical" href="${SITE_URL}${post.url}"><meta property="og:type" content="article"><meta property="og:title" content="${escapeAttr(post.title)}"><meta property="og:description" content="${escapeAttr(post.summary)}"><meta property="og:image" content="${SITE_URL}${escapeAttr(cover)}">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><link rel="stylesheet" href="/assets/css/tokens.css"><link rel="stylesheet" href="/assets/css/styles.css"><link rel="stylesheet" href="/assets/css/elci-system.css">
+    ${schema}
+  </head><body class="blog-article-page" data-runtime-active="${active}" data-publish-at="${escapeAttr(post.date)}" data-unpublish-at="${escapeAttr(post.unpublishAt || "")}">
+    ${commonHeader("blog")}<div id="siteAnnouncement" class="site-announcement" hidden></div>
+    <main class="blog-article-shell">
+      <div class="blog-not-active" id="blogInactive"><h1>Bu yazı şu anda yayında değil.</h1><p>Yazı henüz yayınlanmamış veya yayın süresi sona ermiş olabilir.</p><a class="btn primary" href="/blog.html">Bloga dön</a></div>
+      <article class="blog-article" id="blogArticle">
+        <header class="blog-article-header"><span class="blog-article-kicker"><i class="fa-regular fa-file-lines"></i> Elçi sağlık notları</span><h1>${escapeHtml(post.title)}</h1><div class="blog-article-meta"><span><i class="fa-solid fa-layer-group"></i> ${escapeHtml(post.category)}</span><span><i class="fa-regular fa-calendar"></i> ${escapeHtml(post.dateLabel)}</span><span><i class="fa-regular fa-clock"></i> ${post.readingMinutes} dk okuma</span><span><i class="fa-regular fa-user"></i> ${escapeHtml(post.author)}</span></div></header><div class="blog-article-cover"><img src="${escapeAttr(cover)}" alt="${escapeAttr(post.title)}" onerror="this.src='/assets/img/uploads/elci-logo.png'"></div>
+        <div class="blog-article-content">${content}<div class="blog-article-note"><strong>Bilgilendirme:</strong> Bu içerik genel bilgi amaçlıdır; muayene, tanı ve hastaya özel tedavi planının yerini tutmaz. Acil bir durumda form beklemeden kliniğimizi arayın.</div></div>
+        <footer class="blog-article-actions"><a class="btn" href="/blog.html"><i class="fa-solid fa-arrow-left"></i> Tüm yazılar</a><a class="btn primary" href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i> Randevu talebi</a></footer>
+      </article>
+    </main>${commonFooter()}<script src="/assets/js/elci-system.js" defer></script>
+    <script>(()=>{const body=document.body,article=document.getElementById('blogArticle'),inactive=document.getElementById('blogInactive');function update(){const now=Date.now(),start=Date.parse(body.dataset.publishAt||''),end=Date.parse(body.dataset.unpublishAt||''),live=(!Number.isFinite(start)||start<=now)&&(!Number.isFinite(end)||end>now);body.dataset.runtimeActive=String(live);article.hidden=!live;inactive.hidden=live;const next=[start,end].filter(value=>Number.isFinite(value)&&value>now).sort((a,b)=>a-b)[0];if(next)setTimeout(update,Math.min(next-now+250,2147483647));}update();})();</script>
+  </body></html>`;
 }
 
 async function buildBlog() {
-  const raw = await readJson(dataPath('blog.json'));
-  if (!Array.isArray(raw?.posts)) throw new Error('assets/data/blog.json içinde posts listesi bulunamadı.');
-  const seen = new Set();
-  const posts = raw.posts.map(source => {
-    const slug = slugify(source.slug || source.id || source.title);
-    if (seen.has(slug)) throw new Error(`Blog bağlantı adı yineleniyor: ${slug}`);
-    seen.add(slug);
-    const status = statusOf(source);
-    const date = source.date || source.scheduledAt || new Date().toISOString();
-    const category = text(source.category || source.categories?.[0]) || 'Genel Sağlık';
-    const categories = Array.isArray(source.categories) && source.categories.length ? source.categories.map(text).filter(Boolean) : [category];
-    const blocks = Array.isArray(source.blocks) ? source.blocks.filter(block => block && ['text', 'image', 'quote'].includes(block.type)) : [];
+  const entries = await readJsonFolder(SOURCES.blog);
+  const posts = entries.map(({ slug:entrySlug, file, data }) => {
+    const advanced = data.advanced || {};
+    const slug = String(advanced.slug || "").trim() || slugify(data.title);
+    const date = data.date || new Date().toISOString();
+    const rawContent = data.content || "";
+    const words = stripHtml(rawContent).split(/\s+/).filter(Boolean).length;
     return {
-      ...source,
-      id: source.id || slug,
-      slug,
-      title: text(source.title),
-      summary: text(source.summary),
-      status,
-      contentType: source.contentType === 'announcement' ? 'announcement' : 'blog',
-      date,
-      scheduledAt: source.scheduledAt || date,
-      published: isPublic({ ...source, status, date }),
-      category,
-      categories,
-      tags: Array.isArray(source.tags) ? source.tags.map(text).filter(Boolean) : [],
-      author: text(source.author) || 'Elçi Veteriner Kliniği',
-      cover: text(source.cover),
-      content: text(source.content),
-      blocks,
-      readingMinutes: readingMinutes({ ...source, blocks }),
-      seoTitle: text(source.seoTitle || source.title),
-      seoDescription: text(source.seoDescription || source.summary),
-      url: `/blog.html#${encodeURIComponent(slug)}`,
-      dateLabel: new Date(date).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short', year: 'numeric' }),
-      showOnHome: source.showOnHome === true,
-      homeOrder: Number(source.homeOrder) || null,
+      title:data.title || "", slug, date, scheduledAt:date, unpublishAt:data.unpublishAt || "",
+      published:data.published !== false, active:isActive({ published:data.published !== false, date, unpublishAt:data.unpublishAt || "" }), featured:data.featured === true, summary:data.summary || "", cover:data.cover || "",
+      youtubeId:advanced.youtubeId || "", category:data.category || "Klinik Duyuruları", categories:[data.category || "Klinik Duyuruları"],
+      species:data.species || "Genel", tags:Array.isArray(data.tags) ? data.tags : [], relatedService:data.relatedService || "",
+      author:advanced.author || "Elçi Veteriner Kliniği", readingMinutes:Math.max(1, Math.ceil(words / 190)),
+      seoTitle:advanced.seoTitle || data.title || "", seoDescription:advanced.seoDescription || data.summary || "",
+      url:`/blog/${encodeURIComponent(slug)}.html`, content:renderRichText(rawContent), cmsEntry:entrySlug, sourceFile:file,
+      dateLabel:dateLabel(date), updatedAt:data.updatedAt || date,
     };
-  }).sort((a, b) => new Date(b.date) - new Date(a.date));
-
-  await writeJson(distDataPath('blog.json'), { posts });
-  await writeJson(distDataPath('home-blog.json'), posts
-    .filter(post => post.published && post.contentType === 'blog' && post.showOnHome)
-    .sort((a, b) => (a.homeOrder || 999) - (b.homeOrder || 999)).slice(0, 6));
-  await writeJson(distDataPath('announcements.json'), posts
-    .filter(post => post.published && post.contentType === 'announcement' && post.showOnHome)
-    .sort((a, b) => (a.homeOrder || 999) - (b.homeOrder || 999)).slice(0, 3));
+  }).sort((a,b) => new Date(b.date) - new Date(a.date));
+  await writeJson("assets/data/blog.json", { posts });
+  for (const post of posts.filter(post => post.published !== false)) await writeFile(`blog/${post.slug}.html`, blogPage(post));
   return posts;
 }
 
 async function buildFaq() {
-  const raw = await readJson(dataPath('faq.json'));
-  if (!Array.isArray(raw?.items)) throw new Error('assets/data/faq.json içinde items listesi bulunamadı.');
-  const seen = new Set();
-  const items = raw.items.map(source => {
-    const id = slugify(source.id || source.q);
-    if (seen.has(id)) throw new Error(`SSS kimliği yineleniyor: ${id}`);
-    seen.add(id);
-    const status = statusOf(source);
-    return {
-      ...source, id, q: text(source.q), a: text(source.a), category: text(source.category) || 'Genel',
-      status, published: isPublic(source), showOnHome: source.showOnHome === true,
-      homeOrder: Number(source.homeOrder) || null,
-    };
-  });
-  await writeJson(distDataPath('faq.json'), { title: raw.title || 'Sık Sorulan Sorular', items });
-  await writeJson(distDataPath('home-faq.json'), items.filter(item => item.published && item.showOnHome)
-    .sort((a, b) => (a.homeOrder || 999) - (b.homeOrder || 999)).slice(0, 6));
+  const entries = await readJsonFolder(SOURCES.faq);
+  const home = await readJson(SOURCES.homeFaq, { items:[] });
+  const selected = (home?.items || []).map(item => typeof item === "string" ? item : item?.faq).filter(Boolean).slice(0, 6);
+  const order = new Map(selected.map((slug,index) => [slug,index+1]));
+  const items = entries.map(({slug,data}) => ({
+    id:slug, q:data.title || "", a:data.answer || "", category:data.category || "Muayene ve Laboratuvar",
+    published:data.published !== false, showOnHome:order.has(slug), homeOrder:order.get(slug) || null, cmsEntry:slug,
+  })).sort((a,b) => a.category === b.category ? a.q.localeCompare(b.q,"tr") : a.category.localeCompare(b.category,"tr"));
+  await writeJson("assets/data/faq.json", { title:"Sık Sorulan Sorular", items });
   return items;
 }
 
 async function buildReviews() {
-  const raw = await readJson(dataPath('reviews.json'));
-  if (!Array.isArray(raw)) throw new Error('assets/data/reviews.json bir liste olmalıdır.');
-  const seen = new Set();
-  const all = raw.map((source, index) => {
-    const id = slugify(source.id || `${source.author}-${index + 1}`);
-    if (seen.has(id)) throw new Error(`Yorum kimliği yineleniyor: ${id}`);
-    seen.add(id);
-    const status = statusOf(source);
-    return {
-      ...source, id, author: text(source.author) || 'Google kullanıcısı',
-      rating: Math.max(1, Math.min(5, Number(source.rating) || 5)), text: text(source.text),
-      time: text(source.time), sourceUrl: text(source.sourceUrl), status,
-      published: isPublic(source), showOnHome: source.showOnHome === true,
-      homeOrder: Number(source.homeOrder) || null,
-    };
-  });
-  await writeJson(distDataPath('reviews.json'), all);
-  const home = all.filter(item => item.published && item.showOnHome)
-    .sort((a, b) => (a.homeOrder || 999) - (b.homeOrder || 999)).slice(0, 6);
-  await writeJson(distDataPath('home-reviews.json'), home);
-  return { all, home };
+  const entries = await readJsonFolder(SOURCES.reviews);
+  const legacy = await readJson(path.join(ROOT,"assets","data","reviews.json"), []);
+  const settings = await readJson(SOURCES.homeReviews, { totalCount:194, items:[] });
+  const map = new Map(entries.map(entry => [entry.slug, entry.data]));
+  let selected = (settings?.items || []).map(item => typeof item === "string" ? item : item?.review).filter(Boolean);
+  let reviews = selected.map(slug => ({ slug, data:map.get(slug) })).filter(item => item.data && item.data.published !== false).map(({slug,data}) => ({
+    author:data.author || "Google kullanıcısı", rating:Math.max(1,Math.min(5,Number(data.rating)||5)), time:data.time || "", text:data.text || "", sourceUrl:data.sourceUrl || "", cmsEntry:slug,
+  }));
+  if (!reviews.length) reviews = (Array.isArray(legacy) ? legacy : []).slice(0, 12);
+  await writeJson("assets/data/reviews.json", reviews);
+  await writeJson("assets/data/site-settings.json", { totalGoogleReviews:Math.max(0,Number(settings?.totalCount)||0) });
+  return reviews;
 }
 
 async function buildInstagram() {
-  const raw = await readJson(dataPath('instagram.json'));
-  if (!Array.isArray(raw)) throw new Error('assets/data/instagram.json bir liste olmalıdır.');
-  const items = raw.map((source, index) => {
-    const id = slugify(source.id || `instagram-${index + 1}`);
-    const image = text(source.image || (source.file ? `/assets/img/insta/${source.file}` : ''));
-    const status = statusOf(source);
-    return { ...source, id, image, status, published: isPublic(source), alt: text(source.alt || source.title || 'Elçi Veteriner Kliniği paylaşımı') };
-  });
-  await writeJson(distDataPath('instagram.json'), items);
-  await writeJson(distDataPath('instagram-manual.json'), items.filter(item => item.published && item.image));
+  const entries = await readJsonFolder(SOURCES.instagram);
+  const items = entries.map(({slug,data}) => ({ id:slug,published:data.published !== false,title:data.title || "",date:data.date || "",image:data.image || "",alt:data.alt || data.title || "Elçi Veteriner Kliniği galeri görseli",instagramUrl:data.instagramUrl || "",cmsEntry:slug }))
+    .filter(item => item.published && item.image).sort((a,b) => new Date(b.date||0)-new Date(a.date||0));
+  await writeJson("assets/data/instagram-manual.json", items);
   return items;
 }
 
-async function buildStories() {
-  const raw = await readJson(dataPath('successStories.json'));
-  const stories = Array.isArray(raw?.stories) ? raw.stories.map((source, index) => {
-    const status = statusOf(source);
-    return { ...source, id: slugify(source.id || source.title || `hikaye-${index + 1}`), status, published: isPublic(source) };
-  }) : [];
-  await writeJson(distDataPath('successStories.json'), { stories });
-  await writeJson(distDataPath('basari_hikayeleri.json'), stories.filter(item => item.published));
-  return stories;
+async function buildAnnouncements() {
+  const entries = await readJsonFolder(SOURCES.announcements);
+  const items = entries.map(({slug,data}) => ({
+    id:slug, published:data.published !== false, showOnHome:data.showOnHome !== false, title:data.title || "", message:data.message || "",
+    level:data.level || "info", linkLabel:data.linkLabel || "", linkUrl:data.linkUrl || "", publishAt:data.publishAt || "", unpublishAt:data.unpublishAt || "",
+    priority:Number(data.priority || 0), dismissible:data.dismissible !== false, cmsEntry:slug,
+  }));
+  await writeJson("assets/data/announcements.json", { items });
+  return items;
 }
 
-async function buildPagesAndSettings() {
-  const [pages, settings, calendar] = await Promise.all([
-    readJson(dataPath('pages.json')),
-    readJson(dataPath('site-settings.json')),
-    readJson(dataPath('calendar.json'), { events: [] }),
-  ]);
-  if (!Array.isArray(pages?.items)) throw new Error('assets/data/pages.json içinde items listesi bulunamadı.');
-  if (!Array.isArray(calendar?.events)) throw new Error('assets/data/calendar.json içinde events listesi bulunamadı.');
-  await writeJson(distDataPath('pages.json'), pages);
-  await writeJson(distDataPath('site-settings.json'), settings);
-  await writeJson(distDataPath('calendar.json'), calendar);
-  return { pages, settings, calendar };
+async function buildSitemap(posts) {
+  const staticPaths = ["/", "/about", "/hizmetler.html", "/blog.html", "/sss.html", "/hasta-iliskileri.html", "/kvkk.html"];
+  const urls = [...staticPaths, ...posts.filter(post => isActive(post)).map(post => post.url)];
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(url => `  <url><loc>${SITE_URL}${url}</loc><lastmod>${NOW.toISOString().slice(0,10)}</lastmod></url>`).join("\n")}\n</urlset>\n`;
+  await writeFile("sitemap.xml", xml);
 }
 
-function localBranch() {
-  if (process.env.BRANCH) return process.env.BRANCH;
-  try { return execFileSync('git', ['branch', '--show-current'], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim() || 'elci-yonetim-v3-test'; }
-  catch { return 'elci-yonetim-v3-test'; }
-}
-
-async function writeRuntimeConfig() {
-  const context = process.env.CONTEXT || 'local';
-  const branch = localBranch();
-  const production = context === 'production' && branch === 'main';
-  const config = {
-    context,
-    branch,
-    production,
-    deployPreview: context === 'deploy-preview',
-    reviewId: process.env.REVIEW_ID || '',
-    commitRef: process.env.COMMIT_REF || process.env.HEAD || '',
-  };
-  const script = `window.ELCI_RUNTIME_CONFIG = ${JSON.stringify(config, null, 2)};\n`;
-  await fs.writeFile(path.join(DIST, 'admin', 'runtime-config.js'), script, 'utf8');
-  return config;
-}
-
-const invalidSourceNames = await validateDeployableNames(ROOT);
-if (invalidSourceNames.length) throw new Error(`Netlify ile uyumsuz dosya adı bulundu:\n${invalidSourceNames.map(name => `- ${name}`).join('\n')}`);
-
-await fs.rm(DIST, { recursive: true, force: true });
+await fs.rm(DIST, { recursive:true, force:true });
 await copyTree(ROOT, DIST);
-
-const [services, posts, faq, reviews, instagram, stories, common] = await Promise.all([
-  buildServices(), buildBlog(), buildFaq(), buildReviews(), buildInstagram(), buildStories(), buildPagesAndSettings(),
+const [posts, faq, reviews, instagram, announcements] = await Promise.all([
+  buildBlog(), buildFaq(), buildReviews(), buildInstagram(), buildAnnouncements()
 ]);
-const runtime = await writeRuntimeConfig();
-
-await writeJson(distDataPath('content-manifest.json'), {
-  generatedAt: new Date().toISOString(), ok: true, branch: runtime.branch, context: runtime.context,
-  serviceCount: services.items.filter(item => item.published).length,
-  publishedBlogCount: posts.filter(item => item.published && item.contentType === 'blog').length,
-  announcementCount: posts.filter(item => item.published && item.contentType === 'announcement').length,
-  faqCount: faq.filter(item => item.published).length,
-  reviewCount: reviews.all.filter(item => item.published).length,
-  presentedReviewCount: reviews.home.length,
-  instagramCount: instagram.filter(item => item.published).length,
-  successStoryCount: stories.filter(item => item.published).length,
-  pageCount: common.pages.items.length,
+await buildSitemap(posts);
+const transitions = [
+  ...posts.flatMap(post => [post.published !== false ? validDate(post.date) : null, post.published !== false ? validDate(post.unpublishAt) : null]),
+  ...announcements.flatMap(item => [item.published !== false ? validDate(item.publishAt) : null, item.published !== false ? validDate(item.unpublishAt) : null]),
+].filter(date => date && date > NOW).sort((a,b) => a-b);
+await writeJson("assets/data/content-manifest.json", {
+  generatedAt:new Date().toISOString(), activeBlogCount:posts.filter(post => isActive(post)).length,
+  scheduledBlogCount:posts.filter(post => post.published !== false && validDate(post.date) > NOW).length,
+  faqCount:faq.filter(item => item.published).length, presentedReviewCount:reviews.length,
+  manualInstagramCount:instagram.length, activeAnnouncementCount:announcements.filter(item => isActive({...item,date:item.publishAt})).length,
+  nextContentTransitionAt:transitions[0]?.toISOString() || "",
 });
-
-const invalidDistNames = await validateDeployableNames(DIST);
-if (invalidDistNames.length) throw new Error(`Üretilen dist klasöründe Netlify ile uyumsuz dosya adı bulundu:\n${invalidDistNames.map(name => `- ${name}`).join('\n')}`);
-
-const requiredOutputs = [
-  'index.html', 'about.html', 'hizmetler.html', 'blog.html', 'sss.html', 'hasta-iliskileri.html',
-  'admin/index.html', 'admin/runtime-config.js', 'assets/data/services.json', 'assets/data/blog.json',
-  'assets/data/faq.json', 'assets/data/reviews.json', 'assets/data/content-manifest.json',
-];
-for (const relative of requiredOutputs) {
-  if (!await exists(path.join(DIST, relative))) throw new Error(`Zorunlu çıktı üretilemedi: ${relative}`);
-}
-
-console.log(`Elçi build tamamlandı: ${runtime.branch} (${runtime.context})`);
-console.log(`Hizmet ${services.items.filter(item => item.published).length}, blog/duyuru ${posts.filter(item => item.published).length}, SSS ${faq.filter(item => item.published).length}, yorum ${reviews.all.filter(item => item.published).length}.`);
+console.log("Elçi site içeriği, blog sayfaları ve yayın takvimi hazırlandı.");

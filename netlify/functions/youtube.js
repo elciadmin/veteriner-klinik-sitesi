@@ -3,7 +3,7 @@
 // Kanal: Elçi Veteriner Kliniği
 const FEED = 'https://www.youtube.com/feeds/videos.xml?channel_id=UCj2kiAEEF2LyKko9P78RGPQ';
 
-export const handler = async () => {
+exports.handler = async () => {
   try {
     const r = await fetch(FEED);
     const xml = await r.text();
