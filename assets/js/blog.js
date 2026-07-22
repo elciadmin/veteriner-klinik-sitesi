@@ -46,7 +46,6 @@
         <div class="elci-blog-meta">
           <span class="elci-blog-category">${esc(post.category || 'Genel')}</span>
           <span>${esc(post.dateLabel || '')}</span>
-          <span>${Number(post.readingMinutes || 1)} dk okuma</span>
         </div>
         <h3><a href="${esc(url(post))}">${esc(post.title)}</a></h3>
         <p>${esc(post.summary || '')}</p>

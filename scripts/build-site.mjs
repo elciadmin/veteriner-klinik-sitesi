@@ -78,6 +78,10 @@ function renderEditorialSections(sections) {
   const blocks = sections.map(block => {
     if (!block || typeof block !== "object") return "";
     const type = String(block.type || "").trim();
+    if (type === "text" && (block.heading || block.body)) {
+      const heading = block.heading ? `<h2 class="editorial-section-title">${escapeHtml(block.heading)}</h2>` : "";
+      return `<section class="editorial-section editorial-text">${heading}${renderRichText(block.body || "")}</section>`;
+    }
     if (type === "image" && block.image) {
       const compact = block.size === "compact" ? " is-compact" : "";
       const caption = block.caption ? `<figcaption>${escapeHtml(block.caption)}</figcaption>` : "";
@@ -183,7 +187,7 @@ function blogPage(post) {
   const active = isActive(post);
   const robots = active ? "index,follow,max-image-preview:large" : "noindex,nofollow,noarchive";
   const cover = post.cover || "/assets/img/uploads/elci-logo.png";
-  const content = post.content || `<p>${escapeHtml(post.summary)}</p>`;
+  const content = post.content || (post.contentMode === "visual" ? "" : `<p>${escapeHtml(post.summary)}</p>`);
   const schema = active ? `<script type="application/ld+json">${JSON.stringify({
     "@context":"https://schema.org", "@type":"BlogPosting", headline:post.title,
     description:post.seoDescription || post.summary, image:`${SITE_URL}${cover}`,
@@ -206,7 +210,7 @@ function blogPage(post) {
     <main class="blog-article-shell">
       <div class="blog-not-active" id="blogInactive"><h1>Bu yazı şu anda yayında değil.</h1><p>Yazı henüz yayınlanmamış veya yayın süresi sona ermiş olabilir.</p><a class="btn primary" href="/blog.html">Bloga dön</a></div>
       <article class="blog-article" id="blogArticle">
-        <header class="blog-article-header"><span class="blog-article-kicker"><i class="fa-regular fa-file-lines"></i> Elçi sağlık notları</span><h1>${escapeHtml(post.title)}</h1><div class="blog-article-meta"><span><i class="fa-solid fa-layer-group"></i> ${escapeHtml(post.category)}</span><span><i class="fa-regular fa-calendar"></i> ${escapeHtml(post.dateLabel)}</span><span><i class="fa-regular fa-clock"></i> ${post.readingMinutes} dk okuma</span><span><i class="fa-regular fa-user"></i> ${escapeHtml(post.author)}</span></div></header><div class="blog-article-cover"><img src="${escapeAttr(cover)}" alt="${escapeAttr(post.title)}" onerror="this.src='/assets/img/uploads/elci-logo.png'"></div>
+        <header class="blog-article-header"><span class="blog-article-kicker"><i class="fa-regular fa-file-lines"></i> Elçi sağlık notları</span><h1>${escapeHtml(post.title)}</h1><div class="blog-article-meta"><span><i class="fa-solid fa-layer-group"></i> ${escapeHtml(post.category)}</span><span><i class="fa-regular fa-calendar"></i> ${escapeHtml(post.dateLabel)}</span><span><i class="fa-regular fa-user"></i> ${escapeHtml(post.author)}</span></div></header><div class="blog-article-cover"><img src="${escapeAttr(cover)}" alt="${escapeAttr(post.title)}" onerror="this.src='/assets/img/uploads/elci-logo.png'"></div>
         <div class="blog-article-content">${content}${post.editorialHtml || ""}<div class="blog-article-note"><strong>Bilgilendirme:</strong> Bu içerik genel bilgi amaçlıdır; muayene, tanı ve hastaya özel tedavi planının yerini tutmaz. Acil bir durumda form beklemeden kliniğimizi arayın.</div></div>
         <footer class="blog-article-actions"><a class="btn" href="/blog.html"><i class="fa-solid fa-arrow-left"></i> Tüm yazılar</a><a class="btn primary" href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i> Randevu talebi</a></footer>
       </article>
@@ -222,7 +226,11 @@ async function buildBlog() {
     const slug = String(advanced.slug || "").trim() || slugify(data.title);
     const date = data.date || new Date().toISOString();
     const rawContent = data.content || "";
-    const words = stripHtml(rawContent).split(/\s+/).filter(Boolean).length;
+    const contentMode = ["standard","visual"].includes(data.contentMode)
+      ? data.contentMode
+      : (Array.isArray(data.editorialSections) && data.editorialSections.length && !String(rawContent).trim() ? "visual" : "standard");
+    const editorialText = Array.isArray(data.editorialSections) ? data.editorialSections.map(block => [block?.heading,block?.body,...(Array.isArray(block?.items)?block.items.map(item=>typeof item === "string" ? item : item?.item || ""):[])].filter(Boolean).join(" ")).join(" ") : "";
+    const words = stripHtml(contentMode === "visual" ? editorialText : rawContent).split(/\s+/).filter(Boolean).length;
     return {
       title:data.title || "", slug, date, scheduledAt:date, unpublishAt:data.unpublishAt || "",
       published:data.published !== false, active:isActive({ published:data.published !== false, date, unpublishAt:data.unpublishAt || "" }), featured:data.featured === true, summary:data.summary || "", cover:data.cover || "",
@@ -230,7 +238,7 @@ async function buildBlog() {
       species:data.species || "Genel", tags:Array.isArray(data.tags) ? data.tags : [], relatedService:data.relatedService || "",
       author:advanced.author || "Elçi Veteriner Kliniği", readingMinutes:Math.max(1, Math.ceil(words / 190)),
       seoTitle:advanced.seoTitle || data.title || "", seoDescription:advanced.seoDescription || data.summary || "",
-      url:`/blog/${encodeURIComponent(slug)}.html`, content:renderRichText(rawContent), editorialHtml:renderEditorialSections(data.editorialSections), cmsEntry:entrySlug, sourceFile:file,
+      url:`/blog/${encodeURIComponent(slug)}.html`, contentMode, content:contentMode === "visual" ? "" : renderRichText(rawContent), editorialHtml:contentMode === "visual" ? renderEditorialSections(data.editorialSections) : "", cmsEntry:entrySlug, sourceFile:file,
       dateLabel:dateLabel(date), updatedAt:data.updatedAt || date,
     };
   }).sort((a,b) => new Date(b.date) - new Date(a.date));

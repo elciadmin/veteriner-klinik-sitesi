@@ -1,0 +1,32 @@
+ELÇİ YÖNETİM MERKEZİ V5.2 — BLOG BİÇİMİ SEÇİMİ
+
+Bu yama yalnızca blog oluşturma akışını ve blog yazısı içindeki kontrollü bölüm sunumunu düzeltir.
+Sitenin ana sayfa, header, hero, hizmet, SSS ve diğer tasarımlarına dokunmaz.
+
+YENİ AKIŞ
+1. Yazının temel bilgilerini doldurun.
+2. "Önce yazı biçimini seçin" alanından:
+   - Sadece metin
+   - Görselli ve bölümlü yazı
+   seçeneklerinden birini seçin.
+3. Sadece metin seçilirse yalnız ana metin alanı zorunludur.
+4. Görselli ve bölümlü yazı seçilirse ana metin zorunlu değildir.
+   Bunun yerine Sadece metin, Tek görsel, Görsel + metin, Bilgi kutusu veya Adımlar bölümleri eklenir.
+
+DÜZELTMELER
+- Görselli biçimde ana metin kutusu zorunlu değil.
+- Görselli biçime ayrı "Sadece metin" bölümü eklendi.
+- Eski yazılar otomatik olarak doğru biçimde açılır.
+- Biçimler arasında geçiş yapınca girilmiş içerikler silinmez.
+- Tek görsel için "Geniş" ve "Girintili / ortalı" sunum seçenekleri var.
+- Görsel + metin dar alanda otomatik alt alta geçer; metin sıkışmaz.
+- Okuma süresi ziyaretçi blog listesinden ve yazı başlığından kaldırıldı.
+- Boş görselli yazı yayınlanamaz; en az bir dolu bölüm gerekir.
+
+KURULUM
+Yama klasörünün İÇİNDEKİ admin, assets ve scripts klasörlerini projenin köküne kopyalayın.
+Windows sorunca "Hedefteki dosyaları değiştir" seçin.
+GitHub Desktop özet metni:
+V5.2 blog biçimi seçimi ve estetik bölüm düzeni
+
+Önce test dalında Commit ve Push yapın. Netlify yeşil deploy sonrası panelde Ctrl+F5 yapın.
