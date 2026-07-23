@@ -104,7 +104,7 @@ function renderEditorialSections(sections) {
       const side = block.imageSide === "left" ? " image-left" : "";
       const fit = block.fit === "contain" ? " fit-contain" : " fit-cover";
       const heading = block.heading ? `<h2 class="editorial-section-title">${escapeHtml(block.heading)}</h2>` : "";
-      return `<section class="editorial-section editorial-split${side}${fit}"><div class="editorial-split-copy">${heading}${renderRichText(block.body || "")}</div><div class="editorial-split-media"><img src="${escapeAttr(block.image)}" alt="${escapeAttr(block.alt || block.heading || "Blog görseli")}" loading="lazy" decoding="async" onerror="this.closest('.editorial-split-media').hidden=true"></div></section>`;
+      return `<section class="editorial-section editorial-split${side}${fit}"><div class="editorial-split-copy">${heading}${renderRichText(block.body || "")}</div><div class="editorial-split-media"><img src="${escapeAttr(block.image)}" alt="${escapeAttr(block.alt || block.heading || "Blog görseli")}" loading="lazy" decoding="async" onerror="const media=this.closest('.editorial-split-media');const section=this.closest('.editorial-split');media?.remove();section?.classList.add('media-missing')"></div></section>`;
     }
     if (type === "gallery") {
       const images = (Array.isArray(block.images) ? block.images : []).filter(item => item?.image).slice(0,4);
@@ -210,6 +210,7 @@ function blogPage(post) {
   const active = isActive(post);
   const robots = active ? "index,follow,max-image-preview:large" : "noindex,nofollow,noarchive";
   const cover = post.cover || "/assets/img/uploads/elci-logo.png";
+  const brandCover = !post.cover || /(?:^|\/)(?:elci[-_]?logo|logo)(?:\.[a-z0-9]+)?$/i.test(cover);
   const content = post.content || (post.contentMode === "visual" ? "" : `<p>${escapeHtml(post.summary)}</p>`);
   const schema = active ? `<script type="application/ld+json">${JSON.stringify({
     "@context":"https://schema.org", "@type":"BlogPosting", headline:post.title,
@@ -226,14 +227,14 @@ function blogPage(post) {
     <meta name="description" content="${escapeAttr(post.seoDescription || post.summary)}"><meta name="robots" content="${robots}">
     <link rel="canonical" href="${SITE_URL}${post.url}"><meta property="og:type" content="article"><meta property="og:title" content="${escapeAttr(post.title)}"><meta property="og:description" content="${escapeAttr(post.summary)}"><meta property="og:image" content="${SITE_URL}${escapeAttr(cover)}">
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><link rel="stylesheet" href="/assets/css/tokens.css"><link rel="stylesheet" href="/assets/css/styles.css"><link rel="stylesheet" href="/assets/css/elci-system.css?v=20260721-2"><link rel="stylesheet" href="/assets/css/elci-fixes-v33.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-fixes-v34.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-final-v35.css?v=20260723-54">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><link rel="stylesheet" href="/assets/css/tokens.css"><link rel="stylesheet" href="/assets/css/styles.css"><link rel="stylesheet" href="/assets/css/elci-system.css?v=20260721-2"><link rel="stylesheet" href="/assets/css/elci-fixes-v33.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-fixes-v34.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-final-v35.css?v=20260723-54"><link rel="stylesheet" href="/assets/css/elci-blog-v55.css?v=20260723-1">
     ${schema}
   </head><body class="blog-article-page" data-content-mode="${escapeAttr(post.contentMode || "standard")}" data-runtime-active="${active}" data-publish-at="${escapeAttr(post.date)}" data-unpublish-at="${escapeAttr(post.unpublishAt || "")}">
     ${commonHeader("blog")}<div id="siteAnnouncement" class="site-announcement" hidden></div>
     <main class="blog-article-shell">
       <div class="blog-not-active" id="blogInactive"><h1>Bu yazı şu anda yayında değil.</h1><p>Yazı henüz yayınlanmamış veya yayın süresi sona ermiş olabilir.</p><a class="btn primary" href="/blog.html">Bloga dön</a></div>
       <article class="blog-article" id="blogArticle">
-        <header class="blog-article-header"><span class="blog-article-kicker"><i class="fa-regular fa-file-lines"></i> Elçi sağlık notları</span><h1>${escapeHtml(post.title)}</h1><div class="blog-article-meta"><span><i class="fa-solid fa-layer-group"></i> ${escapeHtml(post.category)}</span><span><i class="fa-regular fa-calendar"></i> ${escapeHtml(post.dateLabel)}</span><span><i class="fa-regular fa-user"></i> ${escapeHtml(post.author)}</span></div></header><div class="blog-article-cover"><img src="${escapeAttr(cover)}" alt="${escapeAttr(post.title)}" onerror="this.src='/assets/img/uploads/elci-logo.png'"></div>
+        <header class="blog-article-header"><span class="blog-article-kicker"><i class="fa-regular fa-file-lines"></i> Elçi sağlık notları</span><h1>${escapeHtml(post.title)}</h1><div class="blog-article-meta"><span><i class="fa-solid fa-layer-group"></i> ${escapeHtml(post.category)}</span><span><i class="fa-regular fa-calendar"></i> ${escapeHtml(post.dateLabel)}</span><span><i class="fa-regular fa-user"></i> ${escapeHtml(post.author)}</span></div></header><div class="blog-article-cover${brandCover ? " is-brand-cover" : ""}"><img src="${escapeAttr(cover)}" alt="${escapeAttr(post.title)}" onerror="this.onerror=null;this.src='/assets/img/uploads/elci-logo.png';this.closest('.blog-article-cover')?.classList.add('is-brand-cover')"></div>
         <div class="blog-article-content">${content}${post.editorialHtml || ""}<div class="blog-article-note"><strong>Bilgilendirme:</strong> Bu içerik genel bilgi amaçlıdır; muayene, tanı ve hastaya özel tedavi planının yerini tutmaz. Acil bir durumda form beklemeden kliniğimizi arayın.</div></div>
         <footer class="blog-article-actions"><a class="btn" href="/blog.html"><i class="fa-solid fa-arrow-left"></i> Tüm yazılar</a><a class="btn primary" href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i> Randevu talebi</a></footer>
       </article>

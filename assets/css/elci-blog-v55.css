@@ -1,0 +1,132 @@
+/* ======================================================================
+   ELÇİ V5.5 — BLOG GÖRSEL DAYANIKLILIĞI VE TAŞMA KORUMASI
+   Yalnızca blog yazısı ayrıntı sayfasındaki içerik yerleşimini etkiler.
+   ====================================================================== */
+
+.blog-article,
+.blog-article *{
+  box-sizing:border-box;
+}
+
+.blog-article-header h1,
+.blog-article-content,
+.blog-article-content p,
+.blog-article-content li,
+.blog-article-content blockquote,
+.blog-article-content figcaption,
+.blog-article-content .editorial-section-title,
+.blog-article-content .editorial-split-copy,
+.blog-article-content .editorial-split-copy *{
+  min-width:0;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  hyphens:auto;
+}
+
+/* Kapak görseli sayfayı ezmez. Normal fotoğraf yatay kalır. */
+.blog-article-cover{
+  aspect-ratio:16/7;
+  max-height:500px;
+  background:linear-gradient(135deg,#f5f1fb,#eaf8fb);
+}
+.blog-article-cover img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* Kapak yoksa ya da yalnızca marka logosu kullanılıyorsa şık marka kapağı. */
+.blog-article-cover.is-brand-cover{
+  aspect-ratio:auto;
+  min-height:270px;
+  max-height:390px;
+  display:grid;
+  place-items:center;
+  padding:34px;
+  background:
+    radial-gradient(circle at 82% 18%,rgba(39,202,220,.20),transparent 34%),
+    radial-gradient(circle at 12% 88%,rgba(100,39,201,.15),transparent 38%),
+    linear-gradient(135deg,#f8f4fc,#ecf9fb);
+}
+.blog-article-cover.is-brand-cover img{
+  width:min(46%,360px);
+  height:auto;
+  max-height:300px;
+  object-fit:contain;
+  padding:14px;
+  border-radius:28px;
+  background:rgba(255,255,255,.72);
+  box-shadow:0 18px 42px rgba(44,22,79,.13);
+}
+
+/* Görsel + metin bloğu hiçbir içerikte yatay taşmaz. */
+.blog-article-content .editorial-split{
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  overflow:hidden;
+}
+.blog-article-content .editorial-split-copy,
+.blog-article-content .editorial-split-media{
+  min-width:0;
+  max-width:100%;
+}
+.blog-article-content .editorial-split-copy p,
+.blog-article-content .editorial-split-copy li{
+  max-width:100%;
+}
+.blog-article-content .editorial-split-media{
+  display:grid;
+  place-items:center;
+}
+.blog-article-content .editorial-split-media img{
+  display:block;
+  width:100%;
+  max-width:100%;
+}
+.blog-article-content .editorial-split.media-missing{
+  grid-template-columns:minmax(0,1fr)!important;
+}
+.blog-article-content .editorial-split.media-missing .editorial-split-copy{
+  max-width:760px;
+  margin-inline:auto;
+}
+
+/* Bozuk/eksik görsel alanı boş beyaz kutu bırakmaz. */
+.blog-article-content .editorial-split-media[hidden],
+.blog-article-content .editorial-gallery figure[hidden],
+.blog-article-content .editorial-figure[hidden]{
+  display:none!important;
+}
+.blog-article-content .editorial-gallery:empty{
+  display:none;
+}
+
+@media(max-width:900px){
+  .blog-article-content .editorial-split{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+  .blog-article-content .editorial-split.image-left .editorial-split-media{
+    order:0;
+  }
+}
+
+@media(max-width:640px){
+  .blog-article-cover{
+    aspect-ratio:4/3;
+    max-height:360px;
+  }
+  .blog-article-cover.is-brand-cover{
+    min-height:220px;
+    padding:24px;
+  }
+  .blog-article-cover.is-brand-cover img{
+    width:min(68%,280px);
+    padding:10px;
+    border-radius:22px;
+  }
+  .blog-article-content .editorial-split{
+    padding:18px!important;
+  }
+}
