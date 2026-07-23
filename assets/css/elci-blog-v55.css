@@ -130,3 +130,180 @@
     padding:18px!important;
   }
 }
+
+/* ======================================================================
+   ELÇİ — GÜVENLİ OTOMATİK DERGİ AKIŞI
+   Yalnızca blog yazısı ayrıntı sayfasını etkiler. Header, ana sayfa,
+   randevu sistemi, içerik bağlantıları ve gelişmiş blok düzeni korunur.
+   ====================================================================== */
+.blog-article-topline{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px 22px;
+  flex-wrap:wrap;
+  margin-bottom:16px;
+}
+.blog-article-topline .blog-article-kicker,
+.blog-article-topline .blog-article-meta{margin:0}
+.blog-article-header h1{
+  max-width:850px;
+  margin:0!important;
+  font-family:Georgia,"Times New Roman",serif!important;
+  font-size:clamp(2.1rem,4.25vw,3.2rem)!important;
+  font-weight:500!important;
+  line-height:1.09!important;
+  letter-spacing:-.04em!important;
+  text-wrap:balance;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+.blog-article-summary{
+  max-width:760px;
+  margin:17px 0 0;
+  color:#566370;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(1.02rem,1.65vw,1.16rem);
+  line-height:1.72;
+  overflow-wrap:anywhere;
+}
+
+body[data-content-mode="standard"] .blog-article{
+  width:min(980px,calc(100% - 32px));
+}
+body[data-content-mode="standard"] .blog-article-header{
+  padding:44px 52px 28px;
+  border-bottom:1px solid rgba(53,16,95,.11);
+}
+body[data-content-mode="standard"] .blog-article-content{
+  max-width:900px;
+  margin:0 auto;
+  padding:32px 52px 56px;
+  color:#303a42;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:17.5px;
+  line-height:1.82;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+body[data-content-mode="standard"] .blog-article-content::after{
+  content:"";
+  display:block;
+  clear:both;
+}
+body[data-content-mode="standard"] .blog-article-content > p,
+body[data-content-mode="standard"] .blog-article-content > ul,
+body[data-content-mode="standard"] .blog-article-content > ol,
+body[data-content-mode="standard"] .blog-article-content > blockquote,
+body[data-content-mode="standard"] .blog-article-content > h2,
+body[data-content-mode="standard"] .blog-article-content > h3{
+  max-width:none;
+  margin-left:0;
+  margin-right:0;
+}
+body[data-content-mode="standard"] .blog-article-content > p{
+  margin-top:0;
+  margin-bottom:1.04em;
+}
+body[data-content-mode="standard"] .blog-article-content > p:first-of-type{
+  color:#26323a;
+  font-size:1.03em;
+}
+body[data-content-mode="standard"] .blog-article-content h2,
+body[data-content-mode="standard"] .blog-article-content h3{
+  font-family:Georgia,"Times New Roman",serif;
+  font-weight:500;
+  letter-spacing:-.02em;
+  overflow-wrap:anywhere;
+}
+body[data-content-mode="standard"] .blog-article-content h2{
+  margin-top:1.55em!important;
+  margin-bottom:.42em!important;
+  color:#321654;
+  font-size:clamp(1.35rem,2.4vw,1.76rem)!important;
+  line-height:1.22!important;
+}
+body[data-content-mode="standard"] .blog-article-content h3{
+  margin-top:1.32em!important;
+  margin-bottom:.38em!important;
+  color:#45236c;
+  font-size:1.22rem!important;
+}
+body[data-content-mode="standard"] .blog-article-content a{
+  color:#4d2290;
+  text-decoration-thickness:1px;
+  text-underline-offset:3px;
+}
+
+/* Masaüstünde görsel metnin parçasıdır; görsel bitince metin kendiliğinden
+   tam genişliğe döner. */
+.blog-article-inline-cover{
+  float:left;
+  width:min(48%,440px);
+  margin:4px 32px 18px 0;
+  overflow:hidden;
+  border:1px solid rgba(53,16,95,.12);
+  border-radius:15px;
+  background:#eef5f7;
+  box-shadow:0 11px 28px rgba(35,21,56,.10);
+  shape-outside:inset(0 round 15px);
+}
+.blog-article-inline-cover img{
+  display:block;
+  width:100%;
+  aspect-ratio:4/3;
+  object-fit:cover;
+}
+.blog-article-inline-cover.is-brand-cover{
+  width:min(38%,320px);
+  padding:24px;
+  background:linear-gradient(135deg,#f8f4fc,#edf9fb);
+}
+.blog-article-inline-cover.is-brand-cover img{
+  aspect-ratio:4/3;
+  object-fit:contain;
+}
+.blog-article-flow-clear{clear:both;height:1px}
+body[data-content-mode="standard"] .blog-article-note{
+  clear:both;
+  max-width:none;
+  margin-top:34px!important;
+  font-family:Manrope,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+@media(max-width:780px){
+  .blog-article-topline{align-items:flex-start;margin-bottom:14px}
+  .blog-article-topline .blog-article-meta{gap:8px 12px}
+  .blog-article-header h1{
+    font-size:clamp(1.82rem,8.4vw,2.5rem)!important;
+    line-height:1.12!important;
+  }
+  .blog-article-summary{font-size:1rem;line-height:1.68}
+  body[data-content-mode="standard"] .blog-article{
+    width:min(100% - 20px,980px);
+    border-radius:20px;
+  }
+  body[data-content-mode="standard"] .blog-article-header{padding:29px 22px 23px}
+  body[data-content-mode="standard"] .blog-article-content{
+    padding:24px 22px 42px;
+    font-size:16.5px;
+    line-height:1.78;
+  }
+  .blog-article-inline-cover,
+  .blog-article-inline-cover.is-brand-cover{
+    float:none;
+    width:100%;
+    margin:0 0 22px;
+    border-radius:13px;
+    shape-outside:none;
+  }
+  .blog-article-inline-cover.is-brand-cover{padding:21px}
+  .blog-article-inline-cover img{aspect-ratio:4/3}
+}
+
+@media(max-width:430px){
+  body[data-content-mode="standard"] .blog-article-header{padding:25px 18px 20px}
+  body[data-content-mode="standard"] .blog-article-content{padding:21px 18px 36px}
+  .blog-article-kicker{font-size:10px}
+  .blog-article-meta{font-size:11.5px}
+}

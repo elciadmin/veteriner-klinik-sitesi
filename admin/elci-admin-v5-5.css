@@ -45,3 +45,77 @@
   border-radius:22px;
   background:rgba(255,255,255,.78);
 }
+
+/* ======================================================================
+   ELÇİ — BLOG CANLI ÖN İZLEMEDE OTOMATİK DERGİ AKIŞI
+   Panelin menüsü, giriş sistemi, kayıt akışı ve diğer formları değiştirmez.
+   ====================================================================== */
+.health-preview-topline{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px 14px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.health-preview-topline .health-kicker,
+.health-preview-topline .health-category{margin:0}
+.health-article-preview header{margin-bottom:25px}
+.health-article-preview h1{
+  margin:0 0 12px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(1.65rem,4vw,2.55rem);
+  font-weight:500;
+  line-height:1.1;
+  letter-spacing:-.035em;
+}
+.health-lead{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:1.02rem;
+  line-height:1.7;
+}
+.health-preview-body{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:16.5px;
+  line-height:1.8;
+}
+.health-preview-body::after{content:"";display:block;clear:both}
+.health-preview-body > p,
+.health-preview-body > ul,
+.health-preview-body > ol,
+.health-preview-body > blockquote,
+.health-preview-body > h2,
+.health-preview-body > h3{
+  max-width:none;
+  margin-left:0;
+  margin-right:0;
+}
+.health-preview-cover.is-editorial-inline{
+  float:left;
+  width:min(48%,350px);
+  margin:3px 25px 15px 0;
+  overflow:hidden;
+  border:1px solid rgba(75,40,125,.12);
+  border-radius:13px;
+  background:#eef7f8;
+  box-shadow:0 9px 23px rgba(40,21,74,.10);
+}
+.health-preview-cover.is-editorial-inline img{
+  display:block;
+  width:100%;
+  aspect-ratio:4/3;
+  max-height:none;
+  object-fit:cover;
+}
+.health-preview-flow-clear{clear:both;height:1px}
+.health-disclaimer{clear:both}
+
+@media(max-width:620px){
+  .health-preview-cover.is-editorial-inline{
+    float:none;
+    width:100%;
+    margin:0 0 19px;
+  }
+  .health-article-preview h1{font-size:1.6rem}
+  .health-preview-body{font-size:15.5px;line-height:1.75}
+}
