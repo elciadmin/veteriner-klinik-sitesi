@@ -75,6 +75,11 @@ function renderRichText(value) {
 
 function renderEditorialSections(sections) {
   if (!Array.isArray(sections) || !sections.length) return "";
+  const figureHtml = (image, alt, caption = "", classes = "") => {
+    if (!image) return "";
+    const cap = caption ? `<figcaption>${escapeHtml(caption)}</figcaption>` : "";
+    return `<figure class="editorial-section editorial-figure${classes}"><img src="${escapeAttr(image)}" alt="${escapeAttr(alt || "Blog görseli")}" loading="lazy" decoding="async" onerror="this.closest('figure').hidden=true">${cap}</figure>`;
+  };
   const blocks = sections.map(block => {
     if (!block || typeof block !== "object") return "";
     const type = String(block.type || "").trim();
@@ -84,22 +89,40 @@ function renderEditorialSections(sections) {
     }
     if (type === "image" && block.image) {
       const compact = block.size === "compact" ? " is-compact" : "";
-      const caption = block.caption ? `<figcaption>${escapeHtml(block.caption)}</figcaption>` : "";
-      return `<figure class="editorial-section editorial-figure${compact}"><img src="${escapeAttr(block.image)}" alt="${escapeAttr(block.alt || "Blog görseli")}" loading="lazy" decoding="async">${caption}</figure>`;
+      const fit = block.fit === "cover" ? " fit-cover" : " fit-contain";
+      return figureHtml(block.image, block.alt, block.caption, `${compact}${fit}`);
     }
-    if (type === "split" && block.image) {
+    if (type === "split") {
+      const hasImage = !!block.image;
+      const hasCopy = !!String(block.heading || block.body || "").trim();
+      if (!hasImage && !hasCopy) return "";
+      if (!hasImage) {
+        const heading = block.heading ? `<h2 class="editorial-section-title">${escapeHtml(block.heading)}</h2>` : "";
+        return `<section class="editorial-section editorial-text">${heading}${renderRichText(block.body || "")}</section>`;
+      }
+      if (!hasCopy) return figureHtml(block.image, block.alt, "", ` is-compact ${block.fit === "contain" ? "fit-contain" : "fit-cover"}`);
       const side = block.imageSide === "left" ? " image-left" : "";
+      const fit = block.fit === "contain" ? " fit-contain" : " fit-cover";
       const heading = block.heading ? `<h2 class="editorial-section-title">${escapeHtml(block.heading)}</h2>` : "";
-      return `<section class="editorial-section editorial-split${side}"><div class="editorial-split-copy">${heading}${renderRichText(block.body || "")}</div><div class="editorial-split-media"><img src="${escapeAttr(block.image)}" alt="${escapeAttr(block.alt || block.heading || "Blog görseli")}" loading="lazy" decoding="async"></div></section>`;
+      return `<section class="editorial-section editorial-split${side}${fit}"><div class="editorial-split-copy">${heading}${renderRichText(block.body || "")}</div><div class="editorial-split-media"><img src="${escapeAttr(block.image)}" alt="${escapeAttr(block.alt || block.heading || "Blog görseli")}" loading="lazy" decoding="async" onerror="this.closest('.editorial-split-media').hidden=true"></div></section>`;
     }
-    if (type === "callout") {
+    if (type === "gallery") {
+      const images = (Array.isArray(block.images) ? block.images : []).filter(item => item?.image).slice(0,4);
+      if (images.length < 2) return images.length === 1 ? figureHtml(images[0].image, images[0].alt, images[0].caption, ` is-compact ${block.fit === "contain" ? "fit-contain" : "fit-cover"}`) : "";
+      const layout = ["two","feature"].includes(block.layout) ? ` layout-${block.layout}` : " layout-auto";
+      const fit = block.fit === "contain" ? " fit-contain" : " fit-cover";
+      return `<section class="editorial-section editorial-gallery count-${images.length}${layout}${fit}">${images.map(item => `<figure><img src="${escapeAttr(item.image)}" alt="${escapeAttr(item.alt || "Blog galerisi görseli")}" loading="lazy" decoding="async" onerror="this.closest('figure').hidden=true">${item.caption ? `<figcaption>${escapeHtml(item.caption)}</figcaption>` : ""}</figure>`).join("")}</section>`;
+    }
+    if (type === "callout" && (block.heading || block.body)) {
       const tone = ["warning","success"].includes(block.tone) ? ` ${block.tone}` : "";
       const heading = block.heading ? `<h3>${escapeHtml(block.heading)}</h3>` : "";
       return `<aside class="editorial-section editorial-callout${tone}">${heading}${renderRichText(block.body || "")}</aside>`;
     }
-    if (type === "steps" && Array.isArray(block.items) && block.items.length) {
+    if (type === "steps" && Array.isArray(block.items)) {
+      const cleanItems = block.items.map(item => typeof item === "string" ? item : item?.item || "").map(String).map(item => item.trim()).filter(Boolean);
+      if (!cleanItems.length) return "";
       const heading = block.heading ? `<h2>${escapeHtml(block.heading)}</h2>` : "";
-      const items = block.items.map(item => `<li>${escapeHtml(typeof item === "string" ? item : item?.item || "")}</li>`).join("");
+      const items = cleanItems.map(item => `<li>${escapeHtml(item)}</li>`).join("");
       return `<section class="editorial-section editorial-steps">${heading}<ol>${items}</ol></section>`;
     }
     return "";
@@ -203,9 +226,9 @@ function blogPage(post) {
     <meta name="description" content="${escapeAttr(post.seoDescription || post.summary)}"><meta name="robots" content="${robots}">
     <link rel="canonical" href="${SITE_URL}${post.url}"><meta property="og:type" content="article"><meta property="og:title" content="${escapeAttr(post.title)}"><meta property="og:description" content="${escapeAttr(post.summary)}"><meta property="og:image" content="${SITE_URL}${escapeAttr(cover)}">
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><link rel="stylesheet" href="/assets/css/tokens.css"><link rel="stylesheet" href="/assets/css/styles.css"><link rel="stylesheet" href="/assets/css/elci-system.css?v=20260721-2"><link rel="stylesheet" href="/assets/css/elci-fixes-v33.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-fixes-v34.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-final-v35.css?v=20260721-1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><link rel="stylesheet" href="/assets/css/tokens.css"><link rel="stylesheet" href="/assets/css/styles.css"><link rel="stylesheet" href="/assets/css/elci-system.css?v=20260721-2"><link rel="stylesheet" href="/assets/css/elci-fixes-v33.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-fixes-v34.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-final-v35.css?v=20260723-54">
     ${schema}
-  </head><body class="blog-article-page" data-runtime-active="${active}" data-publish-at="${escapeAttr(post.date)}" data-unpublish-at="${escapeAttr(post.unpublishAt || "")}">
+  </head><body class="blog-article-page" data-content-mode="${escapeAttr(post.contentMode || "standard")}" data-runtime-active="${active}" data-publish-at="${escapeAttr(post.date)}" data-unpublish-at="${escapeAttr(post.unpublishAt || "")}">
     ${commonHeader("blog")}<div id="siteAnnouncement" class="site-announcement" hidden></div>
     <main class="blog-article-shell">
       <div class="blog-not-active" id="blogInactive"><h1>Bu yazı şu anda yayında değil.</h1><p>Yazı henüz yayınlanmamış veya yayın süresi sona ermiş olabilir.</p><a class="btn primary" href="/blog.html">Bloga dön</a></div>
@@ -229,14 +252,12 @@ async function buildBlog() {
     const contentMode = ["standard","visual"].includes(data.contentMode)
       ? data.contentMode
       : (Array.isArray(data.editorialSections) && data.editorialSections.length && !String(rawContent).trim() ? "visual" : "standard");
-    const editorialText = Array.isArray(data.editorialSections) ? data.editorialSections.map(block => [block?.heading,block?.body,...(Array.isArray(block?.items)?block.items.map(item=>typeof item === "string" ? item : item?.item || ""):[])].filter(Boolean).join(" ")).join(" ") : "";
-    const words = stripHtml(contentMode === "visual" ? editorialText : rawContent).split(/\s+/).filter(Boolean).length;
     return {
       title:data.title || "", slug, date, scheduledAt:date, unpublishAt:data.unpublishAt || "",
       published:data.published !== false, active:isActive({ published:data.published !== false, date, unpublishAt:data.unpublishAt || "" }), featured:data.featured === true, summary:data.summary || "", cover:data.cover || "",
       youtubeId:advanced.youtubeId || "", category:data.category || "Klinik Duyuruları", categories:[data.category || "Klinik Duyuruları"],
       species:data.species || "Genel", tags:Array.isArray(data.tags) ? data.tags : [], relatedService:data.relatedService || "",
-      author:advanced.author || "Elçi Veteriner Kliniği", readingMinutes:Math.max(1, Math.ceil(words / 190)),
+      author:advanced.author || "Elçi Veteriner Kliniği",
       seoTitle:advanced.seoTitle || data.title || "", seoDescription:advanced.seoDescription || data.summary || "",
       url:`/blog/${encodeURIComponent(slug)}.html`, contentMode, content:contentMode === "visual" ? "" : renderRichText(rawContent), editorialHtml:contentMode === "visual" ? renderEditorialSections(data.editorialSections) : "", cmsEntry:entrySlug, sourceFile:file,
       dateLabel:dateLabel(date), updatedAt:data.updatedAt || date,
