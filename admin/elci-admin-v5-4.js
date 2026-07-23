@@ -580,8 +580,8 @@
     const legacyMode=data.categoryMode||(state.edit?.item?'manual':'auto');
     const inference=inferBlogCategory(data);
     const category=legacyMode==='manual'&&data.category?data.category:inference.category;
-    const reason=inference.reasons.length?`Eşleşen konu: ${inference.reasons.join(', ')}`:'Başlık ve metni yazdıkça otomatik belirlenecek.';
-    return `<div class="field full auto-category-field"><label>Ana kategori</label><input type="hidden" name="category" value="${attr(category||'')}"><input type="hidden" name="categoryMode" value="${attr(legacyMode)}"><div class="auto-category-card" id="autoCategoryCard"><span class="auto-category-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span><div><small>${legacyMode==='manual'?'Mevcut seçim korunuyor':'Başlık, özet, metin ve etiketlerden otomatik'}</small><strong id="autoCategoryName">${esc(category||'Metin bekleniyor')}</strong><span id="autoCategoryReason">${esc(reason)}</span></div><span class="confidence-pill" id="autoCategoryConfidence">${esc(inference.confidence)}</span></div><details class="category-override"><summary>Yanlışsa kategoriyi düzelt</summary><div class="category-override-row"><select id="manualCategorySelect">${BLOG_CATEGORIES.map(item=>`<option value="${attr(item)}" ${item===category?'selected':''}>${esc(item)}</option>`).join('')}</select><button type="button" class="button" id="useManualCategory">Bu kategoriyi kullan</button><button type="button" class="button" id="useAutoCategory">Otomatiğe dön</button></div><small>Normal kullanımda seçim yapmanız gerekmez. Yalnızca otomatik sonuç uygun değilse değiştirin.</small></details></div>`;
+    const reason=legacyMode==='manual'?'Kategori sizin seçiminizle sabitlendi.':'Yazının içeriğine göre otomatik seçildi.';
+    return `<div class="field full auto-category-field"><label>Ana kategori</label><input type="hidden" name="category" value="${attr(category||'')}"><input type="hidden" name="categoryMode" value="${attr(legacyMode)}"><div class="auto-category-card" id="autoCategoryCard"><span class="auto-category-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span><div><small>${legacyMode==='manual'?'Seçilen kategori':'Önerilen kategori'}</small><strong id="autoCategoryName">${esc(category||'Metin bekleniyor')}</strong><span id="autoCategoryReason">${esc(reason)}</span></div></div><details class="category-override"><summary>Kategoriyi değiştir</summary><div class="category-override-row"><select id="manualCategorySelect">${BLOG_CATEGORIES.map(item=>`<option value="${attr(item)}" ${item===category?'selected':''}>${esc(item)}</option>`).join('')}</select><button type="button" class="button" id="useManualCategory">Bu kategoriyi kullan</button><button type="button" class="button" id="useAutoCategory">Otomatik seçime dön</button></div><small>Otomatik seçim uygun değilse buradan değiştirebilirsiniz.</small></details></div>`;
   }
   function readabilitySummary(data){
     const mode=blogContentMode(data),text=mode==='visual'?blogDraftText(data):String(data.content||'');
@@ -719,7 +719,7 @@
     const shown=hidden.value||'Metin bekleniyor';
     const name=$('#autoCategoryName'),reason=$('#autoCategoryReason'),confidence=$('#autoCategoryConfidence'),card=$('#autoCategoryCard'),manual=$('#manualCategorySelect');
     if(name)name.textContent=shown;
-    if(reason)reason.textContent=mode.value==='manual'?'Kategori sizin seçiminizle sabitlendi.':(inference.reasons.length?`Eşleşen konu: ${inference.reasons.join(', ')}`:'Başlığı ve metni yazdıkça otomatik belirlenecek.');
+    if(reason)reason.textContent=mode.value==='manual'?'Kategori sizin seçiminizle sabitlendi.':'Yazının içeriğine göre otomatik seçildi.';
     if(confidence)confidence.textContent=mode.value==='manual'?'Elle seçildi':inference.confidence;
     card?.classList.toggle('manual',mode.value==='manual');
     if(manual&&hidden.value)manual.value=hidden.value;
@@ -886,7 +886,7 @@
       if(block.type==='split'&&(block.image||block.body||block.heading)){
         if(!block.image)return `<section class="admin-preview-text">${block.heading?`<h2>${esc(block.heading)}</h2>`:''}${simpleRichPreview(block.body||'')}</section>`;
         if(!String(block.body||'').trim()&&!block.heading)return `<figure class="admin-preview-image compact ${block.fit==='contain'?'contain':'cover'}"><img src="${attr(block.image)}" alt="${attr(block.alt||'')}"></figure>`;
-        return `<section class="admin-preview-split ${block.imageSide==='left'?'image-left':''}"><div>${block.heading?`<h2>${esc(block.heading)}</h2>`:''}${simpleRichPreview(block.body||'')}</div><img class="${block.fit==='contain'?'contain':'cover'}" src="${attr(block.image)}" alt="${attr(block.alt||'')}"></section>`;
+        return `<section class="admin-preview-flow ${block.imageSide==='right'?'image-right':'image-left'} ${block.fit==='contain'?'fit-contain':'fit-cover'}"><figure><img src="${attr(block.image)}" alt="${attr(block.alt||'')}"></figure>${block.heading?`<h2>${esc(block.heading)}</h2>`:''}${simpleRichPreview(block.body||'')}</section>`;
       }
       if(block.type==='gallery'){
         const images=(block.images||[]).filter(item=>item?.image);if(images.length<2)return'';

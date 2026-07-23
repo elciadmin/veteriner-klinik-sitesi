@@ -1,0 +1,121 @@
+/* ======================================================================
+   ELÇİ V5.8 — YÖNETİM ÖN İZLEMESİNDE GERÇEK MAKALE AKIŞI
+   ====================================================================== */
+
+/* Otomatik kategori sade ve anlaşılır görünür. */
+.auto-category-card{
+  grid-template-columns:48px minmax(0,1fr)!important;
+}
+.auto-category-card .confidence-pill{display:none!important}
+.auto-category-card>div>span{font-size:.68rem!important}
+.category-override summary{font-weight:800;color:#5a2497}
+
+/* Ön izlemede başlık ve kapak gerçek sayfaya yakın, ölçülü kalır. */
+.health-article-preview{
+  max-width:850px;
+  padding:clamp(20px,3.5vw,38px);
+}
+.health-preview-cover{
+  width:min(720px,100%);
+  max-height:340px;
+  margin:0 auto 26px;
+  border-radius:18px;
+}
+.health-preview-cover img{
+  width:100%;
+  height:100%;
+  max-height:340px;
+  object-fit:cover;
+}
+.health-article-preview header{
+  max-width:760px;
+  margin-bottom:26px;
+}
+.health-article-preview h1{
+  max-width:24ch;
+  font-size:clamp(1.75rem,4vw,2.7rem);
+  line-height:1.1;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+.health-preview-body{
+  max-width:760px;
+}
+
+/* Görsel yanında başlayan metin, görsel bittikten sonra tam genişlikte devam eder. */
+.health-preview-body .admin-preview-flow,
+.admin-blog-preview .admin-preview-flow{
+  display:flow-root;
+  width:100%;
+  max-width:760px;
+  margin:30px auto;
+  padding:0;
+  color:#35414c;
+  font-size:16.5px;
+  line-height:1.84;
+}
+.health-preview-body .admin-preview-flow figure,
+.admin-blog-preview .admin-preview-flow figure{
+  width:clamp(190px,34%,270px);
+  margin:2px 26px 10px 0;
+  overflow:hidden;
+  border-radius:2px;
+  background:transparent;
+}
+.health-preview-body .admin-preview-flow.image-left figure,
+.admin-blog-preview .admin-preview-flow.image-left figure{float:left}
+.health-preview-body .admin-preview-flow.image-right figure,
+.admin-blog-preview .admin-preview-flow.image-right figure{
+  float:right;
+  margin:2px 0 10px 26px;
+}
+.health-preview-body .admin-preview-flow img,
+.admin-blog-preview .admin-preview-flow img{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:500px;
+  object-position:top center;
+}
+.health-preview-body .admin-preview-flow.fit-cover img,
+.admin-blog-preview .admin-preview-flow.fit-cover img{
+  aspect-ratio:4/3;
+  object-fit:cover;
+  object-position:center;
+}
+.health-preview-body .admin-preview-flow.fit-contain img,
+.admin-blog-preview .admin-preview-flow.fit-contain img{object-fit:contain}
+.health-preview-body .admin-preview-flow h2,
+.admin-blog-preview .admin-preview-flow h2{
+  margin:0 0 12px;
+  color:#25103f;
+  font-size:1.45rem;
+  line-height:1.28;
+}
+.health-preview-body .admin-preview-flow p,
+.admin-blog-preview .admin-preview-flow p{margin:0 0 17px}
+.health-preview-body .admin-preview-flow > :last-child,
+.admin-blog-preview .admin-preview-flow > :last-child{margin-bottom:0}
+
+@media(max-width:620px){
+  .health-article-preview{padding:17px}
+  .health-preview-cover{max-height:260px;margin-bottom:21px}
+  .health-preview-cover img{max-height:260px}
+  .health-article-preview h1{max-width:none;font-size:1.7rem}
+  .health-preview-body .admin-preview-flow figure,
+  .health-preview-body .admin-preview-flow.image-left figure,
+  .health-preview-body .admin-preview-flow.image-right figure,
+  .admin-blog-preview .admin-preview-flow figure,
+  .admin-blog-preview .admin-preview-flow.image-left figure,
+  .admin-blog-preview .admin-preview-flow.image-right figure{
+    float:none;
+    width:100%;
+    max-width:520px;
+    margin:0 auto 18px;
+  }
+  .health-preview-body .admin-preview-flow.fit-cover img,
+  .admin-blog-preview .admin-preview-flow.fit-cover img{
+    aspect-ratio:auto;
+    object-fit:contain;
+  }
+}
