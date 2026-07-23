@@ -1,0 +1,175 @@
+/* ======================================================================
+   ELÇİ V5.6 — DENGELİ DERGİ TİPİ YAZI + GÖRSEL YERLEŞİMİ
+   Yalnızca blog yazısı ayrıntı sayfasındaki estetik içerik bloklarını etkiler.
+   ====================================================================== */
+
+/* Uzun metinler dar bir şeride dönüşmez; normal kelime akışı korunur. */
+.blog-article-header h1,
+.blog-article-content,
+.blog-article-content p,
+.blog-article-content li,
+.blog-article-content blockquote,
+.blog-article-content figcaption,
+.blog-article-content .editorial-section-title,
+.blog-article-content .editorial-split-copy,
+.blog-article-content .editorial-split-copy *{
+  min-width:0;
+  word-break:normal;
+  overflow-wrap:break-word;
+  hyphens:auto;
+}
+
+/* Logo varsayılan kapak olduğunda yazıyı ezmeyen kompakt marka alanı. */
+.blog-article-cover.is-brand-cover{
+  min-height:170px;
+  max-height:230px;
+  padding:24px;
+}
+.blog-article-cover.is-brand-cover img{
+  width:min(190px,42%);
+  max-height:160px;
+  padding:10px;
+  border-radius:22px;
+}
+
+/* Kullanıcının istediği temiz, dergi tipi metin + görsel kartı. */
+.blog-article-content .editorial-split{
+  width:min(100%,940px);
+  margin-inline:auto;
+  display:grid;
+  grid-template-columns:minmax(0,1.12fr) minmax(280px,.88fr);
+  gap:clamp(30px,5vw,72px);
+  align-items:center;
+  padding:clamp(30px,5vw,62px);
+  overflow:hidden;
+  border:1px solid rgba(58,31,104,.10);
+  border-radius:32px;
+  background:#fff;
+  box-shadow:0 22px 56px rgba(39,21,69,.10);
+}
+
+.blog-article-content .editorial-split.image-left{
+  grid-template-columns:minmax(280px,.88fr) minmax(0,1.12fr);
+}
+.blog-article-content .editorial-split.image-left .editorial-split-media{
+  order:-1;
+}
+
+.blog-article-content .editorial-split-copy{
+  align-self:center;
+  max-width:560px;
+}
+.blog-article-content .editorial-split-copy .editorial-section-title,
+.blog-article-content .editorial-split-copy h2{
+  max-width:none;
+  margin:0 0 18px;
+  color:#17141d;
+  font-size:clamp(1.75rem,3.2vw,2.65rem);
+  line-height:1.12;
+  letter-spacing:-.035em;
+}
+.blog-article-content .editorial-split-copy p{
+  max-width:58ch;
+  margin:0 0 18px;
+  color:#4e5965;
+  font-size:clamp(1rem,1.5vw,1.12rem);
+  line-height:1.78;
+}
+.blog-article-content .editorial-split-copy p:last-child,
+.blog-article-content .editorial-split-copy > :last-child{
+  margin-bottom:0;
+}
+.blog-article-content .editorial-split-copy ul,
+.blog-article-content .editorial-split-copy ol{
+  margin:18px 0 0;
+  padding-left:22px;
+}
+
+.blog-article-content .editorial-split-media{
+  min-width:0;
+  width:100%;
+  overflow:hidden;
+  border-radius:28px;
+  background:linear-gradient(135deg,#f4f0fa,#eaf8fb);
+  box-shadow:0 18px 38px rgba(34,21,58,.13);
+}
+.blog-article-content .editorial-split-media img{
+  display:block;
+  width:100%;
+  height:100%;
+  max-width:100%;
+}
+.blog-article-content .editorial-split.fit-cover .editorial-split-media img{
+  aspect-ratio:4/5;
+  object-fit:cover;
+}
+.blog-article-content .editorial-split.fit-contain .editorial-split-media{
+  min-height:360px;
+  display:grid;
+  place-items:center;
+  padding:18px;
+}
+.blog-article-content .editorial-split.fit-contain .editorial-split-media img{
+  max-height:520px;
+  object-fit:contain;
+}
+
+/* Görsel yoksa kart boşluk bırakmadan şık metin kartına dönüşür. */
+.blog-article-content .editorial-split.media-missing{
+  grid-template-columns:minmax(0,1fr)!important;
+  width:min(100%,760px);
+}
+.blog-article-content .editorial-split.media-missing .editorial-split-copy{
+  max-width:680px;
+  margin-inline:auto;
+}
+
+@media(max-width:860px){
+  .blog-article-content .editorial-split,
+  .blog-article-content .editorial-split.image-left{
+    grid-template-columns:minmax(0,1fr);
+    gap:26px;
+    padding:28px;
+    border-radius:26px;
+  }
+  .blog-article-content .editorial-split.image-left .editorial-split-media{
+    order:0;
+  }
+  .blog-article-content .editorial-split-copy{
+    max-width:680px;
+  }
+  .blog-article-content .editorial-split-media{
+    max-width:560px;
+    margin-inline:auto;
+  }
+  .blog-article-content .editorial-split.fit-cover .editorial-split-media img{
+    aspect-ratio:16/10;
+  }
+}
+
+@media(max-width:560px){
+  .blog-article-content .editorial-split,
+  .blog-article-content .editorial-split.image-left{
+    padding:22px;
+    gap:22px;
+    border-radius:22px;
+  }
+  .blog-article-content .editorial-split-copy .editorial-section-title,
+  .blog-article-content .editorial-split-copy h2{
+    font-size:1.62rem;
+  }
+  .blog-article-content .editorial-split-media{
+    border-radius:20px;
+  }
+  .blog-article-content .editorial-split.fit-cover .editorial-split-media img{
+    aspect-ratio:4/3;
+  }
+  .blog-article-cover.is-brand-cover{
+    min-height:145px;
+    max-height:190px;
+  }
+  .blog-article-cover.is-brand-cover img{
+    width:min(150px,55%);
+    max-height:125px;
+  }
+}
