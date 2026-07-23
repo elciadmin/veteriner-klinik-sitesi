@@ -100,15 +100,15 @@ function renderEditorialSections(sections) {
         const heading = block.heading ? `<h2 class="editorial-section-title">${escapeHtml(block.heading)}</h2>` : "";
         return `<section class="editorial-section editorial-text">${heading}${renderRichText(block.body || "")}</section>`;
       }
-      if (!hasCopy) return figureHtml(block.image, block.alt, "", ` is-compact ${block.fit === "contain" ? "fit-contain" : "fit-cover"}`);
+      if (!hasCopy) return figureHtml(block.image, block.alt, "", ` is-compact ${block.fit === "cover" ? "fit-cover" : "fit-contain"}`);
       const side = block.imageSide === "left" ? " image-left" : "";
-      const fit = block.fit === "contain" ? " fit-contain" : " fit-cover";
+      const fit = block.fit === "cover" ? " fit-cover" : " fit-contain";
       const heading = block.heading ? `<h2 class="editorial-section-title">${escapeHtml(block.heading)}</h2>` : "";
       return `<section class="editorial-section editorial-split${side}${fit}"><div class="editorial-split-copy">${heading}${renderRichText(block.body || "")}</div><div class="editorial-split-media"><img src="${escapeAttr(block.image)}" alt="${escapeAttr(block.alt || block.heading || "Blog görseli")}" loading="lazy" decoding="async" onerror="const media=this.closest('.editorial-split-media');const section=this.closest('.editorial-split');media?.remove();section?.classList.add('media-missing')"></div></section>`;
     }
     if (type === "gallery") {
       const images = (Array.isArray(block.images) ? block.images : []).filter(item => item?.image).slice(0,4);
-      if (images.length < 2) return images.length === 1 ? figureHtml(images[0].image, images[0].alt, images[0].caption, ` is-compact ${block.fit === "contain" ? "fit-contain" : "fit-cover"}`) : "";
+      if (images.length < 2) return images.length === 1 ? figureHtml(images[0].image, images[0].alt, images[0].caption, ` is-compact ${block.fit === "cover" ? "fit-cover" : "fit-contain"}`) : "";
       const layout = ["two","feature"].includes(block.layout) ? ` layout-${block.layout}` : " layout-auto";
       const fit = block.fit === "contain" ? " fit-contain" : " fit-cover";
       return `<section class="editorial-section editorial-gallery count-${images.length}${layout}${fit}">${images.map(item => `<figure><img src="${escapeAttr(item.image)}" alt="${escapeAttr(item.alt || "Blog galerisi görseli")}" loading="lazy" decoding="async" onerror="this.closest('figure').hidden=true">${item.caption ? `<figcaption>${escapeHtml(item.caption)}</figcaption>` : ""}</figure>`).join("")}</section>`;
@@ -227,7 +227,7 @@ function blogPage(post) {
     <meta name="description" content="${escapeAttr(post.seoDescription || post.summary)}"><meta name="robots" content="${robots}">
     <link rel="canonical" href="${SITE_URL}${post.url}"><meta property="og:type" content="article"><meta property="og:title" content="${escapeAttr(post.title)}"><meta property="og:description" content="${escapeAttr(post.summary)}"><meta property="og:image" content="${SITE_URL}${escapeAttr(cover)}">
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><link rel="stylesheet" href="/assets/css/tokens.css"><link rel="stylesheet" href="/assets/css/styles.css"><link rel="stylesheet" href="/assets/css/elci-system.css?v=20260721-2"><link rel="stylesheet" href="/assets/css/elci-fixes-v33.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-fixes-v34.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-final-v35.css?v=20260723-54"><link rel="stylesheet" href="/assets/css/elci-blog-v55.css?v=20260723-1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><link rel="stylesheet" href="/assets/css/tokens.css"><link rel="stylesheet" href="/assets/css/styles.css"><link rel="stylesheet" href="/assets/css/elci-system.css?v=20260721-2"><link rel="stylesheet" href="/assets/css/elci-fixes-v33.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-fixes-v34.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-final-v35.css?v=20260723-54"><link rel="stylesheet" href="/assets/css/elci-blog-v55.css?v=20260723-1"><link rel="stylesheet" href="/assets/css/elci-blog-v57.css?v=20260723-editorial-1">
     ${schema}
   </head><body class="blog-article-page" data-content-mode="${escapeAttr(post.contentMode || "standard")}" data-runtime-active="${active}" data-publish-at="${escapeAttr(post.date)}" data-unpublish-at="${escapeAttr(post.unpublishAt || "")}">
     ${commonHeader("blog")}<div id="siteAnnouncement" class="site-announcement" hidden></div>
@@ -238,7 +238,7 @@ function blogPage(post) {
         <div class="blog-article-content">${content}${post.editorialHtml || ""}<div class="blog-article-note"><strong>Bilgilendirme:</strong> Bu içerik genel bilgi amaçlıdır; muayene, tanı ve hastaya özel tedavi planının yerini tutmaz. Acil bir durumda form beklemeden kliniğimizi arayın.</div></div>
         <footer class="blog-article-actions"><a class="btn" href="/blog.html"><i class="fa-solid fa-arrow-left"></i> Tüm yazılar</a><a class="btn primary" href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i> Randevu talebi</a></footer>
       </article>
-    </main>${commonFooter()}<script src="/assets/js/elci-system.js" defer></script>
+    </main>${commonFooter()}<script src="/assets/js/elci-system.js" defer></script><script src="/assets/js/elci-blog-v57.js?v=20260723-editorial-1" defer></script>
     <script>(()=>{const body=document.body,article=document.getElementById('blogArticle'),inactive=document.getElementById('blogInactive');function update(){const now=Date.now(),start=Date.parse(body.dataset.publishAt||''),end=Date.parse(body.dataset.unpublishAt||''),live=(!Number.isFinite(start)||start<=now)&&(!Number.isFinite(end)||end>now);body.dataset.runtimeActive=String(live);article.hidden=!live;inactive.hidden=live;const next=[start,end].filter(value=>Number.isFinite(value)&&value>now).sort((a,b)=>a-b)[0];if(next)setTimeout(update,Math.min(next-now+250,2147483647));}update();})();</script>
   </body></html>`;
 }

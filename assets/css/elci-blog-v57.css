@@ -1,0 +1,226 @@
+/* ======================================================================
+   ELÇİ V5.7 — İZOLE EDİTORYAL BLOG DÜZENİ
+   Yalnızca blog ayrıntı sayfasındaki yazı bloklarını etkiler.
+   Header, hero, ana sayfa ve ortak buton stillerine dokunmaz.
+   ====================================================================== */
+
+.blog-article-page[data-content-mode="visual"] .blog-article{
+  width:min(1120px,calc(100% - 32px));
+}
+
+.blog-article-page[data-content-mode="visual"] .blog-article-content{
+  max-width:1000px;
+  padding-inline:clamp(24px,5vw,62px);
+}
+
+.blog-article-page .blog-article-content .editorial-sections{
+  display:grid;
+  gap:clamp(34px,5vw,56px);
+  width:100%;
+  margin-top:36px;
+}
+
+/* Normal metin blokları makale ritmini korur. */
+.blog-article-page .blog-article-content .editorial-text{
+  width:min(100%,820px);
+  max-width:820px;
+  margin-inline:auto;
+  padding:0;
+  color:#34414b;
+  font-size:17px;
+  line-height:1.88;
+}
+
+.blog-article-page .blog-article-content .editorial-text p,
+.blog-article-page .blog-article-content .editorial-split-copy p{
+  margin:0 0 18px;
+}
+
+.blog-article-page .blog-article-content .editorial-text > :last-child,
+.blog-article-page .blog-article-content .editorial-split-copy > :last-child{
+  margin-bottom:0;
+}
+
+/*
+ * Dergi tipi görsel + metin:
+ * - çerçevesiz ve beyaz zemin üzerinde
+ * - metin geniş, görsel kontrollü
+ * - blok başından hizalı; görsel metnin ortasında yüzmez
+ */
+.blog-article-page .blog-article-content .editorial-split{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(230px,34%);
+  gap:clamp(24px,4vw,42px);
+  align-items:start;
+  width:100%;
+  max-width:960px;
+  margin-inline:auto;
+  padding:0;
+  overflow:visible;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+
+.blog-article-page .blog-article-content .editorial-split.image-left{
+  grid-template-columns:minmax(230px,34%) minmax(0,1fr);
+}
+
+.blog-article-page .blog-article-content .editorial-split.image-left .editorial-split-media{
+  order:-1;
+}
+
+.blog-article-page .blog-article-content .editorial-split-copy{
+  min-width:0;
+  align-self:start;
+  color:#34414b;
+  font-size:17px;
+  line-height:1.88;
+}
+
+.blog-article-page .blog-article-content .editorial-split-copy .editorial-section-title{
+  margin:0 0 14px!important;
+  color:#211236;
+  font-size:clamp(1.28rem,2.2vw,1.72rem);
+  line-height:1.28;
+}
+
+.blog-article-page .blog-article-content .editorial-split-copy :is(p,li,a,strong,em),
+.blog-article-page .blog-article-content .editorial-text :is(p,li,a,strong,em){
+  min-width:0;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
+.blog-article-page .blog-article-content .editorial-split-media{
+  min-width:0;
+  align-self:start;
+  overflow:hidden;
+  border:0;
+  border-radius:2px;
+  background:transparent;
+  box-shadow:none;
+}
+
+.blog-article-page .blog-article-content .editorial-split-media img{
+  display:block;
+  width:100%;
+  height:auto;
+  max-width:100%;
+  max-height:620px;
+  margin:0;
+  border-radius:2px;
+}
+
+/* Belge, afiş ve infografik tam görünür. */
+.blog-article-page .blog-article-content .editorial-split.fit-contain .editorial-split-media img{
+  aspect-ratio:auto;
+  object-fit:contain;
+  object-position:top center;
+  background:transparent;
+}
+
+/* Fotoğraf seçeneği kullanılırsa yalnızca görsel kırpılır; metin düzeni değişmez. */
+.blog-article-page .blog-article-content .editorial-split.fit-cover .editorial-split-media img{
+  aspect-ratio:4/3;
+  object-fit:cover;
+  object-position:center;
+}
+
+.blog-article-page .blog-article-content .editorial-split.media-missing{
+  grid-template-columns:minmax(0,1fr)!important;
+  max-width:820px;
+}
+
+/* Tek görseller de metinden kopuk dev kartlara dönüşmez. */
+.blog-article-page .blog-article-content .editorial-figure{
+  width:100%;
+  max-width:960px;
+  margin-inline:auto;
+  border:0;
+  border-radius:2px;
+  background:transparent;
+  box-shadow:none;
+}
+
+.blog-article-page .blog-article-content .editorial-figure.is-compact{
+  max-width:680px;
+}
+
+.blog-article-page .blog-article-content .editorial-figure img{
+  width:100%;
+  height:auto;
+  border-radius:2px;
+}
+
+.blog-article-page .blog-article-content .editorial-figure figcaption{
+  padding:10px 2px 0;
+  background:transparent;
+  color:#697782;
+  font-size:.82rem;
+}
+
+/* Galeri sade ve aynı makale ritminde kalır. */
+.blog-article-page .blog-article-content .editorial-gallery figure{
+  border:0;
+  border-radius:2px;
+  background:transparent;
+  box-shadow:none;
+}
+
+.blog-article-page .blog-article-content .editorial-gallery figcaption{
+  padding:9px 2px 0;
+  background:transparent;
+}
+
+@media(max-width:820px){
+  .blog-article-page[data-content-mode="visual"] .blog-article-content{
+    max-width:760px;
+    padding-inline:clamp(20px,5vw,34px);
+  }
+
+  .blog-article-page .blog-article-content .editorial-split,
+  .blog-article-page .blog-article-content .editorial-split.image-left{
+    grid-template-columns:minmax(0,1fr);
+    gap:22px;
+    max-width:720px;
+  }
+
+  /* Telefonda görsel önce, metin sonra: okunması daha doğal. */
+  .blog-article-page .blog-article-content .editorial-split .editorial-split-media{
+    order:-1;
+    width:min(100%,620px);
+    margin-inline:auto;
+  }
+
+  .blog-article-page .blog-article-content .editorial-split-copy{
+    font-size:16.5px;
+    line-height:1.82;
+  }
+}
+
+@media(max-width:560px){
+  .blog-article-page[data-content-mode="visual"] .blog-article{
+    width:min(100% - 18px,1120px);
+  }
+
+  .blog-article-page .blog-article-content .editorial-sections{
+    gap:30px;
+  }
+
+  .blog-article-page .blog-article-content .editorial-split-copy,
+  .blog-article-page .blog-article-content .editorial-text{
+    font-size:16px;
+    line-height:1.78;
+  }
+}
+
+/* Eski panel sürümlerinde "fotoğraf gibi kırp" varsayılanıyla kaydedilmiş
+   dikey afiş ve belgeler otomatik olarak tam gösterilir. */
+.blog-article-page .blog-article-content .editorial-split.fit-cover.has-portrait-media .editorial-split-media img,
+.blog-article-page .blog-article-content .editorial-split.fit-cover .editorial-split-media img.is-portrait-media{
+  aspect-ratio:auto;
+  object-fit:contain;
+  object-position:top center;
+}

@@ -1,0 +1,104 @@
+/* ======================================================================
+   ELÇİ V5.7 — YÖNETİM ÖN İZLEMESİNDE EDİTORYAL GÖRSEL + METİN
+   Yalnızca blog ön izleme alanını etkiler.
+   ====================================================================== */
+
+.health-preview-body .admin-preview-split,
+.admin-blog-preview .admin-preview-split{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(210px,34%);
+  gap:clamp(20px,4vw,36px);
+  align-items:start;
+  width:100%;
+  max-width:760px;
+  margin:30px auto;
+  padding:0;
+  overflow:visible;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+
+.health-preview-body .admin-preview-split.image-left,
+.admin-blog-preview .admin-preview-split.image-left{
+  grid-template-columns:minmax(210px,34%) minmax(0,1fr);
+}
+
+.health-preview-body .admin-preview-split.image-left img,
+.admin-blog-preview .admin-preview-split.image-left img{
+  order:-1;
+}
+
+.health-preview-body .admin-preview-split > div,
+.admin-blog-preview .admin-preview-split > div{
+  min-width:0;
+  align-self:start;
+  font-size:16.5px;
+  line-height:1.82;
+}
+
+.health-preview-body .admin-preview-split > div > :first-child,
+.admin-blog-preview .admin-preview-split > div > :first-child{
+  margin-top:0;
+}
+
+.health-preview-body .admin-preview-split > div > :last-child,
+.admin-blog-preview .admin-preview-split > div > :last-child{
+  margin-bottom:0;
+}
+
+.health-preview-body .admin-preview-split img,
+.admin-blog-preview .admin-preview-split img{
+  display:block;
+  align-self:start;
+  width:100%;
+  height:auto;
+  max-height:520px;
+  margin:0;
+  border-radius:2px;
+  box-shadow:none;
+}
+
+.health-preview-body .admin-preview-split img.contain,
+.admin-blog-preview .admin-preview-split img.contain{
+  aspect-ratio:auto;
+  object-fit:contain;
+  object-position:top center;
+  background:transparent;
+}
+
+.health-preview-body .admin-preview-split img.cover,
+.admin-blog-preview .admin-preview-split img.cover{
+  aspect-ratio:4/3;
+  object-fit:cover;
+}
+
+.health-preview-body .admin-preview-split.preview-media-missing,
+.admin-blog-preview .admin-preview-split.preview-media-missing{
+  grid-template-columns:minmax(0,1fr)!important;
+}
+
+@media(max-width:760px){
+  .health-preview-body .admin-preview-split,
+  .health-preview-body .admin-preview-split.image-left,
+  .admin-blog-preview .admin-preview-split,
+  .admin-blog-preview .admin-preview-split.image-left{
+    grid-template-columns:minmax(0,1fr);
+    gap:20px;
+  }
+
+  .health-preview-body .admin-preview-split img,
+  .admin-blog-preview .admin-preview-split img{
+    order:-1;
+    width:min(100%,560px);
+    margin-inline:auto;
+  }
+}
+
+.admin-preview-split.has-portrait-media img.cover,
+.admin-preview-split img.cover.is-portrait-media{
+  aspect-ratio:auto;
+  object-fit:contain;
+  object-position:top center;
+}
