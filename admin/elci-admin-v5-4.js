@@ -597,9 +597,11 @@
   }
   function buildBlogPreviewHtml(data){
     const mode=blogContentMode(data),category=data.category||inferBlogCategory(data).category||'Kategori';
-    const cover=data.cover?`<figure class="health-preview-cover ${mode==='standard'?'is-editorial-inline':''}"><img src="${attr(data.cover)}" alt=""></figure>`:'';
-    const body=mode==='visual'?editorialPreviewHtml(data):`${cover}${simpleRichPreview(data.content||'<p>Metninizi yazdıkça ön izleme burada güncellenecek.</p>')}<div class="health-preview-flow-clear" aria-hidden="true"></div>`;
-    return `<article class="health-article-preview"><header><div class="health-preview-topline"><span class="health-kicker"><i class="fa-regular fa-file-lines"></i> Elçi sağlık notları</span><span class="health-category">${esc(category)}</span></div><h1>${esc(data.title||'Yazı başlığınız burada görünecek')}</h1>${data.summary?`<p class="health-lead">${esc(data.summary)}</p>`:''}</header>${mode==='visual'?cover:''}<div class="health-preview-body">${body}</div><aside class="health-disclaimer"><i class="fa-solid fa-circle-info"></i><div><strong>Bilgilendirme</strong><span>Bu içerik genel bilgilendirme amaçlıdır; muayene ve hastaya özel değerlendirmenin yerini tutmaz.</span></div></aside></article>`;
+    const hasBlockImage=(data.editorialSections||[]).some(block=>!!block?.image||(Array.isArray(block?.images)&&block.images.some(item=>!!item?.image)));
+    const showCover=!!data.cover&&(mode==='standard'||!hasBlockImage);
+    const cover=showCover?`<figure class="health-preview-cover is-editorial-inline"><img src="${attr(data.cover)}" alt=""></figure>`:'';
+    const content=mode==='visual'?editorialPreviewHtml(data):simpleRichPreview(data.content||'<p>Metninizi yazdıkça ön izleme burada güncellenecek.</p>');
+    return `<article class="health-article-preview"><header><div class="health-preview-topline"><span class="health-kicker"><i class="fa-regular fa-file-lines"></i> Sağlık Rehberi</span><span class="health-category">${esc(category)}</span></div><h1>${esc(data.title||'Yazı başlığınız burada görünecek')}</h1>${data.summary?`<p class="health-lead">${esc(data.summary)}</p>`:''}</header><div class="health-preview-body">${cover}${content}<div class="health-preview-flow-clear" aria-hidden="true"></div></div><aside class="health-disclaimer"><i class="fa-solid fa-circle-info"></i><div><strong>Bilgilendirme</strong><span>Bu içerik genel bilgilendirme amaçlıdır; muayene ve hastaya özel değerlendirmenin yerini tutmaz.</span></div></aside></article>`;
   }
   function blogInlinePreview(data){
     return `<section class="form-card inline-preview-card"><div class="item-card-head"><div><h2 style="margin:0">Yayın öncesi canlı ön izleme</h2><small>Yazı, ziyaretçinin göreceği okunaklı ve sıcak sağlık yazısı biçiminde gösterilir.</small></div><div class="preview-device-tools"><button type="button" class="mini-action active" data-preview-device="desktop"><i class="fa-solid fa-desktop"></i> Masaüstü</button><button type="button" class="mini-action" data-preview-device="mobile"><i class="fa-solid fa-mobile-screen"></i> Telefon</button><button type="button" class="mini-action" id="refreshInlinePreview"><i class="fa-solid fa-rotate"></i> Yenile</button></div></div><div id="writingQuality">${readabilitySummary(data)}</div><div class="inline-preview-stage" data-device="desktop" id="inlinePreviewStage"><div id="inlineBlogPreview">${buildBlogPreviewHtml(data)}</div></div></section>`;
@@ -888,7 +890,7 @@
       if(block.type==='split'&&(block.image||block.body||block.heading)){
         if(!block.image)return `<section class="admin-preview-text">${block.heading?`<h2>${esc(block.heading)}</h2>`:''}${simpleRichPreview(block.body||'')}</section>`;
         if(!String(block.body||'').trim()&&!block.heading)return `<figure class="admin-preview-image compact ${block.fit==='contain'?'contain':'cover'}"><img src="${attr(block.image)}" alt="${attr(block.alt||'')}"></figure>`;
-        return `<section class="admin-preview-split ${block.imageSide==='left'?'image-left':''}"><div>${block.heading?`<h2>${esc(block.heading)}</h2>`:''}${simpleRichPreview(block.body||'')}</div><img class="${block.fit==='contain'?'contain':'cover'}" src="${attr(block.image)}" alt="${attr(block.alt||'')}"></section>`;
+        return `<section class="admin-preview-split ${block.imageSide==='left'?'image-left':'image-right'}"><img class="${block.fit==='contain'?'contain':'cover'}" src="${attr(block.image)}" alt="${attr(block.alt||'')}"><div>${block.heading?`<h2>${esc(block.heading)}</h2>`:''}${simpleRichPreview(block.body||'')}</div></section>`;
       }
       if(block.type==='gallery'){
         const images=(block.images||[]).filter(item=>item?.image);if(images.length<2)return'';

@@ -1,17 +1,108 @@
 /* ======================================================================
-   ELÇİ V5.7 — YÖNETİM ÖN İZLEMESİNDE EDİTORYAL GÖRSEL + METİN
-   Yalnızca blog ön izleme alanını etkiler.
+   ELÇİ V5.7 — ADMIN CANLI ÖN İZLEMEDE GERÇEK DERGİ AKIŞI
+   Panelin genel görünümüne dokunmaz; yalnızca blog ön izlemesini etkiler.
    ====================================================================== */
 
-.health-preview-body .admin-preview-split,
-.admin-blog-preview .admin-preview-split{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(210px,34%);
-  gap:clamp(20px,4vw,36px);
-  align-items:start;
-  width:100%;
+.health-article-preview{
+  max-width:860px;
+  padding:clamp(24px,4vw,46px);
+  color:#303b36;
+}
+
+.health-article-preview header{
   max-width:760px;
-  margin:30px auto;
+  margin:0 0 26px;
+  padding-bottom:23px;
+  border-bottom:1px solid rgba(38,64,56,.11);
+}
+
+.health-preview-topline{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px 12px;
+  margin-bottom:15px;
+}
+
+.health-kicker,
+.health-category{
+  padding:0;
+  border-radius:0;
+  background:transparent;
+  color:#416b5b;
+  font-size:.68rem;
+  font-weight:700;
+}
+
+.health-article-preview h1{
+  max-width:760px;
+  margin:0 0 12px;
+  color:#202a26;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(1.8rem,4vw,2.85rem);
+  font-weight:500;
+  line-height:1.08;
+  letter-spacing:-.035em;
+}
+
+.health-lead{
+  max-width:680px;
+  color:#586660;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:1.02rem;
+  line-height:1.68;
+}
+
+.health-preview-body{
+  max-width:760px;
+  margin:0;
+  color:#303b36;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:16.5px;
+  line-height:1.8;
+}
+
+.health-preview-body::after,
+.health-preview-flow-clear{
+  content:"";
+  display:block;
+  clear:both;
+}
+
+.health-preview-body h2,
+.health-preview-body h3,
+.admin-preview-split h2{
+  max-width:none;
+  color:#315b4b!important;
+  font-family:Georgia,"Times New Roman",serif;
+  font-weight:500;
+  letter-spacing:-.02em;
+}
+
+.health-preview-cover.is-editorial-inline{
+  float:left;
+  width:min(48%,350px);
+  margin:3px 25px 15px 0;
+  overflow:hidden;
+  border:1px solid rgba(38,64,56,.12);
+  border-radius:13px;
+  background:#eef4f1;
+  box-shadow:0 9px 22px rgba(24,45,38,.10);
+  shape-outside:inset(0 round 13px);
+}
+
+.health-preview-cover.is-editorial-inline img{
+  display:block;
+  width:100%;
+  aspect-ratio:4/3;
+  max-height:none;
+  object-fit:cover;
+}
+
+.admin-preview-split{
+  display:flow-root;
+  width:100%;
+  margin:0 0 28px;
   padding:0;
   overflow:visible;
   border:0;
@@ -20,85 +111,96 @@
   box-shadow:none;
 }
 
-.health-preview-body .admin-preview-split.image-left,
-.admin-blog-preview .admin-preview-split.image-left{
-  grid-template-columns:minmax(210px,34%) minmax(0,1fr);
-}
-
-.health-preview-body .admin-preview-split.image-left img,
-.admin-blog-preview .admin-preview-split.image-left img{
-  order:-1;
-}
-
-.health-preview-body .admin-preview-split > div,
-.admin-blog-preview .admin-preview-split > div{
-  min-width:0;
-  align-self:start;
-  font-size:16.5px;
-  line-height:1.82;
-}
-
-.health-preview-body .admin-preview-split > div > :first-child,
-.admin-blog-preview .admin-preview-split > div > :first-child{
-  margin-top:0;
-}
-
-.health-preview-body .admin-preview-split > div > :last-child,
-.admin-blog-preview .admin-preview-split > div > :last-child{
-  margin-bottom:0;
-}
-
-.health-preview-body .admin-preview-split img,
-.admin-blog-preview .admin-preview-split img{
-  display:block;
-  align-self:start;
-  width:100%;
+.admin-preview-split img{
+  width:min(48%,350px);
   height:auto;
-  max-height:520px;
-  margin:0;
-  border-radius:2px;
-  box-shadow:none;
+  margin:3px 0 15px 25px;
+  overflow:hidden;
+  border:1px solid rgba(38,64,56,.12);
+  border-radius:13px;
+  background:#eef4f1;
+  box-shadow:0 9px 22px rgba(24,45,38,.10);
+  shape-outside:inset(0 round 13px);
 }
 
-.health-preview-body .admin-preview-split img.contain,
-.admin-blog-preview .admin-preview-split img.contain{
-  aspect-ratio:auto;
-  object-fit:contain;
-  object-position:top center;
-  background:transparent;
+.admin-preview-split.image-left img{
+  float:left;
+  margin-right:25px;
+  margin-left:0;
 }
 
-.health-preview-body .admin-preview-split img.cover,
-.admin-blog-preview .admin-preview-split img.cover{
+.admin-preview-split.image-right img{
+  float:right;
+}
+
+.admin-preview-split img.cover{
   aspect-ratio:4/3;
   object-fit:cover;
 }
 
-.health-preview-body .admin-preview-split.preview-media-missing,
-.admin-blog-preview .admin-preview-split.preview-media-missing{
-  grid-template-columns:minmax(0,1fr)!important;
-}
-
-@media(max-width:760px){
-  .health-preview-body .admin-preview-split,
-  .health-preview-body .admin-preview-split.image-left,
-  .admin-blog-preview .admin-preview-split,
-  .admin-blog-preview .admin-preview-split.image-left{
-    grid-template-columns:minmax(0,1fr);
-    gap:20px;
-  }
-
-  .health-preview-body .admin-preview-split img,
-  .admin-blog-preview .admin-preview-split img{
-    order:-1;
-    width:min(100%,560px);
-    margin-inline:auto;
-  }
-}
-
-.admin-preview-split.has-portrait-media img.cover,
-.admin-preview-split img.cover.is-portrait-media{
-  aspect-ratio:auto;
+.admin-preview-split img.contain{
+  max-height:390px;
+  padding:8px;
   object-fit:contain;
-  object-position:top center;
+}
+
+.admin-preview-split > div{
+  display:block;
+  max-width:none;
+}
+
+.admin-preview-split h2{
+  margin:0 0 10px!important;
+  font-size:1.42rem!important;
+  line-height:1.22!important;
+}
+
+.admin-preview-split p{
+  margin:0 0 15px!important;
+  color:#303b36;
+  font-size:inherit;
+  line-height:1.8;
+}
+
+.admin-preview-split.preview-media-missing{
+  display:block;
+  max-width:none;
+}
+
+.health-disclaimer{
+  clear:both;
+  max-width:760px;
+  margin:30px 0 0;
+  border-color:rgba(49,91,75,.15);
+  background:#f1f6f3;
+}
+
+.health-disclaimer>i{
+  background:#315b4b;
+}
+
+@media(max-width:640px){
+  .health-article-preview{
+    padding:20px;
+  }
+  .health-article-preview header{
+    margin-bottom:21px;
+    padding-bottom:19px;
+  }
+  .health-article-preview h1{
+    font-size:1.75rem;
+  }
+  .health-preview-body{
+    font-size:15.7px;
+    line-height:1.74;
+  }
+  .health-preview-cover.is-editorial-inline,
+  .admin-preview-split img,
+  .admin-preview-split.image-left img,
+  .admin-preview-split.image-right img{
+    float:none;
+    width:100%;
+    margin:0 0 18px;
+    shape-outside:none;
+  }
 }
