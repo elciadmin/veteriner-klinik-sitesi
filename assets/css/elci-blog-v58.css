@@ -1,0 +1,255 @@
+/* ======================================================================
+   ELÇİ V5.8 — OKUNABİLİR BLOG AKIŞI
+   Yalnızca blog ayrıntı sayfasını etkiler. Ortak header, hero ve butonlara
+   dokunmaz.
+   ====================================================================== */
+
+.blog-article-page{
+  overflow-x:hidden;
+}
+
+.blog-article-page .blog-article-shell{
+  padding:clamp(24px,4vw,48px) 0 clamp(58px,8vw,88px);
+}
+
+.blog-article-page .blog-article{
+  width:min(980px,calc(100% - 28px));
+  border-radius:24px;
+}
+
+.blog-article-page[data-content-mode="visual"] .blog-article{
+  width:min(1040px,calc(100% - 28px));
+}
+
+.blog-article-page .blog-article-header{
+  padding:clamp(26px,4vw,42px) clamp(24px,5vw,52px) clamp(22px,3vw,30px);
+}
+
+.blog-article-page .blog-article-header h1{
+  max-width:24ch;
+  margin:0 0 16px!important;
+  color:#141922;
+  font-size:clamp(2rem,4.4vw,3.25rem)!important;
+  line-height:1.08!important;
+  letter-spacing:-.045em!important;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  hyphens:auto;
+}
+
+.blog-article-page .blog-article-meta{
+  row-gap:8px;
+}
+
+/* Kapak yazıyı ezmez; makale içinde kontrollü bir görsel olarak kalır. */
+.blog-article-page .blog-article-cover{
+  width:min(760px,calc(100% - 48px));
+  max-height:400px;
+  aspect-ratio:16/7;
+  margin:6px auto 0;
+  overflow:hidden;
+  border-radius:20px;
+  background:linear-gradient(135deg,#f4f0fa,#eaf8fb);
+  box-shadow:0 14px 34px rgba(36,16,67,.10);
+}
+
+.blog-article-page .blog-article-cover img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.blog-article-page .blog-article-cover.is-brand-cover{
+  width:min(560px,calc(100% - 48px));
+  min-height:210px;
+  max-height:300px;
+  aspect-ratio:auto;
+  padding:24px;
+}
+
+.blog-article-page .blog-article-cover.is-brand-cover img{
+  width:min(48%,260px);
+  max-height:230px;
+  padding:10px;
+  border-radius:22px;
+}
+
+.blog-article-page .blog-article-content,
+.blog-article-page[data-content-mode="visual"] .blog-article-content{
+  max-width:840px;
+  padding:clamp(32px,5vw,52px) clamp(22px,5vw,48px) clamp(44px,6vw,58px);
+  color:#33414d;
+  font-size:clamp(16px,1.4vw,18px);
+  line-height:1.86;
+}
+
+.blog-article-page .blog-article-content :is(p,li,blockquote,figcaption,h2,h3,a){
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
+.blog-article-page .blog-article-content .editorial-sections{
+  width:100%;
+  max-width:840px;
+  margin:34px auto 0;
+  gap:clamp(30px,5vw,48px);
+}
+
+.blog-article-page .blog-article-content .editorial-text{
+  width:100%;
+  max-width:840px;
+  color:#33414d;
+  font-size:inherit;
+  line-height:inherit;
+}
+
+/*
+ * Görsel + metin doğal makale akışı:
+ * Görsel metnin yanında başlar; görsel bittikten sonra metin otomatik olarak
+ * tam genişlikte devam eder. Bu davranış grid yerine kontrollü float ile sağlanır.
+ */
+.blog-article-page .blog-article-content .editorial-flow{
+  display:flow-root;
+  width:100%;
+  max-width:840px;
+  margin:0 auto;
+  padding:0;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+  color:#33414d;
+  font-size:inherit;
+  line-height:inherit;
+}
+
+.blog-article-page .blog-article-content .editorial-flow-media{
+  width:clamp(220px,34%,300px);
+  margin:2px 30px 12px 0;
+  overflow:hidden;
+  border-radius:2px;
+  background:transparent;
+}
+
+.blog-article-page .blog-article-content .editorial-flow.image-left .editorial-flow-media{
+  float:left;
+}
+
+.blog-article-page .blog-article-content .editorial-flow.image-right .editorial-flow-media{
+  float:right;
+  margin:2px 0 12px 30px;
+}
+
+.blog-article-page .blog-article-content .editorial-flow-media img{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:560px;
+  margin:0;
+  object-position:top center;
+  border-radius:2px;
+}
+
+.blog-article-page .blog-article-content .editorial-flow.fit-contain .editorial-flow-media img{
+  object-fit:contain;
+}
+
+.blog-article-page .blog-article-content .editorial-flow.fit-cover .editorial-flow-media img{
+  aspect-ratio:4/3;
+  object-fit:cover;
+  object-position:center;
+}
+
+.blog-article-page .blog-article-content .editorial-flow.media-missing .editorial-section-title{
+  margin-top:0!important;
+}
+
+.blog-article-page .blog-article-content .editorial-flow .editorial-section-title{
+  margin:0 0 13px!important;
+  color:#24113e;
+  font-size:clamp(1.35rem,2.2vw,1.8rem)!important;
+  line-height:1.25!important;
+}
+
+.blog-article-page .blog-article-content .editorial-flow p{
+  margin:0 0 18px;
+}
+
+.blog-article-page .blog-article-content .editorial-flow > :last-child{
+  margin-bottom:0;
+}
+
+.blog-article-page .blog-article-actions{
+  padding:20px clamp(22px,5vw,48px);
+}
+
+@media(max-width:760px){
+  .blog-article-page .blog-article{
+    width:calc(100% - 14px);
+    border-radius:18px;
+  }
+
+  .blog-article-page .blog-article-header{
+    padding:24px 19px 20px;
+  }
+
+  .blog-article-page .blog-article-header h1{
+    max-width:none;
+    font-size:clamp(1.75rem,9vw,2.5rem)!important;
+    line-height:1.1!important;
+  }
+
+  .blog-article-page .blog-article-cover,
+  .blog-article-page .blog-article-cover.is-brand-cover{
+    width:calc(100% - 28px);
+    max-height:290px;
+    margin-top:2px;
+    border-radius:16px;
+  }
+
+  .blog-article-page .blog-article-cover.is-brand-cover{
+    min-height:180px;
+    padding:18px;
+  }
+
+  .blog-article-page .blog-article-cover.is-brand-cover img{
+    width:min(54%,220px);
+    max-height:190px;
+  }
+
+  .blog-article-page .blog-article-content,
+  .blog-article-page[data-content-mode="visual"] .blog-article-content{
+    max-width:none;
+    padding:28px 19px 40px;
+    font-size:16px;
+    line-height:1.78;
+  }
+
+  .blog-article-page .blog-article-content .editorial-flow-media,
+  .blog-article-page .blog-article-content .editorial-flow.image-left .editorial-flow-media,
+  .blog-article-page .blog-article-content .editorial-flow.image-right .editorial-flow-media{
+    float:none;
+    width:min(100%,560px);
+    margin:0 auto 20px;
+  }
+
+  .blog-article-page .blog-article-content .editorial-flow.fit-cover .editorial-flow-media img{
+    aspect-ratio:auto;
+    max-height:420px;
+    object-fit:contain;
+  }
+
+  .blog-article-page .blog-article-actions{
+    padding:18px 19px;
+  }
+}
+
+@media(max-width:420px){
+  .blog-article-page .blog-article-header h1{
+    font-size:clamp(1.55rem,8.4vw,2rem)!important;
+  }
+
+  .blog-article-page .blog-article-cover,
+  .blog-article-page .blog-article-cover.is-brand-cover{
+    width:calc(100% - 20px);
+  }
+}

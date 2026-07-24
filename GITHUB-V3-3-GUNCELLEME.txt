@@ -1,0 +1,18 @@
+ELÇİ V3.3 DÜZELTME YAMASI
+
+Bu yama V3.2 test dalının üzerine uygulanır.
+
+Düzeltilenler:
+- Instagram galerisi sayfa dışına taşmıyor; kontrollü yatay kaydırma ve oklar eklendi.
+- Google yorumları boş görünmüyor; güvenli yedek gösterim ve güncel JSON yükleme eklendi.
+- Koyu zeminlerde siyaha dönen başlıklar ve okunmayan metinler düzeltildi.
+- Hizmet ve başarı hikâyesi kartlarında yarım kesilen metinler tam gösteriliyor.
+- Ana Sayfa, Hakkımızda, Hizmetler, Blog, SSS ve Hasta İlişkileri sağ hero kartları sayfaya özel tasarlandı.
+- Başarı Hikâyeleri yönetim panelinden yüklenen görselleri artık kartlarda gösteriyor.
+
+Kurulum:
+1) Bu klasörün İÇİNDEKİ dosyaları proje klasörüne kopyalayın.
+2) Windows sorunca hedefteki dosyaları değiştirin.
+3) GitHub Desktop'ta GITHUB-V3-3-GUNCELLEME.txt dosyasının tikini kaldırabilirsiniz.
+4) Summary: V3.3 görünürlük ve içerik düzeltmeleri
+5) Commit ve Push origin yapın.

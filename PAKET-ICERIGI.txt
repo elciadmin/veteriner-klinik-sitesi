@@ -1,0 +1,21 @@
+ELÇİ VETERİNER KLİNİĞİ — PROFESYONEL SİTE V3
+Paket tarihi: 21 Temmuz 2026
+
+Bu paket şunları içerir:
+- Yenilenmiş ve tutarlı kurumsal site tasarımı
+- Mobil uyumlu ana sayfalar
+- Ayrı, okunabilir blog yazı sayfaları
+- Arama, kategori, etiket ve sayfalama
+- 12 kategori ve 100 kontrollü etiket
+- Hemen/ileri tarihli yayın ve otomatik kaldırma
+- Ana sayfa duyuru sistemi
+- Tek kaynaktan hizmet ve SSS yönetimi
+- Sade yönetim merkezi
+- Güvenli randevu paneli, durum/not/geçmiş/CSV
+- Minimal e-posta bildirimi altyapısı
+- Özel randevu depolama ve yetki kontrolü
+- Zamanlanmış içerik build kontrolü
+- KVKK için teknik güvenlik notları
+- Kurulum, panel kullanımı ve test belgeleri
+
+Kurulumdan önce README.md ve KURULUM-VE-GUVENLIK.md dosyalarını okuyun.

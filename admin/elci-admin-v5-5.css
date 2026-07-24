@@ -1,0 +1,52 @@
+/* ELÇİ V5.5 — yönetim ön izlemesinde taşma ve bozuk görsel koruması */
+.admin-blog-preview,
+.admin-blog-preview *,
+.health-article-preview,
+.health-article-preview *{
+  box-sizing:border-box;
+}
+.admin-blog-preview h1,
+.admin-preview-content,
+.admin-preview-content p,
+.admin-preview-content li,
+.admin-preview-content figcaption,
+.admin-preview-split,
+.admin-preview-split *,
+.admin-preview-flow,
+.admin-preview-flow *{
+  min-width:0;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  hyphens:auto;
+}
+.admin-preview-split{
+  width:100%;
+  max-width:100%;
+  overflow:hidden;
+}
+.admin-preview-split.preview-media-missing{
+  grid-template-columns:minmax(0,1fr)!important;
+}
+.admin-preview-split img[hidden],
+.admin-preview-image img[hidden],
+.admin-preview-gallery figure[hidden]{
+  display:none!important;
+}
+.health-preview-cover.is-brand-cover{
+  display:grid;
+  place-items:center;
+  min-height:240px;
+  padding:24px;
+  background:linear-gradient(135deg,#f7f2fc,#eaf9fb);
+}
+.health-preview-cover.is-brand-cover img{
+  width:min(52%,320px);
+  height:auto;
+  object-fit:contain;
+  padding:12px;
+  border-radius:22px;
+  background:rgba(255,255,255,.78);
+}
+
+.admin-preview-flow{width:100%;max-width:100%}
+.admin-preview-flow::after{content:"";display:block;clear:both}

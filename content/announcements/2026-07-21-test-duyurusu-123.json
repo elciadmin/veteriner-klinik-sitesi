@@ -1,0 +1,15 @@
+{
+  "published": true,
+  "showOnHome": true,
+  "title": "“TEST DUYURUSU 123”",
+  "message": "",
+  "publishAt": "2026-07-21T20:04:59.817Z",
+  "unpublishAt": "",
+  "level": "info",
+  "priority": 10,
+  "linkLabel": "",
+  "linkUrl": "",
+  "dismissible": true,
+  "archived": false,
+  "trashed": false
+}

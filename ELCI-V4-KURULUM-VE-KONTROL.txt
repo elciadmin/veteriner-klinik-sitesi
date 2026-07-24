@@ -1,0 +1,80 @@
+ELÇİ VETERİNER KLİNİĞİ — YÖNETİM MERKEZİ V4
+================================================
+
+BU YAMA NEYİ DEĞİŞTİRİR?
+- Ziyaretçi sitesinin tasarımına, header/hero/footer düzenine ve animasyonlarına dokunmaz.
+- /admin/ alanını tek, Türkçe ve mobil uyumlu bir yönetim merkezine dönüştürür.
+- Eski teknik içerik ekranı kullanıcıya gösterilmez; /admin/cms.html yeniden Yönetim Merkezi'ne yönlenir.
+- Instagram galerisinde ileri tarihli yayın ve otomatik kalkış zamanını yayın motoruna bağlar.
+
+V4 İLE GELENLER
+- Blog: yeni yazı, düzenleme, ön izleme, şimdi yayınla, ileri tarihe planla, taslak, yayından kaldır, arşiv, çöp kutusu.
+- Blog: 12 kategori, 100 hazır etiket, kapak görseli, estetik içerik blokları, SEO alanları.
+- Önceki sürüm: V4 sonrası değişikliklerde otomatik özel yedek ve geri yükleme.
+- Duyuru: başlangıç/bitiş zamanı, öncelik ve ana sayfada gösterim.
+- İçerik takvimi: blog, duyuru ve Instagram kayıtları aynı aylık takvimde.
+- Randevular: panel içinde arama, filtre, durum, klinik notu ve CSV dışa aktarma.
+- Ana sayfa vitrini: öne çıkan bloglar/hizmetler, SSS, yorum ve duyuru kontrolü.
+- SSS: ortak soru havuzu ve ana sayfadaki en fazla 6 sorunun seçimi/sırası.
+- Google yorumları: tek havuz; Ana Sayfa ve Hakkımızda için ortak seçim/sıra.
+- Hizmetler: aynı kaynaktan sıralama, aktif/pasif, öne çıkarma ve metin düzenleme.
+- Başarı hikâyeleri: fotoğraf, metin, aktiflik ve sıra.
+- Instagram galerisi: fotoğraf, bağlantı, ileri tarih ve otomatik kalkış.
+- Görsel arşivi.
+- Arşiv, geri alma, çöp kutusu ve bilinçli kalıcı silme.
+- Test dalı / canlı dal rozeti.
+- Kaydedilmemiş değişiklik uyarısı.
+
+KURULUM
+1. ELCI-V4-YONETIM-MERKEZI-YAMA.zip dosyasını ayıklayın.
+2. İçindeki ELCI-V4-YAMA klasörünü açın.
+3. GitHub Desktop > Repository > Show in Explorer seçin.
+4. ELCI-V4-YAMA klasörünün İÇİNDEKİ dosya/klasörleri proje köküne kopyalayın.
+5. Windows sorarsa “Hedefteki dosyaları değiştir” seçin.
+6. GitHub Desktop'ta 9 değişiklik görünmesi beklenir.
+7. ELCI-V4-KURULUM-VE-KONTROL.txt dosyasının tikini kaldırabilirsiniz; 8 gerçek proje dosyası kalır.
+8. Summary: V4 Elçi Yönetim Merkezi
+9. Commit ve ardından Push origin yapın. Test dalında kalın.
+10. Netlify deploy “Published” olduktan sonra /admin/ adresini Ctrl+F5 ile açın.
+
+İLK GÜVENLİK KONTROLÜ
+- Üstte “Test: elci-yonetim-v3-test” görünüyorsa test dalındasınız.
+- Test sitesinde “Canlı içerik” görünürse içerik yayınlamayın.
+  Netlify Environment Variables alanında:
+  ADMIN_CONTENT_BRANCH = elci-yonetim-v3-test
+  değerini ilgili test dalı bağlamına ekleyin.
+- Canlı site için değer main olmalıdır.
+
+NETLIFY ZORUNLU AYARLARI
+- Identity: Enabled
+- Registration: Invite only
+- Git Gateway: Enabled (mevcut kurulum)
+- ADMIN_EMAILS: paneli kullanacak e-posta adresleri, virgülle ayrılmış
+- NETLIFY_BUILD_HOOK_URL: ileri tarihli içeriklerin saatlik kontrolü için build hook
+- Randevu e-posta sağlayıcısına ait mevcut ortam değişkenleri korunmalıdır.
+
+İLK TEST
+1. Yeni blog yazısı açın ve “Taslak kaydet” deyin.
+2. Listede “Yayında değil” göründüğünü kontrol edin.
+3. Düzenleyip 10 dakika ileri bir tarih seçin ve “Tarihe planla” deyin.
+4. Test dalının Netlify deploy oluşturduğunu kontrol edin.
+5. Bir SSS seçimini kaydedin.
+6. Randevular bölümünü açın ve mevcut deneme talebinin göründüğünü kontrol edin.
+7. Bir içeriği yayından kaldırıp Arşiv ve çöp kutusunda geri alın.
+
+ÖNEMLİ SINIRLAR
+- Hazır metni girip kaydetme işlemi birkaç saniyedir; sitede görünmesi GitHub commit + Netlify build süresi kadardır.
+- Instagram bölümü web sitesindeki galeriyi planlar; Instagram hesabına otomatik gönderi paylaşmaz.
+- Hasta takip modülü henüz eklenmemiştir. Randevu verisi buna genişleyebilecek şekilde özel depoda tutulur.
+- Ana sayfanın tasarım sırası, hero metinleri ve tüm iletişim metinleri site dondurulduğu için bu sürümde değiştirilmez.
+- V4 yedekleri V4 kurulduktan sonraki değişikliklerde oluşur; eski V3 değişikliklerini geriye dönük yedeklemez.
+
+DEĞİŞEN GERÇEK PROJE DOSYALARI
+- admin/index.html
+- admin/cms.html
+- admin/elci-admin-v4.css
+- admin/elci-admin-v4.js
+- netlify/functions/admin-runtime.mjs
+- netlify/functions/admin-backups.mjs
+- scripts/build-site.mjs
+- content/instagram/.gitkeep

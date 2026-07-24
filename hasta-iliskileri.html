@@ -1,24 +1,22 @@
 <!DOCTYPE html>
+
 <html lang="tr">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Hasta İlişkileri | Elçi Veteriner Kliniği – Meram Konya</title>
-  <meta name="description" content="Elçi Veteriner Kliniği hasta ilişkileri: online randevu talebi, memnuniyet anketi, başarı hikâyeleri ve şikâyet-öneri iletişim alanı."/>
-  <link rel="canonical" href="https://elciveteriner.com/hasta-iliskileri.html"/>
-
-  <!-- Global CSS -->
-  <link rel="stylesheet" href="/assets/css/tokens.css?v=20251106"/>
-  <link rel="stylesheet" href="/assets/css/styles.css?v=20251106"/>
-
-  <!-- Ana sayfadaki imza tipi slogan -->
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-
-  <!-- Sayfaya özel stiller (mümkün olduğunca az ve kapsüllenmiş) -->
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Hasta İlişkileri | Elçi Veteriner Kliniği – Meram Konya</title>
+<meta content="Elçi Veteriner Kliniği hasta ilişkileri: online randevu talebi, memnuniyet anketi, başarı hikâyeleri ve şikâyet-öneri iletişim alanı." name="description"/>
+<link href="https://elciveteriner.com/hasta-iliskileri.html" rel="canonical"/>
+<!-- Global CSS -->
+<link href="/assets/css/tokens.css?v=20251106" rel="stylesheet"/>
+<link href="/assets/css/styles.css?v=20251106" rel="stylesheet"/>
+<!-- Ana sayfadaki imza tipi slogan -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<!-- Sayfaya özel stiller (mümkün olduğunca az ve kapsüllenmiş) -->
+<style>
     /* Hero */
     .page-hero{
       padding-top:clamp(72px,10vw,120px);
@@ -293,9 +291,8 @@
     /* SVG sprite içindeki simgelerin her yerde currentColor alması için güvenlik ağı */
     svg[viewBox] { color: inherit; }
   </style>
-
-  <!-- === THEME OVERRIDE — Index ile bire bir görünüm === -->
-  <style id="theme-elciKonya-override">
+<!-- === THEME OVERRIDE — Index ile bire bir görünüm === -->
+<style id="theme-elciKonya-override">
     :root{
       --brand:#5a1fa8;
       --brand2:#36106b;
@@ -442,9 +439,8 @@
     .footer-links a, .footer-contact a{ color:#eaffff }
     .footer-bottom{ background:rgba(0,0,0,.18) }
   </style>
-
-  <!-- *** YAMA: Şikayet & Öneri bölümündeki ghost butonlarda hover/focus/visited durumda yazı kontrastını sabitle *** -->
-  <style>
+<!-- *** YAMA: Şikayet & Öneri bölümündeki ghost butonlarda hover/focus/visited durumda yazı kontrastını sabitle *** -->
+<style>
     #sikayet-oneri .btn.ghost,
     #sikayet-oneri .btn.ghost:hover,
     #sikayet-oneri .btn.ghost:focus,
@@ -461,9 +457,8 @@
       outline-offset:2px;
     }
   </style>
-
-  <!-- Premium Hasta İlişkileri tasarımı -->
-  <style id="patient-relations-premium">
+<!-- Premium Hasta İlişkileri tasarımı -->
+<style id="patient-relations-premium">
     :root{
       --brand:#5a1fa8;
       --brand2:#36106b;
@@ -640,7 +635,6 @@
       .brand-lockup{padding:7px 9px}
     }
   </style>
-
 <style id="appointment-ajax-v3">
   .appointment-submit-status{
     position:fixed;
@@ -725,463 +719,398 @@
       border-radius:12px;
     }
   }
-</style></head>
-<body class="patient-relations-page">
-  <a class="skip-link" href="#ana-icerik">İçeriğe geç</a>
+</style><link href="/assets/css/elci-system.css?v=20260721-2" rel="stylesheet"/>
+<link rel="stylesheet" href="/assets/css/elci-shell-v32.css?v=20260721-1">
+<link rel="stylesheet" href="/assets/css/elci-fixes-v33.css?v=20260721-1">
 
-  <!-- ===== SABİT HEADER ===== -->
-  <header>
-    <div class="header-top">
-      <div class="container">
-        <div class="header-contact">
-          <span><i class="fa-solid fa-location-dot"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</span>
-        </div>
-        <div class="header-contact">
-          <a href="tel:03323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a>
-          <a href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> elcivetklinik@gmail.com</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="header-main">
-      <div class="container">
-        <div class="logo-text">
-          <a class="brand-lockup" href="/" aria-label="Elçi Veteriner Kliniği ana sayfa">
-            <span class="brand-mark"><img src="/assets/img/uploads/elci-logo.png?v=3" alt="" width="48" height="48" loading="eager" decoding="async"></span>
-            <span class="brand-copy">
-              <strong>Elçi Veteriner Kliniği</strong>
-              <span class="signature-tagline header-signature">Sağlığın Elçi’leriyiz</span>
-            </span>
-          </a>
-        </div>
-        <nav aria-label="Birincil">
-          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç/kapat"><i class="fa-solid fa-bars"></i></button>
-          <ul id="mainMenu">
-            <li><a href="/">Ana Sayfa</a></li>
-
-            <li class="dropdown">
-              <a href="/about" aria-haspopup="true" aria-expanded="false">Hakkımızda</a>
-              <div class="dropdown-content" role="menu">
-                <a href="/about#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
-                <a href="/about#ekibimiz" role="menuitem">Ekibimiz</a>
-                <a href="/about#klinik" role="menuitem">Kliniğimiz</a>
-                <a href="/about#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
-                <a href="/about#degerler" role="menuitem">Değerlerimiz</a>
-              </div>
-            </li>
-
-            <li class="dropdown">
-              <a href="/hizmetler.html" aria-haspopup="true" aria-expanded="false">Hizmetlerimiz</a>
-              <div class="dropdown-content" role="menu">
-                <a href="/hizmetler.html#acil" role="menuitem">Acil Veteriner</a>
-                <a href="/hizmetler.html#koruyucu" role="menuitem">Koruyucu Hekimlik</a>
-                <a href="/hizmetler.html#cerrahi" role="menuitem">Cerrahi Operasyonlar</a>
-                <a href="/hizmetler.html#agiz-dis" role="menuitem">Ağız ve Diş Sağlığı</a>
-                <a href="/hizmetler.html#ic-hastaliklari" role="menuitem">İç Hastalıkları</a>
-                <a href="/hizmetler.html#fizik-tedavi" role="menuitem">Fizik Tedavi</a>
-                <a href="/hizmetler.html#konaklama" role="menuitem">Konaklama</a>
-              </div>
-            </li>
-
-            <li><a href="/blog.html">Blog</a></li>
-            <li><a href="/sss.html">SSS</a></li>
-
-            <li class="dropdown">
-              <a href="/hasta-iliskileri.html" class="active" aria-current="page" aria-haspopup="true" aria-expanded="false">Hasta İlişkileri</a>
-              <div class="dropdown-content" role="menu">
-                <a href="#online-randevu" role="menuitem">Online Randevu</a>
-                <a href="#memnuniyet-anketi" role="menuitem">Memnuniyet Anketi</a>
-                <a href="#basari-hikayeleri" role="menuitem">Başarı Hikayeleri</a>
-                <a href="#sikayet-oneri" role="menuitem">Şikayet &amp; Öneri</a>
-              </div>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-  </header>
-
-  <!-- ===== PREMIUM SAYFA KAFA ===== -->
-  <main id="ana-icerik">
-  <section class="patient-hero">
-    <div class="container">
-      <div class="patient-hero-grid">
-        <div class="patient-hero-copy">
-          <p class="hero-eyebrow"><i class="fa-solid fa-heart-pulse"></i> İletişim ve takip merkezi</p>
-          <h1>Hasta İlişkileri</h1>
-          <p class="signature-tagline hero-signature">Sağlığın Elçi’leriyiz</p>
-          <div class="hero-divider" aria-hidden="true"></div>
-          <p class="hero-sub">Randevu, geri bildirim ve takip süreçlerinizi tek sayfadan yönetin.</p>
-          <div class="hero-cta">
-            <a class="btn primary" href="#online-randevu"><i class="fa-solid fa-calendar-check"></i> Randevu Talebi</a>
-            <a class="btn ghost" href="tel:+903323223220"><i class="fa-solid fa-phone"></i> Hemen Ara</a>
-            <a class="btn ghost" href="https://www.google.com/maps/dir/?api=1&destination=Havzan+Mah.+Yeni+Meram+Cad.+17/1+Meram+Konya" target="_blank" rel="noopener"><i class="fa-solid fa-location-dot"></i> Yol Tarifi</a>
-          </div>
-          <p class="hero-notice"><i class="fa-solid fa-clock"></i> Her gün 09.00–21.00</p>
-        </div>
-
-        <aside class="patient-hero-card" aria-label="Hasta ilişkileri hızlı işlemler">
-          <p class="hero-card-kicker">Hızlı işlemler</p>
-          <div class="hero-action-grid">
-            <a class="hero-action" href="#online-randevu"><i class="fa-solid fa-calendar-days"></i><strong>Online Randevu</strong></a>
-            <a class="hero-action" href="#memnuniyet-anketi"><i class="fa-solid fa-face-smile"></i><strong>Memnuniyet Anketi</strong></a>
-            <a class="hero-action" href="#basari-hikayeleri"><i class="fa-solid fa-heart"></i><strong>Başarı Hikâyeleri</strong></a>
-            <a class="hero-action" href="#sikayet-oneri"><i class="fa-solid fa-comment-dots"></i><strong>Şikâyet ve Öneri</strong></a>
-          </div>
-        </aside>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section-soft process-section">
-    <div class="container">
-      <div class="section-head">
-        <p class="section-kicker"><i class="fa-solid fa-route"></i> Süreç</p>
-        <h2>Nasıl İşliyor?</h2>
-      </div>
-      <div class="process-grid">
-        <article class="process-card">
-          <span class="process-no">ADIM 01</span>
-          <div class="process-icon"><i class="fa-solid fa-pen-to-square"></i></div>
-          <h3>Talebinizi iletin</h3>
-          <p>Randevu veya geri bildirim formunu doldurun.</p>
-        </article>
-        <article class="process-card">
-          <span class="process-no">ADIM 02</span>
-          <div class="process-icon"><i class="fa-solid fa-phone-volume"></i></div>
-          <h3>Teyit için arayalım</h3>
-          <p>Uygunluk ve gerekli ön bilgileri telefonla netleştirelim.</p>
-        </article>
-        <article class="process-card">
-          <span class="process-no">ADIM 03</span>
-          <div class="process-icon"><i class="fa-solid fa-stethoscope"></i></div>
-          <h3>Muayene ve takip</h3>
-          <p>Muayene, taburculuk ve kontrol planını birlikte yürütelim.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== ONLINE RANDEVU ===== -->
-  <section class="section appointment-section" id="online-randevu">
-    <div class="container">
-      <div class="section-head">
-        <p class="section-kicker"><i class="fa-solid fa-calendar-check"></i> Randevu</p>
-        <h2>Online Randevu Talebi</h2>
-        <p>Randevu talepleri bugünden en erken 3 gün sonrası ve en fazla 30 gün ileri için alınır.</p>
-      </div>
-
-      <div class="form-shell appointment-shell">
-      <div class="alert critical" role="alert">
-        <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
-        <div><strong>Hayati risk varsa formu beklemeden <a href="tel:03323223220">0332 322 32 20</a> numarasını arayın.</strong><br>Bu form yalnızca randevu talebi oluşturur; randevu, kliniğimizin telefonla teyidinden sonra kesinleşir.</div>
-      </div>
-
-      <form name="online-randevu" class="form" method="POST" action="/hasta-iliskileri.html?form=success#online-randevu" data-netlify="true" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="online-randevu"/>
-        <input type="hidden" name="subject" value="Yeni randevu talebi — %{submissionId}"/>
-        <input type="hidden" name="form_surumu" value="2026-07-admin-v5"/>
-        <input type="hidden" name="talep_zamani" id="talepZamani" value=""/>
-        <input type="hidden" name="tarih_iso" id="randevuTarihIso" value=""/>
-        <input type="hidden" name="randevu_durumu" value="onay-bekleyen-talep"/>
-        <input type="hidden" name="standart_randevu_suresi" value="50 dakika"/>
-        <input type="hidden" name="randevular_arasi_hazirlik" value="10 dakika"/>
-        <input type="hidden" name="kvkk_aydinlatma_surumu" value="2026-07-14"/>
-        <input type="hidden" name="randevu_kosullari_surumu" value="2026-07-14"/>
-        <p style="display:none"><label>Bot alanı: <input name="bot-field"/></label></p>
-
-        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
-          <input type="text" name="ad" placeholder="Ad Soyad *" autocomplete="name" required aria-label="Ad Soyad"/>
-          <input type="tel" name="tel" placeholder="Telefon *" inputmode="tel" autocomplete="tel" required pattern="^[0-9+()\\s-]{7,}$" aria-label="Telefon"/>
-          <input type="email" name="email" placeholder="E-posta *" autocomplete="email" required aria-label="E-posta"/>
-          <input type="text" name="pet" placeholder="Hayvanın Adı *" required aria-label="Hayvanın Adı"/>
-          <select name="hayvan_yasi" id="hayvanYasi" required aria-label="Hayvanın Yaşı">
-            <option value="" selected disabled>Hayvanın Yaşını Seçiniz *</option>
-            <option value="0-3 ay">0–3 ay</option>
-            <option value="4-6 ay">4–6 ay</option>
-            <option value="7-11 ay">7–11 ay</option>
-            <option value="1-3 yaş">1–3 yaş</option>
-            <option value="4-5 yaş">4–5 yaş</option>
-            <option value="6-8 yaş">6–8 yaş</option>
-            <option value="9-11 yaş">9–11 yaş</option>
-            <option value="12-14 yaş">12–14 yaş</option>
-            <option value="15-17 yaş">15–17 yaş</option>
-            <option value="18-20 yaş">18–20 yaş</option>
-            <option value="20 yaş üzeri">20 yaş üzeri</option>
-            <option value="Bilinmiyor">Yaşı bilinmiyor</option>
-          </select>
-          <input type="text" name="irk_cins" placeholder="Irk / Cins (örn. Tekir, British) *" required aria-label="Irk veya Cins"/>
-          <select name="hayvan_turu" id="hayvanTuru" required aria-label="Hayvan Türü">
-            <option value="">Hayvan Türü</option>
-            <option value="Kedi">Kedi</option>
-            <option value="Köpek">Köpek</option>
-            <option value="Diğer">Diğer</option>
-          </select>
-          <input type="text"
-                 name="hayvan_turu_diger"
-                 id="digerHayvanTuru"
-                 placeholder="Hayvan türünü yazınız"
-                 autocomplete="off"
-                 hidden/>
-
-          <!-- Özel datepicker -->
-          <div class="date-input">
-            <input id="randevuTarih" name="tarih" class="date-display" placeholder="gg.aa.yyyy" readonly required aria-haspopup="dialog"/>
-            <div id="dp" class="dp-pop" role="dialog" aria-modal="true" aria-label="Randevu Tarihi Seçici">
-              <div class="dp-head">
-                <div class="dp-month-nav">
-                  <button type="button" class="dp-nav-btn" id="dpPrev" aria-label="Önceki ay"><i class="fa-solid fa-chevron-left"></i></button>
-                  <strong id="dpTitle">Müsaitlik Takvimi</strong>
-                  <button type="button" class="dp-nav-btn" id="dpNext" aria-label="Sonraki ay"><i class="fa-solid fa-chevron-right"></i></button>
-                </div>
-                <button type="button" class="btn" id="dpClose">Kapat</button>
-              </div>
-              <div class="dp-grid" id="dpGrid">
-                <!-- JS doldurur -->
-              </div>
-              <div class="legend">
-                <span class="lg-ok"><i></i> Talep alınabilir</span>
-                <span class="lg-no"><i></i> Seçilemez</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
-          <select name="hizmet" id="hizmetTuru" required>
-            <option value="">Hizmet Türü</option>
-            <option>Genel Muayene</option>
-            <option>Aşı & Koruyucu Sağlık</option>
-            <option>Kısırlaştırma Operasyonu</option>
-            <option>Diş & Ağız Sağlığı</option>
-            <option>Laboratuvar & Görüntüleme Yönlendirme</option>
-            <option>Laboratuvar (Kan/İdrar)</option>
-            <option>Cerrahi Değerlendirme</option>
-            <option>Diğer</option>
-          </select>
-          <select name="tercih_edilen_zaman_araligi" id="randevuSaati" required>
-            <option value="">Tercih Edilen Randevu Saati</option>
-            <option value="11:00–11:50">11:00–11:50</option>
-            <option value="12:00–12:50">12:00–12:50</option>
-            <option value="13:00–13:50">13:00–13:50</option>
-            <option value="14:00–14:50">14:00–14:50</option>
-            <option value="15:00–15:50">15:00–15:50</option>
-            <option value="16:00–16:50">16:00–16:50</option>
-            <option value="17:00–17:50">17:00–17:50</option>
-          </select>
-        </div>
-
-        <p class="schedule-note"><strong>Randevu düzeni:</strong> Standart görüşmeler 50 dakika olarak planlanır ve her randevudan sonra 10 dakikalık hazırlık aralığı bırakılır. Kısırlaştırma seçiminde bu saat, hastanın kliniğe kabulü ve ön değerlendirme talebidir; operasyonun kesin saati ve süresi telefonla ayrıca teyit edilir.</p>
-
-        <textarea name="not" placeholder="Kısaca şikâyet/istek (son 12 saatte ilaç, kusma/ishal, iştah vb.)" rows="4"></textarea>
-
-        <!-- KVKK AYDINLATMA + RANDEVU KOŞULLARI -->
-        <div class="terms-wrap">
-          <div class="terms-title"><i class="fa-solid fa-shield-heart"></i><strong>KVKK ve Randevu Koşulları</strong></div>
-          <p class="terms-summary">
+<link rel="stylesheet" href="/assets/css/elci-fixes-v34.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-final-v35.css?v=20260721-1">
+</head>
+<body class="patient-relations-page" data-page="patient">
+<a class="skip-link" href="#ana-icerik">İçeriğe geç</a>
+<!-- ===== SABİT HEADER ===== -->
+<header>
+<div class="header-top">
+<div class="container">
+<div class="header-contact"><span><i class="fa-solid fa-location-dot"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</span></div>
+<div class="header-contact"><a href="tel:+903323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a><a href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> elcivetklinik@gmail.com</a></div>
+</div>
+</div>
+<div class="header-main">
+<div class="container">
+<div class="logo-text">
+<a aria-label="Elçi Veteriner Kliniği ana sayfa" class="brand-lockup" href="/">
+<span aria-hidden="true" class="brand-mark"><img alt="" decoding="async" height="54" loading="eager" src="/assets/img/uploads/elci-logo.png?v=3" width="54"/></span>
+<span class="brand-copy"><strong>Elçi Veteriner Kliniği</strong><span class="signature-tagline header-signature">Sağlığın Elçi’leriyiz</span></span>
+</a>
+</div>
+<nav aria-label="Birincil" class="main-nav">
+<button aria-controls="mainMenu" aria-expanded="false" aria-label="Menüyü aç/kapat" class="mobile-menu-btn" id="mobileMenuBtn" type="button"><i class="fa-solid fa-bars"></i></button>
+<ul id="mainMenu">
+<li><a href="/">Ana Sayfa</a></li>
+<li class="dropdown"><a href="/about" aria-expanded="false" aria-haspopup="true">Hakkımızda</a>
+<div class="dropdown-content" role="menu"><a href="/about#elci-kimdir" role="menuitem">Elçi Kimdir?</a><a href="/about#ekibimiz" role="menuitem">Ekibimiz</a><a href="/about#klinik" role="menuitem">Kliniğimiz</a><a href="/about#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a><a href="/about#degerler" role="menuitem">Değerlerimiz</a></div></li>
+<li class="dropdown"><a href="/hizmetler.html" aria-expanded="false" aria-haspopup="true">Hizmetlerimiz</a>
+<div class="dropdown-content" role="menu"><a href="/hizmetler.html#acil" role="menuitem">Acil Veteriner</a><a href="/hizmetler.html#koruyucu" role="menuitem">Koruyucu Hekimlik</a><a href="/hizmetler.html#cerrahi" role="menuitem">Cerrahi Operasyonlar</a><a href="/hizmetler.html#agiz-dis" role="menuitem">Ağız ve Diş Sağlığı</a><a href="/hizmetler.html#ic-hastaliklari" role="menuitem">İç Hastalıkları</a><a href="/hizmetler.html#fizik-tedavi" role="menuitem">Fizik Tedavi</a><a href="/hizmetler.html#konaklama" role="menuitem">Konaklama</a></div></li>
+<li><a href="/blog.html">Blog</a></li>
+<li class="dropdown"><a href="/sss.html" aria-expanded="false" aria-haspopup="true">SSS</a>
+<div class="dropdown-content" role="menu"><a href="/sss.html#fiyat" role="menuitem">Fiyat &amp; Ödeme</a><a href="/sss.html#surec" role="menuitem">Hizmet Süreçleri</a><a href="/sss.html#acil" role="menuitem">Acil Durumlar</a></div></li>
+<li class="dropdown"><a href="/hasta-iliskileri.html" class="active" aria-current="page" aria-expanded="false" aria-haspopup="true">Hasta İlişkileri</a>
+<div class="dropdown-content" role="menu"><a href="/hasta-iliskileri.html#online-randevu" role="menuitem">Online Randevu</a><a href="/hasta-iliskileri.html#memnuniyet-anketi" role="menuitem">Memnuniyet Anketi</a><a href="/hasta-iliskileri.html#basari-hikayeleri" role="menuitem">Başarı Hikâyeleri</a><a href="/hasta-iliskileri.html#sikayet-oneri" role="menuitem">Şikâyet &amp; Öneri</a></div></li>
+</ul>
+</nav>
+</div>
+</div>
+</header><div class="site-announcement" hidden="" id="siteAnnouncement"></div>
+<!-- ===== PREMIUM SAYFA KAFA ===== -->
+<main id="ana-icerik">
+<section class="about-hero patient-hero">
+<div class="container">
+<div class="hero-layout patient-hero-grid">
+<div class="hero-copy patient-hero-copy">
+<p class="hero-eyebrow"><i class="fa-solid fa-heart-pulse"></i> İletişim ve takip merkezi</p>
+<h1>Hasta İlişkileri</h1>
+<p class="signature-tagline hero-signature">Sağlığın Elçi’leriyiz</p>
+<div aria-hidden="true" class="hero-divider"></div>
+<p class="hero-sub">Randevu, geri bildirim ve takip süreçlerinizi tek sayfadan yönetin.</p>
+<div class="hero-cta">
+<a class="btn primary" href="#online-randevu"><i class="fa-solid fa-calendar-check"></i> Randevu Talebi</a>
+<a class="btn ghost" href="tel:+903323223220"><i class="fa-solid fa-phone"></i> Hemen Ara</a>
+<a class="btn ghost" href="https://www.google.com/maps/dir/?api=1&amp;destination=Havzan+Mah.+Yeni+Meram+Cad.+17/1+Meram+Konya" rel="noopener" target="_blank"><i class="fa-solid fa-location-dot"></i> Yol Tarifi</a>
+</div>
+<p class="hero-notice"><i class="fa-solid fa-clock"></i> Her gün 09.00–21.00</p>
+</div>
+<aside aria-label="Hasta ilişkileri hızlı işlemler" class="about-hero-card patient-hero-card">
+<div aria-hidden="true" class="brand-orbit"></div>
+<div class="about-card-logo hero-card-logo">
+<img alt="Elçi Veteriner Kliniği logosu" decoding="async" height="96" loading="eager" src="/assets/img/uploads/elci-logo.png?v=3" width="96"/>
+</div>
+<p class="about-card-kicker hero-card-kicker">Hızlı işlemler</p>
+<strong class="about-card-title hero-card-title">Randevu ve geri bildirim işlemlerinizi kolayca yönetin</strong>
+<nav aria-label="Hasta ilişkileri işlemleri" class="about-card-list hero-card-list patient-card-links">
+<a href="#online-randevu"><i class="fa-solid fa-calendar-days"></i><span>Online Randevu</span></a>
+<a href="#memnuniyet-anketi"><i class="fa-solid fa-face-smile"></i><span>Memnuniyet Anketi</span></a>
+<a href="#basari-hikayeleri"><i class="fa-solid fa-heart"></i><span>Başarı Hikâyeleri</span></a>
+<a href="#sikayet-oneri"><i class="fa-solid fa-comment-dots"></i><span>Şikâyet ve Öneri</span></a>
+</nav>
+</aside>
+</div>
+</div>
+</section>
+<section class="section section-soft process-section">
+<div class="container">
+<div class="section-head">
+<p class="section-kicker"><i class="fa-solid fa-route"></i> Süreç</p>
+<h2>Nasıl İşliyor?</h2>
+</div>
+<div class="process-grid">
+<article class="process-card">
+<span class="process-no">ADIM 01</span>
+<div class="process-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+<h3>Talebinizi iletin</h3>
+<p>Randevu veya geri bildirim formunu doldurun.</p>
+</article>
+<article class="process-card">
+<span class="process-no">ADIM 02</span>
+<div class="process-icon"><i class="fa-solid fa-phone-volume"></i></div>
+<h3>Teyit için arayalım</h3>
+<p>Uygunluk ve gerekli ön bilgileri telefonla netleştirelim.</p>
+</article>
+<article class="process-card">
+<span class="process-no">ADIM 03</span>
+<div class="process-icon"><i class="fa-solid fa-stethoscope"></i></div>
+<h3>Muayene ve takip</h3>
+<p>Muayene, taburculuk ve kontrol planını birlikte yürütelim.</p>
+</article>
+</div>
+</div>
+</section>
+<!-- ===== ONLINE RANDEVU ===== -->
+<section class="section appointment-section" id="online-randevu">
+<div class="container">
+<div class="section-head">
+<p class="section-kicker"><i class="fa-solid fa-calendar-check"></i> Randevu</p>
+<h2>Online Randevu Talebi</h2>
+<p>Randevu talepleri bugünden en erken 3 gün sonrası ve en fazla 30 gün ileri için alınır.</p>
+</div>
+<div class="form-shell appointment-shell">
+<div class="alert critical" role="alert">
+<i aria-hidden="true" class="fa-solid fa-triangle-exclamation"></i>
+<div><strong>Hayati risk varsa formu beklemeden <a href="tel:03323223220">0332 322 32 20</a> numarasını arayın.</strong><br/>Bu form yalnızca randevu talebi oluşturur; randevu, kliniğimizin telefonla teyidinden sonra kesinleşir.</div>
+</div>
+<form action="/hasta-iliskileri.html?form=success#online-randevu" class="form" data-netlify="true" method="POST" name="online-randevu" netlify-honeypot="bot-field">
+<input name="form-name" type="hidden" value="online-randevu"/>
+<input name="subject" type="hidden" value="Yeni randevu talebi — %{submissionId}"/>
+<input name="form_surumu" type="hidden" value="2026-07-admin-v5"/>
+<input id="talepZamani" name="talep_zamani" type="hidden" value=""/>
+<input id="randevuTarihIso" name="tarih_iso" type="hidden" value=""/>
+<input name="randevu_durumu" type="hidden" value="onay-bekleyen-talep"/>
+<input name="standart_randevu_suresi" type="hidden" value="50 dakika"/>
+<input name="randevular_arasi_hazirlik" type="hidden" value="10 dakika"/>
+<input name="kvkk_aydinlatma_surumu" type="hidden" value="2026-07-21"/>
+<input name="randevu_kosullari_surumu" type="hidden" value="2026-07-21"/>
+<p style="display:none"><label>Bot alanı: <input name="bot-field"/></label></p>
+<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
+<input aria-label="Ad Soyad" autocomplete="name" name="ad" placeholder="Ad Soyad *" required="" type="text"/>
+<input aria-label="Telefon" autocomplete="tel" inputmode="tel" name="tel" pattern="^[0-9+()\\s-]{7,}$" placeholder="Telefon *" required="" type="tel"/>
+<input aria-label="E-posta" autocomplete="email" name="email" placeholder="E-posta *" required="" type="email"/>
+<input aria-label="Hayvanın Adı" name="pet" placeholder="Hayvanın Adı *" required="" type="text"/>
+<select aria-label="Hayvanın Yaşı" id="hayvanYasi" name="hayvan_yasi" required="">
+<option disabled="" selected="" value="">Hayvanın Yaşını Seçiniz *</option>
+<option value="0-3 ay">0–3 ay</option>
+<option value="4-6 ay">4–6 ay</option>
+<option value="7-11 ay">7–11 ay</option>
+<option value="1-3 yaş">1–3 yaş</option>
+<option value="4-5 yaş">4–5 yaş</option>
+<option value="6-8 yaş">6–8 yaş</option>
+<option value="9-11 yaş">9–11 yaş</option>
+<option value="12-14 yaş">12–14 yaş</option>
+<option value="15-17 yaş">15–17 yaş</option>
+<option value="18-20 yaş">18–20 yaş</option>
+<option value="20 yaş üzeri">20 yaş üzeri</option>
+<option value="Bilinmiyor">Yaşı bilinmiyor</option>
+</select>
+<input aria-label="Irk veya Cins" name="irk_cins" placeholder="Irk / Cins (örn. Tekir, British) *" required="" type="text"/>
+<select aria-label="Hayvan Türü" id="hayvanTuru" name="hayvan_turu" required="">
+<option value="">Hayvan Türü</option>
+<option value="Kedi">Kedi</option>
+<option value="Köpek">Köpek</option>
+<option value="Diğer">Diğer</option>
+</select>
+<input autocomplete="off" hidden="" id="digerHayvanTuru" name="hayvan_turu_diger" placeholder="Hayvan türünü yazınız" type="text"/>
+<!-- Özel datepicker -->
+<div class="date-input">
+<input aria-haspopup="dialog" class="date-display" id="randevuTarih" name="tarih" placeholder="gg.aa.yyyy" readonly="" required=""/>
+<div aria-label="Randevu Tarihi Seçici" aria-modal="true" class="dp-pop" id="dp" role="dialog">
+<div class="dp-head">
+<div class="dp-month-nav">
+<button aria-label="Önceki ay" class="dp-nav-btn" id="dpPrev" type="button"><i class="fa-solid fa-chevron-left"></i></button>
+<strong id="dpTitle">Müsaitlik Takvimi</strong>
+<button aria-label="Sonraki ay" class="dp-nav-btn" id="dpNext" type="button"><i class="fa-solid fa-chevron-right"></i></button>
+</div>
+<button class="btn" id="dpClose" type="button">Kapat</button>
+</div>
+<div class="dp-grid" id="dpGrid">
+<!-- JS doldurur -->
+</div>
+<div class="legend">
+<span class="lg-ok"><i></i> Talep alınabilir</span>
+<span class="lg-no"><i></i> Seçilemez</span>
+</div>
+</div>
+</div>
+</div>
+<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
+<select id="hizmetTuru" name="hizmet" required="">
+<option value="">Hizmet Türü</option>
+<option>Genel Muayene</option>
+<option>Aşı &amp; Koruyucu Sağlık</option>
+<option>Kısırlaştırma Operasyonu</option>
+<option>Diş &amp; Ağız Sağlığı</option>
+<option>Laboratuvar &amp; Görüntüleme Yönlendirme</option>
+<option>Laboratuvar (Kan/İdrar)</option>
+<option>Cerrahi Değerlendirme</option>
+<option>Diğer</option>
+</select>
+<select id="randevuSaati" name="tercih_edilen_zaman_araligi" required="">
+<option value="">Tercih Edilen Randevu Saati</option>
+<option value="11:00–11:50">11:00–11:50</option>
+<option value="12:00–12:50">12:00–12:50</option>
+<option value="13:00–13:50">13:00–13:50</option>
+<option value="14:00–14:50">14:00–14:50</option>
+<option value="15:00–15:50">15:00–15:50</option>
+<option value="16:00–16:50">16:00–16:50</option>
+<option value="17:00–17:50">17:00–17:50</option>
+</select>
+</div>
+<p class="schedule-note"><strong>Randevu düzeni:</strong> Standart görüşmeler 50 dakika olarak planlanır ve her randevudan sonra 10 dakikalık hazırlık aralığı bırakılır. Kısırlaştırma seçiminde bu saat, hastanın kliniğe kabulü ve ön değerlendirme talebidir; operasyonun kesin saati ve süresi telefonla ayrıca teyit edilir.</p>
+<textarea name="not" placeholder="Kısaca şikâyet/istek (son 12 saatte ilaç, kusma/ishal, iştah vb.)" rows="4"></textarea>
+<!-- KVKK AYDINLATMA + RANDEVU KOŞULLARI -->
+<div class="terms-wrap">
+<div class="terms-title"><i class="fa-solid fa-shield-heart"></i><strong>KVKK ve Randevu Koşulları</strong></div>
+<p class="terms-summary">
             Veri sorumlusu <strong>Elçi Veterinerlik Sanayi Ticaret Limited Şirketi</strong>dir; hizmetler <strong>Elçi Veteriner Kliniği</strong> markasıyla sunulur.
             Aydınlatma metni bilgi vermek içindir ve onaya tabi değildir. Randevu talebini göndermek için yalnızca randevu ve ön bilgilendirme koşullarının kabulü gerekir.
           </p>
-          <div class="terms-actions">
-            <button type="button" class="btn" id="openPrivacy"><i class="fa-solid fa-file-shield"></i> KVKK Metnini Gör</button>
-            <button type="button" class="btn" id="openTerms"><i class="fa-solid fa-file-signature"></i> Randevu Koşullarını Gör</button>
-
-            <label class="consent" id="termsConsent">
-              <input id="termsCheck" type="checkbox" name="randevu_kosullari_kabul" value="evet" required aria-required="true"/>
-              <span class="icon" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
-              <span>Randevu ve ön bilgilendirme koşullarını okudum, kabul ediyorum</span>
-            </label>
-          </div>
-          <div class="legal-note">
+<div class="terms-actions">
+<button class="btn" id="openPrivacy" type="button"><i class="fa-solid fa-file-shield"></i> KVKK Metnini Gör</button>
+<button class="btn" id="openTerms" type="button"><i class="fa-solid fa-file-signature"></i> Randevu Koşullarını Gör</button>
+<label class="consent" id="termsConsent">
+<input aria-required="true" id="termsCheck" name="randevu_kosullari_kabul" required="" type="checkbox" value="evet"/>
+<span aria-hidden="true" class="icon"><i class="fa-solid fa-check"></i></span>
+<span>Randevu ve ön bilgilendirme koşullarını okudum, kabul ediyorum</span>
+</label>
+</div>
+<div class="legal-note">
             Bu kabul, yasal tüketici ve hasta sahibi haklarını ortadan kaldırmaz; yalnızca çevrim içi randevu talebi sürecinin işleyişini düzenler.
           </div>
-        </div>
-
-        <div class="form-actions">
-          <button class="btn primary" type="submit">Randevu Talep Et</button>
-          <a id="btnKonum" class="btn" href="https://www.google.com/maps/dir/?api=1&destination=Havzan+Mah.+Yeni+Meram+Cad.+17/1+Meram+Konya" target="_blank" rel="noopener">
-            <i class="fa-solid fa-map-location-dot"></i> Konum
+</div>
+<div class="form-actions">
+<button class="btn primary" type="submit">Randevu Talep Et</button>
+<a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=Havzan+Mah.+Yeni+Meram+Cad.+17/1+Meram+Konya" id="btnKonum" rel="noopener" target="_blank">
+<i class="fa-solid fa-map-location-dot"></i> Konum
           </a>
-          <a id="btnAra" class="btn" href="tel:03323223220">
-            <i class="fa-solid fa-phone"></i> Ara
+<a class="btn" href="tel:03323223220" id="btnAra">
+<i class="fa-solid fa-phone"></i> Ara
           </a>
-        </div>
-        <div id="appointmentSubmitStatus" class="appointment-submit-status" role="status" aria-live="polite"></div>
-      </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== MEMNUNİYET ANKETİ ===== -->
-  <section class="section section-soft feedback-section" id="memnuniyet-anketi">
-    <div class="container">
-      <div class="section-head">
-        <p class="section-kicker"><i class="fa-solid fa-face-smile"></i> Geri bildirim</p>
-        <h2>Memnuniyet Anketi</h2>
-      </div>
-      <div class="feedback-layout">
-        <aside class="feedback-aside">
-          <div class="feedback-aside-icon"><i class="fa-solid fa-heart"></i></div>
-          <h3>Deneyiminizi paylaşın</h3>
-          <p>Görüşünüz, hizmetimizi geliştirmemize yardımcı olur.</p>
-        </aside>
-        <div class="form-shell">
-        <form name="memnuniyet" class="form" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="memnuniyet"/>
-        <p style="display:none"><label>Bot alanı: <input name="bot-field"/></label></p>
-
-        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
-          <select name="puan" required>
-            <option value="">Memnuniyet Puanınız</option>
-            <option>5 - Çok Memnunum</option><option>4</option>
-            <option>3</option><option>2</option>
-            <option>1 - Memnun Değilim</option>
-          </select>
-          <input type="text" name="ad" placeholder="Adınız (opsiyonel)"/>
-          <input type="text" name="pet" placeholder="Evcil Hayvan (opsiyonel)"/>
-        </div>
-
-        <textarea name="yorum" placeholder="Deneyiminizi kısaca yazın" rows="5" required></textarea>
-
-        <div class="form-actions">
-          <button class="btn primary" type="submit"><i class="fa-solid fa-paper-plane"></i> Geri Bildirimi Gönder</button>
-          <a class="btn ghost" href="#basari-hikayeleri"><i class="fa-solid fa-heart"></i> Başarı Hikâyeleri</a>
-        </div>
-        <p class="feedback-submit-status" id="feedbackSubmitStatus" aria-live="polite"></p>
-      </form>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== BAŞARI HİKAYELERİ ===== -->
-  <section class="section section-dark success-section" id="basari-hikayeleri">
-    <div class="container">
-      <div class="section-head">
-        <p class="section-kicker"><i class="fa-solid fa-heart-pulse"></i> İyileşme yolculukları</p>
-        <h2>Başarı Hikâyeleri</h2>
-      </div>
-
-      <!-- Otomatik dönen highlight kart -->
-      <div class="success-highlight" aria-live="polite">
-        <article class="s-card show" id="successHighlight">
-          <!-- JS dolduracak -->
-        </article>
-      </div>
-
-      <!-- Grid kartlar (dinamik) -->
-      <div class="services-grid" id="successGrid">
-        <!-- JS dolduracak -->
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== ŞİKAYET & ÖNERİ ===== -->
-  <section class="section complaint-section" id="sikayet-oneri">
-    <div class="container">
-      <div class="section-head">
-        <p class="section-kicker"><i class="fa-solid fa-comment-dots"></i> İletişim</p>
-        <h2>Şikâyet ve Öneri</h2>
-      </div>
-      <div class="feedback-layout">
-        <aside class="feedback-aside">
-          <div class="feedback-aside-icon"><i class="fa-solid fa-comments"></i></div>
-          <h3>Sizi dinliyoruz</h3>
-          <p>Mesajınız doğrudan değerlendirme sürecine alınır.</p>
-        </aside>
-        <div class="form-shell">
-        <form name="sikayet-oneri" class="form" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="sikayet-oneri"/>
-        <p style="display:none"><label>Bot alanı: <input name="bot-field"/></label></p>
-
-        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
-          <input type="text" name="ad" placeholder="Ad Soyad" autocomplete="name" required/>
-          <input type="email" name="email" placeholder="E-posta" autocomplete="email" required/>
-          <select name="konu" required>
-            <option value="">Konu</option>
-            <option>Genel Deneyim</option>
-            <option>Randevu Süreci</option>
-            <option>Muayene/Tedavi</option>
-            <option>Ücret & Ödeme</option>
-            <option>Diğer</option>
-          </select>
-        </div>
-
-        <textarea name="mesaj" placeholder="Mesajınız" rows="5" required></textarea>
-
-        <div class="form-actions">
-          <button class="btn" type="submit">Gönder</button>
-          <a class="btn ghost" href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> E-posta</a>
-          <a class="btn ghost" href="tel:03323223220"><i class="fa-solid fa-phone"></i> Ara</a>
-        </div>
-      </form>
-        </div>
-      </div>
-    </div>
-  </section>
-  </main>
-
-  <div class="mobile-action-bar" aria-label="Hızlı iletişim">
-    <a href="tel:+903323223220"><i class="fa-solid fa-phone"></i><span>Ara</span></a>
-    <a href="#online-randevu"><i class="fa-solid fa-calendar-check"></i><span>Randevu</span></a>
-    <a href="https://www.google.com/maps/dir/?api=1&destination=Havzan+Mah.+Yeni+Meram+Cad.+17/1+Meram+Konya" target="_blank" rel="noopener"><i class="fa-solid fa-location-dot"></i><span>Konum</span></a>
-  </div>
-
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer-new">
-    <div class="container footer-container">
-      <div class="footer-col">
-        <h3>Elçi Veteriner Kliniği</h3>
-        <p>Meram'da açık iletişim, planlı takip ve bilimsel veterinerlik yaklaşımıyla hizmet veriyoruz.</p>
-        <div class="social-links">
-          <a href="https://www.facebook.com/elciveteriner" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/elciveteriner" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-          <a href="https://twitter.com/elciveteriner" target="_blank" rel="noopener" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-          <a href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" target="_blank" rel="noopener" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-        </div>
-      </div>
-
-      <div class="footer-col">
-        <h3>Hızlı Linkler</h3>
-        <ul class="footer-links">
-          <li><a href="/">Ana Sayfa</a></li>
-          <li><a href="/about">Hakkımızda</a></li>
-          <li><a href="/hizmetler.html">Hizmetlerimiz</a></li>
-          <li><a href="/blog.html">Blog</a></li>
-          <li><a href="/sss.html">SSS</a></li>
-          <li><a href="/hasta-iliskileri.html">Hasta İlişkileri</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h3>Konya Veteriner Hizmetlerimiz</h3>
-        <ul class="footer-links">
-          <li><a href="/hizmetler.html#acil">Konya Acil Veteriner</a></li>
-          <li><a href="/hizmetler.html#cerrahi">Konya’da Cerrahi Operasyonlar</a></li>
-          <li><a href="/hizmetler.html#agiz-dis">Konya’da Ağız ve Diş Sağlığı</a></li>
-          <li><a href="/hizmetler.html#ic-hastaliklari">Konya’da İç Hastalıkları</a></li>
-          <li><a href="/hizmetler.html#fizik-tedavi">Konya’da Fizik Tedavi</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h3>Konya İletişim</h3>
-        <ul class="footer-contact">
-          <li><i class="fa-solid fa-location-dot"></i>
-            <a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" target="_blank" rel="noopener">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a>
-          </li>
-          <li><i class="fa-solid fa-phone"></i> <a href="tel:03323223220">0332 322 32 20</a></li>
-          <li><i class="fa-solid fa-envelope"></i> <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></li>
-          <li><i class="fa-solid fa-clock"></i> <span>Her gün: 09:00–21:00</span></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="footer-bottom"><div class="container"><p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p></div></div>
-  </footer>
-
-  <!-- Schema.org -->
-  <script type="application/ld+json">
+</div>
+<div aria-live="polite" class="appointment-submit-status" id="appointmentSubmitStatus" role="status"></div>
+</form>
+</div>
+</div>
+</section>
+<!-- ===== MEMNUNİYET ANKETİ ===== -->
+<section class="section section-soft feedback-section" id="memnuniyet-anketi">
+<div class="container">
+<div class="section-head">
+<p class="section-kicker"><i class="fa-solid fa-face-smile"></i> Geri bildirim</p>
+<h2>Memnuniyet Anketi</h2>
+</div>
+<div class="feedback-layout">
+<aside class="feedback-aside">
+<div class="feedback-aside-icon"><i class="fa-solid fa-heart"></i></div>
+<h3>Deneyiminizi paylaşın</h3>
+<p>Görüşünüz, hizmetimizi geliştirmemize yardımcı olur.</p>
+</aside>
+<div class="form-shell">
+<form class="form" data-netlify="true" method="POST" name="memnuniyet" netlify-honeypot="bot-field">
+<input name="form-name" type="hidden" value="memnuniyet"/>
+<p style="display:none"><label>Bot alanı: <input name="bot-field"/></label></p>
+<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
+<select name="puan" required="">
+<option value="">Memnuniyet Puanınız</option>
+<option>5 - Çok Memnunum</option><option>4</option>
+<option>3</option><option>2</option>
+<option>1 - Memnun Değilim</option>
+</select>
+<input name="ad" placeholder="Adınız (opsiyonel)" type="text"/>
+<input name="pet" placeholder="Evcil Hayvan (opsiyonel)" type="text"/>
+</div>
+<textarea name="yorum" placeholder="Deneyiminizi kısaca yazın" required="" rows="5"></textarea>
+<div class="form-actions">
+<button class="btn primary" type="submit"><i class="fa-solid fa-paper-plane"></i> Geri Bildirimi Gönder</button>
+<a class="btn ghost" href="#basari-hikayeleri"><i class="fa-solid fa-heart"></i> Başarı Hikâyeleri</a>
+</div>
+<p aria-live="polite" class="feedback-submit-status" id="feedbackSubmitStatus"></p>
+</form>
+</div>
+</div>
+</div>
+</section>
+<!-- ===== BAŞARI HİKAYELERİ ===== -->
+<section class="section section-dark success-section" id="basari-hikayeleri">
+<div class="container">
+<div class="section-head">
+<p class="section-kicker"><i class="fa-solid fa-heart-pulse"></i> İyileşme yolculukları</p>
+<h2>Başarı Hikâyeleri</h2>
+</div>
+<!-- Otomatik dönen highlight kart -->
+<div aria-live="polite" class="success-highlight">
+<article class="s-card show" id="successHighlight">
+<!-- JS dolduracak -->
+</article>
+</div>
+<!-- Grid kartlar (dinamik) -->
+<div class="services-grid" id="successGrid">
+<!-- JS dolduracak -->
+</div>
+</div>
+</section>
+<!-- ===== ŞİKAYET & ÖNERİ ===== -->
+<section class="section complaint-section" id="sikayet-oneri">
+<div class="container">
+<div class="section-head">
+<p class="section-kicker"><i class="fa-solid fa-comment-dots"></i> İletişim</p>
+<h2>Şikâyet ve Öneri</h2>
+</div>
+<div class="feedback-layout">
+<aside class="feedback-aside">
+<div class="feedback-aside-icon"><i class="fa-solid fa-comments"></i></div>
+<h3>Sizi dinliyoruz</h3>
+<p>Mesajınız doğrudan değerlendirme sürecine alınır.</p>
+</aside>
+<div class="form-shell">
+<form class="form" data-netlify="true" method="POST" name="sikayet-oneri" netlify-honeypot="bot-field">
+<input name="form-name" type="hidden" value="sikayet-oneri"/>
+<p style="display:none"><label>Bot alanı: <input name="bot-field"/></label></p>
+<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
+<input autocomplete="name" name="ad" placeholder="Ad Soyad" required="" type="text"/>
+<input autocomplete="email" name="email" placeholder="E-posta" required="" type="email"/>
+<select name="konu" required="">
+<option value="">Konu</option>
+<option>Genel Deneyim</option>
+<option>Randevu Süreci</option>
+<option>Muayene/Tedavi</option>
+<option>Ücret &amp; Ödeme</option>
+<option>Diğer</option>
+</select>
+</div>
+<textarea name="mesaj" placeholder="Mesajınız" required="" rows="5"></textarea>
+<div class="form-actions">
+<button class="btn" type="submit">Gönder</button>
+<a class="btn ghost" href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> E-posta</a>
+<a class="btn ghost" href="tel:03323223220"><i class="fa-solid fa-phone"></i> Ara</a>
+</div>
+</form>
+</div>
+</div>
+</div>
+</section>
+</main>
+<div aria-label="Hızlı iletişim" class="mobile-action-bar">
+<a href="tel:+903323223220"><i class="fa-solid fa-phone"></i><span>Ara</span></a>
+<a href="#online-randevu"><i class="fa-solid fa-calendar-check"></i><span>Randevu</span></a>
+<a href="https://www.google.com/maps/dir/?api=1&amp;destination=Havzan+Mah.+Yeni+Meram+Cad.+17/1+Meram+Konya" rel="noopener" target="_blank"><i class="fa-solid fa-location-dot"></i><span>Konum</span></a>
+</div>
+<!-- ===== FOOTER ===== -->
+<footer class="footer-new">
+<div class="container footer-container">
+<div class="footer-col">
+<h3>Elçi Veteriner Kliniği</h3>
+<p>Meram'da açık iletişim, planlı takip ve bilimsel veterinerlik yaklaşımıyla hizmet veriyoruz.</p>
+<div class="social-links">
+<a aria-label="Facebook" href="https://www.facebook.com/elciveteriner" rel="noopener" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+<a aria-label="Instagram" href="https://www.instagram.com/elciveteriner" rel="noopener" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+<a aria-label="Twitter" href="https://twitter.com/elciveteriner" rel="noopener" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+<a aria-label="YouTube" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" rel="noopener" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+</div>
+</div>
+<div class="footer-col">
+<h3>Hızlı Linkler</h3>
+<ul class="footer-links">
+<li><a href="/">Ana Sayfa</a></li>
+<li><a href="/about">Hakkımızda</a></li>
+<li><a href="/hizmetler.html">Hizmetlerimiz</a></li>
+<li><a href="/blog.html">Blog</a></li>
+<li><a href="/sss.html">SSS</a></li>
+<li><a href="/hasta-iliskileri.html">Hasta İlişkileri</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h3>Konya Veteriner Hizmetlerimiz</h3>
+<ul class="footer-links">
+<li><a href="/hizmetler.html#acil">Konya Acil Veteriner</a></li>
+<li><a href="/hizmetler.html#cerrahi">Konya’da Cerrahi Operasyonlar</a></li>
+<li><a href="/hizmetler.html#agiz-dis">Konya’da Ağız ve Diş Sağlığı</a></li>
+<li><a href="/hizmetler.html#ic-hastaliklari">Konya’da İç Hastalıkları</a></li>
+<li><a href="/hizmetler.html#fizik-tedavi">Konya’da Fizik Tedavi</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h3>Konya İletişim</h3>
+<ul class="footer-contact">
+<li><i class="fa-solid fa-location-dot"></i>
+<a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" rel="noopener" target="_blank">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a>
+</li>
+<li><i class="fa-solid fa-phone"></i> <a href="tel:03323223220">0332 322 32 20</a></li>
+<li><i class="fa-solid fa-envelope"></i> <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></li>
+<li><i class="fa-solid fa-clock"></i> <span>Her gün: 09:00–21:00</span></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom"><div class="container"><p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p></div></div>
+</footer>
+<!-- Schema.org -->
+<script type="application/ld+json">
   {
     "@context":"https://schema.org",
     "@graph":[
@@ -1219,22 +1148,19 @@
     ]
   }
   </script>
-
-  <!-- SVG ICON SPRITE -->
-  <svg width="0" height="0" style="position:absolute;visibility:hidden" aria-hidden="true" focusable="false">
-    <symbol id="i-clipboard" viewBox="0 0 24 24"><path fill="currentColor" d="M9 2h6a2 2 0 0 1 2 2h2a2 2 0 0 1 2 2v13a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2-2Zm1 3h4V4h-4v1Z"/></symbol>
-    <symbol id="i-phone-bubble" viewBox="0 0 24 24"><path fill="currentColor" d="M20 2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-3l-4 3v-3H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12Z"/></symbol>
-    <symbol id="i-stethoscope" viewBox="0 0 24 24"><path fill="currentColor" d="M6 3h2v6a4 4 0 1 0 8 0V3h2v6a6 6 0 0 1-5 5.92V19a3 3 0 0 0 6 0h2a5 5 0 1 1-10 0v-4.08A6 6 0 0 1 6 9V3Z"/></symbol>
-    <symbol id="i-paw" viewBox="0 0 24 24"><path fill="currentColor" d="M12 13c3 0 6 2 6 4.5S15 22 12 22s-6-1.5-6-4.5S9 13 12 13Zm-5-2a2 2 0 1 1 0-4 2 2 0 0 1 0 4Zm10 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4ZM9 4a2 2 0 1 1-3-2 2 2 0 0 1 3 2Zm9 0a2 2 0 1 1-3-2 2 2 0 0 1 3 2Z"/></symbol>
-    <symbol id="i-xray" viewBox="0 0 24 24"><path fill="currentColor" d="M5 3h14a2 2 0 0 1 2 2v4H3V5a2 2 0 0 1 2-2h12Z"/></symbol>
-    <symbol id="i-tooth-clean" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2c4 0 7 3 7 6.5C19 13 16 18 12 22c-4-4-7-9-7-13.5C5 5 8 2 12 2Zm4 6-2 2-2-2"/></symbol>
-  </svg>
-
-  <!-- Tek JS -->
-  <script defer src="/assets/js/main.js?v=18"></script>
-
-  <!-- Sayfa içi JS -->
-  <script>
+<!-- SVG ICON SPRITE -->
+<svg aria-hidden="true" focusable="false" height="0" style="position:absolute;visibility:hidden" width="0">
+<symbol id="i-clipboard" viewbox="0 0 24 24"><path d="M9 2h6a2 2 0 0 1 2 2h2a2 2 0 0 1 2 2v13a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2-2Zm1 3h4V4h-4v1Z" fill="currentColor"></path></symbol>
+<symbol id="i-phone-bubble" viewbox="0 0 24 24"><path d="M20 2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-3l-4 3v-3H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12Z" fill="currentColor"></path></symbol>
+<symbol id="i-stethoscope" viewbox="0 0 24 24"><path d="M6 3h2v6a4 4 0 1 0 8 0V3h2v6a6 6 0 0 1-5 5.92V19a3 3 0 0 0 6 0h2a5 5 0 1 1-10 0v-4.08A6 6 0 0 1 6 9V3Z" fill="currentColor"></path></symbol>
+<symbol id="i-paw" viewbox="0 0 24 24"><path d="M12 13c3 0 6 2 6 4.5S15 22 12 22s-6-1.5-6-4.5S9 13 12 13Zm-5-2a2 2 0 1 1 0-4 2 2 0 0 1 0 4Zm10 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4ZM9 4a2 2 0 1 1-3-2 2 2 0 0 1 3 2Zm9 0a2 2 0 1 1-3-2 2 2 0 0 1 3 2Z" fill="currentColor"></path></symbol>
+<symbol id="i-xray" viewbox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v4H3V5a2 2 0 0 1 2-2h12Z" fill="currentColor"></path></symbol>
+<symbol id="i-tooth-clean" viewbox="0 0 24 24"><path d="M12 2c4 0 7 3 7 6.5C19 13 16 18 12 22c-4-4-7-9-7-13.5C5 5 8 2 12 2Zm4 6-2 2-2-2" fill="currentColor"></path></symbol>
+</svg>
+<!-- Tek JS -->
+<script defer="" src="/assets/js/main.js?v=18"></script>
+<!-- Sayfa içi JS -->
+<script>
   (function(){
     // Footer yılı
     const yil = document.getElementById('yil'); 
@@ -1641,6 +1567,12 @@
     const highlightEl = document.getElementById('successHighlight');
     let stories = [];
 
+    function escHtml(value){
+      return String(value == null ? '' : value).replace(/[&<>"']/g, function(char){
+        return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char];
+      });
+    }
+
     // i18n alanlar için helper
     function tLocale(val){
       if (val == null) return '';
@@ -1696,19 +1628,29 @@
       storyModal.showModal();
     }
 
+    function storyMedia(s, className){
+      if(s.image){
+        return `<div class="${className}"><img src="${escHtml(s.image)}" alt="${escHtml((s.petName || s.title || 'Başarı hikâyesi') + ' görseli')}" loading="lazy" decoding="async"></div>`;
+      }
+      return `<div class="${className}"><div class="success-story-placeholder" aria-hidden="true"><i class="fa-solid fa-paw"></i></div></div>`;
+    }
+
     function updateHighlight(idx){
-      const s = stories[idx];
-      if(!s || !highlightEl) return;
-      const metaLine = [s.petName, s.species].filter(Boolean).join(' • ');
+      const story = stories[idx];
+      if(!story || !highlightEl) return;
+      const metaLine = [story.petName, story.species].filter(Boolean).join(' • ');
 
       highlightEl.classList.remove('is-animating');
       setTimeout(()=>{
         highlightEl.innerHTML = `
-          <span class="s-icon"><svg viewBox="0 0 24 24"><use href="${s.icon || '#i-paw'}"></use></svg></span>
-          <h3 class="s-title">${s.title || ''}</h3>
-          <div class="tagline">${metaLine}</div>
-          <p class="s-text">${s.summary || ''}</p>
-          <div class="meta">Detaylı öyküyü görmek için karta tıklayın.</div>
+          ${storyMedia(story, 'success-story-media')}
+          <div class="success-story-copy">
+            <span class="s-icon"><svg viewBox="0 0 24 24"><use href="${escHtml(story.icon || '#i-paw')}"></use></svg></span>
+            <h3 class="s-title">${escHtml(story.title || '')}</h3>
+            <div class="tagline">${escHtml(metaLine)}</div>
+            <p class="s-text">${escHtml(story.summary || '')}</p>
+            <div class="meta">Detaylı öyküyü görmek için karta tıklayın.</div>
+          </div>
         `;
         highlightEl.classList.add('is-animating');
         highlightEl.onclick = ()=>openStory(idx);
@@ -1727,9 +1669,12 @@
           card.className = 's-card show success-card';
           card.dataset.index = idx;
           card.innerHTML = `
-            <span class="s-icon"><svg viewBox="0 0 24 24"><use href="${s.icon || '#i-paw'}"></use></svg></span>
-            <h3 class="s-title">${s.title || ''}</h3>
-            <p class="s-text">${s.summary || ''}</p>
+            ${storyMedia(s, 'success-card-media')}
+            <div class="success-card-body">
+              <span class="s-icon"><svg viewBox="0 0 24 24"><use href="${escHtml(s.icon || '#i-paw')}"></use></svg></span>
+              <h3 class="s-title">${escHtml(s.title || '')}</h3>
+              <p class="s-text">${escHtml(s.summary || '')}</p>
+            </div>
           `;
           card.addEventListener('click', ()=>openStory(idx));
           gridEl.appendChild(card);
@@ -1768,6 +1713,7 @@
             petName: tLocale(s.petName),
             species: tLocale(s.species),
             body:    tLocale(s.body),
+            image:   typeof s.image === 'string' ? s.image : '',
             icon:    s.icon || '#i-paw'
           };
         }).filter(function(s){
@@ -1805,5 +1751,5 @@
     /* ===== Konum butonu: yönlendirme hazır (href zaten rota) ===== */
   })();
   </script>
-</body>
+<script defer="" src="/assets/js/elci-system.js?v=20260721"></script></body>
 </html>

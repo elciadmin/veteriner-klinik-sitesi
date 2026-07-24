@@ -1,0 +1,11 @@
+ELÇİ V3.5 — SON DÜZELTME
+
+- SSS konum kartındaki siyah başlık beyaza düzeltildi.
+- Hizmetler sayfasındaki koyu güven kartı başlığı beyaza düzeltildi.
+- Blog kapak görseli panelden yüklenmeye devam eder; hem blog kartında hem yazı sayfasında gösterilir.
+- Blog paneline isteğe bağlı estetik içerik blokları eklendi:
+  * Tam genişlik görsel
+  * Metin ve görsel yan yana
+  * Bilgi / dikkat / öneri kutusu
+  * Numaralı adımlar
+- Eski blog yazıları bozulmadan çalışır; yeni bloklar yalnızca kullanıldığında görünür.

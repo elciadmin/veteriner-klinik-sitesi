@@ -1,0 +1,215 @@
+{
+  "title": "Sık Sorulan Sorular",
+  "items": [
+    {
+      "id": "sicak-carpmasi",
+      "q": "Sıcak çarpmasında evde ne yapabilirim?",
+      "a": "Serin, hava akımı olan bir ortama alın; ıslak havlu ile hafif serinletin, buz uygulamayın. En kısa sürede kliniğe ulaşın.",
+      "category": "Acil Durum",
+      "published": true,
+      "showOnHome": false,
+      "homeOrder": null,
+      "cmsEntry": "sicak-carpmasi"
+    },
+    {
+      "id": "ameliyat-oncesi-aclik",
+      "q": "Ameliyat öncesi açlık ne kadar olmalı?",
+      "a": "Açlık ve su kısıtlaması; yaşa, hastalığa, uygulanacak işleme ve anestezi planına göre değişir. Kliniğimizin vaka için verdiği hazırlık talimatı esas alınmalıdır.",
+      "category": "Ameliyat & Anestezi",
+      "published": true,
+      "showOnHome": true,
+      "homeOrder": 4,
+      "cmsEntry": "ameliyat-oncesi-aclik"
+    },
+    {
+      "id": "anestezi-guvenli-mi",
+      "q": "Anestezi güvenli mi?",
+      "a": "Hiçbir anestezi tamamen risksiz değildir. Operasyon öncesi muayene, gerekli tetkikler ve hastaya özel anestezi planı ile risk değerlendirilir; süreç boyunca klinik takip uygulanır.",
+      "category": "Ameliyat & Anestezi",
+      "published": true,
+      "showOnHome": false,
+      "homeOrder": null,
+      "cmsEntry": "anestezi-guvenli-mi"
+    },
+    {
+      "id": "kisirlastirma-randevu-saati",
+      "q": "Kısırlaştırma randevusunda seçilen saat neyi ifade eder?",
+      "a": "Seçilen saat operasyonun toplam süresi değil, kliniğe kabul ve ön değerlendirme saatidir. Açlık hazırlığı, gerekli tetkikler, operasyon planı ve taburculuk zamanı telefon teyidinde ayrıca bildirilir.",
+      "category": "Ameliyat & Anestezi",
+      "published": true,
+      "showOnHome": false,
+      "homeOrder": null,
+      "cmsEntry": "kisirlastirma-randevu-saati"
+    },
+    {
+      "id": "kisirlastirma-sureci",
+      "q": "Kısırlaştırma süreci ve iyileşme nasıl ilerler?",
+      "a": "Operasyon öncesinde klinik muayene ve gerekli görülen tetkikler yapılır. Taburculuk zamanı, yara bakımı, koruyucu yakalık ve kontrol planı hastanın türüne, cinsiyetine ve operasyon sonrası durumuna göre belirlenir.",
+      "category": "Ameliyat & Anestezi",
+      "published": true,
+      "showOnHome": true,
+      "homeOrder": 3,
+      "cmsEntry": "kisirlastirma-sureci"
+    },
+    {
+      "id": "kedi-asi-takvimi",
+      "q": "Kedilerde aşı takvimi nasıl?",
+      "a": "Aşı programı yaşa, önceki aşı kayıtlarına, yaşam biçimine ve hastalık riskine göre bireysel olarak planlanır. Muayene yapılmadan standart bir takvim önermek doğru değildir.",
+      "category": "Aşı & Koruyucu",
+      "published": true,
+      "showOnHome": false,
+      "homeOrder": null,
+      "cmsEntry": "kedi-asi-takvimi"
+    },
+    {
+      "id": "kene-koruma",
+      "q": "Kene ve dış parazit korumasını nasıl planlamalıyım?",
+      "a": "Dış parazit ürünü; hayvanın türü, yaşı, kilosu, sağlık durumu ve yaşam biçimine göre seçilir. Uygulama aralığı ürüne göre değiştiğinden, ürün etiketine ve veteriner hekim planına uyulmalıdır.",
+      "category": "Aşı & Koruyucu",
+      "published": true,
+      "showOnHome": false,
+      "homeOrder": null,
+      "cmsEntry": "kene-koruma"
+    },
+    {
+      "id": "dis-bakimi",
+      "q": "Diş taşı temizliği sonrası bakım nasıl olmalı?",
+      "a": "Bakım planı yapılan işlemin kapsamına ve varsa diş çekimlerine göre değişir. Beslenme, ağız bakımı, ilaç kullanımı ve kontrol zamanı için verilen taburculuk talimatına uyulmalıdır.",
+      "category": "Bakım & Beslenme",
+      "published": true,
+      "showOnHome": false,
+      "homeOrder": null,
+      "cmsEntry": "dis-bakimi"
+    },
+    {
+      "id": "beslenme-gecis",
+      "q": "Yeni mamaya geçişi nasıl yapmalıyım?",
+      "a": "7–10 günlük kademeli geçiş önerilir: her gün eski mamanın oranını azaltıp yeninin oranını artırın. Sindirim hassasiyetinde süreyi uzatın.",
+      "category": "Bakım & Beslenme",
+      "published": true,
+      "showOnHome": false,
+      "homeOrder": null,
+      "cmsEntry": "beslenme-gecis"
+    },
+    {
+      "id": "odeme-yontemleri",
+      "q": "Hangi ödeme yöntemlerini kabul ediyorsunuz?",
+      "a": "Nakit ve banka/kredi kartı ile ödeme alınır. Güncel ödeme seçeneklerini işlem öncesinde kliniğimizden teyit edebilirsiniz.",
+      "category": "Fiyat & Ödeme",
+      "published": true,
+      "showOnHome": false,
+      "homeOrder": null,
+      "cmsEntry": "odeme-yontemleri"
+    },
+    {
+      "id": "tahmini-maliyet",
+      "q": "İşlemler için önceden tahmini maliyet veriyor musunuz?",
+      "a": "Muayene sonrasında gerekli tetkikler ve tedavi planı netleştiğinde, öngörülebilen işlemler ve tahmini maliyet hasta sahibine açıklanır. Muayene sırasında ortaya çıkan yeni bulgular planı ve toplam maliyeti değiştirebilir.",
+      "category": "Fiyat & Ödeme",
+      "published": true,
+      "showOnHome": false,
+      "homeOrder": null,
+      "cmsEntry": "tahmini-maliyet"
+    },
+    {
+      "id": "muayene-ucreti",
+      "q": "Muayene ücretiniz nedir?",
+      "a": "Muayene ücretimiz güncel klinik tarifesine göre belirlenir; kapsam (genel muayene, kontrol, acil) ve ek tetkiklere göre değişebilir. En doğru bilgi için 0332 322 32 20 numarasından ulaşın.",
+      "category": "Fiyat & Ödeme",
+      "published": true,
+      "showOnHome": true,
+      "homeOrder": 2,
+      "cmsEntry": "muayene-ucreti"
+    },
+    {
+      "id": "laboratuvar-ac",
+      "q": "Kan tahlili için aç gelmeli miyiz?",
+      "a": "Açlık gereksinimi istenen teste ve hastanın durumuna göre değişir. Randevu öncesinde açlık gerekip gerekmediğini kliniğimizden teyit edin; acil durumlarda aç bırakmak için başvuruyu geciktirmeyin.",
+      "category": "Laboratuvar & Görüntüleme Yönlendirme",
+      "published": true,
+      "showOnHome": true,
+      "homeOrder": 6,
+      "cmsEntry": "laboratuvar-ac"
+    },
+    {
+      "id": "rontgen-ultrason",
+      "q": "Röntgen ve ultrason için randevu gerekir mi?",
+      "a": "Görüntüleme gereksinimi muayene sonrasında değerlendirilir. Gerekli durumlarda röntgen ve ultrason işlemleri için randevulu süreç planlanır veya uygun dış merkeze yönlendirme yapılır.",
+      "category": "Laboratuvar & Görüntüleme Yönlendirme",
+      "published": true,
+      "showOnHome": false,
+      "homeOrder": null,
+      "cmsEntry": "rontgen-ultrason"
+    },
+    {
+      "id": "tek-hayvan-tek-form",
+      "q": "Bir formda birden fazla hayvan için randevu alabilir miyim?",
+      "a": "Her hayvan için ayrı randevu talebi oluşturulmalıdır. Böylece tür, şikâyet ve hizmet bilgileri doğru kaydedilebilir.",
+      "category": "Randevu & Süreç",
+      "published": true,
+      "showOnHome": false,
+      "homeOrder": null,
+      "cmsEntry": "tek-hayvan-tek-form"
+    },
+    {
+      "id": "randevu-saatleri",
+      "q": "Online randevu saatleri nasıl planlanıyor?",
+      "a": "Standart randevu talepleri 11.00–18.00 saatleri arasında 50 dakikalık görüşme aralıkları ve aralarda 10 dakikalık hazırlık süresi olacak şekilde planlanır. Acil durumlar için online form kullanılmamalıdır.",
+      "category": "Randevu & Süreç",
+      "published": true,
+      "showOnHome": false,
+      "homeOrder": null,
+      "cmsEntry": "randevu-saatleri"
+    },
+    {
+      "id": "online-randevu-kesin-mi",
+      "q": "Online randevu talebi gönderildiğinde randevu kesinleşir mi?",
+      "a": "Hayır. Form, uygunluk değerlendirmesi için ön talep oluşturur. Randevu, kliniğimiz tarafından telefonla teyit edildikten sonra kesinleşir.",
+      "category": "Randevu & Süreç",
+      "published": true,
+      "showOnHome": false,
+      "homeOrder": null,
+      "cmsEntry": "online-randevu-kesin-mi"
+    },
+    {
+      "id": "online-randevu-ne-zaman",
+      "q": "Online randevu talebini ne zaman oluşturabilirim?",
+      "a": "Takvimde ilk seçilebilir tarih her zaman bugünden 3 gün sonrasıdır . En fazla 30 gün ileriye talep oluşturulabilir.",
+      "category": "Randevu & Süreç",
+      "published": true,
+      "showOnHome": false,
+      "homeOrder": null,
+      "cmsEntry": "online-randevu-ne-zaman"
+    },
+    {
+      "id": "randevu-gerekli-mi",
+      "q": "Randevu gerekli mi?",
+      "a": "Genel muayeneler için randevu önerilir. Acil durumlarda önce telefonla ön değerlendirme yapılır; uygunluk durumuna göre kliniğimizde ilk müdahale sağlanır veya gerekli yönlendirme yapılır.",
+      "category": "Randevu & Süreç",
+      "published": true,
+      "showOnHome": true,
+      "homeOrder": 1,
+      "cmsEntry": "randevu-gerekli-mi"
+    },
+    {
+      "id": "sonuclar-ne-zaman",
+      "q": "Tahlil ve görüntüleme sonuçları ne kadar sürede çıkar?",
+      "a": "Klinik içinde çalışılan bazı temel testler aynı gün sonuçlanabilir. Dış laboratuvara gönderilen veya özel yöntem gerektiren testlerin sonuç süresi teste ve laboratuvarın çalışma düzenine göre değişir.",
+      "category": "Randevu & Süreç",
+      "published": true,
+      "showOnHome": false,
+      "homeOrder": null,
+      "cmsEntry": "sonuclar-ne-zaman"
+    },
+    {
+      "id": "yatis-gerekirse",
+      "q": "Yatış gerekirse nasıl ilerliyor?",
+      "a": "Yatış gerektiren hastalarda klinik kapasitesi ve hastanın durumuna göre izlem planı oluşturulur. İleri yoğun bakım veya 24 saat kesintisiz izlem gerektiren durumlarda hasta sahibi bilgilendirilerek uygun merkeze yönlendirme yapılır.",
+      "category": "Randevu & Süreç",
+      "published": true,
+      "showOnHome": false,
+      "homeOrder": null,
+      "cmsEntry": "yatis-gerekirse"
+    }
+  ]
+}

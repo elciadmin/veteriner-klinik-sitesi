@@ -9,6 +9,46 @@
 [functions]
   node_bundler = "esbuild"
 
+[[redirects]]
+  from = "/about"
+  to = "/about.html"
+  status = 200
+
+[[redirects]]
+  from = "/hizmetler"
+  to = "/hizmetler.html"
+  status = 301
+
+[[redirects]]
+  from = "/sss"
+  to = "/sss.html"
+  status = 301
+
+[[redirects]]
+  from = "/randevu"
+  to = "/hasta-iliskileri.html#online-randevu"
+  status = 301
+
+[[redirects]]
+  from = "/contact.html"
+  to = "/hasta-iliskileri.html"
+  status = 301
+
+[[redirects]]
+  from = "/services.html"
+  to = "/hizmetler.html"
+  status = 301
+
+[[redirects]]
+  from = "/team.html"
+  to = "/about.html#ekibimiz"
+  status = 301
+
+[[redirects]]
+  from = "/gallery.html"
+  to = "/#insta"
+  status = 301
+
 [[headers]]
   for = "/admin/*"
   [headers.values]
@@ -18,6 +58,31 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "no-referrer"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Content-Security-Policy = "frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+
+[[headers]]
+  for = "/assets/data/*"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  for = "/assets/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+    X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  for = "/assets/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+    X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  for = "/assets/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+    X-Content-Type-Options = "nosniff"
 
 [[headers]]
   for = "/*"
@@ -25,3 +90,4 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
