@@ -150,6 +150,36 @@ function renderEditorialSections(sections) {
   return blocks ? `<div class="editorial-sections">${blocks}</div>` : "";
 }
 
+
+function editorialHasMedia(sections) {
+  return Array.isArray(sections) && sections.some(block => {
+    if (!block || typeof block !== "object") return false;
+    if (["image","split"].includes(block.type)) return !!block.image;
+    if (block.type === "gallery") return Array.isArray(block.images) && block.images.some(item => item?.image);
+    if (block.type === "cards") return Array.isArray(block.items) && block.items.some(item => item?.image);
+    return false;
+  });
+}
+
+function editorialPlainText(sections) {
+  if (!Array.isArray(sections)) return "";
+  return sections.flatMap(block => {
+    if (!block || typeof block !== "object") return [];
+    if (["text","split","callout"].includes(block.type)) return [block.heading, block.body];
+    if (block.type === "steps") return [block.heading, ...(Array.isArray(block.items) ? block.items.map(item => typeof item === "string" ? item : item?.item) : [])];
+    if (block.type === "cards") return (Array.isArray(block.items) ? block.items : []).flatMap(item => [item?.title, item?.body]);
+    return [];
+  }).filter(Boolean).join(" ");
+}
+
+function readingMinutes(value) {
+  const clean = stripHtml(value).replace(/\s+/g, " ").trim();
+  if (!clean) return 1;
+  const words = clean.split(" ").filter(Boolean).length;
+  const characterEquivalent = Math.ceil(clean.length / 6);
+  return Math.max(1, Math.ceil(Math.max(words, characterEquivalent) / 190));
+}
+
 const validDate = value => {
   const date = value ? new Date(value) : null;
   return date && !Number.isNaN(date.getTime()) ? date : null;
@@ -208,17 +238,17 @@ async function writeJson(relative, data) {
 }
 
 function commonHeader(active = "blog") {
-  const nav = [
-    ["home", "/", "Ana Sayfa"],
-    ["about", "/about", "Hakkımızda"],
-    ["services", "/hizmetler.html", "Hizmetlerimiz"],
-    ["blog", "/blog.html", "Blog"],
-    ["faq", "/sss.html", "SSS"],
-    ["patient", "/hasta-iliskileri.html", "Hasta İlişkileri"],
-  ].map(([key, href, label]) => `<li><a href="${href}"${key === active ? ' class="active" aria-current="page"' : ""}>${label}</a></li>`).join("");
+  const activeAttr = key => key === active ? ' class="active" aria-current="page"' : "";
   return `<header>
     <div class="header-top"><div class="container"><div class="header-contact"><span><i class="fa-solid fa-location-dot"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</span></div><div class="header-contact"><a href="tel:+903323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a><a href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> elcivetklinik@gmail.com</a></div></div></div>
-    <div class="header-main"><div class="container"><div class="logo-text"><a class="brand-lockup" href="/" aria-label="Elçi Veteriner Kliniği ana sayfa"><span class="brand-mark"><img src="/assets/img/uploads/elci-logo.png" alt="" width="54" height="54"></span><span class="brand-copy"><strong>Elçi Veteriner Kliniği</strong><span class="signature-tagline header-signature">Sağlığın Elçi’leriyiz</span></span></a></div><nav aria-label="Birincil"><button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç veya kapat" aria-expanded="false" aria-controls="mainMenu"><i class="fa-solid fa-bars"></i></button><ul id="mainMenu">${nav}</ul></nav></div></div>
+    <div class="header-main"><div class="container"><div class="logo-text"><a class="brand-lockup" href="/" aria-label="Elçi Veteriner Kliniği ana sayfa"><span aria-hidden="true" class="brand-mark"><img src="/assets/img/uploads/elci-logo.png?v=3" alt="" width="54" height="54" loading="eager" decoding="async"></span><span class="brand-copy"><strong>Elçi Veteriner Kliniği</strong><span class="signature-tagline header-signature">Sağlığın Elçi’leriyiz</span></span></a></div><nav aria-label="Birincil" class="main-nav"><button class="mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="Menüyü aç/kapat" aria-expanded="false" aria-controls="mainMenu"><i class="fa-solid fa-bars"></i></button><ul id="mainMenu">
+      <li><a href="/"${activeAttr("home")}>Ana Sayfa</a></li>
+      <li class="dropdown"><a href="/about" aria-expanded="false" aria-haspopup="true"${activeAttr("about")}>Hakkımızda</a><div class="dropdown-content" role="menu"><a href="/about#elci-kimdir" role="menuitem">Elçi Kimdir?</a><a href="/about#ekibimiz" role="menuitem">Ekibimiz</a><a href="/about#klinik" role="menuitem">Kliniğimiz</a><a href="/about#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a><a href="/about#degerler" role="menuitem">Değerlerimiz</a></div></li>
+      <li class="dropdown"><a href="/hizmetler.html" aria-expanded="false" aria-haspopup="true"${activeAttr("services")}>Hizmetlerimiz</a><div class="dropdown-content" role="menu"><a href="/hizmetler.html#acil" role="menuitem">Acil Veteriner</a><a href="/hizmetler.html#koruyucu" role="menuitem">Koruyucu Hekimlik</a><a href="/hizmetler.html#cerrahi" role="menuitem">Cerrahi Operasyonlar</a><a href="/hizmetler.html#agiz-dis" role="menuitem">Ağız ve Diş Sağlığı</a><a href="/hizmetler.html#ic-hastaliklari" role="menuitem">İç Hastalıkları</a><a href="/hizmetler.html#fizik-tedavi" role="menuitem">Fizik Tedavi</a><a href="/hizmetler.html#konaklama" role="menuitem">Konaklama</a></div></li>
+      <li><a href="/blog.html"${activeAttr("blog")}>Blog</a></li>
+      <li class="dropdown"><a href="/sss.html" aria-expanded="false" aria-haspopup="true"${activeAttr("faq")}>SSS</a><div class="dropdown-content" role="menu"><a href="/sss.html#fiyat" role="menuitem">Fiyat &amp; Ödeme</a><a href="/sss.html#surec" role="menuitem">Hizmet Süreçleri</a><a href="/sss.html#acil" role="menuitem">Acil Durumlar</a></div></li>
+      <li class="dropdown"><a href="/hasta-iliskileri.html" aria-expanded="false" aria-haspopup="true"${activeAttr("patient")}>Hasta İlişkileri</a><div class="dropdown-content" role="menu"><a href="/hasta-iliskileri.html#online-randevu" role="menuitem">Online Randevu</a><a href="/hasta-iliskileri.html#memnuniyet-anketi" role="menuitem">Memnuniyet Anketi</a><a href="/hasta-iliskileri.html#basari-hikayeleri" role="menuitem">Başarı Hikâyeleri</a><a href="/hasta-iliskileri.html#sikayet-oneri" role="menuitem">Şikâyet &amp; Öneri</a></div></li>
+    </ul></nav></div></div>
   </header>`;
 }
 
@@ -229,37 +259,45 @@ function commonFooter() {
 function blogPage(post) {
   const active = isActive(post);
   const robots = active ? "index,follow,max-image-preview:large" : "noindex,nofollow,noarchive";
-  const cover = post.cover || "/assets/img/uploads/elci-logo.png";
-  const brandCover = !post.cover || /(?:^|\/)(?:elci[-_]?logo|logo)(?:\.[a-z0-9]+)?$/i.test(cover);
+  const socialImage = post.cover || "/assets/img/uploads/elci-logo.png";
+  const showCover = !!post.cover && (post.contentMode !== "visual" || !post.hasEditorialMedia);
   const content = post.content || (post.contentMode === "visual" ? "" : `<p>${escapeHtml(post.summary)}</p>`);
+  const canonicalUrl = `${SITE_URL}${post.url}`;
+  const encodedUrl = encodeURIComponent(canonicalUrl);
+  const encodedShare = encodeURIComponent(`${post.title} — ${canonicalUrl}`);
   const schema = active ? `<script type="application/ld+json">${JSON.stringify({
     "@context":"https://schema.org", "@type":"BlogPosting", headline:post.title,
-    description:post.seoDescription || post.summary, image:`${SITE_URL}${cover}`,
+    description:post.seoDescription || post.summary, image:`${SITE_URL}${socialImage}`,
     datePublished:post.date, dateModified:post.updatedAt || post.date,
     author:{"@type":"Organization",name:post.author || "Elçi Veteriner Kliniği"},
     publisher:{"@type":"Organization",name:"Elçi Veteriner Kliniği",logo:{"@type":"ImageObject",url:`${SITE_URL}/assets/img/uploads/elci-logo.png`}},
-    mainEntityOfPage:`${SITE_URL}${post.url}`
+    mainEntityOfPage:canonicalUrl
   }).replace(/</g, "\\u003c")}</script>` : "";
 
   return `<!doctype html><html lang="tr"><head>
     <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
     <title>${escapeHtml(post.seoTitle || `${post.title} | Elçi Veteriner Kliniği`)}</title>
-    <meta name="description" content="${escapeAttr(post.seoDescription || post.summary)}"><meta name="robots" content="${robots}">
-    <link rel="canonical" href="${SITE_URL}${post.url}"><meta property="og:type" content="article"><meta property="og:title" content="${escapeAttr(post.title)}"><meta property="og:description" content="${escapeAttr(post.summary)}"><meta property="og:image" content="${SITE_URL}${escapeAttr(cover)}">
-    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><link rel="stylesheet" href="/assets/css/tokens.css"><link rel="stylesheet" href="/assets/css/styles.css"><link rel="stylesheet" href="/assets/css/elci-system.css?v=20260721-2"><link rel="stylesheet" href="/assets/css/elci-fixes-v33.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-fixes-v34.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-final-v35.css?v=20260723-54"><link rel="stylesheet" href="/assets/css/elci-blog-v55.css?v=20260724-prestij-blog-1">
+    <meta name="description" content="${escapeAttr(post.seoDescription || post.summary)}"><meta name="robots" content="${robots}"><meta name="theme-color" content="#5a1fa8">
+    <link rel="canonical" href="${canonicalUrl}"><meta property="og:type" content="article"><meta property="og:title" content="${escapeAttr(post.title)}"><meta property="og:description" content="${escapeAttr(post.summary)}"><meta property="og:image" content="${SITE_URL}${escapeAttr(socialImage)}">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><link rel="stylesheet" href="/assets/css/tokens.css"><link rel="stylesheet" href="/assets/css/styles.css"><link rel="stylesheet" href="/assets/css/elci-system.css?v=20260721-2"><link rel="stylesheet" href="/assets/css/elci-shell-v32.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-fixes-v33.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-fixes-v34.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-final-v35.css?v=20260723-54"><link rel="stylesheet" href="/assets/css/elci-blog-v59.css?v=20260724-1">
     ${schema}
-  </head><body class="blog-article-page" data-content-mode="${escapeAttr(post.contentMode || "standard")}" data-runtime-active="${active}" data-publish-at="${escapeAttr(post.date)}" data-unpublish-at="${escapeAttr(post.unpublishAt || "")}">
+  </head><body class="blog-article-page theme-elciKonya" data-page="blog" data-content-mode="${escapeAttr(post.contentMode || "standard")}" data-runtime-active="${active}" data-publish-at="${escapeAttr(post.date)}" data-unpublish-at="${escapeAttr(post.unpublishAt || "")}">
     ${commonHeader("blog")}<div id="siteAnnouncement" class="site-announcement" hidden></div>
-    <main class="blog-article-shell">
+    <main class="blog-article-shell" id="ana-icerik">
       <div class="blog-not-active" id="blogInactive"><h1>Bu yazı şu anda yayında değil.</h1><p>Yazı henüz yayınlanmamış veya yayın süresi sona ermiş olabilir.</p><a class="btn primary" href="/blog.html">Bloga dön</a></div>
       <article class="blog-article" id="blogArticle">
-        <header class="blog-article-header"><span class="blog-article-kicker"><i class="fa-regular fa-file-lines"></i> Elçi sağlık notları</span><h1>${escapeHtml(post.title)}</h1><div class="blog-article-meta"><span><i class="fa-solid fa-layer-group"></i> ${escapeHtml(post.category)}</span><span><i class="fa-regular fa-calendar"></i> ${escapeHtml(post.dateLabel)}</span><span><i class="fa-regular fa-user"></i> ${escapeHtml(post.author)}</span></div></header><div class="blog-article-cover${brandCover ? " is-brand-cover" : ""}"><img src="${escapeAttr(cover)}" alt="${escapeAttr(post.title)}" onerror="this.onerror=null;this.src='/assets/img/uploads/elci-logo.png';this.closest('.blog-article-cover')?.classList.add('is-brand-cover')"></div>
-        <div class="blog-article-content">${content}${post.editorialHtml || ""}<div class="blog-article-note"><strong>Bilgilendirme:</strong> Bu içerik genel bilgi amaçlıdır; muayene, tanı ve hastaya özel tedavi planının yerini tutmaz. Acil bir durumda form beklemeden kliniğimizi arayın.</div></div>
-        <footer class="blog-article-actions"><a class="btn" href="/blog.html"><i class="fa-solid fa-arrow-left"></i> Tüm yazılar</a><a class="btn primary" href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i> Randevu talebi</a></footer>
+        <nav class="blog-breadcrumb" aria-label="Sayfa yolu"><a href="/">Ana Sayfa</a><i class="fa-solid fa-chevron-right"></i><a href="/blog.html">Blog</a><i class="fa-solid fa-chevron-right"></i><span>${escapeHtml(post.title)}</span></nav>
+        <header class="blog-article-header">
+          <div class="blog-article-topline"><div class="blog-article-meta"><span><i class="fa-regular fa-bookmark"></i> ${escapeHtml(post.category)}</span><span><i class="fa-regular fa-calendar"></i> ${escapeHtml(post.dateLabel)}</span><span><i class="fa-regular fa-user"></i> ${escapeHtml(post.author)}</span></div><span class="blog-reading-time"><i class="fa-regular fa-clock"></i> ${post.readingMinutes} dk okuma</span></div>
+          <h1>${escapeHtml(post.title)}</h1><div class="blog-title-divider" aria-hidden="true"><span></span><i class="fa-solid fa-paw"></i><span></span></div>${post.summary ? `<p class="blog-article-summary">${escapeHtml(post.summary)}</p>` : ""}
+        </header>
+        ${showCover ? `<figure class="blog-article-cover"><img src="${escapeAttr(post.cover)}" alt="${escapeAttr(post.title)}" loading="eager" decoding="async" onerror="this.closest('figure')?.remove()">${post.coverCaption ? `<figcaption>${escapeHtml(post.coverCaption)}</figcaption>` : ""}</figure>` : ""}
+        <div class="blog-article-content">${content}${post.editorialHtml || ""}<aside class="blog-article-note"><span class="blog-note-icon"><i class="fa-solid fa-leaf"></i></span><div><strong>Unutmayın</strong><p>Her patinin ihtiyacı farklıdır. Bu içerik genel bilgi amaçlıdır; muayene, tanı ve hastaya özel tedavi planının yerini tutmaz.</p></div></aside></div>
+        <footer class="blog-article-actions"><div class="blog-share"><span>Bu yazıyı paylaş:</span><a class="blog-share-button" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}" target="_blank" rel="noopener" aria-label="Facebook'ta paylaş"><i class="fa-brands fa-facebook-f"></i></a><a class="blog-share-button" href="https://wa.me/?text=${encodedShare}" target="_blank" rel="noopener" aria-label="WhatsApp'ta paylaş"><i class="fa-brands fa-whatsapp"></i></a><button class="blog-share-button" type="button" data-copy-blog-link="${escapeAttr(canonicalUrl)}" aria-label="Yazı bağlantısını kopyala"><i class="fa-solid fa-link"></i></button></div><div class="blog-action-links"><a class="btn" href="/blog.html"><i class="fa-solid fa-arrow-left"></i> Bloga geri dön</a><a class="btn primary" href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i> Randevu talebi</a></div></footer>
       </article>
     </main>${commonFooter()}<script src="/assets/js/elci-system.js" defer></script>
-    <script>(()=>{const body=document.body,article=document.getElementById('blogArticle'),inactive=document.getElementById('blogInactive');function update(){const now=Date.now(),start=Date.parse(body.dataset.publishAt||''),end=Date.parse(body.dataset.unpublishAt||''),live=(!Number.isFinite(start)||start<=now)&&(!Number.isFinite(end)||end>now);body.dataset.runtimeActive=String(live);article.hidden=!live;inactive.hidden=live;const next=[start,end].filter(value=>Number.isFinite(value)&&value>now).sort((a,b)=>a-b)[0];if(next)setTimeout(update,Math.min(next-now+250,2147483647));}update();})();</script>
+    <script>(()=>{const body=document.body,article=document.getElementById('blogArticle'),inactive=document.getElementById('blogInactive');function update(){const now=Date.now(),start=Date.parse(body.dataset.publishAt||''),end=Date.parse(body.dataset.unpublishAt||''),live=(!Number.isFinite(start)||start<=now)&&(!Number.isFinite(end)||end>now);body.dataset.runtimeActive=String(live);article.hidden=!live;inactive.hidden=live;const next=[start,end].filter(value=>Number.isFinite(value)&&value>now).sort((a,b)=>a-b)[0];if(next)setTimeout(update,Math.min(next-now+250,2147483647));}update();document.addEventListener('click',async event=>{const button=event.target.closest('[data-copy-blog-link]');if(!button)return;try{await navigator.clipboard.writeText(button.dataset.copyBlogLink);button.classList.add('copied');button.setAttribute('aria-label','Bağlantı kopyalandı');setTimeout(()=>button.classList.remove('copied'),1400);}catch{}});})();</script>
   </body></html>`;
 }
 
@@ -275,13 +313,13 @@ async function buildBlog() {
       : (Array.isArray(data.editorialSections) && data.editorialSections.length && !String(rawContent).trim() ? "visual" : "standard");
     return {
       title:data.title || "", slug, date, scheduledAt:date, unpublishAt:data.unpublishAt || "",
-      published:data.published !== false, active:isActive({ published:data.published !== false, date, unpublishAt:data.unpublishAt || "" }), featured:data.featured === true, summary:data.summary || "", cover:data.cover || "",
+      published:data.published !== false, active:isActive({ published:data.published !== false, date, unpublishAt:data.unpublishAt || "" }), featured:data.featured === true, summary:data.summary || "", cover:data.cover || "", coverCaption:data.coverCaption || "",
       youtubeId:advanced.youtubeId || "", category:data.category || "Klinik Duyuruları", categories:[data.category || "Klinik Duyuruları"],
       species:data.species || "Genel", tags:Array.isArray(data.tags) ? data.tags : [], relatedService:data.relatedService || "",
       author:advanced.author || "Elçi Veteriner Kliniği",
       seoTitle:advanced.seoTitle || data.title || "", seoDescription:advanced.seoDescription || data.summary || "",
-      url:`/blog/${encodeURIComponent(slug)}.html`, contentMode, content:contentMode === "visual" ? "" : renderRichText(rawContent), editorialHtml:contentMode === "visual" ? renderEditorialSections(data.editorialSections) : "", cmsEntry:entrySlug, sourceFile:file,
-      dateLabel:dateLabel(date), updatedAt:data.updatedAt || date,
+      url:`/blog/${encodeURIComponent(slug)}.html`, contentMode, content:contentMode === "visual" ? "" : renderRichText(rawContent), editorialHtml:contentMode === "visual" ? renderEditorialSections(data.editorialSections) : "", hasEditorialMedia:editorialHasMedia(data.editorialSections), cmsEntry:entrySlug, sourceFile:file,
+      dateLabel:dateLabel(date), readingMinutes:readingMinutes([data.title,data.summary,rawContent,editorialPlainText(data.editorialSections)].filter(Boolean).join(" ")), updatedAt:data.updatedAt || date,
     };
   }).sort((a,b) => new Date(b.date) - new Date(a.date));
   await writeJson("assets/data/blog.json", { posts });
