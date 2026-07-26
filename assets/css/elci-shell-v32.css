@@ -327,9 +327,3 @@ body :is(.about-card-list,.hero-card-list,.service-card-list) i{width:22px!impor
     animation:none!important;transition:none!important;transform:none!important;opacity:1!important;filter:none!important;
   }
 }
-
-
-/* V5.10 — tüm sayfalarda tek menü yükleme ve alt çizgi standardı */
-body>header:first-of-type,body .header-top,body .header-main,body .header-main>.container{animation:none!important}
-body .header-main nav>ul>li>a.active::after,body .header-main nav>ul>li>a[aria-current="page"]::after{transition:none!important;transform:scaleX(1)!important}
-body .header-main nav>ul>li>a:not(.active):not([aria-current="page"])::after{transition:transform .24s cubic-bezier(.22,.78,.24,1)!important}

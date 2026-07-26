@@ -1114,12 +1114,60 @@
   });
   window.addEventListener('beforeunload',event=>{if(!state.dirty)return;event.preventDefault();event.returnValue='';});
 
+  const IDENTITY_API_URL='https://elciveteriner.com/.netlify/identity';
+  let identityBound=false;
+
+  function bindIdentity(identity){
+    if(!identity||identityBound)return !!identity;
+    identityBound=true;
+    identity.on('init',user=>user?showApp(user):showLogin());
+    identity.on('login',user=>{identity.close();showApp(user);});
+    identity.on('logout',showLogin);
+    identity.init({APIUrl:IDENTITY_API_URL});
+    return true;
+  }
+
+  function loadIdentityWidget(){
+    if(window.netlifyIdentity)return Promise.resolve(window.netlifyIdentity);
+    const sources=[
+      'https://identity.netlify.com/v1/netlify-identity-widget.js?elci=20260726b',
+      'https://unpkg.com/netlify-identity-widget@1/build/netlify-identity-widget.js'
+    ];
+    return new Promise((resolve,reject)=>{
+      let index=0;
+      const tryNext=()=>{
+        if(window.netlifyIdentity)return resolve(window.netlifyIdentity);
+        if(index>=sources.length)return reject(new Error('Giriş bileşeni yüklenemedi'));
+        const script=document.createElement('script');
+        script.src=sources[index++];script.async=true;
+        script.onload=()=>window.netlifyIdentity?resolve(window.netlifyIdentity):tryNext();
+        script.onerror=()=>{script.remove();tryNext();};
+        document.head.appendChild(script);
+      };
+      tryNext();
+    });
+  }
+
+  async function openIdentityLogin(){
+    const button=$('#loginButton');
+    if(button){button.disabled=true;button.innerHTML='<i class="fa-solid fa-circle-notch fa-spin"></i> Giriş hazırlanıyor';}
+    try{
+      const identity=window.netlifyIdentity||await loadIdentityWidget();
+      bindIdentity(identity);
+      identity.open('login');
+    }catch(error){
+      toast('Giriş penceresi açılamadı','Tarayıcı güvenlik veya içerik engelleme ayarını kontrol edip sayfayı yenileyin.','error');
+    }finally{
+      if(button){button.disabled=false;button.innerHTML='<i class="fa-solid fa-lock"></i> Güvenli giriş';}
+    }
+  }
+
   $('#mobileMenu').addEventListener('click',()=>$('#sidebar').classList.toggle('open'));
-  $('#loginButton').addEventListener('click',()=>window.netlifyIdentity?.open('login'));
+  $('#loginButton').addEventListener('click',openIdentityLogin);
   $('#logoutButton').addEventListener('click',()=>window.netlifyIdentity?.logout());
   window.addEventListener('hashchange',()=>state.user&&router());
 
   async function showApp(user){state.user=user;$('#userEmail').textContent=user?.email||'';loginScreen.classList.add('hidden');adminApp.classList.remove('hidden');await loadRuntime();state.gatewayReady=true;if(!location.hash)location.hash='#dashboard';else router();}
   function showLogin(){state.user=null;adminApp.classList.add('hidden');loginScreen.classList.remove('hidden');}
-  if(window.netlifyIdentity){window.netlifyIdentity.on('init',user=>user?showApp(user):showLogin());window.netlifyIdentity.on('login',user=>{window.netlifyIdentity.close();showApp(user);});window.netlifyIdentity.on('logout',showLogin);window.netlifyIdentity.init();}else{showLogin();toast('Giriş sistemi yüklenemedi','Netlify Identity ayarlarını kontrol edin.','error');}
+  if(window.netlifyIdentity)bindIdentity(window.netlifyIdentity);else showLogin();
 })();
