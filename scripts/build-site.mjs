@@ -14,6 +14,7 @@ const SOURCES = {
   announcements: path.join(ROOT, "content", "announcements"),
   homeFaq: path.join(ROOT, "settings", "home-faq.json"),
   homeReviews: path.join(ROOT, "settings", "home-reviews.json"),
+  blogDesign: path.join(ROOT, "settings", "blog-design.json"),
 };
 
 const excludedTop = new Set([
@@ -27,6 +28,34 @@ const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, char => ({
 }[char]));
 
 const escapeAttr = escapeHtml;
+
+const BLOG_FONT_STACKS = {
+  manrope:'"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif',
+  lora:'"Lora",Georgia,serif',
+  sourceSerif:'"Source Serif 4",Georgia,serif',
+  merriweather:'"Merriweather",Georgia,serif',
+  cormorant:'"Cormorant Garamond",Georgia,serif',
+  playfair:'"Playfair Display",Georgia,serif',
+  georgia:'Georgia,"Times New Roman",serif',
+};
+const DEFAULT_BLOG_DESIGN = {titleFont:"manrope",bodyFont:"manrope",cardTitleFont:"manrope",cardBodyFont:"manrope"};
+const safeFontKey = value => Object.hasOwn(BLOG_FONT_STACKS,String(value || "")) ? String(value) : "manrope";
+const normalizeBlogDesign = value => ({
+  titleFont:safeFontKey(value?.titleFont || DEFAULT_BLOG_DESIGN.titleFont),
+  bodyFont:safeFontKey(value?.bodyFont || DEFAULT_BLOG_DESIGN.bodyFont),
+  cardTitleFont:safeFontKey(value?.cardTitleFont || DEFAULT_BLOG_DESIGN.cardTitleFont),
+  cardBodyFont:safeFontKey(value?.cardBodyFont || DEFAULT_BLOG_DESIGN.cardBodyFont),
+});
+const resolveBlogDesign = (postDesign, defaults) => {
+  const base=normalizeBlogDesign(defaults);
+  const pick=(value,fallback)=>value && value!=="default" ? safeFontKey(value) : fallback;
+  return {
+    titleFont:pick(postDesign?.titleFont,base.titleFont),
+    bodyFont:pick(postDesign?.bodyFont,base.bodyFont),
+    cardTitleFont:pick(postDesign?.cardTitleFont,base.cardTitleFont),
+    cardBodyFont:pick(postDesign?.cardBodyFont,base.cardBodyFont),
+  };
+};
 
 const slugify = value => String(value || "")
   .toLocaleLowerCase("tr-TR")
@@ -73,7 +102,7 @@ function renderRichText(value) {
 }
 
 
-function renderEditorialSections(sections) {
+function renderEditorialSections(sections, design = DEFAULT_BLOG_DESIGN) {
   if (!Array.isArray(sections) || !sections.length) return "";
   const figureHtml = (image, alt, caption = "", classes = "") => {
     if (!image) return "";
@@ -120,17 +149,27 @@ function renderEditorialSections(sections) {
         shield:"fa-shield-halved", syringe:"fa-syringe", leaf:"fa-leaf", home:"fa-house",
         heart:"fa-heart-pulse", paw:"fa-paw", bowl:"fa-bowl-food", star:"fa-star"
       };
+      const sizes=new Set(["small","medium","large","full"]);
+      const positions=new Set(["auto","left","center","right","full"]);
+      const textSizes=new Set(["small","normal","large"]);
       const items = (Array.isArray(block.items) ? block.items : []).map(item => ({
         title:String(item?.title || "").trim(),
         body:String(item?.body || "").trim(),
         image:String(item?.image || "").trim(),
         alt:String(item?.alt || "").trim(),
-        icon:iconMap[item?.icon] ? item.icon : "paw"
+        icon:iconMap[item?.icon] ? item.icon : "paw",
+        size:sizes.has(item?.size) ? item.size : "medium",
+        position:positions.has(item?.position) ? item.position : "auto",
+        textSize:textSizes.has(item?.textSize) ? item.textSize : "normal",
       })).filter(item => item.title || item.body || item.image).slice(0,3);
       if (!items.length) return "";
-      return `<section class="editorial-section editorial-card-list count-${items.length}">${items.map(item => {
+      const titleKey=block.titleFont && block.titleFont!=="default" ? safeFontKey(block.titleFont) : design.cardTitleFont;
+      const bodyKey=block.bodyFont && block.bodyFont!=="default" ? safeFontKey(block.bodyFont) : design.cardBodyFont;
+      const style=`--blog-card-title-font:${BLOG_FONT_STACKS[titleKey]};--blog-card-body-font:${BLOG_FONT_STACKS[bodyKey]}`;
+      return `<section class="editorial-section editorial-card-list count-${items.length}" style="${escapeAttr(style)}">${items.map(item => {
         const media = item.image ? `<figure class="editorial-info-card-media"><img src="${escapeAttr(item.image)}" alt="${escapeAttr(item.alt || item.title || "Blog görseli")}" loading="lazy" decoding="async" onerror="this.closest('figure')?.remove();this.closest('.editorial-info-card')?.classList.remove('has-media')"></figure>` : "";
-        return `<article class="editorial-info-card${item.image ? " has-media" : ""}"><div class="editorial-info-card-copy"><span class="editorial-info-card-icon"><i class="fa-solid ${iconMap[item.icon]}"></i></span><div>${item.title ? `<h3>${escapeHtml(item.title)}</h3>` : ""}${item.body ? renderRichText(item.body) : ""}</div></div>${media}</article>`;
+        const classes=`card-size-${item.size} card-position-${item.position} card-text-${item.textSize}`;
+        return `<article class="editorial-info-card ${classes}${item.image ? " has-media" : ""}"><div class="editorial-info-card-copy"><span class="editorial-info-card-icon"><i class="fa-solid ${iconMap[item.icon]}"></i></span><div class="editorial-info-card-text">${item.title ? `<h3>${escapeHtml(item.title)}</h3>` : ""}${item.body ? renderRichText(item.body) : ""}</div></div>${media}</article>`;
       }).join("")}</section>`;
     }
     if (type === "callout" && (block.heading || block.body)) {
@@ -256,6 +295,12 @@ function commonFooter() {
   return `<footer class="footer-new"><div class="container footer-container"><div class="footer-col"><h3>Elçi Veteriner Kliniği</h3><p>Meram/Konya'da kedi ve köpekler için anlaşılır bilgilendirme, planlı klinik süreç ve düzenli takip.</p></div><div class="footer-col"><h3>Hızlı bağlantılar</h3><ul class="footer-links"><li><a href="/hizmetler.html">Hizmetlerimiz</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/sss.html">Sık Sorulan Sorular</a></li><li><a href="/hasta-iliskileri.html#online-randevu">Online Randevu</a></li></ul></div><div class="footer-col"><h3>İletişim</h3><ul class="footer-contact"><li><a href="tel:+903323223220">0332 322 32 20</a></li><li><a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></li><li>Her gün 09.00–21.00</li></ul></div></div><div class="footer-bottom"><div class="container">© <span id="yil"></span> Elçi Veteriner Kliniği · <a href="/kvkk.html">KVKK Aydınlatma Metni</a></div></div></footer>`;
 }
 
+const BLOG_HEADER_CRITICAL = `<style>
+body{margin:0}body>header:first-of-type{min-height:144px;background:linear-gradient(104deg,#5a1fa8 0%,#44127f 48%,#260943 100%)}
+body .header-top{min-height:36px}body .header-main{min-height:108px}body .header-main>.container{min-height:108px;display:flex;align-items:center;justify-content:space-between}
+body .header-main nav>ul{display:flex;align-items:center;gap:25px;margin:0;padding:0;list-style:none}body .header-main nav>ul>li>a{color:#fff;text-decoration:none}
+</style>`;
+
 function blogPage(post) {
   const active = isActive(post);
   const robots = active ? "index,follow,max-image-preview:large" : "noindex,nofollow,noarchive";
@@ -279,14 +324,14 @@ function blogPage(post) {
     <title>${escapeHtml(post.seoTitle || `${post.title} | Elçi Veteriner Kliniği`)}</title>
     <meta name="description" content="${escapeAttr(post.seoDescription || post.summary)}"><meta name="robots" content="${robots}"><meta name="theme-color" content="#5a1fa8">
     <link rel="canonical" href="${canonicalUrl}"><meta property="og:type" content="article"><meta property="og:title" content="${escapeAttr(post.title)}"><meta property="og:description" content="${escapeAttr(post.summary)}"><meta property="og:image" content="${SITE_URL}${escapeAttr(socialImage)}">
-    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><link rel="stylesheet" href="/assets/css/tokens.css"><link rel="stylesheet" href="/assets/css/styles.css"><link rel="stylesheet" href="/assets/css/elci-system.css?v=20260721-2"><link rel="stylesheet" href="/assets/css/elci-shell-v32.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-fixes-v33.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-fixes-v34.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-final-v35.css?v=20260723-54"><link rel="stylesheet" href="/assets/css/elci-blog-v59.css?v=20260724-1">
-    ${schema}
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700;800&family=Merriweather:wght@400;700&family=Playfair+Display:wght@400;600;700&family=Source+Serif+4:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><link rel="stylesheet" href="/assets/css/tokens.css"><link rel="stylesheet" href="/assets/css/styles.css"><link rel="stylesheet" href="/assets/css/elci-system.css?v=20260721-2"><link rel="stylesheet" href="/assets/css/elci-shell-v32.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-fixes-v33.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-fixes-v34.css?v=20260721-1"><link rel="stylesheet" href="/assets/css/elci-final-v35.css?v=20260723-54"><link rel="stylesheet" href="/assets/css/elci-blog-v59.css?v=20260726-510">
+    ${BLOG_HEADER_CRITICAL}${schema}
   </head><body class="blog-article-page theme-elciKonya" data-page="blog" data-content-mode="${escapeAttr(post.contentMode || "standard")}" data-runtime-active="${active}" data-publish-at="${escapeAttr(post.date)}" data-unpublish-at="${escapeAttr(post.unpublishAt || "")}">
     ${commonHeader("blog")}<div id="siteAnnouncement" class="site-announcement" hidden></div>
     <main class="blog-article-shell" id="ana-icerik">
       <div class="blog-not-active" id="blogInactive"><h1>Bu yazı şu anda yayında değil.</h1><p>Yazı henüz yayınlanmamış veya yayın süresi sona ermiş olabilir.</p><a class="btn primary" href="/blog.html">Bloga dön</a></div>
-      <article class="blog-article" id="blogArticle">
+      <article class="blog-article" id="blogArticle" style="--blog-title-font:${escapeAttr(BLOG_FONT_STACKS[post.design.titleFont])};--blog-body-font:${escapeAttr(BLOG_FONT_STACKS[post.design.bodyFont])};--blog-card-title-font:${escapeAttr(BLOG_FONT_STACKS[post.design.cardTitleFont])};--blog-card-body-font:${escapeAttr(BLOG_FONT_STACKS[post.design.cardBodyFont])}">
         <nav class="blog-breadcrumb" aria-label="Sayfa yolu"><a href="/">Ana Sayfa</a><i class="fa-solid fa-chevron-right"></i><a href="/blog.html">Blog</a><i class="fa-solid fa-chevron-right"></i><span>${escapeHtml(post.title)}</span></nav>
         <header class="blog-article-header">
           <div class="blog-article-topline"><div class="blog-article-meta"><span><i class="fa-regular fa-bookmark"></i> ${escapeHtml(post.category)}</span><span><i class="fa-regular fa-calendar"></i> ${escapeHtml(post.dateLabel)}</span><span><i class="fa-regular fa-user"></i> ${escapeHtml(post.author)}</span></div><span class="blog-reading-time"><i class="fa-regular fa-clock"></i> ${post.readingMinutes} dk okuma</span></div>
@@ -302,7 +347,8 @@ function blogPage(post) {
 }
 
 async function buildBlog() {
-  const entries = await readJsonFolder(SOURCES.blog);
+  const [entries, rawBlogDesign] = await Promise.all([readJsonFolder(SOURCES.blog),readJson(SOURCES.blogDesign,DEFAULT_BLOG_DESIGN)]);
+  const blogDesign=normalizeBlogDesign(rawBlogDesign);
   const posts = entries.map(({ slug:entrySlug, file, data }) => {
     const advanced = data.advanced || {};
     const slug = String(advanced.slug || "").trim() || slugify(data.title);
@@ -311,14 +357,15 @@ async function buildBlog() {
     const contentMode = ["standard","visual"].includes(data.contentMode)
       ? data.contentMode
       : (Array.isArray(data.editorialSections) && data.editorialSections.length && !String(rawContent).trim() ? "visual" : "standard");
+    const design=resolveBlogDesign(data.design,blogDesign);
     return {
-      title:data.title || "", slug, date, scheduledAt:date, unpublishAt:data.unpublishAt || "",
+      title:data.title || "", slug, date, scheduledAt:date, unpublishAt:data.unpublishAt || "", design,
       published:data.published !== false, active:isActive({ published:data.published !== false, date, unpublishAt:data.unpublishAt || "" }), featured:data.featured === true, summary:data.summary || "", cover:data.cover || "", coverCaption:data.coverCaption || "",
       youtubeId:advanced.youtubeId || "", category:data.category || "Klinik Duyuruları", categories:[data.category || "Klinik Duyuruları"],
       species:data.species || "Genel", tags:Array.isArray(data.tags) ? data.tags : [], relatedService:data.relatedService || "",
       author:advanced.author || "Elçi Veteriner Kliniği",
       seoTitle:advanced.seoTitle || data.title || "", seoDescription:advanced.seoDescription || data.summary || "",
-      url:`/blog/${encodeURIComponent(slug)}.html`, contentMode, content:contentMode === "visual" ? "" : renderRichText(rawContent), editorialHtml:contentMode === "visual" ? renderEditorialSections(data.editorialSections) : "", hasEditorialMedia:editorialHasMedia(data.editorialSections), cmsEntry:entrySlug, sourceFile:file,
+      url:`/blog/${encodeURIComponent(slug)}.html`, contentMode, content:contentMode === "visual" ? "" : renderRichText(rawContent), editorialHtml:contentMode === "visual" ? renderEditorialSections(data.editorialSections,design) : "", hasEditorialMedia:editorialHasMedia(data.editorialSections), cmsEntry:entrySlug, sourceFile:file,
       dateLabel:dateLabel(date), readingMinutes:readingMinutes([data.title,data.summary,rawContent,editorialPlainText(data.editorialSections)].filter(Boolean).join(" ")), updatedAt:data.updatedAt || date,
     };
   }).sort((a,b) => new Date(b.date) - new Date(a.date));
