@@ -1,0 +1,21 @@
+ELÇİ YÖNETİM MERKEZİ V5 — DEĞİŞİKLİK LİSTESİ
+
+ZİYARETÇİ SİTESİ
+- Ana sayfa, header, hero, blog görünümü, hizmetler, SSS, footer ve diğer ziyaretçi sayfaları değiştirilmez.
+
+YÖNETİM PANELİ
+- İçerik listesi varsayılan olarak Tümü sekmesinde açılır.
+- Yayında, Planlı, Taslak, Arşiv ve Çöp sekmeleri ayrı ve sayılıdır.
+- Etiket arama motoru, seçili etiket göstergesi ve 8 etiket sınırı eklenmiştir.
+- İlgili hizmet alanı açıklanmıştır; blogu Hizmetler sayfasına taşımaz.
+- Şimdi yayınla başlangıç saatini otomatik olarak şimdi yapar.
+- Süresi geçmiş bitiş tarihi şimdi yayınlamada temizlenir.
+- Bitiş tarihi başlangıçtan önceyse kayıt engellenir.
+- Taslak kaydı eksik metinle de yapılabilir.
+- Duyuru bandının sitedeki konumu panelde açıklanır.
+- Duyuru için canlı ön izleme, sade öncelik ve renk seçenekleri eklenmiştir.
+- Duyuru başına yanlışlıkla yazılan dış tırnaklar otomatik temizlenir.
+- İçerik fikirleri dönüşümlüdür ve Taslağa dönüştür seçeneği formu otomatik doldurur.
+- Çöp kutusuna taşıma onay ister.
+- Kayıt sırasında çift tıklama engellenir.
+- Netlify yeni sürümü hazırlarken kullanıcıya açık bildirim gösterilir.

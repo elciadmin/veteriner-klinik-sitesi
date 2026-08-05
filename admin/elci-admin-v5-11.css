@@ -1,0 +1,9 @@
+
+/* V5.11 kullanılabilirlik düzeltmeleri */
+.save-state{min-width:0;max-width:240px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.save-state.saving{color:#7250a4}.save-state.preparing{color:#8b5b00}.save-state.ready{color:#087753;font-weight:800}
+.advanced-settings{margin-top:16px;border:1px solid var(--line,#e5dfec);border-radius:18px;background:#fff;overflow:hidden}
+.advanced-settings summary{display:flex;align-items:center;gap:10px;padding:16px 18px;cursor:pointer;font-weight:800;color:var(--ink,#241438);list-style:none}
+.advanced-settings summary::-webkit-details-marker{display:none}.advanced-settings summary i:last-child{margin-left:auto;transition:transform .2s ease}.advanced-settings[open] summary i:last-child{transform:rotate(180deg)}
+.advanced-settings-body{padding:0 18px 18px}.advanced-settings-body>p{margin:0 0 14px;color:var(--muted,#697284);font-size:.78rem;line-height:1.6}
+@media(max-width:760px){.topbar-status{max-width:42vw}.branch-pill{display:none}.save-state{max-width:40vw;font-size:.68rem}.admin-sidebar nav a span{font-size:.82rem}.nav-caption{margin-top:16px}}

@@ -1,0 +1,100 @@
+/* ======================================
+   ELÇİ - INDEX OVERRIDES (scope: home)
+   Bu dosya styles.css'in ÜZERİNE yazar.
+   Sadece index.html'de <body data-page="home"> ile aktif.
+   ====================================== */
+
+/* --- 1) Mor palet token'ları (yalnızca index) --- */
+:root{
+  /* Yeşil-marka zaten var (var(--brand), var(--brand2), var(--accent)) */
+  --violet:   #6a0ea1; /* mor ana */
+  --violet2:  #8c54cf; /* mor ikincil */
+  --plum:     #5a2ea6; /* derin mor */
+  /* Footer için varsayılanı mora geri alalım */
+  --footer-start: var(--plum);
+  --footer-end:   var(--violet);
+}
+
+/* --- 2) HERO: mor+marka harmanı --- */
+[data-page="home"] .hero{
+  background:
+    radial-gradient(1100px 520px at 80% -120px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 55%),
+    linear-gradient(135deg, color-mix(in srgb, var(--brand) 60%, var(--violet) 40%) 0%,
+                          color-mix(in srgb, var(--brand2) 35%, var(--violet2) 65%) 100%);
+  color:#fff;
+}
+[data-page="home"] .hero-divider{ background: var(--violet2); opacity:1 }
+[data-page="home"] .hero-sub{ color:#f1f5ff; opacity:.95 }
+[data-page="home"] .hero-cta .btn.primary{
+  background: linear-gradient(180deg, var(--violet2), var(--violet));
+  color:#fff; border-color:transparent;
+}
+[data-page="home"] .hero-cta .btn.primary:hover{ filter:brightness(.98) }
+[data-page="home"] .hero-cta .btn.ghost{
+  color:#fff; border-color: rgba(255,255,255,.7); background:transparent;
+}
+[data-page="home"] .quick-links .q{
+  background: rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.18);
+  color:#fff;
+}
+[data-page="home"] .quick-links .q .icon svg{ color:#fff }
+
+/* --- 3) Bölüm başlıkları ve link vurguları mor olsun --- */
+[data-page="home"] h2{ color:#1b1f2a; position:relative; display:inline-block }
+[data-page="home"] h2::after{
+  content:""; position:absolute; left:0; bottom:-6px; width:64px; height:3px;
+  background:linear-gradient(90deg, var(--violet), var(--violet2)); border-radius:6px;
+}
+[data-page="home"] a{ color: var(--violet2) }
+[data-page="home"] a:hover{ color: var(--violet) }
+
+/* --- 4) Hizmet kartları: ikon mor, kart sınırları nötr --- */
+[data-page="home"] .s-card{
+  background:#fff !important;
+  border:1px solid #e9eff0 !important;
+  box-shadow:0 2px 12px rgba(0,0,0,.06) !important;
+}
+[data-page="home"] .s-card:hover{
+  background: var(--bg) !important;
+  border-color: rgba(0,0,0,.10) !important;
+  box-shadow:0 6px 18px rgba(0,0,0,.08) !important;
+}
+[data-page="home"] .s-icon{
+  background: linear-gradient(135deg, var(--violet2), var(--violet)) !important;
+  color:#fff;
+}
+
+/* --- 5) “Diğer hizmetler” okları mor --- */
+[data-page="home"] .scroll-btn{
+  border-color: rgba(0,0,0,.12);
+  background:#fff;
+}
+[data-page="home"] .scroll-btn:hover{
+  box-shadow:0 6px 16px rgba(0,0,0,.10);
+  color: var(--violet);
+}
+
+/* --- 6) Butonlar: turkuaz bazı yerlerde kalsın, CTA mor olsun --- */
+[data-page="home"] .btn{ border-color: rgba(0,0,0,.12); color: var(--brand2); background:#fff }
+[data-page="home"] .btn.primary{
+  background: linear-gradient(180deg, var(--violet2), var(--violet));
+  color:#fff; border-color:transparent;
+}
+
+/* --- 7) Bölümler: beyaz taban; mor vurgu --- */
+[data-page="home"] section{ background:#fff }
+
+/* --- 8) Reviews/blog/faq başlık çizgileri de morla uyumlu --- */
+[data-page="home"] #reviews h2::after,
+[data-page="home"] #blog h2::after,
+[data-page="home"] #faq  h2::after{
+  content:""; position:absolute; left:0; bottom:-6px; width:64px; height:3px;
+  background:linear-gradient(90deg, var(--violet), var(--violet2)); border-radius:6px;
+}
+
+/* --- 9) Footer: mor gradyan geri geldi --- */
+[data-page="home"] .footer-new{
+  background:linear-gradient(135deg,var(--footer-start),var(--footer-end));
+}
+[data-page="home"] .footer-links a:hover{ color: var(--violet2) }

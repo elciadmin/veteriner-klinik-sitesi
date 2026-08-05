@@ -1,0 +1,207 @@
+{
+  "posts": [
+    {
+      "title": "Kedilerde Aşı Takvimi: 2025 Rehberi",
+      "slug": "kedilerde-asi-takvimi-2025",
+      "date": "2025-09-28T09:30:00+03:00",
+      "scheduledAt": "2025-09-28T09:30:00+03:00",
+      "unpublishAt": "",
+      "published": true,
+      "active": true,
+      "featured": false,
+      "summary": "Kedi dostlarımız için temel/opsiyonel aşılar, zamanlama ve sık yapılan hatalar.",
+      "cover": "/assets/img/uploads/kedi-asi.jpg",
+      "youtubeId": "",
+      "category": "Koruyucu Sağlık",
+      "categories": [
+        "Koruyucu Sağlık"
+      ],
+      "species": "Kedi",
+      "tags": [
+        "kedi",
+        "aşı",
+        "takvim"
+      ],
+      "relatedService": "",
+      "author": "Elçi Veteriner",
+      "readingMinutes": 1,
+      "seoTitle": "Kedilerde Aşı Takvimi 2025 | Elçi Veteriner",
+      "seoDescription": "Kediler için temel ve opsiyonel aşı programı, hatırlatma dozları ve ipuçları.",
+      "url": "/blog/kedilerde-asi-takvimi-2025.html",
+      "content": "<p>Karma, kuduz ve lösemi aşılarının planlanması bağışıklık için kritiktir. İlk yıl ve sonrasında hatırlatma dozlarını aksatmayın.</p>",
+      "cmsEntry": "2025-09-28-kedilerde-asi-takvimi-2025",
+      "sourceFile": "2025-09-28-kedilerde-asi-takvimi-2025.json",
+      "dateLabel": "28 Eylül 2025",
+      "updatedAt": "2025-09-28T09:30:00+03:00"
+    },
+    {
+      "title": "Hoş Geldiniz: Kliniğimizin Resmî Web Sitesi Yayında",
+      "slug": "hos-geldiniz-web-sitesi-yayinda",
+      "date": "2025-09-18T10:00:00+03:00",
+      "scheduledAt": "2025-09-18T10:00:00+03:00",
+      "unpublishAt": "",
+      "published": true,
+      "active": true,
+      "featured": false,
+      "summary": "Elçi Veteriner Kliniği’nin yeni web sitesi yayında. Randevu, hizmetler ve iletişim artık çok daha hızlı.",
+      "cover": "/assets/img/uploads/sample1.webp",
+      "youtubeId": "",
+      "category": "Klinik Duyuruları",
+      "categories": [
+        "Klinik Duyuruları"
+      ],
+      "species": "Genel",
+      "tags": [
+        "duyuru",
+        "web sitesi"
+      ],
+      "relatedService": "",
+      "author": "Elçi Veteriner",
+      "readingMinutes": 1,
+      "seoTitle": "Elçi Veteriner | Yeni Web Sitemiz Yayında",
+      "seoDescription": "Randevu, hizmetler, iletişim ve duyurular artık daha hızlı ve kolay.",
+      "url": "/blog/hos-geldiniz-web-sitesi-yayinda.html",
+      "content": "<p>Yeni web sitemizle randevu almak, hizmetlerimizi incelemek ve duyurularımızı takip etmek çok daha kolay. Görüş ve önerileriniz için bize yazın.</p>",
+      "cmsEntry": "2025-09-18-hos-geldiniz-web-sitesi-yayinda",
+      "sourceFile": "2025-09-18-hos-geldiniz-web-sitesi-yayinda.json",
+      "dateLabel": "18 Eylül 2025",
+      "updatedAt": "2025-09-18T10:00:00+03:00"
+    },
+    {
+      "title": "Köpeklerde Diş Taşı Temizliği Neden Önemli?",
+      "slug": "kopeklerde-dis-tasi-temizligi",
+      "date": "2025-08-14T14:00:00+03:00",
+      "scheduledAt": "2025-08-14T14:00:00+03:00",
+      "unpublishAt": "",
+      "published": true,
+      "active": true,
+      "featured": false,
+      "summary": "Ağız kokusu, diş eti çekilmesi ve sistemik hastalık riskini azaltmanın anahtarı: düzenli dental bakım.",
+      "cover": "/assets/img/uploads/kopek-dis.jpg",
+      "youtubeId": "",
+      "category": "Ağız ve Diş Sağlığı",
+      "categories": [
+        "Ağız ve Diş Sağlığı"
+      ],
+      "species": "Köpek",
+      "tags": [
+        "köpek",
+        "diş taşı",
+        "periodontal"
+      ],
+      "relatedService": "",
+      "author": "Elçi Veteriner",
+      "readingMinutes": 1,
+      "seoTitle": "Köpeklerde Diş Taşı Temizliği | Elçi Veteriner",
+      "seoDescription": "Diş taşı ve periodontal hastalık riskini azaltmak için düzenli dental bakım neden şart?",
+      "url": "/blog/kopeklerde-dis-tasi-temizligi.html",
+      "content": "<p>Diş taşı; bakterilerin tutunmasına, diş eti iltihabına ve ağrıya yol açar. Periyodik muayene ve profesyonel temizlik önerilir.</p>",
+      "cmsEntry": "2025-08-14-kopeklerde-dis-tasi-temizligi",
+      "sourceFile": "2025-08-14-kopeklerde-dis-tasi-temizligi.json",
+      "dateLabel": "14 Ağustos 2025",
+      "updatedAt": "2025-08-14T14:00:00+03:00"
+    },
+    {
+      "title": "Sıcak Havalarda Serin Kalma İpuçları",
+      "slug": "sicak-havalarda-serin-kalma-ipuclari",
+      "date": "2025-07-02T11:00:00+03:00",
+      "scheduledAt": "2025-07-02T11:00:00+03:00",
+      "unpublishAt": "",
+      "published": true,
+      "active": true,
+      "featured": false,
+      "summary": "Sıcak çarpmasına karşı su tüketimi, gölgeleme ve yürüyüş saatleri ayarı.",
+      "cover": "/assets/img/uploads/yaz-ipuclari.jpg",
+      "youtubeId": "",
+      "category": "Mevsimsel Sağlık",
+      "categories": [
+        "Mevsimsel Sağlık"
+      ],
+      "species": "Kedi ve Köpek",
+      "tags": [
+        "yaz",
+        "ısı stresi",
+        "egzersiz"
+      ],
+      "relatedService": "",
+      "author": "Elçi Veteriner",
+      "readingMinutes": 1,
+      "seoTitle": "Sıcakta Evcil Dostları Korumak | Elçi Veteriner",
+      "seoDescription": "Yazın sıcak çarpmasına karşı pratik öneriler ve dikkat edilmesi gerekenler.",
+      "url": "/blog/sicak-havalarda-serin-kalma-ipuclari.html",
+      "content": "<p>Gündüz saatlerinde egzersizi azaltın, asfalttan kaçının ve su kabını her zaman dolu tutun. Sıcak çarpması acil durumdur.</p>",
+      "cmsEntry": "2025-07-02-sicak-havalarda-serin-kalma-ipuclari",
+      "sourceFile": "2025-07-02-sicak-havalarda-serin-kalma-ipuclari.json",
+      "dateLabel": "02 Temmuz 2025",
+      "updatedAt": "2025-07-02T11:00:00+03:00"
+    },
+    {
+      "title": "Acil Durumlarda İlk Yardım: Evde Yapabilecekleriniz",
+      "slug": "acil-durum-ilk-yardim-evde",
+      "date": "2025-06-10T17:45:00+03:00",
+      "scheduledAt": "2025-06-10T17:45:00+03:00",
+      "unpublishAt": "",
+      "published": true,
+      "active": true,
+      "featured": false,
+      "summary": "Kanama, zehirlenme veya travma şüphesinde temel adımlar ve kliniğe ulaşana kadar yapılacaklar.",
+      "cover": "/assets/img/uploads/acil-ilk-yardim.jpg",
+      "youtubeId": "",
+      "category": "Acil Durumlar",
+      "categories": [
+        "Acil Durumlar"
+      ],
+      "species": "Genel",
+      "tags": [
+        "ilk yardım",
+        "acil",
+        "travma"
+      ],
+      "relatedService": "",
+      "author": "Elçi Veteriner",
+      "readingMinutes": 1,
+      "seoTitle": "Evde İlk Yardım İpuçları | Elçi Veteriner",
+      "seoDescription": "Acil durumda panik yapmadan doğru adımları atmak için kısa rehber.",
+      "url": "/blog/acil-durum-ilk-yardim-evde.html",
+      "content": "<p>Panik yapmayın, güvenli taşıyın ve hemen bizi arayın: 0332 322 32 20. Evde yanlış müdahale durumu kötüleştirebilir.</p>",
+      "cmsEntry": "2025-06-10-acil-durum-ilk-yardim-evde",
+      "sourceFile": "2025-06-10-acil-durum-ilk-yardim-evde.json",
+      "dateLabel": "10 Haziran 2025",
+      "updatedAt": "2025-06-10T17:45:00+03:00"
+    },
+    {
+      "title": "Kısırlaştırma (Sterilizasyon) Hakkında Merak Edilenler",
+      "slug": "kisirlastirma-sterilizasyon-merak-edilenler",
+      "date": "2025-05-05T13:20:00+03:00",
+      "scheduledAt": "2025-05-05T13:20:00+03:00",
+      "unpublishAt": "",
+      "published": true,
+      "active": true,
+      "featured": false,
+      "summary": "Operasyon süreci, iyileşme dönemi ve uzun vadeli sağlık faydaları.",
+      "cover": "/assets/img/uploads/sterilizasyon.jpg",
+      "youtubeId": "",
+      "category": "Cerrahi ve Operasyonlar",
+      "categories": [
+        "Cerrahi ve Operasyonlar"
+      ],
+      "species": "Kedi ve Köpek",
+      "tags": [
+        "kısırlaştırma",
+        "operasyon",
+        "iyileşme"
+      ],
+      "relatedService": "",
+      "author": "Elçi Veteriner",
+      "readingMinutes": 1,
+      "seoTitle": "Kısırlaştırma Rehberi | Elçi Veteriner",
+      "seoDescription": "Operasyon öncesi-sonrası süreçler ve uzun vadeli sağlık etkileri.",
+      "url": "/blog/kisirlastirma-sterilizasyon-merak-edilenler.html",
+      "content": "<p>Kısırlaştırma; bazı tümör risklerini düşürür, istenmeyen gebelikleri önler ve davranışsal faydalar sağlayabilir.</p>",
+      "cmsEntry": "2025-05-05-kisirlastirma-sterilizasyon-merak-edilenler",
+      "sourceFile": "2025-05-05-kisirlastirma-sterilizasyon-merak-edilenler.json",
+      "dateLabel": "05 Mayıs 2025",
+      "updatedAt": "2025-05-05T13:20:00+03:00"
+    }
+  ]
+}

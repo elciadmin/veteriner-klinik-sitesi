@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Veteriner Hizmetleri | Elçi Veteriner Kliniği – Meram Konya</title>
+<meta content="Meram Konya’da kedi ve köpekler için muayene, laboratuvar, koruyucu hekimlik, kısırlaştırma, cerrahi, ağız-diş sağlığı ve takip hizmetleri." name="description"/>
+<meta content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" name="robots"/>
+<meta content="#4e188f" name="theme-color"/>
+<link href="https://elciveteriner.com/hizmetler.html" rel="canonical"/>
+<link href="https://elciveteriner.com/hizmetler.html" hreflang="tr-TR" rel="alternate"/>
+<meta content="tr_TR" property="og:locale"/>
+<meta content="website" property="og:type"/>
+<meta content="Elçi Veteriner Kliniği" property="og:site_name"/>
+<meta content="Veteriner Hizmetleri | Elçi Veteriner Kliniği" property="og:title"/>
+<meta content="Meram Konya'da sunduğumuz veterinerlik hizmetlerini ve klinik süreçlerimizi inceleyin." property="og:description"/>
+<meta content="https://elciveteriner.com/hizmetler.html" property="og:url"/>
+<meta content="https://elciveteriner.com/assets/img/uploads/elci-logo.png" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<script>
+    (function(){
+      var h=location.hash||'';
+      if(h.startsWith('#invite_token=')||h.startsWith('#recovery_token=')||h.startsWith('#confirmation_token=')){
+        location.replace('/admin/'+h);
+      }
+    })();
+  </script>
+<link href="/assets/css/tokens.css?v=20251106" rel="stylesheet"/>
+<link href="/assets/css/styles.css?v=20251106" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link crossorigin="" href="https://cdnjs.cloudflare.com" rel="preconnect"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<style>
+    :root{
+      --brand:#5a1fa8;
+      --brand-dark:#30105f;
+      --brand-deep:#241043;
+      --accent:#27d4e8;
+      --accent-soft:#bff7ff;
+      --ink:#101820;
+      --muted:#5d6972;
+      --line:#e4ebef;
+      --paper:#ffffff;
+      --soft:#f6fafc;
+      --soft-purple:#f6f0ff;
+      --danger:#a52e45;
+      --shadow-sm:0 10px 28px rgba(35,17,72,.08);
+      --shadow:0 24px 62px rgba(35,17,72,.13);
+      --radius:28px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:108px}
+    body{margin:0;background:#fff;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;line-height:1.65}
+    body.menu-open{overflow:hidden}
+    a{color:inherit}
+    img{max-width:100%;display:block}
+    button{font:inherit}
+    .container{width:min(1180px,calc(100% - 32px));margin-inline:auto}
+    .skip-link{position:fixed;left:16px;top:-80px;z-index:9999;padding:10px 14px;border-radius:10px;background:#fff;color:var(--brand-dark);font-weight:800;box-shadow:0 10px 30px rgba(0,0,0,.22)}
+    .skip-link:focus{top:14px}
+
+    /* Header */
+    .header-top{background:linear-gradient(90deg,var(--brand),var(--brand-dark));color:#fff}
+    .header-top .container{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-block:5px;flex-wrap:wrap}
+    .header-contact{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+    .header-contact span,.header-contact a{display:inline-flex;align-items:center;gap:7px;color:#f5f4ff;text-decoration:none;font-size:.82rem}
+    .header-contact a:hover{color:#fff}
+
+    .header-main{position:sticky;top:0;z-index:120;background:linear-gradient(90deg,#511b98,#2e0c5f);color:#fff;box-shadow:0 10px 28px rgba(25,7,53,.20)}
+    .header-main .container{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:9px}
+    .brand-lockup{display:flex;align-items:center;gap:12px;min-width:310px;padding:8px 14px 8px 9px;border:1px solid rgba(255,255,255,.20);border-radius:18px;background:linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.04));box-shadow:0 12px 30px rgba(17,4,40,.25);color:#fff;text-decoration:none}
+    .brand-mark{width:54px;height:54px;flex:0 0 54px;display:grid;place-items:center;border-radius:16px;background:linear-gradient(145deg,#fff,#e9fbff);box-shadow:0 8px 20px rgba(0,0,0,.22);overflow:hidden}
+    .brand-mark img{width:48px;height:48px;object-fit:contain}
+    .brand-copy{display:flex;flex-direction:column;line-height:1.05}
+    .brand-copy strong{font-size:1.18rem;letter-spacing:.1px;text-shadow:0 2px 10px rgba(0,0,0,.30)}
+
+    /* Tüm sayfalarda aynı imza dili: başlık ve hero sloganı tek marka sistemi */
+    .signature-tagline{
+      position:relative;
+      display:inline-block;
+      width:max-content;
+      font-family:"Great Vibes","Segoe Script","Brush Script MT",cursive;
+      font-weight:400;
+      font-style:normal;
+      letter-spacing:.006em;
+      line-height:.94;
+      transform:rotate(-1.7deg);
+      transform-origin:left center;
+      text-rendering:optimizeLegibility;
+      -webkit-font-smoothing:antialiased;
+    }
+    .signature-tagline::after{
+      content:"";
+      position:absolute;
+      left:10%;
+      width:96%;
+      bottom:-.18em;
+      height:2px;
+      border-radius:999px;
+      background:linear-gradient(90deg,transparent 0%,currentColor 14%,currentColor 78%,transparent 100%);
+      opacity:.72;
+      transform:skewX(-24deg) rotate(-1deg);
+      transform-origin:left center;
+      box-shadow:0 1px 5px rgba(0,0,0,.18);
+    }
+    .header-signature{
+      margin-top:7px;
+      color:#dffaff;
+      font-size:1.32rem;
+      letter-spacing:.01em;
+      text-shadow:0 2px 10px rgba(0,0,0,.30);
+    }
+
+    .main-nav ul{display:flex;align-items:center;gap:20px;margin:0;padding:0;list-style:none}
+    .main-nav li{position:relative}
+    .main-nav a{display:inline-flex;align-items:center;gap:5px;padding:8px 0;color:#eefbff;text-decoration:none;font-size:.9rem;font-weight:650;position:relative}
+    .main-nav a::after{content:"";position:absolute;left:0;right:100%;bottom:1px;height:2px;border-radius:999px;background:#bff7ff;transition:right .22s ease}
+    .main-nav a:hover::after,.main-nav a.active::after{right:0}
+    .main-nav a.active{color:#c9f8ff}
+    .dropdown-content{position:absolute;top:100%;left:-18px;min-width:230px;padding:10px;border:1px solid rgba(90,31,168,.12);border-radius:16px;background:#fff;box-shadow:0 20px 46px rgba(31,13,66,.18);opacity:0;visibility:hidden;transform:translateY(8px);transition:.2s ease}
+    .dropdown:hover .dropdown-content,.dropdown:focus-within .dropdown-content{opacity:1;visibility:visible;transform:none}
+    .dropdown-content a{display:block;padding:9px 10px;border-radius:10px;color:#37234d;font-size:.85rem}
+    .dropdown-content a::after{display:none}
+    .dropdown-content a:hover{background:#f6f0ff;color:var(--brand)}
+    .mobile-menu-btn{display:none;width:44px;height:44px;border:1px solid rgba(255,255,255,.24);border-radius:13px;background:rgba(255,255,255,.10);color:#fff;align-items:center;justify-content:center;cursor:pointer}
+
+    /* Hero */
+    .svc-hero{position:relative;overflow:hidden;padding:76px 0 82px;color:#fff;background:radial-gradient(800px 500px at 92% 8%,rgba(39,212,232,.32),transparent 62%),radial-gradient(620px 460px at 5% 100%,rgba(140,84,215,.27),transparent 65%),linear-gradient(126deg,var(--brand-deep) 0%,var(--brand-dark) 47%,#0f7188 100%)}
+    .svc-hero::before{content:"";position:absolute;inset:0;opacity:.20;background-image:linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px);background-size:46px 46px;mask-image:linear-gradient(90deg,#000,transparent 90%)}
+    .svc-hero::after{content:"";position:absolute;width:460px;height:460px;border:1px solid rgba(255,255,255,.10);border-radius:50%;right:-180px;top:-210px;box-shadow:0 0 0 58px rgba(255,255,255,.025),0 0 0 118px rgba(255,255,255,.018)}
+    .hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.14fr) minmax(350px,.86fr);gap:58px;align-items:center}
+    .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;margin:0 0 16px;padding:8px 13px;border:1px solid rgba(255,255,255,.24);border-radius:999px;background:rgba(255,255,255,.09);color:#e8fbff;font-size:.82rem;font-weight:850;letter-spacing:.7px;text-transform:uppercase}
+    .hero-copy h1{margin:0;font-size:clamp(44px,6vw,74px);line-height:1.02;letter-spacing:-1.6px;text-shadow:0 4px 22px rgba(0,0,0,.26);text-wrap:balance}
+    .hero-signature{margin:18px 0 16px;color:#e2fbff;font-size:clamp(2.35rem,4.2vw,3.75rem);letter-spacing:.005em;text-shadow:0 4px 18px rgba(0,0,0,.28)}
+    .hero-copy p{max-width:720px;margin:0 0 28px;color:#e8fbff;font-size:1.06rem;line-height:1.75}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:11px}
+    .hero-footnote{display:flex;gap:9px;align-items:flex-start;margin-top:18px;color:#dbf7fb;font-size:.88rem;line-height:1.5}
+    .hero-footnote i{margin-top:4px;color:#a9f5ff}
+
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 23px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--brand);font-weight:780;text-decoration:none;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease,background-position .35s ease,border-color .2s ease}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.13)}
+    .btn.primary{border:0;background:linear-gradient(90deg,var(--brand),var(--accent));background-size:200% 100%;color:#fff!important;box-shadow:0 10px 26px rgba(28,179,201,.26)}
+    .btn.primary:hover{background-position:100% 0}
+    .btn.ghost{border-color:rgba(255,255,255,.45);background:rgba(255,255,255,.11);color:#fff}
+    .btn.ghost:hover{background:rgba(255,255,255,.20);border-color:rgba(255,255,255,.70)}
+    .btn.outline{border-color:rgba(90,31,168,.22);background:#fff;color:var(--brand-dark)}
+
+    /* Diğer sayfalarla uyumlu, sakin ve telifsiz klinik marka paneli */
+    .hero-visual{position:relative;min-height:440px;display:grid;place-items:center;isolation:isolate}
+    .service-hero-card{
+      position:relative;isolation:isolate;width:min(420px,100%);min-height:410px;
+      display:flex;flex-direction:column;justify-content:center;padding:34px 32px;
+      border:1px solid rgba(255,255,255,.26);border-radius:34px;
+      background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.065));
+      box-shadow:0 32px 76px rgba(5,3,20,.34),inset 0 1px 0 rgba(255,255,255,.22);
+      backdrop-filter:blur(15px) saturate(125%);overflow:hidden;
+    }
+    .service-hero-card::before{content:"";position:absolute;inset:1px;z-index:-2;border-radius:33px;background:radial-gradient(circle at 50% 0,rgba(255,255,255,.18),transparent 54%)}
+    .service-card-orbit{position:absolute;top:-100px;right:-96px;width:270px;height:270px;z-index:-1;border:1px solid rgba(191,247,255,.24);border-radius:50%;box-shadow:0 0 0 30px rgba(191,247,255,.055),0 0 0 62px rgba(191,247,255,.03)}
+    .service-card-logo{width:116px;height:116px;display:grid;place-items:center;margin:0 0 21px;border-radius:33px;background:linear-gradient(145deg,#fff,#e8fbff);box-shadow:0 18px 42px rgba(0,0,0,.27),inset 0 1px 0 #fff;transform:rotate(-1.5deg)}
+    .service-card-logo img{width:100px;height:100px;object-fit:contain}
+    .service-card-kicker{margin:0 0 7px;color:#d9faff;font-size:.78rem;font-weight:850;letter-spacing:1.15px;text-transform:uppercase}
+    .service-card-title{display:block;margin:0 0 18px;color:#fff;font-size:clamp(1.55rem,2.7vw,2.2rem);line-height:1.16;text-wrap:balance}
+    .service-card-list{display:grid;gap:11px;color:#e8fbff;font-size:.94rem}
+    .service-card-list span{display:flex;align-items:flex-start;gap:10px;padding-top:11px;border-top:1px solid rgba(255,255,255,.13)}
+    .service-card-list i{width:22px;margin-top:3px;color:#a8f5ff}
+
+    /* Emergency */
+    .emergency-strip{background:linear-gradient(100deg,#8e233b,#cf514e);color:#fff;box-shadow:0 14px 34px rgba(126,32,52,.20)}
+    .emergency-strip .container{display:flex;align-items:center;justify-content:space-between;gap:18px;padding-block:14px}
+    .emergency-main{display:flex;align-items:center;gap:13px;min-width:0}
+    .emergency-icon{width:46px;height:46px;flex:0 0 46px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.28);border-radius:15px;background:rgba(255,255,255,.12)}
+    .emergency-copy strong{display:block;font-size:1rem}
+    .emergency-copy span{display:block;color:#fff1f3;font-size:.88rem;line-height:1.45}
+    .emergency-copy a{color:#fff;font-weight:850}
+    .emergency-btn{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;background:#fff;color:#972b40;font-weight:850;text-decoration:none;box-shadow:0 8px 20px rgba(0,0,0,.18)}
+
+    main{background:linear-gradient(180deg,#fff 0%,#f7fbfc 48%,#fff 100%)}
+    .section{padding:86px 0}
+    .section-soft{background:linear-gradient(180deg,#f8fbfd,#fff)}
+    .section-dark{position:relative;overflow:hidden;background:radial-gradient(720px 440px at 94% -8%,rgba(39,212,232,.18),transparent 65%),linear-gradient(135deg,#21103d,#3d176e 62%,#175a69);color:#fff}
+    .section-dark::before{content:"";position:absolute;inset:0;opacity:.16;background-image:linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px);background-size:44px 44px}
+    .section-dark .container{position:relative;z-index:2}
+    .section-head{max-width:850px;margin-bottom:36px}
+    .section-kicker{display:inline-flex;align-items:center;gap:8px;margin:0 0 12px;color:var(--brand);font-size:.77rem;font-weight:900;letter-spacing:1.25px;text-transform:uppercase}
+    .section-dark .section-kicker{color:#a9f5ff}
+    .section-head h2{margin:0;font-size:clamp(34px,5vw,52px);line-height:1.1;letter-spacing:-.9px;text-wrap:balance}
+    .section-head p{margin:19px 0 0;color:var(--muted);font-size:1rem;line-height:1.75}
+    .section-dark .section-head p{color:#ddf7fa}
+
+    /* Editorial featured services */
+    .featured-stack{display:grid;gap:34px}
+    .feature-service{position:relative;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(310px,.85fr);min-height:430px;border:1px solid var(--line);border-radius:32px;background:#fff;box-shadow:var(--shadow);overflow:hidden}
+    .feature-service.reverse{grid-template-columns:minmax(310px,.85fr) minmax(0,1.15fr)}
+    .feature-service.reverse .feature-copy{order:2}.feature-service.reverse .feature-art{order:1}
+    .feature-copy{padding:46px 46px 42px;display:flex;flex-direction:column;justify-content:center}
+    .feature-index{display:inline-flex;align-items:center;gap:9px;margin-bottom:16px;color:var(--brand);font-size:.75rem;font-weight:900;letter-spacing:1.05px;text-transform:uppercase}
+    .feature-index span{width:35px;height:35px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--accent));color:#fff;box-shadow:0 8px 20px rgba(90,31,168,.20)}
+    .feature-copy h3{margin:0 0 15px;font-size:clamp(29px,4vw,44px);line-height:1.1;letter-spacing:-.7px}
+    .feature-copy>p{margin:0;color:var(--muted);font-size:1rem;line-height:1.75}
+    .feature-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px;margin:24px 0 25px;padding:0;list-style:none}
+    .feature-list li{display:flex;align-items:flex-start;gap:9px;color:#34434c;font-size:.88rem;line-height:1.45}
+    .feature-list i{margin-top:3px;color:var(--brand)}
+    .feature-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto}
+    .feature-note{margin-top:14px!important;font-size:.82rem!important;color:#72808a!important}
+
+    .feature-art{position:relative;min-height:430px;display:grid;place-items:center;overflow:hidden;background:linear-gradient(145deg,#2f115b,#0d7187);isolation:isolate}
+    .feature-art::before{content:"";position:absolute;width:330px;height:330px;border-radius:50%;border:1px solid rgba(255,255,255,.20);box-shadow:0 0 0 35px rgba(255,255,255,.045),0 0 0 75px rgba(255,255,255,.022)}
+    .feature-art::after{content:"";position:absolute;inset:-28%;background:conic-gradient(from 10deg,transparent,rgba(39,212,232,.26),transparent 35%,rgba(177,112,255,.22),transparent 67%);animation:svcSpin 22s linear infinite}
+    .art-icon{position:relative;z-index:3;width:146px;height:146px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.30);border-radius:42px;background:linear-gradient(145deg,rgba(255,255,255,.24),rgba(255,255,255,.08));box-shadow:0 26px 58px rgba(0,0,0,.28);color:#fff;font-size:4.1rem;backdrop-filter:blur(14px)}
+    .art-mini{position:absolute;z-index:4;display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid rgba(255,255,255,.23);border-radius:999px;background:rgba(24,6,50,.38);color:#effdff;font-size:.77rem;font-weight:800;box-shadow:0 10px 26px rgba(0,0,0,.20);backdrop-filter:blur(10px)}
+    .art-mini.m1{top:55px;left:42px}.art-mini.m2{right:28px;bottom:62px}.art-mini.m3{left:50px;bottom:54px}
+    .art-surgery{background:radial-gradient(440px 300px at 78% 20%,rgba(39,212,232,.25),transparent 65%),linear-gradient(145deg,#32115e,#7b285f)}
+    .art-internal{background:radial-gradient(440px 300px at 20% 80%,rgba(39,212,232,.30),transparent 65%),linear-gradient(145deg,#162b51,#0f7188)}
+    .art-preventive{background:radial-gradient(440px 300px at 80% 20%,rgba(176,121,255,.28),transparent 65%),linear-gradient(145deg,#391568,#235a69)}
+    .art-dental{background:radial-gradient(420px 290px at 20% 10%,rgba(255,255,255,.17),transparent 62%),linear-gradient(145deg,#4b176f,#0d7187)}
+
+    /* Process */
+    .care-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+    .care-card{position:relative;padding:24px 21px;border:1px solid rgba(255,255,255,.15);border-radius:22px;background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.055));box-shadow:0 16px 38px rgba(0,0,0,.15);backdrop-filter:blur(10px)}
+    .care-no{width:42px;height:42px;display:grid;place-items:center;margin-bottom:16px;border-radius:14px;background:linear-gradient(135deg,var(--accent),#9e68e4);color:#fff;font-weight:900;box-shadow:0 9px 24px rgba(39,212,232,.20)}
+    .care-card h3{margin:0 0 8px;font-size:1.04rem}
+    .care-card p{margin:0;color:#dff5f8;font-size:.86rem;line-height:1.55}
+
+    /* Secondary service cards */
+    .service-groups{display:grid;gap:48px}
+    .group-head{display:flex;align-items:end;justify-content:space-between;gap:22px;margin-bottom:19px;padding-bottom:14px;border-bottom:1px solid #e5ecef}
+    .group-head h3{margin:0;font-size:clamp(24px,3vw,32px);letter-spacing:-.35px}
+    .group-head p{max-width:580px;margin:0;color:var(--muted);font-size:.9rem;line-height:1.55;text-align:right}
+    .service-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .service-card{position:relative;padding:23px 22px;border:1px solid #e2e9ee;border-radius:23px;background:#fff;box-shadow:var(--shadow-sm);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;overflow:hidden}
+    .service-card::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,var(--brand),var(--accent));transform:scaleX(.36);transform-origin:left;transition:transform .24s ease}
+    .service-card:hover{transform:translateY(-5px);border-color:rgba(90,31,168,.20);box-shadow:0 22px 48px rgba(35,17,72,.13)}
+    .service-card:hover::before{transform:scaleX(1)}
+    .service-icon{width:51px;height:51px;display:grid;place-items:center;margin-bottom:16px;border:1px solid #dce9ed;border-radius:17px;background:linear-gradient(145deg,#fff,#edfaff);color:var(--brand);font-size:1.22rem;box-shadow:0 9px 20px rgba(36,16,79,.09)}
+    .service-card h4{margin:0 0 9px;font-size:1.08rem;line-height:1.3}
+    .service-card>p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.58}
+    .service-card details{margin-top:15px;padding-top:13px;border-top:1px dashed #dce5ea}
+    .service-card summary{display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--brand-dark);font-size:.86rem;font-weight:850;cursor:pointer;list-style:none}
+    .service-card summary::-webkit-details-marker{display:none}
+    .service-card summary::after{content:"+";width:25px;height:25px;display:grid;place-items:center;border-radius:9px;background:#f5efff;color:var(--brand);font-size:1rem}
+    .service-card details[open] summary::after{content:"−"}
+    .detail-body{padding-top:12px;color:#56636c;font-size:.86rem;line-height:1.62}
+    .detail-body p{margin:0 0 10px}
+    .detail-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+    .mini-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border:1px solid #e0e7eb;border-radius:999px;background:#fff;color:var(--brand-dark);font-size:.78rem;font-weight:800;text-decoration:none}
+    .mini-btn.primary{border:0;background:linear-gradient(90deg,var(--brand),var(--accent));color:#fff}
+
+    /* SEO / trust block */
+    .trust-panel{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr);gap:36px;align-items:center;padding:38px;border:1px solid #e2e9ed;border-radius:30px;background:linear-gradient(145deg,#fff,#f6fafc);box-shadow:var(--shadow)}
+    .trust-copy h2{margin:0 0 14px;font-size:clamp(31px,4vw,45px);line-height:1.12;letter-spacing:-.7px}
+    .trust-copy p{margin:0;color:var(--muted);line-height:1.72}
+    .trust-list{display:grid;gap:11px;margin:23px 0 0;padding:0;list-style:none}
+    .trust-list li{display:flex;gap:10px;align-items:flex-start;color:#35434c;font-size:.91rem}
+    .trust-list i{margin-top:4px;color:var(--brand)}
+    .trust-card{padding:25px;border-radius:24px;background:linear-gradient(145deg,var(--brand-deep),#512084 62%,#167082);color:#fff;box-shadow:0 22px 50px rgba(42,17,82,.24)}
+    .trust-card .logo{width:74px;height:74px;display:grid;place-items:center;margin-bottom:18px;border-radius:23px;background:#fff;box-shadow:0 13px 28px rgba(0,0,0,.22)}
+    .trust-card .logo img{width:64px;height:64px;object-fit:contain}
+    .trust-card h3{margin:0 0 8px;font-size:1.35rem}
+    .trust-card p{margin:0;color:#e4fbff;font-size:.9rem;line-height:1.6}
+    .trust-card .btn{margin-top:19px}
+
+    .closing-cta{padding:0 0 86px}
+    .closing-inner{display:flex;align-items:center;justify-content:space-between;gap:28px;padding:36px 38px;border-radius:30px;background:radial-gradient(520px 280px at 100% 0,rgba(39,212,232,.25),transparent 70%),linear-gradient(135deg,var(--brand-deep),var(--brand));color:#fff;box-shadow:0 28px 65px rgba(46,18,87,.22)}
+    .closing-copy h2{margin:0 0 8px;font-size:clamp(28px,4vw,42px);line-height:1.14}
+    .closing-copy p{max-width:680px;margin:0;color:#e7f9fb}
+    .closing-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px;flex:0 0 auto}
+
+    /* Footer — ana sayfa ve Hakkımızda ile aynı ortak sistem */
+    footer.footer-new{
+      background:linear-gradient(135deg,var(--brand-deep),var(--brand));
+      color:#eaffff;
+    }
+    .footer-links a,.footer-contact a{color:#eaffff}
+    .footer-bottom{background:rgba(0,0,0,.18)}
+    .social-links a svg{width:20px;height:20px;display:block}
+    .social-links a{color:#eaffff;opacity:.95}
+    .social-links a:hover{opacity:1}
+
+    .mobile-contact-bar{display:none}
+
+    /* Motion */
+    .reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease}
+    .reveal.is-visible{opacity:1;transform:none}
+    @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+    /* Responsive */
+    @media(max-width:1040px){
+      .main-nav ul{gap:14px}.main-nav a{font-size:.84rem}.brand-lockup{min-width:280px}
+      .hero-grid{grid-template-columns:1fr .82fr;gap:34px}
+      .service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .care-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .footer-container{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media(max-width:900px){
+      .header-top{display:none}.header-main .container{align-items:center}.mobile-menu-btn{display:inline-flex}
+      .main-nav ul{position:fixed;inset:73px 0 0 0;z-index:130;display:none;align-content:start;align-items:stretch;gap:0;padding:18px;background:linear-gradient(160deg,#351064,#1f0a3d);overflow:auto}
+      .main-nav ul.show{display:grid}.main-nav li{border-bottom:1px solid rgba(255,255,255,.10)}.main-nav a{display:flex;padding:14px 8px;font-size:1rem}
+      .dropdown-content{position:static;display:grid;min-width:0;padding:0 0 10px 16px;border:0;background:transparent;box-shadow:none;opacity:1;visibility:visible;transform:none}
+      .dropdown-content a{padding:8px;color:#dff9fc}
+      .dropdown-content a:hover{background:rgba(255,255,255,.08);color:#fff}
+      .hero-grid{grid-template-columns:1fr}.hero-visual{min-height:390px}.service-hero-card{width:min(720px,100%);min-height:auto}
+      .feature-service,.feature-service.reverse{grid-template-columns:1fr}.feature-service.reverse .feature-copy,.feature-service.reverse .feature-art{order:initial}.feature-art{min-height:340px}.feature-copy{padding:38px 34px}
+      .trust-panel{grid-template-columns:1fr}.group-head{align-items:flex-start;flex-direction:column}.group-head p{text-align:left}
+      .closing-inner{align-items:flex-start;flex-direction:column}.closing-actions{justify-content:flex-start}
+    }
+    @media(max-width:680px){
+      body{padding-bottom:72px}.container{width:min(100% - 24px,1180px)}
+      .header-main .container{gap:10px}.brand-lockup{min-width:0;flex:1;padding:7px 9px}.brand-mark{width:46px;height:46px;flex-basis:46px}.brand-mark img{width:41px;height:41px}.brand-copy strong{font-size:1rem}.header-signature{font-size:1.12rem}
+      .svc-hero{padding:58px 0 62px}.hero-copy h1{font-size:clamp(40px,13vw,58px)}.hero-copy p{font-size:.98rem}.hero-actions .btn{width:100%}
+      .hero-visual{min-height:0}.service-hero-card{width:100%;min-height:auto;padding:28px 23px;border-radius:28px}.service-hero-card::before{border-radius:27px}.service-card-logo{width:104px;height:104px;border-radius:29px}.service-card-logo img{width:90px;height:90px}.service-card-title{font-size:1.65rem}
+      .emergency-strip .container{align-items:flex-start}.emergency-btn{display:none}
+      .section{padding:64px 0}.section-head h2{font-size:clamp(31px,10vw,43px)}
+      .feature-copy{padding:31px 24px}.feature-copy h3{font-size:clamp(28px,9vw,38px)}.feature-list{grid-template-columns:1fr}.feature-art{min-height:290px}.art-icon{width:122px;height:122px;border-radius:36px;font-size:3.35rem}.art-mini.m1{top:36px;left:20px}.art-mini.m2{right:16px;bottom:38px}.art-mini.m3{left:18px;bottom:38px}
+      .care-grid,.service-grid{grid-template-columns:1fr}.group-head{margin-bottom:15px}.trust-panel{padding:27px 23px}.closing-inner{padding:29px 24px}
+      .footer-container{grid-template-columns:1fr}.footer-new{padding-top:42px}
+      .mobile-contact-bar{
+        position:fixed;left:10px;right:10px;bottom:10px;z-index:999;
+        display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:8px;
+        border:1px solid rgba(255,255,255,.30);border-radius:16px;
+        background:rgba(36,16,67,.94);box-shadow:0 14px 34px rgba(0,0,0,.26);
+        backdrop-filter:blur(10px)
+      }
+      .mobile-contact-bar a{
+        display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+        min-height:52px;border-radius:11px;color:#fff;text-decoration:none;
+        font-size:.76rem;font-weight:700
+      }
+      .mobile-contact-bar a:nth-child(2){background:linear-gradient(135deg,var(--brand),#7841c3)}
+    }
+  </style>
+<style id="elci-common-header-hero-final">
+  /* Hakkımızda ve Hasta İlişkileri ile aynı üst genişlik ve yerleşim */
+  .container{max-width:1180px;width:100%;margin:0 auto;padding-left:16px;padding-right:16px}
+  .header-top{background:linear-gradient(90deg,var(--brand),#36106b);color:#fff}
+  .header-top .container{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:4px;padding-bottom:4px;flex-wrap:wrap}
+  .header-contact{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .header-contact span,.header-contact a{display:inline-flex;align-items:center;gap:7px;margin:0;color:#f3f7ff;text-decoration:none;font-size:.86rem;white-space:nowrap}
+
+  .header-main{position:sticky;top:0;z-index:120;background:linear-gradient(90deg,color-mix(in srgb,var(--brand),#000 8%),color-mix(in srgb,#36106b,#000 6%));color:#fff;box-shadow:none}
+  .header-main .container{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:8px;padding-bottom:8px}
+  .header-main .logo-text{padding:0;border-radius:18px;background:transparent;box-shadow:none;backdrop-filter:none}
+  .brand-lockup{display:flex;align-items:center;gap:12px;min-width:320px;padding:9px 14px 9px 10px;border:1px solid rgba(255,255,255,.20);border-radius:18px;background:linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.045));box-shadow:0 12px 32px rgba(18,5,43,.28),inset 0 1px 0 rgba(255,255,255,.16);color:#fff;text-decoration:none;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+  .brand-lockup:hover{transform:translateY(-2px);border-color:rgba(192,243,255,.54);box-shadow:0 16px 38px rgba(18,5,43,.34),inset 0 1px 0 rgba(255,255,255,.20)}
+  .brand-mark{width:54px;height:54px;flex:0 0 54px;display:grid;place-items:center;border-radius:16px;background:linear-gradient(145deg,#fff,#e9faff);box-shadow:0 8px 22px rgba(0,0,0,.22);overflow:hidden}
+  .brand-mark img{width:48px;height:48px;object-fit:contain}
+  .brand-copy{display:flex;flex-direction:column;line-height:1.05}
+  .brand-copy strong{color:#fff;font-size:1.24rem;letter-spacing:.15px;text-shadow:0 2px 10px rgba(0,0,0,.32)}
+  .header-signature{margin-top:7px;color:#dffaff!important;font-size:1.32rem;letter-spacing:.01em;text-shadow:0 2px 10px rgba(0,0,0,.30)}
+
+  /* Hero sınıfları ve ölçüleri Hakkımızda sayfasıyla birebir aynı */
+  .services-hero{position:relative;overflow:hidden;padding:70px 0 78px;color:#fff;background:radial-gradient(800px 520px at 92% 12%,rgba(39,212,232,.34),transparent 62%),radial-gradient(620px 420px at 5% 95%,rgba(133,73,214,.28),transparent 65%),linear-gradient(125deg,#241043 0%,#36106b 42%,#0f7188 100%)}
+  .services-hero::before{content:"";position:absolute;inset:-36%;background:radial-gradient(circle at 0 0,rgba(255,255,255,.08),transparent 55%),radial-gradient(circle at 100% 100%,rgba(255,255,255,.11),transparent 55%);opacity:.65;pointer-events:none}
+  .services-hero::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.25;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(90deg,#000,transparent 84%)}
+  .services-hero .hero-layout{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(310px,.75fr);align-items:center;gap:52px}
+  .services-hero .hero-copy{max-width:760px}
+  .services-hero .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;margin:0 0 18px;padding:8px 13px;border:1px solid rgba(255,255,255,.23);border-radius:999px;background:rgba(255,255,255,.10);color:#e8fbff;font-size:.88rem;font-weight:800;letter-spacing:.25px;text-transform:none}
+  .services-hero .hero-copy h1{margin:0;font-size:clamp(44px,6vw,72px);line-height:1.02;letter-spacing:-1.4px;color:#fff;text-shadow:0 3px 20px rgba(0,0,0,.26);text-wrap:balance}
+  .services-hero .hero-signature{margin:17px 0;color:#e2fbff;font-size:clamp(2.35rem,4.2vw,3.75rem);text-shadow:0 4px 18px rgba(0,0,0,.28)}
+  .services-hero .hero-divider{width:104px;height:3px;margin:24px 0 22px;border-radius:999px;background:linear-gradient(90deg,var(--accent),#fff)}
+  .services-hero .hero-sub{max-width:720px;margin:0 0 28px;color:#eafcff;font-size:1.08rem;line-height:1.75}
+  .services-hero .hero-cta{display:flex;flex-wrap:wrap;gap:11px}
+  .services-hero .hero-notice{display:flex;align-items:center;gap:8px;margin:18px 0 0;color:#e8fbff;font-size:.91rem}
+
+  .services-hero .about-hero-card{position:relative;isolation:isolate;min-height:410px;display:flex;flex-direction:column;justify-content:center;padding:32px 30px;border:1px solid rgba(255,255,255,.26);border-radius:32px;background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.07));box-shadow:0 30px 70px rgba(8,4,26,.34),inset 0 1px 0 rgba(255,255,255,.22);backdrop-filter:blur(14px) saturate(125%);overflow:hidden;width:auto}
+  .services-hero .about-hero-card::before{content:"";position:absolute;inset:1px;z-index:-2;border-radius:31px;background:radial-gradient(circle at 50% 0,rgba(255,255,255,.18),transparent 52%)}
+  .services-hero .brand-orbit{position:absolute;top:-95px;right:-92px;width:260px;height:260px;z-index:-1;border:1px solid rgba(191,247,255,.24);border-radius:50%;box-shadow:0 0 0 28px rgba(191,247,255,.055),0 0 0 58px rgba(191,247,255,.035)}
+  .services-hero .about-card-logo{width:108px;height:108px;display:grid;place-items:center;margin:0 0 20px;border-radius:31px;background:linear-gradient(145deg,#fff,#e8fbff);box-shadow:0 17px 38px rgba(0,0,0,.26),inset 0 1px 0 #fff;transform:rotate(-1.5deg)}
+  .services-hero .about-card-logo img{width:92px;height:92px;object-fit:contain}
+  .services-hero .service-card-kicker{margin:0 0 8px;color:#d9faff;font-size:.78rem;font-weight:850;letter-spacing:1.15px;text-transform:uppercase}
+  .services-hero .service-card-title{display:block;margin:0 0 18px;color:#fff;font-size:clamp(1.45rem,2.45vw,2rem);line-height:1.18;text-wrap:balance}
+  .services-hero .service-card-list{display:grid;gap:11px;color:#e8fbff;font-size:.94rem}
+  .services-hero .service-card-list span{display:flex;align-items:flex-start;gap:10px;padding-top:11px;border-top:1px solid rgba(255,255,255,.13)}
+  .services-hero .service-card-list i{width:22px;margin-top:3px;color:#a8f5ff}
+
+  /* Başlıklar için sayfaya özel reveal yok; ortak site davranışı kullanılır */
+  .services-hero .hero-copy,.services-hero .about-hero-card{opacity:1;transform:none;animation:none}
+
+  @media(max-width:1100px){
+    .brand-lockup{min-width:290px}
+    .services-hero .hero-layout{grid-template-columns:1fr;gap:32px}
+    .services-hero .hero-copy{text-align:center;margin:0 auto}
+    .services-hero .hero-copy .hero-eyebrow,.services-hero .hero-signature{margin-left:auto;margin-right:auto}
+    .services-hero .hero-divider{margin-left:auto;margin-right:auto}
+    .services-hero .hero-sub{margin-left:auto;margin-right:auto}
+    .services-hero .hero-cta{justify-content:center}
+    .services-hero .hero-notice{justify-content:center}
+    .services-hero .about-hero-card{min-height:auto;max-width:720px;width:100%;margin:0 auto}
+  }
+  @media(max-width:900px){
+    .header-top{display:none}
+    .header-main .container{align-items:center}
+  }
+  @media(max-width:768px){
+    .services-hero{padding:58px 0 64px}
+    .brand-lockup{min-width:0;padding:8px 10px}
+    .brand-mark{width:47px;height:47px;flex-basis:47px;border-radius:14px}
+    .brand-mark img{width:42px;height:42px}
+    .brand-copy strong{font-size:1.02rem}
+    .header-signature{font-size:1.18rem}
+    .services-hero .hero-copy h1{font-size:clamp(38px,11vw,55px)}
+    .services-hero .hero-signature{font-size:clamp(2.25rem,10vw,3.15rem)}
+  }
+  @media(max-width:560px){
+    .services-hero .about-hero-card{padding:26px 22px;border-radius:26px}
+    .services-hero .about-card-logo{width:92px;height:92px;border-radius:27px}
+    .services-hero .about-card-logo img{width:78px;height:78px}
+    .services-hero .hero-cta .btn{width:100%}
+  }
+</style><link href="/assets/css/elci-system.css?v=20260721" rel="stylesheet"/></head>
+<body data-page="services">
+<a class="skip-link" href="#main-content">İçeriğe geç</a>
+<header>
+<div class="header-top">
+<div class="container">
+<div class="header-contact">
+<span><i class="fa-solid fa-location-dot"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</span>
+</div>
+<div class="header-contact">
+<a href="tel:+903323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a>
+<a href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> elcivetklinik@gmail.com</a>
+</div>
+</div>
+</div>
+<div class="header-main">
+<div class="container">
+<div class="logo-text">
+<a aria-label="Elçi Veteriner Kliniği ana sayfa" class="brand-lockup" href="/">
+<span aria-hidden="true" class="brand-mark">
+<img alt="" decoding="async" height="54" loading="eager" src="/assets/img/uploads/elci-logo.png?v=3" width="54"/>
+</span>
+<span class="brand-copy">
+<strong>Elçi Veteriner Kliniği</strong>
+<span class="signature-tagline header-signature">Sağlığın Elçi’leriyiz</span>
+</span>
+</a>
+</div>
+<nav aria-label="Birincil" class="main-nav">
+<button aria-controls="mainMenu" aria-expanded="false" aria-label="Menüyü aç/kapat" class="mobile-menu-btn" id="mobileMenuBtn">
+<i class="fa-solid fa-bars"></i>
+</button>
+<ul id="mainMenu">
+<li><a href="/">Ana Sayfa</a></li>
+<li class="dropdown">
+<a aria-expanded="false" aria-haspopup="true" href="/about">Hakkımızda</a>
+<div class="dropdown-content" role="menu">
+<a href="#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
+<a href="#ekibimiz" role="menuitem">Ekibimiz</a>
+<a href="#klinik" role="menuitem">Kliniğimiz</a>
+<a href="#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
+<a href="#degerler" role="menuitem">Değerlerimiz</a>
+</div>
+</li>
+<li class="dropdown">
+<a aria-current="page" aria-expanded="false" aria-haspopup="true" class="active" href="/hizmetler.html">Hizmetlerimiz</a>
+<div class="dropdown-content" role="menu">
+<a href="/hizmetler.html#acil" role="menuitem">Acil Veteriner</a>
+<a href="/hizmetler.html#koruyucu" role="menuitem">Koruyucu Hekimlik</a>
+<a href="/hizmetler.html#cerrahi" role="menuitem">Cerrahi Operasyonlar</a>
+<a href="/hizmetler.html#agiz-dis" role="menuitem">Ağız ve Diş Sağlığı</a>
+<a href="/hizmetler.html#ic-hastaliklari" role="menuitem">İç Hastalıkları</a>
+<a href="/hizmetler.html#fizik-tedavi" role="menuitem">Fizik Tedavi</a>
+<a href="/hizmetler.html#konaklama" role="menuitem">Konaklama</a>
+</div>
+</li>
+<li><a href="/blog.html">Blog</a></li>
+<li class="dropdown">
+<a aria-expanded="false" aria-haspopup="true" href="/sss.html">SSS</a>
+<div class="dropdown-content" role="menu">
+<a href="/sss.html#fiyat" role="menuitem">Fiyat &amp; Ödeme</a>
+<a href="/sss.html#surec" role="menuitem">Hizmet Süreçleri</a>
+<a href="/sss.html#acil" role="menuitem">Acil Durumlar</a>
+</div>
+</li>
+<li class="dropdown">
+<a aria-expanded="false" aria-haspopup="true" href="/hasta-iliskileri.html">Hasta İlişkileri</a>
+<div class="dropdown-content" role="menu">
+<a href="/hasta-iliskileri.html#online-randevu" role="menuitem">Online Randevu</a>
+<a href="/hasta-iliskileri.html#memnuniyet-anketi" role="menuitem">Memnuniyet Anketi</a>
+<a href="/hasta-iliskileri.html#basari-hikayeleri" role="menuitem">Başarı Hikayeleri</a>
+<a href="/hasta-iliskileri.html#sikayet-oneri" role="menuitem">Şikayet &amp; Öneri</a>
+</div>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</header><div class="site-announcement" hidden="" id="siteAnnouncement"></div>
+<main id="main-content">
+<section aria-labelledby="hero-title" class="about-hero services-hero">
+<div class="container">
+<div class="hero-layout">
+<div class="hero-copy">
+<p class="hero-eyebrow"><i class="fa-solid fa-shield-heart"></i> Meram / Konya veteriner hizmetleri</p>
+<h1 id="hero-title">Hizmetlerimiz</h1>
+<p class="signature-tagline hero-signature">Sağlığın Elçi’leriyiz</p>
+<div aria-hidden="true" class="hero-divider"></div>
+<p class="hero-sub">Muayeneden cerrahiye, koruyucu hekimlikten laboratuvar değerlendirmesine kadar sunduğumuz klinik hizmetleri açık, planlı ve takip edilebilir bir süreçle yürütüyoruz.</p>
+<div class="hero-cta">
+<a class="btn primary" href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i> Online Randevu</a>
+<a class="btn ghost" href="#one-cikan-hizmetler"><i class="fa-solid fa-stethoscope"></i> Hizmetleri İncele</a>
+<a class="btn ghost" href="tel:+903323223220"><i class="fa-solid fa-phone"></i> Hemen Ara</a>
+</div>
+<p class="hero-notice"><i class="fa-solid fa-location-dot"></i> Havzan, Meram / Konya</p>
+</div>
+<aside aria-label="Elçi Veteriner Kliniği hizmet yaklaşımı" class="about-hero-card service-hero-card">
+<div aria-hidden="true" class="brand-orbit"></div>
+<div class="about-card-logo service-card-logo">
+<img alt="Elçi Veteriner Kliniği logosu" decoding="async" height="96" loading="eager" src="/assets/img/uploads/elci-logo.png?v=3" width="96"/>
+</div>
+<p class="service-card-kicker">Hizmet yaklaşımımız</p>
+<strong class="service-card-title">Muayeneden takibe, açık ve planlı klinik süreç</strong>
+<div class="service-card-list">
+<span><i class="fa-solid fa-stethoscope"></i> Vakanın ihtiyacına göre klinik değerlendirme</span>
+<span><i class="fa-solid fa-flask-vial"></i> Gerekli tetkiklerin ve yönlendirmelerin planlanması</span>
+<span><i class="fa-solid fa-clipboard-check"></i> Tedavi sonrası bilgilendirme ve takip</span>
+</div>
+</aside>
+</div>
+</div>
+</section>
+<section aria-label="Acil durum uyarısı" class="emergency-strip">
+<div class="container">
+<div class="emergency-main">
+<div class="emergency-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+<div class="emergency-copy">
+<strong>Acil belirtilerde online formu beklemeyin.</strong>
+<span>Kliniğin uygunluğunu ve izlenecek yolu öğrenmek için önce <a href="tel:03323223220">0332 322 32 20</a> numarasını arayın. Hizmetimiz 24 saat kesintisiz acil servis değildir.</span>
+</div>
+</div>
+<a class="emergency-btn" href="tel:03323223220"><i class="fa-solid fa-phone"></i> Hemen Ara</a>
+</div>
+</section>
+<section aria-labelledby="featured-title" class="section" id="one-cikan-hizmetler">
+<div class="container">
+<div class="section-head">
+<span class="section-kicker"><i class="fa-solid fa-star-of-life"></i> Öne çıkan klinik hizmetler</span>
+<h2 id="featured-title">Kliniğimizin tıbbi hizmet vitrini</h2>
+<p>En sık başvurulan hizmetleri kapsam, süreç ve sınırlarıyla birlikte açık biçimde sunuyoruz. Aşağıdaki bilgiler genel bilgilendirmedir; kesin plan klinik muayene sonrasında oluşturulur.</p>
+</div>
+<div class="featured-stack">
+<article class="feature-service cms-service reveal" data-service-id="cerrahi" data-service-title="Cerrahi Operasyonlar" id="cerrahi">
+<div class="feature-copy">
+<div class="feature-index"><span>01</span> Cerrahi hizmetler</div>
+<h3>Cerrahi operasyonlar ve kısırlaştırma</h3>
+<p data-cms="summary">Kedi ve köpeklerde kısırlaştırma, yumuşak doku cerrahileri, yabancı cisim operasyonları ve vaka uygunluğuna göre ortopedik girişimler; ön değerlendirme ve planlı takip ile yürütülür.</p>
+<ul class="feature-list">
+<li><i class="fa-solid fa-check"></i><span>Kedi ve köpek kısırlaştırma</span></li>
+<li><i class="fa-solid fa-check"></i><span>Yumuşak doku operasyonları</span></li>
+<li><i class="fa-solid fa-check"></i><span>Yabancı cisim cerrahisi</span></li>
+<li><i class="fa-solid fa-check"></i><span>Ortopedik cerrahi değerlendirme</span></li>
+<li><i class="fa-solid fa-check"></i><span>Ameliyat öncesi kan kontrolleri</span></li>
+<li><i class="fa-solid fa-check"></i><span>Ağrı yönetimi ve kontrol takibi</span></li>
+</ul>
+<div class="feature-actions">
+<a class="btn primary" href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i> Cerrahi değerlendirme randevusu</a>
+<a class="btn outline" href="tel:03323223220"><i class="fa-solid fa-phone"></i> Bilgi Al</a>
+</div>
+<p class="feature-note">Operasyonun uygunluğu, anestezi planı ve kesin ücret muayene ile gerekli tetkiklerden sonra belirlenir.</p>
+</div>
+<div aria-hidden="true" class="feature-art art-surgery">
+<div class="art-icon"><i class="fa-solid fa-user-doctor"></i></div>
+<span class="art-mini m1"><i class="fa-solid fa-shield-heart"></i> Ön değerlendirme</span>
+<span class="art-mini m2"><i class="fa-solid fa-notes-medical"></i> Kontrollü takip</span>
+</div>
+</article>
+<article class="feature-service reverse cms-service reveal" data-service-id="ic-hastaliklari" data-service-title="İç Hastalıkları" id="ic-hastaliklari">
+<div class="feature-copy">
+<div class="feature-index"><span>02</span> Dahiliye ve tanı desteği</div>
+<h3>İç hastalıkları ve laboratuvar değerlendirmesi</h3>
+<p data-cms="summary">Kusma, ishal, iştahsızlık, kilo değişimi, halsizlik, solunum ve üriner sistem belirtileri gibi çok sayıda şikâyet; klinik muayene ile laboratuvar sonuçları birlikte değerlendirilerek ele alınır.</p>
+<ul class="feature-list">
+<li><i class="fa-solid fa-check"></i><span>Hemogram ve biyokimya</span></li>
+<li><i class="fa-solid fa-check"></i><span>İdrar ve hızlı testler</span></li>
+<li><i class="fa-solid fa-check"></i><span>Hormon testlerinin planlanması</span></li>
+<li><i class="fa-solid fa-check"></i><span>Kronik hastalık takibi</span></li>
+<li><i class="fa-solid fa-check"></i><span>Tedavi yanıtının değerlendirilmesi</span></li>
+<li id="goruntuleme-lab"><i class="fa-solid fa-check"></i><span>Röntgen ve ultrason için randevulu/dış merkez süreç yönetimi</span></li>
+</ul>
+<div class="feature-actions">
+<a class="btn primary" href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i> Muayene randevusu</a>
+<a class="btn outline" href="#diger-hizmetler"><i class="fa-solid fa-arrow-down"></i> Branşları İncele</a>
+</div>
+<p class="feature-note">Görüntüleme işlemleri klinik değerlendirmeye göre randevulu olarak veya uygun dış merkeze yönlendirilerek planlanır.</p>
+</div>
+<div aria-hidden="true" class="feature-art art-internal">
+<div class="art-icon"><i class="fa-solid fa-flask-vial"></i></div>
+<span class="art-mini m1"><i class="fa-solid fa-vials"></i> Laboratuvar</span>
+<span class="art-mini m3"><i class="fa-solid fa-chart-line"></i> Düzenli takip</span>
+</div>
+</article>
+<article class="feature-service cms-service reveal" data-service-id="koruyucu" data-service-title="Muayene &amp; Koruyucu Hekimlik" id="koruyucu">
+<div class="feature-copy">
+<div class="feature-index"><span>03</span> Koruyucu hekimlik</div>
+<h3>Sağlığı hastalık oluşmadan korumaya yönelik planlama</h3>
+<p data-cms="summary">Yaşa, yaşam koşullarına ve bireysel risklere göre oluşturulan aşı, iç-dış parazit, mikroçip ve rutin kontrol programlarıyla uzun dönem sağlık takibi yapılır.</p>
+<ul class="feature-list">
+<li><i class="fa-solid fa-check"></i><span>Yavru ve erişkin aşı programları</span></li>
+<li><i class="fa-solid fa-check"></i><span>İç-dış parazit uygulamaları</span></li>
+<li><i class="fa-solid fa-check"></i><span>Mikroçip ve kimliklendirme</span></li>
+<li><i class="fa-solid fa-check"></i><span>Rutin sağlık kontrolleri</span></li>
+<li><i class="fa-solid fa-check"></i><span>Yaşlı hayvan takip planları</span></li>
+<li><i class="fa-solid fa-check"></i><span>Beslenme ve bakım bilgilendirmesi</span></li>
+</ul>
+<div class="feature-actions">
+<a class="btn primary" href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i> Koruyucu sağlık randevusu</a>
+</div>
+</div>
+<div aria-hidden="true" class="feature-art art-preventive">
+<div class="art-icon"><i class="fa-solid fa-shield-dog"></i></div>
+<span class="art-mini m1"><i class="fa-solid fa-syringe"></i> Aşı planı</span>
+<span class="art-mini m2"><i class="fa-solid fa-microchip"></i> Mikroçip</span>
+</div>
+</article>
+<article class="feature-service reverse cms-service reveal" data-service-id="agiz-dis" data-service-title="Ağız &amp; Diş Sağlığı" id="agiz-dis">
+<div class="feature-copy">
+<div class="feature-index"><span>04</span> Ağız ve diş sağlığı</div>
+<h3>Ağız kokusundan periodontal hastalıklara kapsamlı değerlendirme</h3>
+<p data-cms="summary">Diş taşı, diş eti hastalıkları, kırık dişler ve ağız içi sorunlar muayene edilir; gerekli temizlik, çekim veya ileri değerlendirme süreci hasta özelinde planlanır.</p>
+<ul class="feature-list">
+<li><i class="fa-solid fa-check"></i><span>Ağız ve diş muayenesi</span></li>
+<li><i class="fa-solid fa-check"></i><span>Diş taşı ve periodontal değerlendirme</span></li>
+<li><i class="fa-solid fa-check"></i><span>Gerekli durumlarda diş çekimi</span></li>
+<li><i class="fa-solid fa-check"></i><span>Evde ağız bakım önerileri</span></li>
+</ul>
+<div class="feature-actions">
+<a class="btn primary" href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i> Ağız ve diş randevusu</a>
+</div>
+<p class="feature-note">Diş taşı temizliği ve çekim gibi işlemler için anestezi uygunluğu ayrıca değerlendirilir.</p>
+</div>
+<div aria-hidden="true" class="feature-art art-dental">
+<div class="art-icon"><i class="fa-solid fa-tooth"></i></div>
+<span class="art-mini m1"><i class="fa-solid fa-magnifying-glass"></i> Ağız muayenesi</span>
+<span class="art-mini m3"><i class="fa-solid fa-heart-pulse"></i> Sistemik sağlık</span>
+</div>
+</article>
+</div>
+</div>
+</section>
+<section aria-labelledby="process-title" class="section section-dark">
+<div class="container">
+<div class="section-head">
+<span class="section-kicker"><i class="fa-solid fa-route"></i> Klinik yaklaşımımız</span>
+<h2 id="process-title">Her hizmette aynı açık ve planlı süreç</h2>
+<p>Hastanın gereksinimine göre adımlar değişebilir; temel yaklaşımımız muayene, gerekli tetkik, bilgilendirme ve takip üzerine kuruludur.</p>
+</div>
+<div class="care-grid">
+<article class="care-card reveal"><div class="care-no">1</div><h3>Öykü ve muayene</h3><p>Belirtiler, önceki tedaviler ve hastanın genel durumu birlikte değerlendirilir.</p></article>
+<article class="care-card reveal"><div class="care-no">2</div><h3>Gerekli tetkikler</h3><p>Her hastaya aynı test uygulanmaz; klinik gereksinime göre laboratuvar ve görüntüleme planlanır.</p></article>
+<article class="care-card reveal"><div class="care-no">3</div><h3>Açık bilgilendirme</h3><p>Olası seçenekler, süreç, takip gereksinimi ve tahmini maliyet işlem öncesinde açıklanır.</p></article>
+<article class="care-card reveal"><div class="care-no">4</div><h3>Tedavi ve takip</h3><p>Evde bakım, ilaç kullanımı ve kontrol zamanı hastanın durumuna göre düzenlenir.</p></article>
+</div>
+</div>
+</section>
+<section aria-labelledby="all-title" class="section section-soft" id="diger-hizmetler">
+<div class="container">
+<div class="section-head">
+<span class="section-kicker"><i class="fa-solid fa-layer-group"></i> Diğer klinik hizmetler</span>
+<h2 id="all-title">İhtiyaca göre değerlendirilen hizmet alanlarımız</h2>
+<p>Bu hizmetlerde kliniğimizin imkânları ve hastanın gereksinimi birlikte değerlendirilir. İleri inceleme, 24 saat izlem veya farklı uzmanlık gerektiğinde uygun yönlendirme yapılır.</p>
+</div>
+<div class="service-groups">
+<div class="service-group">
+<div class="group-head reveal">
+<h3>Dahili branşlar</h3>
+<p>Kronik ve sistemik hastalıkların tanı, tedavi ve kontrol süreçleri.</p>
+</div>
+<div class="service-grid">
+<article class="service-card cms-service reveal" data-service-id="endokrinoloji" data-service-title="Endokrinoloji" id="endokrinoloji">
+<div class="service-icon"><i class="fa-solid fa-droplet"></i></div>
+<h4>Endokrinoloji</h4>
+<p data-cms="summary">Diyabet, tiroid ve adrenal bez hastalıkları gibi hormonal sorunlarda test, tedavi ve uzun dönem takip planlanır.</p>
+<details><summary>Hizmet kapsamı</summary><div class="detail-body" data-cms="detail"><p>Kan ve idrar testleri ile gerekli hormon profilleri klinik bulgularla birlikte değerlendirilir. Kronik hastalıklarda ilaç, beslenme ve kontrol aralıkları düzenlenir.</p><div class="detail-actions"><a class="mini-btn primary" href="/hasta-iliskileri.html#online-randevu">Randevu</a></div></div></details>
+</article>
+<article class="service-card cms-service reveal" data-service-id="uroloji" data-service-title="Üroloji" id="uroloji">
+<div class="service-icon"><i class="fa-solid fa-kidneys"></i></div>
+<h4>Üroloji</h4>
+<p data-cms="summary">İdrar yolu enfeksiyonları, kristal ve taş şüphesi, mesane sorunları ve idrar tıkanıklıkları değerlendirilir.</p>
+<details><summary>Hizmet kapsamı</summary><div class="detail-body" data-cms="detail"><p>İdrar analizi, kan testleri ve klinik muayene temel alınır. Görüntüleme gerektiğinde randevulu ya da dış merkez süreci planlanır. İdrar yapamama acil bir durumdur.</p><div class="detail-actions"><a class="mini-btn primary" href="/hasta-iliskileri.html#online-randevu">Randevu</a><a class="mini-btn" href="tel:03323223220">Acil Ara</a></div></div></details>
+</article>
+<article class="service-card cms-service reveal" data-service-id="kardiyoloji" data-service-title="Kardiyoloji" id="kardiyoloji">
+<div class="service-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+<h4>Kardiyoloji değerlendirmesi</h4>
+<p data-cms="summary">Öksürük, efor intoleransı, nefes darlığı, bayılma ve ritim sorunu şüphesinde klinik değerlendirme yapılır.</p>
+<details><summary>Hizmet kapsamı</summary><div class="detail-body" data-cms="detail"><p>Kalp ve akciğer dinlemesi ile genel klinik muayene yapılır. İleri kardiyolojik görüntüleme veya uzman değerlendirmesi gereken hastalar uygun merkeze yönlendirilir.</p><div class="detail-actions"><a class="mini-btn primary" href="/hasta-iliskileri.html#online-randevu">Randevu</a></div></div></details>
+</article>
+<article class="service-card cms-service reveal" data-service-id="dermatoloji" data-service-title="Dermatoloji" id="dermatoloji">
+<div class="service-icon"><i class="fa-solid fa-allergies"></i></div>
+<h4>Dermatoloji</h4>
+<p data-cms="summary">Kaşıntı, tüy dökülmesi, deri enfeksiyonları, parazitler ve kronik cilt sorunları neden odaklı değerlendirilir.</p>
+<details><summary>Hizmet kapsamı</summary><div class="detail-body" data-cms="detail"><p>Deri kazıntısı, sitoloji ve gerekli diğer testler klinik bulgularla birlikte planlanır. Kronik dermatolojik hastalıklarda uzun dönem takip ve bakım düzeni önemlidir.</p><div class="detail-actions"><a class="mini-btn primary" href="/hasta-iliskileri.html#online-randevu">Randevu</a></div></div></details>
+</article>
+<article class="service-card cms-service reveal" data-service-id="goz" data-service-title="Göz Hastalıkları" id="goz">
+<div class="service-icon"><i class="fa-solid fa-eye"></i></div>
+<h4>Göz hastalıkları</h4>
+<p data-cms="summary">Akıntı, kızarıklık, gözünü kapatma, travma ve kornea hasarı şüphesi zaman kaybetmeden değerlendirilir.</p>
+<details><summary>Hizmet kapsamı</summary><div class="detail-body" data-cms="detail"><p>Göz muayenesi ve gerekli temel testler yapılır. İleri cerrahi veya uzman değerlendirmesi gereken hastalarda yönlendirme planlanır. Ani göz belirtilerinde gecikmeden telefonla iletişim kurulmalıdır.</p><div class="detail-actions"><a class="mini-btn primary" href="/hasta-iliskileri.html#online-randevu">Randevu</a><a class="mini-btn" href="tel:03323223220">Ara</a></div></div></details>
+</article>
+</div>
+</div>
+<div class="service-group">
+<div class="group-head reveal">
+<h3>Cerrahi, hareket ve üreme sağlığı</h3>
+<p>Ortopedik, jinekolojik ve rehabilitasyon gerektiren durumların planlanması.</p>
+</div>
+<div class="service-grid">
+<article class="service-card cms-service reveal" data-service-id="ortopedi" data-service-title="Ortopedi" id="ortopedi">
+<div class="service-icon"><i class="fa-solid fa-bone"></i></div>
+<h4>Ortopedi</h4>
+<p data-cms="summary">Topallık, kırık, çıkık, eklem ve bağ yaralanmalarında ortopedik muayene ve tedavi planı oluşturulur.</p>
+<details><summary>Hizmet kapsamı</summary><div class="detail-body" data-cms="detail"><p>Röntgen gerektiğinde randevulu veya dış merkez süreci yönetilir. Tedavi medikal yaklaşım, bandaj-atel uygulamaları, cerrahi değerlendirme ve rehabilitasyonu içerebilir.</p><div class="detail-actions"><a class="mini-btn primary" href="/hasta-iliskileri.html#online-randevu">Randevu</a></div></div></details>
+</article>
+<article class="service-card cms-service reveal" data-service-id="dogum-jinekoloji" data-service-title="Doğum &amp; Jinekoloji" id="dogum-jinekoloji">
+<div class="service-icon"><i class="fa-solid fa-venus"></i></div>
+<h4>Doğum ve jinekoloji</h4>
+<p data-cms="summary">Üreme sistemi hastalıkları, gebelik ve doğum süreci ile doğum sonrası sorunlar klinik olarak değerlendirilir.</p>
+<details><summary>Hizmet kapsamı</summary><div class="detail-body" data-cms="detail"><p>Pyometra, doğum güçlüğü, düzensiz kızgınlık ve üreme sistemi sorunlarında muayene, laboratuvar ve gerekli görüntüleme süreci planlanır. Acil doğum vakalarında önce telefonla iletişim kurulmalıdır.</p><div class="detail-actions"><a class="mini-btn primary" href="/hasta-iliskileri.html#online-randevu">Randevu</a><a class="mini-btn" href="tel:03323223220">Acil Ara</a></div></div></details>
+</article>
+<article class="service-card cms-service reveal" data-service-id="ftr" data-service-title="Fizik Tedavi &amp; Rehabilitasyon" id="ftr">
+<div class="service-icon"><i class="fa-solid fa-person-walking"></i></div>
+<h4>Fizik tedavi ve rehabilitasyon</h4>
+<p data-cms="summary">Ortopedik operasyon sonrası, hareket kısıtlılığı ve kas kaybında hastaya uygun egzersiz ve takip planı oluşturulur.</p>
+<details><summary>Hizmet kapsamı</summary><div class="detail-body" data-cms="detail"><p>Pasif ve aktif hareketler, ev düzenlemeleri ve kontrollü egzersizler hastanın tanısı, ağrı düzeyi ve hareket kapasitesine göre planlanır.</p><div class="detail-actions"><a class="mini-btn primary" href="/hasta-iliskileri.html#online-randevu">Randevu</a></div></div></details>
+</article>
+</div>
+</div>
+<div class="service-group">
+<div class="group-head reveal">
+<h3>Destek ve özel süreçler</h3>
+<p>Acil ön değerlendirme, takip ve uygunluk esaslı konaklama süreçleri.</p>
+</div>
+<div class="service-grid">
+<article class="service-card cms-service reveal" data-service-id="acil" data-service-title="Acil Ön Değerlendirme &amp; İlk Müdahale" id="acil">
+<div class="service-icon"><i class="fa-solid fa-truck-medical"></i></div>
+<h4>Acil ön değerlendirme ve ilk müdahale</h4>
+<p data-cms="summary">Acil belirtilerde telefonla ön değerlendirme yapılır; klinik uygunluğuna göre ilk müdahale veya yönlendirme planlanır.</p>
+<details><summary>Hizmet kapsamı</summary><div class="detail-body" data-cms="detail"><p>Kliniğimiz 24 saat kesintisiz yoğun bakım merkezi değildir. İleri yoğun bakım veya sürekli izlem gereken hastalarda uygun merkeze yönlendirme yapılır.</p><div class="detail-actions"><a class="mini-btn primary" href="tel:03323223220">Hemen Ara</a></div></div></details>
+</article>
+<article class="service-card cms-service reveal" data-service-id="konaklama" data-service-title="Konaklama" id="konaklama">
+<div class="service-icon"><i class="fa-solid fa-house-chimney"></i></div>
+<h4>Konaklama</h4>
+<p data-cms="summary">Kısa süreli konaklama talepleri, hayvanın sağlık durumu, aşıları, mizacı ve klinik kapasitesi değerlendirilerek planlanır.</p>
+<details><summary>Hizmet kapsamı</summary><div class="detail-body" data-cms="detail"><p>Kabul öncesinde sağlık ve davranış uygunluğu değerlendirilir. İlaç kullanımı veya özel bakım gereksinimi varsa önceden bildirilmelidir. Her talep otomatik olarak kabul edilmez.</p><div class="detail-actions"><a class="mini-btn primary" href="tel:03323223220">Uygunluk Sor</a></div></div></details>
+</article>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section aria-labelledby="trust-title" class="section">
+<div class="container">
+<div class="trust-panel reveal">
+<div class="trust-copy">
+<span class="section-kicker"><i class="fa-solid fa-circle-check"></i> Planlı ve şeffaf süreç</span>
+<h2 id="trust-title">Doğru hizmet, doğru değerlendirmeyle başlar.</h2>
+<p>Her hastanın ihtiyacı farklıdır. Muayene bulgularına göre gerekli tetkik, tedavi ve takip adımlarını anlaşılır biçimde planlıyor; kliniğimiz dışında yürütülmesi gereken görüntüleme veya ileri bakım süreçlerinde uygun yönlendirme sağlıyoruz.</p>
+<ul class="trust-list">
+<li><i class="fa-solid fa-check"></i><span>Tanı, tedavi ve kontrol planı hastanın klinik durumuna göre oluşturulur.</span></li>
+<li><i class="fa-solid fa-check"></i><span>Gerekli laboratuvar testleri klinik muayene ile birlikte değerlendirilir.</span></li>
+<li><i class="fa-solid fa-check"></i><span>Röntgen ve ultrason gerektiğinde randevulu veya dış merkez aracılığıyla yürütülür.</span></li>
+<li><i class="fa-solid fa-check"></i><span>Uygulamalar öncesinde süreç, hazırlık ve takip bilgileri hasta sahibine açıklanır.</span></li>
+</ul>
+</div>
+<aside class="trust-card">
+<div class="logo"><img alt="Elçi Veteriner Kliniği logosu" height="64" src="/assets/img/uploads/elci-logo.png?v=1" width="64"/></div>
+<h3>Evcil dostunuz için doğru hizmeti birlikte belirleyelim.</h3>
+<p>Belirtileri ve talebinizi kısaca paylaşın; randevu türü, hazırlık süreci veya acil başvuru konusunda bilgi alın.</p>
+<a class="btn ghost" href="tel:+903323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a>
+</aside>
+</div>
+</div>
+</section>
+<section aria-labelledby="closing-title" class="closing-cta">
+<div class="container">
+<div class="closing-inner reveal">
+<div class="closing-copy">
+<h2 id="closing-title">Randevu talebinizi oluşturun</h2>
+<p>Online randevular bugünden en erken üç gün sonrası için alınır ve telefonla teyit edildiğinde kesinleşir. Acil belirtilerde online form yerine doğrudan arayın.</p>
+</div>
+<div class="closing-actions">
+<a class="btn primary" href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i> Online Randevu</a>
+<a class="btn ghost" href="tel:03323223220"><i class="fa-solid fa-phone"></i> Hemen Ara</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="footer-new">
+<div class="container footer-container">
+<div class="footer-col">
+<h3>Elçi Veteriner Kliniği</h3>
+<p>Konya'nın Meram ilçesinde kedi ve köpeklerin sağlığı için anlaşılır bilgilendirme, etik yaklaşım ve düzenli takip sunuyoruz.</p>
+<div class="social-links">
+<a aria-label="Facebook" href="https://www.facebook.com/elciveteriner" rel="noopener" target="_blank">
+<svg fill="currentColor" viewbox="0 0 24 24"><path d="M13 10h3l.5-3H13V5.5c0-.9.3-1.5 1.7-1.5H17V1h-3c-3 0-4.5 1.6-4.5 4.4V7H7v3h2.5v9h3v-9z"></path></svg>
+</a>
+<a aria-label="Instagram" href="https://www.instagram.com/elcivetklinik" rel="noopener" target="_blank">
+<svg fill="none" stroke="currentColor" stroke-width="1.6" viewbox="0 0 24 24"><rect height="18" rx="5" width="18" x="3" y="3"></rect><circle cx="12" cy="12" r="3.5"></circle><path d="M17.5 6.5h.01" stroke-width="2"></path></svg>
+</a>
+<a aria-label="X" href="https://twitter.com/elciveteriner" rel="noopener" target="_blank">
+<svg fill="currentColor" viewbox="0 0 24 24"><path d="M22 5.8c-.8.4-1.6.6-2.5.7.9-.6 1.5-1.4 1.8-2.4-.8.5-1.8.9-2.8 1.1A3.7 3.7 0 0 0 12 8.4c0 .3 0 .7.1 1A10.5 10.5 0 0 1 3 5.2a3.7 3.7 0 0 0 1.1 5 3.6 3.6 0 0 1-1.7-.5v.1c0 1.8 1.3 3.3 3 3.7-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1.5 1.5 1.9 2.6 3.6 2.6A7.5 7.5 0 0 1 3 19.5 10.6 10.6 0 0 0 9.7 21c6.3 0 9.7-5.2 9.7-9.7v-.4c.8-.6 1.5-1.4 2-2.3z"></path></svg>
+</a>
+<a aria-label="YouTube" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" rel="noopener" target="_blank">
+<svg fill="currentColor" viewbox="0 0 24 24"><path d="M23 7.5a4 4 0 0 0-3-3.1C18.3 4 12 4 12 4s-6.3 0-8 .4A4 4 0 0 0 1 7.5 41 41 0 0 0 1 16.5a4 4 0 0 0 3 3.1c1.7.4 8 .4 8 .4s6.3 0 8-.4a4 4 0 0 0 3-3.1 41 41 0 0 0 0-9zM10 15.5v-7l6 3.5-6 3.5z"></path></svg>
+</a>
+</div>
+</div>
+<div class="footer-col">
+<h3>Hızlı Linkler</h3>
+<ul class="footer-links">
+<li><a href="/">Ana Sayfa</a></li>
+<li><a href="/about">Hakkımızda</a></li>
+<li><a href="/hizmetler.html">Hizmetlerimiz</a></li>
+<li><a href="/blog.html">Blog</a></li>
+<li><a href="/sss.html">SSS</a></li>
+<li><a href="/hasta-iliskileri.html">Hasta İlişkileri</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h3>Öne Çıkan Hizmetler</h3>
+<ul class="footer-links">
+<li><a href="#acil">Acil ön değerlendirme</a></li>
+<li><a href="#cerrahi">Kısırlaştırma ve cerrahi</a></li>
+<li><a href="#agiz-dis">Ağız ve diş sağlığı</a></li>
+<li><a href="#ic-hastaliklari">İç hastalıkları ve laboratuvar</a></li>
+<li><a href="#ftr">Fizik tedavi ve rehabilitasyon</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h3>İletişim</h3>
+<ul class="footer-contact">
+<li>
+<svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M12 21s7-4.5 7-10a7 7 0 1 0-14 0c0 5.5 7 10 7 10z"></path><circle cx="12" cy="11" r="2.5"></circle></svg>
+<a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" rel="noopener" target="_blank">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a>
+</li>
+<li>
+<svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M22 16.5v2a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3.1 19 19 0 0 1-6-6A2 2 0 0 1 7.5 9h2l2 3-1.5 1.5a16 16 0 0 0 6 6L18 18l3 2.5z"></path></svg>
+<a href="tel:+903323223220">0332 322 32 20</a>
+</li>
+<li>
+<svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 4h16v16H4z"></path><path d="M22 6l-10 7L2 6"></path></svg>
+<a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a>
+</li>
+<li>
+<svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v6l4 2"></path></svg>
+<span>Her gün: 09:00–21:00<br/><small>Özel gün saatleri için Google profilimizi kontrol ediniz.</small></span>
+</li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<div class="container">
+<p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p>
+</div>
+</div>
+</footer>
+<nav aria-label="Hızlı iletişim" class="mobile-contact-bar">
+<a href="tel:+903323223220"><i class="fa-solid fa-phone"></i><span>Ara</span></a>
+<a href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i><span>Randevu</span></a>
+<a href="https://www.google.com/maps/search/?api=1&amp;query=El%C3%A7i+Veteriner+Klini%C4%9Fi+Havzan+Meram+Konya" rel="noopener noreferrer" target="_blank"><i class="fa-solid fa-route"></i><span>Yol Tarifi</span></a>
+</nav>
+<script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"VeterinaryCare",
+    "name":"Elçi Veteriner Kliniği",
+    "legalName":"Elçi Veterinerlik Sanayi Ticaret Limited Şirketi",
+    "url":"https://elciveteriner.com/hizmetler.html",
+    "logo":"https://elciveteriner.com/assets/img/uploads/elci-logo.png",
+    "telephone":"+90 332 322 32 20",
+    "email":"elcivetklinik@gmail.com",
+    "address":{
+      "@type":"PostalAddress",
+      "streetAddress":"Havzan Mah. Yeni Meram Cad. 17/1",
+      "addressLocality":"Meram",
+      "addressRegion":"Konya",
+      "addressCountry":"TR"
+    },
+    "openingHoursSpecification":[{
+      "@type":"OpeningHoursSpecification",
+      "dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+      "opens":"09:00",
+      "closes":"21:00"
+    }],
+    "hasOfferCatalog":{
+      "@type":"OfferCatalog",
+      "name":"Veterinerlik Hizmetleri",
+      "itemListElement":[
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Cerrahi Operasyonlar ve Kısırlaştırma"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"İç Hastalıkları"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Muayene ve Koruyucu Hekimlik"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Ağız ve Diş Sağlığı"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Laboratuvar ve Görüntüleme Yönlendirmesi"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Endokrinoloji"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Üroloji"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Kardiyoloji Değerlendirmesi"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Dermatoloji"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Göz Hastalıkları"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Ortopedi"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Doğum ve Jinekoloji"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Fizik Tedavi ve Rehabilitasyon"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Acil Ön Değerlendirme ve İlk Müdahale"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Konaklama"}}
+      ]
+    }
+  }
+  </script>
+<script>
+  (function(){
+    const menuBtn=document.getElementById('mobileMenuBtn');
+    const menu=document.getElementById('mainMenu');
+    const year=document.getElementById('yil');
+    if(year) year.textContent=new Date().getFullYear();
+
+    function setMenu(open){
+      if(!menu||!menuBtn) return;
+      menu.classList.toggle('show',open);
+      document.body.classList.toggle('menu-open',open);
+      menuBtn.setAttribute('aria-expanded',String(open));
+      menuBtn.innerHTML=open?'<i class="fa-solid fa-xmark"></i>':'<i class="fa-solid fa-bars"></i>';
+    }
+    menuBtn?.addEventListener('click',()=>setMenu(!menu.classList.contains('show')));
+    menu?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+    window.addEventListener('resize',()=>{if(window.innerWidth>900)setMenu(false)});
+
+    document.querySelectorAll('.service-card details').forEach(detail=>{
+      detail.addEventListener('toggle',()=>{
+        if(!detail.open) return;
+        const group=detail.closest('.service-grid');
+        group?.querySelectorAll('details[open]').forEach(other=>{if(other!==detail)other.open=false});
+      });
+    });
+
+    const observer='IntersectionObserver' in window?new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target)}
+      });
+    },{threshold:.10,rootMargin:'0px 0px -30px'}):null;
+    document.querySelectorAll('.reveal').forEach(el=>observer?observer.observe(el):el.classList.add('is-visible'));
+
+    /* Decap CMS / services.json uyumluluğu: bulunan eşleşmeler statik SEO içeriğini güvenli biçimde günceller. */
+    const DATA_PATHS=['/assets/data/services.json','/assets/data/servis.json','/assets/data/service.json'];
+    const normalize=s=>(s||'').toString().toLocaleLowerCase('tr-TR').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ı/g,'i').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+    const pick=(obj,...keys)=>{for(const key of keys){if(obj&&obj[key]!=null)return obj[key]}return ''};
+    const toText=value=>{
+      if(value==null)return '';
+      if(typeof value==='string')return value.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim();
+      if(typeof value==='object')return toText(value.tr||value.en||Object.values(value)[0]||'');
+      return String(value);
+    };
+
+    async function syncCms(){
+      let data=null;
+      for(const path of DATA_PATHS){
+        try{const response=await fetch(path+'?v='+Date.now(),{cache:'no-store'});if(response.ok){data=await response.json();break}}catch(e){}
+      }
+      if(!data)return;
+      const items=Array.isArray(data?.items)?data.items:(Array.isArray(data)?data:[]);
+
+      document.querySelectorAll('.cms-service').forEach(card=>{
+        const wantedId=normalize(card.dataset.serviceId);
+        const wantedTitle=normalize(card.dataset.serviceTitle||card.querySelector('h3,h4')?.textContent);
+        const item=items.find(it=>{
+          const id=normalize(pick(it,'id','slug','anchor'));
+          const title=normalize(pick(it,'title','baslik','name'));
+          return (wantedId&&id===wantedId)||(wantedTitle&&title===wantedTitle);
+        });
+        if(!item)return;
+        const summary=toText(pick(item,'summary','ozet','text','aciklama'));
+        const detail=toText(pick(item,'detail','details','body','content','icerik','description'));
+        const summaryEl=card.querySelector('[data-cms="summary"]');
+        const detailEl=card.querySelector('[data-cms="detail"]');
+        if(summaryEl&&summary.length>=35)summaryEl.textContent=summary;
+        if(detailEl&&detail.length>=60){
+          const p=detailEl.querySelector('p');
+          if(p)p.textContent=detail;
+        }
+      });
+    }
+    syncCms();
+  })();
+  </script>
+<script src="/assets/js/content-sync.js?v=2"></script>
+<script defer="" src="/assets/js/elci-system.js?v=20260721"></script></body>
+</html>

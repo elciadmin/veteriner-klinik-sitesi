@@ -1,0 +1,25 @@
+ELÇİ VETERİNER KLİNİĞİ — V3.1 ÜST ALAN STANDARDİZASYONU
+
+Bu güncelleme mevcut V3 test dalının üzerine uygulanır.
+
+1. GitHub Desktop'ta dalın `elci-yonetim-v3-test` olduğundan emin olun.
+2. V3.1-YAMA klasörünün İÇİNDEKİ dosya ve klasörleri mevcut proje klasörünün köküne kopyalayın.
+3. Aynı isimli dosyalar için "Hedefteki dosyaları değiştir / Replace" seçeneğini kabul edin.
+4. GitHub Desktop'ta değişiklikleri kontrol edin.
+5. Summary alanına şunu yazın:
+   Header ve hero standardizasyonu V3.1
+6. Commit edin ve Push origin düğmesine basın.
+7. Netlify test sitesinin yeni deploy işlemini tamamlamasını bekleyin.
+
+Beklenen değişiklikler:
+- index.html
+- about.html
+- hizmetler.html
+- blog.html
+- sss.html
+- hasta-iliskileri.html
+- assets/css/elci-system.css
+- scripts/build-site.mjs
+
+Netlify `npm run build` komutunu çalıştırıp dist klasörünü kendisi oluşturur.
+Ana dal veya canlı site bu aşamada değiştirilmemelidir.

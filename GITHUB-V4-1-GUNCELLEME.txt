@@ -1,0 +1,11 @@
+ELÇİ YÖNETİM MERKEZİ V4.1 — NPM KAYNAK DÜZELTMESİ
+
+Bu yama ziyaretçi sitesini veya yönetim paneli arayüzünü değiştirmez.
+Yalnızca Netlify bağımlılık kurulumunun genel npm kaynağını kullanmasını sağlar.
+
+Kopyalanacak gerçek dosyalar:
+- package-lock.json
+- .npmrc
+
+GitHub commit özeti:
+V4.1 Netlify npm kaynak düzeltmesi

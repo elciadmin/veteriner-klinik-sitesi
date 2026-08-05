@@ -1,0 +1,13 @@
+{
+  "published": false,
+  "showOnHome": true,
+  "title": "Örnek Duyuru",
+  "message": "Bu kayıt taslak olarak bırakılmıştır. Panelden düzenleyip yayınlayabilirsiniz.",
+  "publishAt": "2026-07-21T09:00:00+03:00",
+  "unpublishAt": "",
+  "level": "info",
+  "priority": 10,
+  "linkLabel": "",
+  "linkUrl": "",
+  "dismissible": true
+}

@@ -1,0 +1,1757 @@
+<!DOCTYPE html>
+
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Hasta İlişkileri | Elçi Veteriner Kliniği – Meram Konya</title>
+<meta content="Elçi Veteriner Kliniği hasta ilişkileri: online randevu talebi, memnuniyet anketi, başarı hikâyeleri ve şikâyet-öneri iletişim alanı." name="description"/>
+<link href="https://elciveteriner.com/hasta-iliskileri.html" rel="canonical"/>
+<!-- Global CSS -->
+<link href="/assets/css/tokens.css?v=20251106" rel="stylesheet"/>
+<link href="/assets/css/styles.css?v=20251106" rel="stylesheet"/>
+<!-- Ana sayfadaki imza tipi slogan -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<!-- Sayfaya özel stiller (mümkün olduğunca az ve kapsüllenmiş) -->
+<style>
+    /* Hero */
+    .page-hero{
+      padding-top:clamp(72px,10vw,120px);
+      padding-bottom:20px;
+      background:linear-gradient(180deg,#eaf6f9 0%,transparent 70%);
+      text-align:center;
+    }
+    .page-hero h1{
+      margin:0 0 8px;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    .page-hero .hero-center{
+      max-width:720px;
+      margin:0 auto;
+    }
+    .page-hero .hero-icon{
+      width:96px;
+      height:96px;
+      border-radius:28px;
+      margin:0 auto 10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(0,0,0,.12);
+      box-shadow:0 10px 30px rgba(0,0,0,.30);
+      overflow:hidden;
+    }
+    .page-hero .hero-logo{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .chip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(0,0,0,.08);border-radius:999px;text-decoration:none}
+    .chip:hover{background:#f7fcfd}
+    .chip i, .chip svg{color:currentColor}
+
+    /* Uyarı */
+    .alert{border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:10px 12px;background:#f8fdff}
+    .alert.critical{border-color:#f2c3c3;background:#fff7f7}
+    .alert i{margin-right:8px;color:#c0392b}
+
+    /* Kart ızgarası */
+    .services-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+    @media(max-width:980px){.services-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:640px){.services-grid{grid-template-columns:1fr}}
+    .s-card{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.06);transition:.25s ease}
+    .s-card:hover{transform:translateY(-2px)}
+    .s-icon{display:inline-flex;width:40px;height:40px;border-radius:12px;align-items:center;justify-content:center;background:#eaf6f9;margin-bottom:8px}
+    .s-icon svg{width:22px;height:22px;color:currentColor}
+    .s-title{margin:2px 0 8px}
+
+    /* Başarı hikayeleri üst highlight alanı */
+    .success-highlight{
+      margin:18px 0;
+    }
+    .success-highlight .s-card{
+      position:relative;
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,.06);
+    }
+    .success-highlight .s-card::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:radial-gradient(circle at 0 0, rgba(255,255,255,.45), transparent 55%);
+      opacity:0;
+      transform:translateX(-30%);
+      pointer-events:none;
+      transition:.5s ease;
+    }
+    .success-highlight .s-card.is-animating::before{
+      opacity:1;
+      transform:translateX(35%);
+    }
+    .success-highlight .s-title{
+      font-size:1.05rem;
+      margin-bottom:6px;
+    }
+    .success-highlight .tagline{
+      font-size:.9rem;
+      color:#5f6b74;
+      margin-bottom:4px;
+    }
+    .success-highlight .meta{
+      font-size:.85rem;
+      color:#6b7a7c;
+      margin-top:6px;
+    }
+    @keyframes successFadeIn{
+      from{opacity:0; transform:translateY(6px);}
+      to{opacity:1; transform:translateY(0);}
+    }
+    .success-highlight .s-card{
+      animation:successFadeIn .4s ease;
+    }
+
+    /* Datepicker: form kartından taşmadan, ortalanmış ve mobil uyumlu */
+    .appointment-shell{overflow:visible !important;isolation:isolate}
+    .date-input{position:relative;z-index:80;min-width:0}
+    .date-display{
+      width:100%;height:44px;border:1px solid rgba(0,0,0,.12);border-radius:12px;padding:10px 12px;background:#fff;
+    }
+    .date-display:focus{outline:2px solid #10b3d133;border-color:#10b3d1}
+    .dp-pop{
+      position:absolute;
+      left:50%;
+      right:auto;
+      top:50px;
+      z-index:120;
+      width:min(390px,calc(100vw - 32px));
+      max-width:390px;
+      box-sizing:border-box;
+      transform:translateX(-50%);
+      background:#fff;
+      border:1px solid rgba(90,31,168,.15);
+      border-radius:18px;
+      box-shadow:0 18px 48px rgba(31,20,55,.22);
+      padding:14px;
+      display:none;
+    }
+    .dp-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+    .dp-month-nav{display:flex;align-items:center;gap:8px;min-width:0}
+    .dp-month-nav strong{font-weight:800;min-width:150px;text-align:center}
+    .dp-nav-btn{width:34px;height:34px;border-radius:999px;border:1px solid rgba(90,31,168,.16);background:#fff;color:var(--brand);display:grid;place-items:center;cursor:pointer}
+    .dp-nav-btn:hover:not(:disabled){background:#f4effb}
+    .dp-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .dp-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+    .dp-grid .dow{font-size:12px;color:#6b7a7c;text-align:center}
+    .dcell{
+      width:100%;min-width:0;height:36px;padding:0;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;
+      border:1px solid rgba(0,0,0,.06);background:#f8fbfa;font:inherit;
+    }
+    .dcell.block{background:#ffecec;border-color:#f5c2c2;color:#b94a48;cursor:not-allowed}
+    .dcell.ok{background:#eaf6f1;border-color:#cce7db;color:#083}
+    .dcell.ok:hover{filter:brightness(0.98)}
+    .legend{display:flex;gap:8px;margin-top:8px}
+    .legend span{display:inline-flex;gap:6px;align-items:center;font-size:12px}
+    .legend i{width:14px;height:14px;border-radius:6px;display:inline-block;border:1px solid rgba(0,0,0,.08)}
+    .legend .lg-ok i{background:#eaf6f1;border-color:#cce7db}
+    .legend .lg-no i{background:#ffecec;border-color:#f5c2c2}
+
+
+    .schedule-note{
+      margin:10px 0 0;
+      padding:10px 12px;
+      border-left:3px solid var(--accent);
+      border-radius:0 12px 12px 0;
+      background:#f7fbff;
+      color:var(--muted);
+      font-size:.92rem;
+      line-height:1.55;
+    }
+    .schedule-note strong{color:var(--ink)}
+
+    @media(max-width:640px){
+      .dp-pop{
+        position:fixed;
+        left:16px;
+        right:16px;
+        top:50% !important;
+        bottom:auto !important;
+        width:auto;
+        max-width:none;
+        max-height:82vh;
+        overflow:auto;
+        transform:translateY(-50%);
+      }
+      .dp-head{align-items:flex-start;flex-wrap:wrap}
+      .dp-month-nav{width:100%;justify-content:space-between}
+      .dp-month-nav strong{min-width:0;flex:1}
+      .dp-head > #dpClose{margin-left:auto}
+    }
+
+    /* Hizmet Şartları */
+    .terms-wrap{border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:12px;background:#f8fbfc}
+    .terms-title{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+    .terms-title i{color:#0c4e54}
+    .terms-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    .terms-actions .btn{min-height:38px}
+    .terms-summary{margin:6px 0 10px;color:var(--muted);line-height:1.65}
+    .terms-summary strong{color:var(--ink)}
+    .legal-note{margin-top:10px;padding:10px 12px;border-radius:12px;background:#fff;border:1px solid rgba(90,31,168,.12);font-size:.9rem;color:var(--muted)}
+    .legal-note a{font-weight:700}
+
+    dialog#termsModal,
+    dialog#privacyModal,
+    dialog#storyModal,
+    dialog#reviewThanksModal{
+      max-width:900px;width:92%;border-radius:18px;border:1px solid rgba(0,0,0,.1);padding:0;
+    }
+    dialog#termsModal .inner,
+    dialog#privacyModal .inner,
+    dialog#storyModal .inner,
+    dialog#reviewThanksModal .inner{
+      padding:18px;
+    }
+    dialog#termsModal header,
+    dialog#privacyModal header,
+    dialog#storyModal header,
+    dialog#reviewThanksModal header{
+      display:flex;justify-content:space-between;align-items:center;gap:10px;
+    }
+    dialog#termsModal .content,
+    dialog#privacyModal .content,
+    dialog#storyModal .content,
+    dialog#reviewThanksModal .content{
+      max-height:min(65vh,600px);overflow:auto;margin-top:8px;
+    }
+    #reviewThanksModal{max-width:620px}
+    #reviewThanksModal .inner{padding:26px}
+    #reviewThanksModal .review-success-icon{
+      width:64px;height:64px;border-radius:20px;display:grid;place-items:center;
+      margin:0 0 16px;background:linear-gradient(135deg,var(--brand),var(--accent));
+      color:#fff;font-size:1.55rem;box-shadow:0 14px 34px rgba(63,50,155,.24)
+    }
+    #reviewThanksModal .review-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    #reviewThanksModal .review-copy-note{font-size:.9rem;color:var(--muted);margin-top:10px}
+    #reviewThanksModal .btn-google{
+      background:linear-gradient(90deg,#4285f4 0%,#34a853 100%);
+      color:#fff !important;border:0;box-shadow:0 10px 24px rgba(52,168,83,.20)
+    }
+    #reviewThanksModal .btn-google:hover{box-shadow:0 14px 30px rgba(66,133,244,.24)}
+    .feedback-submit-status{min-height:1.35em;margin:10px 0 0;color:var(--muted);font-size:.92rem}
+
+    dialog::backdrop{background:rgba(0,0,0,.25)}
+
+    /* Ara butonu masaüstü balonu */
+    .call-pop{
+      position:fixed;bottom:88px;right:22px;z-index:80;background:#0c4e54;color:#fff;
+      padding:12px 14px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.2);display:none
+    }
+    .call-pop a{color:#fff;text-decoration:underline}
+
+    /* === Onay (consent) butonu === */
+    .consent{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 14px; border:1px solid rgba(0,0,0,.12);
+      border-radius:999px; cursor:pointer; user-select:none;
+      background:#fff; transition:.2s ease;
+      box-shadow:0 2px 10px rgba(0,0,0,.04);
+    }
+    .consent:hover{ box-shadow:0 6px 18px rgba(0,0,0,.08); }
+    .consent:has(input:focus-visible){ outline:2px solid #10b3d133; }
+
+    .consent input{ /* checkbox erişilebilir, görünmez */
+      position:absolute; inline-size:1px; block-size:1px;
+      margin:-1px; padding:0; border:0; clip:rect(0 0 0 0);
+      overflow:hidden; white-space:nowrap;
+    }
+    .consent .icon{
+      inline-size:22px; block-size:22px; border-radius:999px;
+      display:inline-grid; place-items:center;
+      background:#f2f7f6; border:1px solid #cfe7e0;
+      transition:.2s ease; transform:scale(.98);
+    }
+    .consent .icon i{ opacity:0; transform:scale(.6); transition:.18s ease; }
+
+    .consent.is-checked{
+      background:#eaf6f1; border-color:#c9e6d8; color:#0b5137;
+    }
+    .consent.is-checked .icon{
+      background:#16a34a1a; border-color:#8bd1b7; transform:scale(1);
+    }
+    .consent.is-checked .icon i{ opacity:1; transform:scale(1); }
+
+    /* Submit disabled görünümü */
+    button[disabled]{ opacity:.6; cursor:not-allowed; }
+
+    /* SVG sprite içindeki simgelerin her yerde currentColor alması için güvenlik ağı */
+    svg[viewBox] { color: inherit; }
+  </style>
+<!-- === THEME OVERRIDE — Index ile bire bir görünüm === -->
+<style id="theme-elciKonya-override">
+    :root{
+      --brand:#5a1fa8;
+      --brand2:#36106b;
+      --accent:#27d4e8;
+      --ink:#0f1b22;
+      --muted:#5f6b74;
+      --line:#e7edf1;
+      --bg:#f7fbfc;
+      --paper:#fff;
+
+      --footer-start:#241043;
+      --footer-end:#5a1fa8;
+
+      --hero-start:#30105f;
+      --hero-end:#27d4e8;
+
+      --icon-ink: #0a4f60;
+    }
+
+    /* Üst şerit */
+    .header-top{
+      background:linear-gradient(90deg, var(--brand) 0%, var(--brand2) 100%);
+      color:#fff;
+    }
+
+    /* Menü şeridi */
+    .header-main{
+      background:linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--brand), #000 8%) 0%,
+        color-mix(in srgb, var(--brand2), #000 6%) 100%
+      );
+      color:#fff;
+    }
+    nav a{ color:#eaf6f8 }
+    nav a:hover, nav a:focus{ color:#fff }
+    nav a.active{ color:#c0f3ff }
+    nav a::after{ background:#c0f3ff }
+
+    /* Logo metin okunaklılığı (index ile uyumlu) */
+    .header-main .logo-text{
+      display:flex; flex-direction:column; gap:2px;
+      padding:8px 12px; border-radius:14px;
+      background:linear-gradient(90deg, rgba(0,0,0,.24), rgba(0,0,0,.10));
+      box-shadow:0 6px 18px rgba(0,0,0,.18);
+      -webkit-backdrop-filter:saturate(120%) blur(1px);
+      backdrop-filter:saturate(120%) blur(1px);
+    }
+    .header-main .logo-text h1{
+      color:#fff; margin:0; text-shadow:0 2px 10px rgba(0,0,0,.35);
+      letter-spacing:.2px;
+    }
+    .header-main .logo-text span{
+      color:#e8fbff; opacity:.96; text-shadow:0 1px 8px rgba(0,0,0,.3);
+    }
+
+    /* Bu sayfanın hero'sunu index hero’suna taşı */
+    .page-hero{
+      background:
+        radial-gradient(1400px 700px at 85% -160px, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 60%),
+        linear-gradient(120deg, var(--hero-start) 0%, var(--hero-end) 100%) !important;
+      color:#fff;
+    }
+    .page-hero h1{ color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.22); }
+    .page-hero .muted{ color:#e8fbff !important; opacity:.98; }
+
+    /* Chip’ler hero içinde cam/ışık efekti */
+    .page-hero .chip{
+      color:#fff; border-color:rgba(255,255,255,.22);
+      background:rgba(255,255,255,.08);
+      box-shadow:0 6px 18px rgba(0,0,0,.08);
+    }
+    .page-hero .chip:hover{ background:rgba(255,255,255,.14); transform:translateY(-2px); }
+
+    /* Kartların ikon rengi ve hover’ı */
+    .s-icon{ background:rgba(39,212,232,.12); color:var(--icon-ink); }
+    .s-card:hover{ border-color:rgba(39,212,232,.28); box-shadow:0 18px 40px rgba(0,0,0,.12); transform:translateY(-2px); transition:.25s ease; }
+
+    /* Butonlar (index ile aynı akış, daha stabil) */
+    .btn{
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:9px 16px;
+      border-radius:999px;
+      font-weight:600;
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--brand);
+      cursor:pointer;
+      text-decoration:none;
+      transition:
+        background-color .18s ease,
+        color .12s ease,
+        box-shadow .22s ease,
+        transform .18s ease,
+        background-position .35s ease,
+        border-color .18s ease;
+    }
+    .btn i{font-size:.9em;}
+
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 6px 16px rgba(0,0,0,.08);
+      border-color:color-mix(in srgb, var(--line), var(--brand) 10%);
+    }
+    .btn:active{
+      transform:translateY(0);
+      box-shadow:0 2px 6px rgba(0,0,0,.16);
+    }
+
+    .btn.primary,
+    .btn.ghost{
+      background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%);
+      color:#fff !important; border:0;
+      box-shadow:0 8px 22px rgba(16,179,209,.22);
+      background-size:200% 100%;
+      background-position:0% 0%;
+      transition:
+        background-position .35s ease,
+        box-shadow .2s ease,
+        transform .18s ease,
+        color .12s ease;
+    }
+    .btn.primary:hover,
+    .btn.ghost:hover{
+      transform:translateY(-2px);
+      box-shadow:0 12px 28px rgba(16,179,209,.28);
+      background-position:100% 0%;
+    }
+    .btn.primary:active,
+    .btn.ghost:active{
+      transform:translateY(0);
+      box-shadow:0 6px 16px rgba(16,179,209,.26);
+    }
+
+    /* Footer (index ile aynı degrade) */
+    footer.footer-new{
+      background:linear-gradient(135deg, var(--footer-start), var(--footer-end));
+      color:#eaffff;
+    }
+    .footer-links a, .footer-contact a{ color:#eaffff }
+    .footer-bottom{ background:rgba(0,0,0,.18) }
+  </style>
+<!-- *** YAMA: Şikayet & Öneri bölümündeki ghost butonlarda hover/focus/visited durumda yazı kontrastını sabitle *** -->
+<style>
+    #sikayet-oneri .btn.ghost,
+    #sikayet-oneri .btn.ghost:hover,
+    #sikayet-oneri .btn.ghost:focus,
+    #sikayet-oneri .btn.ghost:visited,
+    #sikayet-oneri .btn.ghost:active{
+      color:#fff !important;
+      border:0 !important;
+      background:linear-gradient(90deg, var(--brand) 0%, var(--accent) 100%) !important;
+      text-shadow:0 1px 6px rgba(0,0,0,.25);
+    }
+    #sikayet-oneri .btn.ghost i{ color:currentColor !important; }
+    #sikayet-oneri .btn.ghost:focus-visible{
+      outline:2px solid color-mix(in srgb, var(--accent), #000 20%);
+      outline-offset:2px;
+    }
+  </style>
+<!-- Premium Hasta İlişkileri tasarımı -->
+<style id="patient-relations-premium">
+    :root{
+      --brand:#5a1fa8;
+      --brand2:#36106b;
+      --accent:#27d4e8;
+      --ink:#0f1b22;
+      --muted:#62717b;
+      --line:#e4eaf0;
+      --paper:#fff;
+      --soft:#f6f8fc;
+      --hero-start:#241043;
+      --hero-mid:#36106b;
+      --hero-end:#0f7188;
+      --footer-start:#241043;
+      --footer-end:#5a1fa8;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:112px}
+    body.patient-relations-page{margin:0;color:var(--ink);background:#fff}
+    .container{max-width:1180px;margin:0 auto;padding:0 16px}
+    .skip-link{position:fixed;left:16px;top:-80px;z-index:9999;padding:10px 14px;border-radius:10px;background:#fff;color:var(--brand2);font-weight:800;box-shadow:0 10px 30px rgba(0,0,0,.22)}
+    .skip-link:focus{top:14px}
+
+    /* Ana sayfa ve Hakkımızda ile aynı marka kilidi */
+    .header-top{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff}
+    .header-main{background:linear-gradient(90deg,color-mix(in srgb,var(--brand),#000 8%),color-mix(in srgb,var(--brand2),#000 6%));color:#fff}
+    nav a{color:#eaf6f8}
+    nav a:hover,nav a:focus{color:#fff}
+    nav a.active,nav a[aria-current="page"]{color:#c0f3ff}
+    nav a::after{background:#c0f3ff}
+    .header-main .logo-text{padding:0;border-radius:18px;background:transparent;box-shadow:none;backdrop-filter:none}
+    .brand-lockup{
+      display:flex;align-items:center;gap:12px;min-width:320px;padding:9px 14px 9px 10px;
+      border:1px solid rgba(255,255,255,.20);border-radius:18px;
+      background:linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.045));
+      box-shadow:0 12px 32px rgba(18,5,43,.28),inset 0 1px 0 rgba(255,255,255,.16);
+      color:#fff;text-decoration:none;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
+    }
+    .brand-lockup:hover{transform:translateY(-2px);border-color:rgba(192,243,255,.54);box-shadow:0 16px 38px rgba(18,5,43,.34),inset 0 1px 0 rgba(255,255,255,.20)}
+    .brand-mark{width:54px;height:54px;flex:0 0 54px;display:grid;place-items:center;border-radius:16px;background:linear-gradient(145deg,#fff,#e9faff);box-shadow:0 8px 22px rgba(0,0,0,.22);overflow:hidden}
+    .brand-mark img{width:48px;height:48px;object-fit:contain}
+    .brand-copy{display:flex;flex-direction:column;line-height:1.05}
+    .brand-copy strong{color:#fff;font-size:1.24rem;letter-spacing:.15px;text-shadow:0 2px 10px rgba(0,0,0,.32)}
+    .signature-tagline{position:relative;display:inline-block;width:max-content;font-family:"Great Vibes","Segoe Script","Brush Script MT",cursive;font-weight:400;letter-spacing:.006em;line-height:.94;transform:rotate(-1.7deg);transform-origin:left center;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+    .signature-tagline::after{content:"";position:absolute;left:10%;width:96%;bottom:-.18em;height:2px;border-radius:999px;background:linear-gradient(90deg,transparent 0%,currentColor 14%,currentColor 78%,transparent 100%);opacity:.72;transform:skewX(-24deg) rotate(-1deg);transform-origin:left center;box-shadow:0 1px 5px rgba(0,0,0,.18)}
+    .header-signature{margin-top:7px;color:#dffaff!important;font-size:1.32rem;text-shadow:0 2px 10px rgba(0,0,0,.30)}
+
+    /* Hero */
+    .patient-hero{position:relative;overflow:hidden;padding:70px 0 78px;color:#fff;background:radial-gradient(800px 520px at 92% 12%,rgba(39,212,232,.34),transparent 62%),radial-gradient(620px 420px at 5% 95%,rgba(133,73,214,.28),transparent 65%),linear-gradient(125deg,var(--hero-start) 0%,var(--hero-mid) 42%,var(--hero-end) 100%)}
+    .patient-hero::before{content:"";position:absolute;inset:-36%;background:radial-gradient(circle at 0 0,rgba(255,255,255,.08),transparent 55%),radial-gradient(circle at 100% 100%,rgba(255,255,255,.11),transparent 55%);opacity:.65;pointer-events:none}
+    .patient-hero::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.25;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(90deg,#000,transparent 84%)}
+    .patient-hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.12fr) minmax(330px,.88fr);align-items:center;gap:48px}
+    .patient-hero-copy{max-width:720px}
+    .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;margin:0 0 18px;padding:8px 13px;border:1px solid rgba(255,255,255,.23);border-radius:999px;background:rgba(255,255,255,.10);color:#e8fbff;font-size:.88rem;font-weight:800;letter-spacing:.25px}
+    .patient-hero h1{margin:0;color:#fff;font-size:clamp(44px,6vw,72px);line-height:1.02;letter-spacing:-1.4px;text-shadow:0 3px 20px rgba(0,0,0,.26);text-wrap:balance}
+    .hero-signature{margin:17px 0;color:#e2fbff;font-size:clamp(2.35rem,4.2vw,3.75rem);text-shadow:0 4px 18px rgba(0,0,0,.28)}
+    .hero-divider{width:104px;height:3px;margin:24px 0 22px;border-radius:999px;background:linear-gradient(90deg,var(--accent),#fff)}
+    .hero-sub{max-width:680px;margin:0 0 28px;color:#eafcff;font-size:1.08rem;line-height:1.72}
+    .hero-cta{display:flex;flex-wrap:wrap;gap:11px}
+    .hero-notice{display:flex;align-items:center;gap:8px;margin:18px 0 0;color:#e8fbff;font-size:.91rem}
+
+    .patient-hero-card{position:relative;isolation:isolate;padding:28px;border:1px solid rgba(255,255,255,.26);border-radius:30px;background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.07));box-shadow:0 30px 70px rgba(8,4,26,.34),inset 0 1px 0 rgba(255,255,255,.22);backdrop-filter:blur(14px) saturate(125%);overflow:hidden}
+    .patient-hero-card::before{content:"";position:absolute;inset:1px;z-index:-1;border-radius:29px;background:radial-gradient(circle at 50% 0,rgba(255,255,255,.18),transparent 52%)}
+    .hero-card-kicker{margin:0 0 15px;color:#d9faff;font-size:.78rem;font-weight:850;letter-spacing:1.2px;text-transform:uppercase}
+    .hero-action-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .hero-action{min-height:112px;display:flex;flex-direction:column;justify-content:space-between;gap:12px;padding:16px;border:1px solid rgba(255,255,255,.18);border-radius:18px;background:rgba(255,255,255,.09);color:#fff;text-decoration:none;transition:transform .22s ease,background .22s ease,border-color .22s ease,box-shadow .22s ease}
+    .hero-action:hover{transform:translateY(-4px);background:rgba(255,255,255,.15);border-color:rgba(205,249,255,.48);box-shadow:0 15px 34px rgba(0,0,0,.18)}
+    .hero-action i{width:39px;height:39px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,rgba(90,31,168,.96),rgba(39,212,232,.72));box-shadow:0 10px 24px rgba(0,0,0,.18)}
+    .hero-action strong{font-size:.95rem;line-height:1.25}
+
+    .btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 22px;border-radius:999px;font-weight:750;border:1px solid var(--line);background:#fff;color:var(--brand);cursor:pointer;text-decoration:none;transition:background-position .35s ease,box-shadow .2s ease,transform .18s ease,color .12s ease,border-color .18s ease}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 9px 22px rgba(0,0,0,.11)}
+    .btn.primary{background:linear-gradient(90deg,var(--brand),var(--accent));color:#fff!important;border:0;box-shadow:0 8px 22px rgba(16,179,209,.22);background-size:200% 100%}
+    .btn.primary:hover{background-position:100% 0%;box-shadow:0 12px 28px rgba(16,179,209,.28)}
+    .btn.ghost{background:#ffffff16;color:#fff!important;border-color:#ffffff70}
+    .btn.ghost:hover{background:#ffffff28;border-color:#ffffffb0}
+
+    /* Bölümler */
+    .section{padding:72px 0}
+    .section-soft{background:linear-gradient(180deg,#f7f9fc,#fff)}
+    .section-dark{position:relative;overflow:hidden;background:linear-gradient(135deg,#241043,#401275 56%,#0e6d83);color:#fff}
+    .section-dark::before{content:"";position:absolute;inset:-30%;pointer-events:none;background:radial-gradient(circle at 10% 10%,rgba(39,212,232,.15),transparent 34%),radial-gradient(circle at 90% 85%,rgba(139,77,219,.18),transparent 35%)}
+    .section-dark .container{position:relative;z-index:1}
+    .section-head{max-width:820px;margin-bottom:30px}
+    .section-kicker{display:inline-flex;align-items:center;gap:8px;margin:0 0 12px;color:#66747d;font-size:.82rem;font-weight:850;letter-spacing:1.1px;text-transform:uppercase}
+    .section-dark .section-kicker{color:#d5f9ff}
+    .section-head h2{position:relative;display:inline-block;margin:0;color:var(--ink);font-size:clamp(30px,4.4vw,46px);line-height:1.12;letter-spacing:-.7px}
+    .section-dark .section-head h2{color:#fff}
+    .section-head h2::after{content:"";position:absolute;left:0;bottom:-11px;width:80px;height:3px;border-radius:999px;background:linear-gradient(90deg,var(--brand),var(--accent))}
+    .section-dark .section-head h2::after{background:linear-gradient(90deg,var(--accent),#fff)}
+    .section-head p:last-child{margin:25px 0 0;color:var(--muted);font-size:1.02rem;line-height:1.7}
+    .section-dark .section-head p:last-child{color:#dcf8fb}
+
+    /* Süreç kartları */
+    .process-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
+    .process-card{position:relative;min-height:230px;padding:25px;border:1px solid #e1e7ee;border-radius:24px;background:#fff;box-shadow:0 16px 38px rgba(24,29,52,.08);transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease;overflow:hidden}
+    .process-card::after{content:"";position:absolute;right:-48px;bottom:-58px;width:145px;height:145px;border-radius:50%;background:linear-gradient(145deg,rgba(90,31,168,.06),rgba(39,212,232,.12))}
+    .process-card:hover{transform:translateY(-6px);border-color:rgba(90,31,168,.22);box-shadow:0 24px 48px rgba(24,29,52,.13)}
+    .process-no{display:block;margin-bottom:18px;color:var(--brand);font-size:.76rem;font-weight:950;letter-spacing:1.4px}
+    .process-icon{width:52px;height:52px;display:grid;place-items:center;margin-bottom:18px;border-radius:17px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 12px 28px rgba(54,16,107,.24)}
+    .process-card h3{position:relative;z-index:1;margin:0 0 10px;font-size:1.25rem}
+    .process-card p{position:relative;z-index:1;margin:0;color:var(--muted);line-height:1.65}
+
+    /* Form panelleri */
+    .form-shell{position:relative;overflow:hidden;padding:28px;border:1px solid #dfe6ed;border-radius:28px;background:#fff;box-shadow:0 20px 50px rgba(24,29,52,.09)}
+    .form-shell::before{content:"";position:absolute;top:-130px;right:-120px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(39,212,232,.12),transparent 68%);pointer-events:none}
+    .form{position:relative;z-index:1}
+    .form input,.form select,.form textarea,.date-display{width:100%;border:1px solid #dce4ea!important;border-radius:14px!important;background:#fbfcfe!important;color:var(--ink)!important;min-height:48px;padding:12px 14px!important;box-shadow:none!important;transition:border-color .18s ease,box-shadow .18s ease,background .18s ease}
+    .form textarea{min-height:118px;resize:vertical}
+    .form input:focus,.form select:focus,.form textarea:focus,.date-display:focus{outline:0!important;border-color:rgba(90,31,168,.52)!important;background:#fff!important;box-shadow:0 0 0 4px rgba(90,31,168,.09)!important}
+    .form-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
+    .alert.critical{display:flex;align-items:flex-start;gap:10px;margin:0 0 18px;padding:14px 16px;border:1px solid #f0c5c8;border-radius:16px;background:#fff7f8;color:#7a242a;line-height:1.55}
+    .alert.critical i{margin:3px 0 0;color:#b7353f}
+    .alert.critical a{color:inherit;font-weight:900}
+    .terms-wrap{margin-top:16px;border:1px solid #dfe6ed!important;border-radius:18px!important;padding:16px!important;background:#f7f9fc!important}
+    .consent{background:#fff!important}
+
+    /* İki kolonlu geri bildirim alanları */
+    .feedback-layout{display:grid;grid-template-columns:minmax(0,.68fr) minmax(0,1.32fr);gap:28px;align-items:start}
+    .feedback-aside{position:sticky;top:125px;padding:26px;border:1px solid #e2e8ee;border-radius:24px;background:linear-gradient(145deg,#fff,#f7f9fc);box-shadow:0 16px 38px rgba(24,29,52,.07)}
+    .feedback-aside-icon{width:56px;height:56px;display:grid;place-items:center;margin-bottom:18px;border-radius:18px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 12px 26px rgba(54,16,107,.24);font-size:1.25rem}
+    .feedback-aside h3{margin:0 0 10px;font-size:1.4rem}
+    .feedback-aside p{margin:0;color:var(--muted);line-height:1.7}
+
+
+    .feedback-section .btn.ghost,
+    .complaint-section .btn.ghost{background:linear-gradient(90deg,var(--brand),var(--accent));color:#fff!important;border:0;box-shadow:0 8px 22px rgba(16,179,209,.20)}
+    .feedback-section .btn.ghost:hover,
+    .complaint-section .btn.ghost:hover{background-position:100% 0%;box-shadow:0 12px 28px rgba(16,179,209,.26)}
+
+    /* Başarı hikâyeleri */
+    .success-section .success-highlight .s-card,.success-section .services-grid .s-card{border:1px solid rgba(255,255,255,.22);background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.08));color:#fff;box-shadow:0 18px 44px rgba(0,0,0,.18);backdrop-filter:blur(12px)}
+    .success-section .s-card .s-text,.success-section .tagline,.success-section .meta{color:#dcf8fb!important}
+    .success-section .s-icon{background:linear-gradient(135deg,rgba(90,31,168,.95),rgba(39,212,232,.65));color:#fff;border:1px solid rgba(255,255,255,.20)}
+    .success-section .s-card:hover{transform:translateY(-6px);border-color:rgba(197,247,255,.48);box-shadow:0 26px 54px rgba(0,0,0,.26)}
+    .success-section .s-title{color:#fff}
+
+    /* Footer ve mobil çubuk */
+    footer.footer-new{background:linear-gradient(135deg,var(--footer-start),var(--footer-end));color:#eaffff}
+    .footer-links a,.footer-contact a{color:#eaffff}
+    .footer-bottom{background:rgba(0,0,0,.18)}
+    .mobile-action-bar{display:none}
+
+    @media(max-width:980px){
+      .patient-hero-grid{grid-template-columns:1fr;gap:32px}
+      .patient-hero-card{max-width:760px}
+      .process-grid{grid-template-columns:1fr}
+      .feedback-layout{grid-template-columns:1fr}
+      .feedback-aside{position:static}
+      .brand-lockup{min-width:0}
+    }
+    @media(max-width:700px){
+      .patient-hero{padding:54px 0 60px}
+      .patient-hero h1{font-size:clamp(38px,12vw,54px)}
+      .hero-signature{font-size:clamp(2.05rem,11vw,3rem)}
+      .hero-action-grid{grid-template-columns:1fr 1fr}
+      .section{padding:58px 0}
+      .form-shell{padding:18px;border-radius:22px}
+      .header-top .container{gap:8px}
+      .brand-mark{width:48px;height:48px;flex-basis:48px}
+      .brand-mark img{width:43px;height:43px}
+      .brand-copy strong{font-size:1.02rem}
+      .header-signature{font-size:1.1rem}
+      body{padding-bottom:72px}
+      .mobile-action-bar{position:fixed;left:10px;right:10px;bottom:10px;z-index:999;display:grid;grid-template-columns:repeat(3,1fr);overflow:hidden;border:1px solid rgba(255,255,255,.25);border-radius:20px;background:linear-gradient(135deg,rgba(36,16,67,.96),rgba(90,31,168,.94));box-shadow:0 16px 38px rgba(0,0,0,.28);backdrop-filter:blur(14px)}
+      .mobile-action-bar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:58px;color:#fff;text-decoration:none;font-size:.72rem;font-weight:800}
+      .mobile-action-bar a+a{border-left:1px solid rgba(255,255,255,.17)}
+      .mobile-action-bar i{font-size:1rem;color:#c9f8ff}
+    }
+    @media(max-width:460px){
+      .hero-action-grid{grid-template-columns:1fr}
+      .patient-hero-card{padding:20px}
+      .hero-cta .btn{width:100%}
+      .brand-lockup{padding:7px 9px}
+    }
+  </style>
+<style id="appointment-ajax-v3">
+  .appointment-submit-status{
+    position:fixed;
+    left:50%;
+    top:50%;
+    z-index:10050;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    width:min(430px,calc(100vw - 32px));
+    box-sizing:border-box;
+    padding:16px 18px;
+    border-radius:18px;
+    line-height:1.45;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transform:translate(-50%,-50%) scale(.94);
+    transition:opacity .22s ease,transform .22s ease,visibility .22s ease;
+    box-shadow:0 24px 70px rgba(19,27,38,.28);
+    backdrop-filter:blur(10px);
+  }
+  .appointment-submit-status::before{
+    flex:0 0 42px;
+    width:42px;
+    height:42px;
+    display:grid;
+    place-items:center;
+    border-radius:14px;
+    font-family:"Font Awesome 6 Free";
+    font-weight:900;
+    font-size:1.05rem;
+  }
+  .appointment-submit-status.show{
+    opacity:1;
+    visibility:visible;
+    transform:translate(-50%,-50%) scale(1);
+  }
+  .appointment-submit-status.success{
+    border:1px solid rgba(33,145,85,.28);
+    background:rgba(239,251,244,.97);
+    color:#155c36;
+  }
+  .appointment-submit-status.success::before{
+    content:"00c";
+    background:#d8f3e3;
+    color:#167542;
+  }
+  .appointment-submit-status.error{
+    border:1px solid rgba(197,55,55,.25);
+    background:rgba(255,244,244,.98);
+    color:#842d2d;
+  }
+  .appointment-submit-status.error::before{
+    content:"071";
+    background:#ffe0e0;
+    color:#b72f2f;
+  }
+  .appointment-submit-status strong{
+    display:block;
+    margin-bottom:2px;
+    font-size:1rem;
+  }
+  .appointment-submit-status span{
+    display:block;
+    font-size:.91rem;
+  }
+  form[name="online-randevu"][aria-busy="true"]{
+    opacity:.78;
+    pointer-events:none;
+  }
+  @media(max-width:520px){
+    .appointment-submit-status{
+      top:48%;
+      padding:14px 15px;
+      border-radius:16px;
+    }
+    .appointment-submit-status::before{
+      flex-basis:38px;
+      width:38px;
+      height:38px;
+      border-radius:12px;
+    }
+  }
+</style><link href="/assets/css/elci-system.css?v=20260721" rel="stylesheet"/></head>
+<body class="patient-relations-page">
+<a class="skip-link" href="#ana-icerik">İçeriğe geç</a>
+<!-- ===== SABİT HEADER ===== -->
+<header>
+<div class="header-top">
+<div class="container">
+<div class="header-contact">
+<span><i class="fa-solid fa-location-dot"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</span>
+</div>
+<div class="header-contact">
+<a href="tel:03323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a>
+<a href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> elcivetklinik@gmail.com</a>
+</div>
+</div>
+</div>
+<div class="header-main">
+<div class="container">
+<div class="logo-text">
+<a aria-label="Elçi Veteriner Kliniği ana sayfa" class="brand-lockup" href="/">
+<span class="brand-mark"><img alt="" decoding="async" height="48" loading="eager" src="/assets/img/uploads/elci-logo.png?v=3" width="48"/></span>
+<span class="brand-copy">
+<strong>Elçi Veteriner Kliniği</strong>
+<span class="signature-tagline header-signature">Sağlığın Elçi’leriyiz</span>
+</span>
+</a>
+</div>
+<nav aria-label="Birincil">
+<button aria-label="Menüyü aç/kapat" class="mobile-menu-btn" id="mobileMenuBtn"><i class="fa-solid fa-bars"></i></button>
+<ul id="mainMenu">
+<li><a href="/">Ana Sayfa</a></li>
+<li class="dropdown">
+<a aria-expanded="false" aria-haspopup="true" href="/about">Hakkımızda</a>
+<div class="dropdown-content" role="menu">
+<a href="/about#elci-kimdir" role="menuitem">Elçi Kimdir?</a>
+<a href="/about#ekibimiz" role="menuitem">Ekibimiz</a>
+<a href="/about#klinik" role="menuitem">Kliniğimiz</a>
+<a href="/about#misyon-vizyon" role="menuitem">Misyon &amp; Vizyon</a>
+<a href="/about#degerler" role="menuitem">Değerlerimiz</a>
+</div>
+</li>
+<li class="dropdown">
+<a aria-expanded="false" aria-haspopup="true" href="/hizmetler.html">Hizmetlerimiz</a>
+<div class="dropdown-content" role="menu">
+<a href="/hizmetler.html#acil" role="menuitem">Acil Veteriner</a>
+<a href="/hizmetler.html#koruyucu" role="menuitem">Koruyucu Hekimlik</a>
+<a href="/hizmetler.html#cerrahi" role="menuitem">Cerrahi Operasyonlar</a>
+<a href="/hizmetler.html#agiz-dis" role="menuitem">Ağız ve Diş Sağlığı</a>
+<a href="/hizmetler.html#ic-hastaliklari" role="menuitem">İç Hastalıkları</a>
+<a href="/hizmetler.html#fizik-tedavi" role="menuitem">Fizik Tedavi</a>
+<a href="/hizmetler.html#konaklama" role="menuitem">Konaklama</a>
+</div>
+</li>
+<li><a href="/blog.html">Blog</a></li>
+<li><a href="/sss.html">SSS</a></li>
+<li class="dropdown">
+<a aria-current="page" aria-expanded="false" aria-haspopup="true" class="active" href="/hasta-iliskileri.html">Hasta İlişkileri</a>
+<div class="dropdown-content" role="menu">
+<a href="#online-randevu" role="menuitem">Online Randevu</a>
+<a href="#memnuniyet-anketi" role="menuitem">Memnuniyet Anketi</a>
+<a href="#basari-hikayeleri" role="menuitem">Başarı Hikayeleri</a>
+<a href="#sikayet-oneri" role="menuitem">Şikayet &amp; Öneri</a>
+</div>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</header><div class="site-announcement" hidden="" id="siteAnnouncement"></div>
+<!-- ===== PREMIUM SAYFA KAFA ===== -->
+<main id="ana-icerik">
+<section class="patient-hero">
+<div class="container">
+<div class="patient-hero-grid">
+<div class="patient-hero-copy">
+<p class="hero-eyebrow"><i class="fa-solid fa-heart-pulse"></i> İletişim ve takip merkezi</p>
+<h1>Hasta İlişkileri</h1>
+<p class="signature-tagline hero-signature">Sağlığın Elçi’leriyiz</p>
+<div aria-hidden="true" class="hero-divider"></div>
+<p class="hero-sub">Randevu, geri bildirim ve takip süreçlerinizi tek sayfadan yönetin.</p>
+<div class="hero-cta">
+<a class="btn primary" href="#online-randevu"><i class="fa-solid fa-calendar-check"></i> Randevu Talebi</a>
+<a class="btn ghost" href="tel:+903323223220"><i class="fa-solid fa-phone"></i> Hemen Ara</a>
+<a class="btn ghost" href="https://www.google.com/maps/dir/?api=1&amp;destination=Havzan+Mah.+Yeni+Meram+Cad.+17/1+Meram+Konya" rel="noopener" target="_blank"><i class="fa-solid fa-location-dot"></i> Yol Tarifi</a>
+</div>
+<p class="hero-notice"><i class="fa-solid fa-clock"></i> Her gün 09.00–21.00</p>
+</div>
+<aside aria-label="Hasta ilişkileri hızlı işlemler" class="patient-hero-card">
+<p class="hero-card-kicker">Hızlı işlemler</p>
+<div class="hero-action-grid">
+<a class="hero-action" href="#online-randevu"><i class="fa-solid fa-calendar-days"></i><strong>Online Randevu</strong></a>
+<a class="hero-action" href="#memnuniyet-anketi"><i class="fa-solid fa-face-smile"></i><strong>Memnuniyet Anketi</strong></a>
+<a class="hero-action" href="#basari-hikayeleri"><i class="fa-solid fa-heart"></i><strong>Başarı Hikâyeleri</strong></a>
+<a class="hero-action" href="#sikayet-oneri"><i class="fa-solid fa-comment-dots"></i><strong>Şikâyet ve Öneri</strong></a>
+</div>
+</aside>
+</div>
+</div>
+</section>
+<section class="section section-soft process-section">
+<div class="container">
+<div class="section-head">
+<p class="section-kicker"><i class="fa-solid fa-route"></i> Süreç</p>
+<h2>Nasıl İşliyor?</h2>
+</div>
+<div class="process-grid">
+<article class="process-card">
+<span class="process-no">ADIM 01</span>
+<div class="process-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+<h3>Talebinizi iletin</h3>
+<p>Randevu veya geri bildirim formunu doldurun.</p>
+</article>
+<article class="process-card">
+<span class="process-no">ADIM 02</span>
+<div class="process-icon"><i class="fa-solid fa-phone-volume"></i></div>
+<h3>Teyit için arayalım</h3>
+<p>Uygunluk ve gerekli ön bilgileri telefonla netleştirelim.</p>
+</article>
+<article class="process-card">
+<span class="process-no">ADIM 03</span>
+<div class="process-icon"><i class="fa-solid fa-stethoscope"></i></div>
+<h3>Muayene ve takip</h3>
+<p>Muayene, taburculuk ve kontrol planını birlikte yürütelim.</p>
+</article>
+</div>
+</div>
+</section>
+<!-- ===== ONLINE RANDEVU ===== -->
+<section class="section appointment-section" id="online-randevu">
+<div class="container">
+<div class="section-head">
+<p class="section-kicker"><i class="fa-solid fa-calendar-check"></i> Randevu</p>
+<h2>Online Randevu Talebi</h2>
+<p>Randevu talepleri bugünden en erken 3 gün sonrası ve en fazla 30 gün ileri için alınır.</p>
+</div>
+<div class="form-shell appointment-shell">
+<div class="alert critical" role="alert">
+<i aria-hidden="true" class="fa-solid fa-triangle-exclamation"></i>
+<div><strong>Hayati risk varsa formu beklemeden <a href="tel:03323223220">0332 322 32 20</a> numarasını arayın.</strong><br/>Bu form yalnızca randevu talebi oluşturur; randevu, kliniğimizin telefonla teyidinden sonra kesinleşir.</div>
+</div>
+<form action="/hasta-iliskileri.html?form=success#online-randevu" class="form" data-netlify="true" method="POST" name="online-randevu" netlify-honeypot="bot-field">
+<input name="form-name" type="hidden" value="online-randevu"/>
+<input name="subject" type="hidden" value="Yeni randevu talebi — %{submissionId}"/>
+<input name="form_surumu" type="hidden" value="2026-07-admin-v5"/>
+<input id="talepZamani" name="talep_zamani" type="hidden" value=""/>
+<input id="randevuTarihIso" name="tarih_iso" type="hidden" value=""/>
+<input name="randevu_durumu" type="hidden" value="onay-bekleyen-talep"/>
+<input name="standart_randevu_suresi" type="hidden" value="50 dakika"/>
+<input name="randevular_arasi_hazirlik" type="hidden" value="10 dakika"/>
+<input name="kvkk_aydinlatma_surumu" type="hidden" value="2026-07-21"/>
+<input name="randevu_kosullari_surumu" type="hidden" value="2026-07-21"/>
+<p style="display:none"><label>Bot alanı: <input name="bot-field"/></label></p>
+<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
+<input aria-label="Ad Soyad" autocomplete="name" name="ad" placeholder="Ad Soyad *" required="" type="text"/>
+<input aria-label="Telefon" autocomplete="tel" inputmode="tel" name="tel" pattern="^[0-9+()\\s-]{7,}$" placeholder="Telefon *" required="" type="tel"/>
+<input aria-label="E-posta" autocomplete="email" name="email" placeholder="E-posta *" required="" type="email"/>
+<input aria-label="Hayvanın Adı" name="pet" placeholder="Hayvanın Adı *" required="" type="text"/>
+<select aria-label="Hayvanın Yaşı" id="hayvanYasi" name="hayvan_yasi" required="">
+<option disabled="" selected="" value="">Hayvanın Yaşını Seçiniz *</option>
+<option value="0-3 ay">0–3 ay</option>
+<option value="4-6 ay">4–6 ay</option>
+<option value="7-11 ay">7–11 ay</option>
+<option value="1-3 yaş">1–3 yaş</option>
+<option value="4-5 yaş">4–5 yaş</option>
+<option value="6-8 yaş">6–8 yaş</option>
+<option value="9-11 yaş">9–11 yaş</option>
+<option value="12-14 yaş">12–14 yaş</option>
+<option value="15-17 yaş">15–17 yaş</option>
+<option value="18-20 yaş">18–20 yaş</option>
+<option value="20 yaş üzeri">20 yaş üzeri</option>
+<option value="Bilinmiyor">Yaşı bilinmiyor</option>
+</select>
+<input aria-label="Irk veya Cins" name="irk_cins" placeholder="Irk / Cins (örn. Tekir, British) *" required="" type="text"/>
+<select aria-label="Hayvan Türü" id="hayvanTuru" name="hayvan_turu" required="">
+<option value="">Hayvan Türü</option>
+<option value="Kedi">Kedi</option>
+<option value="Köpek">Köpek</option>
+<option value="Diğer">Diğer</option>
+</select>
+<input autocomplete="off" hidden="" id="digerHayvanTuru" name="hayvan_turu_diger" placeholder="Hayvan türünü yazınız" type="text"/>
+<!-- Özel datepicker -->
+<div class="date-input">
+<input aria-haspopup="dialog" class="date-display" id="randevuTarih" name="tarih" placeholder="gg.aa.yyyy" readonly="" required=""/>
+<div aria-label="Randevu Tarihi Seçici" aria-modal="true" class="dp-pop" id="dp" role="dialog">
+<div class="dp-head">
+<div class="dp-month-nav">
+<button aria-label="Önceki ay" class="dp-nav-btn" id="dpPrev" type="button"><i class="fa-solid fa-chevron-left"></i></button>
+<strong id="dpTitle">Müsaitlik Takvimi</strong>
+<button aria-label="Sonraki ay" class="dp-nav-btn" id="dpNext" type="button"><i class="fa-solid fa-chevron-right"></i></button>
+</div>
+<button class="btn" id="dpClose" type="button">Kapat</button>
+</div>
+<div class="dp-grid" id="dpGrid">
+<!-- JS doldurur -->
+</div>
+<div class="legend">
+<span class="lg-ok"><i></i> Talep alınabilir</span>
+<span class="lg-no"><i></i> Seçilemez</span>
+</div>
+</div>
+</div>
+</div>
+<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
+<select id="hizmetTuru" name="hizmet" required="">
+<option value="">Hizmet Türü</option>
+<option>Genel Muayene</option>
+<option>Aşı &amp; Koruyucu Sağlık</option>
+<option>Kısırlaştırma Operasyonu</option>
+<option>Diş &amp; Ağız Sağlığı</option>
+<option>Laboratuvar &amp; Görüntüleme Yönlendirme</option>
+<option>Laboratuvar (Kan/İdrar)</option>
+<option>Cerrahi Değerlendirme</option>
+<option>Diğer</option>
+</select>
+<select id="randevuSaati" name="tercih_edilen_zaman_araligi" required="">
+<option value="">Tercih Edilen Randevu Saati</option>
+<option value="11:00–11:50">11:00–11:50</option>
+<option value="12:00–12:50">12:00–12:50</option>
+<option value="13:00–13:50">13:00–13:50</option>
+<option value="14:00–14:50">14:00–14:50</option>
+<option value="15:00–15:50">15:00–15:50</option>
+<option value="16:00–16:50">16:00–16:50</option>
+<option value="17:00–17:50">17:00–17:50</option>
+</select>
+</div>
+<p class="schedule-note"><strong>Randevu düzeni:</strong> Standart görüşmeler 50 dakika olarak planlanır ve her randevudan sonra 10 dakikalık hazırlık aralığı bırakılır. Kısırlaştırma seçiminde bu saat, hastanın kliniğe kabulü ve ön değerlendirme talebidir; operasyonun kesin saati ve süresi telefonla ayrıca teyit edilir.</p>
+<textarea name="not" placeholder="Kısaca şikâyet/istek (son 12 saatte ilaç, kusma/ishal, iştah vb.)" rows="4"></textarea>
+<!-- KVKK AYDINLATMA + RANDEVU KOŞULLARI -->
+<div class="terms-wrap">
+<div class="terms-title"><i class="fa-solid fa-shield-heart"></i><strong>KVKK ve Randevu Koşulları</strong></div>
+<p class="terms-summary">
+            Veri sorumlusu <strong>Elçi Veterinerlik Sanayi Ticaret Limited Şirketi</strong>dir; hizmetler <strong>Elçi Veteriner Kliniği</strong> markasıyla sunulur.
+            Aydınlatma metni bilgi vermek içindir ve onaya tabi değildir. Randevu talebini göndermek için yalnızca randevu ve ön bilgilendirme koşullarının kabulü gerekir.
+          </p>
+<div class="terms-actions">
+<button class="btn" id="openPrivacy" type="button"><i class="fa-solid fa-file-shield"></i> KVKK Metnini Gör</button>
+<button class="btn" id="openTerms" type="button"><i class="fa-solid fa-file-signature"></i> Randevu Koşullarını Gör</button>
+<label class="consent" id="termsConsent">
+<input aria-required="true" id="termsCheck" name="randevu_kosullari_kabul" required="" type="checkbox" value="evet"/>
+<span aria-hidden="true" class="icon"><i class="fa-solid fa-check"></i></span>
+<span>Randevu ve ön bilgilendirme koşullarını okudum, kabul ediyorum</span>
+</label>
+</div>
+<div class="legal-note">
+            Bu kabul, yasal tüketici ve hasta sahibi haklarını ortadan kaldırmaz; yalnızca çevrim içi randevu talebi sürecinin işleyişini düzenler.
+          </div>
+</div>
+<div class="form-actions">
+<button class="btn primary" type="submit">Randevu Talep Et</button>
+<a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=Havzan+Mah.+Yeni+Meram+Cad.+17/1+Meram+Konya" id="btnKonum" rel="noopener" target="_blank">
+<i class="fa-solid fa-map-location-dot"></i> Konum
+          </a>
+<a class="btn" href="tel:03323223220" id="btnAra">
+<i class="fa-solid fa-phone"></i> Ara
+          </a>
+</div>
+<div aria-live="polite" class="appointment-submit-status" id="appointmentSubmitStatus" role="status"></div>
+</form>
+</div>
+</div>
+</section>
+<!-- ===== MEMNUNİYET ANKETİ ===== -->
+<section class="section section-soft feedback-section" id="memnuniyet-anketi">
+<div class="container">
+<div class="section-head">
+<p class="section-kicker"><i class="fa-solid fa-face-smile"></i> Geri bildirim</p>
+<h2>Memnuniyet Anketi</h2>
+</div>
+<div class="feedback-layout">
+<aside class="feedback-aside">
+<div class="feedback-aside-icon"><i class="fa-solid fa-heart"></i></div>
+<h3>Deneyiminizi paylaşın</h3>
+<p>Görüşünüz, hizmetimizi geliştirmemize yardımcı olur.</p>
+</aside>
+<div class="form-shell">
+<form class="form" data-netlify="true" method="POST" name="memnuniyet" netlify-honeypot="bot-field">
+<input name="form-name" type="hidden" value="memnuniyet"/>
+<p style="display:none"><label>Bot alanı: <input name="bot-field"/></label></p>
+<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
+<select name="puan" required="">
+<option value="">Memnuniyet Puanınız</option>
+<option>5 - Çok Memnunum</option><option>4</option>
+<option>3</option><option>2</option>
+<option>1 - Memnun Değilim</option>
+</select>
+<input name="ad" placeholder="Adınız (opsiyonel)" type="text"/>
+<input name="pet" placeholder="Evcil Hayvan (opsiyonel)" type="text"/>
+</div>
+<textarea name="yorum" placeholder="Deneyiminizi kısaca yazın" required="" rows="5"></textarea>
+<div class="form-actions">
+<button class="btn primary" type="submit"><i class="fa-solid fa-paper-plane"></i> Geri Bildirimi Gönder</button>
+<a class="btn ghost" href="#basari-hikayeleri"><i class="fa-solid fa-heart"></i> Başarı Hikâyeleri</a>
+</div>
+<p aria-live="polite" class="feedback-submit-status" id="feedbackSubmitStatus"></p>
+</form>
+</div>
+</div>
+</div>
+</section>
+<!-- ===== BAŞARI HİKAYELERİ ===== -->
+<section class="section section-dark success-section" id="basari-hikayeleri">
+<div class="container">
+<div class="section-head">
+<p class="section-kicker"><i class="fa-solid fa-heart-pulse"></i> İyileşme yolculukları</p>
+<h2>Başarı Hikâyeleri</h2>
+</div>
+<!-- Otomatik dönen highlight kart -->
+<div aria-live="polite" class="success-highlight">
+<article class="s-card show" id="successHighlight">
+<!-- JS dolduracak -->
+</article>
+</div>
+<!-- Grid kartlar (dinamik) -->
+<div class="services-grid" id="successGrid">
+<!-- JS dolduracak -->
+</div>
+</div>
+</section>
+<!-- ===== ŞİKAYET & ÖNERİ ===== -->
+<section class="section complaint-section" id="sikayet-oneri">
+<div class="container">
+<div class="section-head">
+<p class="section-kicker"><i class="fa-solid fa-comment-dots"></i> İletişim</p>
+<h2>Şikâyet ve Öneri</h2>
+</div>
+<div class="feedback-layout">
+<aside class="feedback-aside">
+<div class="feedback-aside-icon"><i class="fa-solid fa-comments"></i></div>
+<h3>Sizi dinliyoruz</h3>
+<p>Mesajınız doğrudan değerlendirme sürecine alınır.</p>
+</aside>
+<div class="form-shell">
+<form class="form" data-netlify="true" method="POST" name="sikayet-oneri" netlify-honeypot="bot-field">
+<input name="form-name" type="hidden" value="sikayet-oneri"/>
+<p style="display:none"><label>Bot alanı: <input name="bot-field"/></label></p>
+<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
+<input autocomplete="name" name="ad" placeholder="Ad Soyad" required="" type="text"/>
+<input autocomplete="email" name="email" placeholder="E-posta" required="" type="email"/>
+<select name="konu" required="">
+<option value="">Konu</option>
+<option>Genel Deneyim</option>
+<option>Randevu Süreci</option>
+<option>Muayene/Tedavi</option>
+<option>Ücret &amp; Ödeme</option>
+<option>Diğer</option>
+</select>
+</div>
+<textarea name="mesaj" placeholder="Mesajınız" required="" rows="5"></textarea>
+<div class="form-actions">
+<button class="btn" type="submit">Gönder</button>
+<a class="btn ghost" href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> E-posta</a>
+<a class="btn ghost" href="tel:03323223220"><i class="fa-solid fa-phone"></i> Ara</a>
+</div>
+</form>
+</div>
+</div>
+</div>
+</section>
+</main>
+<div aria-label="Hızlı iletişim" class="mobile-action-bar">
+<a href="tel:+903323223220"><i class="fa-solid fa-phone"></i><span>Ara</span></a>
+<a href="#online-randevu"><i class="fa-solid fa-calendar-check"></i><span>Randevu</span></a>
+<a href="https://www.google.com/maps/dir/?api=1&amp;destination=Havzan+Mah.+Yeni+Meram+Cad.+17/1+Meram+Konya" rel="noopener" target="_blank"><i class="fa-solid fa-location-dot"></i><span>Konum</span></a>
+</div>
+<!-- ===== FOOTER ===== -->
+<footer class="footer-new">
+<div class="container footer-container">
+<div class="footer-col">
+<h3>Elçi Veteriner Kliniği</h3>
+<p>Meram'da açık iletişim, planlı takip ve bilimsel veterinerlik yaklaşımıyla hizmet veriyoruz.</p>
+<div class="social-links">
+<a aria-label="Facebook" href="https://www.facebook.com/elciveteriner" rel="noopener" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+<a aria-label="Instagram" href="https://www.instagram.com/elciveteriner" rel="noopener" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+<a aria-label="Twitter" href="https://twitter.com/elciveteriner" rel="noopener" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+<a aria-label="YouTube" href="https://www.youtube.com/@El%C3%A7iveterinerklini%C4%9Fi" rel="noopener" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+</div>
+</div>
+<div class="footer-col">
+<h3>Hızlı Linkler</h3>
+<ul class="footer-links">
+<li><a href="/">Ana Sayfa</a></li>
+<li><a href="/about">Hakkımızda</a></li>
+<li><a href="/hizmetler.html">Hizmetlerimiz</a></li>
+<li><a href="/blog.html">Blog</a></li>
+<li><a href="/sss.html">SSS</a></li>
+<li><a href="/hasta-iliskileri.html">Hasta İlişkileri</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h3>Konya Veteriner Hizmetlerimiz</h3>
+<ul class="footer-links">
+<li><a href="/hizmetler.html#acil">Konya Acil Veteriner</a></li>
+<li><a href="/hizmetler.html#cerrahi">Konya’da Cerrahi Operasyonlar</a></li>
+<li><a href="/hizmetler.html#agiz-dis">Konya’da Ağız ve Diş Sağlığı</a></li>
+<li><a href="/hizmetler.html#ic-hastaliklari">Konya’da İç Hastalıkları</a></li>
+<li><a href="/hizmetler.html#fizik-tedavi">Konya’da Fizik Tedavi</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h3>Konya İletişim</h3>
+<ul class="footer-contact">
+<li><i class="fa-solid fa-location-dot"></i>
+<a href="https://www.google.com/maps?q=Havzan+Mahallesi,+Yeni+Meram+Caddesi+No:17/1,+Meram/Konya" rel="noopener" target="_blank">Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</a>
+</li>
+<li><i class="fa-solid fa-phone"></i> <a href="tel:03323223220">0332 322 32 20</a></li>
+<li><i class="fa-solid fa-envelope"></i> <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></li>
+<li><i class="fa-solid fa-clock"></i> <span>Her gün: 09:00–21:00</span></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom"><div class="container"><p>© <span id="yil"></span> Elçi Veteriner Kliniği — Konya. Tüm hakları saklıdır.</p></div></div>
+</footer>
+<!-- Schema.org -->
+<script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"ContactPage",
+        "@id":"https://elciveteriner.com/hasta-iliskileri.html#webpage",
+        "url":"https://elciveteriner.com/hasta-iliskileri.html",
+        "name":"Randevu ve Hasta İlişkileri | Elçi Veteriner Kliniği",
+        "description":"En erken üç gün sonrası için randevu talebi, geri bildirim ve hasta iletişim alanı.",
+        "isPartOf":{"@id":"https://elciveteriner.com/#website"},
+        "about":{"@id":"https://elciveteriner.com/#clinic"}
+      },
+      {
+        "@type":"VeterinaryCare",
+        "@id":"https://elciveteriner.com/#clinic",
+        "name":"Elçi Veteriner Kliniği",
+        "legalName":"Elçi Veterinerlik Sanayi Ticaret Limited Şirketi",
+        "url":"https://elciveteriner.com/",
+        "telephone":"+903323223220",
+        "image":"https://elciveteriner.com/assets/img/uploads/elci-logo.png",
+        "address":{
+          "@type":"PostalAddress",
+          "streetAddress":"Havzan Mah. Yeni Meram Cad. 17/1",
+          "addressLocality":"Meram",
+          "addressRegion":"Konya",
+          "addressCountry":"TR"
+        },
+        "openingHoursSpecification":[{
+          "@type":"OpeningHoursSpecification",
+          "dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+          "opens":"09:00",
+          "closes":"21:00"
+        }]
+      }
+    ]
+  }
+  </script>
+<!-- SVG ICON SPRITE -->
+<svg aria-hidden="true" focusable="false" height="0" style="position:absolute;visibility:hidden" width="0">
+<symbol id="i-clipboard" viewbox="0 0 24 24"><path d="M9 2h6a2 2 0 0 1 2 2h2a2 2 0 0 1 2 2v13a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2-2Zm1 3h4V4h-4v1Z" fill="currentColor"></path></symbol>
+<symbol id="i-phone-bubble" viewbox="0 0 24 24"><path d="M20 2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-3l-4 3v-3H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12Z" fill="currentColor"></path></symbol>
+<symbol id="i-stethoscope" viewbox="0 0 24 24"><path d="M6 3h2v6a4 4 0 1 0 8 0V3h2v6a6 6 0 0 1-5 5.92V19a3 3 0 0 0 6 0h2a5 5 0 1 1-10 0v-4.08A6 6 0 0 1 6 9V3Z" fill="currentColor"></path></symbol>
+<symbol id="i-paw" viewbox="0 0 24 24"><path d="M12 13c3 0 6 2 6 4.5S15 22 12 22s-6-1.5-6-4.5S9 13 12 13Zm-5-2a2 2 0 1 1 0-4 2 2 0 0 1 0 4Zm10 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4ZM9 4a2 2 0 1 1-3-2 2 2 0 0 1 3 2Zm9 0a2 2 0 1 1-3-2 2 2 0 0 1 3 2Z" fill="currentColor"></path></symbol>
+<symbol id="i-xray" viewbox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v4H3V5a2 2 0 0 1 2-2h12Z" fill="currentColor"></path></symbol>
+<symbol id="i-tooth-clean" viewbox="0 0 24 24"><path d="M12 2c4 0 7 3 7 6.5C19 13 16 18 12 22c-4-4-7-9-7-13.5C5 5 8 2 12 2Zm4 6-2 2-2-2" fill="currentColor"></path></symbol>
+</svg>
+<!-- Tek JS -->
+<script defer="" src="/assets/js/main.js?v=18"></script>
+<!-- Sayfa içi JS -->
+<script>
+  (function(){
+    // Footer yılı
+    const yil = document.getElementById('yil'); 
+    if(yil){ yil.textContent = new Date().getFullYear(); }
+
+    /* ===== Datepicker: en erken +3 gün, en fazla +30 gün ===== */
+    const input = document.getElementById('randevuTarih');
+    const isoInput = document.getElementById('randevuTarihIso');
+    const pop   = document.getElementById('dp');
+    const grid  = document.getElementById('dpGrid');
+    const title = document.getElementById('dpTitle');
+    const closeBtn = document.getElementById('dpClose');
+    const prevBtn = document.getElementById('dpPrev');
+    const nextBtn = document.getElementById('dpNext');
+
+    /* ===== Hayvan türü: "Diğer" seçildiğinde elle giriş ===== */
+    const hayvanTuru = document.getElementById('hayvanTuru');
+    const digerHayvanTuru = document.getElementById('digerHayvanTuru');
+
+    function syncOtherAnimalType(){
+      if (!hayvanTuru || !digerHayvanTuru) return;
+      const isOther = hayvanTuru.value === 'Diğer';
+      digerHayvanTuru.hidden = !isOther;
+      digerHayvanTuru.required = isOther;
+      digerHayvanTuru.disabled = !isOther;
+      if (!isOther) digerHayvanTuru.value = '';
+      if (isOther) {
+        requestAnimationFrame(() => digerHayvanTuru.focus());
+      }
+    }
+
+    if (hayvanTuru && digerHayvanTuru){
+      hayvanTuru.addEventListener('change', syncOtherAnimalType);
+      syncOtherAnimalType();
+    }
+
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const min = new Date(today);
+    min.setDate(min.getDate() + 3);
+    const max = new Date(today);
+    max.setDate(max.getDate() + 30);
+
+    // Resmî tatil veya özel kapanış günleri gerektiğinde ISO formatında eklenebilir.
+    const blockedDates = new Set([]); // Örnek: ['2026-07-24']
+    let currentMonth = new Date(min.getFullYear(), min.getMonth(), 1);
+
+    function fmt(d){
+      const dd = String(d.getDate()).padStart(2,'0');
+      const mm = String(d.getMonth()+1).padStart(2,'0');
+      const yy = d.getFullYear();
+      return dd+'.'+mm+'.'+yy;
+    }
+    function iso(d){
+      const mm = String(d.getMonth()+1).padStart(2,'0');
+      const dd = String(d.getDate()).padStart(2,'0');
+      return `${d.getFullYear()}-${mm}-${dd}`;
+    }
+    function monthKey(d){ return d.getFullYear()*12 + d.getMonth(); }
+
+    function render(monthDate){
+      grid.innerHTML = '';
+      const y = monthDate.getFullYear();
+      const m = monthDate.getMonth();
+      const first = new Date(y, m, 1);
+      const startDow = (first.getDay()+6)%7;
+      const monthName = monthDate.toLocaleDateString('tr-TR', {month:'long', year:'numeric'});
+      title.textContent = monthName.charAt(0).toUpperCase()+monthName.slice(1);
+      const lastDay = new Date(y, m+1, 0).getDate();
+
+      ['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'].forEach(d=>{
+        const el = document.createElement('div'); el.textContent=d; el.className='dow'; grid.appendChild(el);
+      });
+      for(let i=0;i<startDow;i++){ grid.appendChild(document.createElement('div')); }
+
+      for(let day=1; day<=lastDay; day++){
+        const d = new Date(y,m,day); d.setHours(0,0,0,0);
+        const isBlocked = d < min || d > max || blockedDates.has(iso(d));
+        const cell = document.createElement('button');
+        cell.type='button';
+        cell.className='dcell '+(!isBlocked ? 'ok':'block');
+        cell.textContent=day;
+        cell.setAttribute('aria-label', fmt(d));
+        cell.disabled = isBlocked;
+        cell.addEventListener('click', ()=> {
+          if(isBlocked) return;
+          input.value = fmt(d);
+          if (isoInput) isoInput.value = iso(d);
+          pop.style.display='none';
+          input.focus();
+        });
+        grid.appendChild(cell);
+      }
+
+      if (prevBtn) prevBtn.disabled = monthKey(monthDate) <= monthKey(min);
+      if (nextBtn) nextBtn.disabled = monthKey(monthDate) >= monthKey(max);
+    }
+
+    function openDP(){
+      currentMonth = input && input.value && isoInput && isoInput.value
+        ? new Date(isoInput.value + 'T00:00:00')
+        : new Date(min.getFullYear(), min.getMonth(), 1);
+      currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+      render(currentMonth);
+      pop.style.display='block';
+      const rect = input.getBoundingClientRect();
+      if(window.matchMedia('(max-width:640px)').matches){
+        pop.style.top='50%';
+        pop.style.bottom='auto';
+      } else if(window.innerHeight - rect.bottom < 350){
+        pop.style.top='auto';
+        pop.style.bottom='52px';
+      } else {
+        pop.style.top='50px';
+        pop.style.bottom='auto';
+      }
+    }
+
+    if(input){
+      input.addEventListener('click', openDP);
+      input.addEventListener('focus', openDP);
+    }
+    if(prevBtn){
+      prevBtn.addEventListener('click', ()=>{
+        const candidate = new Date(currentMonth.getFullYear(), currentMonth.getMonth()-1, 1);
+        if(monthKey(candidate) >= monthKey(min)){ currentMonth = candidate; render(currentMonth); }
+      });
+    }
+    if(nextBtn){
+      nextBtn.addEventListener('click', ()=>{
+        const candidate = new Date(currentMonth.getFullYear(), currentMonth.getMonth()+1, 1);
+        if(monthKey(candidate) <= monthKey(max)){ currentMonth = candidate; render(currentMonth); }
+      });
+    }
+    if(closeBtn){ closeBtn.addEventListener('click', ()=> pop.style.display='none'); }
+    document.addEventListener('click', (e)=>{
+      if(pop && !pop.contains(e.target) && e.target!==input){ pop.style.display='none'; }
+    });
+
+    /* ===== KVKK Aydınlatma Metni (onay değil, bilgilendirme) ===== */
+    const privacyModal = document.createElement('dialog');
+    privacyModal.id = 'privacyModal';
+    privacyModal.innerHTML = `
+      <div class="inner">
+        <header>
+          <h3 style="margin:0">Kişisel Verilerin İşlenmesine İlişkin Aydınlatma Metni</h3>
+          <form method="dialog"><button class="btn">Kapat</button></form>
+        </header>
+        <div class="content muted">
+          <p><strong>Metin sürümü:</strong> 14.07.2026</p>
+          <h4>1) Veri Sorumlusu</h4>
+          <p>6698 sayılı Kişisel Verilerin Korunması Kanunu (“KVKK”) kapsamında veri sorumlusu; <strong>Elçi Veterinerlik Sanayi Ticaret Limited Şirketi</strong>dir. Şirket, veteriner sağlık hizmetlerini <strong>Elçi Veteriner Kliniği</strong> markasıyla sunmaktadır.</p>
+          <p><strong>Adres:</strong> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya<br>
+          <strong>Telefon:</strong> <a href="tel:+903323223220">0332 322 32 20</a><br>
+          <strong>E-posta:</strong> <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></p>
+
+          <h4>2) İşlenen Kişisel Veri Kategorileri</h4>
+          <ul>
+            <li>Kimlik ve iletişim verileri: ad-soyad, telefon, e-posta.</li>
+            <li>Randevu ve işlem verileri: talep tarihi, tercih edilen gün ve randevu saati, hizmet türü, form notları ve iletişim kayıtları.</li>
+            <li>Evcil hayvana ilişkin, sahibiyle ilişkilendirilebilen bilgiler: tür, ırk, kilo, mikroçip numarası, şikâyet ve bakım bilgileri.</li>
+            <li>İşlem güvenliği verileri: form gönderim zamanı ile barındırma ve güvenlik altyapısınca oluşturulabilen teknik kayıtlar.</li>
+          </ul>
+          <p>Lütfen formun serbest metin alanına kendinize veya üçüncü kişilere ait gereksiz özel nitelikli kişisel veri yazmayın.</p>
+
+          <h4>3) Kişisel Verilerin İşlenme Amaçları</h4>
+          <ul>
+            <li>Randevu talebinin alınması, değerlendirilmesi ve telefonla teyit edilmesi,</li>
+            <li>Veteriner sağlık hizmetinin planlanması ve yürütülmesi,</li>
+            <li>Hasta sahibiyle hizmete ilişkin iletişim kurulması ve kontrol süreçlerinin yönetilmesi,</li>
+            <li>Memnuniyet, şikâyet ve önerilerin değerlendirilmesi,</li>
+            <li>Bilgi güvenliği, işlem güvenliği, uyuşmazlıkların yönetimi ve hukuki yükümlülüklerin yerine getirilmesi.</li>
+          </ul>
+
+          <h4>4) Hukuki Sebepler ve Toplama Yöntemi</h4>
+          <p>Veriler; web formları, telefon, e-posta ve yüz yüze iletişim yoluyla otomatik, kısmen otomatik veya veri kayıt sisteminin parçası olmak kaydıyla otomatik olmayan yöntemlerle toplanır. İşleme faaliyetleri, somut faaliyete göre KVKK’nın 5’inci maddesindeki sözleşmenin kurulması veya ifası, hukuki yükümlülüğün yerine getirilmesi, bir hakkın tesisi/kullanılması/korunması ve veri sorumlusunun meşru menfaati hukuki sebeplerine dayanır. Açık rıza gerektiren farklı bir faaliyet olursa ayrıca ve isteğe bağlı olarak açık rıza istenir.</p>
+
+          <h4>5) Aktarım</h4>
+          <p>Veriler; yalnızca amaçla sınırlı olmak üzere yetkili şirket ve klinik çalışanlarına, teknik altyapı/form/e-posta hizmet sağlayıcılarına, hukuk ve mali danışmanlara ve mevzuatın gerektirdiği yetkili kamu kurumlarına aktarılabilir. Yurt dışına aktarım söz konusu olduğunda KVKK’nın 9’uncu maddesinde öngörülen şartlar ve uygun güvence mekanizmaları uygulanır.</p>
+
+          <h4>6) Saklama ve İmha</h4>
+          <p>Veriler, işleme amacının gerektirdiği süre ve ilgili mevzuatta öngörülen saklama süreleri boyunca muhafaza edilir; amaç ve hukuki sebep sona erdiğinde silinir, yok edilir veya anonim hâle getirilir. Hizmete dönüşmeyen randevu talepleri de gereksiz şekilde süresiz saklanmaz.</p>
+
+          <h4>7) KVKK Kapsamındaki Haklarınız</h4>
+          <p>KVKK’nın 11’inci maddesi kapsamındaki bilgi alma, düzeltme, silme/yok etme, aktarılan üçüncü kişileri öğrenme, otomatik sonuçlara itiraz ve zararın giderilmesini talep etme haklarınızı kullanabilirsiniz. Başvurularınızı kimliğinizi doğrulayacak bilgi ve belgelerle şirket adresine yazılı olarak veya daha önce sistemimizde kayıtlı bulunan e-posta adresiniz üzerinden <a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a> adresine iletebilirsiniz.</p>
+
+          <h4>8) Aydınlatma ve Açık Rıza Ayrımı</h4>
+          <p>Bu metin bir açık rıza metni değildir. Randevu hizmetinin sunulmasıyla ilgisi olmayan pazarlama, sosyal medya paylaşımı veya benzeri amaçlar için gerekli olması hâlinde ayrıca, belirli ve isteğe bağlı açık rıza alınır.</p>
+        </div>
+        <form method="dialog" style="display:flex;justify-content:flex-end;margin-top:12px">
+          <button class="btn primary" value="close">Kapat</button>
+        </form>
+      </div>`;
+    document.body.appendChild(privacyModal);
+
+    /* ===== Randevu ve Ön Bilgilendirme Koşulları ===== */
+    const termsModal = document.createElement('dialog');
+    termsModal.id = 'termsModal';
+    termsModal.innerHTML = `
+      <div class="inner">
+        <header>
+          <h3 style="margin:0">Randevu ve Ön Bilgilendirme Koşulları</h3>
+          <form method="dialog"><button class="btn">Kapat</button></form>
+        </header>
+        <div class="content muted">
+          <p><strong>Metin sürümü:</strong> 14.07.2026</p>
+          <h4>1) Talebin Niteliği ve Kesinleşme</h4>
+          <p>Çevrim içi form, kesin randevu oluşturmaz. Seçilen tarih ve saat bir <strong>tercih/talep</strong> niteliğindedir. Randevu, Elçi Veteriner Kliniği tarafından telefonla teyit edilip tarih ve saat açıkça bildirildiğinde kesinleşir. Teyit alınmadan kliniğe gelinmesi hâlinde bekleme veya başka bir güne planlama gerekebilir.</p>
+
+          <h4>2) Tarih, Saat ve Kapasite Sınırı</h4>
+          <p>Form üzerinden yalnızca bugünden itibaren <strong>en erken 3 gün sonrası</strong> ve <strong>en fazla 30 gün ileri</strong> için; 11.00–18.00 çalışma aralığındaki yayımlanmış saatlerden talep oluşturulabilir. Resmî tatil, özel çalışma saati, teknik arıza, personel durumu, acil vakalar veya klinik kapasitesi nedeniyle alternatif tarih/saat önerilebilir ya da talep reddedilebilir.</p>
+
+          <h4>3) Standart Süre, Hazırlık Aralığı ve Operasyon Talepleri</h4>
+          <p>Standart muayene ve görüşme randevuları <strong>50 dakika</strong> olarak planlanır; sonraki hasta için hazırlık ve düzenleme amacıyla <strong>10 dakika</strong> ara bırakılır. Bu süreler planlama ölçüsüdür; acil vakalar, hastanın klinik durumu veya gerekli işlemler nedeniyle başlangıç ve bitiş saatleri değişebilir. <strong>Kısırlaştırma operasyonu</strong> seçildiğinde formda belirtilen saat, hastanın kliniğe kabulü ve ön değerlendirme için tercih edilen saattir; operasyonun kesin zamanı, açlık hazırlığı, gerekli tetkikler, süresi ve taburculuk planı telefonla ayrıca teyit edilir.</p>
+
+          <h4>4) Acil ve Hayati Riskli Durumlar</h4>
+          <p>Bu form acil triyaj veya acil müdahale kanalı değildir. Solunum güçlüğü, bilinç kaybı, kontrolsüz kanama, zehirlenme şüphesi, nöbet, travma veya benzeri hayati risklerde form yanıtını beklemeyin; çalışma saatlerinde <a href="tel:+903323223220">0332 322 32 20</a> numarasını arayın. Kliniğe ulaşılamıyorsa en yakın kesintisiz acil hizmet sunan merkeze başvurun.</p>
+
+          <h4>5) Her Talep İçin Tek Hasta</h4>
+          <p>Her randevu talebi tek bir evcil hayvan içindir. Birden fazla hayvan için ayrı form oluşturulması, yeterli zaman planlanabilmesi açısından gereklidir.</p>
+
+          <h4>6) Bilgilerin Doğruluğu ve Klinik Değerlendirme</h4>
+          <p>Hasta sahibi; bilinen hastalıklar, kullanılan ilaçlar, alerji/reaksiyon öyküsü, gebelik ihtimali, saldırganlık veya ısırma riski ve son gelişmeler hakkında doğru ve eksiksiz bilgi vermelidir. Form üzerinden tanı konulmaz, reçete düzenlenmez ve tedavi garantisi verilmez. Tanı ve tedavi planı klinik muayene ve gerekli görülen tetkikler sonrasında belirlenir.</p>
+
+          <h4>7) Saat, Gecikme ve İptal</h4>
+          <p>Hasta sahibinin teyit edilen saatten yaklaşık 10 dakika önce klinikte olması önerilir. Randevular 50 dakikalık planlandığından, on beş dakikayı aşan gecikmeler kalan muayene süresini azaltabilir veya sonraki randevuların aksamaması için bekleme ya da yeniden planlama sonucunu doğurabilir. Gelemeyeceğiniz randevuyu mümkünse en az 6 saat önce bildirmeniz rica olunur.</p>
+
+          <h4>8) Ücret ve Ek İşlemler</h4>
+          <p>Formda veya telefon görüşmesinde verilen bilgiler kesin fiyat teklifi değildir. Muayene, tetkik, ilaç, sarf, anestezi, cerrahi ve diğer işlemler ayrı ücretlendirilebilir. Planlanan ek işlemler ve önemli maliyet değişiklikleri, uygulanmadan önce hasta sahibine açıklanır ve onayı alınır; mevzuattan doğan zorunluluklar saklıdır.</p>
+
+          <h4>9) Yönlendirme ve Hizmet Sınırları</h4>
+          <p>Kliniğin teknik imkânını veya izlem kapasitesini aşan ileri görüntüleme, yoğun bakım, kesintisiz takip veya uzmanlık gerektiren durumlarda hasta sahibi bilgilendirilerek uygun merkeze yönlendirme yapılabilir. Yönlendirme, hastanın ihtiyacına göre güvenli hizmet planlamasının bir parçasıdır.</p>
+
+          <h4>10) İletişim</h4>
+          <p>Randevu teyidi, saat değişikliği, hizmete ilişkin ön bilgi ve kontrol hatırlatması için telefon veya e-posta yoluyla iletişim kurulabilir. Bu iletişim pazarlama amacı taşımaz. Kampanya veya tanıtım iletileri için ayrıca gerekli izin alınır.</p>
+
+          <h4>11) Kanuni Haklar</h4>
+          <p>Bu koşullar, hasta sahibinin tüketici mevzuatı ve diğer kanunlardan doğan haklarını ortadan kaldırmaz; kliniğin kanundan doğan sorumluluğunu bertaraf eden bir feragat veya sorumsuzluk kaydı niteliğinde değildir.</p>
+        </div>
+        <form method="dialog" style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px">
+          <button class="btn" value="cancel">Kapat</button>
+          <button class="btn primary" value="ok">Koşulları Okudum ve Kabul Ediyorum</button>
+        </form>
+      </div>`;
+    document.body.appendChild(termsModal);
+
+    const openPrivacy = document.getElementById('openPrivacy');
+    const openTerms = document.getElementById('openTerms');
+    const termsCheck = document.getElementById('termsCheck');
+    const submitBtn  = document.querySelector('form[name="online-randevu"] button[type="submit"]');
+    const appointmentForm = document.querySelector('form[name="online-randevu"]');
+    const consentWrap= document.getElementById('termsConsent');
+    const requestTime = document.getElementById('talepZamani');
+
+    function syncConsentUI(){
+      const checked = termsCheck && termsCheck.checked;
+      if (submitBtn) submitBtn.disabled = !checked;
+      if (consentWrap) consentWrap.classList.toggle('is-checked', !!checked);
+    }
+    if (termsCheck){ termsCheck.addEventListener('change', syncConsentUI); syncConsentUI(); }
+    if(openPrivacy){ openPrivacy.addEventListener('click', ()=> privacyModal.showModal()); }
+    if(openTerms){ openTerms.addEventListener('click', ()=> termsModal.showModal()); }
+    termsModal.addEventListener('close', ()=>{
+      if(termsModal.returnValue==='ok' && termsCheck){
+        termsCheck.checked = true;
+        termsCheck.dispatchEvent(new Event('change', {bubbles:true}));
+      }
+    });
+
+    let appointmentStatusTimer = 0;
+
+    function setAppointmentStatus(type,title,message){
+      const statusEl = document.getElementById('appointmentSubmitStatus');
+      if(!statusEl) return;
+
+      window.clearTimeout(appointmentStatusTimer);
+      statusEl.className = `appointment-submit-status ${type}`;
+      statusEl.innerHTML = `<div><strong>${title}</strong><span>${message}</span></div>`;
+
+      void statusEl.offsetWidth;
+      statusEl.classList.add('show');
+
+      const visibleDuration = type === 'success' ? 4500 : 6500;
+      appointmentStatusTimer = window.setTimeout(()=>{
+        statusEl.classList.remove('show');
+      }, visibleDuration);
+    }
+
+    if(appointmentForm){
+      const query=new URLSearchParams(window.location.search);
+      if(query.get('form')==='success'){
+        setAppointmentStatus('success','Randevu talebiniz alınmıştır.','Tarih ve saat telefonla teyit edilecektir.');
+        history.replaceState({},'',location.pathname+'#online-randevu');
+      }
+      appointmentForm.addEventListener('submit',async(e)=>{
+        e.preventDefault();
+        if(requestTime)requestTime.value=new Date().toISOString();
+        if(!isoInput||!isoInput.value){alert('Lütfen takvimden geçerli bir randevu tarihi seçin.');input?.focus();return}
+        const selected=new Date(isoInput.value+'T00:00:00');
+        if(selected<min||selected>max||blockedDates.has(isoInput.value)){input.value='';isoInput.value='';alert('Randevu tarihi bugünden en erken 3 gün sonrası ve en fazla 30 gün ileri olmalıdır.');input?.focus();return}
+        if(hayvanTuru?.value==='Diğer'&&!digerHayvanTuru?.value.trim()){alert('Lütfen hayvan türünü yazın.');digerHayvanTuru?.focus();return}
+        if(!termsCheck?.checked){alert('Randevu ve ön bilgilendirme koşullarını kabul etmeniz gerekir.');termsCheck?.focus();return}
+        const submit=appointmentForm.querySelector('button[type="submit"]'),oldText=submit?.textContent||'Randevu Talep Et';
+        try{
+          appointmentForm.setAttribute('aria-busy','true');if(submit){submit.disabled=true;submit.textContent='Gönderiliyor…'}
+          const body=new URLSearchParams(new FormData(appointmentForm)).toString();
+          const response=await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},body});
+          if(!response.ok)throw new Error(`Gönderim hatası: ${response.status}`);
+          setAppointmentStatus('success','Randevu talebiniz alınmıştır.','Tarih ve saat telefonla teyit edilecektir.');
+          appointmentForm.reset();if(input)input.value='';if(isoInput)isoInput.value='';if(digerHayvanTuru){digerHayvanTuru.hidden=true;digerHayvanTuru.required=false}syncConsentUI();
+        }catch(error){console.error('Randevu gönderimi başarısız:',error);setAppointmentStatus('error','Talebiniz gönderilemedi.','İnternet bağlantınızı kontrol edip tekrar deneyin. Acil durumlarda 0332 322 32 20 numarasını arayın.')}
+        finally{appointmentForm.removeAttribute('aria-busy');if(submit){submit.disabled=!termsCheck?.checked;submit.textContent=oldText}}
+      });
+    }
+
+
+    /* ===== Memnuniyet formu: kayıt + herkese eşit Google değerlendirme daveti ===== */
+    const feedbackForm = document.querySelector('form[name="memnuniyet"]');
+    const feedbackStatus = document.getElementById('feedbackSubmitStatus');
+    const GOOGLE_BUSINESS_URL = 'https://search.google.com/local/writereview?placeid=ChIJzbfmOCWF0BQR057WeH-3cl8&source=g.page.m.nr._&laa=nmx-review-solicitation-recommendation-card';
+    let lastFeedbackText = '';
+
+    const reviewThanksModal = document.createElement('dialog');
+    reviewThanksModal.id = 'reviewThanksModal';
+    reviewThanksModal.innerHTML = `
+      <div class="inner">
+        <header>
+          <div>
+            <div class="review-success-icon" aria-hidden="true"><i class="fa-solid fa-circle-check"></i></div>
+            <h3 style="margin:0 0 7px">Geri bildiriminiz bize ulaştı</h3>
+            <p class="muted" style="margin:0">Teşekkür ederiz. Deneyiminizi Google'da da paylaşmanız, bölgemizde veteriner arayan hayvan sahiplerinin doğru bilgiye ulaşmasına yardımcı olur.</p>
+          </div>
+          <form method="dialog"><button class="btn" aria-label="Pencereyi kapat">Kapat</button></form>
+        </header>
+        <div class="review-actions">
+          <button class="btn" type="button" id="copyFeedbackBtn"><i class="fa-regular fa-copy"></i> Yorum Metnini Kopyala</button>
+          <a class="btn btn-google" id="googleReviewBtn" href="${GOOGLE_BUSINESS_URL}" target="_blank" rel="noopener"><i class="fa-brands fa-google"></i> Google'da Değerlendir</a>
+        </div>
+        <p class="review-copy-note">Google yorumu, yalnızca sizin Google hesabınızdan ve sizin onayınızla yayımlanır. Bu davet verilen puandan bağımsız olarak herkese gösterilir.</p>
+      </div>`;
+    document.body.appendChild(reviewThanksModal);
+
+    const copyFeedbackBtn = reviewThanksModal.querySelector('#copyFeedbackBtn');
+    if (copyFeedbackBtn){
+      copyFeedbackBtn.addEventListener('click', async ()=>{
+        if (!lastFeedbackText) return;
+        try{
+          await navigator.clipboard.writeText(lastFeedbackText);
+          copyFeedbackBtn.innerHTML = '<i class="fa-solid fa-check"></i> Kopyalandı';
+          setTimeout(()=>{ copyFeedbackBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Yorum Metnini Kopyala'; }, 2200);
+        }catch(err){
+          const helper = document.createElement('textarea');
+          helper.value = lastFeedbackText;
+          helper.setAttribute('readonly','');
+          helper.style.position = 'fixed';
+          helper.style.opacity = '0';
+          document.body.appendChild(helper);
+          helper.select();
+          document.execCommand('copy');
+          helper.remove();
+          copyFeedbackBtn.innerHTML = '<i class="fa-solid fa-check"></i> Kopyalandı';
+        }
+      });
+    }
+
+    if (feedbackForm){
+      feedbackForm.addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        if (!feedbackForm.reportValidity()) return;
+
+        const submit = feedbackForm.querySelector('button[type="submit"]');
+        const formData = new FormData(feedbackForm);
+        lastFeedbackText = String(formData.get('yorum') || '').trim();
+        const body = new URLSearchParams();
+        formData.forEach((value, key)=> body.append(key, String(value)));
+
+        if (submit){ submit.disabled = true; submit.setAttribute('aria-busy','true'); }
+        if (feedbackStatus) feedbackStatus.textContent = 'Geri bildiriminiz güvenli biçimde gönderiliyor…';
+
+        try{
+          const response = await fetch('/', {
+            method:'POST',
+            headers:{'Content-Type':'application/x-www-form-urlencoded'},
+            body:body.toString()
+          });
+          if (!response.ok) throw new Error('Form gönderilemedi');
+
+          feedbackForm.reset();
+          if (feedbackStatus) feedbackStatus.textContent = '';
+          reviewThanksModal.showModal();
+        }catch(err){
+          console.error('Memnuniyet formu AJAX gönderimi başarısız:', err);
+          if (feedbackStatus) feedbackStatus.textContent = 'Standart gönderim sayfasına yönlendiriliyorsunuz…';
+          HTMLFormElement.prototype.submit.call(feedbackForm);
+          return;
+        }finally{
+          if (submit){ submit.disabled = false; submit.removeAttribute('aria-busy'); }
+        }
+      });
+    }
+
+    /* ===== Başarı hikayeleri: JSON dosyadan kart üretimi, highlight rotasyonu ve modal ===== */
+    const gridEl = document.getElementById('successGrid');
+    const highlightEl = document.getElementById('successHighlight');
+    let stories = [];
+
+    // i18n alanlar için helper
+    function tLocale(val){
+      if (val == null) return '';
+      if (typeof val === 'string') return val;
+      if (typeof val === 'object'){
+        if (typeof val.tr === 'string') return val.tr;
+        const keys = Object.keys(val);
+        if (keys.length && typeof val[keys[0]] === 'string') return val[keys[0]];
+      }
+      return String(val);
+    }
+
+    // Modal
+    const storyModal = document.createElement('dialog');
+    storyModal.id = 'storyModal';
+    storyModal.innerHTML = `
+      <div class="inner">
+        <header>
+          <div>
+            <h3 id="storyModalTitle" style="margin:0 0 4px"></h3>
+            <p id="storyModalMeta" class="muted" style="margin:0;font-size:0.9rem"></p>
+          </div>
+          <form method="dialog"><button class="btn">Kapat</button></form>
+        </header>
+        <div id="storyModalBody" class="content muted"></div>
+        <form method="dialog" style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px">
+          <button class="btn" value="close">Kapat</button>
+        </form>
+      </div>`;
+    document.body.appendChild(storyModal);
+
+    function openStory(idx){
+      const s = stories[idx];
+      if(!s) return;
+      const titleEl = document.getElementById('storyModalTitle');
+      const metaEl  = document.getElementById('storyModalMeta');
+      const bodyEl  = document.getElementById('storyModalBody');
+
+      if(titleEl) titleEl.textContent = s.title || '';
+      if(metaEl){
+        const parts = [];
+        if(s.petName) parts.push(s.petName);
+        if(s.species) parts.push(s.species);
+        metaEl.textContent = parts.join(' • ');
+      }
+      if(bodyEl){
+        bodyEl.innerHTML = '';
+        const p = document.createElement('p');
+        p.textContent = s.body || s.summary || '';
+        bodyEl.appendChild(p);
+      }
+
+      storyModal.showModal();
+    }
+
+    function updateHighlight(idx){
+      const s = stories[idx];
+      if(!s || !highlightEl) return;
+      const metaLine = [s.petName, s.species].filter(Boolean).join(' • ');
+
+      highlightEl.classList.remove('is-animating');
+      setTimeout(()=>{
+        highlightEl.innerHTML = `
+          <span class="s-icon"><svg viewBox="0 0 24 24"><use href="${s.icon || '#i-paw'}"></use></svg></span>
+          <h3 class="s-title">${s.title || ''}</h3>
+          <div class="tagline">${metaLine}</div>
+          <p class="s-text">${s.summary || ''}</p>
+          <div class="meta">Detaylı öyküyü görmek için karta tıklayın.</div>
+        `;
+        highlightEl.classList.add('is-animating');
+        highlightEl.onclick = ()=>openStory(idx);
+      }, 40);
+    }
+
+    function initStories(){
+      if(!stories.length){
+        if(highlightEl) highlightEl.style.display = 'none';
+        return;
+      }
+
+      if(gridEl){
+        stories.forEach((s, idx)=>{
+          const card = document.createElement('article');
+          card.className = 's-card show success-card';
+          card.dataset.index = idx;
+          card.innerHTML = `
+            <span class="s-icon"><svg viewBox="0 0 24 24"><use href="${s.icon || '#i-paw'}"></use></svg></span>
+            <h3 class="s-title">${s.title || ''}</h3>
+            <p class="s-text">${s.summary || ''}</p>
+          `;
+          card.addEventListener('click', ()=>openStory(idx));
+          gridEl.appendChild(card);
+        });
+      }
+
+      let current = 0;
+      updateHighlight(current);
+      setInterval(()=>{
+        current = (current + 1) % stories.length;
+        updateHighlight(current);
+      }, 8000);
+    }
+
+    // JSON'u çek — config.yml'deki dosya yolu: assets/data/successStories.json
+    fetch('/assets/data/successStories.json', {cache: 'no-store'})
+      .then(function(res){
+        if(!res.ok) throw new Error('Başarı hikayesi JSON bulunamadı');
+        return res.json();
+      })
+      .then(function(data){
+        let raw = [];
+        if (Array.isArray(data)){
+          raw = data;
+        } else if (Array.isArray(data.stories)){
+          raw = data.stories;
+        } else {
+          raw = [];
+        }
+
+        stories = raw.map(function(s){
+          return {
+            ...s,
+            title:   tLocale(s.title),
+            summary: tLocale(s.summary),
+            petName: tLocale(s.petName),
+            species: tLocale(s.species),
+            body:    tLocale(s.body),
+            icon:    s.icon || '#i-paw'
+          };
+        }).filter(function(s){
+          return s.published !== false && (s.title || s.summary);
+        });
+
+        initStories();
+      })
+      .catch(function(err){
+        console.error('Başarı hikayeleri yüklenemedi:', err);
+        if(highlightEl) highlightEl.style.display = 'none';
+      });
+
+    /* ===== Ara butonu: mobilde tel:, masaüstünde balon ===== */
+    const btnAra = document.getElementById('btnAra');
+    const callPop = document.createElement('div');
+    callPop.className='call-pop';
+    callPop.innerHTML = `Aramak için <a href="tel:03323223220">0332 322 32 20</a>`;
+    document.body.appendChild(callPop);
+
+    function isMobile(){
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+             (typeof window.orientation !== "undefined");
+    }
+    if (btnAra){
+      btnAra.addEventListener('click', (e)=>{
+        if(!isMobile()){
+          e.preventDefault();
+          callPop.style.display='block';
+          setTimeout(()=>{ callPop.style.display='none'; }, 4500);
+        }
+      });
+    }
+
+    /* ===== Konum butonu: yönlendirme hazır (href zaten rota) ===== */
+  })();
+  </script>
+<script defer="" src="/assets/js/elci-system.js?v=20260721"></script></body>
+</html>

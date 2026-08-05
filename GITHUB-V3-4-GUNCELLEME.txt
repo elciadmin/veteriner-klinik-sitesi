@@ -1,0 +1,8 @@
+ELÇİ V3.4 DÜZELTME NOTU
+
+Bu yama:
+- Koyu alanlardaki siyah başlıkları düzeltir.
+- Açık CTA kutularındaki okunmayan beyaz metinleri düzeltir.
+- Google yorum kartlarının görünmemesine neden olan opacity kuralını iptal eder.
+- Instagram galerisine otomatik ilerleme, döngü ve merkez kart vurgusu ekler.
+- Admin panelinde yorum seçimi alanının Ana Sayfa ve Hakkımızda için ortak olduğunu açıkça belirtir.

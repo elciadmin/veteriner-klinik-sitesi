@@ -1,0 +1,31 @@
+ELÇİ V3.2 — SAYFA KABUĞU VE HERO ÇİZGİ ANİMASYONU
+
+BU YAMA V3.1 TEST DALININ ÜZERİNE UYGULANIR.
+
+Değişen ana dosyalar:
+- index.html
+- about.html
+- hizmetler.html
+- blog.html
+- sss.html
+- hasta-iliskileri.html
+- assets/css/elci-shell-v32.css
+
+Yapılanlar:
+- Ana Sayfa, Hakkımızda, Hizmetler, Blog, SSS ve Hasta İlişkileri aynı header/hero ölçüsüne bağlandı.
+- Logo, menü, başlık, slogan, açıklama, buton, sağ kart ve satır aralıkları sabitlendi.
+- Blog ve SSS'nin sayfa içi eski stillerini ezen son katman eklendi.
+- Hasta İlişkileri sağ kartı diğer sayfalardaki marka kartı diline dönüştürüldü.
+- Hero çizgileri açılışta soldan büyür; hero metninin üzerine gelince uzayıp ışık akışı yapar.
+- Mobilde başlıklar ve metinler doğal yüksekliğe döner.
+
+Uygulama:
+1. Bu klasörün İÇİNDEKİ dosyaları mevcut GitHub proje klasörünün içine kopyalayın.
+2. Windows sorunca "Hedefteki dosyaları değiştir" seçin.
+3. GitHub Desktop'ta bu TXT dosyasının tikini kaldırabilirsiniz.
+4. Summary: "Tüm sayfalarda hero standardizasyonu V3.2"
+5. Commit ve Push origin yapın.
+
+Beklenen GitHub değişikliği:
+- TXT dahil 8 dosya
+- TXT tikini kaldırırsanız 7 proje dosyası

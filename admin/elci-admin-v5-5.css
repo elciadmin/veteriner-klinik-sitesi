@@ -1,0 +1,89 @@
+/* ELÇİ V5.5 — yönetim ön izlemesinde taşma ve bozuk görsel koruması */
+.admin-blog-preview,
+.admin-blog-preview *,
+.health-article-preview,
+.health-article-preview *{
+  box-sizing:border-box;
+}
+.admin-blog-preview h1,
+.admin-preview-content,
+.admin-preview-content p,
+.admin-preview-content li,
+.admin-preview-content figcaption,
+.admin-preview-split,
+.admin-preview-split *,
+.admin-preview-flow,
+.admin-preview-flow *{
+  min-width:0;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  hyphens:auto;
+}
+.admin-preview-split{
+  width:100%;
+  max-width:100%;
+  overflow:hidden;
+}
+.admin-preview-split.preview-media-missing{
+  grid-template-columns:minmax(0,1fr)!important;
+}
+.admin-preview-split img[hidden],
+.admin-preview-image img[hidden],
+.admin-preview-gallery figure[hidden]{
+  display:none!important;
+}
+.health-preview-cover.is-brand-cover{
+  display:grid;
+  place-items:center;
+  min-height:240px;
+  padding:24px;
+  background:linear-gradient(135deg,#f7f2fc,#eaf9fb);
+}
+.health-preview-cover.is-brand-cover img{
+  width:min(52%,320px);
+  height:auto;
+  object-fit:contain;
+  padding:12px;
+  border-radius:22px;
+  background:rgba(255,255,255,.78);
+}
+
+.admin-preview-flow{width:100%;max-width:100%}
+.admin-preview-flow::after{content:"";display:block;clear:both}
+
+
+/* V5.9 — blog canlı ön izlemesi, gerçek yayın sayfasına yakın görünüm */
+.prestige-preview{max-width:900px!important;padding:0!important;overflow:hidden;border-radius:25px!important;background:#fff!important;color:#38444f!important;font-family:"Manrope",sans-serif!important}
+.prestige-preview .health-preview-breadcrumb{padding:20px 32px 0;color:#7d8994;font-size:.67rem;font-weight:650}
+.prestige-preview .health-preview-breadcrumb i{margin:0 7px;color:#b4bdc5;font-size:.5rem}
+.prestige-preview>header{max-width:none!important;margin:0!important;padding:30px 32px 28px!important}
+.prestige-preview .health-preview-topline{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}
+.prestige-preview .health-preview-topline>div{display:flex;flex-wrap:wrap;gap:8px}
+.prestige-preview :is(.health-kicker,.health-category,.health-read-time){display:inline-flex;align-items:center;gap:6px;margin:0;padding:7px 10px;border:1px solid #e7e0ef;border-radius:999px;background:#fff;color:#513a70;font-size:.6rem;font-weight:800}
+.prestige-preview :is(.health-kicker,.health-category,.health-read-time) i{color:#5a1fa8}
+.prestige-preview .health-read-time{flex:none;background:linear-gradient(135deg,#f6f1fb,#eefbfc)}
+.prestige-preview h1{font-family:var(--preview-title-font,"Manrope",sans-serif)!important;margin:0!important;color:#171326!important;font-size:clamp(1.8rem,4.5vw,3.35rem)!important;line-height:1.1!important;letter-spacing:-.05em!important}
+.prestige-preview .health-title-divider{display:flex;align-items:center;gap:9px;width:170px;margin:19px 0 17px;color:#5a1fa8}
+.prestige-preview .health-title-divider span{height:2px;flex:1;background:linear-gradient(90deg,#5a1fa8,#8fe8f1)}
+.prestige-preview .health-title-divider span:last-child{background:linear-gradient(90deg,#8fe8f1,#5a1fa8)}
+.prestige-preview .health-lead{max-width:720px!important;color:#596672!important;font-size:.98rem!important;line-height:1.72!important}
+.prestige-preview .health-preview-cover{margin:0 32px 30px!important;border:1px solid #e4ddea;border-radius:20px!important;box-shadow:0 14px 34px rgba(38,20,72,.08)}
+.prestige-preview .health-preview-cover img{max-height:460px!important}
+.prestige-preview .health-preview-cover figcaption{padding:9px 12px;background:#fff;color:#78838d;font-size:.67rem;font-style:italic}
+.prestige-preview .health-preview-body{max-width:none!important;margin:0!important;padding:0 32px 12px!important;color:#3e4a54!important;font-family:var(--preview-body-font,Georgia,"Times New Roman",serif)!important;font-size:16.5px!important;line-height:1.86!important}
+.prestige-preview .health-preview-body h2,.prestige-preview .health-preview-body h3{font-family:var(--preview-title-font,"Manrope",sans-serif)!important;color:#321552!important}
+.prestige-preview .admin-preview-flow{max-width:760px;margin:0 auto}
+.prestige-preview .admin-preview-flow-figure{width:min(46%,340px);border-radius:19px;box-shadow:0 14px 32px rgba(38,20,72,.08)}
+.prestige-preview .admin-preview-card-list{display:flex;flex-wrap:wrap;align-items:stretch;gap:12px;max-width:760px;margin:0 auto}
+.prestige-preview .admin-preview-info-card{display:flex;flex-direction:column;min-width:0;max-width:100%;height:auto;overflow:hidden;flex:1 1 calc(50% - 6px);border:1px solid #e4ddea;border-radius:18px;background:#fff;box-shadow:0 12px 26px rgba(38,20,72,.06);overflow-wrap:anywhere;word-break:break-word}
+.prestige-preview .admin-preview-info-card.card-size-small{flex-basis:calc(33.333% - 8px);max-width:calc(33.333% - 8px)}.prestige-preview .admin-preview-info-card.card-size-medium{flex-basis:calc(50% - 6px);max-width:calc(50% - 6px)}.prestige-preview .admin-preview-info-card.card-size-large{flex-basis:66%;max-width:66%}.prestige-preview .admin-preview-info-card.card-size-full,.prestige-preview .admin-preview-info-card.card-position-full{flex-basis:100%;max-width:100%}
+.prestige-preview .admin-preview-info-card.card-position-left{margin-right:auto}.prestige-preview .admin-preview-info-card.card-position-center{margin-left:auto;margin-right:auto}.prestige-preview .admin-preview-info-card.card-position-right{margin-left:auto}
+.prestige-preview .admin-preview-info-card>figure{order:-1;margin:0}.prestige-preview .admin-preview-info-card>figure img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.prestige-preview .admin-preview-info-copy{display:grid;grid-template-columns:40px minmax(0,1fr);gap:10px;padding:15px;min-width:0}.prestige-preview .admin-preview-info-copy>div{min-width:0;overflow-wrap:anywhere;word-break:break-word}
+.prestige-preview .admin-preview-info-copy>span{width:40px;height:40px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,#f2eafb,#eafafa);color:#5a1fa8}
+.prestige-preview .admin-preview-info-copy h3{margin:1px 0 5px!important;font-family:var(--preview-card-title-font,"Manrope",sans-serif)!important;font-size:.92rem!important;overflow-wrap:anywhere}.prestige-preview .admin-preview-info-copy p{font-family:var(--preview-card-body-font,"Manrope",sans-serif)!important;font-size:.72rem;line-height:1.55;overflow-wrap:anywhere}.prestige-preview .admin-preview-info-card.card-text-small p{font-size:.66rem}.prestige-preview .admin-preview-info-card.card-text-large p{font-size:.82rem}
+.prestige-preview .health-disclaimer{max-width:760px!important;margin:28px auto 32px!important}
+@media(max-width:700px){.prestige-preview .health-preview-breadcrumb{padding:16px 18px 0}.prestige-preview>header{padding:24px 18px!important}.prestige-preview .health-preview-topline{align-items:flex-start;flex-direction:column}.prestige-preview .health-preview-cover{margin:0 18px 24px!important}.prestige-preview .health-preview-body{padding:0 18px 10px!important}.prestige-preview .admin-preview-flow-figure,.prestige-preview .admin-preview-flow.image-left .admin-preview-flow-figure{float:none;width:100%;margin:0 0 15px}.prestige-preview .admin-preview-card-list{grid-template-columns:1fr}.prestige-preview .health-disclaimer{margin:24px 18px!important}}
+
+.blog-design-settings{margin-bottom:16px}.blog-font-preview{display:grid;gap:10px;margin:18px 0;padding:22px;border:1px solid #dfe5ed;border-radius:20px;background:linear-gradient(135deg,#fff,#f7f4fb)}.blog-font-preview h3{margin:0;font-family:var(--settings-title-font,"Manrope",sans-serif);font-size:1.75rem;color:#281047}.blog-font-preview>p{margin:0;font-family:var(--settings-body-font,"Manrope",sans-serif);font-size:.9rem;line-height:1.75;color:#52616d}.blog-font-preview article{display:grid;gap:4px;margin-top:5px;padding:16px;border:1px solid #e3daee;border-radius:16px;background:#fff}.blog-font-preview article strong{font-family:var(--settings-card-title-font,"Manrope",sans-serif);color:#35145e}.blog-font-preview article span{font-family:var(--settings-card-body-font,"Manrope",sans-serif);color:#687586;font-size:.78rem;line-height:1.6}
+@media(max-width:700px){.prestige-preview .admin-preview-info-card,.prestige-preview .admin-preview-info-card.card-size-small,.prestige-preview .admin-preview-info-card.card-size-medium,.prestige-preview .admin-preview-info-card.card-size-large,.prestige-preview .admin-preview-info-card.card-size-full{flex-basis:100%;max-width:100%;margin-left:0;margin-right:0}}

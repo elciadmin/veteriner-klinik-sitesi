@@ -1,516 +1,124 @@
-// assets/js/blog.js — Elçi Veteriner Kliniği (v5 — Admin V2)
-(function () {
+(() => {
   'use strict';
 
-  const PAGE_SIZE = 5;
-  const FALLBACK_COVER = '/assets/img/uploads/elci-logo.png?v=3';
+  const root = document.getElementById('blog');
+  const grid = document.getElementById('blogGrid');
+  if (!root || !grid) return;
 
-  const blogSection = document.querySelector('section#blog');
-  if (!blogSection) return;
+  const filters = document.getElementById('blogFilters');
+  const search = document.getElementById('blogSearch');
+  const pagination = document.getElementById('blogPagination');
+  const recent = document.getElementById('sidebarRecent');
+  const cats = document.getElementById('sidebarCats');
+  const tagsHost = document.getElementById('sidebarTags');
+  const pageSize = 6;
+  let posts = [];
+  let activeCategory = 'Tümü';
+  let activePage = 1;
 
-  const src = blogSection.getAttribute('data-json') || '/assets/data/blog.json';
-  const gridEl = document.getElementById('blogGrid');
-  const searchEl = document.getElementById('blogSearch');
-  const filtersEl = document.getElementById('blogFilters');
-  const paginationEl = document.getElementById('blogPagination');
-  const recentEl = document.getElementById('sidebarRecent');
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+  const normalize = value => String(value || '').toLocaleLowerCase('tr-TR');
+  const now = () => Date.now();
+  const isActive = post => {
+    if (!post || post.published === false) return false;
+    if (post.date && new Date(post.date).getTime() > now()) return false;
+    if (post.unpublishAt && new Date(post.unpublishAt).getTime() <= now()) return false;
+    return true;
+  };
+  const image = post => post.cover || '/assets/img/uploads/elci-logo.png';
+  const url = post => post.url || `/blog/${encodeURIComponent(post.slug)}.html`;
 
-  if (!gridEl) return;
-
-  let allPosts = [];
-  let filtered = [];
-  let currentPage = 1;
-  let totalPages = 1;
-  let query = '';
-  let selectedCategory = 'Tümü';
-  let firstRender = true;
-
-  injectLayoutFixes();
-
-  function localeValue(value) {
-    if (value == null) return '';
-    if (typeof value === 'string') return value;
-    if (typeof value === 'object') {
-      if (typeof value.tr === 'string') return value.tr;
-      for (const key of Object.keys(value)) {
-        if (typeof value[key] === 'string') return value[key];
-      }
-    }
-    return String(value);
-  }
-
-  function escapeHtml(value) {
-    return String(value ?? '').replace(/[&<>"']/g, char => ({
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#39;'
-    }[char]));
-  }
-
-  function slugify(value) {
-    return localeValue(value)
-      .trim()
-      .toLocaleLowerCase('tr-TR')
-      .replace(/ç/g, 'c')
-      .replace(/ğ/g, 'g')
-      .replace(/ı/g, 'i')
-      .replace(/ö/g, 'o')
-      .replace(/ş/g, 's')
-      .replace(/ü/g, 'u')
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '') || 'blog-yazisi';
-  }
-
-  function normalizeList(value) {
-    if (Array.isArray(value)) {
-      return value.map(localeValue).map(item => item.trim()).filter(Boolean);
-    }
-    const single = localeValue(value).trim();
-    return single ? [single] : [];
-  }
-
-  function normalizePost(raw, index) {
-    const title = localeValue(raw?.title || raw?.baslik).trim();
-    const slug = localeValue(raw?.slug).trim() || slugify(title) + '-' + (index + 1);
-    const date = raw?.scheduledAt || raw?.date || raw?.tarih || '';
-    const categories = normalizeList(raw?.categories || raw?.category || raw?.kategori);
-    const tags = normalizeList(raw?.tags || raw?.etiketler);
-    const suppliedUrl = localeValue(raw?.url).trim();
-
-    return {
-      ...raw,
-      title,
-      slug,
-      date,
-      summary: localeValue(raw?.summary || raw?.excerpt || raw?.ozet || raw?.description),
-      content: localeValue(raw?.content || raw?.body || raw?.icerik || raw?.metin),
-      cover: localeValue(
-        raw?.cover || raw?.image || raw?.thumbnail || raw?.featuredImage ||
-        raw?.gorsel || raw?.resim
-      ).trim(),
-      categories,
-      tags,
-      published: raw?.published !== false,
-      url: suppliedUrl || ('/blog.html#' + encodeURIComponent(slug))
-    };
-  }
-
-  function validDate(value) {
-    const date = new Date(value);
-    return Number.isNaN(date.getTime()) ? null : date;
-  }
-
-  function isPublished(post) {
-    if (!post || post.published === false || !post.title) return false;
-    const date = validDate(post.date);
-    return !date || date <= new Date();
-  }
-
-  function formatDate(value) {
-    const date = validDate(value);
-    if (!date) return escapeHtml(value || '');
-    return date.toLocaleDateString('tr-TR', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    });
-  }
-
-  function primaryCategory(post) {
-    return post.categories[0] || 'Genel';
-  }
-
-  function cardHtml(post, index) {
-    const title = escapeHtml(post.title);
-    const summary = escapeHtml(post.summary);
-    const category = escapeHtml(primaryCategory(post));
-    const href = escapeHtml(post.url);
-    const cover = escapeHtml(post.cover || FALLBACK_COVER);
-    const isFallback = !post.cover;
-    const loading = index === 0 && currentPage === 1 ? 'eager' : 'lazy';
-
-    return `
-      <article class="b-card" data-blog-slug="${escapeHtml(post.slug)}">
-        <a class="b-cover" href="${href}" aria-label="${title} yazısını oku">
-          <img
-            src="${cover}"
-            alt="${isFallback ? 'Elçi Veteriner Kliniği' : title}"
-            loading="${loading}"
-            decoding="async"
-            class="${isFallback ? 'is-cover-fallback' : ''}">
-          <span class="b-badge">${category}</span>
-        </a>
-        <div class="b-body">
-          <h3 class="b-title"><a href="${href}">${title}</a></h3>
-          <div class="b-meta">${formatDate(post.date)}</div>
-          <p class="b-summary">${summary}</p>
-          <div class="b-actions">
-            <a class="btn primary" href="${href}">Oku</a>
-          </div>
-        </div>
-      </article>`;
-  }
-
-  function applyImageFallbacks() {
-    gridEl.querySelectorAll('.b-cover img').forEach(image => {
-      const applyFallback = () => {
-        if (image.dataset.fallbackApplied === '1') return;
-        image.dataset.fallbackApplied = '1';
-        image.classList.add('is-cover-fallback');
-        image.src = FALLBACK_COVER;
-        image.alt = 'Elçi Veteriner Kliniği';
-      };
-
-      image.addEventListener('error', applyFallback, { once: true });
-      if (image.complete && image.naturalWidth === 0) applyFallback();
-    });
-  }
-
-  function matchesCategory(post) {
-    if (selectedCategory === 'Tümü') return true;
-    return post.categories.some(category =>
-      category.toLocaleLowerCase('tr-TR') === selectedCategory.toLocaleLowerCase('tr-TR')
-    );
-  }
-
-  function applyFilters() {
-    const term = query.trim().toLocaleLowerCase('tr-TR');
-
-    filtered = allPosts.filter(post => {
-      if (!isPublished(post) || !matchesCategory(post)) return false;
+  function filtered() {
+    const term = normalize(search?.value).trim();
+    return posts.filter(post => {
+      if (activeCategory !== 'Tümü' && post.category !== activeCategory) return false;
       if (!term) return true;
-
-      const searchable = [
-        post.title,
-        post.summary,
-        post.content,
-        ...post.categories,
-        ...post.tags
-      ].join(' ').toLocaleLowerCase('tr-TR');
-
-      return searchable.includes(term);
+      return normalize([post.title, post.summary, post.category, post.species, ...(post.tags || [])].join(' ')).includes(term);
     });
-
-    totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
-    if (currentPage > totalPages) currentPage = totalPages;
   }
 
-  function setGridMode(items) {
-    const featured = currentPage === 1 && items.length > 1 && !query && selectedCategory === 'Tümü';
-    gridEl.classList.toggle('blog-grid-featured', featured);
-    gridEl.classList.toggle('blog-grid-standard', !featured);
+  function card(post) {
+    return `<article class="elci-blog-card">
+      <a class="elci-blog-cover" href="${esc(url(post))}" aria-label="${esc(post.title)} yazısını oku">
+        <img src="${esc(image(post))}" alt="${esc(post.title)}" loading="lazy" decoding="async" onerror="this.src='/assets/img/uploads/elci-logo.png'">
+      </a>
+      <div class="elci-blog-body">
+        <div class="elci-blog-meta">
+          <span class="elci-blog-category">${esc(post.category || 'Genel')}</span>
+          <span>${esc(post.dateLabel || '')}</span>
+        </div>
+        <h3><a href="${esc(url(post))}">${esc(post.title)}</a></h3>
+        <p>${esc(post.summary || '')}</p>
+        <a class="elci-blog-link" href="${esc(url(post))}">Yazıyı oku <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </article>`;
   }
 
-  function renderPage(page, options = {}) {
-    currentPage = Math.max(1, Math.min(Number(page) || 1, totalPages));
+  function renderFilters() {
+    if (!filters) return;
+    const values = ['Tümü', ...new Set(posts.map(post => post.category).filter(Boolean))];
+    filters.innerHTML = values.map(value => `<button type="button" class="blog-filter${value === activeCategory ? ' active' : ''}" data-category="${esc(value)}" aria-pressed="${value === activeCategory}">${esc(value)}</button>`).join('');
+    filters.querySelectorAll('button').forEach(button => button.addEventListener('click', () => {
+      activeCategory = button.dataset.category || 'Tümü';
+      activePage = 1;
+      renderFilters();
+      render();
+    }));
+  }
 
-    const start = (currentPage - 1) * PAGE_SIZE;
-    const items = filtered.slice(start, start + PAGE_SIZE);
+  function renderPagination(total) {
+    if (!pagination) return;
+    const pages = Math.ceil(total / pageSize);
+    if (pages <= 1) { pagination.innerHTML = ''; return; }
+    pagination.innerHTML = Array.from({ length: pages }, (_, index) => {
+      const page = index + 1;
+      return `<button type="button" class="${page === activePage ? 'active' : ''}" data-page="${page}" aria-label="${page}. sayfa">${page}</button>`;
+    }).join('');
+    pagination.querySelectorAll('button').forEach(button => button.addEventListener('click', () => {
+      activePage = Number(button.dataset.page) || 1;
+      render();
+      root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }));
+  }
 
-    setGridMode(items);
-
-    gridEl.innerHTML = items.length
-      ? items.map(cardHtml).join('')
-      : `<p class="blog-empty-state">
-           Eşleşen içerik bulunamadı.
-         </p>`;
-
-    applyImageFallbacks();
-    buildPagination();
-    updateUrl();
-
-    if (options.scroll && !firstRender) {
-      blogSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  function renderSidebar() {
+    if (recent) recent.innerHTML = posts.slice(0, 5).map(post => `<a href="${esc(url(post))}">${esc(post.title)}</a>`).join('') || '<span class="muted">Henüz yazı yok.</span>';
+    if (cats) {
+      const counts = new Map();
+      posts.forEach(post => counts.set(post.category || 'Genel', (counts.get(post.category || 'Genel') || 0) + 1));
+      cats.innerHTML = [...counts.entries()].sort((a,b) => b[1]-a[1]).map(([name,count]) => `<button type="button" class="sidebar-pill" data-category="${esc(name)}">${esc(name)} (${count})</button>`).join('');
+      cats.querySelectorAll('button').forEach(button => button.addEventListener('click', () => {
+        activeCategory = button.dataset.category || 'Tümü'; activePage = 1; renderFilters(); render(); root.scrollIntoView({behavior:'smooth'});
+      }));
     }
-    firstRender = false;
-  }
-
-  function buildPagination() {
-    if (!paginationEl) return;
-
-    if (totalPages <= 1) {
-      paginationEl.innerHTML = '';
-      return;
+    if (tagsHost) {
+      const counts = new Map();
+      posts.flatMap(post => post.tags || []).forEach(tag => counts.set(tag, (counts.get(tag) || 0) + 1));
+      tagsHost.innerHTML = [...counts.entries()].sort((a,b) => b[1]-a[1]).slice(0, 14).map(([tag,count]) => `<button type="button" class="sidebar-pill" data-tag="${esc(tag)}">${esc(tag)} (${count})</button>`).join('');
+      tagsHost.querySelectorAll('button').forEach(button => button.addEventListener('click', () => {
+        if (search) search.value = button.dataset.tag || '';
+        activeCategory = 'Tümü'; activePage = 1; renderFilters(); render(); root.scrollIntoView({behavior:'smooth'});
+      }));
     }
-
-    const parts = [];
-    parts.push(`
-      <button class="prev"
-        ${currentPage === 1 ? 'disabled aria-disabled="true"' : ''}
-        data-goto="${currentPage - 1}"
-        aria-label="Önceki sayfa">‹</button>`);
-
-    const pages = [];
-    for (let page = 1; page <= totalPages; page += 1) {
-      if (page === 1 || page === totalPages || Math.abs(page - currentPage) <= 1) {
-        pages.push(page);
-      }
-    }
-
-    let previous = 0;
-    pages.forEach(page => {
-      if (page - previous > 1) parts.push('<span class="ellipsis">…</span>');
-      parts.push(`
-        <button class="page"
-          ${page === currentPage ? 'aria-current="page"' : ''}
-          data-goto="${page}">${page}</button>`);
-      previous = page;
-    });
-
-    parts.push(`
-      <button class="next"
-        ${currentPage === totalPages ? 'disabled aria-disabled="true"' : ''}
-        data-goto="${currentPage + 1}"
-        aria-label="Sonraki sayfa">›</button>`);
-
-    paginationEl.innerHTML = parts.join('');
-    paginationEl.querySelectorAll('[data-goto]:not([disabled])').forEach(button => {
-      button.addEventListener('click', event => {
-        renderPage(Number(event.currentTarget.dataset.goto), { scroll: true });
-      });
-    });
   }
 
-  function categoryCounts() {
-    const counts = new Map();
-    allPosts.filter(isPublished).forEach(post => {
-      post.categories.forEach(category => {
-        counts.set(category, (counts.get(category) || 0) + 1);
-      });
-    });
-    return [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'tr'));
+  function render() {
+    const items = filtered();
+    const pages = Math.max(1, Math.ceil(items.length / pageSize));
+    if (activePage > pages) activePage = pages;
+    const start = (activePage - 1) * pageSize;
+    const visible = items.slice(start, start + pageSize);
+    grid.innerHTML = visible.length ? visible.map(card).join('') : '<div class="blog-empty"><strong>Bu aramayla eşleşen yazı bulunamadı.</strong><br>Başka bir kelime veya kategori deneyin.</div>';
+    renderPagination(items.length);
   }
 
-  function renderCategoryFilters() {
-    if (!filtersEl) return;
+  search?.addEventListener('input', () => { activePage = 1; render(); });
 
-    const entries = categoryCounts();
-    const buttons = [
-      `<button type="button" class="b-chip ${selectedCategory === 'Tümü' ? 'b-chip-active' : ''}" data-category="Tümü">Tümü</button>`,
-      ...entries.map(([category, count]) => `
-        <button type="button"
-          class="b-chip ${selectedCategory === category ? 'b-chip-active' : ''}"
-          data-category="${escapeHtml(category)}">
-          ${escapeHtml(category)} (${count})
-        </button>`)
-    ];
-
-    filtersEl.innerHTML = buttons.join('');
-    filtersEl.querySelectorAll('[data-category]').forEach(button => {
-      button.addEventListener('click', () => {
-        selectedCategory = button.dataset.category || 'Tümü';
-        currentPage = 1;
-        renderCategoryFilters();
-        applyFilters();
-        renderPage(1, { scroll: true });
-      });
-    });
-  }
-
-  function renderRecentPosts() {
-    if (!recentEl) return;
-
-    const recent = allPosts.filter(isPublished).slice(0, 5);
-    recentEl.innerHTML = recent.length
-      ? recent.map(post => `
-          <a href="${escapeHtml(post.url)}">
-            <i class="fa-regular fa-file-lines" aria-hidden="true"></i>
-            <span>${escapeHtml(post.title)}</span>
-          </a>`).join('')
-      : '<span class="muted">Henüz yazı bulunmuyor.</span>';
-  }
-
-  function patchRecentLinks() {
-    if (!recentEl) return;
-
-    recentEl.querySelectorAll('a').forEach(link => {
-      const title = link.querySelector('span')?.textContent?.trim() || link.textContent.trim();
-      const post = allPosts.find(item =>
-        item.title.toLocaleLowerCase('tr-TR') === title.toLocaleLowerCase('tr-TR')
-      );
-      if (post) link.href = post.url;
-    });
-  }
-
-  function observeRecentBox() {
-    if (!recentEl || !('MutationObserver' in window)) return;
-    const observer = new MutationObserver(patchRecentLinks);
-    observer.observe(recentEl, { childList: true, subtree: true });
-  }
-
-  function readUrl() {
-    const url = new URL(window.location.href);
-    const page = Number(url.searchParams.get('page') || '1');
-    const q = url.searchParams.get('q') || '';
-    const category = url.searchParams.get('cat') || 'Tümü';
-
-    query = q;
-    selectedCategory = category;
-    if (searchEl) searchEl.value = q;
-
-    return Number.isFinite(page) && page >= 1 ? page : 1;
-  }
-
-  function updateUrl() {
-    const url = new URL(window.location.href);
-
-    if (query) url.searchParams.set('q', query);
-    else url.searchParams.delete('q');
-
-    if (selectedCategory && selectedCategory !== 'Tümü') {
-      url.searchParams.set('cat', selectedCategory);
-    } else {
-      url.searchParams.delete('cat');
-    }
-
-    if (currentPage > 1) url.searchParams.set('page', String(currentPage));
-    else url.searchParams.delete('page');
-
-    window.history.replaceState({}, '', url);
-  }
-
-  function injectLayoutFixes() {
-    if (document.getElementById('elci-blog-v3-fixes')) return;
-
-    const style = document.createElement('style');
-    style.id = 'elci-blog-v3-fixes';
-    style.textContent = `
-      .blog-layout{min-width:0!important}
-      .blog-sidebar,.blog-main,.side-card,.side-cta,.sidebar-list,.sidebar-list a,.sidebar-list a span{
-        min-width:0!important;max-width:100%!important;box-sizing:border-box!important
-      }
-      .sidebar-list a span,.b-title,.b-title a,.b-summary{
-        overflow-wrap:anywhere!important;word-break:break-word!important
-      }
-      .blog-main,
-      .blog-main #blog,
-      #blogGrid{min-width:0;width:100%;max-width:100%;box-sizing:border-box}
-
-      #blogGrid .b-cover img.is-cover-fallback{
-        object-fit:contain!important;
-        padding:34px!important;
-        box-sizing:border-box;
-        background:
-          radial-gradient(circle at 50% 30%,rgba(39,212,232,.15),transparent 55%),
-          linear-gradient(145deg,#f8f4ff,#eefcff)!important;
-      }
-
-      #blogGrid.blog-grid-standard .b-card:first-child{
-        grid-column:auto!important;
-        display:flex!important;
-        grid-template-columns:none!important;
-        min-height:0!important;
-        border-radius:24px!important;
-        box-shadow:var(--shadow-sm)!important;
-      }
-      #blogGrid.blog-grid-standard .b-card:first-child .b-cover{
-        height:auto!important;
-        min-height:0!important;
-        aspect-ratio:16/9!important;
-      }
-      #blogGrid.blog-grid-standard .b-card:first-child .b-body{
-        justify-content:flex-start!important;
-        padding:20px!important;
-      }
-      #blogGrid.blog-grid-standard .b-card:first-child .b-title{
-        font-size:1.25rem!important;
-        line-height:1.28!important;
-      }
-      #blogGrid.blog-grid-standard .b-card:first-child .b-summary{
-        font-size:.9rem!important;
-        line-height:1.62!important;
-      }
-
-      #blogGrid.blog-grid-standard .b-card:last-child:nth-child(odd),
-      #blogGrid.blog-grid-featured .b-card:last-child:nth-child(even){
-        grid-column:1/-1;
-        display:grid;
-        grid-template-columns:minmax(220px,.7fr) minmax(0,1.3fr);
-      }
-      #blogGrid.blog-grid-standard .b-card:last-child:nth-child(odd) .b-cover,
-      #blogGrid.blog-grid-featured .b-card:last-child:nth-child(even) .b-cover{
-        height:100%;
-        min-height:230px;
-        aspect-ratio:auto;
-      }
-
-      #blogGrid .blog-empty-state{
-        grid-column:1/-1;
-        margin:0;
-        padding:24px;
-        border:1px dashed rgba(90,31,168,.25);
-        border-radius:18px;
-        background:#fff;
-        color:var(--muted);
-      }
-
-      @media(max-width:760px){
-        #blogGrid.blog-grid-standard .b-card:last-child:nth-child(odd),
-        #blogGrid.blog-grid-featured .b-card:last-child:nth-child(even){
-          grid-column:auto;
-          display:flex;
-          grid-template-columns:none;
-        }
-        #blogGrid.blog-grid-standard .b-card:last-child:nth-child(odd) .b-cover,
-        #blogGrid.blog-grid-featured .b-card:last-child:nth-child(even) .b-cover{
-          height:auto;
-          min-height:0;
-          aspect-ratio:16/9;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
-  observeRecentBox();
-
-  fetch(src + (src.includes('?') ? '&' : '?') + 'v=20260716-blog-v5', {
-    cache: 'no-store'
-  })
-    .then(response => {
-      if (!response.ok) throw new Error('Blog verisi yüklenemedi');
-      return response.json();
-    })
+  fetch(root.dataset.json || '/assets/data/blog.json', { cache: 'no-store' })
+    .then(response => { if (!response.ok) throw new Error(); return response.json(); })
     .then(data => {
-      const rawPosts = Array.isArray(data) ? data : (Array.isArray(data.posts) ? data.posts : []);
-
-      allPosts = rawPosts
-        .map(normalizePost)
-        .filter(isPublished)
-        // Blog standardı: en yeni yayın tarihi en üstte gösterilir.
-        .sort((a, b) => {
-          const dateA = validDate(a.date)?.getTime() || 0;
-          const dateB = validDate(b.date)?.getTime() || 0;
-          return dateB - dateA;
-        });
-
-      currentPage = readUrl();
-      renderCategoryFilters();
-      renderRecentPosts();
-      applyFilters();
-      renderPage(currentPage);
+      posts = (Array.isArray(data) ? data : data.posts || []).filter(isActive).sort((a,b) => new Date(b.date || 0) - new Date(a.date || 0));
+      renderFilters(); renderSidebar(); render();
     })
-    .catch(error => {
-      console.error('Blog verisi yüklenemedi:', error);
-      gridEl.innerHTML = `
-        <p class="blog-empty-state">
-          Blog verileri şu anda yüklenemedi.
-        </p>`;
-      if (paginationEl) paginationEl.innerHTML = '';
-    });
-
-  if (searchEl) {
-    let timer;
-    searchEl.addEventListener('input', () => {
-      window.clearTimeout(timer);
-      timer = window.setTimeout(() => {
-        query = searchEl.value || '';
-        currentPage = 1;
-        applyFilters();
-        renderPage(1, { scroll: true });
-      }, 180);
-    });
-  }
+    .catch(() => { grid.innerHTML = '<div class="blog-empty">Yazılar şu anda yüklenemedi. Lütfen kısa süre sonra yeniden deneyin.</div>'; });
 })();

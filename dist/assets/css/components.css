@@ -1,0 +1,26 @@
+/* BUTONLAR */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:10px 16px;border-radius:12px;font-weight:600;border:2px solid transparent;
+  cursor:pointer;transition:.2s;text-decoration:none}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-dark)}
+.btn-secondary{background:var(--secondary);color:#fff}
+.btn-secondary:hover{filter:brightness(0.96)}
+.btn-ghost{background:transparent;color:var(--primary);border:2px solid var(--primary)}
+.btn-ghost:hover{background:rgba(106,14,161,.10)}
+
+/* KART ve YARDIMCILAR */
+.card{background:#fff;border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+.pill{padding:6px 10px;border-radius:999px;background:var(--surface-2);font-weight:700;font-size:12px}
+.border-left-primary{border-left:6px solid var(--primary)}
+.border-left-secondary{border-left:6px solid var(--secondary)}
+.text-muted{color:var(--text-muted)}
+.bg-surface{background:var(--surface)}
+
+/* FORM */
+.input, input, select, textarea{
+  width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--stroke);outline:none
+}
+.input:focus, input:focus, select:focus, textarea:focus{
+  box-shadow:0 0 0 3px rgba(106,14,161,.18);border-color:var(--primary)
+}

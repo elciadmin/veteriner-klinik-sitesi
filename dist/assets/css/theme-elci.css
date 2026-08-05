@@ -1,0 +1,140 @@
+/* === Elçi Veteriner Global Tema Override (yüksek özgüllük) === */
+/* Bu dosya styles.css'ten SONRA yüklenir ve sabit yeşilleri ezer. */
+
+html[data-theme="elci"] {
+  /* Tema tokenları */
+  --brand:   #0c4e54;
+  --brand2:  #0f5960;
+  --ink:     #111822;
+  --muted:   #6b7a7c;
+  --bg:      #f5fbfc;
+  --accent:  #10b3d1;
+
+  /* Genel yüzey & metin */
+  color: var(--ink);
+  background-color: #fff;
+}
+
+/* ----- Linkler ----- */
+html[data-theme="elci"] a {
+  color: var(--brand2);
+}
+html[data-theme="elci"] a:hover,
+html[data-theme="elci"] a:focus {
+  color: var(--accent);
+}
+
+/* ----- Header ----- */
+html[data-theme="elci"] .header-top {
+  background: var(--brand) !important;
+  color: #fff;
+}
+html[data-theme="elci"] .header-top a { color:#fff; }
+
+/* Menü aktif/hover tonları */
+html[data-theme="elci"] nav a.active,
+html[data-theme="elci"] nav a:hover {
+  color: var(--accent) !important;
+}
+
+/* Dropdown arka plan & kenarlıklar */
+html[data-theme="elci"] .dropdown-content {
+  background:#ffffff;
+  border:1px solid rgba(0,0,0,.08);
+}
+
+/* ----- Hero ----- */
+html[data-theme="elci"] .hero {
+  background: linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+}
+html[data-theme="elci"] .hero .btn.primary {
+  background: var(--accent) !important;
+  color: #fff !important;
+}
+
+/* ----- Hızlı bağlantılar (quick-links) ----- */
+html[data-theme="elci"] .quick-links .q .icon {
+  background: var(--brand2) !important;
+  color:#fff !important;
+}
+
+/* ----- Kartlar / Gridler ----- */
+html[data-theme="elci"] .s-card {
+  background:#fff;
+  border:1px solid rgba(0,0,0,.06);
+}
+html[data-theme="elci"] .s-card:hover {
+  background: var(--bg);
+  border-color: rgba(0,0,0,.1);
+}
+html[data-theme="elci"] .s-link {
+  color: var(--accent);
+}
+
+/* Hizmet şeridi okları */
+html[data-theme="elci"] .scroll-btn {
+  background:#fff;
+  border:1px solid rgba(0,0,0,.12);
+}
+
+/* ----- Bölüm başlıkları ----- */
+html[data-theme="elci"] h1, 
+html[data-theme="elci"] h2, 
+html[data-theme="elci"] h3 {
+  color: var(--ink);
+}
+
+/* ----- Butonlar ----- */
+html[data-theme="elci"] .btn {
+  border-color: transparent;
+}
+html[data-theme="elci"] .btn.primary {
+  background: var(--accent) !important; 
+  color:#fff !important;
+}
+html[data-theme="elci"] .btn.ghost,
+html[data-theme="elci"] .btn:not(.primary) {
+  background:#fff; 
+  color: var(--brand2); 
+  border:1px solid rgba(0,0,0,.12);
+}
+html[data-theme="elci"] .btn:hover {
+  filter: brightness(0.97);
+}
+
+/* ----- Reviews / Blog / Youtube şeritleri ----- */
+html[data-theme="elci"] #reviews .review-card,
+html[data-theme="elci"] #blog .post-card,
+html[data-theme="elci"] #youtube .yt-item {
+  background:#fff;
+  border:1px solid rgba(0,0,0,.06);
+}
+
+/* ----- Footer ----- */
+html[data-theme="elci"] .footer-new {
+  background: linear-gradient(180deg, var(--brand2) 0, var(--brand) 100%);
+  color:#fff;
+}
+html[data-theme="elci"] .footer-new a { color:#fff; opacity:.95; }
+html[data-theme="elci"] .footer-bottom {
+  background: rgba(0,0,0,.08);
+}
+
+/* ----- Formlar / Focus görünürlük ----- */
+html[data-theme="elci"] :is(input,select,textarea):focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ----- “Yeşil” sabitleri zorla yakalama (güvenli eşleme) ----- */
+/* Eğer temadaki sabit yeşiller #0f0, #00a86b, #00b... gibi geliyorsa: */
+html[data-theme="elci"] * {
+  /* yaygın inline renkleri override etmek için currentColor yaklaşımı */
+}
+html[data-theme="elci"] [style*="background-color:#0"],
+html[data-theme="elci"] [style*="background:#0"] {
+  background: var(--brand) !important;
+}
+html[data-theme="elci"] [style*="color:#0"] {
+  color: var(--brand2) !important;
+}
