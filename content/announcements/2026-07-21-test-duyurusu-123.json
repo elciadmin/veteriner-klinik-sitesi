@@ -1,5 +1,5 @@
 {
-  "published": true,
+  "published": false,
   "showOnHome": true,
   "title": "“TEST DUYURUSU 123”",
   "message": "",
@@ -11,5 +11,6 @@
   "linkUrl": "",
   "dismissible": true,
   "archived": false,
-  "trashed": false
+  "trashed": true,
+  "trashedAt": "2026-08-05T17:23:47.412Z"
 }
