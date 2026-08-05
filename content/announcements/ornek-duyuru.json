@@ -9,5 +9,8 @@
   "priority": 10,
   "linkLabel": "",
   "linkUrl": "",
-  "dismissible": true
+  "dismissible": true,
+  "trashed": true,
+  "archived": false,
+  "trashedAt": "2026-08-05T17:24:42.828Z"
 }
