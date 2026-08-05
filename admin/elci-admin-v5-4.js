@@ -63,6 +63,8 @@
     instagram: { label:'Instagram galerisi', singular:'Galeri görseli', folder:'content/instagram', icon:'fa-instagram', dateField:'date', mediaFolder:'assets/img/uploads/instagram' },
   };
 
+  const clone = value => JSON.parse(JSON.stringify(value ?? null));
+
   const state = {
     user:null, branch:'main', context:'production', gatewayReady:false,
     cache:new Map(), route:'dashboard', edit:null, calendarDate:new Date(),
@@ -73,7 +75,6 @@
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const attr = esc;
   const normalize = value => String(value || '').toLocaleLowerCase('tr-TR');
-  const clone = value => JSON.parse(JSON.stringify(value ?? null));
   const nowIso = () => new Date().toISOString();
   const dateValue = value => {
     const date = value ? new Date(value) : null;
