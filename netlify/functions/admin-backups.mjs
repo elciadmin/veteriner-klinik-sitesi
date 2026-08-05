@@ -12,11 +12,11 @@ const validKey = key => /^backup\/[a-f0-9]{24}\/[0-9T:.Z-]+-[0-9a-f-]{36}$/.test
 async function authorize() {
   const user = await getUser();
   if (!user) return { error:json({ error:'Giriş gerekli' }, 401) };
-  const roles = Array.isArray(user.roles) ? user.roles : [];
+  const roles = [...(Array.isArray(user.roles) ? user.roles : []), ...(Array.isArray(user.app_metadata?.roles) ? user.app_metadata.roles : [])];
   const list = allowedEmails();
   const email = String(user.email || '').toLowerCase();
-  const allowed = !list.length || list.includes(email) || roles.some(role => ['admin','editor'].includes(role));
-  if (!allowed) return { error:json({ error:'Bu hesap içerik yedeklerine erişmeye yetkili değil' }, 403) };
+  const allowed = list.includes(email) || roles.some(role => ['admin','editor'].includes(String(role).toLowerCase()));
+  if (!allowed) return { error:json({ error:'Bu hesap içerik yedeklerine erişmeye yetkili değil. ADMIN_EMAILS veya admin/editor rolü tanımlanmalıdır.' }, 403) };
   return { user };
 }
 

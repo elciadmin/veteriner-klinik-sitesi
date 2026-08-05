@@ -3,7 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/build-site.mjs"
+    "build": "node scripts/build-site.mjs",
+    "test:security": "node scripts/security-smoke.mjs",
+    "verify": "npm run build && npm run test:security"
   },
   "dependencies": {
     "@netlify/blobs": "^10.7.9",

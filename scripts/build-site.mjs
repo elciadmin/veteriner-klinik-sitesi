@@ -19,8 +19,8 @@ const SOURCES = {
 
 const excludedTop = new Set([
   ".git", ".github", ".netlify", "dist", "node_modules",
-  "content", "settings", "scripts", "netlify",
-  "package.json", "package-lock.json", "netlify.toml",
+  "content", "settings", "scripts", "netlify", "database", "integrated-systems",
+  "package.json", "package-lock.json", "netlify.toml", "README-YAYIN-SURUMU.md",
 ]);
 
 const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, char => ({

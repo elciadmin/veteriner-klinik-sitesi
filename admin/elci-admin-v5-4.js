@@ -183,7 +183,15 @@
     setTimeout(() => node.remove(), type === 'error' ? 6500 : 4200);
   }
 
-  function setSaveState(text = '') { $('#saveState').textContent = text; }
+  function setSaveState(text = '', mode = '') {
+    const node = $('#saveState');
+    if (!node) return;
+    node.textContent = text;
+    node.className = `save-state${mode ? ` ${mode}` : ''}`;
+  }
+  function showPreparingState() {
+    setSaveState('Kaydedildi · Netlify yayını bekleniyor', 'preparing');
+  }
   function showLoading(text = 'Hazırlanıyor…') { main.innerHTML = `<div class="page-loading"><i class="fa-solid fa-circle-notch fa-spin"></i><span>${esc(text)}</span></div>`; }
   function emptyState(icon, title, text, action = '') { return `<div class="empty-state"><i class="fa-solid ${icon}"></i><h3>${esc(title)}</h3><p>${esc(text)}</p>${action ? `<div class="button-row" style="justify-content:center;margin-top:15px">${action}</div>` : ''}</div>`; }
 
@@ -247,7 +255,8 @@
     const pill = $('#branchPill');
     const production = state.branch === 'main';
     pill.className = `branch-pill ${production ? 'production' : 'test'}`;
-    pill.innerHTML = `<i class="fa-solid fa-code-branch"></i> ${production ? 'Canlı içerik' : `Test: ${esc(state.branch)}`}`;
+    pill.title = production ? 'Değişiklikler canlı siteye hazırlanır.' : `Ön izleme ortamı: ${state.branch}`;
+    pill.innerHTML = `<i class="fa-solid ${production ? 'fa-globe' : 'fa-vial'}"></i> ${production ? 'Canlı site' : 'Test ön izlemesi'}`;
   }
 
   async function listDirectory(path) {
@@ -279,18 +288,18 @@
   }
 
   async function writeRaw(path, content, message, sha = null) {
-    setSaveState('Kaydediliyor…');
+    setSaveState('Kaydediliyor…', 'saving');
     const body = {message,content:encodeUtf8Base64(content),branch:state.branch};
     if (sha) body.sha = sha;
     const result = await gateway(`/contents/${gatewayPath(path)}`, {method:'PUT',body:JSON.stringify(body)});
     state.cache.delete(`file:${state.branch}:${path}`);
-    setSaveState('Kaydedildi'); setTimeout(() => setSaveState(''), 2500);
+    showPreparingState();
     return result;
   }
   async function deleteRaw(path, message, sha) {
-    setSaveState('Siliniyor…');
+    setSaveState('Siliniyor…', 'saving');
     const result = await gateway(`/contents/${gatewayPath(path)}`, {method:'DELETE',body:JSON.stringify({message,sha,branch:state.branch})});
-    state.cache.delete(`file:${state.branch}:${path}`); setSaveState('Silindi'); setTimeout(() => setSaveState(''),2200); return result;
+    state.cache.delete(`file:${state.branch}:${path}`); showPreparingState(); return result;
   }
   async function writeJson(path, data, message, sha = null, createBackup = true) {
     if (createBackup && sha) {
@@ -414,7 +423,7 @@
     const recent = [...blog].sort((a,b) => String(b.date||'').localeCompare(String(a.date||''))).slice(0,5);
     main.innerHTML = `
       <section class="dashboard-hero">
-        <div><span class="kicker">BUGÜNÜN KONTROL MERKEZİ</span><h1>Kliniği yönetirken siteyi saniyeler içinde güncelleyin.</h1><p>Başlığı yazın, metni yapıştırın, görseli seçin ve yayınlayın. Teknik terim veya dosya bilgisi gerekmez.</p></div>
+        <div><span class="kicker">GÜNLÜK YÖNETİM</span><h1>Bugün ne yapmak istiyorsunuz?</h1><p>En sık kullanılan işlemlere buradan ulaşın. Kaydettiğiniz içerik, site hazırlanmayı tamamladığında ziyaretçilere görünür.</p></div>
         <div class="button-row"><a class="button primary large" href="#edit/blog/new"><i class="fa-solid fa-plus"></i> Blog yayınla</a><a class="button large" href="#edit/announcements/new"><i class="fa-solid fa-bullhorn"></i> Duyuru yayınla</a></div>
       </section>
       <section class="metric-grid">
@@ -424,12 +433,12 @@
         <article class="metric-card"><span class="metric-icon"><i class="fa-solid fa-bullhorn"></i></span><div><strong>${activeAnnouncements}</strong><span>aktif veya planlı duyuru</span></div></article>
       </section>
       <section class="dashboard-grid">
-        <div class="panel"><div class="panel-head"><div><h2>Hızlı işlemler</h2><p>Gün içinde en sık kullanacağınız alanlar</p></div></div><div class="quick-list">
+        <div class="panel"><div class="panel-head"><div><h2>Hızlı işlemler</h2><p>Bir işi başlatmak için seçin</p></div></div><div class="quick-list">
           ${quickItem('fa-pen-to-square','Yeni blog yazısı','Hazır metni yapıştırıp hemen veya ileri tarihte yayınlayın','#edit/blog/new')}
           ${quickItem('fa-calendar-check','Randevuları aç','Yeni talepleri arayın, durum ve klinik notu ekleyin','#appointments')}
           ${quickItem('fa-bullhorn','Yeni duyuru','Ana sayfada başlangıç ve bitiş zamanı olan duyuru yayınlayın','#edit/announcements/new')}
-          ${quickItem('fa-calendar-days','İçerik takvimi','Planlanan blog, duyuru ve Instagram kayıtlarını görün','#calendar')}
-          ${quickItem('fa-circle-question','Ana sayfa SSS','Ana sayfada gösterilecek altı soruyu seçin','#home/faq')}
+          ${quickItem('fa-calendar-days','İçerik planı','Planlanan blog, duyuru ve Instagram kayıtlarını görün','#calendar')}
+          ${quickItem('fa-circle-question','Ana sayfadaki SSS','Ana sayfada gösterilecek altı soruyu seçin','#home/faq')}
         </div></div>
         <div class="panel"><div class="panel-head"><div><h2>Son blog yazıları</h2><p>Yayındaki ve planlanan son kayıtlar</p></div><a class="button" href="#collection/blog">Tümünü aç</a></div><div class="quick-list">
           ${recent.length ? recent.map(item => { const status=contentStatus(item,COLLECTIONS.blog); return `<a class="quick-item" href="#edit/blog/${encodeURIComponent(item._slug)}"><i class="fa-solid fa-file-lines"></i><span><strong>${esc(item.title)}</strong><small>${esc(formatDate(item.date,true))} · ${esc(status.label)}</small></span><em>Düzenle</em></a>`; }).join('') : `<div style="padding:20px">${emptyState('fa-file-circle-plus','Henüz blog yazısı yok','İlk yazınızı birkaç adımda oluşturabilirsiniz.')}</div>`}
@@ -439,7 +448,7 @@
         <article class="metric-card"><span class="metric-icon"><i class="fa-solid fa-circle-question"></i></span><div><strong>${faq.filter(x=>x.published!==false).length}</strong><span>yayındaki SSS</span></div></article>
         <article class="metric-card"><span class="metric-icon"><i class="fa-solid fa-star"></i></span><div><strong>${reviews.filter(x=>x.published!==false).length}</strong><span>kayıtlı Google yorumu</span></div></article>
         <article class="metric-card"><span class="metric-icon"><i class="fa-brands fa-instagram"></i></span><div><strong>${instagram.filter(x=>x.published!==false).length}</strong><span>galeri görseli</span></div></article>
-        <article class="metric-card"><span class="metric-icon"><i class="fa-solid fa-shield-halved"></i></span><div><strong>${state.branch==='main'?'Canlı':'Test'}</strong><span>içerik dalı</span></div></article>
+        <article class="metric-card"><span class="metric-icon"><i class="fa-solid fa-shield-halved"></i></span><div><strong>${state.branch==='main'?'Canlı':'Test'}</strong><span>yayın ortamı</span></div></article>
       </div></section>`;
   }
   function quickItem(icon,title,text,href) { return `<a class="quick-item" href="${href}"><i class="fa-solid ${icon}"></i><span><strong>${esc(title)}</strong><small>${esc(text)}</small></span><em>Aç</em></a>`; }
@@ -527,7 +536,7 @@
     if (action === 'trash') { data.trashed=!item.trashed; if(data.trashed){data.published=false;data.archived=false;data.trashedAt=nowIso();}else data.trashedAt=''; }
     try {
       await writeJson(item._path,data,`Panel: ${collectionTitle(name,item)} — ${action}`,item._sha);
-      clearCollection(name); toast('İçerik güncellendi','Netlify yeni sürümü hazırlıyor.'); await renderCollection(name);
+      clearCollection(name); toast('İçerik kaydedildi','Site yeni sürümü hazırlıyor. Üst çubuktaki durumdan takip edebilirsiniz.'); await renderCollection(name);
     } catch(error) { toast('İşlem yapılamadı',error.message,'error'); }
   }
 
@@ -566,7 +575,7 @@
           <button type="button" class="button" data-save="draft"><i class="fa-regular fa-floppy-disk"></i> Taslak kaydet</button>
           ${name==='blog'?`<button type="button" class="button preview-button" data-action="preview"><i class="fa-regular fa-eye"></i> Yazıyı ön izle</button>`:''}
           ${item?`${name==='blog'?`<a class="button" href="/blog/${encodeURIComponent(slugify(data.advanced?.slug||item._slug))}.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Sitede görüntüle</a>`:''}<button type="button" class="button" data-save="unpublish"><i class="fa-solid fa-eye-slash"></i> Yayından kaldır</button><button type="button" class="button" data-save="archive"><i class="fa-solid fa-box-archive"></i> Arşivle</button><button type="button" class="button danger" data-save="trash"><i class="fa-regular fa-trash-can"></i> Çöp kutusuna taşı</button><button type="button" class="button" data-action="history"><i class="fa-solid fa-clock-rotate-left"></i> Önceki sürümler</button>`:''}
-          <div class="editor-note"><strong>Güvenli yayın:</strong> Değişiklik önce içerik dalına kaydedilir. Netlify yeni sürümü hazırladıktan sonra sitede görünür.</div>
+          <div class="editor-note"><strong>Yayın süreci:</strong> Önce kaydedilir, ardından site hazırlanır. Üst çubuk, yalnızca kaydın GitHub’a ulaştığını ve Netlify yayınının beklendiğini gösterir; gerçek yayın sonucunu Netlify üzerinden doğrulayın.</div>
         </div></aside>
       </form>`;
   }
@@ -937,12 +946,12 @@
     try{
       state.saving=true;$$('[data-save]').forEach(button=>button.disabled=true);
       await writeJson(path,data,message,item?item._sha:null,item!=null);clearCollection(name);
-      state.dirty=false;toast('İçerik kaydedildi',`${actionLabel(action)}. Netlify yeni sürümü hazırlıyor.`);location.hash=`#collection/${name}`;
+      state.dirty=false;toast('İçerik kaydedildi',`${actionLabel(action)}. Netlify yayını tamamlandığında sitede görünür.`);location.hash=`#collection/${name}`;
     }catch(error){if(/sha|conflict|does not match/i.test(error.message))toast('Başka bir değişiklik bulundu','Listeyi yenileyip tekrar deneyin.','error');else toast('Kaydedilemedi',error.message,'error');}
     finally{state.saving=false;$$('[data-save]').forEach(button=>button.disabled=false);}
   }
 
-  function actionLabel(action){return{publish:'Şimdi yayınlandı',schedule:'İleri tarihe planlandı',draft:'Taslak kaydedildi',unpublish:'Yayından kaldırıldı',archive:'Arşivlendi',trash:'Çöp kutusuna taşındı'}[action]||'Güncellendi';}
+  function actionLabel(action){return{publish:'Yayın için kaydedildi',schedule:'İleri tarihe planlandı',draft:'Taslak kaydedildi',unpublish:'Yayından kaldırıldı',archive:'Arşivlendi',trash:'Çöp kutusuna taşındı'}[action]||'Güncellendi';}
   function editorialPreviewHtml(data){
     const sections=(data.editorialSections||[]).map(block=>{
       if(block.type==='text'&&(block.heading||block.body))return `<section class="admin-preview-text">${block.heading?`<h2>${esc(block.heading)}</h2>`:''}${simpleRichPreview(block.body||'')}</section>`;
@@ -1098,7 +1107,8 @@
     await loadBlogDesign(true);const d=state.blogDesign;
     main.innerHTML=`<header class="page-head"><div><span class="kicker">SİSTEM KONTROLÜ</span><h1>Ayarlar ve güvenlik</h1><p>Blog varsayılanlarını siz belirlersiniz; seçilmeyen yazılar bu ayarları kullanır.</p></div></header>
     <section class="panel padded blog-design-settings"><div class="section-heading"><span class="section-icon"><i class="fa-solid fa-font"></i></span><div><h2>Blog tasarım varsayılanları</h2><p>Bir kez seçip sabitleyin. Yazı içinde özel seçim yapılmazsa bu fontlar kullanılır.</p></div></div><div class="form-grid">${selectField('blogDefaultTitleFont','Varsayılan blog başlık yazı tipi',d.titleFont,BLOG_FONT_OPTIONS,'',true)}${selectField('blogDefaultBodyFont','Varsayılan blog metin yazı tipi',d.bodyFont,BLOG_FONT_OPTIONS,'',true)}${selectField('blogDefaultCardTitleFont','Varsayılan kutucuk başlık yazı tipi',d.cardTitleFont,BLOG_FONT_OPTIONS,'',true)}${selectField('blogDefaultCardBodyFont','Varsayılan kutucuk metin yazı tipi',d.cardBodyFont,BLOG_FONT_OPTIONS,'',true)}</div><div class="blog-font-preview" id="blogFontPreview"><h3>Hayvan Sağlığı Rehberi</h3><p>Seçtiğiniz yazı tiplerinin uzun bir sağlık yazısında nasıl görüneceğini burada kontrol edebilirsiniz.</p><article><strong>Koruyucu Bakım</strong><span>Kutucuk başlığı ve açıklaması için seçilen varsayılan görünüm.</span></article></div><div class="button-row"><button class="button primary" id="saveBlogDesign"><i class="fa-solid fa-floppy-disk"></i> Seçimleri varsayılan olarak sabitle</button></div></section>
-    <section class="dashboard-grid" style="margin-top:16px"><div class="panel padded"><h2>Yayın ortamı</h2><div class="security-list" style="margin-top:14px">${securityRow('fa-code-branch','İçerik dalı',state.branch,state.branch==='main'?'Canlı içerik dalı':'Test dalı; canlı site içeriğine yazmaz')}${securityRow('fa-user-shield','Yetkili hesap',state.user?.email||'—','Netlify Identity ile doğrulandı')}${securityRow('fa-clock-rotate-left','Otomatik içerik yedekleri',String(backupCount),'Değişiklik öncesi sürümler özel yedek deposunda saklanır')}${securityRow('fa-database','Randevu deposu','Netlify Blobs','Kişisel veriler GitHub ve açık JSON dosyalarına yazılmaz')}</div></div><div class="panel padded"><h2>Kurulum kontrol listesi</h2><div class="security-list" style="margin-top:14px">${securityRow('fa-lock','Identity kayıt ayarı','Invite only','Yalnızca davet edilen kullanıcılar')}${securityRow('fa-user-tag','Yetkilendirme','ADMIN_EMAILS','Netlify ortam değişkenine yetkili e-posta yazılmalı')}${securityRow('fa-envelope','Randevu bildirimi','E-posta sağlayıcısı','Kurulum belgesindeki değişkenler girilmeli')}${securityRow('fa-shield-halved','KVKK uygulaması','Teknik temel hazır','Saklama ve imha süreleri hukukçu ile doğrulanmalı')}</div></div></section>`;
+    <section class="dashboard-grid" style="margin-top:16px"><div class="panel padded"><h2>Çalışma durumu</h2><div class="security-list" style="margin-top:14px">${securityRow('fa-globe','Site yayın modu',state.branch==='main'?'Canlı':'Test','Kaydedilen içerik site hazırlanırken üst çubukta durum gösterilir')}${securityRow('fa-user-shield','Giriş yapan hesap',state.user?.email||'—','Yalnızca davet edilmiş hesaplar kullanabilir')}${securityRow('fa-clock-rotate-left','Geri alınabilir yedekler',String(backupCount),'Değişiklik öncesi içerik sürümleri saklanır')}${securityRow('fa-calendar-check','Randevu kayıtları','Korumalı','Kişisel randevu bilgileri açık içerik dosyalarına yazılmaz')}</div></div><div class="panel padded"><h2>Günlük güvenlik</h2><div class="security-list" style="margin-top:14px">${securityRow('fa-lock','Hesap erişimi','Davetli hesap','Şifrenizi paylaşmayın ve ortak cihazda çıkış yapın')}${securityRow('fa-envelope','Randevu bildirimi','Kontrol edilmeli','Yeni talepler için bildirim ayarını düzenli sınayın')}${securityRow('fa-shield-halved','KVKK uygulaması','Kurum sorumluluğu','Saklama ve imha sürelerini kurum politikanızla eşleştirin')}</div></div></section>
+    <details class="advanced-settings"><summary><i class="fa-solid fa-screwdriver-wrench"></i><span>Gelişmiş teknik bilgiler</span><i class="fa-solid fa-chevron-down"></i></summary><div class="advanced-settings-body"><p>Bu bölüm yalnızca kurulum veya teknik destek sırasında gereklidir.</p><div class="security-list">${securityRow('fa-code-branch','Teknik içerik dalı',state.branch,state.branch==='main'?'Canlı içerik dalı':'Test dalı; canlı siteye yazmaz')}${securityRow('fa-user-tag','Yetkilendirme değişkeni','ADMIN_EMAILS','Yetkili e-posta adresleri Netlify ortamında tanımlanır')}${securityRow('fa-database','Randevu deposu','Netlify Blobs','Kişisel veriler GitHub içerik dosyalarında tutulmaz')}</div></div></details>`;
     const updatePreview=()=>{const preview=$('#blogFontPreview');if(!preview)return;preview.style.setProperty('--settings-title-font',BLOG_FONT_STACKS[$('#f-blogDefaultTitleFont')?.value||'manrope']);preview.style.setProperty('--settings-body-font',BLOG_FONT_STACKS[$('#f-blogDefaultBodyFont')?.value||'manrope']);preview.style.setProperty('--settings-card-title-font',BLOG_FONT_STACKS[$('#f-blogDefaultCardTitleFont')?.value||'manrope']);preview.style.setProperty('--settings-card-body-font',BLOG_FONT_STACKS[$('#f-blogDefaultCardBodyFont')?.value||'manrope']);};
     ['blogDefaultTitleFont','blogDefaultBodyFont','blogDefaultCardTitleFont','blogDefaultCardBodyFont'].forEach(name=>$(`#f-${name}`)?.addEventListener('change',updatePreview));updatePreview();
     $('#saveBlogDesign')?.addEventListener('click',async()=>{const data=normalizeBlogDesign({titleFont:$('#f-blogDefaultTitleFont').value,bodyFont:$('#f-blogDefaultBodyFont').value,cardTitleFont:$('#f-blogDefaultCardTitleFont').value,cardBodyFont:$('#f-blogDefaultCardBodyFont').value});try{await writeJson('settings/blog-design.json',data,'Panel: blog yazı tipi varsayılanları güncellendi',state.blogDesignSha,false);state.blogDesign=data;state.blogDesignSha=(await readJson('settings/blog-design.json',DEFAULT_BLOG_DESIGN,true)).sha;toast('Blog varsayılanları sabitlendi','Yeni ve varsayılan kullanan yazılar bu fontlarla gösterilecek.');}catch(error){toast('Kaydedilemedi',error.message,'error');}});

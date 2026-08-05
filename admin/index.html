@@ -14,8 +14,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700;800&family=Merriweather:wght@400;700&family=Playfair+Display:wght@400;600;700&family=Source+Serif+4:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="/admin/elci-admin-v5-4.css?v=20260726-v510-hotfix1">
-  <link rel="stylesheet" href="/admin/elci-admin-v5-5.css?v=20260726-v510-hotfix1">
+  <link rel="stylesheet" href="/admin/elci-admin-v5-4.css?v=20260804-v511">
+  <link rel="stylesheet" href="/admin/elci-admin-v5-5.css?v=20260804-v511">
+  <link rel="stylesheet" href="/admin/elci-admin-v5-11.css?v=20260804-v511">
 </head>
 <body>
   <noscript>Elçi Yönetim Merkezi için JavaScript etkin olmalıdır.</noscript>
@@ -36,10 +37,10 @@
       <button class="mobile-menu" id="mobileMenu" aria-label="Menüyü aç"><i class="fa-solid fa-bars"></i></button>
       <a class="admin-brand" href="#dashboard" aria-label="Yönetim Merkezi ana ekranı">
         <img src="/assets/img/uploads/elci-logo.png" alt="">
-        <span><strong>Elçi Veteriner Kliniği</strong><small>Yönetim Merkezi · V5.10</small></span>
+        <span><strong>Elçi Veteriner Kliniği</strong><small>Yönetim Merkezi · V5.11</small></span>
       </a>
       <div class="topbar-status">
-        <span class="branch-pill" id="branchPill"><i class="fa-solid fa-code-branch"></i> Hazırlanıyor</span>
+        <span class="branch-pill" id="branchPill" title="Yayın ortamı hazırlanıyor"><i class="fa-solid fa-cloud-arrow-up"></i> Yayın durumu</span>
         <span class="save-state" id="saveState" aria-live="polite"></span>
       </div>
       <div class="topbar-actions">
@@ -53,23 +54,25 @@
       <aside class="admin-sidebar" id="sidebar">
         <nav aria-label="Yönetim menüsü">
           <a href="#dashboard" data-route="dashboard"><i class="fa-solid fa-house"></i><span>Ana ekran</span></a>
-          <p class="nav-caption">YAYINLAR</p>
+          <p class="nav-caption">İÇERİK</p>
           <a href="#collection/blog" data-route="collection/blog"><i class="fa-solid fa-pen-to-square"></i><span>Blog yazıları</span></a>
           <a href="#collection/announcements" data-route="collection/announcements"><i class="fa-solid fa-bullhorn"></i><span>Duyurular</span></a>
-          <a href="#calendar" data-route="calendar"><i class="fa-solid fa-calendar-days"></i><span>İçerik takvimi</span></a>
+          <a href="#calendar" data-route="calendar"><i class="fa-solid fa-calendar-days"></i><span>İçerik planı</span></a>
           <p class="nav-caption">KLİNİK</p>
           <a href="#appointments" data-route="appointments"><i class="fa-solid fa-calendar-check"></i><span>Randevular</span><b class="nav-count" id="appointmentNavCount">0</b></a>
           <p class="nav-caption">SİTE İÇERİĞİ</p>
-          <a href="#home" data-route="home"><i class="fa-solid fa-table-cells-large"></i><span>Ana sayfa vitrini</span></a>
-          <a href="#collection/faq" data-route="collection/faq"><i class="fa-solid fa-circle-question"></i><span>Sık sorulan sorular</span></a>
-          <a href="#home/faq" data-route="home/faq"><i class="fa-solid fa-list-check"></i><span>Ana sayfa SSS</span></a>
+          <a href="#home" data-route="home"><i class="fa-solid fa-table-cells-large"></i><span>Ana sayfa düzeni</span></a>
+          <a href="#collection/faq" data-route="collection/faq"><i class="fa-solid fa-circle-question"></i><span>SSS arşivi</span></a>
+          <a href="#home/faq" data-route="home/faq"><i class="fa-solid fa-list-check"></i><span>Ana sayfadaki SSS</span></a>
           <a href="#services" data-route="services"><i class="fa-solid fa-stethoscope"></i><span>Hizmetler</span></a>
-          <a href="#collection/reviews" data-route="collection/reviews"><i class="fa-solid fa-star"></i><span>Google yorumları</span></a>
-          <a href="#home/reviews" data-route="home/reviews"><i class="fa-brands fa-google"></i><span>Sitedeki yorumlar</span></a>
+          <a href="#collection/reviews" data-route="collection/reviews"><i class="fa-solid fa-star"></i><span>Yorum arşivi</span></a>
+          <a href="#home/reviews" data-route="home/reviews"><i class="fa-brands fa-google"></i><span>Ana sayfadaki yorumlar</span></a>
           <a href="#stories" data-route="stories"><i class="fa-solid fa-heart-pulse"></i><span>Başarı hikâyeleri</span></a>
           <a href="#collection/instagram" data-route="collection/instagram"><i class="fa-brands fa-instagram"></i><span>Instagram galerisi</span></a>
-          <a href="#media" data-route="media"><i class="fa-solid fa-images"></i><span>Görsel arşivi</span></a>
-          <p class="nav-caption">KONTROL</p>
+          <a href="#media" data-route="media"><i class="fa-solid fa-images"></i><span>Görseller</span></a>
+          <p class="nav-caption">FİNANS</p>
+          <a href="/finans/"><i class="fa-solid fa-chart-line"></i><span>Finans yönetimi</span></a>
+          <p class="nav-caption">GELİŞMİŞ</p>
           <a href="#archive" data-route="archive"><i class="fa-solid fa-box-archive"></i><span>Arşiv ve çöp kutusu</span></a>
           <a href="#settings" data-route="settings"><i class="fa-solid fa-shield-halved"></i><span>Ayarlar ve güvenlik</span></a>
         </nav>
@@ -93,7 +96,7 @@
   <input type="file" id="hiddenFileInput" accept="image/*" hidden>
 
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script src="/admin/elci-admin-v5-4.js?v=20260726-v510-hotfix1"></script>
-  <script src="/admin/elci-admin-v5-5.js?v=20260726-v510-hotfix1"></script>
+  <script src="/admin/elci-admin-v5-4.js?v=20260804-v511"></script>
+  <script src="/admin/elci-admin-v5-5.js?v=20260804-v511"></script>
 </body>
 </html>

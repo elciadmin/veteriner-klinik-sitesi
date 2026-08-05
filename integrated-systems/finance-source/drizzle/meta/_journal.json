@@ -1,0 +1,48 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1784897310774,
+      "tag": "0000_rare_spacker_dave",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1784900411297,
+      "tag": "0001_slim_malice",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1784967295305,
+      "tag": "0002_illegal_northstar",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1785044269592,
+      "tag": "0003_rare_starfox",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1785079389372,
+      "tag": "0004_tiny_george_stacy",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1785848847269,
+      "tag": "0005_finance_audit",
+      "breakpoints": true
+    }
+  ]
+}
