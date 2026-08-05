@@ -1,5 +1,5 @@
 {
-  "published": true,
+  "published": false,
   "featured": true,
   "title": "1111111111111",
   "date": "2026-07-21T20:27:22.471Z",
@@ -22,8 +22,5 @@
     "author": "Elçi Veteriner Kliniği"
   },
   "archived": false,
-  "trashed": false,
-  "_path": "content/blog/2026-07-21-1111111111111.json",
-  "_sha": "c7ae279fd0381ec9de4d1c12101509eb96cf3d44",
-  "_slug": "2026-07-21-1111111111111"
+  "trashed": false
 }
