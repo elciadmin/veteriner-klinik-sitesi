@@ -28,6 +28,11 @@ import {
   resolveOpeningBalances,
 } from "@/lib/monthly-close.mjs";
 import { FinanceAuthError, requireFinanceApiUser, type FinanceUser } from "@/lib/finance-auth";
+import {
+  HISTORICAL_IMPORT_BATCH_SIZE,
+  historicalImportSummary,
+  validateHistoricalImportPackage,
+} from "@/lib/historical-import.mjs";
 
 type TransactionInput = {
   id: string;
@@ -186,7 +191,22 @@ type QuickReceiptLineInput = {
   movement?: MovementInput;
 };
 
+type HistoricalImportInput = {
+  schemaVersion: number;
+  importId: string;
+  source?: { fileName?: string; sha256?: string; generatedAt?: string };
+  summary?: Record<string, number | string>;
+  warnings?: string[];
+  transactions: TransactionInput[];
+  recurringRules: RecurringRuleInput[];
+  ledgerPackage: {
+    record: LedgerInput;
+    payments: PaymentInput[];
+  };
+};
+
 type ClinicDataAction =
+  | { action: "importHistoricalData"; package: HistoricalImportInput }
   | { action: "saveTransactions"; records: TransactionInput[] }
   | { action: "saveInventoryItem"; item: InventoryInput }
   | {
@@ -760,6 +780,7 @@ function routeStatus(error: unknown) {
 }
 
 function auditDescriptor(payload: ClinicDataAction) {
+  if (payload.action === "importHistoricalData") return { entityType: "historical_import", entityId: payload.package.importId };
   if (payload.action === "saveTransactions") return { entityType: "transaction", entityId: payload.records.map((row) => row.id).join(",") };
   if (payload.action === "saveInventoryItem") return { entityType: "inventory", entityId: payload.item.id };
   if (payload.action === "saveQuickPurchase") return { entityType: "inventory", entityId: payload.item.id };
@@ -1100,7 +1121,142 @@ export async function POST(request: Request) {
       return Response.json(body, { headers: { "cache-control": "no-store, private", "x-request-id": requestId } });
     };
 
-    if (payload.action === "saveTransactions") {
+    if (payload.action === "importHistoricalData") {
+      let importSummary;
+      try {
+        importSummary = validateHistoricalImportPackage(payload.package);
+      } catch (validationError) {
+        throw new RouteInputError(
+          validationError instanceof Error
+            ? validationError.message
+            : "Geçmiş veri paketi doğrulanamadı.",
+        );
+      }
+
+      const historicalTransactions = payload.package.transactions.map((row) => ({
+        ...row,
+        sourceModule: "historical_excel_import",
+        postingMode: "economic_only",
+        paymentMethod: "accrual",
+      }));
+      await assertDatesUnlocked(
+        db,
+        historicalTransactions.map((row) => row.date),
+      );
+
+      const existingTransactionRows = await db
+        .select({ id: transactions.id })
+        .from(transactions);
+      const existingTransactionIds = new Set(
+        existingTransactionRows.map((row) => row.id),
+      );
+      const missingTransactions = historicalTransactions.filter(
+        (row) => !existingTransactionIds.has(row.id),
+      );
+      await assertUniqueTransactionDocuments(db, missingTransactions);
+      for (let index = 0; index < missingTransactions.length; index += HISTORICAL_IMPORT_BATCH_SIZE) {
+        const batch = missingTransactions
+          .slice(index, index + HISTORICAL_IMPORT_BATCH_SIZE)
+          .map((row) => db.insert(transactions).values(transactionValues(row)));
+        if (batch.length) await db.batch(batch);
+      }
+
+      const existingRuleRows = await db
+        .select({ id: recurringExpenseRules.id })
+        .from(recurringExpenseRules);
+      const existingRuleIds = new Set(existingRuleRows.map((row) => row.id));
+      const missingRules = payload.package.recurringRules.filter(
+        (rule) => !existingRuleIds.has(rule.id),
+      );
+      for (let index = 0; index < missingRules.length; index += HISTORICAL_IMPORT_BATCH_SIZE) {
+        const batch = missingRules
+          .slice(index, index + HISTORICAL_IMPORT_BATCH_SIZE)
+          .map((rule) =>
+            db.insert(recurringExpenseRules).values(recurringRuleValues({ ...rule, active: false })),
+          );
+        if (batch.length) await db.batch(batch);
+      }
+
+      const recordInput = payload.package.ledgerPackage.record;
+      assertLedgerBasics(recordInput);
+      const existingRecordRows = await db
+        .select()
+        .from(ledgerRecords)
+        .where(eq(ledgerRecords.id, recordInput.id))
+        .limit(1);
+      let insertedLedgerRecords = 0;
+      if (!existingRecordRows[0]) {
+        await assertUniqueLedgerDocument(db, recordInput);
+        await db.insert(ledgerRecords).values(ledgerValues(recordInput));
+        insertedLedgerRecords = 1;
+      } else if (existingRecordRows[0].originalAmountCents !== cents(recordInput.originalAmount)) {
+        throw new RouteInputError(
+          "Aynı geçmiş borç kimliği farklı tutarla zaten kayıtlı; aktarım durduruldu.",
+          409,
+        );
+      }
+
+      const existingPaymentRows = await db
+        .select({ id: ledgerPayments.id })
+        .from(ledgerPayments);
+      const existingPaymentIds = new Set(existingPaymentRows.map((row) => row.id));
+      const missingPayments = payload.package.ledgerPackage.payments.filter(
+        (payment) => !existingPaymentIds.has(String(payment.id || "")),
+      );
+      await assertDatesUnlocked(db, missingPayments.map((payment) => payment.date));
+      for (let index = 0; index < missingPayments.length; index += HISTORICAL_IMPORT_BATCH_SIZE) {
+        const batch = missingPayments
+          .slice(index, index + HISTORICAL_IMPORT_BATCH_SIZE)
+          .map((payment) =>
+            db.insert(ledgerPayments).values({
+              id: String(payment.id),
+              recordId: payment.recordId,
+              amountCents: cents(payment.amount),
+              date: payment.date,
+              method: payment.method || "transfer",
+              note: payment.note || "Excel geçmiş ödeme",
+              status: payment.status || null,
+              transactionId: null,
+            }),
+          );
+        if (batch.length) await db.batch(batch);
+      }
+
+      const marker = {
+        importId: payload.package.importId,
+        source: payload.package.source ?? {},
+        summary: historicalImportSummary(payload.package),
+        completedAt: new Date().toISOString(),
+        actor: currentUser.email,
+      };
+      const markerValues = {
+        key: `historicalImport:${payload.package.importId}`,
+        value: JSON.stringify(marker),
+        updatedAt: new Date().toISOString(),
+      };
+      await db
+        .insert(settings)
+        .values(markerValues)
+        .onConflictDoUpdate({ target: settings.key, set: markerValues });
+
+      return success({
+        ok: true,
+        summary: importSummary,
+        inserted: {
+          transactions: missingTransactions.length,
+          recurringRules: missingRules.length,
+          ledgerRecords: insertedLedgerRecords,
+          ledgerPayments: missingPayments.length,
+        },
+        skipped: {
+          transactions: historicalTransactions.length - missingTransactions.length,
+          recurringRules: payload.package.recurringRules.length - missingRules.length,
+          ledgerRecords: insertedLedgerRecords ? 0 : 1,
+          ledgerPayments:
+            payload.package.ledgerPackage.payments.length - missingPayments.length,
+        },
+      });
+    } else if (payload.action === "saveTransactions") {
       await assertTransactionWritesUnlocked(db, payload.records);
       for (const record of payload.records) {
         const values = transactionValues(record);

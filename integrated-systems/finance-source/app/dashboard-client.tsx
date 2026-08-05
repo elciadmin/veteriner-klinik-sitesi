@@ -49,6 +49,7 @@ import {
   type DecisionSettings,
 } from "./decision-engine-view";
 import { InsightsView, ReportsView } from "./reporting-modules";
+import { HistoricalImportView } from "./historical-import-view";
 import {
   MonthlyCloseEvent,
   MonthlyCloseInput,
@@ -116,6 +117,7 @@ type View =
   | "tax"
   | "insights"
   | "reports"
+  | "import"
   | "checks";
 
 type RecordForm = {
@@ -207,6 +209,7 @@ const navItems: Array<{ id: View; label: string; meta?: string }> = [
   { id: "decision", label: "İleri Finans", meta: "Tahmin" },
   { id: "insights", label: "İstatistikler" },
   { id: "reports", label: "Raporlar" },
+  { id: "import", label: "Geçmiş Veri Aktarımı", meta: "Excel" },
   { id: "goals", label: "Hedefler" },
   { id: "tax", label: "Vergi Rezervi" },
   { id: "checks", label: "Sistem Doğrulaması" },
@@ -289,6 +292,11 @@ const viewTitles: Record<View, { title: string; subtitle: string }> = {
     title: "Vergi ve POS",
     subtitle:
       "KDV, vergi rezervleri, stopaj ve POS kesintilerini dönem bazında kontrol edin.",
+  },
+  import: {
+    title: "Geçmiş veri aktarımı",
+    subtitle:
+      "Hazırlanmış Excel geçmişini ön izleyin; gelir, gider taslağı ve borç geçmişini mükerrer oluşturmadan aktarın.",
   },
   checks: {
     title: "Formül denetimi",
@@ -3239,6 +3247,14 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
               records={records}
               today={TODAY}
               targetPosRate={targetPosRate}
+            />
+          ) : null}
+          {activeView === "import" ? (
+            <HistoricalImportView
+              canWrite={canWrite}
+              transactions={transactions}
+              recurringRules={recurringRules}
+              records={records}
             />
           ) : null}
           {activeView === "checks" ? <ChecksView auditEvents={auditEvents} /> : null}

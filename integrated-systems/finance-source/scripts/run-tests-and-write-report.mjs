@@ -12,6 +12,7 @@ const testFiles = [
   "tests/finance-formulas.test.mjs",
   "tests/financial-core.test.mjs",
   "tests/quick-receipt.test.mjs",
+  "tests/historical-import.test.mjs",
 ];
 const result = spawnSync(process.execPath, ["--test", ...testFiles], {
   cwd: root,
