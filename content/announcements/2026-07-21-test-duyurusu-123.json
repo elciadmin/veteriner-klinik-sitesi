@@ -11,6 +11,6 @@
   "linkUrl": "",
   "dismissible": true,
   "archived": false,
-  "trashed": true,
-  "trashedAt": "2026-08-05T17:23:47.412Z"
+  "trashed": false,
+  "trashedAt": ""
 }
