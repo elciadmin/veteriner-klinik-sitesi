@@ -1125,7 +1125,7 @@
   });
   window.addEventListener('beforeunload',event=>{if(!state.dirty)return;event.preventDefault();event.returnValue='';});
 
-  const IDENTITY_API_URL='https://elciveteriner.com/.netlify/identity';
+  const IDENTITY_API_URL=`${window.location.origin}/.netlify/identity`;
   let identityBound=false;
 
   function bindIdentity(identity){
