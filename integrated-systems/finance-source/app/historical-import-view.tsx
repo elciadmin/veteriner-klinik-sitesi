@@ -1,8 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
-import { historicalImportSummary } from "@/lib/historical-import.mjs";
+import {
+  historicalImportSummary,
+  validateHistoricalImportPackage,
+} from "@/lib/historical-import.mjs";
 import type { ClinicTransaction } from "./operational-modules";
 import type { RecurringExpenseRule } from "./recurring-expenses-view";
 
@@ -81,40 +84,37 @@ export function HistoricalImportView({
   records: LedgerRecordRef[];
 }) {
   const [data, setData] = useState<HistoricalPackage | null>(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
   const [result, setResult] = useState<ImportResult | null>(null);
   const [confirmed, setConfirmed] = useState(false);
 
-  useEffect(() => {
-    let cancelled = false;
-    async function load() {
-      try {
-        const response = await fetch("/api/historical-import", {
-          cache: "no-store",
-        });
-        if (!response.ok) throw new Error("Hazırlanmış aktarım paketi yüklenemedi.");
-        const payload = (await response.json()) as HistoricalPackage;
-        historicalImportSummary(payload);
-        if (!cancelled) setData(payload);
-      } catch (loadError) {
-        if (!cancelled) {
-          setError(
-            loadError instanceof Error
-              ? loadError.message
-              : "Aktarım paketi yüklenemedi.",
-          );
-        }
-      } finally {
-        if (!cancelled) setLoading(false);
+  async function selectPackage(file: File | undefined) {
+    setError("");
+    setResult(null);
+    setConfirmed(false);
+    setData(null);
+    if (!file) return;
+
+    try {
+      if (file.size > 12 * 1024 * 1024) {
+        throw new Error("Aktarım dosyası 12 MB güvenlik sınırını aşıyor.");
       }
+      if (!file.name.toLocaleLowerCase("tr-TR").endsWith(".json")) {
+        throw new Error("Hazırlanmış aktarım dosyası JSON biçiminde olmalıdır.");
+      }
+
+      const payload = JSON.parse(await file.text()) as HistoricalPackage;
+      validateHistoricalImportPackage(payload);
+      setData(payload);
+    } catch (loadError) {
+      setError(
+        loadError instanceof Error
+          ? loadError.message
+          : "Aktarım paketi yüklenemedi.",
+      );
     }
-    void load();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  }
 
   const imported = useMemo(() => {
     if (!data) return { transactions: 0, recurringRules: 0, debt: false };
@@ -170,12 +170,28 @@ export function HistoricalImportView({
     }
   }
 
-  if (loading) {
-    return <section className="import-panel"><p>Geçmiş veri paketi doğrulanıyor…</p></section>;
-  }
-
   if (!data) {
-    return <section className="import-panel import-panel-error"><h2>Aktarım paketi açılamadı</h2><p>{error}</p></section>;
+    return (
+      <section className="import-panel import-upload-panel">
+        <span className="eyebrow">Özel ve yerel aktarım</span>
+        <h2>Hazırlanmış geçmiş veri dosyasını seç</h2>
+        <p>
+          Finans verileri güvenlik nedeniyle GitHub deposuna veya uygulama
+          paketine eklenmez. Dosya yalnızca bu tarayıcıda okunur; aktarımı
+          onaylayana kadar sunucuya gönderilmez.
+        </p>
+        <label className="import-file-picker">
+          <strong>Özel aktarım JSON dosyası</strong>
+          <input
+            type="file"
+            accept="application/json,.json"
+            onChange={(event) => void selectPackage(event.target.files?.[0])}
+          />
+          <small>Yalnızca V5.14 tarafından hazırlanmış doğrulanmış JSON paketini seç.</small>
+        </label>
+        {error ? <p className="import-message error">{error}</p> : null}
+      </section>
+    );
   }
 
   return (

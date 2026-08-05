@@ -1,6 +1,4 @@
-import historicalPackage from "@/data/imports/elci-20260805.json";
-import { requireFinanceApiUser, FinanceAuthError } from "@/lib/finance-auth";
-import { validateHistoricalImportPackage } from "@/lib/historical-import.mjs";
+import { FinanceAuthError, requireFinanceApiUser } from "@/lib/finance-auth";
 
 function status(error: unknown) {
   return error instanceof FinanceAuthError ? error.status : 500;
@@ -9,11 +7,13 @@ function status(error: unknown) {
 export async function GET(request: Request) {
   try {
     const user = await requireFinanceApiUser(request, false);
-    validateHistoricalImportPackage(historicalPackage);
     return Response.json(
       {
-        ...historicalPackage,
+        ready: true,
+        uploadMode: "local-private-json",
         access: { role: user.role },
+        message:
+          "Geçmiş veri paketi güvenlik nedeniyle GitHub veya uygulama paketine eklenmez. Yetkili kullanıcı dosyayı kendi bilgisayarından seçer.",
       },
       {
         headers: {
@@ -28,7 +28,7 @@ export async function GET(request: Request) {
         error:
           error instanceof Error
             ? error.message
-            : "Geçmiş veri paketi açılamadı.",
+            : "Geçmiş veri aktarım hizmeti açılamadı.",
       },
       {
         status: status(error),
