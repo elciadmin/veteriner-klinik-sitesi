@@ -1837,5 +1837,96 @@
 </svg>
 <script src="/assets/js/content-sync.js?v=2"></script>
 <script src="/assets/js/home-content.js?v=20260721-4"></script>
-<script defer="" src="/assets/js/services-render.js?v=20260721"></script><script defer="" src="/assets/js/home-blog.js?v=20260721"></script><script defer="" src="/assets/js/home-faq.js?v=20260721"></script><script defer="" src="/assets/js/elci-system.js?v=20260721"></script></body>
+<script defer="" src="/assets/js/services-render.js?v=20260721"></script><script defer="" src="/assets/js/home-blog.js?v=20260721"></script><script defer="" src="/assets/js/home-faq.js?v=20260721"></script><script defer="" src="/assets/js/elci-system.js?v=20260721"></script>
+<script>
+(async function () {
+  try {
+    const cacheBust = Date.now();
+
+    const [settingsResponse, reviewsResponse] = await Promise.all([
+      fetch('/assets/data/site-settings.json?v=' + cacheBust, { cache: 'no-store' }),
+      fetch('/assets/data/reviews.json?v=' + cacheBust, { cache: 'no-store' })
+    ]);
+
+    if (settingsResponse.ok) {
+      const settings = await settingsResponse.json();
+      const total = Number(settings.totalGoogleReviews);
+
+      if (Number.isFinite(total)) {
+        const heroTotal =
+          document.getElementById('googleReviewTotalHero') ||
+          document.querySelector('.hero-card-title');
+
+        const headingTotal =
+          document.getElementById('googleReviewTotalHeading') ||
+          document.querySelector('#reviews h2');
+
+        if (heroTotal) {
+          heroTotal.textContent = total + ' Google değerlendirmesi';
+        }
+
+        if (headingTotal) {
+          headingTotal.textContent = "Google'da " + total + ' Değerlendirme';
+        }
+      }
+    }
+
+    if (reviewsResponse.ok) {
+      const reviews = await reviewsResponse.json();
+      const grid = document.getElementById('reviewGrid');
+
+      if (grid && Array.isArray(reviews)) {
+        grid.replaceChildren();
+
+        reviews.forEach(function (review) {
+          const card = document.createElement('article');
+          card.className = 'review-card elci-review-card';
+
+          const stars = document.createElement('div');
+          stars.className = 'elci-review-stars';
+
+          const rating = Math.max(
+            1,
+            Math.min(5, Number(review.rating) || 5)
+          );
+
+          stars.setAttribute('aria-label', rating + ' yıldız');
+          stars.textContent = '★'.repeat(rating);
+
+          const text = document.createElement('p');
+          text.className = 'review-text';
+          text.textContent = review.text || '';
+
+          const author = document.createElement('div');
+          author.className = 'review-author';
+          author.textContent = '— ' + (review.author || 'Google kullanıcısı');
+
+          const meta = document.createElement('div');
+          meta.className = 'review-meta';
+          meta.textContent = review.time || '';
+
+          card.appendChild(stars);
+          card.appendChild(text);
+          card.appendChild(author);
+          card.appendChild(meta);
+
+          if (review.sourceUrl) {
+            const link = document.createElement('a');
+            link.className = 'elci-review-link';
+            link.href = review.sourceUrl;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.textContent = 'Google yorumunu aç';
+            card.appendChild(link);
+          }
+
+          grid.appendChild(card);
+        });
+      }
+    }
+  } catch (error) {
+    console.error('Google yorumları yüklenemedi:', error);
+  }
+})();
+</script></body>
 </html>
