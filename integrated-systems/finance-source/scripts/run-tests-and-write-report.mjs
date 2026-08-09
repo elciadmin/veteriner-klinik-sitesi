@@ -23,7 +23,7 @@ const output = `${result.stdout ?? ""}${result.stderr ?? ""}`;
 process.stdout.write(output);
 
 function readCount(label) {
-  const match = output.match(new RegExp(`^# ${label} (\\d+)$`, "m"));
+  const match = output.match(new RegExp(`^(?:#|ℹ)\\s+${label}\\s+(\\d+)$`, "m"));
   return match ? Number(match[1]) : null;
 }
 const total = readCount("tests");
