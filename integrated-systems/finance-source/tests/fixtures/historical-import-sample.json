@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "importId": "sample-import-2026",
+  "transactions": [
+    {"id":"hist-elci-income-2026-01-02","date":"2026-01-02","kind":"income","amount":1500,"paymentMethod":"accrual","postingMode":"economic_only","sourceModule":"historical_excel_import","sourceRecordId":"sample-import-2026:gelir:1"},
+    {"id":"hist-elci-income-2026-01-03","date":"2026-01-03","kind":"income","amount":2000,"paymentMethod":"accrual","postingMode":"economic_only","sourceModule":"historical_excel_import","sourceRecordId":"sample-import-2026:gelir:2"}
+  ],
+  "recurringRules": [{"id":"hist-elci-rule-sample","amount":900,"active":false}],
+  "ledgerPackage": {"record":{"id":"hist-elci-ledger-sample","type":"payable","originalAmount":1000},"payments":[{"id":"hist-elci-payment-sample","recordId":"hist-elci-ledger-sample","amount":400,"date":"2026-01-04"}]},
+  "summary":{"incomeTransactions":2,"incomeTotal":3500,"debtRemaining":600}
+}

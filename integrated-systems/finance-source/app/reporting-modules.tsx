@@ -316,8 +316,8 @@ export function InsightsView({
   const cash = dailyOperationsSummary({
     transactions,
     date: today,
-    openingCash: 6_000,
-    countedCash: 4_500,
+    openingCash: 0,
+    countedCash: null,
   });
   const actions = buildActionItems({
     statistics,
@@ -579,8 +579,8 @@ export function ReportsView({
   const dayCash = dailyOperationsSummary({
     transactions,
     date: today,
-    openingCash: 6_000,
-    countedCash: 4_500,
+    openingCash: 0,
+    countedCash: null,
   });
   const actions = buildActionItems({
     statistics,

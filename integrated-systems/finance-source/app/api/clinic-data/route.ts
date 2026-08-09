@@ -1280,6 +1280,13 @@ export async function POST(request: Request) {
         sourceModule: "quick_receipt",
         sourceRecordId: payload.receiptId,
       }));
+      const movementIds = payload.lines.map((line) => line.movement?.id).filter((id): id is string => Boolean(id));
+      if (movementIds.length) {
+        const known = await db.select({ id: stockMovements.id }).from(stockMovements);
+        const found = movementIds.filter((id) => known.some((movement) => movement.id === id));
+        if (found.length === movementIds.length) return success({ ok: true, receiptId: payload.receiptId, lineCount: payload.lines.length, alreadyApplied: true });
+        if (found.length) throw new RouteInputError("Fişin bir bölümü daha önce işlenmiş. Stok tutarlılığı için yeniden göndermeyin; denetim kaydını kontrol edin.", 409);
+      }
       const first = receiptTransactions[0];
       for (const transaction of receiptTransactions) {
         if (
@@ -1417,6 +1424,8 @@ export async function POST(request: Request) {
         sourceModule: "inventory",
         sourceRecordId: payload.movement.id,
       };
+      const existingMovement = await db.select({ id: stockMovements.id }).from(stockMovements).where(eq(stockMovements.id, payload.movement.id)).limit(1);
+      if (existingMovement[0]) return success({ ok: true, alreadyApplied: true, movementId: payload.movement.id });
       await assertTransactionWritesUnlocked(db, [transactionInput]);
       await assertDatesUnlocked(db, [payload.movement.date]);
       const existingRows = await db
@@ -1535,6 +1544,8 @@ export async function POST(request: Request) {
           "Stok çıkışının maliyet kaydı eksik; hareket kaydedilmedi.",
         );
       }
+      const existingMovement = await db.select({ id: stockMovements.id }).from(stockMovements).where(eq(stockMovements.id, payload.movement.id)).limit(1);
+      if (existingMovement[0]) return success({ ok: true, alreadyApplied: true, movementId: payload.movement.id });
       const inventoryRows = await db
         .select()
         .from(inventoryItems)
@@ -2097,7 +2108,30 @@ export async function POST(request: Request) {
         .select()
         .from(transactions)
         .where(eq(transactions.sourceTransactionId, row.id));
+      const priorReversal = await db
+        .select({ id: transactions.id })
+        .from(transactions)
+        .where(eq(transactions.reversalOfId, row.id))
+        .limit(1);
+      if (priorReversal[0]) {
+        throw new RouteInputError("Bu işlem için zaten bir ters kayıt oluşturulmuş.", 409);
+      }
       const now = new Date().toISOString();
+      const reversal: TransactionInput = {
+        ...transactionFromRow(row),
+        id: `${row.id}-reversal-${crypto.randomUUID()}`,
+        date: payload.reversalDate,
+        time: row.time,
+        kind: row.kind === "income" ? "expense" : row.kind === "expense" ? "income" : "withdrawal",
+        category: `Ters kayıt · ${row.category}`,
+        description: `Ters kayıt: ${row.description} · ${reason}`,
+        reversalOfId: row.id,
+        sourceModule: "reversal",
+        sourceRecordId: row.id,
+        sourceTransactionId: row.id,
+        status: undefined,
+        isAutomatic: true,
+      };
       const audit = db.insert(transactionAuditEvents).values({
         id: crypto.randomUUID(),
         transactionId: row.id,
@@ -2106,22 +2140,20 @@ export async function POST(request: Request) {
         snapshotJson: JSON.stringify(transactionFromRow(row)),
         createdAt: now,
       });
-      const cancelOriginal = db
-        .update(transactions)
-        .set({ status: "cancelled", updatedAt: now })
-        .where(eq(transactions.id, row.id));
+      const reversalWrite = db.insert(transactions).values(transactionValues(reversal));
       if (related.length) {
         const cancelRelated = db
           .update(transactions)
           .set({ status: "cancelled", updatedAt: now })
           .where(eq(transactions.sourceTransactionId, row.id));
-        await db.batch([cancelOriginal, cancelRelated, audit]);
+        await db.batch([reversalWrite, cancelRelated, audit]);
       } else {
-        await db.batch([cancelOriginal, audit]);
+        await db.batch([reversalWrite, audit]);
       }
       return success({
         ok: true,
-        cancelledIds: [row.id, ...related.map((item) => item.id)],
+        reversal,
+        cancelledIds: related.map((item) => item.id),
       });
     } else if (payload.action === "saveRecurringRule") {
       const values = recurringRuleValues(payload.rule);

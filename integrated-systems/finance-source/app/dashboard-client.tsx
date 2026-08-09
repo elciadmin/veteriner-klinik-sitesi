@@ -513,8 +513,8 @@ function OverviewView({
   const daily = dailyOperationsSummary({
     transactions,
     date: TODAY,
-    openingCash: 6_000,
-    countedCash: 4_500,
+    openingCash: 0,
+    countedCash: null,
   });
   const stock = inventorySummary(inventory, TODAY);
   const debtDecision = decision.cards.find((card) => card.id === "debt");
@@ -2142,7 +2142,7 @@ function PosSettlementCenter({
 }
 
 export default function DashboardClient({ currentUser }: { currentUser: { email: string; role: "editor" | "viewer" } }) {
-  const [activeView, setActiveView] = useState<View>("daily");
+  const [activeView, setActiveView] = useState<View>("overview");
   const [records, setRecords] = useState<LedgerRecord[]>([]);
   const [transactions, setTransactions] =
     useState<ClinicTransaction[]>([]);
@@ -2564,16 +2564,17 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
       });
       const result = (await response.json()) as {
         cancelledIds?: string[];
+        reversal?: ClinicTransaction;
         error?: string;
       };
-      if (!response.ok || !result.cancelledIds) {
+      if (!response.ok || !result.reversal) {
         throw new Error(result.error || "Ters kayıt tamamlanamadı.");
       }
       const cancelled = new Set(result.cancelledIds);
       setTransactions((current) =>
-        current.map((item) =>
+        [result.reversal!, ...current.map((item) =>
           cancelled.has(item.id) ? { ...item, status: "cancelled" } : item,
-        ),
+        )],
       );
       setStorageError("");
       return true;
