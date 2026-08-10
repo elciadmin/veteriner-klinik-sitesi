@@ -45,6 +45,38 @@ export function historicalImportSummary(payload) {
   };
 }
 
+/**
+ * Historical data is useful even when it is incomplete. This deliberately
+ * describes the gaps instead of silently converting "unknown" into zero.
+ */
+export function historicalImportQuality(payload) {
+  const transactions = Array.isArray(payload?.transactions) ? payload.transactions : [];
+  const recurringRules = Array.isArray(payload?.recurringRules) ? payload.recurringRules : [];
+  const payments = Array.isArray(payload?.ledgerPackage?.payments) ? payload.ledgerPackage.payments : [];
+  const dates = transactions.map((row) => String(row?.date || "")).filter(Boolean).sort();
+  const hasExpense = transactions.some((row) => row?.kind === "expense");
+  const warnings = [];
+  let completenessBps = 0;
+
+  if (transactions.length) completenessBps += 5000;
+  if (hasExpense) completenessBps += 2000;
+  else warnings.push("Geçmiş gider ve alış satırları tam değildir; kârlılık yalnız yönetim tahminidir.");
+  if (recurringRules.length) completenessBps += 1000;
+  else warnings.push("Geçmiş sabit gider planı yoktur.");
+  if (payload?.ledgerPackage?.record) completenessBps += 1000;
+  else warnings.push("Geçmiş borç/alacak açılış bilgisi yoktur.");
+  if (payments.length) completenessBps += 500;
+  if (transactions.some((row) => row?.paymentMethod !== "accrual")) completenessBps += 500;
+  else warnings.push("Geçmiş kasa/banka hareketleri yeniden kurulmamıştır.");
+
+  return {
+    coverageStartDate: dates[0] || "",
+    coverageEndDate: dates.at(-1) || "",
+    completenessBps: Math.min(10000, completenessBps),
+    warnings,
+  };
+}
+
 export function validateHistoricalImportPackage(payload) {
   assert(payload && typeof payload === "object", "Aktarım paketi okunamadı.");
   assert(

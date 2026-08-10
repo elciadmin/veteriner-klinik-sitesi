@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { postFinanceJson } from "./finance-request";
 
 import {
   historicalImportSummary,
@@ -54,6 +55,20 @@ type ImportResult = {
   };
 };
 
+type ImportBatch = {
+  id: string;
+  sourceFileName: string;
+  status: string;
+  coverageStartDate: string;
+  coverageEndDate: string;
+  completenessBps: number;
+  warnings: string[];
+  createdAt: string;
+  appliedAt?: string;
+  rolledBackAt?: string;
+  rollbackReason: string;
+};
+
 const TRY = new Intl.NumberFormat("tr-TR", {
   style: "currency",
   currency: "TRY",
@@ -73,12 +88,16 @@ function formatDate(value: string) {
 }
 
 export function HistoricalImportView({
+  batches,
   canWrite,
+  onRollback,
   transactions,
   recurringRules,
   records,
 }: {
+  batches: ImportBatch[];
   canWrite: boolean;
+  onRollback: (batchId: string, reason: string) => Promise<boolean> | boolean;
   transactions: ClinicTransaction[];
   recurringRules: RecurringExpenseRule[];
   records: LedgerRecordRef[];
@@ -88,6 +107,8 @@ export function HistoricalImportView({
   const [saving, setSaving] = useState(false);
   const [result, setResult] = useState<ImportResult | null>(null);
   const [confirmed, setConfirmed] = useState(false);
+  const [rollbackTarget, setRollbackTarget] = useState<string | null>(null);
+  const [rollbackReason, setRollbackReason] = useState("");
 
   async function selectPackage(file: File | undefined) {
     setError("");
@@ -142,17 +163,10 @@ export function HistoricalImportView({
     setError("");
     setResult(null);
     try {
-      const response = await fetch("/api/clinic-data", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          "x-request-id": `historical-import-${Date.now()}`,
-        },
-        body: JSON.stringify({
-          action: "importHistoricalData",
-          package: data,
-        }),
-      });
+      const response = await postFinanceJson("/api/clinic-data", {
+        action: "importHistoricalData",
+        package: data,
+      }, `cmd-historical-import-${data.importId}-${Date.now()}`);
       const payload = (await response.json()) as ImportResult;
       if (!response.ok || !payload.ok) {
         throw new Error(payload.error || "Geçmiş veri aktarımı tamamlanamadı.");
@@ -170,32 +184,53 @@ export function HistoricalImportView({
     }
   }
 
+  async function rollbackBatch() {
+    if (!rollbackTarget || rollbackReason.trim().length < 5 || saving) return;
+    setSaving(true);
+    setError("");
+    const done = await onRollback(rollbackTarget, rollbackReason.trim());
+    if (!done) setError("Aktarım geri alınamadı. Sonradan bağlanmış kayıtlar olabilir.");
+    setSaving(false);
+  }
+
+  const batchHistory = batches.length ? (
+    <section className="import-panel import-batch-history">
+      <div className="panel-head compact"><div><span className="eyebrow">Aktarım denetimi</span><h3>Geçmiş veri paketleri</h3><p>Eksik geçmiş veri raporda görünür; kapsamı ve uyarıları her zaman korunur.</p></div></div>
+      <div className="table-wrap"><table className="ledger-table"><thead><tr><th>Paket</th><th>Kapsam</th><th>Veri tamlığı</th><th>Durum</th><th /></tr></thead><tbody>{batches.map((batch) => <tr key={batch.id}><td><strong>{batch.sourceFileName}</strong><small className="document-ref">{batch.id}</small></td><td>{batch.coverageStartDate || "—"} → {batch.coverageEndDate || "—"}</td><td>{(batch.completenessBps / 100).toLocaleString("tr-TR", { maximumFractionDigits: 0 })}%<small className="document-ref">{batch.warnings[0] || "Kapsam uyarısı yok"}</small></td><td><strong>{batch.status === "applied" ? "Aktif" : batch.status === "rolled_back" ? "Geri alındı" : batch.status}</strong></td><td>{batch.status === "applied" && canWrite ? <button className="text-button" onClick={() => { setRollbackTarget(batch.id); setRollbackReason(""); }} type="button">Geri al</button> : null}</td></tr>)}</tbody></table></div>
+      {rollbackTarget ? <div className="import-rollback"><strong>Bu aktarım paketini geri al</strong><p>Yalnız sonradan bağımsız ödeme/işlem bağlanmamışsa geri alınır. Gerekçe denetim kaydına yazılır.</p><input autoFocus onChange={(event) => setRollbackReason(event.target.value)} placeholder="Geri alma gerekçesi" value={rollbackReason} /><div><button className="secondary-button" onClick={() => setRollbackTarget(null)} type="button">Vazgeç</button><button className="danger-button" disabled={saving || rollbackReason.trim().length < 5} onClick={() => void rollbackBatch()} type="button">Paketi geri al</button></div></div> : null}
+    </section>
+  ) : null;
+
   if (!data) {
     return (
-      <section className="import-panel import-upload-panel">
-        <span className="eyebrow">Özel ve yerel aktarım</span>
-        <h2>Hazırlanmış geçmiş veri dosyasını seç</h2>
-        <p>
-          Finans verileri güvenlik nedeniyle GitHub deposuna veya uygulama
-          paketine eklenmez. Dosya yalnızca bu tarayıcıda okunur; aktarımı
-          onaylayana kadar sunucuya gönderilmez.
-        </p>
-        <label className="import-file-picker">
-          <strong>Özel aktarım JSON dosyası</strong>
-          <input
-            type="file"
-            accept="application/json,.json"
-            onChange={(event) => void selectPackage(event.target.files?.[0])}
-          />
-          <small>Yalnızca V5.14 tarafından hazırlanmış doğrulanmış JSON paketini seç.</small>
-        </label>
-        {error ? <p className="import-message error">{error}</p> : null}
-      </section>
+      <div className="historical-import-stack">
+        {batchHistory}
+        <section className="import-panel import-upload-panel">
+          <span className="eyebrow">Özel ve yerel aktarım</span>
+          <h2>Hazırlanmış geçmiş veri dosyasını seç</h2>
+          <p>
+            Finans verileri güvenlik nedeniyle GitHub deposuna veya uygulama
+            paketine eklenmez. Dosya yalnızca bu tarayıcıda okunur; aktarımı
+            onaylayana kadar sunucuya gönderilmez.
+          </p>
+          <label className="import-file-picker">
+            <strong>Özel aktarım JSON dosyası</strong>
+            <input
+              type="file"
+              accept="application/json,.json"
+              onChange={(event) => void selectPackage(event.target.files?.[0])}
+            />
+            <small>Yalnızca V5.14 tarafından hazırlanmış doğrulanmış JSON paketini seç.</small>
+          </label>
+          {error ? <p className="import-message error">{error}</p> : null}
+        </section>
+      </div>
     );
   }
 
   return (
     <div className="historical-import-stack">
+      {batchHistory}
       <section className="import-panel import-hero">
         <div>
           <span className="eyebrow">Hazırlanmış Excel geçişi</span>

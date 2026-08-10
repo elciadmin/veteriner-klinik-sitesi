@@ -3,12 +3,18 @@ import { asc, desc, eq } from "drizzle-orm";
 import { getDb } from "@/db";
 import {
   financeAuditEvents,
+  financialEvents,
+  financialJournalLines,
+  idempotencyCommands,
+  importBatchItems,
+  importBatches,
   inventoryItems,
   ledgerLineItems,
   ledgerPayments,
   ledgerRecords,
   monthlyCloseEvents,
   monthlyClosings,
+  productDefinitions,
   recurringExpenseOccurrences,
   recurringExpenseRules,
   settings,
@@ -29,10 +35,17 @@ import {
 } from "@/lib/monthly-close.mjs";
 import { FinanceAuthError, requireFinanceApiUser, type FinanceUser } from "@/lib/finance-auth";
 import {
-  HISTORICAL_IMPORT_BATCH_SIZE,
+  historicalImportQuality,
   historicalImportSummary,
   validateHistoricalImportPackage,
 } from "@/lib/historical-import.mjs";
+import {
+  ACCOUNTS,
+  assertBalanced,
+  purchaseJournal,
+  reversalJournal,
+  saleJournal,
+} from "@/lib/journal-core.mjs";
 
 type TransactionInput = {
   id: string;
@@ -62,6 +75,7 @@ type TransactionInput = {
   status?: string;
   isAutomatic?: boolean;
   sourceTransactionId?: string;
+  importBatchId?: string;
 };
 
 type InventoryInput = {
@@ -77,6 +91,19 @@ type InventoryInput = {
   supplier: string;
   lot: string;
   expiryDate: string;
+  productDefinitionId?: string;
+  baseUnit?: string;
+  baseUnitsPerPurchaseUnit?: number;
+  attributesJson?: string;
+};
+
+type ProductDefinitionInput = {
+  id: string;
+  canonicalName: string;
+  productFamily: string;
+  baseUnit: string;
+  attributes?: Record<string, unknown>;
+  aliases?: string[];
 };
 
 type MovementInput = {
@@ -95,6 +122,7 @@ type MovementInput = {
   documentType?: string;
   documentRef?: string;
   transactionId?: string;
+  importBatchId?: string;
   note: string;
 };
 
@@ -114,6 +142,7 @@ type LedgerInput = {
   originalAmount: number;
   reserve: number;
   reminderDays: number;
+  importBatchId?: string;
   lineItems?: LedgerLineItemInput[];
 };
 
@@ -140,6 +169,7 @@ type PaymentInput = {
   note?: string;
   status?: string;
   transactionId?: string;
+  importBatchId?: string;
 };
 
 type RecurringRuleInput = {
@@ -158,6 +188,7 @@ type RecurringRuleInput = {
   vatRate: number;
   active: boolean;
   note: string;
+  importBatchId?: string;
 };
 
 type RecurringOccurrenceInput = {
@@ -189,6 +220,7 @@ type QuickReceiptLineInput = {
   transaction: TransactionInput;
   item?: InventoryInput;
   movement?: MovementInput;
+  productDefinition?: ProductDefinitionInput;
 };
 
 type HistoricalImportInput = {
@@ -207,6 +239,7 @@ type HistoricalImportInput = {
 
 type ClinicDataAction =
   | { action: "importHistoricalData"; package: HistoricalImportInput }
+  | { action: "rollbackHistoricalImport"; batchId: string; reason: string }
   | { action: "saveTransactions"; records: TransactionInput[] }
   | { action: "saveInventoryItem"; item: InventoryInput }
   | {
@@ -265,6 +298,93 @@ function basisPoints(value: number | undefined) {
   return Math.round(Number(value ?? 0) * 10_000);
 }
 
+function stableJson(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(stableJson).join(",")}]`;
+  if (value && typeof value === "object") {
+    const record = value as Record<string, unknown>;
+    return `{${Object.keys(record).sort().map((key) => `${JSON.stringify(key)}:${stableJson(record[key])}`).join(",")}}`;
+  }
+  return JSON.stringify(value);
+}
+
+async function sha256Hex(value: string) {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
+  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+/**
+ * The old daily screens still keep their operational transaction row.  From
+ * V8 onward, every newly written daily row also creates an immutable balanced
+ * journal event in the *same D1 batch*.  Existing pre-V8 rows stay readable;
+ * they are not silently rewritten.
+ */
+function journalForLegacyTransaction(record: TransactionInput, trackedInInventory = false) {
+  const grossCents = cents(record.amount);
+  const rate = Number(record.vatRate ?? 0);
+  if (!Number.isFinite(rate) || rate < 0 || rate >= 1) {
+    throw new RouteInputError("KDV oranı %0 ile %100 arasında olmalıdır.");
+  }
+  const vatCents = rate > 0 ? Math.round(grossCents - grossCents / (1 + rate)) : 0;
+  const netCents = grossCents - vatCents;
+  if (record.kind === "income") {
+    return saleJournal({
+      netCents,
+      outputVatCents: vatCents,
+      paymentMethod: record.paymentMethod,
+      counterparty: record.counterparty || "",
+    });
+  }
+  if (record.kind === "expense") {
+    return purchaseJournal({
+      netCents,
+      // Belgesiz bir satırda KDV indirimi üretmeyiz. Yönetim kaydı görünür
+      // kalır, vergi ekranı ise onu indirilecek KDV saymaz.
+      inputVatCents: record.documentType && record.documentType !== "none" ? vatCents : 0,
+      paymentMethod: record.paymentMethod,
+      trackedInInventory,
+      counterparty: record.counterparty || "",
+    });
+  }
+  if (record.kind === "withdrawal") {
+    if (record.paymentMethod !== "cash" && record.paymentMethod !== "transfer") {
+      throw new RouteInputError("İşletme sahibi çekimi yalnız kasa veya banka ile kaydedilebilir.");
+    }
+    const creditAccount = record.paymentMethod === "cash" ? ACCOUNTS.cash : ACCOUNTS.bank;
+    const lines = [
+      { accountCode: ACCOUNTS.ownerDraw, debitCents: grossCents, creditCents: 0 },
+      { accountCode: creditAccount, debitCents: 0, creditCents: grossCents },
+    ];
+    assertBalanced(lines);
+    return lines;
+  }
+  throw new RouteInputError("Jurnale aktarılamayan işlem türü.");
+}
+
+function legacyJournalEvent(
+  record: TransactionInput,
+  trackedInInventory = false,
+) {
+  const eventId = `evt-legacy-${record.id}`;
+  const lines = journalForLegacyTransaction(record, trackedInInventory);
+  return {
+    eventId,
+    event: {
+      id: eventId,
+      eventType: record.kind === "income" ? "sale" : record.kind === "expense" ? "purchase" : "owner_draw",
+      effectiveDate: record.date,
+      status: "posted",
+      sourceModule: "legacy_transaction",
+      sourceRecordId: record.id,
+      counterparty: record.counterparty || "",
+      description: record.description,
+      documentId: record.documentRef || null,
+      reversalOfId: null,
+      payloadJson: JSON.stringify({ legacyTransactionId: record.id, paymentMethod: record.paymentMethod }),
+    },
+    lines,
+  };
+}
+
 function transactionValues(record: TransactionInput) {
   return {
     id: record.id,
@@ -295,6 +415,7 @@ function transactionValues(record: TransactionInput) {
     status: record.status || null,
     isAutomatic: Boolean(record.isAutomatic),
     sourceTransactionId: record.sourceTransactionId || null,
+    importBatchId: record.importBatchId || null,
     updatedAt: new Date().toISOString(),
   };
 }
@@ -313,6 +434,32 @@ function inventoryValues(item: InventoryInput) {
     supplier: item.supplier || "",
     lot: item.lot || "",
     expiryDate: item.expiryDate || "",
+    productDefinitionId: item.productDefinitionId || null,
+    baseUnit: item.baseUnit || item.unit,
+    baseUnitsPerPurchaseUnit: Number(item.baseUnitsPerPurchaseUnit || item.unitsPerPackage || 1),
+    attributesJson: item.attributesJson || "{}",
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+function productDefinitionValues(definition: ProductDefinitionInput) {
+  const aliases = Array.from(
+    new Set([
+      definition.canonicalName.trim(),
+      ...(definition.aliases ?? []).map((alias) => alias.trim()),
+    ].filter(Boolean)),
+  );
+  if (!definition.id || !definition.canonicalName.trim() || !definition.productFamily.trim() || !definition.baseUnit.trim()) {
+    throw new RouteInputError("Stok ürün kartında ad, aile ve temel birim zorunludur.");
+  }
+  return {
+    id: definition.id,
+    canonicalName: definition.canonicalName.trim(),
+    productFamily: definition.productFamily.trim(),
+    baseUnit: definition.baseUnit.trim(),
+    attributesJson: stableJson(definition.attributes ?? {}),
+    aliasesJson: stableJson(aliases),
+    status: "active",
     updatedAt: new Date().toISOString(),
   };
 }
@@ -357,6 +504,7 @@ function ledgerValues(record: LedgerInput) {
     originalAmountCents: cents(record.originalAmount),
     reserveCents: cents(record.reserve),
     reminderDays: Number(record.reminderDays || 3),
+    importBatchId: record.importBatchId || null,
   };
 }
 
@@ -393,6 +541,7 @@ function recurringRuleValues(rule: RecurringRuleInput) {
     vatRateBps: basisPoints(rule.vatRate),
     active: rule.active !== false,
     note: rule.note || "",
+    importBatchId: rule.importBatchId || null,
     updatedAt: new Date().toISOString(),
   };
 }
@@ -455,6 +604,7 @@ function transactionFromRow(row: TransactionRow) {
     status: row.status ?? undefined,
     isAutomatic: row.isAutomatic,
     sourceTransactionId: row.sourceTransactionId ?? undefined,
+    importBatchId: row.importBatchId ?? undefined,
   };
 }
 
@@ -833,6 +983,7 @@ export async function GET(request: Request) {
     const [
       transactionRows,
       itemRows,
+      productDefinitionRows,
       movementRows,
       recordRows,
       lineItemRows,
@@ -841,6 +992,7 @@ export async function GET(request: Request) {
       recurringOccurrenceRows,
       monthlyClosingRows,
       monthlyCloseEventRows,
+      importBatchRows,
       settingRows,
       auditRows,
     ] = await Promise.all([
@@ -849,6 +1001,7 @@ export async function GET(request: Request) {
         .from(transactions)
         .orderBy(desc(transactions.date), desc(transactions.time)),
       db.select().from(inventoryItems).orderBy(asc(inventoryItems.name)),
+      db.select().from(productDefinitions).orderBy(asc(productDefinitions.canonicalName)),
       db
         .select()
         .from(stockMovements)
@@ -881,6 +1034,10 @@ export async function GET(request: Request) {
         .select()
         .from(monthlyCloseEvents)
         .orderBy(desc(monthlyCloseEvents.createdAt)),
+      db
+        .select()
+        .from(importBatches)
+        .orderBy(desc(importBatches.createdAt)),
       db.select().from(settings),
       currentUser.role === "editor"
         ? db
@@ -901,6 +1058,7 @@ export async function GET(request: Request) {
         note: string;
         status?: "cancelled";
         transactionId?: string;
+        importBatchId?: string;
       }>
     >();
     const lineItemMap = new Map<
@@ -947,16 +1105,19 @@ export async function GET(request: Request) {
         status:
           payment.status === "cancelled" ? "cancelled" : undefined,
         transactionId: payment.transactionId ?? undefined,
+        importBatchId: payment.importBatchId ?? undefined,
       });
       paymentMap.set(payment.recordId, rows);
     }
 
+    const visibleRecordRows = recordRows.filter((row) => row.stage !== "archived");
+    const visibleRecordIds = new Set(visibleRecordRows.map((row) => row.id));
     const response = {
       hasData:
         transactionRows.length +
           itemRows.length +
           movementRows.length +
-          recordRows.length +
+          visibleRecordRows.length +
           lineItemRows.length +
           recurringRuleRows.length +
           recurringOccurrenceRows.length +
@@ -976,7 +1137,26 @@ export async function GET(request: Request) {
         supplier: row.supplier,
         lot: row.lot,
         expiryDate: row.expiryDate,
+        productDefinitionId: row.productDefinitionId ?? undefined,
+        baseUnit: row.baseUnit ?? row.unit,
+        baseUnitsPerPurchaseUnit: row.baseUnitsPerPurchaseUnit,
+        attributesJson: row.attributesJson,
       })),
+      productDefinitions: productDefinitionRows.map((row) => {
+        let attributes: Record<string, unknown> = {};
+        let aliases: string[] = [];
+        try { attributes = JSON.parse(row.attributesJson) as Record<string, unknown>; } catch { attributes = {}; }
+        try { aliases = JSON.parse(row.aliasesJson) as string[]; } catch { aliases = []; }
+        return {
+          id: row.id,
+          canonicalName: row.canonicalName,
+          productFamily: row.productFamily,
+          baseUnit: row.baseUnit,
+          attributes,
+          aliases,
+          status: row.status,
+        };
+      }),
       stockMovements: movementRows.map((row) => ({
         id: row.id,
         itemId: row.itemId,
@@ -997,7 +1177,7 @@ export async function GET(request: Request) {
         transactionId: row.transactionId ?? undefined,
         note: row.note,
       })),
-      records: recordRows.map((row) => ({
+      records: visibleRecordRows.map((row) => ({
         id: row.id,
         type: row.type,
         counterparty: row.counterparty,
@@ -1013,8 +1193,9 @@ export async function GET(request: Request) {
         originalAmount: row.originalAmountCents / 100,
         reserve: row.reserveCents / 100,
         reminderDays: row.reminderDays,
+        importBatchId: row.importBatchId ?? undefined,
         lineItems: lineItemMap.get(row.id) ?? [],
-        payments: paymentMap.get(row.id) ?? [],
+        payments: (paymentMap.get(row.id) ?? []).filter((payment) => visibleRecordIds.has(row.id)),
       })),
       recurringRules: recurringRuleRows.map((row) => ({
         id: row.id,
@@ -1067,6 +1248,23 @@ export async function GET(request: Request) {
           createdAt: row.createdAt,
         };
       }),
+      importBatches: importBatchRows.map((row) => {
+        let warnings: string[] = [];
+        try { warnings = JSON.parse(row.warningsJson) as string[]; } catch { warnings = []; }
+        return {
+          id: row.id,
+          sourceFileName: row.sourceFileName,
+          status: row.status,
+          coverageStartDate: row.coverageStartDate,
+          coverageEndDate: row.coverageEndDate,
+          completenessBps: row.completenessBps,
+          warnings,
+          createdAt: row.createdAt,
+          appliedAt: row.appliedAt ?? undefined,
+          rolledBackAt: row.rolledBackAt ?? undefined,
+          rollbackReason: row.rollbackReason,
+        };
+      }),
       settings: Object.fromEntries(
         settingRows.map((setting) => [setting.key, setting.value]),
       ),
@@ -1109,6 +1307,45 @@ export async function POST(request: Request) {
     }
     const payload = parsed as ClinicDataAction;
     const db = await getDb();
+    const suppliedIdempotencyKey = String(request.headers.get("idempotency-key") ?? "");
+    if (!/^cmd-[A-Za-z0-9._-]{12,140}$/.test(suppliedIdempotencyKey)) {
+      throw new RouteInputError("Bu finans kaydı için güvenli bir yeniden deneme anahtarı gerekli.", 400);
+    }
+    const commandAction = `legacy:${payload.action}`;
+    const payloadSha256 = await sha256Hex(stableJson(payload));
+    const knownCommand = (await db
+      .select()
+      .from(idempotencyCommands)
+      .where(eq(idempotencyCommands.idempotencyKey, suppliedIdempotencyKey))
+      .limit(1))[0];
+    if (knownCommand) {
+      if (
+        knownCommand.action !== commandAction ||
+        knownCommand.payloadSha256 !== payloadSha256
+      ) {
+        throw new RouteInputError(
+          "Bu yeniden deneme anahtarı farklı bir kayıt için kullanılmış.",
+          409,
+        );
+      }
+      if (knownCommand.status === "completed") {
+        return Response.json(JSON.parse(knownCommand.responseJson), {
+          headers: { "cache-control": "no-store, private", "x-idempotent-replay": "true" },
+        });
+      }
+      throw new RouteInputError(
+        "Bu kayıt daha önce başlatılmış ancak yanıt tamamlanmamış. Aynı anahtarla tekrar göndermeyin; denetim kaydını kontrol edin.",
+        409,
+      );
+    }
+    await db.insert(idempotencyCommands).values({
+      idempotencyKey: suppliedIdempotencyKey,
+      action: commandAction,
+      actorEmail: currentUser.email,
+      payloadSha256,
+      status: "processing",
+      responseJson: "{}",
+    });
     const suppliedRequestId = String(request.headers.get("x-request-id") ?? "");
     const requestId = /^[A-Za-z0-9._-]{8,100}$/.test(suppliedRequestId)
       ? suppliedRequestId
@@ -1118,6 +1355,14 @@ export async function POST(request: Request) {
     await appendFinanceAudit(db, currentUser, payload, requestId, "attempted");
     const success = async (body: object = { ok: true }) => {
       await appendFinanceAudit(db, currentUser, payload, requestId, "completed");
+      await db
+        .update(idempotencyCommands)
+        .set({
+          status: "completed",
+          responseJson: JSON.stringify(body),
+          completedAt: new Date().toISOString(),
+        })
+        .where(eq(idempotencyCommands.idempotencyKey, suppliedIdempotencyKey));
       return Response.json(body, { headers: { "cache-control": "no-store, private", "x-request-id": requestId } });
     };
 
@@ -1131,6 +1376,31 @@ export async function POST(request: Request) {
             ? validationError.message
             : "Geçmiş veri paketi doğrulanamadı.",
         );
+      }
+
+      const quality = historicalImportQuality(payload.package);
+      const packageHash = await sha256Hex(stableJson({
+        schemaVersion: payload.package.schemaVersion,
+        importId: payload.package.importId,
+        transactions: payload.package.transactions,
+        recurringRules: payload.package.recurringRules,
+        ledgerPackage: payload.package.ledgerPackage,
+      }));
+      const matchingBatch = await db
+        .select()
+        .from(importBatches)
+        .where(eq(importBatches.sourceSha256, packageHash))
+        .limit(1);
+      if (matchingBatch[0]) {
+        if (matchingBatch[0].status === "applied") {
+          return success({
+            ok: true,
+            alreadyApplied: true,
+            batchId: matchingBatch[0].id,
+            summary: JSON.parse(matchingBatch[0].summaryJson || "{}"),
+          });
+        }
+        throw new RouteInputError("Bu geçmiş aktarım paketi daha önce başlatılmış; denetim ekranından durumunu inceleyin.", 409);
       }
 
       const historicalTransactions = payload.package.transactions.map((row) => ({
@@ -1150,31 +1420,17 @@ export async function POST(request: Request) {
       const existingTransactionIds = new Set(
         existingTransactionRows.map((row) => row.id),
       );
-      const missingTransactions = historicalTransactions.filter(
-        (row) => !existingTransactionIds.has(row.id),
-      );
-      await assertUniqueTransactionDocuments(db, missingTransactions);
-      for (let index = 0; index < missingTransactions.length; index += HISTORICAL_IMPORT_BATCH_SIZE) {
-        const batch = missingTransactions
-          .slice(index, index + HISTORICAL_IMPORT_BATCH_SIZE)
-          .map((row) => db.insert(transactions).values(transactionValues(row)));
-        if (batch.length) await db.batch(batch);
+      if (historicalTransactions.some((row) => existingTransactionIds.has(row.id))) {
+        throw new RouteInputError("Aktarımdaki bir geçmiş hareket zaten var. Aynı paketi yeniden yüklemeyin; denetim ekranından paket durumuna bakın.", 409);
       }
+      await assertUniqueTransactionDocuments(db, historicalTransactions);
 
       const existingRuleRows = await db
         .select({ id: recurringExpenseRules.id })
         .from(recurringExpenseRules);
       const existingRuleIds = new Set(existingRuleRows.map((row) => row.id));
-      const missingRules = payload.package.recurringRules.filter(
-        (rule) => !existingRuleIds.has(rule.id),
-      );
-      for (let index = 0; index < missingRules.length; index += HISTORICAL_IMPORT_BATCH_SIZE) {
-        const batch = missingRules
-          .slice(index, index + HISTORICAL_IMPORT_BATCH_SIZE)
-          .map((rule) =>
-            db.insert(recurringExpenseRules).values(recurringRuleValues({ ...rule, active: false })),
-          );
-        if (batch.length) await db.batch(batch);
+      if (payload.package.recurringRules.some((rule) => existingRuleIds.has(rule.id))) {
+        throw new RouteInputError("Aktarımdaki bir sabit gider taslağı zaten var; paket iki kez uygulanamaz.", 409);
       }
 
       const recordInput = payload.package.ledgerPackage.record;
@@ -1184,48 +1440,26 @@ export async function POST(request: Request) {
         .from(ledgerRecords)
         .where(eq(ledgerRecords.id, recordInput.id))
         .limit(1);
-      let insertedLedgerRecords = 0;
-      if (!existingRecordRows[0]) {
-        await assertUniqueLedgerDocument(db, recordInput);
-        await db.insert(ledgerRecords).values(ledgerValues(recordInput));
-        insertedLedgerRecords = 1;
-      } else if (existingRecordRows[0].originalAmountCents !== cents(recordInput.originalAmount)) {
-        throw new RouteInputError(
-          "Aynı geçmiş borç kimliği farklı tutarla zaten kayıtlı; aktarım durduruldu.",
-          409,
-        );
+      if (existingRecordRows[0]) {
+        throw new RouteInputError("Aktarımdaki geçmiş borç kaydı zaten var; paket iki kez uygulanamaz.", 409);
       }
+      await assertUniqueLedgerDocument(db, recordInput);
 
       const existingPaymentRows = await db
         .select({ id: ledgerPayments.id })
         .from(ledgerPayments);
       const existingPaymentIds = new Set(existingPaymentRows.map((row) => row.id));
-      const missingPayments = payload.package.ledgerPackage.payments.filter(
-        (payment) => !existingPaymentIds.has(String(payment.id || "")),
-      );
-      await assertDatesUnlocked(db, missingPayments.map((payment) => payment.date));
-      for (let index = 0; index < missingPayments.length; index += HISTORICAL_IMPORT_BATCH_SIZE) {
-        const batch = missingPayments
-          .slice(index, index + HISTORICAL_IMPORT_BATCH_SIZE)
-          .map((payment) =>
-            db.insert(ledgerPayments).values({
-              id: String(payment.id),
-              recordId: payment.recordId,
-              amountCents: cents(payment.amount),
-              date: payment.date,
-              method: payment.method || "transfer",
-              note: payment.note || "Excel geçmiş ödeme",
-              status: payment.status || null,
-              transactionId: null,
-            }),
-          );
-        if (batch.length) await db.batch(batch);
+      if (payload.package.ledgerPackage.payments.some((payment) => existingPaymentIds.has(String(payment.id || "")))) {
+        throw new RouteInputError("Aktarımdaki bir geçmiş ödeme zaten var; paket iki kez uygulanamaz.", 409);
       }
+      await assertDatesUnlocked(db, payload.package.ledgerPackage.payments.map((payment) => payment.date));
 
       const marker = {
         importId: payload.package.importId,
         source: payload.package.source ?? {},
-        summary: historicalImportSummary(payload.package),
+        packageHash,
+        summary: importSummary,
+        quality,
         completedAt: new Date().toISOString(),
         actor: currentUser.email,
       };
@@ -1234,37 +1468,151 @@ export async function POST(request: Request) {
         value: JSON.stringify(marker),
         updatedAt: new Date().toISOString(),
       };
-      await db
-        .insert(settings)
-        .values(markerValues)
-        .onConflictDoUpdate({ target: settings.key, set: markerValues });
+      const batchId = `import-${payload.package.importId}`;
+      const now = new Date().toISOString();
+      const importWarnings = [...new Set([...(payload.package.warnings ?? []), ...quality.warnings])];
+      const commands = [
+        db.insert(importBatches).values({
+          id: batchId,
+          sourceFileName: payload.package.source?.fileName || "Geçmiş veri paketi",
+          sourceSha256: packageHash,
+          schemaVersion: payload.package.schemaVersion,
+          status: "applied",
+          coverageStartDate: quality.coverageStartDate,
+          coverageEndDate: quality.coverageEndDate,
+          completenessBps: quality.completenessBps,
+          warningsJson: JSON.stringify(importWarnings),
+          summaryJson: JSON.stringify({ ...importSummary, quality }),
+          createdBy: currentUser.email,
+          appliedAt: now,
+        }),
+        ...historicalTransactions.map((row) => db.insert(transactions).values(transactionValues({ ...row, importBatchId: batchId }))),
+        ...payload.package.recurringRules.map((rule) => db.insert(recurringExpenseRules).values(recurringRuleValues({ ...rule, active: false, importBatchId: batchId }))),
+        db.insert(ledgerRecords).values(ledgerValues({ ...recordInput, importBatchId: batchId })),
+        ...payload.package.ledgerPackage.payments.map((payment) => db.insert(ledgerPayments).values({
+          id: String(payment.id),
+          recordId: payment.recordId,
+          amountCents: cents(payment.amount),
+          date: payment.date,
+          method: payment.method || "transfer",
+          note: payment.note || "Excel geçmiş ödeme",
+          status: payment.status || null,
+          transactionId: null,
+          importBatchId: batchId,
+        })),
+        ...historicalTransactions.map((row, sourceRowNumber) => db.insert(importBatchItems).values({
+          id: crypto.randomUUID(), batchId, entityType: "transaction", entityId: row.id, sourceRowNumber, rawJson: JSON.stringify(row),
+        })),
+        ...payload.package.recurringRules.map((rule, sourceRowNumber) => db.insert(importBatchItems).values({
+          id: crypto.randomUUID(), batchId, entityType: "recurring_rule", entityId: rule.id, sourceRowNumber, rawJson: JSON.stringify(rule),
+        })),
+        db.insert(importBatchItems).values({
+          id: crypto.randomUUID(), batchId, entityType: "ledger_record", entityId: recordInput.id, sourceRowNumber: null, rawJson: JSON.stringify(recordInput),
+        }),
+        ...payload.package.ledgerPackage.payments.map((payment, sourceRowNumber) => db.insert(importBatchItems).values({
+          id: crypto.randomUUID(), batchId, entityType: "ledger_payment", entityId: String(payment.id), sourceRowNumber, rawJson: JSON.stringify(payment),
+        })),
+        db.insert(settings).values(markerValues).onConflictDoUpdate({ target: settings.key, set: markerValues }),
+      ];
+      await db.batch(commands);
 
       return success({
         ok: true,
+        batchId,
         summary: importSummary,
+        quality: { ...quality, warnings: importWarnings },
         inserted: {
-          transactions: missingTransactions.length,
-          recurringRules: missingRules.length,
-          ledgerRecords: insertedLedgerRecords,
-          ledgerPayments: missingPayments.length,
-        },
-        skipped: {
-          transactions: historicalTransactions.length - missingTransactions.length,
-          recurringRules: payload.package.recurringRules.length - missingRules.length,
-          ledgerRecords: insertedLedgerRecords ? 0 : 1,
-          ledgerPayments:
-            payload.package.ledgerPackage.payments.length - missingPayments.length,
+          transactions: historicalTransactions.length,
+          recurringRules: payload.package.recurringRules.length,
+          ledgerRecords: 1,
+          ledgerPayments: payload.package.ledgerPackage.payments.length,
         },
       });
+    } else if (payload.action === "rollbackHistoricalImport") {
+      const batchId = String(payload.batchId || "");
+      const reason = String(payload.reason || "").trim();
+      if (!/^import-[A-Za-z0-9._-]{4,120}$/.test(batchId) || reason.length < 5) {
+        throw new RouteInputError("Aktarım paketi ve en az 5 karakterlik geri alma gerekçesi zorunludur.");
+      }
+      const batch = await db.select().from(importBatches).where(eq(importBatches.id, batchId)).limit(1);
+      if (!batch[0] || batch[0].status !== "applied") {
+        throw new RouteInputError("Yalnız uygulanmış geçmiş aktarım paketleri geri alınabilir.", 409);
+      }
+      const importedRecords = await db.select({ id: ledgerRecords.id }).from(ledgerRecords).where(eq(ledgerRecords.importBatchId, batchId));
+      const importedRecordIds = new Set(importedRecords.map((row) => row.id));
+      const allPayments = await db.select().from(ledgerPayments);
+      const laterPayments = allPayments.filter((payment) => (
+        importedRecordIds.has(payment.recordId) && payment.importBatchId !== batchId
+      ));
+      if (laterPayments.length) {
+        throw new RouteInputError("Bu geçmiş cari kayda sonradan ödeme bağlanmış. Güvenli geri alma yerine cari düzeltme kaydı kullanın.", 409);
+      }
+      const now = new Date().toISOString();
+      const importedTransactions = await db
+        .select({ id: transactions.id })
+        .from(transactions)
+        .where(eq(transactions.importBatchId, batchId));
+      // Import rows stay in the audit trail.  They are made inactive instead
+      // of being physically deleted, so an accountant can always see what was
+      // imported and why it was later withdrawn.
+      await db.batch([
+        db.update(ledgerPayments).set({ status: "cancelled" }).where(eq(ledgerPayments.importBatchId, batchId)),
+        db.update(ledgerRecords).set({ stage: "archived" }).where(eq(ledgerRecords.importBatchId, batchId)),
+        db.update(recurringExpenseRules).set({ active: false, updatedAt: now }).where(eq(recurringExpenseRules.importBatchId, batchId)),
+        db.update(transactions).set({ status: "cancelled", updatedAt: now }).where(eq(transactions.importBatchId, batchId)),
+        ...importedTransactions.map((row) => db.insert(transactionAuditEvents).values({
+          id: crypto.randomUUID(),
+          transactionId: row.id,
+          action: "import_rolled_back",
+          reason,
+          snapshotJson: JSON.stringify({ importBatchId: batchId, action: "archived_not_deleted" }),
+          createdAt: now,
+        })),
+        db.update(importBatches).set({
+          status: "rolled_back",
+          rolledBackAt: now,
+          rollbackReason: reason,
+        }).where(eq(importBatches.id, batchId)),
+      ] as any);
+      return success({ ok: true, batchId, rolledBack: true });
     } else if (payload.action === "saveTransactions") {
       await assertTransactionWritesUnlocked(db, payload.records);
+      const existingJournalRows = await db
+        .select({ sourceRecordId: financialEvents.sourceRecordId })
+        .from(financialEvents)
+        .where(eq(financialEvents.sourceModule, "legacy_transaction"));
+      const journalledIds = new Set(existingJournalRows.map((row) => row.sourceRecordId));
+      if (payload.records.some((record) => journalledIds.has(record.id))) {
+        throw new RouteInputError(
+          "Muhasebe defterine işlenmiş bir kayıt doğrudan değiştirilemez. Düzeltme için ters kayıt oluşturun.",
+          409,
+        );
+      }
+      const commands = [];
       for (const record of payload.records) {
         const values = transactionValues(record);
-        await db
+        const journal = legacyJournalEvent(record);
+        commands.push(
+          db
           .insert(transactions)
           .values(values)
-          .onConflictDoUpdate({ target: transactions.id, set: values });
+          .onConflictDoUpdate({ target: transactions.id, set: values }),
+          db.insert(financialEvents).values({
+            ...journal.event,
+            createdBy: currentUser.email,
+          }),
+          ...journal.lines.map((line, index) => db.insert(financialJournalLines).values({
+            id: `jln-${journal.eventId}-${index + 1}`,
+            eventId: journal.eventId,
+            accountCode: line.accountCode,
+            debitCents: line.debitCents,
+            creditCents: line.creditCents,
+            inventoryItemId: "itemId" in line ? String(line.itemId || "") || null : null,
+            memo: record.description,
+          })),
+        );
       }
+      await db.batch(commands as never[]);
     } else if (payload.action === "saveQuickReceipt") {
       if (
         !/^quick-receipt-[A-Za-z0-9._-]{6,100}$/.test(payload.receiptId) ||
@@ -1304,10 +1652,12 @@ export async function POST(request: Request) {
       await assertTransactionWritesUnlocked(db, receiptTransactions);
 
       const existingInventory = await db.select().from(inventoryItems);
+      const existingProductDefinitions = await db.select().from(productDefinitions);
       const workingInventory = new Map(
         existingInventory.map((item) => [item.id, { ...item }] as const),
       );
       const finalInventory = new Map<string, ReturnType<typeof inventoryValues>>();
+      const finalProductDefinitions = new Map<string, ReturnType<typeof productDefinitionValues>>();
       const queries = [];
 
       for (let index = 0; index < payload.lines.length; index += 1) {
@@ -1318,8 +1668,44 @@ export async function POST(request: Request) {
           db
             .insert(transactions)
             .values(transaction)
-            .onConflictDoUpdate({ target: transactions.id, set: transaction }),
+          .onConflictDoUpdate({ target: transactions.id, set: transaction }),
         );
+        const journal = legacyJournalEvent(transactionInput, Boolean(line.movement));
+        queries.push(
+          db.insert(financialEvents).values({ ...journal.event, createdBy: currentUser.email }),
+          ...journal.lines.map((journalLine, journalIndex) => db.insert(financialJournalLines).values({
+            id: `jln-${journal.eventId}-${journalIndex + 1}`,
+            eventId: journal.eventId,
+            accountCode: journalLine.accountCode,
+            debitCents: journalLine.debitCents,
+            creditCents: journalLine.creditCents,
+            memo: transactionInput.description,
+          })),
+        );
+
+        let resolvedProductDefinitionId: string | undefined;
+        if (line.productDefinition) {
+          const nextDefinition = productDefinitionValues(line.productDefinition);
+          const matchingDefinition = existingProductDefinitions.find((definition) => (
+            definition.productFamily === nextDefinition.productFamily
+            && definition.baseUnit === nextDefinition.baseUnit
+            && definition.attributesJson === nextDefinition.attributesJson
+          ));
+          const resolvedId = matchingDefinition?.id ?? nextDefinition.id;
+          resolvedProductDefinitionId = resolvedId;
+          const existingAliases = matchingDefinition
+            ? (() => { try { return JSON.parse(matchingDefinition.aliasesJson) as string[]; } catch { return []; } })()
+            : [];
+          const mergedDefinition = {
+            ...nextDefinition,
+            id: resolvedId,
+            aliasesJson: stableJson(Array.from(new Set([
+              ...existingAliases,
+              ...JSON.parse(nextDefinition.aliasesJson) as string[],
+            ]))),
+          };
+          finalProductDefinitions.set(resolvedId, mergedDefinition);
+        }
 
         const hasItem = Boolean(line.item);
         const hasMovement = Boolean(line.movement);
@@ -1370,6 +1756,12 @@ export async function POST(request: Request) {
           supplier: line.item.supplier || current?.supplier || "",
           lot: line.movement.lot || current?.lot || "",
           expiryDate: line.movement.expiryDate || current?.expiryDate || "",
+          productDefinitionId:
+            current?.productDefinitionId ?? resolvedProductDefinitionId ?? line.item.productDefinitionId,
+          baseUnit: current?.baseUnit ?? line.item.baseUnit ?? line.item.unit,
+          baseUnitsPerPurchaseUnit:
+            current?.baseUnitsPerPurchaseUnit ?? line.item.baseUnitsPerPurchaseUnit ?? line.item.unitsPerPackage ?? 1,
+          attributesJson: current?.attributesJson ?? line.item.attributesJson ?? "{}",
         });
         workingInventory.set(line.item.id, nextItem);
         finalInventory.set(line.item.id, nextItem);
@@ -1389,6 +1781,17 @@ export async function POST(request: Request) {
             .onConflictDoUpdate({
               target: stockMovements.id,
               set: movement,
+            }),
+        );
+      }
+      for (const definition of finalProductDefinitions.values()) {
+        queries.push(
+          db
+            .insert(productDefinitions)
+            .values(definition)
+            .onConflictDoUpdate({
+              target: productDefinitions.id,
+              set: definition,
             }),
         );
       }
@@ -1475,6 +1878,7 @@ export async function POST(request: Request) {
         documentRef: payload.transaction.documentRef,
         transactionId: payload.transaction.id,
       });
+      const journal = legacyJournalEvent(transactionInput, true);
       await db.batch([
         db
           .insert(transactions)
@@ -1483,6 +1887,16 @@ export async function POST(request: Request) {
             target: transactions.id,
             set: transaction,
           }),
+        db.insert(financialEvents).values({ ...journal.event, createdBy: currentUser.email }),
+        ...journal.lines.map((journalLine, journalIndex) => db.insert(financialJournalLines).values({
+          id: `jln-${journal.eventId}-${journalIndex + 1}`,
+          eventId: journal.eventId,
+          accountCode: journalLine.accountCode,
+          debitCents: journalLine.debitCents,
+          creditCents: journalLine.creditCents,
+          inventoryItemId: payload.item.id,
+          memo: transactionInput.description,
+        })),
         db
           .insert(inventoryItems)
           .values(item)
@@ -2122,13 +2536,17 @@ export async function POST(request: Request) {
         id: `${row.id}-reversal-${crypto.randomUUID()}`,
         date: payload.reversalDate,
         time: row.time,
-        kind: row.kind === "income" ? "expense" : row.kind === "expense" ? "income" : "withdrawal",
+        // A kasa çekimini ikinci bir çekimle değil, yalnız nakit etkili bir
+        // karşı girişle tersleriz. Böylece kâr/zarar şişmez.
+        kind: row.kind === "income" ? "expense" : "income",
         category: `Ters kayıt · ${row.category}`,
         description: `Ters kayıt: ${row.description} · ${reason}`,
         reversalOfId: row.id,
         sourceModule: "reversal",
         sourceRecordId: row.id,
         sourceTransactionId: row.id,
+        postingMode: row.kind === "withdrawal" ? "cash_only" : row.postingMode,
+        costBehavior: row.kind === "withdrawal" ? "non_expense" : row.costBehavior,
         status: undefined,
         isAutomatic: true,
       };
@@ -2141,14 +2559,51 @@ export async function POST(request: Request) {
         createdAt: now,
       });
       const reversalWrite = db.insert(transactions).values(transactionValues(reversal));
+      const sourceEvent = (await db
+        .select()
+        .from(financialEvents)
+        .where(eq(financialEvents.sourceRecordId, row.id))
+        .limit(1))[0];
+      const reversalJournalWrites = [];
+      if (sourceEvent) {
+        const sourceLines = await db
+          .select()
+          .from(financialJournalLines)
+          .where(eq(financialJournalLines.eventId, sourceEvent.id));
+        const reversedLines = reversalJournal(sourceLines);
+        const reversalEventId = `evt-reversal-${reversal.id}`;
+        reversalJournalWrites.push(
+          db.insert(financialEvents).values({
+            id: reversalEventId,
+            eventType: "reversal",
+            effectiveDate: reversal.date,
+            status: "posted",
+            sourceModule: "legacy_reversal",
+            sourceRecordId: reversal.id,
+            counterparty: reversal.counterparty || "",
+            description: reversal.description,
+            reversalOfId: sourceEvent.id,
+            payloadJson: JSON.stringify({ reason, originalTransactionId: row.id }),
+            createdBy: currentUser.email,
+          }),
+          ...reversedLines.map((line, index) => db.insert(financialJournalLines).values({
+            id: `jln-${reversalEventId}-${index + 1}`,
+            eventId: reversalEventId,
+            accountCode: line.accountCode,
+            debitCents: line.debitCents,
+            creditCents: line.creditCents,
+            memo: reversal.description,
+          })),
+        );
+      }
       if (related.length) {
         const cancelRelated = db
           .update(transactions)
           .set({ status: "cancelled", updatedAt: now })
           .where(eq(transactions.sourceTransactionId, row.id));
-        await db.batch([reversalWrite, cancelRelated, audit]);
+        await db.batch([reversalWrite, cancelRelated, audit, ...reversalJournalWrites]);
       } else {
-        await db.batch([reversalWrite, audit]);
+        await db.batch([reversalWrite, audit, ...reversalJournalWrites]);
       }
       return success({
         ok: true,

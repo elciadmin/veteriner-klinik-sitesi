@@ -1,7 +1,6 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import verifiedTestReport from "./verified-test-report.json";
 
 import {
   calendarEventsFromLedger,
@@ -21,7 +20,12 @@ import {
   operationalCalendarEvents,
   applyStockMovement,
 } from "@/lib/operations.mjs";
+import { assessFinanceIntegrity } from "@/lib/integrity.mjs";
 import { expectedPosNet } from "@/lib/financial-core.mjs";
+import {
+  buildCurrentAccountBook,
+  currentAccountBookCsv,
+} from "@/lib/current-account-book.mjs";
 import { recurringCalendarEvents } from "@/lib/recurring.mjs";
 import {
   CashControlView,
@@ -56,6 +60,15 @@ import {
   MonthlyClosing,
   MonthlyCloseView,
 } from "./monthly-close-view";
+import {
+  PlanningWorkspace,
+  RecordsWorkspace,
+  SettingsWorkspace,
+  TodayWorkspace,
+  WorkWorkspace,
+} from "./clinic-workspace";
+import { postFinanceJson } from "./finance-request";
+import VERIFIED_TEST_REPORT from "./verified-test-report.json";
 
 type Payment = {
   id?: string;
@@ -65,6 +78,7 @@ type Payment = {
   note?: string;
   status?: "cancelled";
   transactionId?: string;
+  importBatchId?: string;
 };
 
 type LedgerType = "receivable" | "payable";
@@ -99,11 +113,16 @@ type LedgerRecord = {
   originalAmount: number;
   reserve: number;
   reminderDays: number;
+  importBatchId?: string;
   lineItems?: LedgerLineItem[];
   payments: Payment[];
 };
 
 type View =
+  | "today"
+  | "work"
+  | "records"
+  | "settings"
   | "overview"
   | "decision"
   | "daily"
@@ -159,14 +178,40 @@ type ClinicDataResponse = {
   hasData: boolean;
   transactions: ClinicTransaction[];
   inventory: InventoryItem[];
+  productDefinitions: ProductDefinition[];
   stockMovements: StockMovement[];
   records: LedgerRecord[];
   recurringRules: RecurringExpenseRule[];
   recurringOccurrences: RecurringExpenseOccurrence[];
   monthlyClosings: MonthlyClosing[];
   monthlyCloseEvents: MonthlyCloseEvent[];
+  importBatches: ImportBatch[];
   settings: Record<string, string>;
   auditEvents: AuditEvent[];
+};
+
+type ImportBatch = {
+  id: string;
+  sourceFileName: string;
+  status: string;
+  coverageStartDate: string;
+  coverageEndDate: string;
+  completenessBps: number;
+  warnings: string[];
+  createdAt: string;
+  appliedAt?: string;
+  rolledBackAt?: string;
+  rollbackReason: string;
+};
+
+type ProductDefinition = {
+  id: string;
+  canonicalName: string;
+  productFamily: string;
+  baseUnit: string;
+  attributes: Record<string, unknown>;
+  aliases: string[];
+  status: string;
 };
 
 function todayInIstanbul() {
@@ -195,24 +240,14 @@ function timeInIstanbul() {
 }
 
 const TODAY = todayInIstanbul();
-const VERIFIED_TEST_REPORT = Object.freeze(verifiedTestReport);
 
 const navItems: Array<{ id: View; label: string; meta?: string }> = [
-  { id: "overview", label: "Genel Bakış" },
-  { id: "daily", label: "Günlük Gelir-Gider" },
-  { id: "ledger", label: "Alacaklar" },
-  { id: "debts", label: "Borçlar" },
-  { id: "cash", label: "Kasa ve POS" },
-  { id: "inventory", label: "Stok" },
-  { id: "recurring", label: "Sabit Giderler" },
-  { id: "calendar", label: "Finans Takvimi" },
-  { id: "decision", label: "İleri Finans", meta: "Tahmin" },
-  { id: "insights", label: "İstatistikler" },
-  { id: "reports", label: "Raporlar" },
-  { id: "import", label: "Geçmiş Veri Aktarımı", meta: "Excel" },
-  { id: "goals", label: "Hedefler" },
-  { id: "tax", label: "Vergi Rezervi" },
-  { id: "checks", label: "Sistem Doğrulaması" },
+  { id: "today", label: "Bugün" },
+  { id: "work", label: "İşler" },
+  { id: "records", label: "Kayıtlar" },
+  { id: "cash", label: "Kasa & Kapanış" },
+  { id: "reports", label: "Raporlar & Plan" },
+  { id: "settings", label: "Ayarlar & Denetim" },
 ];
 
 const statusLabels: Record<string, string> = {
@@ -228,6 +263,22 @@ const statusLabels: Record<string, string> = {
 };
 
 const viewTitles: Record<View, { title: string; subtitle: string }> = {
+  today: {
+    title: "Bugün",
+    subtitle: "Hızlı kayıt, kritik işler ve veri durumun tek ekranda.",
+  },
+  work: {
+    title: "İşler",
+    subtitle: "Vade, belge, POS ve stok uyarılarını önceliğine göre tamamlayın.",
+  },
+  records: {
+    title: "Kayıtlar",
+    subtitle: "Hareket, borç-alacak, sabit gider ve stok kayıtlarını buradan yönetin.",
+  },
+  settings: {
+    title: "Ayarlar ve denetim",
+    subtitle: "Aktarım, denetim ve teknik finans ayarları günlük kullanımdan ayrıdır.",
+  },
   overview: {
     title: "Finansal kontrol merkezi",
     subtitle:
@@ -406,8 +457,8 @@ function Sidebar({
       <div className="sidebar-foot">
         <span className="health-dot" />
         <div>
-          <strong>Son doğrulanan paket</strong>
-          <span>{VERIFIED_TEST_REPORT.passed}/{VERIFIED_TEST_REPORT.total} test · {formatDate(VERIFIED_TEST_REPORT.date)}</span>
+          <strong>Güvenli kayıt ilkesi</strong>
+          <span>Düzeltme ve iptal denetim iziyle yapılır</span>
         </div>
       </div>
     </aside>
@@ -423,7 +474,13 @@ function MobileNav({
 }) {
   return (
     <div className="mobile-nav" aria-label="Mobil yönetim bölümleri">
-      {navItems.map((item) => (
+      {[
+        { id: "today" as View, label: "Bugün" },
+        { id: "work" as View, label: "İşler" },
+        { id: "daily" as View, label: "+ Kayıt" },
+        { id: "records" as View, label: "Kayıtlar" },
+        { id: "settings" as View, label: "Daha fazla" },
+      ].map((item) => (
         <button
           className={activeView === item.id ? "active" : ""}
           key={item.id}
@@ -693,6 +750,11 @@ function LedgerView({
   onOpenDetail: (id: string) => void;
   onAddPayment: (id: string) => void;
 }) {
+  const [display, setDisplay] = useState<"summary" | "book">("book");
+  const [startDate, setStartDate] = useState(`${TODAY.slice(0, 7)}-01`);
+  const [endDate, setEndDate] = useState(TODAY);
+  const [includeHistorical, setIncludeHistorical] = useState(true);
+  const [counterparty, setCounterparty] = useState("");
   const rows = records
     .map((record) => ({
       record,
@@ -705,6 +767,31 @@ function LedgerView({
       if (filter === "paid") return status.code === "paid";
       return true;
     });
+  const bookType = filter === "receivable" || filter === "payable" ? filter : "all";
+  const book = useMemo(
+    () => buildCurrentAccountBook({
+      records,
+      startDate,
+      endDate,
+      type: bookType,
+      counterparty,
+      includeHistorical,
+    }),
+    [records, startDate, endDate, bookType, counterparty, includeHistorical],
+  );
+  const counterparties = [...new Set(records.map((record) => record.counterparty).filter(Boolean))]
+    .sort((left, right) => left.localeCompare(right, "tr"));
+  const exportBook = () => {
+    const content = currentAccountBookCsv(book);
+    const blob = new Blob([content], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    const safeName = (counterparty || "tum-cariler").replaceAll(/[^a-z0-9ğüşıöç]+/gi, "-");
+    anchor.href = url;
+    anchor.download = `cari-hesap-dokumu-${safeName}-${startDate || "tum-gecmis"}-${endDate || TODAY}.csv`;
+    anchor.click();
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <article className="panel ledger-panel">
@@ -725,9 +812,110 @@ function LedgerView({
             {label}
           </button>
         ))}
+        <span className="filter-divider" aria-hidden="true" />
+        <button
+          className={display === "book" ? "active" : ""}
+          onClick={() => setDisplay("book")}
+          type="button"
+        >
+          Cari defter
+        </button>
+        <button
+          className={display === "summary" ? "active" : ""}
+          onClick={() => setDisplay("summary")}
+          type="button"
+        >
+          Özet liste
+        </button>
       </div>
 
-      <div className="table-wrap">
+      {display === "book" ? (
+        <>
+          <div className="ledger-period-controls">
+            <label>
+              Başlangıç
+              <input
+                onChange={(event) => setStartDate(event.target.value)}
+                type="date"
+                value={startDate}
+              />
+            </label>
+            <label>
+              Bitiş
+              <input
+                onChange={(event) => setEndDate(event.target.value)}
+                type="date"
+                value={endDate}
+              />
+            </label>
+            <label>
+              Cari kişi / firma
+              <select onChange={(event) => setCounterparty(event.target.value)} value={counterparty}>
+                <option value="">Tüm cariler</option>
+                {counterparties.map((name) => <option key={name} value={name}>{name}</option>)}
+              </select>
+            </label>
+            <label className="ledger-history-toggle">
+              <input
+                checked={includeHistorical}
+                onChange={(event) => setIncludeHistorical(event.target.checked)}
+                type="checkbox"
+              />
+              Geçmiş aktarımı dahil et
+            </label>
+            <button className="ledger-export" onClick={exportBook} type="button">Hesap dökümünü indir</button>
+          </div>
+
+          <div className="ledger-book-totals" aria-label="Seçili dönem cari defter özeti">
+            <span><small>Dönem başı devir</small><strong>{formatMoney(book.openingBalance)}</strong></span>
+            <span><small>Bu dönem borç / alacak</small><strong>{formatMoney(book.increaseTotal)}</strong></span>
+            <span><small>Bu dönem tahsilat / ödeme</small><strong>{formatMoney(book.decreaseTotal)}</strong></span>
+            <span><small>Dönem sonu bakiye</small><strong>{formatMoney(book.closingBalance)}</strong></span>
+          </div>
+
+          <div className="table-wrap">
+            <table className="ledger-table current-account-table">
+              <thead>
+                <tr>
+                  <th>Tarih</th>
+                  <th>Cari / tür</th>
+                  <th>İşlem</th>
+                  <th>Belge / açıklama</th>
+                  <th className="numeric">Borç / alacak</th>
+                  <th className="numeric">Tahsilat / ödeme</th>
+                  <th className="numeric">Kalan bakiye</th>
+                  <th aria-label="İşlemler" />
+                </tr>
+              </thead>
+              <tbody>
+                {book.rows.map((row) => (
+                  <tr key={row.id}>
+                    <td><strong>{formatDate(row.date)}</strong></td>
+                    <td>
+                      <strong>{row.counterparty}</strong>
+                      <small className="document-ref">{row.type === "receivable" ? "Alacak" : "Borç"}{row.historical ? " · Geçmiş aktarım" : ""}</small>
+                    </td>
+                    <td>{row.entry}</td>
+                    <td>
+                      <span className="detail-cell">{row.detail}</span>
+                      {row.documentRef ? <small className="document-ref">{row.documentRef}</small> : null}
+                    </td>
+                    <td className="numeric">{row.increase ? formatMoney(row.increase) : "—"}</td>
+                    <td className="numeric">{row.decrease ? formatMoney(row.decrease) : "—"}</td>
+                    <td className="numeric balance">{formatMoney(row.balance)}</td>
+                    <td><button onClick={() => onOpenDetail(row.recordId)} type="button">Detay</button></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {book.rows.length === 0 ? (
+            <div className="empty-state">Seçili dönemde cari defter satırı bulunmuyor.</div>
+          ) : null}
+        </>
+      ) : (
+      <>
+        <div className="table-wrap">
         <table className="ledger-table">
           <thead>
             <tr>
@@ -808,11 +996,13 @@ function LedgerView({
             ))}
           </tbody>
         </table>
-      </div>
+        </div>
 
-      {rows.length === 0 ? (
-        <div className="empty-state">Bu filtrede kayıt bulunmuyor.</div>
-      ) : null}
+        {rows.length === 0 ? (
+          <div className="empty-state">Bu filtrede kayıt bulunmuyor.</div>
+        ) : null}
+      </>
+      )}
     </article>
   );
 }
@@ -2142,12 +2332,13 @@ function PosSettlementCenter({
 }
 
 export default function DashboardClient({ currentUser }: { currentUser: { email: string; role: "editor" | "viewer" } }) {
-  const [activeView, setActiveView] = useState<View>("overview");
+  const [activeView, setActiveView] = useState<View>("today");
   const [records, setRecords] = useState<LedgerRecord[]>([]);
   const [transactions, setTransactions] =
     useState<ClinicTransaction[]>([]);
   const [inventory, setInventory] =
     useState<InventoryItem[]>([]);
+  const [productDefinitions, setProductDefinitions] = useState<ProductDefinition[]>([]);
   const [stockMovements, setStockMovements] =
     useState<StockMovement[]>([]);
   const [recurringRules, setRecurringRules] = useState<
@@ -2160,6 +2351,7 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
   const [monthlyCloseEvents, setMonthlyCloseEvents] = useState<
     MonthlyCloseEvent[]
   >([]);
+  const [importBatches, setImportBatches] = useState<ImportBatch[]>([]);
   const [auditEvents, setAuditEvents] = useState<AuditEvent[]>([]);
   const [posCommissionRate, setPosCommissionRate] = useState(0.0239);
   const [decisionSettings, setDecisionSettings] =
@@ -2208,6 +2400,10 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
   });
 
   const summary = useMemo(() => ledgerSummary(records, TODAY), [records]);
+  const integrity = useMemo(
+    () => assessFinanceIntegrity({ transactions, inventory, records }),
+    [transactions, inventory, records],
+  );
   const selectedRecord = records.find(
     (record) => record.id === selectedRecordId,
   );
@@ -2262,12 +2458,14 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
         if (data.hasData) {
           setTransactions(data.transactions);
           setInventory(data.inventory);
+          setProductDefinitions(data.productDefinitions ?? []);
           setStockMovements(data.stockMovements);
           setRecords(data.records);
           setRecurringRules(data.recurringRules ?? []);
           setRecurringOccurrences(data.recurringOccurrences ?? []);
           setMonthlyClosings(data.monthlyClosings ?? []);
           setMonthlyCloseEvents(data.monthlyCloseEvents ?? []);
+          setImportBatches(data.importBatches ?? []);
           const savedRate = Number(data.settings.posCommissionRate);
           if (Number.isFinite(savedRate) && savedRate >= 0 && savedRate < 1) {
             setPosCommissionRate(savedRate);
@@ -2290,12 +2488,14 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
         } else {
           setTransactions([]);
           setInventory([]);
+          setProductDefinitions([]);
           setStockMovements([]);
           setRecords([]);
           setRecurringRules([]);
           setRecurringOccurrences([]);
           setMonthlyClosings([]);
           setMonthlyCloseEvents([]);
+          setImportBatches([]);
           setDataMode("empty");
         }
       } catch (error) {
@@ -2322,11 +2522,7 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
   async function persistData(payload: object) {
     if (!canWrite) return writeDenied();
     try {
-      const response = await fetch("/api/clinic-data", {
-        body: JSON.stringify(payload),
-        headers: { "content-type": "application/json" },
-        method: "POST",
-      });
+      const response = await postFinanceJson("/api/clinic-data", payload);
       if (!response.ok) {
         const result = (await response.json()) as { error?: string };
         throw new Error(result.error || "Kayıt veritabanına yazılamadı.");
@@ -2343,16 +2539,24 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
     }
   }
 
+  async function rollbackHistoricalImport(batchId: string, reason: string) {
+    const saved = await persistData({ action: "rollbackHistoricalImport", batchId, reason });
+    if (!saved) return false;
+    setImportBatches((current) => current.map((batch) => (
+      batch.id === batchId
+        ? { ...batch, status: "rolled_back", rolledBackAt: new Date().toISOString(), rollbackReason: reason }
+        : batch
+    )));
+    window.setTimeout(() => window.location.reload(), 450);
+    return true;
+  }
+
   async function saveMonthlyClosing(input: MonthlyCloseInput) {
     if (!canWrite) return writeDenied();
     try {
-      const response = await fetch("/api/clinic-data", {
-        body: JSON.stringify({
+      const response = await postFinanceJson("/api/clinic-data", {
           action: "saveMonthlyClosing",
           closing: input,
-        }),
-        headers: { "content-type": "application/json" },
-        method: "POST",
       });
       const result = (await response.json()) as {
         closing?: MonthlyClosing;
@@ -2398,14 +2602,10 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
   async function reopenMonthlyClosing(period: string, reason: string) {
     if (!canWrite) return writeDenied();
     try {
-      const response = await fetch("/api/clinic-data", {
-        body: JSON.stringify({
+      const response = await postFinanceJson("/api/clinic-data", {
           action: "reopenMonthlyClosing",
           period,
           reason,
-        }),
-        headers: { "content-type": "application/json" },
-        method: "POST",
       });
       const result = (await response.json()) as {
         closing?: MonthlyClosing;
@@ -2483,7 +2683,7 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
         : [transaction, ...current],
     );
     setTransactionModalDate(null);
-    setActiveView("daily");
+    setActiveView("today");
     return true;
   }
 
@@ -2507,13 +2707,9 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
   }) {
     if (!canWrite) return { ok: false, error: "Bu hesap yalnızca görüntüleme yetkisine sahip." };
     try {
-      const response = await fetch("/api/clinic-data", {
-        body: JSON.stringify({
+      const response = await postFinanceJson("/api/clinic-data", {
           action: "settlePosTransaction",
           ...input,
-        }),
-        headers: { "content-type": "application/json" },
-        method: "POST",
       });
       const result = (await response.json()) as {
         error?: string;
@@ -2552,15 +2748,11 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
   ) {
     if (!canWrite) return writeDenied();
     try {
-      const response = await fetch("/api/clinic-data", {
-        body: JSON.stringify({
+      const response = await postFinanceJson("/api/clinic-data", {
           action: "reverseTransaction",
           transactionId: transaction.id,
           reason,
           reversalDate: TODAY,
-        }),
-        headers: { "content-type": "application/json" },
-        method: "POST",
       });
       const result = (await response.json()) as {
         cancelledIds?: string[];
@@ -2991,8 +3183,7 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
     setPaymentSaving(true);
     const paymentId = `payment-${Date.now()}`;
     try {
-      const response = await fetch("/api/clinic-data", {
-        body: JSON.stringify({
+      const response = await postFinanceJson("/api/clinic-data", {
           action: "saveLedgerPayment",
           payment: {
             id: paymentId,
@@ -3002,9 +3193,6 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
             method,
             note,
           },
-        }),
-        headers: { "content-type": "application/json" },
-        method: "POST",
       });
       const result = (await response.json()) as {
         error?: string;
@@ -3058,8 +3246,8 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
           </div>
           <div className="topbar-right">
             <span className="as-of">{formatDate(TODAY)}</span>
-            <span className="test-badge">
-              <i /> {VERIFIED_TEST_REPORT.passed}/{VERIFIED_TEST_REPORT.total} doğrulanmış test
+            <span className={`data-health ${dataMode}`}>
+              <i /> {dataMode === "empty" ? "Kurulum gerekli" : dataMode === "persistent" ? "Veri bağlı" : dataMode === "offline" ? "Bağlantı kontrolü" : "Kontrol ediliyor"}
             </span>
             <span className="finance-user-chip" title={currentUser.email}>{currentUser.role === "editor" ? "Düzenleyici" : "Salt okunur"}</span>
             <a className="finance-logout" href="/api/finance-logout">Çıkış</a>
@@ -3087,7 +3275,7 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
                 <span>+</span> Yeni kayıt
               </button>
             )}
-            {(activeView === "overview" || activeView === "cash") && (
+            {(activeView === "today" || activeView === "overview" || activeView === "cash") && (
               <button
                 className="primary-button"
                 onClick={() => openTransaction()}
@@ -3098,6 +3286,42 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
               </button>
             )}
           </div>
+
+          {activeView === "today" ? (
+            <TodayWorkspace
+              dataMode={dataMode}
+              inventory={inventory}
+              productDefinitions={productDefinitions}
+              onNavigate={setActiveView}
+              onSave={saveTransaction}
+              onSaveReceipt={saveQuickReceipt}
+              onUndo={(transaction) => reverseTransaction(transaction, "10 saniyelik geri alma")}
+              records={records}
+              today={TODAY}
+              transactions={transactions}
+            />
+          ) : null}
+
+          {activeView === "work" ? (
+            <WorkWorkspace
+              inventory={inventory}
+              onNavigate={setActiveView}
+              records={records}
+              today={TODAY}
+              transactions={transactions}
+            />
+          ) : null}
+
+          {activeView === "records" ? (
+            <RecordsWorkspace
+              inventoryCount={inventory.length}
+              onNavigate={setActiveView}
+              payableCount={records.filter((record) => record.type === "payable").length}
+              receivableCount={records.filter((record) => record.type === "receivable").length}
+              recurringCount={recurringRules.length}
+              transactionCount={transactions.filter((item) => item.status !== "cancelled").length}
+            />
+          ) : null}
 
           {activeView === "overview" ? (
             <OverviewView
@@ -3241,18 +3465,24 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
             />
           ) : null}
           {activeView === "reports" ? (
-            <ReportsView
-              transactions={transactions}
-              items={inventory}
-              movements={stockMovements}
-              records={records}
-              today={TODAY}
-              targetPosRate={targetPosRate}
-            />
+            <>
+              <PlanningWorkspace onNavigate={setActiveView} />
+              <ReportsView
+                transactions={transactions}
+                items={inventory}
+                movements={stockMovements}
+                records={records}
+                today={TODAY}
+                targetPosRate={targetPosRate}
+              />
+            </>
           ) : null}
+          {activeView === "settings" ? <SettingsWorkspace integrity={integrity} onNavigate={setActiveView} /> : null}
           {activeView === "import" ? (
             <HistoricalImportView
+              batches={importBatches}
               canWrite={canWrite}
+              onRollback={rollbackHistoricalImport}
               transactions={transactions}
               recurringRules={recurringRules}
               records={records}
