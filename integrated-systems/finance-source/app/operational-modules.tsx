@@ -80,6 +80,10 @@ export type InventoryItem = {
   supplier: string;
   lot: string;
   expiryDate: string;
+  productDefinitionId?: string;
+  baseUnit?: string;
+  baseUnitsPerPurchaseUnit?: number;
+  attributesJson?: string;
 };
 
 export type StockMovementType =

@@ -27,6 +27,14 @@ export type QuickReceiptLinePayload = {
   transaction: ClinicTransaction;
   item?: InventoryItem;
   movement?: StockMovement;
+  productDefinition?: {
+    id: string;
+    canonicalName: string;
+    productFamily: string;
+    baseUnit: string;
+    attributes?: Record<string, unknown>;
+    aliases?: string[];
+  };
 };
 
 export type QuickReceiptPayload = {
