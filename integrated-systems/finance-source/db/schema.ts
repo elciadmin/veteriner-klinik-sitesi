@@ -41,6 +41,7 @@ export const transactions = sqliteTable(
       .notNull()
       .default(false),
     sourceTransactionId: text("source_transaction_id"),
+    importBatchId: text("import_batch_id"),
     createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
     updatedAt: text("updated_at").notNull().default(""),
   },
@@ -55,6 +56,7 @@ export const transactions = sqliteTable(
       table.posStatus,
       table.settlementDate,
     ),
+    index("transactions_import_batch_idx").on(table.importBatchId),
   ],
 );
 
@@ -71,6 +73,12 @@ export const inventoryItems = sqliteTable("inventory_items", {
   supplier: text("supplier").notNull().default(""),
   lot: text("lot").notNull().default(""),
   expiryDate: text("expiry_date").notNull().default(""),
+  productDefinitionId: text("product_definition_id"),
+  baseUnit: text("base_unit"),
+  baseUnitsPerPurchaseUnit: real("base_units_per_purchase_unit")
+    .notNull()
+    .default(1),
+  attributesJson: text("attributes_json").notNull().default("{}"),
   createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
   updatedAt: text("updated_at").notNull().default(sql`CURRENT_TIMESTAMP`),
 });
@@ -123,11 +131,13 @@ export const ledgerRecords = sqliteTable(
     originalAmountCents: integer("original_amount_cents").notNull(),
     reserveCents: integer("reserve_cents").notNull().default(0),
     reminderDays: integer("reminder_days").notNull().default(3),
+    importBatchId: text("import_batch_id"),
     createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
   },
   (table) => [
     index("ledger_records_due_idx").on(table.dueDate),
     index("ledger_records_type_idx").on(table.type),
+    index("ledger_records_import_batch_idx").on(table.importBatchId),
   ],
 );
 
@@ -170,12 +180,14 @@ export const ledgerPayments = sqliteTable(
     note: text("note").notNull().default(""),
     status: text("status"),
     transactionId: text("transaction_id"),
+    importBatchId: text("import_batch_id"),
     createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
   },
   (table) => [
     index("ledger_payments_record_idx").on(table.recordId),
     index("ledger_payments_date_idx").on(table.date),
     index("ledger_payments_transaction_idx").on(table.transactionId),
+    index("ledger_payments_import_batch_idx").on(table.importBatchId),
   ],
 );
 
@@ -217,12 +229,14 @@ export const recurringExpenseRules = sqliteTable(
     vatRateBps: integer("vat_rate_bps").notNull().default(0),
     active: integer("active", { mode: "boolean" }).notNull().default(true),
     note: text("note").notNull().default(""),
+    importBatchId: text("import_batch_id"),
     createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
     updatedAt: text("updated_at").notNull().default(sql`CURRENT_TIMESTAMP`),
   },
   (table) => [
     index("recurring_expense_rules_start_idx").on(table.startDate),
     index("recurring_expense_rules_active_idx").on(table.active),
+    index("recurring_expense_rules_import_batch_idx").on(table.importBatchId),
   ],
 );
 
@@ -339,4 +353,176 @@ export const financeAuditEvents = sqliteTable(
     index("finance_audit_entity_idx").on(table.entityType, table.entityId),
     index("finance_audit_created_idx").on(table.createdAt),
   ],
+);
+
+export const productDefinitions = sqliteTable(
+  "product_definitions",
+  {
+    id: text("id").primaryKey(),
+    canonicalName: text("canonical_name").notNull(),
+    productFamily: text("product_family").notNull(),
+    baseUnit: text("base_unit").notNull(),
+    attributesJson: text("attributes_json").notNull().default("{}"),
+    aliasesJson: text("aliases_json").notNull().default("[]"),
+    status: text("status").notNull().default("active"),
+    createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: text("updated_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+  },
+  (table) => [
+    index("product_definitions_family_idx").on(table.productFamily, table.baseUnit),
+  ],
+);
+
+export const importBatches = sqliteTable(
+  "import_batches",
+  {
+    id: text("id").primaryKey(),
+    sourceFileName: text("source_file_name").notNull().default(""),
+    sourceSha256: text("source_sha256").notNull().default(""),
+    schemaVersion: integer("schema_version").notNull(),
+    status: text("status").notNull().default("draft"),
+    coverageStartDate: text("coverage_start_date").notNull().default(""),
+    coverageEndDate: text("coverage_end_date").notNull().default(""),
+    completenessBps: integer("completeness_bps").notNull().default(0),
+    warningsJson: text("warnings_json").notNull().default("[]"),
+    summaryJson: text("summary_json").notNull().default("{}"),
+    createdBy: text("created_by").notNull().default(""),
+    createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+    appliedAt: text("applied_at"),
+    rolledBackAt: text("rolled_back_at"),
+    rollbackReason: text("rollback_reason").notNull().default(""),
+  },
+  (table) => [index("import_batches_source_hash_idx").on(table.sourceSha256)],
+);
+
+export const importBatchItems = sqliteTable(
+  "import_batch_items",
+  {
+    id: text("id").primaryKey(),
+    batchId: text("batch_id").notNull().references(() => importBatches.id),
+    entityType: text("entity_type").notNull(),
+    entityId: text("entity_id").notNull(),
+    sourceRowNumber: integer("source_row_number"),
+    rawJson: text("raw_json").notNull().default("{}"),
+    createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+  },
+  (table) => [index("import_batch_items_batch_idx").on(table.batchId, table.entityType)],
+);
+
+export const receiptDocuments = sqliteTable(
+  "receipt_documents",
+  {
+    id: text("id").primaryKey(),
+    status: text("status").notNull().default("draft"),
+    sourceType: text("source_type").notNull().default("manual"),
+    supplierName: text("supplier_name").notNull().default(""),
+    documentDate: text("document_date").notNull().default(""),
+    documentRef: text("document_ref").notNull().default(""),
+    declaredTotalCents: integer("declared_total_cents"),
+    parsedPayloadJson: text("parsed_payload_json").notNull().default("{}"),
+    reviewedPayloadJson: text("reviewed_payload_json").notNull().default("{}"),
+    confirmedEventId: text("confirmed_event_id"),
+    createdBy: text("created_by").notNull().default(""),
+    createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+    reviewedAt: text("reviewed_at"),
+  },
+  (table) => [
+    index("receipt_documents_status_idx").on(table.status, table.createdAt),
+  ],
+);
+
+export const financialEvents = sqliteTable(
+  "financial_events",
+  {
+    id: text("id").primaryKey(),
+    eventType: text("event_type").notNull(),
+    effectiveDate: text("effective_date").notNull(),
+    status: text("status").notNull().default("posted"),
+    sourceModule: text("source_module").notNull(),
+    sourceRecordId: text("source_record_id").notNull(),
+    counterparty: text("counterparty").notNull().default(""),
+    description: text("description").notNull().default(""),
+    documentId: text("document_id"),
+    reversalOfId: text("reversal_of_id"),
+    importBatchId: text("import_batch_id"),
+    payloadJson: text("payload_json").notNull().default("{}"),
+    createdBy: text("created_by").notNull().default(""),
+    createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+  },
+  (table) => [
+    index("financial_events_source_idx").on(table.sourceModule, table.sourceRecordId),
+    index("financial_events_date_idx").on(table.effectiveDate, table.eventType),
+  ],
+);
+
+export const financialJournalLines = sqliteTable(
+  "financial_journal_lines",
+  {
+    id: text("id").primaryKey(),
+    eventId: text("event_id").notNull().references(() => financialEvents.id),
+    accountCode: text("account_code").notNull(),
+    debitCents: integer("debit_cents").notNull().default(0),
+    creditCents: integer("credit_cents").notNull().default(0),
+    taxCode: text("tax_code").notNull().default(""),
+    inventoryItemId: text("inventory_item_id"),
+    ledgerRecordId: text("ledger_record_id"),
+    memo: text("memo").notNull().default(""),
+  },
+  (table) => [
+    index("financial_journal_lines_event_idx").on(table.eventId),
+    index("financial_journal_lines_account_idx").on(table.accountCode),
+  ],
+);
+
+export const posSettlementBatches = sqliteTable("pos_settlement_batches", {
+  id: text("id").primaryKey(),
+  bankReference: text("bank_reference").notNull(),
+  settlementDate: text("settlement_date").notNull(),
+  grossCents: integer("gross_cents").notNull(),
+  commissionCents: integer("commission_cents").notNull().default(0),
+  netCents: integer("net_cents").notNull(),
+  bankAccount: text("bank_account").notNull().default("bank"),
+  status: text("status").notNull().default("open"),
+  createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+});
+
+export const posSettlementAllocations = sqliteTable("pos_settlement_allocations", {
+  id: text("id").primaryKey(),
+  batchId: text("batch_id").notNull().references(() => posSettlementBatches.id),
+  transactionId: text("transaction_id").notNull().references(() => transactions.id),
+  grossCents: integer("gross_cents").notNull(),
+  commissionCents: integer("commission_cents").notNull().default(0),
+  netCents: integer("net_cents").notNull(),
+});
+
+export const idempotencyCommands = sqliteTable("idempotency_commands", {
+  idempotencyKey: text("idempotency_key").primaryKey(),
+  action: text("action").notNull(),
+  actorEmail: text("actor_email").notNull(),
+  payloadSha256: text("payload_sha256").notNull(),
+  status: text("status").notNull(),
+  responseJson: text("response_json").notNull().default("{}"),
+  createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+  completedAt: text("completed_at"),
+});
+
+export const dayClosings = sqliteTable(
+  "day_closings",
+  {
+    date: text("date").primaryKey(),
+    status: text("status").notNull().default("open"),
+    openingCashCents: integer("opening_cash_cents"),
+    expectedCashCents: integer("expected_cash_cents").notNull(),
+    physicalCashCents: integer("physical_cash_cents"),
+    cashDifferenceCents: integer("cash_difference_cents"),
+    pendingPosCount: integer("pending_pos_count").notNull().default(0),
+    missingDocumentCount: integer("missing_document_count").notNull().default(0),
+    varianceReason: text("variance_reason").notNull().default(""),
+    closedBy: text("closed_by").notNull().default(""),
+    closedAt: text("closed_at"),
+    reopenedBy: text("reopened_by").notNull().default(""),
+    reopenedAt: text("reopened_at"),
+    reopenReason: text("reopen_reason").notNull().default(""),
+  },
+  (table) => [index("day_closings_status_idx").on(table.status, table.date)],
 );
