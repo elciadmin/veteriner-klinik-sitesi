@@ -122,16 +122,20 @@ export function validateHistoricalImportPackage(payload) {
     assert(rule.active === false, "Geçmiş sabit giderler güvenlik gereği pasif taslak olmalıdır.");
   }
 
-  const record = payload.ledgerPackage?.record;
+  const record = payload.ledgerPackage?.record ?? null;
   const payments = payload.ledgerPackage?.payments;
-  assert(record && typeof record === "object", "Borç kaydı bulunamadı.");
-  assert(record.type === "payable", "Geçmiş borç kaydı ödenecek borç olmalıdır.");
-  assert(finiteMoney(record.originalAmount) > 0, "Geçmiş borç tutarı geçersiz.");
   assert(Array.isArray(payments), "Geçmiş borç ödemeleri bulunamadı.");
-  for (const payment of payments) {
-    assert(payment.recordId === record.id, "Borç ödemesi yanlış kayda bağlı.");
-    assert(finiteMoney(payment.amount) > 0, "Borç ödeme tutarı geçersiz.");
-    assert(/^\d{4}-\d{2}-\d{2}$/.test(String(payment.date || "")), "Borç ödeme tarihi geçersiz.");
+  if (record) {
+    assert(typeof record === "object", "Borç kaydı geçersiz.");
+    assert(record.type === "payable", "Geçmiş borç kaydı ödenecek borç olmalıdır.");
+    assert(finiteMoney(record.originalAmount) > 0, "Geçmiş borç tutarı geçersiz.");
+    for (const payment of payments) {
+      assert(payment.recordId === record.id, "Borç ödemesi yanlış kayda bağlı.");
+      assert(finiteMoney(payment.amount) > 0, "Borç ödeme tutarı geçersiz.");
+      assert(/^\d{4}-\d{2}-\d{2}$/.test(String(payment.date || "")), "Borç ödeme tarihi geçersiz.");
+    }
+  } else {
+    assert(payments.length === 0, "Borç kaydı olmadan geçmiş borç ödemesi aktarılamaz.");
   }
 
   const summary = historicalImportSummary(payload);

@@ -232,7 +232,7 @@ type HistoricalImportInput = {
   transactions: TransactionInput[];
   recurringRules: RecurringRuleInput[];
   ledgerPackage: {
-    record: LedgerInput;
+    record?: LedgerInput | null;
     payments: PaymentInput[];
   };
 };
@@ -1433,17 +1433,21 @@ export async function POST(request: Request) {
         throw new RouteInputError("Aktarımdaki bir sabit gider taslağı zaten var; paket iki kez uygulanamaz.", 409);
       }
 
-      const recordInput = payload.package.ledgerPackage.record;
-      assertLedgerBasics(recordInput);
-      const existingRecordRows = await db
-        .select()
-        .from(ledgerRecords)
-        .where(eq(ledgerRecords.id, recordInput.id))
-        .limit(1);
-      if (existingRecordRows[0]) {
-        throw new RouteInputError("Aktarımdaki geçmiş borç kaydı zaten var; paket iki kez uygulanamaz.", 409);
+      const recordInput = payload.package.ledgerPackage.record ?? null;
+      if (recordInput) {
+        assertLedgerBasics(recordInput);
+        const existingRecordRows = await db
+          .select()
+          .from(ledgerRecords)
+          .where(eq(ledgerRecords.id, recordInput.id))
+          .limit(1);
+        if (existingRecordRows[0]) {
+          throw new RouteInputError("Aktarımdaki geçmiş borç kaydı zaten var; paket iki kez uygulanamaz.", 409);
+        }
+        await assertUniqueLedgerDocument(db, recordInput);
+      } else if (payload.package.ledgerPackage.payments.length) {
+        throw new RouteInputError("Borç kaydı olmadan geçmiş borç ödemesi aktarılamaz.");
       }
-      await assertUniqueLedgerDocument(db, recordInput);
 
       const existingPaymentRows = await db
         .select({ id: ledgerPayments.id })
@@ -1488,7 +1492,7 @@ export async function POST(request: Request) {
         }),
         ...historicalTransactions.map((row) => db.insert(transactions).values(transactionValues({ ...row, importBatchId: batchId }))),
         ...payload.package.recurringRules.map((rule) => db.insert(recurringExpenseRules).values(recurringRuleValues({ ...rule, active: false, importBatchId: batchId }))),
-        db.insert(ledgerRecords).values(ledgerValues({ ...recordInput, importBatchId: batchId })),
+        ...(recordInput ? [db.insert(ledgerRecords).values(ledgerValues({ ...recordInput, importBatchId: batchId }))] : []),
         ...payload.package.ledgerPackage.payments.map((payment) => db.insert(ledgerPayments).values({
           id: String(payment.id),
           recordId: payment.recordId,
@@ -1506,9 +1510,9 @@ export async function POST(request: Request) {
         ...payload.package.recurringRules.map((rule, sourceRowNumber) => db.insert(importBatchItems).values({
           id: crypto.randomUUID(), batchId, entityType: "recurring_rule", entityId: rule.id, sourceRowNumber, rawJson: JSON.stringify(rule),
         })),
-        db.insert(importBatchItems).values({
+        ...(recordInput ? [db.insert(importBatchItems).values({
           id: crypto.randomUUID(), batchId, entityType: "ledger_record", entityId: recordInput.id, sourceRowNumber: null, rawJson: JSON.stringify(recordInput),
-        }),
+        })] : []),
         ...payload.package.ledgerPackage.payments.map((payment, sourceRowNumber) => db.insert(importBatchItems).values({
           id: crypto.randomUUID(), batchId, entityType: "ledger_payment", entityId: String(payment.id), sourceRowNumber, rawJson: JSON.stringify(payment),
         })),
@@ -1524,7 +1528,7 @@ export async function POST(request: Request) {
         inserted: {
           transactions: historicalTransactions.length,
           recurringRules: payload.package.recurringRules.length,
-          ledgerRecords: 1,
+          ledgerRecords: recordInput ? 1 : 0,
           ledgerPayments: payload.package.ledgerPackage.payments.length,
         },
       });

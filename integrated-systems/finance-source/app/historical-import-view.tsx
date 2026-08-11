@@ -33,7 +33,7 @@ type HistoricalPackage = {
   transactions: ClinicTransaction[];
   recurringRules: RecurringExpenseRule[];
   ledgerPackage: {
-    record: Record<string, unknown> & { id: string };
+    record?: (Record<string, unknown> & { id: string }) | null;
     payments: Array<Record<string, unknown>>;
   };
 };
@@ -146,7 +146,9 @@ export function HistoricalImportView({
       recurringRules: recurringRules.filter((row) =>
         row.id.startsWith("hist-elci-rule-"),
       ).length,
-      debt: records.some((row) => row.id === data.ledgerPackage.record.id),
+      debt: data.ledgerPackage.record
+        ? records.some((row) => row.id === data.ledgerPackage.record?.id)
+        : true,
     };
   }, [data, records, recurringRules, transactions]);
 
@@ -254,7 +256,11 @@ export function HistoricalImportView({
         <article><small>Geçmiş günlük ciro</small><strong>{TRY.format(data.summary.incomeTotal)}</strong><span>{data.summary.incomeTransactions} pozitif gün</span></article>
         <article><small>Tarih aralığı</small><strong>{formatDate(data.summary.incomeDateFrom)}</strong><span>{formatDate(data.summary.incomeDateTo)} tarihine kadar</span></article>
         <article><small>Sabit gider taslağı</small><strong>{data.summary.recurringDrafts}</strong><span>Pasif gelir; kontrol edilmeden çalışmaz</span></article>
-        <article><small>Yasin Abim kalan borç</small><strong>{TRY.format(data.summary.debtRemaining)}</strong><span>{data.summary.debtPaymentCount} geçmiş ödeme işlendi</span></article>
+        {data.ledgerPackage.record ? (
+          <article><small>Geçmiş borç bakiyesi</small><strong>{TRY.format(data.summary.debtRemaining)}</strong><span>{data.summary.debtPaymentCount} geçmiş ödeme işlendi</span></article>
+        ) : (
+          <article><small>Borç/alacak verisi</small><strong>Yok</strong><span>Bu paket yalnız gelir verisi içeriyor</span></article>
+        )}
       </section>
 
       <section className="import-panel">
