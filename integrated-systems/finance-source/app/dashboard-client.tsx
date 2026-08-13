@@ -28,6 +28,17 @@ import {
 } from "@/lib/current-account-book.mjs";
 import { recurringCalendarEvents } from "@/lib/recurring.mjs";
 import {
+  DENOMINATION_LABELS,
+  GOLD_KARATS,
+  SILVER_FINENESS,
+  denominationDescriptor,
+  indexedAmountValue,
+  indexedLedgerValue,
+  openingQuantity,
+  purityFactor,
+  remainingDenomination,
+} from "@/lib/indexed-ledger.mjs";
+import {
   CashControlView,
   ClinicTransaction,
   InventoryItem,
@@ -54,6 +65,7 @@ import {
 } from "./decision-engine-view";
 import { InsightsView, ReportsView } from "./reporting-modules";
 import { HistoricalImportView } from "./historical-import-view";
+import { GoalsView, type FinancialGoal, type GoalMilestone } from "./goals-view";
 import {
   MonthlyCloseEvent,
   MonthlyCloseInput,
@@ -73,6 +85,9 @@ import VERIFIED_TEST_REPORT from "./verified-test-report.json";
 type Payment = {
   id?: string;
   amount: number;
+  denominationCode?: string;
+  denominationQuantity?: number;
+  denominationUnitPrice?: number;
   date: string;
   method?: string;
   note?: string;
@@ -111,6 +126,16 @@ type LedgerRecord = {
   createdDate: string;
   dueDate: string;
   originalAmount: number;
+  denominationCode?: string;
+  denominationQuantity?: number;
+  denominationOpenUnitPrice?: number;
+  denominationRateSource?: string;
+  denominationAssetClass?: string;
+  denominationUnit?: string;
+  denominationPurity?: number;
+  denominationKarat?: number;
+  denominationMillesimal?: number;
+  denominationLabel?: string;
   reserve: number;
   reminderDays: number;
   importBatchId?: string;
@@ -150,6 +175,14 @@ type RecordForm = {
   createdDate: string;
   dueDate: string;
   amount: string;
+  denominationCode: string;
+  denominationQuantity: string;
+  denominationOpenUnitPrice: string;
+  denominationRateSource: string;
+  denominationPurity: string;
+  denominationKarat: string;
+  denominationMillesimal: string;
+  installmentCount: string;
   reminderDays: string;
 };
 
@@ -157,6 +190,8 @@ type PaymentForm = {
   recordId: string;
   date: string;
   amount: string;
+  denominationQuantity: string;
+  denominationUnitPrice: string;
   method: string;
   note: string;
 };
@@ -186,6 +221,10 @@ type ClinicDataResponse = {
   monthlyClosings: MonthlyClosing[];
   monthlyCloseEvents: MonthlyCloseEvent[];
   importBatches: ImportBatch[];
+  goals: FinancialGoal[];
+  goalMilestones: GoalMilestone[];
+  valuationRates: Array<{ id: string; assetCode: string; unitPrice: number; source: string; effectiveAt: string }>;
+  installmentSchedules: Array<{ id: string; ledgerRecordId: string; installmentNo: number; dueDate: string; amount: number; denominationQuantity?: number; status: string; paymentId?: string }>;
   settings: Record<string, string>;
   auditEvents: AuditEvent[];
 };
@@ -242,11 +281,12 @@ function timeInIstanbul() {
 const TODAY = todayInIstanbul();
 
 const navItems: Array<{ id: View; label: string; meta?: string }> = [
-  { id: "today", label: "Bugün" },
-  { id: "work", label: "İşler" },
-  { id: "records", label: "Kayıtlar" },
-  { id: "cash", label: "Kasa & Kapanış" },
-  { id: "reports", label: "Raporlar & Plan" },
+  { id: "today", label: "Finans Masası" },
+  { id: "work", label: "Yapılacaklar" },
+  { id: "records", label: "Defterler" },
+  { id: "cash", label: "Kasa & POS" },
+  { id: "goals", label: "Hedefler" },
+  { id: "reports", label: "Raporlar" },
   { id: "settings", label: "Ayarlar & Denetim" },
 ];
 
@@ -264,8 +304,8 @@ const statusLabels: Record<string, string> = {
 
 const viewTitles: Record<View, { title: string; subtitle: string }> = {
   today: {
-    title: "Bugün",
-    subtitle: "Hızlı kayıt, kritik işler ve veri durumun tek ekranda.",
+    title: "Finans Masası",
+    subtitle: "Yaz, kaydet, tahsil et, öde; önemli finans durumunu tek ekrandan yönet.",
   },
   work: {
     title: "İşler",
@@ -384,6 +424,15 @@ function formatDate(value: string) {
   return dateFormatter.format(new Date(`${value}T00:00:00Z`));
 }
 
+function addMonthsSafe(value: string, months: number) {
+  const source = new Date(`${value}T00:00:00Z`);
+  const day = source.getUTCDate();
+  const first = new Date(Date.UTC(source.getUTCFullYear(), source.getUTCMonth() + months, 1));
+  const last = new Date(Date.UTC(first.getUTCFullYear(), first.getUTCMonth() + 1, 0)).getUTCDate();
+  first.setUTCDate(Math.min(day, last));
+  return first.toISOString().slice(0, 10);
+}
+
 function statusTone(code: string) {
   if (code === "paid") return "success";
   if (code.startsWith("overdue")) return "danger";
@@ -475,7 +524,7 @@ function MobileNav({
   return (
     <div className="mobile-nav" aria-label="Mobil yönetim bölümleri">
       {[
-        { id: "today" as View, label: "Bugün" },
+        { id: "today" as View, label: "Masa" },
         { id: "work" as View, label: "İşler" },
         { id: "daily" as View, label: "+ Kayıt" },
         { id: "records" as View, label: "Kayıtlar" },
@@ -1331,6 +1380,11 @@ function DetailDrawer({
   onAddPayment: () => void;
 }) {
   const status = ledgerStatus({ ...record, today: TODAY });
+  const denominationCode = String(record.denominationCode || "TRY");
+  const isIndexed = denominationCode !== "TRY";
+  const originalUnits = openingQuantity(record);
+  const remainingUnits = remainingDenomination(record);
+  const paidUnits = Math.max(0, originalUnits - remainingUnits);
 
   return (
     <div className="overlay" role="presentation" onMouseDown={onClose}>
@@ -1354,16 +1408,17 @@ function DetailDrawer({
 
         <div className="drawer-summary">
           <div>
-            <span>Ana tutar</span>
-            <strong>{formatMoney(status.originalAmount)}</strong>
+            <span>{isIndexed ? `Ana miktar (${denominationCode})` : "Ana tutar"}</span>
+            <strong>{isIndexed ? originalUnits.toLocaleString("tr-TR", { maximumFractionDigits: 8 }) : formatMoney(status.originalAmount)}</strong>
           </div>
           <div>
-            <span>Ödenen</span>
-            <strong>{formatMoney(status.appliedPaid)}</strong>
+            <span>{isIndexed ? `Ödenen (${denominationCode})` : "Ödenen"}</span>
+            <strong>{isIndexed ? paidUnits.toLocaleString("tr-TR", { maximumFractionDigits: 8 }) : formatMoney(status.appliedPaid)}</strong>
           </div>
           <div>
-            <span>Kalan bakiye</span>
-            <strong>{formatMoney(status.remaining)}</strong>
+            <span>{isIndexed ? `Kalan (${denominationCode})` : "Kalan bakiye"}</span>
+            <strong>{isIndexed ? remainingUnits.toLocaleString("tr-TR", { maximumFractionDigits: 8 }) : formatMoney(status.remaining)}</strong>
+            {isIndexed ? <small>Açılış kuru: {formatMoney(record.denominationOpenUnitPrice || 0)} / {denominationCode}</small> : null}
           </div>
           <div>
             <span>Vade</span>
@@ -1388,9 +1443,9 @@ function DetailDrawer({
                 <div className="timeline-item" key={`${payment.date}-${index}`}>
                   <span />
                   <div>
-                    <strong>{formatMoney(payment.amount)}</strong>
+                    <strong>{payment.denominationQuantity && isIndexed ? `${Number(payment.denominationQuantity).toLocaleString("tr-TR", { maximumFractionDigits: 8 })} ${denominationCode} · ${formatMoney(payment.amount)}` : formatMoney(payment.amount)}</strong>
                     <small>
-                      {formatDate(payment.date)} · {payment.method || "Belirsiz"}
+                      {formatDate(payment.date)} · {payment.method || "Belirsiz"}{payment.denominationUnitPrice && isIndexed ? ` · birim ${formatMoney(payment.denominationUnitPrice)}` : ""}
                     </small>
                     {payment.note ? <p>{payment.note}</p> : null}
                   </div>
@@ -1443,6 +1498,76 @@ function RecordDialog({
   onClose: () => void;
   onSubmit: (event: FormEvent) => void;
 }) {
+  const [rateLoading, setRateLoading] = useState(false);
+  const [rateMessage, setRateMessage] = useState("");
+  const isIndexed = form.denominationCode !== "TRY";
+  const descriptor = denominationDescriptor({
+    denominationCode: form.denominationCode,
+    denominationPurity: Number(form.denominationPurity || 1),
+    denominationKarat: Number(form.denominationKarat || 0) || undefined,
+    denominationMillesimal: Number(form.denominationMillesimal || 0) || undefined,
+  });
+  const isGoldGram = form.denominationCode === "XAU_GRAM";
+  const isSilverGram = form.denominationCode === "XAG_GRAM";
+  const indexedOpeningValue = isIndexed
+    ? indexedAmountValue(
+        {
+          denominationCode: form.denominationCode,
+          denominationPurity: Number(form.denominationPurity || 1),
+          denominationKarat: Number(form.denominationKarat || 0) || undefined,
+          denominationMillesimal: Number(form.denominationMillesimal || 0) || undefined,
+        },
+        Number(form.denominationQuantity || 0),
+        Number(form.denominationOpenUnitPrice || 0),
+      ) ?? 0
+    : Number(form.amount || 0);
+
+  async function loadMarketRate() {
+    if (form.denominationCode === "TRY") return;
+    setRateLoading(true);
+    setRateMessage("");
+    try {
+      const response = await fetch("/api/market-rates", { cache: "no-store" });
+      const payload = await response.json() as { ok?: boolean; rates?: Record<string, number | null>; source?: string; error?: string };
+      if (!response.ok || !payload.ok) throw new Error(payload.error || "Kur alınamadı.");
+      const rate = payload.rates?.[form.denominationCode];
+      if (!rate) {
+        setRateMessage(descriptor.assetClass === "metal" ? "Bu kıymetli maden için kayıtlı birim fiyat yok. Güncel fiyatı girip kaydedebilirsin." : "Bu para birimi için kur bulunamadı.");
+        return;
+      }
+      setForm({ ...form, denominationOpenUnitPrice: String(rate), denominationRateSource: payload.source || "TCMB" });
+      setRateMessage(`Kur alındı: ${Number(rate).toLocaleString("tr-TR", { maximumFractionDigits: 6 })} TL`);
+    } catch (error) {
+      setRateMessage(error instanceof Error ? error.message : "Kur alınamadı.");
+    } finally {
+      setRateLoading(false);
+    }
+  }
+
+  async function saveManualRate() {
+    const value = Number(form.denominationOpenUnitPrice || 0);
+    if (!isIndexed || !Number.isFinite(value) || value <= 0) {
+      setRateMessage("Kaydedilecek geçerli birim TL değeri girin.");
+      return;
+    }
+    setRateLoading(true);
+    try {
+      const response = await postFinanceJson("/api/market-rates", {
+        assetCode: form.denominationCode,
+        unitPrice: value,
+        source: "manual_verified",
+      });
+      const payload = await response.json() as { ok?: boolean; error?: string };
+      if (!response.ok || !payload.ok) throw new Error(payload.error || "Birim fiyat kaydedilemedi.");
+      setForm({ ...form, denominationRateSource: "manual_verified" });
+      setRateMessage("Güncel birim değer kaydedildi; yeni kayıtlarda tekrar kullanılabilir.");
+    } catch (error) {
+      setRateMessage(error instanceof Error ? error.message : "Birim fiyat kaydedilemedi.");
+    } finally {
+      setRateLoading(false);
+    }
+  }
+
   return (
     <div className="overlay modal-overlay" role="presentation" onMouseDown={onClose}>
       <form
@@ -1531,29 +1656,33 @@ function RecordDialog({
             />
           </label>
           <label>
-            Tutar (TL) *
-            <input
-              name="amount"
-              required
-              min="0.01"
-              step="0.01"
-              type="number"
-              value={form.amount}
-              onChange={(event) =>
-                setForm({ ...form, amount: event.target.value })
-              }
-              placeholder="0,00"
-            />
+            Borç / alacak birimi
+            <select
+              name="denominationCode"
+              value={form.denominationCode}
+              onChange={(event) => {
+                const code = event.target.value;
+                setRateMessage("");
+                const gold = code === "XAU_GRAM";
+                const silver = code === "XAG_GRAM";
+                setForm({
+                  ...form,
+                  denominationCode: code,
+                  denominationQuantity: code === "TRY" ? "" : form.denominationQuantity,
+                  denominationOpenUnitPrice: code === "TRY" ? "1" : "",
+                  denominationRateSource: code === "TRY" ? "TRY" : "manual",
+                  denominationKarat: gold ? "24" : form.denominationKarat,
+                  denominationMillesimal: silver ? "999" : form.denominationMillesimal,
+                  denominationPurity: gold || silver ? "1" : "1",
+                });
+              }}
+            >
+              {Object.entries(DENOMINATION_LABELS).map(([code, label]) => <option key={code} value={code}>{label}</option>)}
+            </select>
           </label>
           <label>
             Hatırlatma
-            <select
-              name="reminderDays"
-              value={form.reminderDays}
-              onChange={(event) =>
-                setForm({ ...form, reminderDays: event.target.value })
-              }
-            >
+            <select name="reminderDays" value={form.reminderDays} onChange={(event) => setForm({ ...form, reminderDays: event.target.value })}>
               <option value="1">1 gün önce</option>
               <option value="3">3 gün önce</option>
               <option value="5">5 gün önce</option>
@@ -1561,6 +1690,66 @@ function RecordDialog({
               <option value="15">15 gün önce</option>
             </select>
           </label>
+
+          {isIndexed ? (
+            <div className="indexed-ledger-fields span-2">
+              <label>
+                Miktar ({descriptor.unit}) *
+                <input name="denominationQuantity" required min="0.000001" step="0.000001" type="number" value={form.denominationQuantity} onChange={(event) => setForm({ ...form, denominationQuantity: event.target.value })} placeholder="0" />
+              </label>
+              {isGoldGram ? (
+                <label>
+                  Altın ayarı
+                  <select value={form.denominationKarat} onChange={(event) => { const karat = Number(event.target.value); setForm({ ...form, denominationKarat: String(karat), denominationPurity: String(karat / 24), denominationMillesimal: "" }); }}>
+                    {GOLD_KARATS.map((karat) => <option key={karat} value={karat}>{karat} ayar</option>)}
+                  </select>
+                </label>
+              ) : null}
+              {isSilverGram ? (
+                <label>
+                  Gümüş saflığı
+                  <select value={form.denominationMillesimal} onChange={(event) => { const value = Number(event.target.value); setForm({ ...form, denominationMillesimal: String(value), denominationPurity: String(value / 1000), denominationKarat: "" }); }}>
+                    {SILVER_FINENESS.map((value) => <option key={value} value={value}>{value} saflık</option>)}
+                  </select>
+                </label>
+              ) : null}
+              <label>
+                1 {descriptor.unit} güncel TL değeri *
+                <input name="denominationOpenUnitPrice" required min="0.000001" step="0.000001" type="number" value={form.denominationOpenUnitPrice} onChange={(event) => setForm({ ...form, denominationOpenUnitPrice: event.target.value, denominationRateSource: "manual" })} placeholder="Güncel birim değer" />
+              </label>
+              <label>
+                Taksit / ödeme planı
+                <input min="1" max="120" step="1" type="number" value={form.installmentCount} onChange={(event) => setForm({ ...form, installmentCount: event.target.value })} />
+              </label>
+              <div className="indexed-rate-actions">
+                <button className="secondary-button" disabled={rateLoading} onClick={loadMarketRate} type="button">{rateLoading ? "Değer alınıyor…" : "Kayıtlı / güncel değeri getir"}</button>
+                {descriptor.assetClass === "metal" ? <button className="secondary-button" disabled={rateLoading} onClick={saveManualRate} type="button">Bu fiyatı kaydet</button> : null}
+                <strong>İlk TL karşılığı: {formatMoney(indexedOpeningValue)}</strong>
+                <small>{descriptor.display}{descriptor.assetClass === "metal" && descriptor.purity < 1 ? ` · saf eşdeğer ${(Number(form.denominationQuantity || 0) * descriptor.purity).toLocaleString("tr-TR", { maximumFractionDigits: 6 })} g` : ""}</small>
+                {rateMessage ? <small>{rateMessage}</small> : null}
+              </div>
+            </div>
+          ) : (
+            <>
+              <label>
+                Tutar (TL) *
+                <input name="amount" required min="0.01" step="0.01" type="number" value={form.amount} onChange={(event) => setForm({ ...form, amount: event.target.value })} placeholder="0,00" />
+              </label>
+              <label>
+                Taksit / ödeme planı
+                <input min="1" max="120" step="1" type="number" value={form.installmentCount} onChange={(event) => setForm({ ...form, installmentCount: event.target.value })} />
+              </label>
+            </>
+          )}
+          <input name="amount" type="hidden" value={isIndexed ? String(indexedOpeningValue || "") : form.amount} />
+          <input name="denominationRateSource" type="hidden" value={form.denominationRateSource} />
+          <input name="denominationPurity" type="hidden" value={form.denominationPurity} />
+          <input name="denominationKarat" type="hidden" value={form.denominationKarat} />
+          <input name="denominationMillesimal" type="hidden" value={form.denominationMillesimal} />
+          <input name="installmentCount" type="hidden" value={form.installmentCount} />
+          <div className="record-denomination-note span-2">
+            {isIndexed ? `Bu kayıt ${form.denominationCode} miktarı üzerinden takip edilir. TL karşılığı kur değiştikçe yeniden hesaplanabilir.` : "TL kayıtlarında bakiye doğrudan Türk lirası üzerinden izlenir."}
+          </div>
 
           <details className="optional-form-details span-2">
             <summary>İletişim ve varsa belge bilgisi ekle</summary>
@@ -2030,6 +2219,35 @@ function PaymentDialog({
   saving: boolean;
 }) {
   const status = ledgerStatus({ ...record, today: TODAY });
+  const denominationCode = String(record.denominationCode || "TRY");
+  const isIndexed = denominationCode !== "TRY";
+  const remainingUnits = remainingDenomination(record);
+  const [rateLoading, setRateLoading] = useState(false);
+  const [rateMessage, setRateMessage] = useState("");
+  const descriptor = denominationDescriptor(record);
+  const paymentTlValue = isIndexed
+    ? indexedAmountValue(record, Number(form.denominationQuantity || 0), Number(form.denominationUnitPrice || 0)) ?? 0
+    : Number(form.amount || 0);
+  const currentValuation = indexedLedgerValue(record, Number(form.denominationUnitPrice || record.denominationOpenUnitPrice || 0));
+
+  async function loadPaymentRate() {
+    if (!isIndexed) return;
+    setRateLoading(true);
+    setRateMessage("");
+    try {
+      const response = await fetch("/api/market-rates", { cache: "no-store" });
+      const payload = await response.json() as { ok?: boolean; rates?: Record<string, number | null>; source?: string; error?: string };
+      if (!response.ok || !payload.ok) throw new Error(payload.error || "Kur alınamadı.");
+      const rate = payload.rates?.[denominationCode];
+      if (!rate) throw new Error("Kur bulunamadı.");
+      setForm({ ...form, denominationUnitPrice: String(rate) });
+      setRateMessage(`TCMB: ${Number(rate).toLocaleString("tr-TR", { maximumFractionDigits: 6 })} TL`);
+    } catch (error) {
+      setRateMessage(error instanceof Error ? error.message : "Kur alınamadı.");
+    } finally {
+      setRateLoading(false);
+    }
+  }
 
   return (
     <div className="overlay modal-overlay" role="presentation" onMouseDown={onClose}>
@@ -2050,7 +2268,8 @@ function PaymentDialog({
 
         <div className="payment-balance">
           <span>İşlem öncesi kalan bakiye</span>
-          <strong>{formatMoney(status.remaining)}</strong>
+          <strong>{isIndexed ? `${remainingUnits.toLocaleString("tr-TR", { maximumFractionDigits: 6 })} ${denominationCode}` : formatMoney(status.remaining)}</strong>
+          {isIndexed ? <small>{currentValuation.currentValue !== null ? `Girilen güncel birim değerle yaklaşık ${formatMoney(currentValuation.currentValue)}` : `Açılış TL karşılığı ${formatMoney(record.originalAmount)}`}</small> : null}
         </div>
 
         <div className="form-grid">
@@ -2066,22 +2285,30 @@ function PaymentDialog({
               }
             />
           </label>
-          <label>
-            Tutar (TL) *
-            <input
-              name="paymentAmount"
-              required
-              min="0.01"
-              max={status.remaining}
-              step="0.01"
-              type="number"
-              value={form.amount}
-              onChange={(event) =>
-                setForm({ ...form, amount: event.target.value })
-              }
-              placeholder="0,00"
-            />
-          </label>
+          {isIndexed ? (
+            <>
+              <label>
+                Ödenen miktar ({descriptor.display}) *
+                <input name="paymentDenominationQuantity" required min="0.000001" max={remainingUnits} step="0.000001" type="number" value={form.denominationQuantity} onChange={(event) => setForm({ ...form, denominationQuantity: event.target.value })} placeholder="0" />
+              </label>
+              <label>
+                1 {descriptor.unit} = kaç TL? *
+                <input name="paymentDenominationUnitPrice" required min="0.000001" step="0.000001" type="number" value={form.denominationUnitPrice} onChange={(event) => setForm({ ...form, denominationUnitPrice: event.target.value })} placeholder="Güncel birim değer" />
+              </label>
+              <div className="indexed-payment-helper span-2">
+                <button className="secondary-button" disabled={rateLoading} onClick={loadPaymentRate} type="button">{rateLoading ? "Değer alınıyor…" : "Kayıtlı / güncel değeri getir"}</button>
+                {descriptor.assetClass === "metal" ? <span>{descriptor.purityLabel || "Saf"} · miktar kendi biriminde korunur.</span> : null}
+                <strong>Bu ödeme: {formatMoney(paymentTlValue)}</strong>
+                {rateMessage ? <small>{rateMessage}</small> : null}
+              </div>
+              <input name="paymentAmount" type="hidden" value={String(paymentTlValue || "")} />
+            </>
+          ) : (
+            <label>
+              Tutar (TL) *
+              <input name="paymentAmount" required min="0.01" max={status.remaining} step="0.01" type="number" value={form.amount} onChange={(event) => setForm({ ...form, amount: event.target.value })} placeholder="0,00" />
+            </label>
+          )}
           <label className="span-2">
             Yöntem
             <select
@@ -2353,6 +2580,11 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
   >([]);
   const [importBatches, setImportBatches] = useState<ImportBatch[]>([]);
   const [auditEvents, setAuditEvents] = useState<AuditEvent[]>([]);
+  const [goals, setGoals] = useState<FinancialGoal[]>([]);
+  const [goalMilestones, setGoalMilestones] = useState<GoalMilestone[]>([]);
+  const [valuationRates, setValuationRates] = useState<Array<{ id: string; assetCode: string; unitPrice: number; source: string; effectiveAt: string }>>([]);
+  const [installmentSchedules, setInstallmentSchedules] = useState<Array<{ id: string; ledgerRecordId: string; installmentNo: number; dueDate: string; amount: number; denominationQuantity?: number; status: string; paymentId?: string }>>([]);
+  const [marketRates, setMarketRates] = useState<Record<string, number | null>>({ TRY: 1 });
   const [posCommissionRate, setPosCommissionRate] = useState(0.0239);
   const [decisionSettings, setDecisionSettings] =
     useState<DecisionSettings>(
@@ -2389,12 +2621,22 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
     createdDate: TODAY,
     dueDate: "",
     amount: "",
+    denominationCode: "TRY",
+    denominationQuantity: "",
+    denominationOpenUnitPrice: "1",
+    denominationRateSource: "manual",
+    denominationPurity: "1",
+    denominationKarat: "24",
+    denominationMillesimal: "999",
+    installmentCount: "1",
     reminderDays: "3",
   });
   const [paymentForm, setPaymentForm] = useState<PaymentForm>({
     recordId: "",
     date: TODAY,
     amount: "",
+    denominationQuantity: "",
+    denominationUnitPrice: "",
     method: "Havale",
     note: "",
   });
@@ -2466,6 +2708,10 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
           setMonthlyClosings(data.monthlyClosings ?? []);
           setMonthlyCloseEvents(data.monthlyCloseEvents ?? []);
           setImportBatches(data.importBatches ?? []);
+          setGoals(data.goals ?? []);
+          setGoalMilestones(data.goalMilestones ?? []);
+          setValuationRates(data.valuationRates ?? []);
+          setInstallmentSchedules(data.installmentSchedules ?? []);
           const savedRate = Number(data.settings.posCommissionRate);
           if (Number.isFinite(savedRate) && savedRate >= 0 && savedRate < 1) {
             setPosCommissionRate(savedRate);
@@ -2496,6 +2742,10 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
           setMonthlyClosings([]);
           setMonthlyCloseEvents([]);
           setImportBatches([]);
+          setGoals([]);
+          setGoalMilestones([]);
+          setValuationRates([]);
+          setInstallmentSchedules([]);
           setDataMode("empty");
         }
       } catch (error) {
@@ -2511,6 +2761,25 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
     return () => {
       cancelled = true;
     };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function loadMarketRates() {
+      try {
+        const response = await fetch("/api/market-rates", { cache: "no-store" });
+        const payload = await response.json() as { ok?: boolean; rates?: Record<string, number | null> };
+        if (!cancelled && response.ok && payload.ok && payload.rates) setMarketRates(payload.rates);
+      } catch {
+        // Finans masası kayıtlı/açılış değerleriyle çalışmaya devam eder.
+      }
+    }
+    void loadMarketRates();
+    const rateTimer = window.setInterval(loadMarketRates, 5 * 60 * 1000);
+    const dayTimer = window.setInterval(() => {
+      if (todayInIstanbul() !== TODAY) window.location.reload();
+    }, 60 * 1000);
+    return () => { cancelled = true; window.clearInterval(rateTimer); window.clearInterval(dayTimer); };
   }, []);
 
   const canWrite = currentUser.role === "editor";
@@ -2849,6 +3118,56 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
     return true;
   }
 
+  async function createRecurringRuleDirect(input: {
+    name: string;
+    category: string;
+    counterparty: string;
+    amount: number;
+    startDate: string;
+    paymentMethod: "cash" | "card" | "transfer" | "accrual";
+    recurrence: {
+      kind: "weekly" | "monthly" | "yearly" | "once";
+      interval: number;
+      dayOfWeek?: number | null;
+      dayOfMonth?: number | null;
+      businessDayRule?: "none" | "last_business_day";
+    };
+  }) {
+    const rule: RecurringExpenseRule = {
+      id: `recurring-command-${crypto.randomUUID()}`,
+      name: input.name.trim() || "Dönemsel gider",
+      category: input.category || "Sabit / dönemsel gider",
+      counterparty: input.counterparty.trim(),
+      amount: Number(input.amount),
+      amountMode: "fixed",
+      frequencyMonths: input.recurrence.kind === "monthly" ? Math.max(1, input.recurrence.interval) : 1,
+      recurrenceKind: input.recurrence.kind,
+      recurrenceInterval: Math.max(1, input.recurrence.interval || 1),
+      recurrenceDayOfWeek: input.recurrence.dayOfWeek ?? undefined,
+      recurrenceDayOfMonth: input.recurrence.dayOfMonth ?? undefined,
+      businessDayRule: input.recurrence.businessDayRule || "none",
+      autoCreate: true,
+      startDate: input.startDate,
+      paymentMethod: input.paymentMethod,
+      documentType: "none",
+      vatRate: 0,
+      active: true,
+      note: "Finans asistanından oluşturuldu; takvim otomatik ilerler.",
+    };
+    return saveRecurringRule(rule);
+  }
+
+  async function saveFinancialGoal(goal: FinancialGoal) {
+    const saved = await persistData({ action: "saveGoal", goal });
+    if (!saved) return false;
+    setGoals((current) => {
+      const exists = current.some((item) => item.id === goal.id);
+      return exists ? current.map((item) => item.id === goal.id ? goal : item) : [...current, goal];
+    });
+    setDataMode("persistent");
+    return true;
+  }
+
   async function payRecurringOccurrence(payload: RecurringPaymentPayload) {
     const saved = await persistData({
       action: "payRecurringOccurrence",
@@ -2890,6 +3209,14 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
       createdDate: TODAY,
       dueDate: "",
       amount: "",
+      denominationCode: "TRY",
+      denominationQuantity: "",
+      denominationOpenUnitPrice: "1",
+      denominationRateSource: "manual",
+      denominationPurity: "1",
+      denominationKarat: "24",
+      denominationMillesimal: "999",
+      installmentCount: "1",
       reminderDays: "3",
     });
     setRecordModalOpen(true);
@@ -3080,6 +3407,8 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
       recordId: id,
       date: TODAY,
       amount: "",
+      denominationQuantity: "",
+      denominationUnitPrice: "",
       method: "Havale",
       note: "",
     });
@@ -3096,7 +3425,19 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
     const documentRef = String(nativeForm.get("documentRef") ?? "").trim();
     const createdDate = String(nativeForm.get("createdDate") ?? "");
     const dueDate = String(nativeForm.get("dueDate") ?? "");
-    const amount = Number(nativeForm.get("amount"));
+    const denominationCode = String(nativeForm.get("denominationCode") ?? "TRY").toUpperCase();
+    const denominationQuantity = Number(nativeForm.get("denominationQuantity"));
+    const denominationOpenUnitPrice = Number(nativeForm.get("denominationOpenUnitPrice"));
+    const denominationPurity = Number(nativeForm.get("denominationPurity") || 1);
+    const denominationKarat = Number(nativeForm.get("denominationKarat") || 0) || undefined;
+    const denominationMillesimal = Number(nativeForm.get("denominationMillesimal") || 0) || undefined;
+    const installmentCount = Math.max(1, Math.min(120, Number(nativeForm.get("installmentCount") || 1)));
+    const rawAmount = Number(nativeForm.get("amount"));
+    const isIndexed = denominationCode !== "TRY";
+    const denominationInfo = denominationDescriptor({ denominationCode, denominationPurity, denominationKarat, denominationMillesimal });
+    const amount = isIndexed
+      ? indexedAmountValue({ denominationCode, denominationPurity, denominationKarat, denominationMillesimal }, denominationQuantity, denominationOpenUnitPrice) ?? 0
+      : rawAmount;
     const reminderDays = Number(nativeForm.get("reminderDays"));
     if (
       !counterparty ||
@@ -3104,7 +3445,8 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
       !createdDate ||
       !dueDate ||
       !Number.isFinite(amount) ||
-      amount <= 0
+      amount <= 0 ||
+      (isIndexed && (!Number.isFinite(denominationQuantity) || denominationQuantity <= 0 || !Number.isFinite(denominationOpenUnitPrice) || denominationOpenUnitPrice <= 0))
     ) {
       return;
     }
@@ -3126,6 +3468,16 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
       createdDate,
       dueDate,
       originalAmount: amount,
+      denominationCode,
+      denominationQuantity: isIndexed ? denominationQuantity : amount,
+      denominationOpenUnitPrice: isIndexed ? denominationOpenUnitPrice : 1,
+      denominationRateSource: isIndexed ? recordForm.denominationRateSource || "manual" : "TRY",
+      denominationAssetClass: denominationInfo.assetClass,
+      denominationUnit: denominationInfo.unit,
+      denominationPurity: isIndexed ? denominationPurity : 1,
+      denominationKarat: isIndexed ? denominationKarat : undefined,
+      denominationMillesimal: isIndexed ? denominationMillesimal : undefined,
+      denominationLabel: denominationInfo.display,
       reserve: 0,
       reminderDays,
       lineItems: [],
@@ -3137,6 +3489,28 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
     });
     if (!saved) return;
     setRecords((current) => [...current, newRecord]);
+    if (installmentCount > 1) {
+      const unitTotal = isIndexed ? denominationQuantity : amount;
+      const schedules = Array.from({ length: installmentCount }, (_, index) => {
+        const share = index === installmentCount - 1
+          ? unitTotal - (unitTotal / installmentCount) * (installmentCount - 1)
+          : unitTotal / installmentCount;
+        const tlShare = index === installmentCount - 1
+          ? amount - Math.round((amount / installmentCount) * 100) / 100 * (installmentCount - 1)
+          : Math.round((amount / installmentCount) * 100) / 100;
+        return {
+          id: `installment-${newRecord.id}-${index + 1}`,
+          ledgerRecordId: newRecord.id,
+          installmentNo: index + 1,
+          dueDate: addMonthsSafe(dueDate, index),
+          amount: Math.max(0, Math.round(tlShare * 100) / 100),
+          denominationQuantity: isIndexed ? Math.max(0, Math.round(share * 1e8) / 1e8) : undefined,
+          status: "planned",
+        };
+      });
+      const planSaved = await persistData({ action: "saveInstallmentPlan", ledgerRecordId: newRecord.id, schedules });
+      if (planSaved) setInstallmentSchedules((current) => [...current.filter((item) => item.ledgerRecordId !== newRecord.id), ...schedules]);
+    }
     setRecordModalOpen(false);
     setActiveView(recordForm.type === "payable" ? "debts" : "ledger");
     setFilter("all");
@@ -3151,8 +3525,137 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
       createdDate: TODAY,
       dueDate: "",
       amount: "",
+      denominationCode: "TRY",
+      denominationQuantity: "",
+      denominationOpenUnitPrice: "1",
+      denominationRateSource: "manual",
       reminderDays: "3",
     });
+  }
+
+  async function createLedgerRecordDirect(input: {
+    type: LedgerType;
+    counterparty: string;
+    detail: string;
+    createdDate: string;
+    dueDate: string;
+    amount: number;
+    reminderDays: number;
+    denominationCode?: string;
+    denominationQuantity?: number;
+    denominationOpenUnitPrice?: number;
+    denominationRateSource?: string;
+    denominationAssetClass?: string;
+    denominationUnit?: string;
+    denominationPurity?: number;
+    denominationKarat?: number | null;
+    denominationMillesimal?: number | null;
+    denominationLabel?: string;
+    installmentCount?: number;
+  }) {
+    if (!canWrite) return false;
+    const prefix = input.type === "receivable" ? "ALC" : "BRC";
+    const code = String(input.denominationCode || "TRY").toUpperCase();
+    const descriptor = denominationDescriptor({
+      denominationCode: code,
+      denominationPurity: input.denominationPurity ?? 1,
+      denominationKarat: input.denominationKarat ?? undefined,
+      denominationMillesimal: input.denominationMillesimal ?? undefined,
+    });
+    const isIndexed = code !== "TRY";
+    const quantity = isIndexed ? Number(input.denominationQuantity || 0) : Number(input.amount);
+    const unitPrice = isIndexed ? Number(input.denominationOpenUnitPrice || 0) : 1;
+    const amount = isIndexed
+      ? indexedAmountValue({ denominationCode: code, denominationPurity: descriptor.purity, denominationKarat: input.denominationKarat, denominationMillesimal: input.denominationMillesimal }, quantity, unitPrice) ?? 0
+      : Number(input.amount);
+    const newRecord: LedgerRecord = {
+      id: `${input.type}-command-${crypto.randomUUID()}`,
+      type: input.type,
+      counterparty: input.counterparty.trim(),
+      contactName: "", phone: "", email: "",
+      detail: input.detail.trim() || "Hızlı komut kaydı",
+      documentRef: `${prefix}-${TODAY.slice(0, 4)}-${String(records.length + 1).padStart(3, "0")}`,
+      documentDate: "", stage: "note", createdDate: input.createdDate, dueDate: input.dueDate,
+      originalAmount: amount, denominationCode: code, denominationQuantity: quantity,
+      denominationOpenUnitPrice: unitPrice, denominationRateSource: isIndexed ? input.denominationRateSource || "manual" : "TRY",
+      denominationAssetClass: input.denominationAssetClass || descriptor.assetClass,
+      denominationUnit: input.denominationUnit || descriptor.unit,
+      denominationPurity: isIndexed ? descriptor.purity : 1,
+      denominationKarat: input.denominationKarat ?? undefined, denominationMillesimal: input.denominationMillesimal ?? undefined,
+      denominationLabel: input.denominationLabel || descriptor.display, reserve: 0,
+      reminderDays: Number(input.reminderDays || 3), lineItems: [], payments: [],
+    };
+    if (!newRecord.counterparty || !newRecord.dueDate || !Number.isFinite(newRecord.originalAmount) || newRecord.originalAmount <= 0 || (isIndexed && (!quantity || !unitPrice))) return false;
+    const saved = await persistData({ action: "saveLedgerRecord", record: newRecord });
+    if (!saved) return false;
+    setRecords((current) => [...current, newRecord]);
+
+    const installmentCount = Math.max(1, Math.min(120, Number(input.installmentCount || 1)));
+    if (installmentCount > 1) {
+      const schedules = Array.from({ length: installmentCount }, (_, index) => {
+        const qtyShare = quantity / installmentCount;
+        const tlShare = amount / installmentCount;
+        return {
+          id: `installment-${newRecord.id}-${index + 1}`, ledgerRecordId: newRecord.id, installmentNo: index + 1,
+          dueDate: addMonthsSafe(input.dueDate, index),
+          amount: index === installmentCount - 1 ? Math.round((amount - (Math.round(tlShare * 100) / 100) * (installmentCount - 1)) * 100) / 100 : Math.round(tlShare * 100) / 100,
+          denominationQuantity: isIndexed ? (index === installmentCount - 1 ? Math.round((quantity - qtyShare * (installmentCount - 1)) * 1e8) / 1e8 : Math.round(qtyShare * 1e8) / 1e8) : undefined,
+          status: "planned",
+        };
+      });
+      const planSaved = await persistData({ action: "saveInstallmentPlan", ledgerRecordId: newRecord.id, schedules });
+      if (planSaved) setInstallmentSchedules((current) => [...current.filter((item) => item.ledgerRecordId !== newRecord.id), ...schedules]);
+    }
+    setDataMode("persistent");
+    return true;
+  }
+
+  async function saveLedgerPaymentDirect(
+    recordId: string,
+    input: {
+      amount: number;
+      method: "cash" | "card" | "transfer" | "accrual";
+      note: string;
+      denominationCode?: string;
+      denominationQuantity?: number;
+      denominationUnitPrice?: number;
+    },
+  ): Promise<{ ok: boolean; error?: string }> {
+    if (!canWrite) return { ok: false, error: "Bu hesap yalnızca görüntüleme yetkisine sahip." };
+    const record = records.find((item) => item.id === recordId);
+    if (!record) return { ok: false, error: "Cari kayıt bulunamadı." };
+    const isIndexed = String(record.denominationCode || "TRY") !== "TRY";
+    const status = ledgerStatus({ ...record, today: TODAY });
+    const amount = Number(input.amount);
+    if (!Number.isFinite(amount) || amount <= 0) return { ok: false, error: "Tutar sıfırdan büyük olmalıdır." };
+    if (isIndexed) {
+      const qty = Number(input.denominationQuantity || 0);
+      const price = Number(input.denominationUnitPrice || 0);
+      if (String(input.denominationCode || record.denominationCode) !== String(record.denominationCode) || qty <= 0 || price <= 0) return { ok: false, error: "Endeksli cari için kendi biriminde miktar ve güncel TL değeri zorunludur." };
+      if (qty > remainingDenomination(record) + 1e-8) return { ok: false, error: "Ödeme miktarı kalan endeksli bakiyeyi aşamaz." };
+    } else if (amount > status.remaining + 0.0001) {
+      return { ok: false, error: `Tutar kalan bakiyeyi aşamaz. Azami ${formatMoney(status.remaining)}.` };
+    }
+    const paymentId = `payment-command-${crypto.randomUUID()}`;
+    try {
+      const response = await postFinanceJson("/api/clinic-data", {
+        action: "saveLedgerPayment",
+        payment: {
+          id: paymentId, recordId, amount, denominationCode: isIndexed ? record.denominationCode : "TRY",
+          denominationQuantity: isIndexed ? input.denominationQuantity : amount, denominationUnitPrice: isIndexed ? input.denominationUnitPrice : 1,
+          date: TODAY, method: input.method, note: input.note,
+        },
+      });
+      const result = (await response.json()) as { error?: string; payment?: Payment; transactions?: ClinicTransaction[] };
+      if (!response.ok || !result.payment) throw new Error(result.error || "Tahsilat/ödeme kaydedilemedi.");
+      setRecords((current) => current.map((item) => item.id === recordId ? { ...item, payments: [...item.payments, result.payment as Payment] } : item));
+      if (result.transactions?.length) {
+        setTransactions((current) => { const next = new Map(current.map((item) => [item.id, item] as const)); for (const transaction of result.transactions ?? []) next.set(transaction.id, transaction); return Array.from(next.values()); });
+      }
+      setStorageError(""); setDataMode("persistent"); return { ok: true };
+    } catch (error) {
+      return { ok: false, error: error instanceof Error ? error.message : "Tahsilat/ödeme kaydedilemedi." };
+    }
   }
 
   async function submitPayment(event: FormEvent) {
@@ -3163,17 +3666,32 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
     }
     if (!paymentRecord) return;
     const nativeForm = new FormData(event.currentTarget as HTMLFormElement);
-    const amount = Number(nativeForm.get("paymentAmount"));
+    const enteredAmount = Number(nativeForm.get("paymentAmount"));
+    const denominationQuantity = Number(nativeForm.get("paymentDenominationQuantity"));
+    const denominationUnitPrice = Number(nativeForm.get("paymentDenominationUnitPrice"));
     const date = String(nativeForm.get("paymentDate") ?? "");
     const method = String(nativeForm.get("paymentMethod") ?? "");
     const note = String(nativeForm.get("paymentNote") ?? "").trim();
     const status = ledgerStatus({ ...paymentRecord, today: TODAY });
+    const denominationCode = String(paymentRecord.denominationCode || "TRY");
+    const isIndexed = denominationCode !== "TRY";
+    const remainingUnits = remainingDenomination(paymentRecord);
+    const amount = isIndexed ? indexedAmountValue(paymentRecord, denominationQuantity, denominationUnitPrice) ?? 0 : enteredAmount;
 
     if (!date || !Number.isFinite(amount) || amount <= 0) {
       setPaymentError("Tutar sıfırdan büyük olmalıdır.");
       return;
     }
-    if (amount > status.remaining) {
+    if (isIndexed) {
+      if (!Number.isFinite(denominationQuantity) || denominationQuantity <= 0 || !Number.isFinite(denominationUnitPrice) || denominationUnitPrice <= 0) {
+        setPaymentError("Endeksli borç için ödenen miktar ve güncel birim TL değeri zorunludur.");
+        return;
+      }
+      if (denominationQuantity > remainingUnits + 0.00000001) {
+        setPaymentError(`Miktar kalan ${remainingUnits.toLocaleString("tr-TR")} ${denominationCode} bakiyesini aşamaz.`);
+        return;
+      }
+    } else if (amount > status.remaining) {
       setPaymentError(
         `Tutar kalan bakiyeyi aşamaz. Azami ${formatMoney(status.remaining)}.`,
       );
@@ -3189,6 +3707,9 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
             id: paymentId,
             recordId: paymentRecord.id,
             amount,
+            denominationCode: isIndexed ? denominationCode : "TRY",
+            denominationQuantity: isIndexed ? denominationQuantity : amount,
+            denominationUnitPrice: isIndexed ? denominationUnitPrice : 1,
             date,
             method,
             note,
@@ -3290,13 +3811,21 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
           {activeView === "today" ? (
             <TodayWorkspace
               dataMode={dataMode}
+              goals={goals}
+              cashReserveValue={decisionSettings.cashBalance !== null && decisionSettings.bankBalance !== null ? decisionSettings.cashBalance + decisionSettings.bankBalance : null}
               inventory={inventory}
-              productDefinitions={productDefinitions}
+              onCreateLedgerRecord={createLedgerRecordDirect}
+              onCreateRecurringRule={createRecurringRuleDirect}
               onNavigate={setActiveView}
               onSave={saveTransaction}
+              onSaveLedgerPayment={saveLedgerPaymentDirect}
               onSaveReceipt={saveQuickReceipt}
               onUndo={(transaction) => reverseTransaction(transaction, "10 saniyelik geri alma")}
+              productDefinitions={productDefinitions}
               records={records}
+              recurringOccurrences={recurringOccurrences}
+              recurringRules={recurringRules}
+              installmentSchedules={installmentSchedules}
               today={TODAY}
               transactions={transactions}
             />
@@ -3490,14 +4019,13 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
           ) : null}
           {activeView === "checks" ? <ChecksView auditEvents={auditEvents} /> : null}
           {activeView === "goals" ? (
-            <DecisionEngineView
-              focus="goals"
-              inventory={inventory}
-              onSaveSettings={saveDecisionSettings}
+            <GoalsView
+              goals={goals}
+              marketRates={marketRates}
+              cashReserveValue={decisionSettings.cashBalance !== null && decisionSettings.bankBalance !== null ? decisionSettings.cashBalance + decisionSettings.bankBalance : null}
+              milestones={goalMilestones}
+              onSaveGoal={saveFinancialGoal}
               records={records}
-              recurringOccurrences={recurringOccurrences}
-              recurringRules={recurringRules}
-              settings={decisionSettings}
               today={TODAY}
               transactions={transactions}
             />

@@ -47,6 +47,7 @@ export type ClinicTransaction = {
   counterparty?: string;
   operationType?: OperationType;
   costBehavior?: CostBehavior;
+  businessClass?: string;
   relatedIncomeId?: string;
   amount: number;
   paymentMethod: PaymentChannel;

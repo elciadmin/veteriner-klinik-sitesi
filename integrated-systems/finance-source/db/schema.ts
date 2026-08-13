@@ -19,6 +19,7 @@ export const transactions = sqliteTable(
     counterparty: text("counterparty").notNull().default(""),
     operationType: text("operation_type").notNull().default(""),
     costBehavior: text("cost_behavior").notNull().default(""),
+    businessClass: text("business_class").notNull().default(""),
     relatedIncomeId: text("related_income_id"),
     amountCents: integer("amount_cents").notNull(),
     paymentMethod: text("payment_method").notNull(),
@@ -129,6 +130,16 @@ export const ledgerRecords = sqliteTable(
     createdDate: text("created_date").notNull(),
     dueDate: text("due_date").notNull(),
     originalAmountCents: integer("original_amount_cents").notNull(),
+    denominationCode: text("denomination_code").notNull().default("TRY"),
+    denominationQuantity: real("denomination_quantity").notNull().default(0),
+    denominationOpenUnitPriceCents: integer("denomination_open_unit_price_cents").notNull().default(100),
+    denominationRateSource: text("denomination_rate_source").notNull().default("manual"),
+    denominationAssetClass: text("denomination_asset_class").notNull().default("currency"),
+    denominationUnit: text("denomination_unit").notNull().default("unit"),
+    denominationPurity: real("denomination_purity").notNull().default(1),
+    denominationKarat: integer("denomination_karat"),
+    denominationMillesimal: integer("denomination_millesimal"),
+    denominationLabel: text("denomination_label").notNull().default(""),
     reserveCents: integer("reserve_cents").notNull().default(0),
     reminderDays: integer("reminder_days").notNull().default(3),
     importBatchId: text("import_batch_id"),
@@ -175,6 +186,9 @@ export const ledgerPayments = sqliteTable(
       .notNull()
       .references(() => ledgerRecords.id),
     amountCents: integer("amount_cents").notNull(),
+    denominationCode: text("denomination_code"),
+    denominationQuantity: real("denomination_quantity"),
+    denominationUnitPriceCents: integer("denomination_unit_price_cents"),
     date: text("date").notNull(),
     method: text("method").notNull().default(""),
     note: text("note").notNull().default(""),
@@ -221,6 +235,12 @@ export const recurringExpenseRules = sqliteTable(
     amountCents: integer("amount_cents").notNull(),
     amountMode: text("amount_mode").notNull().default("fixed"),
     frequencyMonths: integer("frequency_months").notNull().default(1),
+    recurrenceKind: text("recurrence_kind").notNull().default("monthly"),
+    recurrenceInterval: integer("recurrence_interval").notNull().default(1),
+    recurrenceDayOfWeek: integer("recurrence_day_of_week"),
+    recurrenceDayOfMonth: integer("recurrence_day_of_month"),
+    businessDayRule: text("business_day_rule").notNull().default("none"),
+    autoCreate: integer("auto_create", { mode: "boolean" }).notNull().default(true),
     startDate: text("start_date").notNull(),
     endDate: text("end_date"),
     nextReviewDate: text("next_review_date"),
@@ -525,4 +545,78 @@ export const dayClosings = sqliteTable(
     reopenReason: text("reopen_reason").notNull().default(""),
   },
   (table) => [index("day_closings_status_idx").on(table.status, table.date)],
+);
+
+
+export const financialGoals = sqliteTable(
+  "financial_goals",
+  {
+    id: text("id").primaryKey(),
+    name: text("name").notNull(),
+    metric: text("metric").notNull(),
+    direction: text("direction").notNull().default("up"),
+    unit: text("unit").notNull().default("TRY"),
+    targetValue: real("target_value").notNull(),
+    baselineValue: real("baseline_value").notNull().default(0),
+    currentOverride: real("current_override"),
+    startDate: text("start_date").notNull(),
+    endDate: text("end_date").notNull(),
+    scenarioMode: text("scenario_mode").notNull().default("base"),
+    active: integer("active", { mode: "boolean" }).notNull().default(true),
+    note: text("note").notNull().default(""),
+    createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: text("updated_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+  },
+  (table) => [
+    index("financial_goals_active_idx").on(table.active, table.endDate),
+    index("financial_goals_metric_idx").on(table.metric),
+  ],
+);
+
+export const goalMilestones = sqliteTable(
+  "goal_milestones",
+  {
+    id: text("id").primaryKey(),
+    goalId: text("goal_id").notNull().references(() => financialGoals.id),
+    label: text("label").notNull(),
+    targetValue: real("target_value").notNull(),
+    targetDate: text("target_date").notNull(),
+    completedAt: text("completed_at"),
+    createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+  },
+  (table) => [index("goal_milestones_goal_idx").on(table.goalId, table.targetDate)],
+);
+
+export const valuationRates = sqliteTable(
+  "valuation_rates",
+  {
+    id: text("id").primaryKey(),
+    assetCode: text("asset_code").notNull(),
+    unitPriceCents: integer("unit_price_cents").notNull(),
+    source: text("source").notNull().default("manual"),
+    effectiveAt: text("effective_at").notNull(),
+    createdBy: text("created_by").notNull().default(""),
+    createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+  },
+  (table) => [index("valuation_rates_asset_idx").on(table.assetCode, table.effectiveAt)],
+);
+
+export const installmentSchedules = sqliteTable(
+  "installment_schedules",
+  {
+    id: text("id").primaryKey(),
+    ledgerRecordId: text("ledger_record_id").notNull().references(() => ledgerRecords.id),
+    installmentNo: integer("installment_no").notNull(),
+    dueDate: text("due_date").notNull(),
+    amountCents: integer("amount_cents").notNull(),
+    denominationQuantity: real("denomination_quantity"),
+    status: text("status").notNull().default("planned"),
+    paymentId: text("payment_id"),
+    createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: text("updated_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+  },
+  (table) => [
+    index("installment_schedules_record_idx").on(table.ledgerRecordId, table.installmentNo),
+    index("installment_schedules_due_idx").on(table.dueDate, table.status),
+  ],
 );

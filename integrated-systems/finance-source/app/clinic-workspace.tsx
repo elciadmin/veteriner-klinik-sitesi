@@ -11,6 +11,8 @@ import type {
   StockMovement,
 } from "./operational-modules";
 import type { QuickReceiptPayload } from "./quick-daily-view";
+import { FinanceCommandCenter, type DirectLedgerPaymentInput, type NewLedgerRecordInput, type NewRecurringRuleInput } from "./finance-command-center";
+import type { FinancialGoal } from "./goals-view";
 
 type WorkspaceView =
   | "today"
@@ -26,6 +28,7 @@ type WorkspaceView =
   | "inventory"
   | "calendar"
   | "decision"
+  | "goals"
   | "import"
   | "checks";
 
@@ -33,9 +36,20 @@ type RecordLike = {
   id: string;
   type: "receivable" | "payable";
   counterparty: string;
+  detail: string;
   dueDate: string;
   originalAmount: number;
-  payments: Array<{ amount: number; status?: "cancelled" }>;
+  denominationCode?: string;
+  denominationQuantity?: number;
+  denominationOpenUnitPrice?: number;
+  denominationRateSource?: string;
+  denominationAssetClass?: string;
+  denominationUnit?: string;
+  denominationPurity?: number;
+  denominationKarat?: number;
+  denominationMillesimal?: number;
+  denominationLabel?: string;
+  payments: Array<{ amount: number; denominationQuantity?: number; denominationUnitPrice?: number; status?: "cancelled" }>;
 };
 
 type Task = {
@@ -620,10 +634,18 @@ export function TodayWorkspace({
   inventory,
   productDefinitions,
   records,
+  recurringRules,
+  recurringOccurrences,
+  installmentSchedules,
+  goals,
+  cashReserveValue,
   onNavigate,
   onSave,
   onUndo,
   onSaveReceipt,
+  onSaveLedgerPayment,
+  onCreateLedgerRecord,
+  onCreateRecurringRule,
   dataMode,
 }: {
   today: string;
@@ -631,46 +653,88 @@ export function TodayWorkspace({
   inventory: InventoryItem[];
   productDefinitions: ProductDefinition[];
   records: RecordLike[];
+  recurringRules: Array<{
+    id: string;
+    name: string;
+    category: string;
+    counterparty: string;
+    amount: number;
+    amountMode: "fixed" | "estimated";
+    frequencyMonths: number;
+    startDate: string;
+    endDate?: string;
+    nextReviewDate?: string;
+    paymentMethod: PaymentChannel;
+    documentType: string;
+    vatRate: number;
+    active: boolean;
+    note: string;
+  }>;
+  recurringOccurrences: Array<{
+    id: string;
+    ruleId: string;
+    dueDate: string;
+    expectedAmount: number;
+    actualAmount?: number;
+    status: "planned" | "paid" | "skipped";
+    paidDate?: string;
+    transactionId?: string;
+    paymentMethod?: PaymentChannel;
+    documentType?: string;
+    documentRef?: string;
+    note?: string;
+  }>;
+  installmentSchedules: Array<{
+    id: string;
+    ledgerRecordId: string;
+    installmentNo: number;
+    dueDate: string;
+    amount: number;
+    denominationQuantity?: number;
+    status: string;
+    paymentId?: string;
+  }>;
+  goals: FinancialGoal[];
+  cashReserveValue?: number | null;
   onNavigate: (view: WorkspaceView) => void;
   onSave: (transaction: ClinicTransaction) => Promise<boolean> | boolean;
   onUndo: (transaction: ClinicTransaction) => Promise<boolean> | boolean;
   onSaveReceipt: (payload: QuickReceiptPayload) => Promise<boolean> | boolean;
+  onSaveLedgerPayment: (recordId: string, input: DirectLedgerPaymentInput) => Promise<{ ok: boolean; error?: string }>;
+  onCreateLedgerRecord: (input: NewLedgerRecordInput) => Promise<boolean>;
+  onCreateRecurringRule: (input: NewRecurringRuleInput) => Promise<boolean>;
   dataMode: "checking" | "empty" | "persistent" | "offline";
 }) {
-  const tasks = useMemo(() => createTasks({ today, transactions, inventory, records }), [today, transactions, inventory, records]);
-  const documentedExpenses = transactions.filter((item) => item.kind === "expense" && item.documentType !== "none" && item.documentRef).length;
-  const missingDocuments = transactions.filter((item) => item.kind === "expense" && (item.documentType === "none" || !item.documentRef)).length;
-  const posPending = transactions.filter((item) => item.kind === "income" && item.paymentMethod === "card" && item.posStatus !== "settled").length;
-  const stockAlerts = inventory.filter((item) => item.quantity <= item.minimumQuantity).length;
-  const readiness = dataMode === "empty" ? "Kurulum bekliyor" : dataMode === "offline" ? "Bağlantı kontrolü" : tasks.length ? "Kontrol gerekli" : "Güncel";
-
+  const [scannerOpen, setScannerOpen] = useState(false);
   return (
     <>
-      <section className="workspace-hero">
-        <div>
-          <span className="eyebrow">Bugün · klinik finans masası</span>
-          <h1>Önce kaydet, sonra sistem sana ne yapacağını söylesin.</h1>
-          <p>Gerçek kayıt yoksa tahmin üretmeyiz. Kasa, POS, belge ve vade işleri tek sırada görünür.</p>
-        </div>
-        <div className={`workspace-readiness ${dataMode}`}><span>Veri durumu</span><strong>{readiness}</strong><small>{dataMode === "empty" ? "İlk gerçek hareketi kaydet" : `${tasks.length} öncelikli iş`}</small></div>
-      </section>
-      <QuickEntry inventory={inventory} productDefinitions={productDefinitions} onMore={() => onNavigate("daily")} onSave={onSave} onSaveReceipt={onSaveReceipt} onUndo={onUndo} today={today} />
-      <section className="workspace-grid">
-        <article className="panel workspace-priorities">
-          <div className="panel-head"><div><span className="eyebrow">İş merkezi</span><h2>Bugün önceliğin ne?</h2></div><button className="text-button" onClick={() => onNavigate("work")} type="button">Tüm işleri aç</button></div>
-          <TaskList limit={5} onNavigate={onNavigate} tasks={tasks} />
-        </article>
-        <article className="panel workspace-quality">
-          <div className="panel-head compact"><div><span className="eyebrow">Kayıt kalitesi</span><h2>Kontrol özeti</h2></div></div>
-          <div className="workspace-quality-list">
-            <span><i className={missingDocuments ? "warning" : "ok"} />Belge <strong>{missingDocuments ? `${missingDocuments} tamamlanacak` : "Eksik yok"}</strong></span>
-            <span><i className={posPending ? "warning" : "ok"} />POS <strong>{posPending ? `${posPending} yatış bekliyor` : "Bekleyen yok"}</strong></span>
-            <span><i className={stockAlerts ? "warning" : "ok"} />Stok <strong>{stockAlerts ? `${stockAlerts} uyarı` : "Kritik yok"}</strong></span>
-            <span><i className={documentedExpenses || !transactions.length ? "ok" : "warning"} />Belgeliler <strong>{documentedExpenses} kayıt</strong></span>
-          </div>
-          <button className="workspace-secondary" onClick={() => onNavigate("records")} type="button">Kayıtlara git</button>
-        </article>
-      </section>
+      <FinanceCommandCenter
+        goals={goals}
+        cashReserveValue={cashReserveValue}
+        onCreateLedgerRecord={onCreateLedgerRecord}
+        onCreateRecurringRule={onCreateRecurringRule}
+        onNavigate={onNavigate}
+        onOpenReceiptScanner={() => setScannerOpen(true)}
+        onSaveLedgerPayment={onSaveLedgerPayment}
+        onSaveTransaction={onSave}
+        onUndoTransaction={onUndo}
+        records={records}
+        recurringOccurrences={recurringOccurrences}
+        recurringRules={recurringRules}
+        installmentSchedules={installmentSchedules}
+        today={today}
+        transactions={transactions}
+      />
+      {scannerOpen ? (
+        <ReceiptScanner
+          inventory={inventory}
+          onClose={() => setScannerOpen(false)}
+          onSave={onSaveReceipt}
+          productDefinitions={productDefinitions}
+          today={today}
+        />
+      ) : null}
+      {dataMode === "offline" ? <p className="form-error">Canlı veri bağlantısı kontrol edilmeli; çevrimdışı durumda yeni kayıt gönderilmez.</p> : null}
     </>
   );
 }

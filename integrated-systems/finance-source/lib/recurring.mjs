@@ -1,4 +1,5 @@
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const DAY_MS = 86_400_000;
 
 function parseDateOnly(value) {
   if (!DATE_RE.test(String(value ?? ""))) {
@@ -25,6 +26,12 @@ function monthStart(value) {
   return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1));
 }
 
+function addDays(value, days) {
+  const date = parseDateOnly(value);
+  date.setUTCDate(date.getUTCDate() + Number(days || 0));
+  return toDateOnly(date);
+}
+
 export function addMonthsAnchored(value, months) {
   const anchor = parseDateOnly(value);
   if (!Number.isInteger(months)) {
@@ -42,6 +49,66 @@ export function addMonthsAnchored(value, months) {
   ).getUTCDate();
   targetFirst.setUTCDate(Math.min(anchor.getUTCDate(), lastDay));
   return toDateOnly(targetFirst);
+}
+
+function lastBusinessDay(value) {
+  const date = parseDateOnly(value);
+  const candidate = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 0));
+  while (candidate.getUTCDay() === 0 || candidate.getUTCDay() === 6) {
+    candidate.setUTCDate(candidate.getUTCDate() - 1);
+  }
+  return toDateOnly(candidate);
+}
+
+function normalizeRule(rule) {
+  const legacyFrequency = Number(rule.frequencyMonths || 1);
+  const kind = ["weekly", "monthly", "yearly", "once"].includes(rule.recurrenceKind)
+    ? rule.recurrenceKind
+    : "monthly";
+  const interval = Number.isInteger(Number(rule.recurrenceInterval)) && Number(rule.recurrenceInterval) > 0
+    ? Number(rule.recurrenceInterval)
+    : kind === "monthly"
+      ? Math.max(1, legacyFrequency)
+      : 1;
+  return {
+    kind,
+    interval,
+    dayOfWeek: Number.isInteger(Number(rule.recurrenceDayOfWeek)) ? Number(rule.recurrenceDayOfWeek) : null,
+    dayOfMonth: Number.isInteger(Number(rule.recurrenceDayOfMonth)) ? Number(rule.recurrenceDayOfMonth) : null,
+    businessDayRule: rule.businessDayRule === "last_business_day" ? "last_business_day" : "none",
+  };
+}
+
+function alignWeeklyStart(startDate, dayOfWeek) {
+  if (dayOfWeek === null || dayOfWeek < 0 || dayOfWeek > 6) return startDate;
+  const start = parseDateOnly(startDate);
+  const shift = (dayOfWeek - start.getUTCDay() + 7) % 7;
+  return addDays(startDate, shift);
+}
+
+function monthlyDueDate(startDate, step, interval, recurrence) {
+  let due = addMonthsAnchored(startDate, step * interval);
+  if (recurrence.dayOfMonth) {
+    const base = parseDateOnly(due);
+    const last = new Date(Date.UTC(base.getUTCFullYear(), base.getUTCMonth() + 1, 0)).getUTCDate();
+    base.setUTCDate(Math.min(recurrence.dayOfMonth, last));
+    due = toDateOnly(base);
+  }
+  if (recurrence.businessDayRule === "last_business_day") due = lastBusinessDay(due);
+  return due;
+}
+
+function recurringDueDate(rule, step) {
+  const recurrence = normalizeRule(rule);
+  if (recurrence.kind === "once") return step === 0 ? rule.startDate : null;
+  if (recurrence.kind === "weekly") {
+    const first = alignWeeklyStart(rule.startDate, recurrence.dayOfWeek);
+    return addDays(first, step * recurrence.interval * 7);
+  }
+  if (recurrence.kind === "yearly") {
+    return addMonthsAnchored(rule.startDate, step * recurrence.interval * 12);
+  }
+  return monthlyDueDate(rule.startDate, step, recurrence.interval, recurrence);
 }
 
 export function recurringOccurrenceId(ruleId, dueDate) {
@@ -67,9 +134,9 @@ export function projectRecurringExpenses(
   const projected = [];
 
   for (const rule of rules) {
-    const interval = Number(rule.frequencyMonths);
-    if (!Number.isInteger(interval) || interval < 1) {
-      throw new RangeError("Tekrar aralığı en az bir ay olmalıdır.");
+    const recurrence = normalizeRule(rule);
+    if (!Number.isInteger(recurrence.interval) || recurrence.interval < 1) {
+      throw new RangeError("Tekrar aralığı en az 1 olmalıdır.");
     }
     const amount = Number(rule.amount);
     if (!Number.isFinite(amount) || amount < 0) {
@@ -101,16 +168,21 @@ export function projectRecurringExpenses(
           note: saved.note ?? "",
           needsAmount: false,
           needsReview: false,
+          overdue: false,
         });
       }
       continue;
     }
 
-    for (let step = 0; step < 600; step += 1) {
-      const dueDate = addMonthsAnchored(rule.startDate, step * interval);
+    for (let step = 0; step < 1500; step += 1) {
+      const dueDate = recurringDueDate(rule, step);
+      if (!dueDate) break;
       const due = parseDateOnly(dueDate);
       if (due > windowEnd || (end && due > end)) break;
-      if (due < start || due < windowStart) continue;
+      const effectiveStart = recurrence.businessDayRule === "last_business_day"
+        ? monthStart(rule.startDate)
+        : start;
+      if (due < effectiveStart || due < windowStart) continue;
 
       const id = recurringOccurrenceId(rule.id, dueDate);
       const saved = savedMap.get(id);
@@ -129,6 +201,7 @@ export function projectRecurringExpenses(
         note: saved?.note ?? "",
         needsAmount: rule.amountMode === "estimated" && !saved,
         needsReview: Boolean(review && due >= review && !saved),
+        overdue: !saved && dueDate < today,
       });
     }
   }
@@ -139,11 +212,20 @@ export function projectRecurringExpenses(
   });
 }
 
+function monthlyEquivalent(rule) {
+  const amount = Number(rule.amount || 0);
+  const recurrence = normalizeRule(rule);
+  if (recurrence.kind === "weekly") return amount * 52.142857 / 12 / recurrence.interval;
+  if (recurrence.kind === "yearly") return amount / 12 / recurrence.interval;
+  if (recurrence.kind === "once") return 0;
+  return amount / recurrence.interval;
+}
+
 export function recurringExpenseSummary(rules, occurrences, today) {
   const monthKey = today.slice(0, 7);
   const activeRules = rules.filter((rule) => rule.active);
   const monthlyPlan = activeRules.reduce(
-    (sum, rule) => sum + Number(rule.amount) / Number(rule.frequencyMonths),
+    (sum, rule) => sum + monthlyEquivalent(rule),
     0,
   );
   const thisMonth = occurrences.filter(
@@ -173,6 +255,7 @@ export function recurringExpenseSummary(rules, occurrences, today) {
         ) * 100,
       ) / 100,
     pendingCount: pending.length,
+    overdueCount: pending.filter((occurrence) => occurrence.dueDate < today).length,
   };
 }
 
@@ -189,7 +272,7 @@ export function recurringCalendarEvents(rules, savedOccurrences, today) {
       return {
         id: occurrence.id,
         date: paid ? occurrence.paidDate || occurrence.dueDate : occurrence.dueDate,
-        title: `${rule?.name ?? "Sabit gider"} · ${paid ? "Ödendi" : "Planlı"}`,
+        title: `${rule?.name ?? "Sabit gider"} · ${paid ? "Ödendi" : occurrence.overdue ? "Gecikti" : "Planlı"}`,
         amount: Number(
           paid
             ? occurrence.actualAmount ?? occurrence.expectedAmount
@@ -198,9 +281,11 @@ export function recurringCalendarEvents(rules, savedOccurrences, today) {
         type: paid ? "recurring_payment" : "recurring_expense",
         status: paid
           ? "paid"
-          : occurrence.needsReview
-            ? "review"
-            : "planned",
+          : occurrence.overdue
+            ? "overdue"
+            : occurrence.needsReview
+              ? "review"
+              : "planned",
       };
     });
 }

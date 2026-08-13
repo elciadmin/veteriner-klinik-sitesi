@@ -3,6 +3,8 @@ import { asc, desc, eq } from "drizzle-orm";
 import { getDb } from "@/db";
 import {
   financeAuditEvents,
+  financialGoals,
+  goalMilestones,
   financialEvents,
   financialJournalLines,
   idempotencyCommands,
@@ -12,6 +14,7 @@ import {
   ledgerLineItems,
   ledgerPayments,
   ledgerRecords,
+  installmentSchedules,
   monthlyCloseEvents,
   monthlyClosings,
   productDefinitions,
@@ -21,6 +24,7 @@ import {
   stockMovements,
   transactionAuditEvents,
   transactions,
+  valuationRates,
 } from "@/db/schema";
 import {
   datePlusBusinessDays,
@@ -39,6 +43,7 @@ import {
   historicalImportSummary,
   validateHistoricalImportPackage,
 } from "@/lib/historical-import.mjs";
+import { indexedAmountValue, purityFactor } from "@/lib/indexed-ledger.mjs";
 import {
   ACCOUNTS,
   assertBalanced,
@@ -57,6 +62,7 @@ type TransactionInput = {
   counterparty?: string;
   operationType?: string;
   costBehavior?: string;
+  businessClass?: string;
   relatedIncomeId?: string;
   amount: number;
   paymentMethod: string;
@@ -140,6 +146,16 @@ type LedgerInput = {
   createdDate: string;
   dueDate: string;
   originalAmount: number;
+  denominationCode?: string;
+  denominationQuantity?: number;
+  denominationOpenUnitPrice?: number;
+  denominationRateSource?: string;
+  denominationAssetClass?: string;
+  denominationUnit?: string;
+  denominationPurity?: number;
+  denominationKarat?: number;
+  denominationMillesimal?: number;
+  denominationLabel?: string;
   reserve: number;
   reminderDays: number;
   importBatchId?: string;
@@ -164,6 +180,9 @@ type PaymentInput = {
   id: string;
   recordId: string;
   amount: number;
+  denominationCode?: string;
+  denominationQuantity?: number;
+  denominationUnitPrice?: number;
   date: string;
   method?: string;
   note?: string;
@@ -180,6 +199,12 @@ type RecurringRuleInput = {
   amount: number;
   amountMode: string;
   frequencyMonths: number;
+  recurrenceKind?: string;
+  recurrenceInterval?: number;
+  recurrenceDayOfWeek?: number;
+  recurrenceDayOfMonth?: number;
+  businessDayRule?: string;
+  autoCreate?: boolean;
   startDate: string;
   endDate?: string;
   nextReviewDate?: string;
@@ -237,6 +262,50 @@ type HistoricalImportInput = {
   };
 };
 
+type FinancialGoalInput = {
+  id: string;
+  name: string;
+  metric: string;
+  direction?: string;
+  unit?: string;
+  targetValue: number;
+  baselineValue?: number;
+  currentOverride?: number;
+  startDate: string;
+  endDate: string;
+  scenarioMode?: string;
+  active?: boolean;
+  note?: string;
+};
+
+type GoalMilestoneInput = {
+  id: string;
+  goalId: string;
+  label: string;
+  targetValue: number;
+  targetDate: string;
+  completedAt?: string;
+};
+
+type ValuationRateInput = {
+  id: string;
+  assetCode: string;
+  unitPrice: number;
+  source?: string;
+  effectiveAt: string;
+};
+
+type InstallmentScheduleInput = {
+  id: string;
+  ledgerRecordId: string;
+  installmentNo: number;
+  dueDate: string;
+  amount: number;
+  denominationQuantity?: number;
+  status?: string;
+  paymentId?: string;
+};
+
 type ClinicDataAction =
   | { action: "importHistoricalData"; package: HistoricalImportInput }
   | { action: "rollbackHistoricalImport"; batchId: string; reason: string }
@@ -288,6 +357,10 @@ type ClinicDataAction =
     }
   | { action: "saveMonthlyClosing"; closing: MonthlyCloseInput }
   | { action: "reopenMonthlyClosing"; period: string; reason: string }
+  | { action: "saveGoal"; goal: FinancialGoalInput }
+  | { action: "saveGoalMilestone"; milestone: GoalMilestoneInput }
+  | { action: "saveValuationRate"; rate: ValuationRateInput }
+  | { action: "saveInstallmentPlan"; ledgerRecordId: string; schedules: InstallmentScheduleInput[] }
   | { action: "saveSetting"; key: string; value: string };
 
 function cents(value: number | null | undefined) {
@@ -502,6 +575,16 @@ function ledgerValues(record: LedgerInput) {
     createdDate: record.createdDate,
     dueDate: record.dueDate,
     originalAmountCents: cents(record.originalAmount),
+    denominationCode: record.denominationCode || "TRY",
+    denominationQuantity: Number(record.denominationQuantity ?? ((record.denominationCode || "TRY") === "TRY" ? record.originalAmount : 0)),
+    denominationOpenUnitPriceCents: cents(record.denominationOpenUnitPrice ?? 1),
+    denominationRateSource: record.denominationRateSource || "manual",
+    denominationAssetClass: record.denominationAssetClass || ((record.denominationCode || "TRY").startsWith("X") ? "metal" : "currency"),
+    denominationUnit: record.denominationUnit || ((record.denominationCode || "TRY").endsWith("_GRAM") ? "gram" : "unit"),
+    denominationPurity: Number(record.denominationPurity ?? 1),
+    denominationKarat: record.denominationKarat ?? null,
+    denominationMillesimal: record.denominationMillesimal ?? null,
+    denominationLabel: record.denominationLabel || "",
     reserveCents: cents(record.reserve),
     reminderDays: Number(record.reminderDays || 3),
     importBatchId: record.importBatchId || null,
@@ -533,6 +616,12 @@ function recurringRuleValues(rule: RecurringRuleInput) {
     amountCents: cents(rule.amount),
     amountMode: rule.amountMode || "fixed",
     frequencyMonths: Number(rule.frequencyMonths || 1),
+    recurrenceKind: rule.recurrenceKind || "monthly",
+    recurrenceInterval: Number(rule.recurrenceInterval || rule.frequencyMonths || 1),
+    recurrenceDayOfWeek: rule.recurrenceDayOfWeek ?? null,
+    recurrenceDayOfMonth: rule.recurrenceDayOfMonth ?? null,
+    businessDayRule: rule.businessDayRule || "none",
+    autoCreate: rule.autoCreate !== false,
     startDate: rule.startDate,
     endDate: rule.endDate || null,
     nextReviewDate: rule.nextReviewDate || null,
@@ -583,6 +672,7 @@ function transactionFromRow(row: TransactionRow) {
     counterparty: row.counterparty,
     operationType: row.operationType,
     costBehavior: row.costBehavior,
+    businessClass: row.businessClass,
     relatedIncomeId: row.relatedIncomeId ?? undefined,
     amount: row.amountCents / 100,
     paymentMethod: row.paymentMethod,
@@ -940,6 +1030,10 @@ function auditDescriptor(payload: ClinicDataAction) {
   if (payload.action === "saveLedgerPayment") return { entityType: "ledger_payment", entityId: payload.payment.id };
   if (payload.action === "settlePosTransaction" || payload.action === "reverseTransaction") return { entityType: "transaction", entityId: payload.transactionId };
   if (payload.action === "saveRecurringRule") return { entityType: "recurring_rule", entityId: payload.rule.id };
+  if (payload.action === "saveGoal") return { entityType: "financial_goal", entityId: payload.goal.id };
+  if (payload.action === "saveGoalMilestone") return { entityType: "goal_milestone", entityId: payload.milestone.id };
+  if (payload.action === "saveValuationRate") return { entityType: "valuation_rate", entityId: payload.rate.id };
+  if (payload.action === "saveInstallmentPlan") return { entityType: "installment_plan", entityId: payload.ledgerRecordId };
   if (payload.action === "payRecurringOccurrence") return { entityType: "recurring_occurrence", entityId: payload.occurrence.id };
   if (payload.action === "saveMonthlyClosing") return { entityType: "monthly_closing", entityId: payload.closing.period };
   if (payload.action === "reopenMonthlyClosing") return { entityType: "monthly_closing", entityId: payload.period };
@@ -993,6 +1087,10 @@ export async function GET(request: Request) {
       monthlyClosingRows,
       monthlyCloseEventRows,
       importBatchRows,
+      goalRows,
+      milestoneRows,
+      valuationRateRows,
+      installmentRows,
       settingRows,
       auditRows,
     ] = await Promise.all([
@@ -1038,6 +1136,10 @@ export async function GET(request: Request) {
         .select()
         .from(importBatches)
         .orderBy(desc(importBatches.createdAt)),
+      db.select().from(financialGoals).orderBy(asc(financialGoals.endDate)),
+      db.select().from(goalMilestones).orderBy(asc(goalMilestones.targetDate)),
+      db.select().from(valuationRates).orderBy(desc(valuationRates.effectiveAt)),
+      db.select().from(installmentSchedules).orderBy(asc(installmentSchedules.dueDate)),
       db.select().from(settings),
       currentUser.role === "editor"
         ? db
@@ -1053,6 +1155,9 @@ export async function GET(request: Request) {
       Array<{
         id: string;
         amount: number;
+        denominationCode?: string;
+        denominationQuantity?: number;
+        denominationUnitPrice?: number;
         date: string;
         method: string;
         note: string;
@@ -1099,6 +1204,9 @@ export async function GET(request: Request) {
       rows.push({
         id: payment.id,
         amount: payment.amountCents / 100,
+        denominationCode: payment.denominationCode ?? undefined,
+        denominationQuantity: payment.denominationQuantity ?? undefined,
+        denominationUnitPrice: payment.denominationUnitPriceCents === null ? undefined : payment.denominationUnitPriceCents / 100,
         date: payment.date,
         method: payment.method,
         note: payment.note,
@@ -1121,7 +1229,11 @@ export async function GET(request: Request) {
           lineItemRows.length +
           recurringRuleRows.length +
           recurringOccurrenceRows.length +
-          monthlyClosingRows.length >
+          monthlyClosingRows.length +
+          goalRows.length +
+          milestoneRows.length +
+          valuationRateRows.length +
+          installmentRows.length >
         0,
       transactions: transactionRows.map(transactionFromRow),
       inventory: itemRows.map((row) => ({
@@ -1191,6 +1303,16 @@ export async function GET(request: Request) {
         createdDate: row.createdDate,
         dueDate: row.dueDate,
         originalAmount: row.originalAmountCents / 100,
+        denominationCode: row.denominationCode || "TRY",
+        denominationQuantity: row.denominationQuantity || (row.denominationCode === "TRY" ? row.originalAmountCents / 100 : 0),
+        denominationOpenUnitPrice: row.denominationOpenUnitPriceCents / 100,
+        denominationRateSource: row.denominationRateSource || "manual",
+        denominationAssetClass: row.denominationAssetClass || "currency",
+        denominationUnit: row.denominationUnit || "unit",
+        denominationPurity: row.denominationPurity || 1,
+        denominationKarat: row.denominationKarat ?? undefined,
+        denominationMillesimal: row.denominationMillesimal ?? undefined,
+        denominationLabel: row.denominationLabel || "",
         reserve: row.reserveCents / 100,
         reminderDays: row.reminderDays,
         importBatchId: row.importBatchId ?? undefined,
@@ -1205,6 +1327,12 @@ export async function GET(request: Request) {
         amount: row.amountCents / 100,
         amountMode: row.amountMode,
         frequencyMonths: row.frequencyMonths,
+        recurrenceKind: row.recurrenceKind || "monthly",
+        recurrenceInterval: row.recurrenceInterval || row.frequencyMonths || 1,
+        recurrenceDayOfWeek: row.recurrenceDayOfWeek ?? undefined,
+        recurrenceDayOfMonth: row.recurrenceDayOfMonth ?? undefined,
+        businessDayRule: row.businessDayRule || "none",
+        autoCreate: row.autoCreate,
         startDate: row.startDate,
         endDate: row.endDate ?? undefined,
         nextReviewDate: row.nextReviewDate ?? undefined,
@@ -1265,6 +1393,20 @@ export async function GET(request: Request) {
           rollbackReason: row.rollbackReason,
         };
       }),
+      goals: goalRows.map((row) => ({
+        id: row.id, name: row.name, metric: row.metric, direction: row.direction, unit: row.unit,
+        targetValue: row.targetValue, baselineValue: row.baselineValue, currentOverride: row.currentOverride ?? undefined,
+        startDate: row.startDate, endDate: row.endDate, scenarioMode: row.scenarioMode, active: row.active, note: row.note,
+      })),
+      goalMilestones: milestoneRows.map((row) => ({
+        id: row.id, goalId: row.goalId, label: row.label, targetValue: row.targetValue, targetDate: row.targetDate, completedAt: row.completedAt ?? undefined,
+      })),
+      valuationRates: valuationRateRows.map((row) => ({
+        id: row.id, assetCode: row.assetCode, unitPrice: row.unitPriceCents / 100, source: row.source, effectiveAt: row.effectiveAt,
+      })),
+      installmentSchedules: installmentRows.map((row) => ({
+        id: row.id, ledgerRecordId: row.ledgerRecordId, installmentNo: row.installmentNo, dueDate: row.dueDate, amount: row.amountCents / 100, denominationQuantity: row.denominationQuantity ?? undefined, status: row.status, paymentId: row.paymentId ?? undefined,
+      })),
       settings: Object.fromEntries(
         settingRows.map((setting) => [setting.key, setting.value]),
       ),
@@ -1497,6 +1639,9 @@ export async function POST(request: Request) {
           id: String(payment.id),
           recordId: payment.recordId,
           amountCents: cents(payment.amount),
+          denominationCode: payment.denominationCode || null,
+          denominationQuantity: payment.denominationQuantity ?? null,
+          denominationUnitPriceCents: payment.denominationUnitPrice === undefined ? null : cents(payment.denominationUnitPrice),
           date: payment.date,
           method: payment.method || "transfer",
           note: payment.note || "Excel geçmiş ödeme",
@@ -2138,7 +2283,26 @@ export async function POST(request: Request) {
       if (!record) {
         throw new RouteInputError("Borç/alacak kaydı bulunamadı.", 404);
       }
-      const amount = Number(payment.amount);
+      const recordDenomination = String(record.denominationCode || "TRY").toUpperCase();
+      const indexedRecord = recordDenomination !== "TRY";
+      let amount = Number(payment.amount);
+      const paymentDenomination = String(payment.denominationCode || recordDenomination).toUpperCase();
+      const paymentQuantity = Number(payment.denominationQuantity ?? 0);
+      const paymentUnitPrice = Number(payment.denominationUnitPrice ?? 0);
+      if (indexedRecord) {
+        if (paymentDenomination !== recordDenomination) {
+          throw new RouteInputError(`Bu cari ${recordDenomination} üzerinden takip ediliyor; ödeme birimi değiştirilemez.`);
+        }
+        if (!Number.isFinite(paymentQuantity) || paymentQuantity <= 0 || !Number.isFinite(paymentUnitPrice) || paymentUnitPrice <= 0) {
+          throw new RouteInputError("Endeksli cari için ödenen miktar ve güncel TL birim değeri zorunludur.");
+        }
+        amount = indexedAmountValue({
+          denominationCode: record.denominationCode,
+          denominationPurity: record.denominationPurity,
+          denominationKarat: record.denominationKarat,
+          denominationMillesimal: record.denominationMillesimal,
+        }, paymentQuantity, paymentUnitPrice) ?? 0;
+      }
       if (!Number.isFinite(amount) || amount <= 0) {
         throw new RouteInputError("Tahsilat/ödeme tutarı sıfırdan büyük olmalıdır.");
       }
@@ -2146,17 +2310,36 @@ export async function POST(request: Request) {
         .select()
         .from(ledgerPayments)
         .where(eq(ledgerPayments.recordId, record.id));
-      const paidCents = priorPayments
-        .filter(
-          (row) => row.id !== payment.id && row.status !== "cancelled",
-        )
-        .reduce((sum, row) => sum + row.amountCents, 0);
-      const remainingCents = Math.max(
-        0,
-        record.originalAmountCents - paidCents,
+      const activePriorPayments = priorPayments.filter(
+        (row) => row.id !== payment.id && row.status !== "cancelled",
       );
+      const paidCents = activePriorPayments.reduce((sum, row) => sum + row.amountCents, 0);
+      const remainingCents = Math.max(0, record.originalAmountCents - paidCents);
       const amountCents = cents(amount);
-      if (amountCents > remainingCents) {
+      if (indexedRecord) {
+        const openingRate = Math.max(0.000001, Number(record.denominationOpenUnitPriceCents || 0) / 100);
+        const recordPurity = purityFactor({
+          denominationCode: record.denominationCode,
+          denominationPurity: record.denominationPurity,
+          denominationKarat: record.denominationKarat,
+          denominationMillesimal: record.denominationMillesimal,
+        });
+        const openingUnits = Number(record.denominationQuantity || 0) > 0
+          ? Number(record.denominationQuantity)
+          : record.originalAmountCents / 100 / openingRate / Math.max(recordPurity, 0.000001);
+        const paidUnits = activePriorPayments.reduce((sum, row) => {
+          if (Number(row.denominationQuantity || 0) > 0) return sum + Number(row.denominationQuantity);
+          const unitRate = Number(row.denominationUnitPriceCents || 0) / 100 || openingRate;
+          return sum + row.amountCents / 100 / unitRate / Math.max(recordPurity, 0.000001);
+        }, 0);
+        const remainingUnits = Math.max(0, openingUnits - paidUnits);
+        if (paymentQuantity > remainingUnits + 1e-8) {
+          throw new RouteInputError(
+            `Miktar kalan ${remainingUnits.toLocaleString("tr-TR", { maximumFractionDigits: 8 })} ${recordDenomination} bakiyesini aşamaz.`,
+            409,
+          );
+        }
+      } else if (amountCents > remainingCents) {
         throw new RouteInputError(
           `Tutar kalan bakiyeyi aşamaz. Azami ${(remainingCents / 100).toLocaleString("tr-TR", { style: "currency", currency: "TRY" })}.`,
           409,
@@ -2218,6 +2401,9 @@ export async function POST(request: Request) {
         id: payment.id,
         recordId: payment.recordId,
         amountCents,
+        denominationCode: indexedRecord ? recordDenomination : (payment.denominationCode || "TRY"),
+        denominationQuantity: indexedRecord ? paymentQuantity : (payment.denominationQuantity ?? amount),
+        denominationUnitPriceCents: indexedRecord ? cents(paymentUnitPrice) : cents(payment.denominationUnitPrice ?? 1),
         date: payment.date,
         method: payment.method || "",
         note: payment.note || "",
@@ -2843,6 +3029,76 @@ export async function POST(request: Request) {
         }),
       ]);
       return success({ ok: true, closing: reopened });
+    } else if (payload.action === "saveGoal") {
+      const goal = payload.goal;
+      if (!goal.name.trim() || !goal.metric.trim() || !goal.startDate || !goal.endDate) {
+        throw new RouteInputError("Hedef adı, ölçütü ve tarih aralığı zorunludur.");
+      }
+      if (goal.startDate > goal.endDate) {
+        throw new RouteInputError("Hedef başlangıcı bitiş tarihinden sonra olamaz.");
+      }
+      if (!Number.isFinite(Number(goal.targetValue)) || Number(goal.targetValue) < 0) {
+        throw new RouteInputError("Hedef değeri geçersiz.");
+      }
+      const now = new Date().toISOString();
+      const values = {
+        id: goal.id,
+        name: goal.name.trim(),
+        metric: goal.metric.trim(),
+        direction: goal.direction === "down" ? "down" : "up",
+        unit: goal.unit || "TRY",
+        targetValue: Number(goal.targetValue),
+        baselineValue: Number(goal.baselineValue || 0),
+        currentOverride: goal.currentOverride === undefined ? null : Number(goal.currentOverride),
+        startDate: goal.startDate,
+        endDate: goal.endDate,
+        scenarioMode: ["base", "optimistic", "pessimistic"].includes(goal.scenarioMode || "") ? goal.scenarioMode! : "base",
+        active: goal.active !== false,
+        note: goal.note || "",
+        updatedAt: now,
+      };
+      await db.insert(financialGoals).values(values).onConflictDoUpdate({ target: financialGoals.id, set: values });
+    } else if (payload.action === "saveGoalMilestone") {
+      const milestone = payload.milestone;
+      if (!milestone.goalId || !milestone.label.trim() || !milestone.targetDate || !Number.isFinite(Number(milestone.targetValue))) {
+        throw new RouteInputError("Kilometre taşı bilgileri eksik veya geçersiz.");
+      }
+      const values = {
+        id: milestone.id, goalId: milestone.goalId, label: milestone.label.trim(), targetValue: Number(milestone.targetValue),
+        targetDate: milestone.targetDate, completedAt: milestone.completedAt || null,
+      };
+      await db.insert(goalMilestones).values(values).onConflictDoUpdate({ target: goalMilestones.id, set: values });
+    } else if (payload.action === "saveValuationRate") {
+      const rate = payload.rate;
+      if (!rate.assetCode.trim() || !Number.isFinite(Number(rate.unitPrice)) || Number(rate.unitPrice) <= 0 || !rate.effectiveAt) {
+        throw new RouteInputError("Değerleme kuru/maden fiyatı geçersiz.");
+      }
+      const values = {
+        id: rate.id, assetCode: rate.assetCode.trim().toUpperCase(), unitPriceCents: cents(rate.unitPrice),
+        source: rate.source || "manual", effectiveAt: rate.effectiveAt, createdBy: currentUser.email,
+      };
+      await db.insert(valuationRates).values(values).onConflictDoUpdate({ target: valuationRates.id, set: values });
+    } else if (payload.action === "saveInstallmentPlan") {
+      const recordRows = await db.select().from(ledgerRecords).where(eq(ledgerRecords.id, payload.ledgerRecordId)).limit(1);
+      if (!recordRows[0]) throw new RouteInputError("Taksit planının bağlı olduğu borç/alacak bulunamadı.", 404);
+      const schedules = payload.schedules ?? [];
+      if (!schedules.length || schedules.length > 120) throw new RouteInputError("Taksit planı 1 ile 120 dönem arasında olmalıdır.");
+      const seen = new Set<number>();
+      for (const schedule of schedules) {
+        if (schedule.ledgerRecordId !== payload.ledgerRecordId || !schedule.dueDate || !Number.isInteger(Number(schedule.installmentNo)) || Number(schedule.installmentNo) < 1 || seen.has(Number(schedule.installmentNo))) {
+          throw new RouteInputError("Taksit planında sıra veya tarih hatası var.");
+        }
+        if (!Number.isFinite(Number(schedule.amount)) || Number(schedule.amount) < 0) throw new RouteInputError("Taksit tutarı geçersiz.");
+        seen.add(Number(schedule.installmentNo));
+      }
+      await db.delete(installmentSchedules).where(eq(installmentSchedules.ledgerRecordId, payload.ledgerRecordId));
+      for (const schedule of schedules) {
+        await db.insert(installmentSchedules).values({
+          id: schedule.id, ledgerRecordId: schedule.ledgerRecordId, installmentNo: Number(schedule.installmentNo),
+          dueDate: schedule.dueDate, amountCents: cents(schedule.amount), denominationQuantity: schedule.denominationQuantity ?? null,
+          status: schedule.status || "planned", paymentId: schedule.paymentId || null, updatedAt: new Date().toISOString(),
+        });
+      }
     } else if (payload.action === "saveSetting") {
       const values = {
         key: payload.key,

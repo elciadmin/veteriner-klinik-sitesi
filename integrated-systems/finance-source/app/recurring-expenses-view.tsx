@@ -23,6 +23,12 @@ export type RecurringExpenseRule = {
   amount: number;
   amountMode: RecurringAmountMode;
   frequencyMonths: number;
+  recurrenceKind?: "weekly" | "monthly" | "yearly" | "once";
+  recurrenceInterval?: number;
+  recurrenceDayOfWeek?: number;
+  recurrenceDayOfMonth?: number;
+  businessDayRule?: "none" | "last_business_day";
+  autoCreate?: boolean;
   startDate: string;
   endDate?: string;
   nextReviewDate?: string;
@@ -53,6 +59,7 @@ export type ProjectedRecurringOccurrence =
     status: "planned" | "paid" | "skipped";
     needsAmount: boolean;
     needsReview: boolean;
+    overdue?: boolean;
   };
 
 export type RecurringPaymentPayload = {
@@ -68,6 +75,8 @@ type RuleForm = {
   amount: string;
   amountMode: RecurringAmountMode;
   frequencyMonths: string;
+  recurrenceMode: "weekly" | "monthly" | "quarterly" | "yearly" | "once";
+  businessDayRule: "none" | "last_business_day";
   startDate: string;
   nextReviewDate: string;
   paymentMethod: PaymentChannel;
@@ -159,11 +168,15 @@ const DATE = new Intl.DateTimeFormat("tr-TR", {
   timeZone: "UTC",
 });
 
-const frequencyLabels: Record<number, string> = {
-  1: "Her ay",
-  3: "3 ayda bir",
-  12: "Yılda bir",
-};
+function frequencyLabel(rule: RecurringExpenseRule) {
+  const kind = rule.recurrenceKind || "monthly";
+  const interval = rule.recurrenceInterval || rule.frequencyMonths || 1;
+  if (kind === "weekly") return interval === 1 ? "Her hafta" : `${interval} haftada bir`;
+  if (kind === "yearly") return interval === 1 ? "Yılda bir" : `${interval} yılda bir`;
+  if (kind === "once") return "Tek sefer";
+  if (rule.businessDayRule === "last_business_day") return "Her ayın son iş günü";
+  return interval === 1 ? "Her ay" : `${interval} ayda bir`;
+}
 
 const paymentLabels: Record<PaymentChannel, string> = {
   cash: "Nakit",
@@ -208,6 +221,8 @@ function emptyRuleForm(today: string): RuleForm {
     amount: "",
     amountMode: "fixed",
     frequencyMonths: "1",
+    recurrenceMode: "monthly",
+    businessDayRule: "none",
     startDate: today,
     nextReviewDate: addMonthsAnchored(today, 12),
     paymentMethod: "transfer",
@@ -226,6 +241,8 @@ function ruleToForm(rule: RecurringExpenseRule): RuleForm {
     amount: String(rule.amount),
     amountMode: rule.amountMode,
     frequencyMonths: String(rule.frequencyMonths),
+    recurrenceMode: rule.recurrenceKind === "weekly" ? "weekly" : rule.recurrenceKind === "yearly" ? "yearly" : rule.recurrenceKind === "once" ? "once" : (rule.recurrenceInterval || rule.frequencyMonths) === 3 ? "quarterly" : "monthly",
+    businessDayRule: rule.businessDayRule || "none",
     startDate: rule.startDate,
     nextReviewDate: rule.nextReviewDate ?? "",
     paymentMethod: rule.paymentMethod,
@@ -330,6 +347,11 @@ export function RecurringExpensesView({
       return;
     }
 
+    const recurrenceKind = ruleForm.recurrenceMode === "weekly" ? "weekly" : ruleForm.recurrenceMode === "yearly" ? "yearly" : ruleForm.recurrenceMode === "once" ? "once" : "monthly";
+    const recurrenceInterval = ruleForm.recurrenceMode === "quarterly" ? 3 : 1;
+    const startDay = new Date(`${ruleForm.startDate}T00:00:00Z`).getUTCDay();
+    const startMonthDay = Number(ruleForm.startDate.slice(-2));
+
     const existing = rules.find((rule) => rule.id === editingRuleId);
     const rule: RecurringExpenseRule = {
       id: existing?.id ?? `recurring-rule-${Date.now()}`,
@@ -339,6 +361,12 @@ export function RecurringExpensesView({
       amount,
       amountMode: ruleForm.amountMode,
       frequencyMonths,
+      recurrenceKind,
+      recurrenceInterval,
+      recurrenceDayOfWeek: recurrenceKind === "weekly" ? startDay : undefined,
+      recurrenceDayOfMonth: recurrenceKind === "monthly" ? startMonthDay : undefined,
+      businessDayRule: recurrenceKind === "monthly" ? ruleForm.businessDayRule : "none",
+      autoCreate: true,
       startDate: ruleForm.startDate,
       endDate: existing?.endDate,
       nextReviewDate: ruleForm.nextReviewDate || undefined,
@@ -505,7 +533,7 @@ export function RecurringExpensesView({
                 </div>
                 <strong>{formatMoney(rule.amount)}</strong>
                 <p>
-                  {frequencyLabels[rule.frequencyMonths]} ·{" "}
+                  {frequencyLabel(rule)} ·{" "}
                   {rule.amountMode === "fixed"
                     ? "Sabit tutar"
                     : "Tahmini tutar"}
@@ -601,14 +629,18 @@ export function RecurringExpensesView({
                           className={`recurring-status ${
                             paid
                               ? "paid"
-                              : occurrence.needsReview
-                                ? "review"
-                                : "planned"
+                              : occurrence.overdue
+                                ? "overdue"
+                                : occurrence.needsReview
+                                  ? "review"
+                                  : "planned"
                           }`}
                         >
                           {paid
                             ? "Ödendi"
-                            : occurrence.needsReview
+                            : occurrence.overdue
+                              ? "Gecikti"
+                              : occurrence.needsReview
                               ? "Artış kontrolü"
                               : occurrence.needsAmount
                                 ? "Gerçek tutar bekleniyor"
@@ -764,19 +796,33 @@ export function RecurringExpensesView({
               <label>
                 Tekrar
                 <select
-                  onChange={(event) =>
+                  onChange={(event) => {
+                    const mode = event.target.value as RuleForm["recurrenceMode"];
                     setRuleForm({
                       ...ruleForm,
-                      frequencyMonths: event.target.value,
-                    })
-                  }
-                  value={ruleForm.frequencyMonths}
+                      recurrenceMode: mode,
+                      frequencyMonths: mode === "quarterly" ? "3" : mode === "yearly" ? "12" : "1",
+                      businessDayRule: mode === "monthly" || mode === "quarterly" ? ruleForm.businessDayRule : "none",
+                    });
+                  }}
+                  value={ruleForm.recurrenceMode}
                 >
-                  <option value="1">Her ay</option>
-                  <option value="3">3 ayda bir</option>
-                  <option value="12">Yılda bir</option>
+                  <option value="weekly">Her hafta</option>
+                  <option value="monthly">Her ay</option>
+                  <option value="quarterly">3 ayda bir</option>
+                  <option value="yearly">Yılda bir</option>
+                  <option value="once">Tek sefer</option>
                 </select>
               </label>
+              {(ruleForm.recurrenceMode === "monthly" || ruleForm.recurrenceMode === "quarterly") ? (
+                <label>
+                  Ay içi tarih kuralı
+                  <select value={ruleForm.businessDayRule} onChange={(event) => setRuleForm({ ...ruleForm, businessDayRule: event.target.value as RuleForm["businessDayRule"] })}>
+                    <option value="none">İlk ödeme gününü koru</option>
+                    <option value="last_business_day">Ayın son iş günü</option>
+                  </select>
+                </label>
+              ) : null}
               <label>
                 Sonraki artış kontrolü
                 <input
