@@ -2737,7 +2737,9 @@ export async function POST(request: Request) {
         sourceTransactionId: row.id,
         postingMode: row.kind === "withdrawal" ? "cash_only" : row.postingMode,
         costBehavior: row.kind === "withdrawal" ? "non_expense" : row.costBehavior,
-        status: undefined,
+        // Ters kayıt muhasebe zincirinde kalır, fakat günlük ekranlara tekrar
+        // gelir/gider olarak yansımaz. Ana satır da aşağıda iptal edilir.
+        status: "cancelled",
         isAutomatic: true,
       };
       const audit = db.insert(transactionAuditEvents).values({
@@ -2749,6 +2751,10 @@ export async function POST(request: Request) {
         createdAt: now,
       });
       const reversalWrite = db.insert(transactions).values(transactionValues(reversal));
+      const cancelSource = db
+        .update(transactions)
+        .set({ status: "cancelled", updatedAt: now })
+        .where(eq(transactions.id, row.id));
       const sourceEvent = (await db
         .select()
         .from(financialEvents)
@@ -2791,14 +2797,14 @@ export async function POST(request: Request) {
           .update(transactions)
           .set({ status: "cancelled", updatedAt: now })
           .where(eq(transactions.sourceTransactionId, row.id));
-        await db.batch([reversalWrite, cancelRelated, audit, ...reversalJournalWrites]);
+        await db.batch([reversalWrite, cancelSource, cancelRelated, audit, ...reversalJournalWrites]);
       } else {
-        await db.batch([reversalWrite, audit, ...reversalJournalWrites]);
+        await db.batch([reversalWrite, cancelSource, audit, ...reversalJournalWrites]);
       }
       return success({
         ok: true,
         reversal,
-        cancelledIds: related.map((item) => item.id),
+        cancelledIds: [row.id, reversal.id, ...related.map((item) => item.id)],
       });
     } else if (payload.action === "saveRecurringRule") {
       const values = recurringRuleValues(payload.rule);

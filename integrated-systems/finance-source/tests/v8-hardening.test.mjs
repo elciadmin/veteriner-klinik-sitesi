@@ -18,6 +18,15 @@ test("V8 ters kayıt özgün jurnal satırlarının tam karşılığını ister"
   assert.match(eventRoute, /Ters jurnal, özgün olayın tam karşılığı olmalıdır/);
 });
 
+test("Geri alma günlük göstergeleri düzeltir, denetim kaydını korur", () => {
+  const reversalStart = route.indexOf('} else if (payload.action === "reverseTransaction")');
+  const reversalEnd = route.indexOf('} else if (payload.action === "saveRecurringRule")', reversalStart);
+  const reversal = route.slice(reversalStart, reversalEnd);
+  assert.match(reversal, /const cancelSource/);
+  assert.match(reversal, /status: "cancelled"/);
+  assert.match(reversal, /cancelledIds: \[row\.id, reversal\.id/);
+});
+
 test("V8 geçmiş aktarım geri almasında kaynak satırları fiziksel olarak silmez", () => {
   const rollbackStart = route.indexOf('} else if (payload.action === "rollbackHistoricalImport")');
   const rollbackEnd = route.indexOf('} else if (payload.action === "saveTransactions")', rollbackStart);

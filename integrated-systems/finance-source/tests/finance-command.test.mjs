@@ -40,6 +40,13 @@ test("borç ödemesi tedarikçi kaydına yönlenir", () => {
   assert.equal(result.paymentMethod, "transfer");
 });
 
+test("harcama cümlesi güvenle gider olarak yorumlanır", () => {
+  const parsed = parseFinanceCommand("Sigara ve soda için kasadan 185 TL harcadım");
+  assert.equal(parsed.intent, "smart_outflow");
+  assert.equal(parsed.amount, 185);
+  assert.equal(parsed.paymentMethod, "cash");
+});
+
 test("eşleşen cari yoksa gelen para normal gelir olur", () => {
   const parsed = parseFinanceCommand("2000 TL yeni müşteri kart");
   const result = resolveFinanceCommand(parsed, []);

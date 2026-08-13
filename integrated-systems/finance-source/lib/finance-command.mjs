@@ -260,7 +260,7 @@ export function parseFinanceCommand(input) {
   else if (hasAny(text, ["borclandik", "borcumuz", "borcluyuz", "borc yaz", "borc ekle"])) intent = installmentCount > 1 ? "installment_payable" : "new_payable";
   else if (hasAny(text, ["tahsilat", "tahsil ettim", "odeme aldim", "odemeyi aldim"])) intent = "receivable_payment";
   else if (hasAny(text, ["borcunu odedim", "borc odedim", "borcuna", "tedarikciye odedim"])) intent = "payable_payment";
-  else if (hasAny(text, ["gider", "masraf", "fatura", "kira", "odedim", "odeme yaptim", "satin aldim", "aldim"])) intent = "smart_outflow";
+  else if (hasAny(text, ["gider", "masraf", "fatura", "kira", "odedim", "odeme yaptim", "satin aldim", "aldim", "harcadim"])) intent = "smart_outflow";
   else if (hasAny(text, ["gelir", "satis", "sattim", "tahsil"])) intent = "smart_inflow";
 
   const counterpartyQuery = stripKnownTokens(input, money.raw, indexed?.raw || "");
