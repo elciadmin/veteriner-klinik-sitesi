@@ -1147,17 +1147,14 @@ export function QuickDailyView({
   }
 
   async function reverseTransaction(transaction: ClinicTransaction) {
-    const reason = window.prompt(
-      "Bu kayıt silinmez; gerekçeli ters kayıt olarak denetim izinde saklanır. Düzeltme gerekçesini yazın:",
+    // Geri alma günlük kullanımda gerçek bir “tek tık” olmalı. Kullanıcıdan
+    // ayrıca tarayıcı penceresinde metin istemek bazı cihazlarda işlemi
+    // görünmez kılıyordu. Gerekçe otomatik denetim izine yazılır; kayıt
+    // fiziksel olarak silinmez.
+    const saved = await onReverseTransaction(
+      transaction,
+      "Kullanıcı günlük kaydı geri aldı",
     );
-    if (reason === null) return;
-    if (reason.trim().length < 5) {
-      const message = "Gerekçe en az 5 karakter olmalıdır.";
-      if (transaction.kind === "income") setIncomeError(message);
-      else setExpenseError(message);
-      return;
-    }
-    const saved = await onReverseTransaction(transaction, reason.trim());
     if (saved === false) {
       const message = "Ters kayıt tamamlanamadı; satır değişmedi.";
       if (transaction.kind === "income") setIncomeError(message);

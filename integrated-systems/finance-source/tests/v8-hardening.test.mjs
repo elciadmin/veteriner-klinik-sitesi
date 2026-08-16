@@ -25,6 +25,8 @@ test("Geri alma günlük göstergeleri düzeltir, denetim kaydını korur", () =
   assert.match(reversal, /const cancelSource/);
   assert.match(reversal, /status: "cancelled"/);
   assert.match(reversal, /cancelledIds: \[row\.id, reversal\.id/);
+  assert.match(reversal, /finance_command_bar/);
+  assert.match(reversal, /workspace_quick_entry/);
 });
 
 test("V8 geçmiş aktarım geri almasında kaynak satırları fiziksel olarak silmez", () => {

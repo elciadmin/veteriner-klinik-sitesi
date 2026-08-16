@@ -328,7 +328,13 @@ type ClinicDataAction =
       movement: MovementInput;
       transaction?: TransactionInput;
     }
-  | { action: "saveLedgerRecord"; record: LedgerInput }
+  | {
+      action: "saveLedgerRecord";
+      record: LedgerInput;
+      // Tedavi/hizmet gibi cari açılırken geliri doğuran kayıtlar için,
+      // alacak ve tahakkuk geliri aynı D1 batch içinde oluşur.
+      revenueTransaction?: TransactionInput;
+    }
   | {
       action: "saveLedgerInvoice";
       record: LedgerInput;
@@ -2201,18 +2207,56 @@ export async function POST(request: Request) {
       assertLedgerBasics(payload.record);
       await assertUniqueLedgerDocument(db, payload.record);
       const values = ledgerValues(payload.record);
-      await db
-        .insert(ledgerRecords)
-        .values(values)
-        .onConflictDoUpdate({ target: ledgerRecords.id, set: values });
+      const writes: any[] = [
+        db
+          .insert(ledgerRecords)
+          .values(values)
+          .onConflictDoUpdate({ target: ledgerRecords.id, set: values }),
+      ];
       if (payload.record.lineItems) {
-        await db
+        writes.push(
+          db
           .delete(ledgerLineItems)
-          .where(eq(ledgerLineItems.recordId, payload.record.id));
+          .where(eq(ledgerLineItems.recordId, payload.record.id)),
+        );
         for (const line of payload.record.lineItems) {
-          await db.insert(ledgerLineItems).values(lineItemValues(line));
+          writes.push(db.insert(ledgerLineItems).values(lineItemValues(line)));
         }
       }
+      if (payload.revenueTransaction) {
+        const transactionInput: TransactionInput = {
+          ...payload.revenueTransaction,
+          kind: "income",
+          operationType: "service",
+          paymentMethod: "accrual",
+          postingMode: "economic_only",
+          sourceModule: "ledger_service",
+          sourceRecordId: payload.record.id,
+          isAutomatic: true,
+        };
+        await assertTransactionWritesUnlocked(db, [transactionInput]);
+        const transaction = transactionValues(transactionInput);
+        const journal = legacyJournalEvent(transactionInput);
+        writes.push(
+          db
+            .insert(transactions)
+            .values(transaction)
+            .onConflictDoUpdate({ target: transactions.id, set: transaction }),
+          db.insert(financialEvents).values({ ...journal.event, createdBy: currentUser.email }),
+          ...journal.lines.map((line, index) =>
+            db.insert(financialJournalLines).values({
+              id: `jln-${journal.eventId}-${index + 1}`,
+              eventId: journal.eventId,
+              accountCode: line.accountCode,
+              debitCents: line.debitCents,
+              creditCents: line.creditCents,
+              ledgerRecordId: payload.record.id,
+              memo: transactionInput.description,
+            }),
+          ),
+        );
+      }
+      await db.batch(writes);
     } else if (payload.action === "saveLedgerInvoice") {
       assertLedgerBasics(payload.record);
       const lineTotal = (payload.record.lineItems ?? []).reduce(
@@ -2694,9 +2738,25 @@ export async function POST(request: Request) {
       if (row.status === "cancelled") {
         throw new RouteInputError("Bu işlem zaten iptal edilmiş.", 409);
       }
+      // Komut çubuğu ve hızlı giriş ekranı kullanıcı tarafından oluşturulan
+      // manuel kayıtlardır; ters kayıtla düzeltilebilmeleri gerekir. Stok alımı
+      // ise hem finansı hem de stok adedini değiştirdiği için aşağıda iki tarafı
+      // aynı anda geri alan özel bir yol kullanır.
+      const reversibleManualSources = new Set([
+        "manual",
+        "finance_command_bar",
+        "workspace_quick_entry",
+      ]);
+      // Stok alımı ister hızlı günlük girişten, ister fiş ekranından gelsin;
+      // geri alma iki tarafı (kasa + stok) birlikte terslemelidir. Kaynağa
+      // göre davranmak yerine bağlı stok hareketi üzerinden doğruluyoruz.
+      const isReversibleStockPurchase =
+        row.operationType === "inventory_purchase" &&
+        Boolean(row.sourceRecordId);
       if (
         row.isAutomatic ||
-        (row.sourceModule && row.sourceModule !== "manual")
+        (!reversibleManualSources.has(row.sourceModule || "manual") &&
+          !isReversibleStockPurchase)
       ) {
         throw new RouteInputError(
           "Bağlı işlem kendi kaynağından düzeltilmelidir; veri zinciri korunmak için doğrudan iptal edilmedi.",
@@ -2721,6 +2781,100 @@ export async function POST(request: Request) {
         throw new RouteInputError("Bu işlem için zaten bir ters kayıt oluşturulmuş.", 409);
       }
       const now = new Date().toISOString();
+      let stockUndo: {
+        itemId: string;
+        quantity: number;
+        unitCost: number;
+        adjustmentMovement: MovementInput;
+      } | null = null;
+      const stockUndoWrites: any[] = [];
+      if (isReversibleStockPurchase) {
+        const movementRows = await db
+          .select()
+          .from(stockMovements)
+          .where(eq(stockMovements.id, row.sourceRecordId!))
+          .limit(1);
+        const linkedByTransaction = movementRows[0]
+          ? []
+          : await db
+              .select()
+              .from(stockMovements)
+              .where(eq(stockMovements.transactionId, row.id))
+              .limit(1);
+        const movement = movementRows[0] ?? linkedByTransaction[0];
+        if (!movement || movement.type !== "purchase") {
+          throw new RouteInputError(
+            "Bu stok alımının bağlı stok hareketi bulunamadı; stok kaydı değişmeden finans kaydı iptal edilmedi.",
+            409,
+          );
+        }
+        const itemRows = await db
+          .select()
+          .from(inventoryItems)
+          .where(eq(inventoryItems.id, movement.itemId))
+          .limit(1);
+        const item = itemRows[0];
+        if (!item) {
+          throw new RouteInputError("Stok kartı bulunamadı; güvenli geri alma yapılamadı.", 409);
+        }
+        const purchaseQuantity = Number(movement.quantity);
+        if (Number(item.quantity) + 0.000001 < purchaseQuantity) {
+          throw new RouteInputError(
+            "Stok miktarı bu alımı tamamen geri almaya yetmiyor. Kullanılan veya satılan miktar geri gelmeden finans ve stok birlikte geri alınamaz.",
+            409,
+          );
+        }
+        const purchaseCostCents =
+          movement.totalCostCents ??
+          Math.round(purchaseQuantity * Number(movement.unitCostCents ?? 0));
+        const nextQuantity = Math.max(0, Number(item.quantity) - purchaseQuantity);
+        const currentValueCents = Math.round(
+          Number(item.quantity) * Number(item.unitCostCents ?? 0),
+        );
+        const nextValueCents = Math.max(0, currentValueCents - purchaseCostCents);
+        const nextUnitCostCents =
+          nextQuantity > 0 ? Math.round(nextValueCents / nextQuantity) : 0;
+        // Orijinal hareketi silmek, sonradan yapılan stok hareketlerinin
+        // zaman sırasını bozuyordu. Bunun yerine denetim izinde kalan negatif
+        // “iade çıkışı” ekliyoruz. Böylece aynı satın alma tamamen geri
+        // alınır, stok ve finans aynı anda sıfırlanır, sonraki hareketler de
+        // okunabilir kalır.
+        const adjustmentMovement: MovementInput = {
+          id: `sm-reversal-${row.id}`,
+          itemId: item.id,
+          itemName: movement.itemName,
+          date: payload.reversalDate,
+          type: "return_out",
+          quantity: purchaseQuantity,
+          packageCount: movement.packageCount ?? undefined,
+          unitsPerPackage: movement.unitsPerPackage ?? undefined,
+          unitCost: Number(movement.unitCostCents ?? 0) / 100,
+          totalCost: purchaseCostCents / 100,
+          lot: movement.lot ?? undefined,
+          expiryDate: movement.expiryDate ?? undefined,
+          documentType: movement.documentType ?? undefined,
+          documentRef: movement.documentRef ?? undefined,
+          transactionId: `${row.id}-reversal-stock`,
+          note: `Geri alma: ${reason}`,
+        };
+        stockUndoWrites.push(
+          db
+            .update(inventoryItems)
+            .set({
+              quantity: nextQuantity,
+              unitCostCents: nextUnitCostCents,
+              updatedAt: now,
+            })
+            .where(eq(inventoryItems.id, item.id)),
+          db.insert(stockMovements).values(movementValues(adjustmentMovement)),
+        );
+        stockUndo = {
+          itemId: item.id,
+          quantity: nextQuantity,
+          unitCost: nextUnitCostCents / 100,
+          adjustmentMovement,
+        };
+      }
       const reversal: TransactionInput = {
         ...transactionFromRow(row),
         id: `${row.id}-reversal-${crypto.randomUUID()}`,
@@ -2797,14 +2951,15 @@ export async function POST(request: Request) {
           .update(transactions)
           .set({ status: "cancelled", updatedAt: now })
           .where(eq(transactions.sourceTransactionId, row.id));
-        await db.batch([reversalWrite, cancelSource, cancelRelated, audit, ...reversalJournalWrites]);
+        await db.batch([reversalWrite, cancelSource, cancelRelated, audit, ...stockUndoWrites, ...reversalJournalWrites]);
       } else {
-        await db.batch([reversalWrite, cancelSource, audit, ...reversalJournalWrites]);
+        await db.batch([reversalWrite, cancelSource, audit, ...stockUndoWrites, ...reversalJournalWrites]);
       }
       return success({
         ok: true,
         reversal,
         cancelledIds: [row.id, reversal.id, ...related.map((item) => item.id)],
+        stockUndo,
       });
     } else if (payload.action === "saveRecurringRule") {
       const values = recurringRuleValues(payload.rule);

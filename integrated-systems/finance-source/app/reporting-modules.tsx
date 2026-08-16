@@ -715,6 +715,15 @@ export function ReportsView({
                     {money(exportSummary?.undocumentedOutflow ?? 0)}
                   </strong>
                 </span>
+                {(exportSummary?.assetPurchaseCash ?? 0) > 0 ? (
+                  <span>
+                    Stok / sarf alımı{" "}
+                    <strong>
+                      {money(exportSummary?.assetPurchaseCash ?? 0)}
+                    </strong>
+                    <small> Nakit çıktı; maliyet stok kullanıldığında giderleşir.</small>
+                  </span>
+                ) : null}
               </>
             )}
           </div>

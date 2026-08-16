@@ -534,6 +534,15 @@ export function consumableUsageStatistics({
           spent += Number(
             movement.totalCost ?? quantity * Number(movement.unitCost ?? 0),
           );
+        } else if (movement.type === "return_out") {
+          purchasedUnits -= quantity;
+          purchasedPackages -= Number(
+            movement.packageCount ??
+              quantity / Number(movement.unitsPerPackage || 1),
+          );
+          spent -= Number(
+            movement.totalCost ?? quantity * Number(movement.unitCost ?? 0),
+          );
         } else if (movement.type === "usage" || movement.type === "sale") {
           usedUnits += quantity;
         } else if (movement.type === "waste") {
@@ -732,7 +741,8 @@ export function applyStockMovement(item, movement) {
   if (
     movement.type === "usage" ||
     movement.type === "sale" ||
-    movement.type === "waste"
+    movement.type === "waste" ||
+    movement.type === "return_out"
   ) {
     if (movementQuantity > quantity + MONEY_EPSILON) {
       throw new RangeError("Çıkış miktarı mevcut stoku aşamaz.");

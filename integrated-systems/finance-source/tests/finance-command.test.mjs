@@ -47,10 +47,15 @@ test("harcama cümlesi güvenle gider olarak yorumlanır", () => {
   assert.equal(parsed.paymentMethod, "cash");
 });
 
-test("eşleşen cari yoksa gelen para normal gelir olur", () => {
-  const parsed = parseFinanceCommand("2000 TL yeni müşteri kart");
+test("ödenen cari eşleşmezse ödeme gelire dönüşmez", () => {
+  const parsed = parseFinanceCommand("Damla Hanım 2000 TL ödedi");
   const result = resolveFinanceCommand(parsed, []);
-  assert.equal(result.resolvedIntent, "income");
+  assert.equal(result.resolvedIntent, "unmatched_receivable_payment");
+});
+
+test("alındı ve harcandı kalıpları gider olarak yorumlanır", () => {
+  assert.equal(parseFinanceCommand("120 TL sigara alındı").intent, "smart_outflow");
+  assert.equal(parseFinanceCommand("185 TL marketten harcandı").intent, "smart_outflow");
 });
 
 test("cari eşleştirme tam adı öne çıkarır", () => {

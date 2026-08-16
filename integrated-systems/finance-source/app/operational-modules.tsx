@@ -90,6 +90,7 @@ export type InventoryItem = {
 export type StockMovementType =
   | "purchase"
   | "return_in"
+  | "return_out"
   | "usage"
   | "sale"
   | "waste";
@@ -186,6 +187,7 @@ const operationTypeLabels: Record<OperationType, string> = {
 const movementLabels: Record<StockMovementType, string> = {
   purchase: "Satın alma girişi",
   return_in: "İade girişi",
+  return_out: "Alım geri alma / iade çıkışı",
   usage: "Klinik kullanım",
   sale: "Satış stok çıkışı",
   waste: "Fire / zayi",

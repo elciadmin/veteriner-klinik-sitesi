@@ -184,6 +184,9 @@ type RecordForm = {
   denominationMillesimal: string;
   installmentCount: string;
   reminderDays: string;
+  initialPayment: string;
+  initialPaymentMethod: "cash" | "card" | "transfer";
+  recognizeRevenue: boolean;
 };
 
 type PaymentForm = {
@@ -556,6 +559,7 @@ function DataNotice({
         <span>KALICI KAYIT</span>
         Site veritabanı aktif; bundan sonra oluşturulan kayıtlar ve dönemsel
         istatistikler korunur. Bu ekrandaki veriler gerçek veritabanından okunur.
+        {error ? <strong className="finance-action-error">Son işlem uygulanamadı: {error}</strong> : null}
       </div>
     );
   }
@@ -1604,7 +1608,7 @@ function RecordDialog({
 
         <div className="form-grid">
           <label className="span-2">
-            {form.type === "payable" ? "Borçlanılan firma / kişi *" : "Borçlu firma / kişi *"}
+            {form.type === "payable" ? "Borçlanılan firma / kişi *" : "Hasta sahibi / borçlu cari *"}
             <input
               name="counterparty"
               required
@@ -1612,11 +1616,11 @@ function RecordDialog({
               onChange={(event) =>
                 setForm({ ...form, counterparty: event.target.value })
               }
-              placeholder="Örn. Hasvet veya müşteri adı"
+              placeholder={form.type === "payable" ? "Örn. Hasvet" : "Örn. Damla Hanım"}
             />
           </label>
           <label className="span-2">
-            Kısa not *
+            {form.type === "receivable" ? "Tedavi / hizmet açıklaması *" : "Kısa not *"}
             <textarea
               name="detail"
               required
@@ -1627,7 +1631,7 @@ function RecordDialog({
               placeholder={
                 form.type === "payable"
                   ? "Örn. Ürün alımı; fatura daha sonra gelecek"
-                  : "Alacağın hangi hizmetten oluştuğu"
+                  : "Örn. Narin tedavi planı"
               }
             />
           </label>
@@ -1739,6 +1743,58 @@ function RecordDialog({
                 Taksit / ödeme planı
                 <input min="1" max="120" step="1" type="number" value={form.installmentCount} onChange={(event) => setForm({ ...form, installmentCount: event.target.value })} />
               </label>
+              {form.type === "receivable" ? (
+                <>
+                  <label className="span-2 checkbox-label">
+                    <input
+                      checked={form.recognizeRevenue}
+                      name="recognizeRevenue"
+                      onChange={(event) =>
+                        setForm({ ...form, recognizeRevenue: event.target.checked })
+                      }
+                      type="checkbox"
+                    />
+                    <span>
+                      Bu tedavi / hizmet bedelidir; toplam tutarı hizmet geliri olarak kaydet.
+                      <small>Kapalıysa yalnız cari alacak takibi yapılır; avans, ödünç veya geçmiş bakiye için kullanın.</small>
+                    </span>
+                  </label>
+                  <label>
+                    Şimdi alınan ilk ödeme
+                    <input
+                      name="initialPayment"
+                      min="0"
+                      step="0.01"
+                      type="number"
+                      value={form.initialPayment}
+                      onChange={(event) =>
+                        setForm({ ...form, initialPayment: event.target.value })
+                      }
+                      placeholder="Örn. 4000"
+                    />
+                  </label>
+                  <label>
+                    İlk ödeme kanalı
+                    <select
+                      name="initialPaymentMethod"
+                      value={form.initialPaymentMethod}
+                      onChange={(event) =>
+                        setForm({
+                          ...form,
+                          initialPaymentMethod: event.target.value as
+                            | "cash"
+                            | "card"
+                            | "transfer",
+                        })
+                      }
+                    >
+                      <option value="cash">Nakit</option>
+                      <option value="card">Kart / POS</option>
+                      <option value="transfer">Havale / EFT</option>
+                    </select>
+                  </label>
+                </>
+              ) : null}
             </>
           )}
           <input name="amount" type="hidden" value={isIndexed ? String(indexedOpeningValue || "") : form.amount} />
@@ -1805,6 +1861,7 @@ function RecordDialog({
 
         <div className="modal-note">
           Kaydettiğiniz anda vade takvimde ve borç/alacak listesinde görünür.
+          Tedavi/hizmet seçiliyse toplam bedel gelire, şimdi alınan tutar kasaya/POS&apos;a; kalan ise hasta sahibi alacağına işlenir.
           Fatura sonradan gelirse bu kaydı güncellersiniz; yeni borç açılmaz.
         </div>
 
@@ -2630,6 +2687,9 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
     denominationMillesimal: "999",
     installmentCount: "1",
     reminderDays: "3",
+    initialPayment: "",
+    initialPaymentMethod: "cash",
+    recognizeRevenue: true,
   });
   const [paymentForm, setPaymentForm] = useState<PaymentForm>({
     recordId: "",
@@ -3026,6 +3086,12 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
       const result = (await response.json()) as {
         cancelledIds?: string[];
         reversal?: ClinicTransaction;
+        stockUndo?: {
+          itemId: string;
+          quantity: number;
+          unitCost: number;
+          adjustmentMovement: StockMovement;
+        } | null;
         error?: string;
       };
       if (!response.ok || !result.reversal) {
@@ -3037,6 +3103,22 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
           cancelled.has(item.id) ? { ...item, status: "cancelled" } : item,
         )],
       );
+      if (result.stockUndo) {
+        setInventory((current) =>
+          current.map((item) =>
+            item.id === result.stockUndo!.itemId
+              ? {
+                  ...item,
+                  quantity: result.stockUndo!.quantity,
+                  unitCost: result.stockUndo!.unitCost,
+                }
+              : item,
+          ),
+        );
+        setStockMovements((current) =>
+          [result.stockUndo!.adjustmentMovement, ...current],
+        );
+      }
       setStorageError("");
       return true;
     } catch (error) {
@@ -3218,6 +3300,9 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
       denominationMillesimal: "999",
       installmentCount: "1",
       reminderDays: "3",
+      initialPayment: "",
+      initialPaymentMethod: "cash",
+      recognizeRevenue: false,
     });
     setRecordModalOpen(true);
   }
@@ -3433,6 +3518,8 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
     const denominationMillesimal = Number(nativeForm.get("denominationMillesimal") || 0) || undefined;
     const installmentCount = Math.max(1, Math.min(120, Number(nativeForm.get("installmentCount") || 1)));
     const rawAmount = Number(nativeForm.get("amount"));
+    const initialPayment = Number(nativeForm.get("initialPayment") || 0);
+    const initialPaymentMethod = String(nativeForm.get("initialPaymentMethod") || "cash") as "cash" | "card" | "transfer";
     const isIndexed = denominationCode !== "TRY";
     const denominationInfo = denominationDescriptor({ denominationCode, denominationPurity, denominationKarat, denominationMillesimal });
     const amount = isIndexed
@@ -3448,6 +3535,14 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
       amount <= 0 ||
       (isIndexed && (!Number.isFinite(denominationQuantity) || denominationQuantity <= 0 || !Number.isFinite(denominationOpenUnitPrice) || denominationOpenUnitPrice <= 0))
     ) {
+      return;
+    }
+    if (
+      !Number.isFinite(initialPayment) ||
+      initialPayment < 0 ||
+      initialPayment > amount + 0.0001
+    ) {
+      setStorageError("İlk ödeme sıfırdan küçük olamaz ve toplam alacağı aşamaz.");
       return;
     }
 
@@ -3483,12 +3578,54 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
       lineItems: [],
       payments: [],
     };
+    const revenueTransaction: ClinicTransaction | undefined =
+      recordForm.type === "receivable" && recordForm.recognizeRevenue
+        ? {
+            id: `tx-ledger-service-${newRecord.id}`,
+            date: createdDate,
+            time: currentTimeInIstanbul(),
+            kind: "income",
+            category: "Veteriner hizmet / tedavi",
+            description: `${newRecord.detail} · ${newRecord.counterparty}`,
+            counterparty: newRecord.counterparty,
+            operationType: "service",
+            costBehavior: "non_expense",
+            businessClass: "service",
+            amount,
+            paymentMethod: "accrual",
+            documentType: documentRef ? "invoice" : "none",
+            documentRef: newRecord.documentRef,
+            vatRate: 0,
+            postingMode: "economic_only",
+            sourceModule: "ledger_service",
+            sourceRecordId: newRecord.id,
+            isAutomatic: true,
+          }
+        : undefined;
     const saved = await persistData({
       action: "saveLedgerRecord",
       record: newRecord,
+      revenueTransaction,
     });
     if (!saved) return;
     setRecords((current) => [...current, newRecord]);
+    if (revenueTransaction) {
+      setTransactions((current) => [revenueTransaction, ...current]);
+    }
+    if (recordForm.type === "receivable" && initialPayment > 0) {
+      const paymentResult = await saveLedgerPaymentDirect(newRecord.id, {
+        amount: initialPayment,
+        method: initialPaymentMethod,
+        note: `İlk tahsilat · ${newRecord.detail}`,
+        date: createdDate,
+        record: newRecord,
+      });
+      if (!paymentResult.ok) {
+        setStorageError(
+          `Alacak kaydedildi; ilk tahsilat işlenemedi: ${paymentResult.error || "Bilinmeyen hata"}`,
+        );
+      }
+    }
     if (installmentCount > 1) {
       const unitTotal = isIndexed ? denominationQuantity : amount;
       const schedules = Array.from({ length: installmentCount }, (_, index) => {
@@ -3530,6 +3667,9 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
       denominationOpenUnitPrice: "1",
       denominationRateSource: "manual",
       reminderDays: "3",
+      initialPayment: "",
+      initialPaymentMethod: "cash",
+      recognizeRevenue: true,
     });
   }
 
@@ -3619,10 +3759,12 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
       denominationCode?: string;
       denominationQuantity?: number;
       denominationUnitPrice?: number;
+      date?: string;
+      record?: LedgerRecord;
     },
   ): Promise<{ ok: boolean; error?: string }> {
     if (!canWrite) return { ok: false, error: "Bu hesap yalnızca görüntüleme yetkisine sahip." };
-    const record = records.find((item) => item.id === recordId);
+    const record = records.find((item) => item.id === recordId) ?? input.record;
     if (!record) return { ok: false, error: "Cari kayıt bulunamadı." };
     const isIndexed = String(record.denominationCode || "TRY") !== "TRY";
     const status = ledgerStatus({ ...record, today: TODAY });
@@ -3643,7 +3785,7 @@ export default function DashboardClient({ currentUser }: { currentUser: { email:
         payment: {
           id: paymentId, recordId, amount, denominationCode: isIndexed ? record.denominationCode : "TRY",
           denominationQuantity: isIndexed ? input.denominationQuantity : amount, denominationUnitPrice: isIndexed ? input.denominationUnitPrice : 1,
-          date: TODAY, method: input.method, note: input.note,
+          date: input.date || TODAY, method: input.method, note: input.note,
         },
       });
       const result = (await response.json()) as { error?: string; payment?: Payment; transactions?: ClinicTransaction[] };

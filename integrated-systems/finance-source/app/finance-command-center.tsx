@@ -175,6 +175,8 @@ function paymentLabel(method: PaymentChannel) {
 function resolvedLabel(intent: string) {
   const labels: Record<string, string> = {
     receivable_payment: "Alacak tahsilatı", payable_payment: "Borç ödemesi",
+    unmatched_receivable_payment: "Cari eşleştirme gerekli",
+    unmatched_payable_payment: "Cari eşleştirme gerekli",
     new_receivable: "Yeni alacak", new_payable: "Yeni borç", installment_payable: "Taksitli borç",
     recurring_expense: "Sabit / tekrarlayan gider", expense: "Gider", income: "Gelir",
   };
@@ -306,7 +308,9 @@ export function FinanceCommandCenter({
     try {
       const method = paymentMethod;
       const indexedPrice = Number(unitPrice || 0);
-      if (parsed.resolvedIntent === "receivable_payment" || parsed.resolvedIntent === "payable_payment") {
+      if (parsed.resolvedIntent === "unmatched_receivable_payment" || parsed.resolvedIntent === "unmatched_payable_payment") {
+        throw new Error("Bu ödeme için açık cari bulunamadı. Önce Cari defterden hasta sahibi / tedarikçi borcunu açın; sonra aynı adı yazarak tahsilatı işleyin. Ödeme yanlışlıkla gelir veya gider yapılmadı.");
+      } else if (parsed.resolvedIntent === "receivable_payment" || parsed.resolvedIntent === "payable_payment") {
         if (!selectedRecord) throw new Error("Eşleşen cari kayıt seçilmedi.");
         const code = String(selectedRecord.denominationCode || "TRY");
         if (code === "TRY") {
@@ -425,6 +429,9 @@ export function FinanceCommandCenter({
             {(parsed.resolvedIntent === "receivable_payment" || parsed.resolvedIntent === "payable_payment") ? (
               <label>Cari kayıt<select onChange={(event) => setSelectedRecordId(event.target.value)} value={selectedRecord?.id || ""}>{candidateRecords.length ? candidateRecords.map((record: CommandLedgerRecord) => <option key={record.id} value={record.id}>{record.counterparty} · {String(record.denominationCode || "TRY") === "TRY" ? formatMoney(remaining(record)) : `${remainingDenomination(record).toLocaleString("tr-TR", { maximumFractionDigits: 6 })} ${denominationDescriptor(record).display}`}</option>) : <option value="">Eşleşme bulunamadı</option>}</select></label>
             ) : null}
+            {(parsed.resolvedIntent === "unmatched_receivable_payment" || parsed.resolvedIntent === "unmatched_payable_payment") ? (
+              <p className="form-error command-error">Açık cari bulunamadı. Bu satır gelir/gider olarak kaydedilmeyecek; önce ilgili cari kaydı oluşturulmalı.</p>
+            ) : null}
             {(["new_receivable", "new_payable", "installment_payable"].includes(parsed.resolvedIntent)) ? <label>Vade<input onChange={(event) => setDueDate(event.target.value)} type="date" value={dueDate} /></label> : null}
             {previewNeedsRate ? <label>Güncel birim TL değeri<input min="0.000001" onChange={(event) => setUnitPrice(event.target.value)} placeholder="Birim fiyat" step="0.000001" type="number" value={unitPrice} /></label> : null}
             {!(["new_receivable", "new_payable", "installment_payable"].includes(parsed.resolvedIntent)) ? <label>Ödeme kanalı<select onChange={(event) => setPaymentMethod(event.target.value as PaymentChannel)} value={paymentMethod}><option value="cash">Nakit</option><option value="card">Kart / POS</option><option value="transfer">Havale / EFT</option></select></label> : null}
@@ -466,7 +473,7 @@ export function FinanceCommandCenter({
         </div></article>
 
         <article className="panel command-recent"><div className="panel-head"><div><span className="eyebrow">Kasa defteri</span><h2>Son hareketler</h2></div><button className="text-button" onClick={() => onNavigate("daily")} type="button">Tümünü gör</button></div><div className="command-recent-list">
-          {recent.map((item) => <div key={item.id}><span className={item.kind === "income" ? "income" : "expense"}>{item.kind === "income" ? "+" : "−"}</span><div><strong>{item.description}</strong><small>{item.counterparty || "—"} · {paymentLabel(item.paymentMethod)} · {formatDate(item.date)}</small></div><div className="command-recent-amount"><b>{formatMoney(item.amount)}</b><button onClick={async () => { const ok = await onUndoTransaction(item); if (ok) setMessage(`${item.description} hareketi geri alındı.`); }} type="button">Geri al</button></div></div>)}
+          {recent.map((item) => <div key={item.id}><span className={item.kind === "income" ? "income" : "expense"}>{item.kind === "income" ? "+" : "−"}</span><div><strong>{item.description}</strong><small>{item.counterparty || "—"} · {paymentLabel(item.paymentMethod)} · {formatDate(item.date)}</small></div><div className="command-recent-amount"><b>{formatMoney(item.amount)}</b><button onClick={async () => { setError(""); const ok = await onUndoTransaction(item); if (ok) setMessage(`${item.description} hareketi geri alındı.`); else setError("Geri alma uygulanamadı. Sayfanın üstündeki ayrıntıda nedenini görebilirsin."); }} type="button">Geri al</button></div></div>)}
           {!recent.length ? <div className="workspace-empty"><strong>Henüz hareket yok.</strong><span>Yukarıdaki komut kutusundan ilk kaydı girebilirsin.</span></div> : null}
         </div></article>
       </section>

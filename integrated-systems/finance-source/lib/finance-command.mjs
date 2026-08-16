@@ -190,7 +190,7 @@ function stripKnownTokens(text, amountRaw, indexedRaw = "") {
   cleaned = cleaned
     .replace(/\b(?:tl|try|usd|dolar|eur|euro|gbp|sterlin|nakit|elden|kasa|kart|pos|havale|eft|banka|iban|transfer)\b/g, " ")
     .replace(/\b(?:gram|gr|ayar|saflik|altin|gumus|platin|paladyum|ceyrek|yarim|tam|cumhuriyet)\b/g, " ")
-    .replace(/\b(?:gelir|gider|masraf|tahsilat|odeme|odendi|odedim|odeme yaptim|aldim|alindi|satis|sattim|fatura|fis|kira)\b/g, " ")
+    .replace(/\b(?:gelir|gider|masraf|tahsilat|odeme|odendi|odedim|odedi|odeme yaptim|odeme aldim|aldim|alindi|harcadim|harcandi|satis|sattim|fatura|fis|kira)\b/g, " ")
     .replace(/\b(?:borcuna|borcunu|borclandi|borclandik|borcumuz|borcu|borclu|borcluyuz|alacagim|alacak|borc|var)\b/g, " ")
     .replace(/\b(?:icin|olarak|bugun|simdi|kaydet|ekle|her|ay|ayin|hafta|yil|gunu|is|taksit|ayda|yilda|haftada|bir)\b/g, " ")
     .replace(/\b(?:pazartesi|sali|carsamba|persembe|cuma|cumartesi|pazar)\b/g, " ")
@@ -258,9 +258,13 @@ export function parseFinanceCommand(input) {
   if (recurrence && hasAny(text, ["kira", "gider", "masraf", "fatura", "maas", "muhasebe", "internet", "abonelik", "odeme"])) intent = "recurring_expense";
   else if (hasAny(text, ["borclandi", "borclu", "alacagim var", "alacak yaz", "alacak ekle"])) intent = "new_receivable";
   else if (hasAny(text, ["borclandik", "borcumuz", "borcluyuz", "borc yaz", "borc ekle"])) intent = installmentCount > 1 ? "installment_payable" : "new_payable";
-  else if (hasAny(text, ["tahsilat", "tahsil ettim", "odeme aldim", "odemeyi aldim"])) intent = "receivable_payment";
   else if (hasAny(text, ["borcunu odedim", "borc odedim", "borcuna", "tedarikciye odedim"])) intent = "payable_payment";
-  else if (hasAny(text, ["gider", "masraf", "fatura", "kira", "odedim", "odeme yaptim", "satin aldim", "aldim", "harcadim"])) intent = "smart_outflow";
+  // “Damla Hanım 4.000 TL ödedi” gibi ifadeler önce cari tahsilat olarak
+  // değerlendirilir. Eşleşen cari yoksa resolveFinanceCommand bunu gelire
+  // çevirmek yerine kullanıcıdan cari eşleştirmesi ister. Borç ödeme kalıbı
+  // bunun üstünde tutulur; “tedarikçiye ödedim” asla tahsilat sayılmaz.
+  else if (hasAny(text, ["tahsilat", "tahsil ettim", "odeme aldim", "odemeyi aldim", "odeme yapti", "para verdi"]) || /\bodedi\b/.test(text)) intent = "receivable_payment";
+  else if (hasAny(text, ["gider", "masraf", "fatura", "kira", "odedim", "odeme yaptim", "satin aldim", "aldim", "alindi", "harcadim", "harcandi", "kasadan cikti"])) intent = "smart_outflow";
   else if (hasAny(text, ["gelir", "satis", "sattim", "tahsil"])) intent = "smart_inflow";
 
   const counterpartyQuery = stripKnownTokens(input, money.raw, indexed?.raw || "");
@@ -308,8 +312,13 @@ export function resolveFinanceCommand(parsed, records) {
       resolvedIntent = "payable_payment";
       matches = payableMatches;
     } else resolvedIntent = "expense";
-  } else if (parsed.intent === "receivable_payment") matches = receivableMatches;
-  else if (parsed.intent === "payable_payment") matches = payableMatches;
+  } else if (parsed.intent === "receivable_payment") {
+    matches = receivableMatches;
+    if (!matches.length) resolvedIntent = "unmatched_receivable_payment";
+  } else if (parsed.intent === "payable_payment") {
+    matches = payableMatches;
+    if (!matches.length) resolvedIntent = "unmatched_payable_payment";
+  }
 
   return { ...parsed, resolvedIntent, matches };
 }

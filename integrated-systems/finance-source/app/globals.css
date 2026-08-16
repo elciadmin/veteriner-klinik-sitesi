@@ -3046,6 +3046,12 @@ button {
   color: #fff;
 }
 
+.finance-action-error {
+  color: #9b2c2c;
+  display: block;
+  margin-top: 8px;
+}
+
 .undocumented-alert strong,
 .undocumented-alert span {
   display: block;
