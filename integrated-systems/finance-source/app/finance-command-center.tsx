@@ -8,6 +8,7 @@ import {
   denominationDescriptor,
   indexedAmountValue,
   indexedLedgerValue,
+  indexedQuantityForAmount,
   remainingDenomination,
 } from "@/lib/indexed-ledger.mjs";
 import { evaluateGoal, goalActualValue } from "@/lib/growth-planner.mjs";
@@ -321,19 +322,20 @@ export function FinanceCommandCenter({
           if (!result.ok) throw new Error(result.error || "Tahsilat/ödeme kaydedilemedi.");
           setMessage(`${selectedRecord.counterparty} hesabına ${formatMoney(parsed.amount)} işlendi.`);
         } else {
-          if (!parsed.isIndexed || parsed.denominationCode !== code || !parsed.denominationQuantity) {
-            throw new Error(`Bu cari ${denominationDescriptor(selectedRecord).display} üzerinden tutuluyor. Ödemeyi aynı birimde yaz: örn. “2 gram 14 ayar altın ... ödedi”.`);
-          }
           if (!indexedPrice) throw new Error("İşlem günündeki TL birim değerini girin veya kayıtlı değeri kullanın.");
+          const paymentQuantity = parsed.isIndexed
+            ? (parsed.denominationCode === code ? parsed.denominationQuantity : null)
+            : indexedQuantityForAmount(selectedRecord, parsed.amount, indexedPrice);
+          if (!paymentQuantity) throw new Error(`Bu cari ${denominationDescriptor(selectedRecord).display} üzerinden tutuluyor. Gram/miktar veya TL ödeme tutarı bulunamadı.`);
           const remainQty = remainingDenomination(selectedRecord);
-          if (parsed.denominationQuantity > remainQty + 1e-8) throw new Error(`Miktar kalan ${remainQty.toLocaleString("tr-TR")} bakiyeyi aşamaz.`);
-          const amount = indexedAmountValue(selectedRecord, parsed.denominationQuantity, indexedPrice) ?? 0;
+          if (paymentQuantity > remainQty + 1e-8) throw new Error(`Miktar kalan ${remainQty.toLocaleString("tr-TR")} bakiyeyi aşamaz.`);
+          const amount = indexedAmountValue(selectedRecord, paymentQuantity, indexedPrice) ?? 0;
           const result = await onSaveLedgerPayment(selectedRecord.id, {
             amount, method, note: `Hızlı komut: ${command.trim()}`, denominationCode: code,
-            denominationQuantity: parsed.denominationQuantity, denominationUnitPrice: indexedPrice,
+            denominationQuantity: paymentQuantity, denominationUnitPrice: indexedPrice,
           });
           if (!result.ok) throw new Error(result.error || "Endeksli ödeme kaydedilemedi.");
-          setMessage(`${selectedRecord.counterparty}: ${parsed.denominationQuantity} ${denominationDescriptor(selectedRecord).display} ödeme işlendi.`);
+          setMessage(`${selectedRecord.counterparty}: ${paymentQuantity.toLocaleString("tr-TR", { maximumFractionDigits: 8 })} ${denominationDescriptor(selectedRecord).display} (${formatMoney(amount)}) ödeme işlendi.`);
         }
       } else if (["new_receivable", "new_payable", "installment_payable"].includes(parsed.resolvedIntent)) {
         const counterparty = parsed.counterpartyQuery.trim();
@@ -401,6 +403,9 @@ export function FinanceCommandCenter({
 
   const previewNeedsRate = parsed.isIndexed || Boolean(selectedRecord && String(selectedRecord.denominationCode || "TRY") !== "TRY");
   const previewValue = nativeValueLabel(parsed);
+  const convertedPaymentQuantity = selectedRecord && String(selectedRecord.denominationCode || "TRY") !== "TRY" && !parsed.isIndexed && Number(parsed.amount || 0) > 0 && Number(unitPrice || 0) > 0
+    ? indexedQuantityForAmount(selectedRecord, Number(parsed.amount), Number(unitPrice))
+    : null;
 
   return (
     <section className="command-center-stack">
@@ -434,6 +439,7 @@ export function FinanceCommandCenter({
             ) : null}
             {(["new_receivable", "new_payable", "installment_payable"].includes(parsed.resolvedIntent)) ? <label>Vade<input onChange={(event) => setDueDate(event.target.value)} type="date" value={dueDate} /></label> : null}
             {previewNeedsRate ? <label>Güncel birim TL değeri<input min="0.000001" onChange={(event) => setUnitPrice(event.target.value)} placeholder="Birim fiyat" step="0.000001" type="number" value={unitPrice} /></label> : null}
+            {convertedPaymentQuantity && selectedRecord ? <p className="command-conversion-note">{formatMoney(Number(parsed.amount))} ödeme, girilen fiyata göre <strong>{convertedPaymentQuantity.toLocaleString("tr-TR", { maximumFractionDigits: 8 })} {denominationDescriptor(selectedRecord).display}</strong> borç azaltır.</p> : null}
             {!(["new_receivable", "new_payable", "installment_payable"].includes(parsed.resolvedIntent)) ? <label>Ödeme kanalı<select onChange={(event) => setPaymentMethod(event.target.value as PaymentChannel)} value={paymentMethod}><option value="cash">Nakit</option><option value="card">Kart / POS</option><option value="transfer">Havale / EFT</option></select></label> : null}
             <button className="command-confirm" disabled={saving} onClick={confirm} type="button">{saving ? "Kaydediliyor…" : "Onayla ve kaydet"}</button>
           </div>

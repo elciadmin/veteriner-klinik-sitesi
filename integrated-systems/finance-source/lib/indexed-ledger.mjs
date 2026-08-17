@@ -119,6 +119,17 @@ export function indexedAmountValue(record, quantity, unitPrice) {
   return Math.round(qty * factor * price * 100) / 100;
 }
 
+/** Converts a TL payment into the native quantity of an indexed debt. */
+export function indexedQuantityForAmount(record, amount, unitPrice) {
+  const value = Math.max(0, Number(amount || 0));
+  if (!Number.isFinite(value) || value <= 0) return null;
+  const code = normalizeDenomination(record?.denominationCode);
+  if (code === "TRY") return Math.round(value * 1e8) / 1e8;
+  const oneUnitValue = indexedAmountValue(record, 1, unitPrice);
+  if (!Number.isFinite(oneUnitValue) || oneUnitValue <= 0) return null;
+  return Math.round((value / oneUnitValue) * 1e8) / 1e8;
+}
+
 export function indexedLedgerValue(record, currentUnitPrice) {
   const code = normalizeDenomination(record?.denominationCode);
   const remainingQuantity = remainingDenomination(record);

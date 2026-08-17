@@ -1539,6 +1539,7 @@ export async function POST(request: Request) {
         .from(importBatches)
         .where(eq(importBatches.sourceSha256, packageHash))
         .limit(1);
+      const reapplyingRolledBackBatch = matchingBatch[0]?.status === "rolled_back";
       if (matchingBatch[0]) {
         if (matchingBatch[0].status === "applied") {
           return success({
@@ -1548,7 +1549,9 @@ export async function POST(request: Request) {
             summary: JSON.parse(matchingBatch[0].summaryJson || "{}"),
           });
         }
-        throw new RouteInputError("Bu geçmiş aktarım paketi daha önce başlatılmış; denetim ekranından durumunu inceleyin.", 409);
+        if (!reapplyingRolledBackBatch) {
+          throw new RouteInputError("Bu geçmiş aktarım paketi daha önce başlatılmış; denetim ekranından durumunu inceleyin.", 409);
+        }
       }
 
       const historicalTransactions = payload.package.transactions.map((row) => ({
@@ -1563,21 +1566,24 @@ export async function POST(request: Request) {
       );
 
       const existingTransactionRows = await db
-        .select({ id: transactions.id })
+        .select({ id: transactions.id, importBatchId: transactions.importBatchId })
         .from(transactions);
-      const existingTransactionIds = new Set(
-        existingTransactionRows.map((row) => row.id),
-      );
-      if (historicalTransactions.some((row) => existingTransactionIds.has(row.id))) {
+      const importedBatchId = matchingBatch[0]?.id || `import-${payload.package.importId}`;
+      if (historicalTransactions.some((row) => {
+        const existing = existingTransactionRows.find((item) => item.id === row.id);
+        return existing && (!reapplyingRolledBackBatch || existing.importBatchId !== importedBatchId);
+      })) {
         throw new RouteInputError("Aktarımdaki bir geçmiş hareket zaten var. Aynı paketi yeniden yüklemeyin; denetim ekranından paket durumuna bakın.", 409);
       }
       await assertUniqueTransactionDocuments(db, historicalTransactions);
 
       const existingRuleRows = await db
-        .select({ id: recurringExpenseRules.id })
+        .select({ id: recurringExpenseRules.id, importBatchId: recurringExpenseRules.importBatchId })
         .from(recurringExpenseRules);
-      const existingRuleIds = new Set(existingRuleRows.map((row) => row.id));
-      if (payload.package.recurringRules.some((rule) => existingRuleIds.has(rule.id))) {
+      if (payload.package.recurringRules.some((rule) => {
+        const existing = existingRuleRows.find((item) => item.id === rule.id);
+        return existing && (!reapplyingRolledBackBatch || existing.importBatchId !== importedBatchId);
+      })) {
         throw new RouteInputError("Aktarımdaki bir sabit gider taslağı zaten var; paket iki kez uygulanamaz.", 409);
       }
 
@@ -1590,7 +1596,9 @@ export async function POST(request: Request) {
           .where(eq(ledgerRecords.id, recordInput.id))
           .limit(1);
         if (existingRecordRows[0]) {
-          throw new RouteInputError("Aktarımdaki geçmiş borç kaydı zaten var; paket iki kez uygulanamaz.", 409);
+          if (!reapplyingRolledBackBatch || existingRecordRows[0].importBatchId !== importedBatchId) {
+            throw new RouteInputError("Aktarımdaki geçmiş borç kaydı zaten var; paket iki kez uygulanamaz.", 409);
+          }
         }
         await assertUniqueLedgerDocument(db, recordInput);
       } else if (payload.package.ledgerPackage.payments.length) {
@@ -1598,10 +1606,12 @@ export async function POST(request: Request) {
       }
 
       const existingPaymentRows = await db
-        .select({ id: ledgerPayments.id })
+        .select({ id: ledgerPayments.id, importBatchId: ledgerPayments.importBatchId })
         .from(ledgerPayments);
-      const existingPaymentIds = new Set(existingPaymentRows.map((row) => row.id));
-      if (payload.package.ledgerPackage.payments.some((payment) => existingPaymentIds.has(String(payment.id || "")))) {
+      if (payload.package.ledgerPackage.payments.some((payment) => {
+        const existing = existingPaymentRows.find((item) => item.id === String(payment.id || ""));
+        return existing && (!reapplyingRolledBackBatch || existing.importBatchId !== importedBatchId);
+      })) {
         throw new RouteInputError("Aktarımdaki bir geçmiş ödeme zaten var; paket iki kez uygulanamaz.", 409);
       }
       await assertDatesUnlocked(db, payload.package.ledgerPackage.payments.map((payment) => payment.date));
@@ -1620,11 +1630,10 @@ export async function POST(request: Request) {
         value: JSON.stringify(marker),
         updatedAt: new Date().toISOString(),
       };
-      const batchId = `import-${payload.package.importId}`;
+      const batchId = importedBatchId;
       const now = new Date().toISOString();
       const importWarnings = [...new Set([...(payload.package.warnings ?? []), ...quality.warnings])];
-      const commands = [
-        db.insert(importBatches).values({
+      const batchValues = {
           id: batchId,
           sourceFileName: payload.package.source?.fileName || "Geçmiş veri paketi",
           sourceSha256: packageHash,
@@ -1637,11 +1646,23 @@ export async function POST(request: Request) {
           summaryJson: JSON.stringify({ ...importSummary, quality }),
           createdBy: currentUser.email,
           appliedAt: now,
-        }),
-        ...historicalTransactions.map((row) => db.insert(transactions).values(transactionValues({ ...row, importBatchId: batchId }))),
-        ...payload.package.recurringRules.map((rule) => db.insert(recurringExpenseRules).values(recurringRuleValues({ ...rule, active: false, importBatchId: batchId }))),
-        ...(recordInput ? [db.insert(ledgerRecords).values(ledgerValues({ ...recordInput, importBatchId: batchId }))] : []),
-        ...payload.package.ledgerPackage.payments.map((payment) => db.insert(ledgerPayments).values({
+      };
+      const commands = [
+        reapplyingRolledBackBatch
+          ? db.update(importBatches).set({ ...batchValues, status: "applied", rolledBackAt: null, rollbackReason: "" }).where(eq(importBatches.id, batchId))
+          : db.insert(importBatches).values(batchValues),
+        ...historicalTransactions.map((row) => reapplyingRolledBackBatch
+          ? db.update(transactions).set({ status: null, updatedAt: now }).where(eq(transactions.id, row.id))
+          : db.insert(transactions).values(transactionValues({ ...row, importBatchId: batchId }))),
+        ...payload.package.recurringRules.map((rule) => reapplyingRolledBackBatch
+          ? db.update(recurringExpenseRules).set({ active: false, updatedAt: now }).where(eq(recurringExpenseRules.id, rule.id))
+          : db.insert(recurringExpenseRules).values(recurringRuleValues({ ...rule, active: false, importBatchId: batchId }))),
+        ...(recordInput ? [reapplyingRolledBackBatch
+          ? db.update(ledgerRecords).set({ stage: String(recordInput.stage || "note") }).where(eq(ledgerRecords.id, recordInput.id))
+          : db.insert(ledgerRecords).values(ledgerValues({ ...recordInput, importBatchId: batchId }))] : []),
+        ...payload.package.ledgerPackage.payments.map((payment) => reapplyingRolledBackBatch
+          ? db.update(ledgerPayments).set({ status: payment.status || null }).where(eq(ledgerPayments.id, String(payment.id)))
+          : db.insert(ledgerPayments).values({
           id: String(payment.id),
           recordId: payment.recordId,
           amountCents: cents(payment.amount),
@@ -1655,18 +1676,18 @@ export async function POST(request: Request) {
           transactionId: null,
           importBatchId: batchId,
         })),
-        ...historicalTransactions.map((row, sourceRowNumber) => db.insert(importBatchItems).values({
+        ...(reapplyingRolledBackBatch ? [] : historicalTransactions.map((row, sourceRowNumber) => db.insert(importBatchItems).values({
           id: crypto.randomUUID(), batchId, entityType: "transaction", entityId: row.id, sourceRowNumber, rawJson: JSON.stringify(row),
-        })),
-        ...payload.package.recurringRules.map((rule, sourceRowNumber) => db.insert(importBatchItems).values({
+        }))),
+        ...(reapplyingRolledBackBatch ? [] : payload.package.recurringRules.map((rule, sourceRowNumber) => db.insert(importBatchItems).values({
           id: crypto.randomUUID(), batchId, entityType: "recurring_rule", entityId: rule.id, sourceRowNumber, rawJson: JSON.stringify(rule),
-        })),
-        ...(recordInput ? [db.insert(importBatchItems).values({
+        }))),
+        ...(recordInput && !reapplyingRolledBackBatch ? [db.insert(importBatchItems).values({
           id: crypto.randomUUID(), batchId, entityType: "ledger_record", entityId: recordInput.id, sourceRowNumber: null, rawJson: JSON.stringify(recordInput),
         })] : []),
-        ...payload.package.ledgerPackage.payments.map((payment, sourceRowNumber) => db.insert(importBatchItems).values({
+        ...(reapplyingRolledBackBatch ? [] : payload.package.ledgerPackage.payments.map((payment, sourceRowNumber) => db.insert(importBatchItems).values({
           id: crypto.randomUUID(), batchId, entityType: "ledger_payment", entityId: String(payment.id), sourceRowNumber, rawJson: JSON.stringify(payment),
-        })),
+        }))),
         db.insert(settings).values(markerValues).onConflictDoUpdate({ target: settings.key, set: markerValues }),
       ];
       await db.batch(commands);
