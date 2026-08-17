@@ -5,6 +5,7 @@ import { valuationRates } from "@/db/schema";
 import { FinanceAuthError, requireFinanceApiUser } from "@/lib/finance-auth";
 
 const TCMB_TODAY_XML = "https://www.tcmb.gov.tr/kurlar/today.xml";
+const TRUNCGIL_TODAY_JSON = "https://finans.truncgil.com/today.json";
 
 function parseNumber(value: string | undefined) {
   const number = Number(String(value ?? "").replace(",", "."));
@@ -18,6 +19,11 @@ function currencyRate(xml: string, code: string) {
   const unit = Number(block.match(/<Unit>([^<]+)<\/Unit>/i)?.[1] ?? 1) || 1;
   const quoted = parseNumber(forexSelling) ?? parseNumber(forexBuying);
   return quoted ? quoted / unit : null;
+}
+
+function providerRate(data: Record<string, unknown>, key: string) {
+  const row = data[key] as Record<string, unknown> | undefined;
+  return parseNumber(String(row?.["Satış"] ?? row?.["Alış"] ?? ""));
 }
 
 function errorResponse(error: unknown) {
@@ -40,6 +46,7 @@ export async function GET(request: Request) {
     }
 
     let tcmbError = "";
+    let metalError = "";
     let usd: number | null = null;
     let eur: number | null = null;
     let gbp: number | null = null;
@@ -57,15 +64,35 @@ export async function GET(request: Request) {
       tcmbError = error instanceof Error ? error.message : "TCMB kur servisine ulaşılamadı.";
     }
 
+    let gold: number | null = null;
+    let silver: number | null = null;
+    let platinum: number | null = null;
+    let palladium: number | null = null;
+    try {
+      const response = await fetch(TRUNCGIL_TODAY_JSON, {
+        headers: { accept: "application/json" },
+        cf: { cacheTtl: 300, cacheEverything: true },
+      } as RequestInit & { cf: Record<string, unknown> });
+      if (!response.ok) throw new Error(`Kıymetli maden servisinden ${response.status} döndü.`);
+      const data = await response.json() as Record<string, unknown>;
+      gold = providerRate(data, "gram-altin");
+      silver = providerRate(data, "gumus");
+      platinum = providerRate(data, "gram-platin");
+      palladium = providerRate(data, "gram-paladyum");
+      if (!gold) throw new Error("Gram altın fiyatı kaynakta bulunamadı.");
+    } catch (error) {
+      metalError = error instanceof Error ? error.message : "Kıymetli maden servisine ulaşılamadı.";
+    }
+
     const rates: Record<string, number | null> = {
       TRY: 1,
       USD: usd ?? manualRates.USD ?? null,
       EUR: eur ?? manualRates.EUR ?? null,
       GBP: gbp ?? manualRates.GBP ?? null,
-      XAU_GRAM: manualRates.XAU_GRAM ?? null,
-      XAG_GRAM: manualRates.XAG_GRAM ?? null,
-      XPT_GRAM: manualRates.XPT_GRAM ?? null,
-      XPD_GRAM: manualRates.XPD_GRAM ?? null,
+      XAU_GRAM: gold ?? manualRates.XAU_GRAM ?? null,
+      XAG_GRAM: silver ?? manualRates.XAG_GRAM ?? null,
+      XPT_GRAM: platinum ?? manualRates.XPT_GRAM ?? null,
+      XPD_GRAM: palladium ?? manualRates.XPD_GRAM ?? null,
       XAU_QUARTER: manualRates.XAU_QUARTER ?? null,
       XAU_HALF: manualRates.XAU_HALF ?? null,
       XAU_FULL: manualRates.XAU_FULL ?? null,
@@ -75,13 +102,13 @@ export async function GET(request: Request) {
     return Response.json({
       ok: true,
       asOf: new Date().toISOString(),
-      source: tcmbError ? "Kayıtlı değerleme fiyatları" : "TCMB + Elçi kayıtlı kıymetli maden değerleri",
-      sourceUrl: TCMB_TODAY_XML,
+      source: `TCMB döviz + ${metalError ? "Elçi kayıtlı kıymetli maden değerleri" : "Truncgil canlı kıymetli maden verisi"}`,
+      sourceUrl: `${TCMB_TODAY_XML} | ${TRUNCGIL_TODAY_JSON}`,
       rates,
       manualAsOf,
-      warning: tcmbError || undefined,
+      warning: [tcmbError, metalError].filter(Boolean).join(" ") || undefined,
       notes: {
-        metals: "Kıymetli madenlerde son doğrulanmış birim fiyatı kullanılır; fiyat kaynağı otomatik doğrulanmadan değiştirilmez.",
+        metals: "Gram altın ve diğer desteklenen metaller canlı kaynaktan alınır; kaynak erişilemezse son kaydedilmiş değer kullanılır.",
       },
     }, { headers: { "cache-control": "private, max-age=300", "x-content-type-options": "nosniff" } });
   } catch (error) {

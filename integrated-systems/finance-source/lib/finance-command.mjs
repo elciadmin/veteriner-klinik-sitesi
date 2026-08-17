@@ -256,8 +256,12 @@ export function parseFinanceCommand(input) {
 
   let intent = "smart_inflow";
   if (recurrence && hasAny(text, ["kira", "gider", "masraf", "fatura", "maas", "muhasebe", "internet", "abonelik", "odeme"])) intent = "recurring_expense";
-  else if (hasAny(text, ["borclandi", "borclu", "alacagim var", "alacak yaz", "alacak ekle"])) intent = "new_receivable";
-  else if (hasAny(text, ["borclandik", "borcumuz", "borcluyuz", "borc yaz", "borc ekle"])) intent = installmentCount > 1 ? "installment_payable" : "new_payable";
+  // "Ben/Yasin'e borçlandım" kliniğin ödeyeceği borçtur. Buna karşılık
+  // "Yasin bana borçlandı" kliniğin alacağıdır. Önce açık borç kalıpları
+  // değerlendirilir; aksi hâlde "borçlandı" sözcüğü yanlışlıkla alacak
+  // yazılabilir.
+  else if (hasAny(text, ["borclandim", "borclandik", "borcumuz", "borcluyuz", "borc yaz", "borc ekle"])) intent = installmentCount > 1 ? "installment_payable" : "new_payable";
+  else if (hasAny(text, ["bana borclandi", "bize borclandi", "alacagim var", "alacak yaz", "alacak ekle"])) intent = "new_receivable";
   else if (hasAny(text, ["borcunu odedim", "borc odedim", "borcuna", "tedarikciye odedim"])) intent = "payable_payment";
   // “Damla Hanım 4.000 TL ödedi” gibi ifadeler önce cari tahsilat olarak
   // değerlendirilir. Eşleşen cari yoksa resolveFinanceCommand bunu gelire

@@ -27,6 +27,13 @@ test("döviz borcu kendi para biriminde miktar olarak tutulur", () => {
   assert.equal(parsed.denominationQuantity, 1000);
 });
 
+test("kişinin kendisine borçlanması alacak değil ödenecek borç açar", () => {
+  const parsed = parseFinanceCommand("yeni kayıt aç Yasin Kaya'ya 150 gram 24 ayar altın borçlandım");
+  assert.equal(parsed.intent, "new_payable");
+  assert.equal(parsed.denominationCode, "XAU_GRAM");
+  assert.equal(parsed.denominationQuantity, 150);
+});
+
 test("aylık sabit gider doğal dilden tekrar kuralına dönüşür", () => {
   const parsed = parseFinanceCommand("Kira 25000 TL her ayın 1'i gider");
   assert.equal(parsed.intent, "recurring_expense");

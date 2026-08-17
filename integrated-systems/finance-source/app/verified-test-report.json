@@ -1,7 +1,7 @@
 {
-  "date": "2026-08-16",
-  "passed": 181,
-  "total": 181,
+  "date": "2026-08-17",
+  "passed": 182,
+  "total": 182,
   "failed": 0,
   "scope": "finance-core",
   "generatedBy": "npm run test:core"
