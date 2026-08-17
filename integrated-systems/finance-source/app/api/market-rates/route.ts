@@ -8,7 +8,13 @@ const TCMB_TODAY_XML = "https://www.tcmb.gov.tr/kurlar/today.xml";
 const TRUNCGIL_TODAY_JSON = "https://finans.truncgil.com/today.json";
 
 function parseNumber(value: string | undefined) {
-  const number = Number(String(value ?? "").replace(",", "."));
+  const raw = String(value ?? "").trim().replace(/\s/g, "");
+  // Turkish market feeds use both 6.813,90 and 47,9033. Remove only thousands
+  // separators; the final comma is the decimal separator.
+  const normalized = raw.includes(",")
+    ? raw.replace(/\./g, "").replace(",", ".")
+    : raw;
+  const number = Number(normalized);
   return Number.isFinite(number) && number > 0 ? number : null;
 }
 
