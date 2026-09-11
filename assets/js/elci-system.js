@@ -4,6 +4,46 @@
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
+  // Google Analytics 4 — tüm herkese açık sayfalarda ortak ölçüm.
+  const GA4_MEASUREMENT_ID = 'G-MT2QY17KDJ';
+  function initAnalytics() {
+    if (window.__elciGa4Loaded) return;
+    window.__elciGa4Loaded = true;
+
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function gtag(){ window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', GA4_MEASUREMENT_ID, {
+      allow_google_signals: false,
+      allow_ad_personalization_signals: false
+    });
+
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(GA4_MEASUREMENT_ID)}`;
+    document.head.appendChild(script);
+
+    // Hasta kazanımında önemli olan temel tıklamaları ayrı etkinlik olarak ölç.
+    document.addEventListener('click', event => {
+      const link = event.target.closest?.('a[href]');
+      if (!link || typeof window.gtag !== 'function') return;
+      const href = String(link.getAttribute('href') || '');
+      let eventName = '';
+      if (href.startsWith('tel:')) eventName = 'phone_click';
+      else if (/wa\.me|whatsapp\.com/i.test(href)) eventName = 'whatsapp_click';
+      else if (/online-randevu/i.test(href)) eventName = 'appointment_click';
+      else if (/google\.com\/maps|maps\.google/i.test(href)) eventName = 'directions_click';
+      if (!eventName) return;
+      window.gtag('event', eventName, {
+        link_url: link.href,
+        link_text: (link.textContent || '').trim().slice(0, 120),
+        page_path: location.pathname + location.search
+      });
+    }, { capture: true });
+  }
+
+  initAnalytics();
+
   // Mobil menü ve dokunmatik açılır menüler: sayfaların farklı eski kodlarını tek davranışta toplar.
   const menuButton = $('#mobileMenuBtn');
   const menu = $('#mainMenu');
