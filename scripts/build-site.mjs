@@ -3,7 +3,7 @@ import path from "node:path";
 
 const ROOT = process.cwd();
 const DIST = path.join(ROOT, "dist");
-const SITE_URL = "https://elciveteriner.com";
+const SITE_URL = "https://xn--eliveterinerklinii-8ub94i.com";
 const NOW = new Date();
 
 const SOURCES = {
