@@ -1,6 +1,6 @@
 {
   "published": true,
-  "title": "Acil Durumlarda İlk Yardım: Evde Yapabilecekleriniz",
+  "title": "Kedi ve Köpeklerde Acil Durum: Kliniğe Gidene Kadar Güvenli İlk Adımlar",
   "date": "2025-06-10T17:45:00+03:00",
   "category": "Acil Durumlar",
   "species": "Genel",
@@ -9,14 +9,15 @@
     "acil",
     "travma"
   ],
-  "summary": "Kanama, zehirlenme veya travma şüphesinde temel adımlar ve kliniğe ulaşana kadar yapılacaklar.",
+  "summary": "Travma, kanama, zehirlenme şüphesi, solunum güçlüğü ve nöbet gibi acil durumlarda kliniğe ulaşana kadar güvenli yaklaşım.",
   "cover": "/assets/img/uploads/acil-ilk-yardim.jpg",
-  "content": "Panik yapmayın, güvenli taşıyın ve hemen bizi arayın: 0332 322 32 20. Evde yanlış müdahale durumu kötüleştirebilir.",
+  "content": "<h2>Önce güvenliği sağlayın ve kliniği arayın</h2>\n<p>Acil durumda ilk amaç evde tanı koymak veya tedavi yapmak değil; hayvanı ve sizi ek zarardan koruyarak en kısa sürede veteriner değerlendirmesine ulaştırmaktır. Mümkünse yola çıkmadan önce kliniği arayın ve olayın ne olduğunu, hayvanın yaşını, yaklaşık kilosunu ve gördüğünüz belirtileri kısaca bildirin.</p>\n<h2>Travma veya düşme sonrası</h2>\n<p>Hayvan yürüyebiliyor olsa bile iç yaralanma olasılığı tamamen dışlanamaz. Gereksiz hareketi azaltın, özellikle omurga veya kırık şüphesinde hayvanı mümkün olduğunca düz bir yüzey üzerinde ve kontrollü biçimde taşıyın. Ağrı nedeniyle sakin hayvanlar dahi ısırabilir; yaklaşırken dikkatli olun.</p>\n<h2>Kanama varsa</h2>\n<p>Temiz bir gazlı bez veya temiz bezle kanayan bölgeye nazik fakat sürekli basınç uygulanabilir. Bezi sık sık kaldırıp kontrol etmek pıhtılaşmayı bozabilir. Şiddetli, durmayan veya fışkırır tarzda kanama acil değerlendirme gerektirir.</p>\n<h2>Zehirlenme şüphesinde ne yapılmalı?</h2>\n<p>Şüphelenilen maddenin ambalajını, adını veya fotoğrafını yanınıza alın. Veteriner hekim önermeden kusturmaya çalışmayın; bazı maddelerde kusma daha fazla zarar verebilir. Süt, yağ, tuz, insan ilacı veya rastgele “panzehir” vermek de riskli olabilir.</p>\n<h2>Solunum güçlüğü</h2>\n<p>Ağız açık soluma, morarma, belirgin karın hareketleriyle nefes alma, boynu uzatarak soluma veya hızlı kötüleşen nefes darlığı acildir. Hayvanı serin ve sakin tutun, gereksiz elle müdahaleyi azaltın ve gecikmeden kliniğe yönelin.</p>\n<h2>Nöbet sırasında</h2>\n<p>Hayvanı tutmaya veya ağzını açmaya çalışmayın. Çevredeki sert ve keskin cisimleri uzaklaştırın, mümkünse nöbetin süresini takip edin. Arka arkaya nöbet, uzun süren nöbet veya nöbet sonrası toparlanamama acil değerlendirme gerektirir.</p>\n<h2>Taşıma sırasında</h2>\n<p>Kediler mümkünse sağlam bir taşıma çantasında, köpekler ise kaçmasını ve ani hareketini engelleyecek güvenli biçimde taşınmalıdır. Bilinci kapalı veya çok güçsüz hayvanlarda baş-boyun pozisyonu ve solunum yolu açısından ekstra dikkat gerekir.</p>\n<p><strong>Not:</strong> Bu içerik ilk yardım farkındalığı içindir; evde tedavi yerine veteriner hekime güvenli ve hızlı ulaşmayı amaçlar.</p>",
   "advanced": {
     "slug": "acil-durum-ilk-yardim-evde",
-    "seoTitle": "Evde İlk Yardım İpuçları | Elçi Veteriner",
-    "seoDescription": "Acil durumda panik yapmadan doğru adımları atmak için kısa rehber.",
+    "seoTitle": "Kedi ve Köpeklerde Acil Durum ve İlk Yardım | Elçi Veteriner",
+    "seoDescription": "Travma, kanama, zehirlenme, solunum güçlüğü ve nöbette kliniğe ulaşana kadar güvenli ilk adımlar hakkında veteriner bilgilendirmesi.",
     "youtubeId": "",
-    "author": "Elçi Veteriner"
-  }
+    "author": "Elçi Veteriner Kliniği"
+  },
+  "updatedAt": "2026-09-12T15:40:00+03:00"
 }
