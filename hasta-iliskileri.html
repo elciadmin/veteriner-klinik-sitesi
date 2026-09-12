@@ -1204,6 +1204,22 @@
     const max = new Date(today);
     max.setDate(max.getDate() + 30);
 
+    // Mobilde özel popup yerine cihazın yerleşik tarih seçicisini kullan.
+    // Bu, iOS/Android tarayıcılarında readonly + özel takvim çakışmalarını önler.
+    const useNativeMobileDate = window.matchMedia('(max-width:700px)').matches;
+    if (useNativeMobileDate && input) {
+      input.type = 'date';
+      input.readOnly = false;
+      input.removeAttribute('readonly');
+      input.min = iso(min);
+      input.max = iso(max);
+      input.placeholder = '';
+      input.setAttribute('aria-label', 'Randevu tarihi');
+      input.addEventListener('change', () => {
+        if (isoInput) isoInput.value = input.value || '';
+      });
+    }
+
     // Resmî tatil veya özel kapanış günleri gerektiğinde ISO formatında eklenebilir.
     const blockedDates = new Set([]); // Örnek: ['2026-07-24']
     let currentMonth = new Date(min.getFullYear(), min.getMonth(), 1);
@@ -1279,7 +1295,7 @@
       }
     }
 
-    if(input){
+    if(input && !useNativeMobileDate){
       input.addEventListener('click', openDP);
       input.addEventListener('focus', openDP);
     }
