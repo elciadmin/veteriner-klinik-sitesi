@@ -4,14 +4,40 @@
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
-  // Google Analytics 4 — tüm herkese açık sayfalarda ortak ölçüm.
+  // Google Analytics 4 — analitik yalnızca kullanıcı izni sonrasında yüklenir.
   const GA4_MEASUREMENT_ID = 'G-MT2QY17KDJ';
-  function initAnalytics() {
+  const ANALYTICS_CONSENT_KEY = 'elci-analytics-consent';
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function gtag(){ window.dataLayer.push(arguments); };
+  window.gtag('consent', 'default', {
+    analytics_storage: 'denied',
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    wait_for_update: 500
+  });
+
+  function getAnalyticsConsent(){
+    try { return localStorage.getItem(ANALYTICS_CONSENT_KEY); }
+    catch (_) { return null; }
+  }
+
+  function setAnalyticsConsent(value){
+    try { localStorage.setItem(ANALYTICS_CONSENT_KEY, value); }
+    catch (_) {}
+  }
+
+  function loadAnalytics(){
     if (window.__elciGa4Loaded) return;
     window.__elciGa4Loaded = true;
 
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = window.gtag || function gtag(){ window.dataLayer.push(arguments); };
+    window.gtag('consent', 'update', {
+      analytics_storage: 'granted',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied'
+    });
     window.gtag('js', new Date());
     window.gtag('config', GA4_MEASUREMENT_ID, {
       allow_google_signals: false,
@@ -22,27 +48,78 @@
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(GA4_MEASUREMENT_ID)}`;
     document.head.appendChild(script);
-
-    // Hasta kazanımında önemli olan temel tıklamaları ayrı etkinlik olarak ölç.
-    document.addEventListener('click', event => {
-      const link = event.target.closest?.('a[href]');
-      if (!link || typeof window.gtag !== 'function') return;
-      const href = String(link.getAttribute('href') || '');
-      let eventName = '';
-      if (href.startsWith('tel:')) eventName = 'phone_click';
-      else if (/wa\.me|whatsapp\.com/i.test(href)) eventName = 'whatsapp_click';
-      else if (/online-randevu/i.test(href)) eventName = 'appointment_click';
-      else if (/google\.com\/maps|maps\.google/i.test(href)) eventName = 'directions_click';
-      if (!eventName) return;
-      window.gtag('event', eventName, {
-        link_url: link.href,
-        link_text: (link.textContent || '').trim().slice(0, 120),
-        page_path: location.pathname + location.search
-      });
-    }, { capture: true });
   }
 
-  initAnalytics();
+  function denyAnalytics(){
+    window.gtag('consent', 'update', {
+      analytics_storage: 'denied',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied'
+    });
+  }
+
+  function showAnalyticsConsent(){
+    if (document.getElementById('elciAnalyticsConsent')) return;
+    const banner = document.createElement('section');
+    banner.id = 'elciAnalyticsConsent';
+    banner.className = 'elci-consent';
+    banner.setAttribute('role', 'dialog');
+    banner.setAttribute('aria-live', 'polite');
+    banner.setAttribute('aria-label', 'Analitik çerez tercihi');
+    banner.innerHTML = `
+      <div class="elci-consent-copy">
+        <strong>Analitik tercihi</strong>
+        <span>Site kullanımını geliştirmek için anonimleştirilmiş Analytics ölçümü kullanmak istiyoruz. Reddetmeniz siteyi kullanmanızı etkilemez.</span>
+        <a href="/kvkk.html">KVKK ve gizlilik bilgileri</a>
+      </div>
+      <div class="elci-consent-actions">
+        <button type="button" class="elci-consent-reject">Reddet</button>
+        <button type="button" class="elci-consent-accept">Kabul et</button>
+      </div>`;
+    document.body.appendChild(banner);
+
+    banner.querySelector('.elci-consent-accept')?.addEventListener('click', () => {
+      setAnalyticsConsent('granted');
+      loadAnalytics();
+      banner.remove();
+    });
+    banner.querySelector('.elci-consent-reject')?.addEventListener('click', () => {
+      setAnalyticsConsent('denied');
+      denyAnalytics();
+      banner.remove();
+    });
+  }
+
+  const analyticsConsent = getAnalyticsConsent();
+  if (analyticsConsent === 'granted') {
+    loadAnalytics();
+  } else if (analyticsConsent === 'denied') {
+    denyAnalytics();
+  } else if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', showAnalyticsConsent, { once:true });
+  } else {
+    showAnalyticsConsent();
+  }
+
+  // Hasta kazanımında önemli olan temel tıklamaları ayrı etkinlik olarak ölç.
+  document.addEventListener('click', event => {
+    if (getAnalyticsConsent() !== 'granted' || !window.__elciGa4Loaded) return;
+    const link = event.target.closest?.('a[href]');
+    if (!link || typeof window.gtag !== 'function') return;
+    const href = String(link.getAttribute('href') || '');
+    let eventName = '';
+    if (href.startsWith('tel:')) eventName = 'phone_click';
+    else if (/wa\.me|whatsapp\.com/i.test(href)) eventName = 'whatsapp_click';
+    else if (/online-randevu/i.test(href)) eventName = 'appointment_click';
+    else if (/google\.com\/maps|maps\.google/i.test(href)) eventName = 'directions_click';
+    if (!eventName) return;
+    window.gtag('event', eventName, {
+      link_url: link.href,
+      link_text: (link.textContent || '').trim().slice(0, 120),
+      page_path: location.pathname + location.search
+    });
+  }, { capture: true });
 
   // Mobil menü ve dokunmatik açılır menüler: sayfaların farklı eski kodlarını tek davranışta toplar.
   const menuButton = $('#mobileMenuBtn');
@@ -152,44 +229,4 @@
 
   // Yıl alanları.
   $$('#yil').forEach(node => { node.textContent = String(new Date().getFullYear()); });
-})();
-
-
-/* ELÇİ ANALYTICS EVENT HOOKS — inactive until window.gtag exists */
-(function(){
-  function sendElciEvent(name, params){
-    if(typeof window.gtag !== 'function') return;
-    try{
-      window.gtag('event', name, Object.assign({
-        event_category:'engagement'
-      }, params || {}));
-    }catch(_){}
-  }
-
-  document.addEventListener('click', function(event){
-    const link = event.target && event.target.closest ? event.target.closest('a') : null;
-    if(!link) return;
-    const href = String(link.getAttribute('href') || '');
-    if(!href) return;
-
-    if(href.indexOf('tel:') === 0){
-      sendElciEvent('phone_click', {link_url:href});
-      return;
-    }
-
-    if(
-      href.indexOf('/hasta-iliskileri') !== -1 &&
-      href.indexOf('online-randevu') !== -1
-    ){
-      sendElciEvent('appointment_click', {link_url:href});
-      return;
-    }
-
-    if(
-      href.indexOf('google.com/maps') !== -1 ||
-      href.indexOf('maps.google.com') !== -1
-    ){
-      sendElciEvent('directions_click', {link_url:href});
-    }
-  }, {passive:true});
 })();
