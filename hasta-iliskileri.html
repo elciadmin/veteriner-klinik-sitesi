@@ -635,6 +635,27 @@
       .brand-lockup{padding:7px 9px}
     }
   </style>
+<style id="appointment-contact-validation">
+  .verified-field{display:grid;gap:6px;min-width:0}
+  .verified-field input{width:100%}
+  .field-help{display:block;min-height:18px;color:#6a7580;font-size:.78rem;line-height:1.35}
+  .verified-field.is-valid .field-help{color:#177245}
+  .verified-field.is-invalid .field-help{color:#b42318;font-weight:700}
+  .verified-field.is-invalid input{border-color:#d92d20!important;box-shadow:0 0 0 3px rgba(217,45,32,.08)!important}
+  .email-suggestion{
+    justify-self:start;
+    padding:6px 9px;
+    border:1px solid #d9cbea;
+    border-radius:10px;
+    background:#f7f2fc;
+    color:#5a1fa8;
+    font:inherit;
+    font-size:.78rem;
+    font-weight:800;
+    cursor:pointer;
+  }
+  .email-suggestion[hidden]{display:none!important}
+</style>
 <style id="appointment-ajax-v3">
   .appointment-submit-status{
     position:fixed;
@@ -851,8 +872,15 @@
 <p style="display:none"><label>Bot alanı: <input name="bot-field"/></label></p>
 <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)">
 <input aria-label="Ad Soyad" autocomplete="name" name="ad" placeholder="Ad Soyad *" required="" type="text"/>
-<input aria-label="Telefon" autocomplete="tel" inputmode="tel" name="tel" pattern="^[0-9+()\\s-]{7,}$" placeholder="Telefon *" required="" type="tel"/>
-<input aria-label="E-posta" autocomplete="email" name="email" placeholder="E-posta *" required="" type="email"/>
+<div class="verified-field">
+<input aria-describedby="phoneHelp" aria-label="Telefon" autocomplete="tel" id="appointmentPhone" inputmode="tel" maxlength="18" name="tel" placeholder="Telefon * (05xx xxx xx xx)" required="" type="tel"/>
+<small class="field-help" id="phoneHelp">Randevu teyidi için ulaşılabilir bir Türkiye telefon numarası yazın.</small>
+</div>
+<div class="verified-field">
+<input aria-describedby="emailHelp" aria-label="E-posta" autocomplete="email" id="appointmentEmail" maxlength="160" name="email" placeholder="E-posta *" required="" type="email"/>
+<small class="field-help" id="emailHelp">Randevu bilgileri için kullandığınız e-posta adresini yazın.</small>
+<button class="email-suggestion" hidden="" id="emailSuggestion" type="button"></button>
+</div>
 <input aria-label="Hayvanın Adı" name="pet" placeholder="Hayvanın Adı *" required="" type="text"/>
 <select aria-label="Hayvanın Yaşı" id="hayvanYasi" name="hayvan_yasi" required="">
 <option disabled="" selected="" value="">Hayvanın Yaşını Seçiniz *</option>
@@ -1430,6 +1458,133 @@
     const appointmentForm = document.querySelector('form[name="online-randevu"]');
     const consentWrap= document.getElementById('termsConsent');
     const requestTime = document.getElementById('talepZamani');
+    const appointmentPhone = document.getElementById('appointmentPhone');
+    const appointmentEmail = document.getElementById('appointmentEmail');
+    const phoneHelp = document.getElementById('phoneHelp');
+    const emailHelp = document.getElementById('emailHelp');
+    const emailSuggestion = document.getElementById('emailSuggestion');
+
+    const COMMON_EMAIL_TYPOS = {
+      'gmial.com':'gmail.com',
+      'gamil.com':'gmail.com',
+      'gmai.com':'gmail.com',
+      'gmail.con':'gmail.com',
+      'hotnail.com':'hotmail.com',
+      'hotmai.com':'hotmail.com',
+      'hotmail.con':'hotmail.com',
+      'outlok.com':'outlook.com',
+      'outllook.com':'outlook.com',
+      'outlook.con':'outlook.com',
+      'yaho.com':'yahoo.com',
+      'yahoo.con':'yahoo.com'
+    };
+
+    function normalizeTrPhone(value){
+      let digits = String(value || '').replace(/\D/g,'');
+      if(digits.startsWith('0090')) digits = digits.slice(4);
+      else if(digits.startsWith('90') && digits.length === 12) digits = digits.slice(2);
+      if(digits.startsWith('0') && digits.length === 11) digits = digits.slice(1);
+      return digits;
+    }
+
+    function isPlausibleTrPhone(value){
+      const digits = normalizeTrPhone(value);
+      if(!/^[2345]\d{9}$/.test(digits)) return false;
+      if(/^(\d)\1{9}$/.test(digits)) return false;
+      return true;
+    }
+
+    function formatTrPhone(value){
+      const digits = normalizeTrPhone(value);
+      if(!/^[2345]\d{9}$/.test(digits)) return String(value || '').trim();
+      return '0' + digits.slice(0,3) + ' ' + digits.slice(3,6) + ' ' + digits.slice(6,8) + ' ' + digits.slice(8,10);
+    }
+
+    function isPlausibleEmail(value){
+      const email = String(value || '').trim().toLowerCase();
+      if(email.length < 6 || email.length > 160) return false;
+      if(!/^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/.test(email)) return false;
+      if(email.includes('..')) return false;
+      return true;
+    }
+
+    function setFieldState(input, help, ok, message){
+      const wrap = input?.closest('.verified-field');
+      if(!wrap || !help) return;
+      wrap.classList.toggle('is-valid', ok === true);
+      wrap.classList.toggle('is-invalid', ok === false);
+      if(message) help.textContent = message;
+    }
+
+    function validatePhone(showMessage = true){
+      if(!appointmentPhone) return true;
+      const raw = appointmentPhone.value.trim();
+      if(!raw){ appointmentPhone.setCustomValidity('Telefon numarası gereklidir.'); return false; }
+      const ok = isPlausibleTrPhone(raw);
+      appointmentPhone.setCustomValidity(ok ? '' : 'Geçerli bir Türkiye telefon numarası yazın. Örn: 0532 123 45 67');
+      if(ok){
+        appointmentPhone.value = formatTrPhone(raw);
+        if(showMessage) setFieldState(appointmentPhone, phoneHelp, true, 'Telefon biçimi uygun.');
+      }else if(showMessage){
+        setFieldState(appointmentPhone, phoneHelp, false, 'Numarayı kontrol edin. Örn: 0532 123 45 67');
+      }
+      return ok;
+    }
+
+    function updateEmailSuggestion(){
+      if(!appointmentEmail || !emailSuggestion) return;
+      const email = appointmentEmail.value.trim().toLowerCase();
+      const parts = email.split('@');
+      const suggestion = parts.length === 2 ? COMMON_EMAIL_TYPOS[parts[1]] : '';
+      if(suggestion && parts[0]){
+        const corrected = parts[0] + '@' + suggestion;
+        emailSuggestion.hidden = false;
+        emailSuggestion.dataset.value = corrected;
+        emailSuggestion.textContent = corrected + ' mu demek istediniz?';
+      }else{
+        emailSuggestion.hidden = true;
+        emailSuggestion.dataset.value = '';
+      }
+    }
+
+    function validateEmail(showMessage = true){
+      if(!appointmentEmail) return true;
+      const email = appointmentEmail.value.trim().toLowerCase();
+      appointmentEmail.value = email;
+      updateEmailSuggestion();
+      const domain = email.split('@')[1] || '';
+      const typo = Boolean(COMMON_EMAIL_TYPOS[domain]);
+      const ok = isPlausibleEmail(email) && !typo;
+      appointmentEmail.setCustomValidity(ok ? '' : (typo ? 'E-posta alan adında yazım hatası olabilir.' : 'Geçerli bir e-posta adresi yazın.'));
+      if(ok && showMessage){
+        setFieldState(appointmentEmail, emailHelp, true, 'E-posta biçimi uygun.');
+      }else if(!ok && showMessage){
+        setFieldState(appointmentEmail, emailHelp, false, typo ? 'E-posta alan adını kontrol edin; aşağıdaki öneriyi kullanabilirsiniz.' : 'E-posta adresini kontrol edin.');
+      }
+      return ok;
+    }
+
+    appointmentPhone?.addEventListener('blur', ()=>validatePhone(true));
+    appointmentPhone?.addEventListener('input', ()=>{
+      appointmentPhone.setCustomValidity('');
+      appointmentPhone.closest('.verified-field')?.classList.remove('is-valid','is-invalid');
+      if(phoneHelp) phoneHelp.textContent='Randevu teyidi için ulaşılabilir bir Türkiye telefon numarası yazın.';
+    });
+    appointmentEmail?.addEventListener('blur', ()=>validateEmail(true));
+    appointmentEmail?.addEventListener('input', ()=>{
+      appointmentEmail.setCustomValidity('');
+      appointmentEmail.closest('.verified-field')?.classList.remove('is-valid','is-invalid');
+      if(emailHelp) emailHelp.textContent='Randevu bilgileri için kullandığınız e-posta adresini yazın.';
+      updateEmailSuggestion();
+    });
+    emailSuggestion?.addEventListener('click', ()=>{
+      const corrected = emailSuggestion.dataset.value || '';
+      if(!corrected || !appointmentEmail) return;
+      appointmentEmail.value = corrected;
+      validateEmail(true);
+      emailSuggestion.hidden = true;
+      appointmentEmail.focus();
+    });
 
     function syncConsentUI(){
       const checked = termsCheck && termsCheck.checked;
@@ -1473,6 +1628,14 @@
       }
       appointmentForm.addEventListener('submit',async(e)=>{
         e.preventDefault();
+        const phoneOk = validatePhone(true);
+        const emailOk = validateEmail(true);
+        if(!phoneOk || !emailOk){
+          const firstInvalid = !phoneOk ? appointmentPhone : appointmentEmail;
+          firstInvalid?.reportValidity();
+          firstInvalid?.focus();
+          return;
+        }
         if(requestTime)requestTime.value=new Date().toISOString();
         if(!isoInput||!isoInput.value){alert('Lütfen takvimden geçerli bir randevu tarihi seçin.');input?.focus();return}
         const selected=new Date(isoInput.value+'T00:00:00');
