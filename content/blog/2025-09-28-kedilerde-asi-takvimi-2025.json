@@ -1,6 +1,6 @@
 {
   "published": true,
-  "title": "Kedilerde Aşı Takvimi: 2025 Rehberi",
+  "title": "Kedilerde Aşı Takvimi: Yavru ve Yetişkin Kediler İçin Rehber",
   "date": "2025-09-28T09:30:00+03:00",
   "category": "Koruyucu Sağlık",
   "species": "Kedi",
@@ -9,14 +9,15 @@
     "aşı",
     "takvim"
   ],
-  "summary": "Kedi dostlarımız için temel/opsiyonel aşılar, zamanlama ve sık yapılan hatalar.",
+  "summary": "Kedilerde temel aşılar, yavru döneminden yetişkinliğe takip, risk değerlendirmesi ve aşı öncesi dikkat edilmesi gerekenler.",
   "cover": "/assets/img/uploads/kedi-asi.jpg",
-  "content": "Karma, kuduz ve lösemi aşılarının planlanması bağışıklık için kritiktir. İlk yıl ve sonrasında hatırlatma dozlarını aksatmayın.",
+  "content": "<h2>Kedilerde aşı planı neden kişiye özeldir?</h2>\n<p>Kedilerde aşı programı yalnızca yaşa göre değil; önceki aşı geçmişi, yaşam tarzı, dışarı çıkma durumu, başka kedilerle temas, genel sağlık durumu ve kullanılan aşının ürün bilgisi birlikte değerlendirilerek planlanır. Bu nedenle internette görülen tek bir takvimi her kediye aynen uygulamak doğru değildir.</p>\n<h2>Temel ve risk bazlı aşılar</h2>\n<p>Uluslararası rehberlerde kediler için panlökopeni, herpesvirus ve calicivirus bileşenleri temel aşılar arasında değerlendirilir. Kuduz aşısı yerel mevzuat, bölgesel risk ve ürün bilgisine göre planlanır. Feline lösemi virüsü (FeLV) gibi aşılar ise özellikle genç kedilerde ve dış ortam ya da enfekte olabilecek kedilerle temas riski bulunan hayvanlarda veteriner hekim tarafından ayrıca değerlendirilir.</p>\n<h2>Yavru kedilerde neden seri uygulama yapılır?</h2>\n<p>Yavru kediler anneden aldıkları antikorlar nedeniyle aşılara farklı zamanlarda yanıt verebilir. Bu nedenle yavru dönemi aşılaması genellikle tek dozdan ibaret değildir; veteriner hekim, yaş ve risk durumuna göre bir başlangıç serisi ve sonrasında hatırlatma planı oluşturur.</p>\n<h2>Yetişkin ve aşı geçmişi bilinmeyen kediler</h2>\n<p>Daha önce düzenli aşılanmış yetişkin bir kedi ile hiç aşılanmamış veya geçmişi bilinmeyen bir kedinin planı aynı olmayabilir. Sağlıklı bir yetişkin kedide gereksiz tekrarları önlemek ve koruyuculuğu sürdürmek için önce mevcut kayıtlar değerlendirilir.</p>\n<h2>Aşı öncesi muayene neden önemlidir?</h2>\n<p>Aşı randevusunda iştah, ateş, solunum bulguları, sindirim sistemi yakınmaları, parazit durumu ve genel klinik görünüm değerlendirilir. Aktif hastalık şüphesi varsa aşı zamanlaması veteriner hekim tarafından yeniden planlanabilir.</p>\n<h2>Aşı sonrası neler izlenmeli?</h2>\n<p>Aşı sonrası kısa süreli hafif halsizlik veya uygulama bölgesinde hassasiyet görülebilir. Ancak belirgin yüz şişmesi, solunum güçlüğü, tekrarlayan kusma, çökme ya da hızla kötüleşen genel durum gibi bulgular acil değerlendirme gerektirir.</p>\n<p><strong>Not:</strong> Bu yazı genel bilgilendirme amaçlıdır. Kedinizin aşı takvimi muayene, yaşam tarzı, bölgesel risk ve kullanılan ürünün ruhsatlı uygulama şemasına göre veteriner hekim tarafından planlanmalıdır.</p>",
   "advanced": {
     "slug": "kedilerde-asi-takvimi-2025",
-    "seoTitle": "Kedilerde Aşı Takvimi 2025 | Elçi Veteriner",
-    "seoDescription": "Kediler için temel ve opsiyonel aşı programı, hatırlatma dozları ve ipuçları.",
+    "seoTitle": "Kedilerde Aşı Takvimi | Yavru ve Yetişkin Kedi Rehberi",
+    "seoDescription": "Kedilerde temel aşılar, yavru ve yetişkin dönemi takip, risk bazlı aşı seçimi ve aşı öncesi muayene hakkında veteriner hekim bilgilendirmesi.",
     "youtubeId": "",
-    "author": "Elçi Veteriner"
-  }
+    "author": "Elçi Veteriner Kliniği"
+  },
+  "updatedAt": "2026-09-12T15:35:00+03:00"
 }
