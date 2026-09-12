@@ -7,7 +7,10 @@ const PRIMARY_ORIGIN = "https://xn--eliveterinerklinii-8ub94i.com";
 const TEXT_EXTENSIONS = new Set([".html", ".xml", ".txt", ".json", ".js", ".css", ".webmanifest"]);
 
 const HOME_TITLE_OLD = "Konya Meram Veteriner Kliniği | Elçi Veteriner Kliniği";
-const HOME_TITLE_NEW = "Elçi Veteriner Kliniği | Meram, Konya";
+const HOME_TITLE_PREVIOUS = "Elçi Veteriner Kliniği | Meram, Konya";
+const HOME_TITLE_NEW = "Elçi Veteriner Kliniği | Konya Meram Veteriner Hizmetleri";
+const HOME_DESCRIPTION_OLD = "Elçi Veteriner Kliniği, Meram Konya'da kedi ve köpekler için muayene, laboratuvar, aşı, kısırlaştırma, cerrahi ve ağız-diş sağlığı hizmetleri sunar.";
+const HOME_DESCRIPTION_NEW = "Elçi Veteriner Kliniği, Konya Meram'da kedi ve köpekler için muayene, laboratuvar, aşı, kısırlaştırma, cerrahi ve ağız-diş sağlığı hizmetleri sunar.";
 
 async function collectFiles(dir) {
   const entries = await fs.readdir(dir, { withFileTypes: true });
@@ -23,7 +26,17 @@ async function collectFiles(dir) {
 function normalizeSeo(relativePath, source) {
   let output = source
     .split(OLD_ORIGIN).join(PRIMARY_ORIGIN)
-    .split(HOME_TITLE_OLD).join(HOME_TITLE_NEW);
+    .split(HOME_TITLE_OLD).join(HOME_TITLE_NEW)
+    .split(HOME_TITLE_PREVIOUS).join(HOME_TITLE_NEW);
+
+  if (relativePath === "index.html") {
+    output = output
+      .split(HOME_DESCRIPTION_OLD).join(HOME_DESCRIPTION_NEW)
+      .split("Meram'da kedi ve köpekler için muayene, laboratuvar, aşı, kısırlaştırma, cerrahi ve koruyucu sağlık hizmetleri.")
+      .join("Konya Meram'da kedi ve köpekler için muayene, laboratuvar, aşı, kısırlaştırma, cerrahi ve koruyucu sağlık hizmetleri.")
+      .split("Meram'da kedi ve köpekler için muayene, laboratuvar, aşı, kısırlaştırma ve cerrahi hizmetleri.")
+      .join("Konya Meram'da kedi ve köpekler için muayene, laboratuvar, aşı, kısırlaştırma ve cerrahi hizmetleri.");
+  }
 
   if (relativePath === "sss.html") {
     output = output
@@ -34,6 +47,20 @@ function normalizeSeo(relativePath, source) {
       .replace(
         '<meta content="Kedi ve köpek sağlığı hakkında anlaşılır, güncel ve klinik deneyime dayalı veteriner hekim bilgilendirmeleri." property="og:description"/>',
         '<meta content="Randevu, ücret, aşılar, kısırlaştırma, ameliyat hazırlığı, laboratuvar ve acil durumlarla ilgili sık sorulan sorular." property="og:description"/>'
+      );
+  }
+
+  if (relativePath.startsWith("blog/") && relativePath.endsWith(".html")) {
+    // The inactive-state heading is hidden on published posts. Keeping it as H2 prevents
+    // crawlers from counting two H1 elements without changing any runtime behavior.
+    output = output
+      .replace(
+        '<div class="blog-not-active" id="blogInactive"><h1>Bu yazı şu anda yayında değil.</h1>',
+        '<div class="blog-not-active" id="blogInactive"><h2>Bu yazı şu anda yayında değil.</h2>'
+      )
+      .replace(
+        /"author":\{"@type":"Organization","name":"([^"]+)"\},"publisher"/g,
+        `"author":{"@type":"Organization","name":"$1","logo":{"@type":"ImageObject","url":"${PRIMARY_ORIGIN}/assets/img/uploads/elci-logo.png"}},"publisher"`
       );
   }
 
