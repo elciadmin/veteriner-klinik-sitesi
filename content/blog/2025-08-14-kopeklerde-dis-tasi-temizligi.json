@@ -7,16 +7,17 @@
   "tags": [
     "köpek",
     "diş taşı",
-    "periodontal"
+    "periodontal",
+    "ağız ve diş sağlığı"
   ],
-  "summary": "Ağız kokusu, diş eti çekilmesi ve sistemik hastalık riskini azaltmanın anahtarı: düzenli dental bakım.",
+  "summary": "Köpeklerde diş taşı, ağız kokusu ve diş eti sorunlarıyla birlikte görülebilir. Düzenli ağız muayenesi ve uygun dental bakım önemlidir.",
   "cover": "/assets/img/uploads/kopek-dis.jpg",
-  "content": "Diş taşı; bakterilerin tutunmasına, diş eti iltihabına ve ağrıya yol açar. Periyodik muayene ve profesyonel temizlik önerilir.",
+  "content": "Diş taşı; diş yüzeyinde biriken plağın mineralize olmasıyla oluşur ve diş eti hattında irritasyon, kızarıklık, ağız kokusu ve ilerleyen olgularda periodontal sorunlarla birlikte görülebilir. Evde diş fırçalama ve veteriner hekimin uygun gördüğü ağız bakım ürünleri plak kontrolüne yardımcı olabilir; ancak oluşmuş diş taşının güvenli biçimde uzaklaştırılması profesyonel değerlendirme gerektirir. Ağız kokusu, çiğnemede zorlanma, tek taraflı çiğneme, diş eti kanaması, belirgin tartar birikimi veya ağız bölgesinde hassasiyet fark edildiğinde veteriner hekim muayenesi önerilir. Profesyonel diş temizliği gerekip gerekmediği; ağız muayenesi, hayvanın genel sağlık durumu ve periodontal bulgular birlikte değerlendirilerek belirlenir. Düzenli kontroller, ağız ve diş sağlığı sorunlarının erken fark edilmesine yardımcı olur.",
   "advanced": {
     "slug": "kopeklerde-dis-tasi-temizligi",
-    "seoTitle": "Köpeklerde Diş Taşı Temizliği | Elçi Veteriner",
-    "seoDescription": "Diş taşı ve periodontal hastalık riskini azaltmak için düzenli dental bakım neden şart?",
+    "seoTitle": "Köpeklerde Diş Taşı Temizliği | Elçi Veteriner Kliniği",
+    "seoDescription": "Köpeklerde diş taşı belirtileri, ağız kokusu, profesyonel diş temizliği ve evde ağız bakımına dair veteriner hekim bilgilendirmesi.",
     "youtubeId": "",
-    "author": "Elçi Veteriner"
+    "author": "Elçi Veteriner Kliniği"
   }
 }
