@@ -1,6 +1,6 @@
 {
   "published": true,
-  "title": "Sıcak Havalarda Serin Kalma İpuçları",
+  "title": "Kedi ve Köpeklerde Sıcak Çarpması: Korunma ve Uyarı İşaretleri",
   "date": "2025-07-02T11:00:00+03:00",
   "category": "Mevsimsel Sağlık",
   "species": "Kedi ve Köpek",
@@ -9,14 +9,15 @@
     "ısı stresi",
     "egzersiz"
   ],
-  "summary": "Sıcak çarpmasına karşı su tüketimi, gölgeleme ve yürüyüş saatleri ayarı.",
+  "summary": "Sıcak havalarda kedi ve köpeklerde ısı stresi riskini azaltmak, yürüyüş ve su düzenini planlamak ve uyarı işaretlerini tanımak.",
   "cover": "/assets/img/uploads/yaz-ipuclari.jpg",
-  "content": "Gündüz saatlerinde egzersizi azaltın, asfalttan kaçının ve su kabını her zaman dolu tutun. Sıcak çarpması acil durumdur.",
+  "content": "<h2>Sıcak hava neden risklidir?</h2>\n<p>Kedi ve köpekler çevre sıcaklığı yükseldiğinde vücut ısılarını insanlar kadar kolay düzenleyemez. Özellikle kapalı araçlar, doğrudan güneş, yoğun egzersiz ve yetersiz su erişimi kısa sürede ciddi ısı stresine yol açabilir.</p>\n<h2>Yürüyüş saatlerini değiştirin</h2>\n<p>Köpeklerde yürüyüşleri günün daha serin saatlerine kaydırmak ve öğle sıcağında yoğun egzersizden kaçınmak önemlidir. Asfalt ve koyu zeminler hava sıcaklığından çok daha fazla ısınabilir; pati temasını da göz önünde bulundurun.</p>\n<h2>Su ve gölge erişimi</h2>\n<p>Taze içme suyunun sürekli erişilebilir olması, dinlenme alanının gölgeli ve havadar tutulması gerekir. Bahçe veya balkonda kalan hayvanların gün boyunca güneşin hareketiyle gölge alanını kaybedebileceği unutulmamalıdır.</p>\n<h2>Kapalı araçta bırakmayın</h2>\n<p>Kısa süreli olduğunu düşünseniz bile hayvanı kapalı araçta yalnız bırakmak tehlikelidir. Araç içi sıcaklığı çok hızlı yükselerek yaşamı tehdit eden ısı artışına neden olabilir.</p>\n<h2>Hangi hayvanlar daha hassastır?</h2>\n<p>Yavru ve yaşlı hayvanlar, fazla kilolu hayvanlar, kalp veya solunum sistemi hastalığı bulunanlar ve kısa burunlu ırklar sıcak havaya karşı daha hassas olabilir. Bu hayvanlarda aktivite planı daha temkinli yapılmalıdır.</p>\n<h2>Uyarı işaretleri</h2>\n<p>Aşırı hızlı soluma, yoğun salya, belirgin halsizlik, koordinasyon bozukluğu, kusma, ishal, çökme veya bilinç değişikliği ısı stresinin ciddi işaretleri olabilir. Bu durumda hızlı veteriner değerlendirmesi gerekir.</p>\n<h2>Şüphede ilk yaklaşım</h2>\n<p>Hayvanı sıcak ortamdan çıkarıp serin ve havadar bir yere alın. Aşırı soğuk su veya buzla ani soğutma yerine kontrollü serinletme tercih edilir ve vakit kaybetmeden veteriner kliniğiyle iletişime geçilir.</p>\n<p><strong>Not:</strong> Sıcak çarpması acil bir tablodur. Evde uzun süre müdahale etmeye çalışmak yerine profesyonel değerlendirmeye ulaşmak önceliklidir.</p>",
   "advanced": {
     "slug": "sicak-havalarda-serin-kalma-ipuclari",
-    "seoTitle": "Sıcakta Evcil Dostları Korumak | Elçi Veteriner",
-    "seoDescription": "Yazın sıcak çarpmasına karşı pratik öneriler ve dikkat edilmesi gerekenler.",
+    "seoTitle": "Kedi ve Köpeklerde Sıcak Çarpması | Korunma ve Belirtiler",
+    "seoDescription": "Kedi ve köpeklerde sıcak çarpması belirtileri, riskli durumlar, yürüyüş saatleri, su-gölge düzeni ve güvenli ilk yaklaşım.",
     "youtubeId": "",
-    "author": "Elçi Veteriner"
-  }
+    "author": "Elçi Veteriner Kliniği"
+  },
+  "updatedAt": "2026-09-12T15:40:00+03:00"
 }
