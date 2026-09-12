@@ -153,3 +153,43 @@
   // Yıl alanları.
   $$('#yil').forEach(node => { node.textContent = String(new Date().getFullYear()); });
 })();
+
+
+/* ELÇİ ANALYTICS EVENT HOOKS — inactive until window.gtag exists */
+(function(){
+  function sendElciEvent(name, params){
+    if(typeof window.gtag !== 'function') return;
+    try{
+      window.gtag('event', name, Object.assign({
+        event_category:'engagement'
+      }, params || {}));
+    }catch(_){}
+  }
+
+  document.addEventListener('click', function(event){
+    const link = event.target && event.target.closest ? event.target.closest('a') : null;
+    if(!link) return;
+    const href = String(link.getAttribute('href') || '');
+    if(!href) return;
+
+    if(href.indexOf('tel:') === 0){
+      sendElciEvent('phone_click', {link_url:href});
+      return;
+    }
+
+    if(
+      href.indexOf('/hasta-iliskileri') !== -1 &&
+      href.indexOf('online-randevu') !== -1
+    ){
+      sendElciEvent('appointment_click', {link_url:href});
+      return;
+    }
+
+    if(
+      href.indexOf('google.com/maps') !== -1 ||
+      href.indexOf('maps.google.com') !== -1
+    ){
+      sendElciEvent('directions_click', {link_url:href});
+    }
+  }, {passive:true});
+})();
