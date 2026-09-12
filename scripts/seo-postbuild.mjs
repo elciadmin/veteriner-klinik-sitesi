@@ -8,7 +8,7 @@ const TEXT_EXTENSIONS = new Set([".html", ".xml", ".txt", ".json", ".js", ".css"
 
 const HOME_TITLE_OLD = "Konya Meram Veteriner Kliniği | Elçi Veteriner Kliniği";
 const HOME_TITLE_PREVIOUS = "Elçi Veteriner Kliniği | Meram, Konya";
-const HOME_TITLE_NEW = "Elçi Veteriner Kliniği | Konya Meram Veteriner Hizmetleri";
+const HOME_TITLE_NEW = "Elçi Veteriner Kliniği | Meram / Konya";
 const HOME_DESCRIPTION_OLD = "Elçi Veteriner Kliniği, Meram Konya'da kedi ve köpekler için muayene, laboratuvar, aşı, kısırlaştırma, cerrahi ve ağız-diş sağlığı hizmetleri sunar.";
 const HOME_DESCRIPTION_NEW = "Elçi Veteriner Kliniği, Konya Meram'da kedi ve köpekler için muayene, laboratuvar, aşı, kısırlaştırma, cerrahi ve ağız-diş sağlığı hizmetleri sunar.";
 const FAVICON_LINK = '<link rel="icon" type="image/png" href="/assets/img/uploads/elci-logo.png"/>';
