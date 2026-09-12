@@ -11,6 +11,7 @@ const HOME_TITLE_PREVIOUS = "Elçi Veteriner Kliniği | Meram, Konya";
 const HOME_TITLE_NEW = "Elçi Veteriner Kliniği | Konya Meram Veteriner Hizmetleri";
 const HOME_DESCRIPTION_OLD = "Elçi Veteriner Kliniği, Meram Konya'da kedi ve köpekler için muayene, laboratuvar, aşı, kısırlaştırma, cerrahi ve ağız-diş sağlığı hizmetleri sunar.";
 const HOME_DESCRIPTION_NEW = "Elçi Veteriner Kliniği, Konya Meram'da kedi ve köpekler için muayene, laboratuvar, aşı, kısırlaştırma, cerrahi ve ağız-diş sağlığı hizmetleri sunar.";
+const FAVICON_LINK = '<link rel="icon" type="image/png" href="/assets/img/uploads/elci-logo.png"/>';
 
 async function collectFiles(dir) {
   const entries = await fs.readdir(dir, { withFileTypes: true });
@@ -28,6 +29,23 @@ function normalizeSeo(relativePath, source) {
     .split(OLD_ORIGIN).join(PRIMARY_ORIGIN)
     .split(HOME_TITLE_OLD).join(HOME_TITLE_NEW)
     .split(HOME_TITLE_PREVIOUS).join(HOME_TITLE_NEW);
+
+  if (relativePath.endsWith(".html")) {
+    // Reuse the existing clinic logo as a browser favicon. This only adds document
+    // metadata and does not affect application scripts, forms, redirects or functions.
+    if (!/rel=["'](?:shortcut\s+)?icon["']/i.test(output)) {
+      output = output.replace(/<\/head>/i, `${FAVICON_LINK}\n</head>`);
+    }
+
+    // The visible brand name is already present beside this decorative logo. Giving the
+    // image a descriptive alt also satisfies crawlers while the surrounding aria-hidden
+    // wrapper keeps screen-reader output from being duplicated where applicable.
+    output = output
+      .split('src="/assets/img/uploads/elci-logo.png?v=3" alt=""')
+      .join('src="/assets/img/uploads/elci-logo.png?v=3" alt="Elçi Veteriner Kliniği logosu"')
+      .split('src="/assets/img/uploads/elci-logo.png" alt=""')
+      .join('src="/assets/img/uploads/elci-logo.png" alt="Elçi Veteriner Kliniği logosu"');
+  }
 
   if (relativePath === "index.html") {
     output = output
