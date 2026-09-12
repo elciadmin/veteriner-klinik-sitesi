@@ -1,6 +1,6 @@
 {
   "published": true,
-  "title": "Hoş Geldiniz: Kliniğimizin Resmî Web Sitesi Yayında",
+  "title": "Elçi Veteriner Kliniği Web Sitesi: Hizmetler, Randevu ve Bilgilendirme",
   "date": "2025-09-18T10:00:00+03:00",
   "category": "Klinik Duyuruları",
   "species": "Genel",
@@ -8,14 +8,15 @@
     "duyuru",
     "web sitesi"
   ],
-  "summary": "Elçi Veteriner Kliniği’nin yeni web sitesi yayında. Randevu, hizmetler ve iletişim artık çok daha hızlı.",
+  "summary": "Elçi Veteriner Kliniği web sitesinde hizmetlerimizi inceleyebilir, randevu talebi oluşturabilir, sık sorulan sorulara ve veteriner bilgilendirme yazılarına ulaşabilirsiniz.",
   "cover": "/assets/img/uploads/sample1.webp",
-  "content": "Yeni web sitemizle randevu almak, hizmetlerimizi incelemek ve duyurularımızı takip etmek çok daha kolay. Görüş ve önerileriniz için bize yazın.",
+  "content": "<h2>Elçi Veteriner Kliniği’nin resmî web sitesine hoş geldiniz</h2>\n<p>Web sitemizi, kliniğe gelmeden önce ihtiyaç duyabileceğiniz temel bilgilere daha hızlı ulaşabilmeniz için hazırladık. Amacımız yalnızca iletişim bilgisi sunmak değil; hizmetlerimiz, randevu süreci ve genel hayvan sağlığı bilgilendirmelerini tek yerde toplamak.</p>\n<h2>Hizmetlerimizi inceleyin</h2>\n<p>Muayene, klinik içi laboratuvar değerlendirmeleri, aşı ve koruyucu sağlık uygulamaları, kısırlaştırma ve yumuşak doku cerrahisi, ağız-diş sağlığı ve diğer klinik hizmetler hakkında <a href=\"/hizmetler.html\">Hizmetlerimiz</a> sayfasından bilgi alabilirsiniz. Her vaka muayene bulguları ve hastanın ihtiyacına göre ayrı değerlendirilir.</p>\n<h2>Randevu talebi oluşturun</h2>\n<p><a href=\"/hasta-iliskileri.html#online-randevu\">Online randevu</a> alanı üzerinden uygun olduğunuz zamanı ve başvuru nedeninizi iletebilirsiniz. Acil durumlarda çevrim içi form yanıtını beklemek yerine doğrudan telefonla kliniğe ulaşmanız daha uygundur.</p>\n<h2>Sık sorulan sorulara göz atın</h2>\n<p>Operasyon hazırlığı, aşı, laboratuvar, randevu ve klinik süreçler hakkında en sık karşılaştığımız soruları <a href=\"/sss.html\">Sık Sorulan Sorular</a> bölümünde topluyoruz. Bu alanı yeni sorular geldikçe güncellemeyi sürdüreceğiz.</p>\n<h2>Veteriner bilgilendirme yazıları</h2>\n<p><a href=\"/blog.html\">Blog</a> bölümünde kedi ve köpek sağlığı hakkında genel bilgilendirme içerikleri yayımlıyoruz. Aşılar, ağız ve diş sağlığı, sıcak hava riskleri, kısırlaştırma ve acil durumda güvenli ilk yaklaşım gibi konuları anlaşılır biçimde ele alıyoruz.</p>\n<h2>Konum ve iletişim</h2>\n<p>Elçi Veteriner Kliniği, Havzan Mahallesi Yeni Meram Caddesi 17/1 Meram/Konya adresinde hizmet vermektedir. Yol tarifi, telefon ve güncel çalışma saatleri için sitenin iletişim alanlarını kullanabilirsiniz.</p>\n<p><strong>Not:</strong> Web sitesindeki sağlık içerikleri genel bilgilendirme amaçlıdır; muayene, tanı ve hastaya özel tedavi planının yerini tutmaz.</p>",
   "advanced": {
     "slug": "hos-geldiniz-web-sitesi-yayinda",
-    "seoTitle": "Elçi Veteriner | Yeni Web Sitemiz Yayında",
-    "seoDescription": "Randevu, hizmetler, iletişim ve duyurular artık daha hızlı ve kolay.",
+    "seoTitle": "Elçi Veteriner Kliniği | Web Sitesi ve Online Randevu",
+    "seoDescription": "Elçi Veteriner Kliniği web sitesinde hizmetleri inceleyin, online randevu talebi oluşturun, SSS ve veteriner sağlık yazılarına ulaşın.",
     "youtubeId": "",
-    "author": "Elçi Veteriner"
-  }
+    "author": "Elçi Veteriner Kliniği"
+  },
+  "updatedAt": "2026-09-12T15:48:00+03:00"
 }
