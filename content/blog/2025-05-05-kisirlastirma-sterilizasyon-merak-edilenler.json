@@ -1,6 +1,6 @@
 {
   "published": true,
-  "title": "Kısırlaştırma (Sterilizasyon) Hakkında Merak Edilenler",
+  "title": "Kedi ve Köpeklerde Kısırlaştırma: Öncesi, Sonrası ve Sık Sorulanlar",
   "date": "2025-05-05T13:20:00+03:00",
   "category": "Cerrahi ve Operasyonlar",
   "species": "Kedi ve Köpek",
@@ -9,14 +9,15 @@
     "operasyon",
     "iyileşme"
   ],
-  "summary": "Operasyon süreci, iyileşme dönemi ve uzun vadeli sağlık faydaları.",
+  "summary": "Kısırlaştırma kararında zamanlama, operasyon öncesi değerlendirme, iyileşme süreci ve hayvana özel yarar–risk dengesi.",
   "cover": "/assets/img/uploads/sterilizasyon.jpg",
-  "content": "Kısırlaştırma; bazı tümör risklerini düşürür, istenmeyen gebelikleri önler ve davranışsal faydalar sağlayabilir.",
+  "content": "<h2>Kısırlaştırma kararı neden her hayvanda aynı değildir?</h2>\n<p>Kısırlaştırma, üremenin kontrolü için yaygın kullanılan cerrahi yöntemlerden biridir; ancak ideal zamanlama ve yönteme karar verirken tür, ırk, yaş, cinsiyet, vücut gelişimi, mevcut hastalıklar, yaşam tarzı ve üreme planı birlikte değerlendirilmelidir. Güncel yaklaşım, her kedi ve köpek için otomatik olarak aynı yaşta aynı kararın verilmesi yerine bireysel yarar–risk değerlendirmesini öne çıkarır.</p>\n<h2>Operasyon öncesinde neler değerlendirilir?</h2>\n<p>Genel muayene, kilo ve vücut kondisyonu, kalp-solunum bulguları ve hastanın geçmişi operasyon planının temelini oluşturur. Yaş, klinik bulgular ve anestezi riski doğrultusunda kan tetkikleri veya ek değerlendirmeler önerilebilir. Açlık süresi ve düzenli kullanılan ilaçlar için kliniğin verdiği talimatlar esas alınmalıdır.</p>\n<h2>Operasyon günü ne beklenir?</h2>\n<p>Hasta kabulünde son sağlık durumu tekrar kontrol edilir. Cerrahi yöntem ve anestezi planı hastaya göre belirlenir. Operasyon sonrasında uyanma, ağrı kontrolü, vücut ısısı ve genel durum takip edilir; taburculuk zamanı hastanın toparlanmasına göre planlanır.</p>\n<h2>Evde iyileşme döneminde nelere dikkat edilir?</h2>\n<p>İlk günlerde hareketin sınırlandırılması, yara bölgesinin temiz ve kuru tutulması ve hastanın yarayı yalamasının önlenmesi önemlidir. İlaçlar yalnızca reçete edilen doz ve sürede kullanılmalıdır. İştah, idrar-dışkılama, aktivite ve yara görünümü günlük olarak takip edilmelidir.</p>\n<h2>Hangi durumlarda kliniğe ulaşılmalı?</h2>\n<p>Belirgin kanama, hızla artan şişlik, yara hattında açılma, kötü kokulu akıntı, tekrarlayan kusma, solunum güçlüğü, aşırı halsizlik veya beklenenden uzun süren iştahsızlık durumunda veteriner hekimle iletişime geçilmelidir.</p>\n<h2>Uzun vadeli etkiler nasıl değerlendirilir?</h2>\n<p>Kısırlaştırmanın üreme kontrolü ve bazı hastalık riskleri açısından yararları olabilir; buna karşılık vücut ağırlığı yönetimi ve bazı bireysel sağlık riskleri de değerlendirilmelidir. Bu nedenle karar, yalnızca “rutin işlem” olarak değil, hayvanın tüm yaşam planı içinde ele alınmalıdır.</p>\n<p><strong>Not:</strong> Bu içerik genel bilgilendirme amaçlıdır; operasyon kararı ve zamanlaması muayene sonrasında hastaya özel olarak planlanmalıdır.</p>",
   "advanced": {
     "slug": "kisirlastirma-sterilizasyon-merak-edilenler",
-    "seoTitle": "Kısırlaştırma Rehberi | Elçi Veteriner",
-    "seoDescription": "Operasyon öncesi-sonrası süreçler ve uzun vadeli sağlık etkileri.",
+    "seoTitle": "Kedi ve Köpeklerde Kısırlaştırma | Elçi Veteriner Kliniği",
+    "seoDescription": "Kedi ve köpeklerde kısırlaştırma öncesi değerlendirme, operasyon sonrası bakım, iyileşme ve hayvana özel zamanlama hakkında bilgilendirme.",
     "youtubeId": "",
-    "author": "Elçi Veteriner"
-  }
+    "author": "Elçi Veteriner Kliniği"
+  },
+  "updatedAt": "2026-09-12T15:35:00+03:00"
 }
