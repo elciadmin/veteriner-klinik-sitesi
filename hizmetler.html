@@ -885,9 +885,9 @@
       menuBtn.setAttribute('aria-expanded',String(open));
       menuBtn.innerHTML=open?'<i class="fa-solid fa-xmark"></i>':'<i class="fa-solid fa-bars"></i>';
     }
-    menuBtn?.addEventListener('click',()=>setMenu(!menu.classList.contains('show')));
-    menu?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
-    window.addEventListener('resize',()=>{if(window.innerWidth>900)setMenu(false)});
+    // Mobil menü elci-system.js tarafından yönetilir.
+    
+    
 
     document.querySelectorAll('.service-card details').forEach(detail=>{
       detail.addEventListener('toggle',()=>{
