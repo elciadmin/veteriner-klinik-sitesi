@@ -37,14 +37,12 @@ function normalizeSeo(relativePath, source) {
       output = output.replace(/<\/head>/i, `${FAVICON_LINK}\n</head>`);
     }
 
-    // The visible brand name is already present beside this decorative logo. Giving the
-    // image a descriptive alt also satisfies crawlers while the surrounding aria-hidden
-    // wrapper keeps screen-reader output from being duplicated where applicable.
-    output = output
-      .split('src="/assets/img/uploads/elci-logo.png?v=3" alt=""')
-      .join('src="/assets/img/uploads/elci-logo.png?v=3" alt="Elçi Veteriner Kliniği logosu"')
-      .split('src="/assets/img/uploads/elci-logo.png" alt=""')
-      .join('src="/assets/img/uploads/elci-logo.png" alt="Elçi Veteriner Kliniği logosu"');
+    // Normalize only the clinic logo when its alt is empty. Static pages and generated
+    // blog pages serialize HTML attributes in different orders, so inspect the whole tag.
+    output = output.replace(
+      /<img\b[^>]*src="\/assets\/img\/uploads\/elci-logo\.png(?:\?[^\"]*)?"[^>]*>/gi,
+      tag => tag.replace(/\balt=""/i, 'alt="Elçi Veteriner Kliniği logosu"')
+    );
   }
 
   if (relativePath === "index.html") {
