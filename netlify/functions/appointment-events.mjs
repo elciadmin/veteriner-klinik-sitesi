@@ -6,6 +6,34 @@ const clean = (value, max = 500) => String(value ?? "").replace(/[\u0000-\u0008\
 const first = (data, ...keys) => { for (const key of keys) if (data?.[key] != null && String(data[key]).trim() !== "") return data[key]; return ""; };
 const html = value => clean(value, 2000).replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
 
+const COMMON_EMAIL_TYPOS = new Set([
+  "gmial.com","gamil.com","gmai.com","gmail.con",
+  "hotnail.com","hotmai.com","hotmail.con",
+  "outlok.com","outllook.com","outlook.con",
+  "yaho.com","yahoo.con"
+]);
+
+function normalizeTrPhone(value) {
+  let digits = String(value ?? "").replace(/\D/g, "");
+  if (digits.startsWith("0090")) digits = digits.slice(4);
+  else if (digits.startsWith("90") && digits.length === 12) digits = digits.slice(2);
+  if (digits.startsWith("0") && digits.length === 11) digits = digits.slice(1);
+  return digits;
+}
+
+function validPhone(value) {
+  const digits = normalizeTrPhone(value);
+  return /^[2345]\d{9}$/.test(digits) && !/^(\d)\1{9}$/.test(digits);
+}
+
+function validEmail(value) {
+  const email = String(value ?? "").trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/.test(email)) return false;
+  if (email.includes("..")) return false;
+  const domain = email.split("@")[1] || "";
+  return !COMMON_EMAIL_TYPOS.has(domain);
+}
+
 async function sendEmail(record) {
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.APPOINTMENT_EMAIL_TO || "elcivetklinik@gmail.com";
@@ -41,8 +69,12 @@ export default {
       requestTimestamp:clean(first(data,"talep_zamani"),60),
       history:[{ at:createdAt, by:"system", type:"created", detail:"Randevu talebi oluşturuldu" }]
     };
-    if (!record.ownerName || !record.phone || !record.petName || !record.requestedDate || !record.termsAccepted) {
+    if (!record.ownerName || !record.phone || !record.email || !record.petName || !record.requestedDate || !record.termsAccepted) {
       console.warn("Eksik veya onaysız randevu kaydı özel depoya aktarılmadı.");
+      return;
+    }
+    if (!validPhone(record.phone) || !validEmail(record.email)) {
+      console.warn("Geçersiz telefon veya e-posta içeren randevu kaydı özel depoya aktarılmadı.");
       return;
     }
     const store = getStore({ name:STORE_NAME, consistency:"strong" });
