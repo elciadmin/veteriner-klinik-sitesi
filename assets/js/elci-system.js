@@ -141,7 +141,7 @@
 
   $$('.dropdown > a').forEach(link => {
     link.addEventListener('click', event => {
-      if (window.innerWidth > 900) return;
+      if (window.innerWidth > 992) return;
       event.stopImmediatePropagation();
       const item = link.closest('.dropdown');
       if (!item) return;
@@ -159,7 +159,7 @@
   $$('a', menu || document).forEach(link => {
     if (!link.closest('.dropdown-content')) link.addEventListener('click', () => setMenu(false));
   });
-  window.addEventListener('resize', () => { if (window.innerWidth > 900) setMenu(false); });
+  window.addEventListener('resize', () => { if (window.innerWidth > 992) setMenu(false); });
 
   // Dialog açıldığında arka sayfanın kaymasını engelle.
   const watchDialog = dialog => {
