@@ -1,0 +1,33 @@
+{
+  "published": true,
+  "featured": false,
+  "title": "TEST-YAYIN-FINAL-2",
+  "date": "2026-09-13T20:48:00.000Z",
+  "unpublishAt": "",
+  "category": "İç Hastalıkları",
+  "categoryMode": "auto",
+  "species": "Genel",
+  "tags": [],
+  "relatedService": "",
+  "summary": "İkinci bağımsız planlı yayın doğrulaması için geçici TEST içeriği.",
+  "cover": "",
+  "coverCaption": "",
+  "design": {
+    "titleFont": "default",
+    "bodyFont": "default",
+    "cardTitleFont": "default",
+    "cardBodyFont": "default"
+  },
+  "contentMode": "standard",
+  "content": "Bu içerik yalnız ikinci planlı yayın çevrimi testi içindir ve test sonunda kaldırılacaktır.",
+  "editorialSections": [],
+  "advanced": {
+    "slug": "",
+    "seoTitle": "",
+    "seoDescription": "",
+    "youtubeId": "",
+    "author": "Elçi Veteriner Kliniği"
+  },
+  "archived": false,
+  "trashed": false
+}
