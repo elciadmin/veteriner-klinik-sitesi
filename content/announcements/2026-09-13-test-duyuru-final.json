@@ -1,5 +1,5 @@
 {
-  "published": true,
+  "published": false,
   "showOnHome": true,
   "title": "TEST-DUYURU-FINAL",
   "message": "Bu duyuru yalnız yayın zamanlaması doğrulaması için kısa süreli TEST kaydıdır.",
@@ -11,5 +11,6 @@
   "linkUrl": "",
   "dismissible": true,
   "archived": false,
-  "trashed": false
+  "trashed": true,
+  "trashedAt": "2026-09-13T20:59:27.039Z"
 }
