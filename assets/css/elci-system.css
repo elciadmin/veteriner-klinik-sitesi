@@ -751,3 +751,46 @@ body>header:first-of-type{
   .elci-consent-actions{display:grid;grid-template-columns:1fr 1fr}
   .elci-consent-actions button{width:100%}
 }
+
+
+/* Mobil hızlı iletişim — tüm herkese açık sayfalarda ortak */
+.mobile-contact-bar{display:none}
+@media(max-width:768px){
+  .mobile-contact-bar{
+    position:fixed;
+    left:10px;
+    right:10px;
+    bottom:10px;
+    z-index:9999;
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:8px;
+    padding:8px;
+    border:1px solid rgba(255,255,255,.30);
+    border-radius:16px;
+    background:rgba(36,16,67,.94);
+    box-shadow:0 14px 34px rgba(0,0,0,.26);
+    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
+  }
+  .mobile-contact-bar a{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    min-width:0;
+    min-height:52px;
+    padding:4px 2px;
+    border-radius:11px;
+    color:#fff!important;
+    text-decoration:none!important;
+    font-size:.76rem;
+    font-weight:800;
+    line-height:1.15;
+    text-align:center;
+  }
+  .mobile-contact-bar a:nth-child(2){background:#1e9b52}
+  .mobile-contact-bar i{font-size:1rem}
+  body.has-mobile-contact-bar{padding-bottom:82px!important}
+}
