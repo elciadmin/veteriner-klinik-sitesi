@@ -1,0 +1,33 @@
+{
+  "published": false,
+  "featured": false,
+  "title": "TEST-YAYIN-DOGRULAMA",
+  "date": "2026-09-13T18:56:00.000Z",
+  "unpublishAt": "",
+  "category": "İç Hastalıkları",
+  "categoryMode": "auto",
+  "species": "Genel",
+  "tags": [],
+  "relatedService": "",
+  "summary": "Geçici yayın sistemi doğrulama kaydıdır; test sonunda kaldırılacaktır.",
+  "cover": "",
+  "coverCaption": "",
+  "design": {
+    "titleFont": "default",
+    "bodyFont": "default",
+    "cardTitleFont": "default",
+    "cardBodyFont": "default"
+  },
+  "contentMode": "standard",
+  "content": "Bu geçici TEST kaydı yalnız yayın güvenliği doğrulaması içindir. Test tamamlandığında kaldırılacaktır.",
+  "editorialSections": [],
+  "advanced": {
+    "slug": "",
+    "seoTitle": "",
+    "seoDescription": "",
+    "youtubeId": "",
+    "author": "Elçi Veteriner Kliniği"
+  },
+  "archived": false,
+  "trashed": false
+}
