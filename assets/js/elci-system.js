@@ -171,6 +171,25 @@
   };
   $$('dialog').forEach(watchDialog);
 
+  // Tüm herkese açık sayfalarda mobil hızlı iletişim çubuğunu standartlaştır.
+  function ensureMobileContactBar(){
+    const blocked = ['/admin', '/finans', '/sistemler'];
+    if (blocked.some(prefix => location.pathname.startsWith(prefix))) return;
+
+    let bar = document.querySelector('.mobile-contact-bar');
+    if (!bar) {
+      bar = document.createElement('nav');
+      bar.className = 'mobile-contact-bar';
+      bar.setAttribute('aria-label', 'Hızlı iletişim');
+      bar.innerHTML = `
+        <a href="tel:+903323223220"><i class="fa-solid fa-phone"></i><span>Ara</span></a>
+        <a href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i><span>Randevu</span></a>
+        <a href="https://www.google.com/maps/search/?api=1&query=El%C3%A7i+Veteriner+Klini%C4%9Fi+Havzan+Meram+Konya" rel="noopener noreferrer" target="_blank"><i class="fa-solid fa-route"></i><span>Yol Tarifi</span></a>`;
+      document.body.appendChild(bar);
+    }
+    document.body.classList.add('has-mobile-contact-bar');
+  }
+
   // Duyurular: ileri tarihli yayına girer, bitiş tarihinde otomatik kaybolur.
   async function loadAnnouncement() {
     const host = $('#siteAnnouncement');
@@ -225,6 +244,7 @@
     }
   }
 
+  ensureMobileContactBar();
   loadAnnouncement();
 
   // Yıl alanları.
