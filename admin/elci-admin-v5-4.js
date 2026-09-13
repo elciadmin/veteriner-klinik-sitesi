@@ -75,18 +75,23 @@
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const attr = esc;
   const normalize = value => String(value || '').toLocaleLowerCase('tr-TR');
+  const ISTANBUL_TIME_ZONE = 'Europe/Istanbul';
   const nowIso = () => new Date().toISOString();
   const dateValue = value => {
     const date = value ? new Date(value) : null;
     return date && !Number.isNaN(date.getTime()) ? date : null;
   };
+  const istanbulParts = value => Object.fromEntries(new Intl.DateTimeFormat('en-CA',{timeZone:ISTANBUL_TIME_ZONE,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date(value)).filter(part=>part.type!=='literal').map(part=>[part.type,part.value]));
   const toInputDateTime = value => {
-    const date = dateValue(value);
-    if (!date) return '';
-    const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
-    return local.toISOString().slice(0,16);
+    const date = dateValue(value); if (!date) return '';
+    const part = istanbulParts(date); return `${part.year}-${part.month}-${part.day}T${part.hour}:${part.minute}`;
   };
-  const fromInputDateTime = value => value ? new Date(value).toISOString() : '';
+  const fromInputDateTime = value => {
+    if (!value) return ''; const match=String(value).match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/); if (!match) return '';
+    const [,year,month,day,hour,minute]=match; const guessed=Date.UTC(year,Number(month)-1,day,hour,minute);
+    const part=istanbulParts(guessed); const offset=Date.UTC(part.year,Number(part.month)-1,part.day,part.hour,part.minute)-guessed;
+    return new Date(guessed-offset).toISOString();
+  };
   const formatDate = (value, withTime = false) => {
     const date = dateValue(value);
     if (!date) return '—';
@@ -599,7 +604,7 @@
     const actions=[];
     if(options.now)actions.push(`<button type="button" class="mini-action" data-date-now="${attr(name)}"><i class="fa-regular fa-clock"></i> Şimdi</button>`);
     if(options.clear)actions.push(`<button type="button" class="mini-action" data-date-clear="${attr(name)}"><i class="fa-solid fa-xmark"></i> Temizle</button>`);
-    return `<div class="field"><div class="field-label-row"><label for="f-${attr(name)}">${esc(label)}</label>${actions.length?`<span class="field-actions">${actions.join('')}</span>`:''}</div><input id="f-${attr(name)}" name="${attr(name)}" type="datetime-local" value="${attr(value)}">${hint?`<small>${esc(hint)}</small>`:''}</div>`;
+    return `<div class="field"><div class="field-label-row"><label for="f-${attr(name)}">${esc(label)}</label>${actions.length?`<span class="field-actions">${actions.join('')}</span>`:''}</div><input id="f-${attr(name)}" name="${attr(name)}" type="datetime-local" value="${attr(value)}"><small>Saat dilimi: Europe/Istanbul${hint?` · ${esc(hint)}`:''}</small></div>`;
   }
   function tagSelector(selected=[]) {
     return `<section class="form-card tag-card"><div class="item-card-head"><div><h2 style="margin:0">Etiketler</h2><small>Bir kelime yazıp “Ara”ya basın veya metinden öneri alın. En fazla 8 etiket.</small></div><strong class="tag-count" id="tagCount">${selected.length}/8</strong></div><div class="tag-tools"><label class="tag-search-label" for="tagSearch">Etiket ara</label><div class="search-box tag-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="tagSearch" type="search" autocomplete="off" placeholder="Örn. aşı, diyabet, cerrahi, kedi…"></div><button type="button" class="button primary" id="tagSearchButton"><i class="fa-solid fa-magnifying-glass"></i> Ara</button><button type="button" class="button" id="suggestTagsButton"><i class="fa-solid fa-wand-magic-sparkles"></i> Metinden öner</button><button type="button" class="button" id="clearTags">Temizle</button></div><div class="tag-suggestions" id="tagSuggestions" hidden><strong>Yazınıza uygun öneriler</strong><div id="tagSuggestionChips"></div></div><div class="selected-tags" id="selectedTags"></div><div class="multi-select" id="tagOptions">${BLOG_TAGS.map(tag=>`<label class="choice" data-tag-label="${attr(normalize(tag))}"><input type="checkbox" name="tags" value="${attr(tag)}" ${selected.includes(tag)?'checked':''}><span>${esc(tag)}</span></label>`).join('')}</div><p class="tag-empty hidden" id="tagEmpty">Aramanızla eşleşen hazır etiket bulunamadı.</p></section>`;
