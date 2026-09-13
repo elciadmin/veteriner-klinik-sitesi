@@ -1,8 +1,8 @@
 {
-  "published": false,
+  "published": true,
   "featured": false,
   "title": "TEST-YAYIN-DOGRULAMA-2",
-  "date": "2026-09-14T05:09:00.000Z",
+  "date": "2026-09-13T19:31:00.000Z",
   "unpublishAt": "",
   "category": "İç Hastalıkları",
   "categoryMode": "auto",
@@ -30,5 +30,8 @@
   },
   "archived": false,
   "trashed": false,
-  "trashedAt": "2026-09-13T19:10:00.000Z"
+  "trashedAt": "2026-09-13T19:10:00.000Z",
+  "_path": "content/blog/2026-09-14-test-yayin-dogrulama-2.json",
+  "_sha": "708295f6fbf60fdbe951d824019d1c2e1e95f7f9",
+  "_slug": "2026-09-14-test-yayin-dogrulama-2"
 }
