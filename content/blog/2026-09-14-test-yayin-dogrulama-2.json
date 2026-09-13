@@ -1,0 +1,33 @@
+{
+  "published": true,
+  "featured": false,
+  "title": "TEST-YAYIN-DOGRULAMA-2",
+  "date": "2026-09-14T05:09:00.000Z",
+  "unpublishAt": "",
+  "category": "İç Hastalıkları",
+  "categoryMode": "auto",
+  "species": "Genel",
+  "tags": [],
+  "relatedService": "",
+  "summary": "Geçici zaman dönüşümü testi; tamamlandığında kaldırılacaktır.",
+  "cover": "",
+  "coverCaption": "",
+  "design": {
+    "titleFont": "default",
+    "bodyFont": "default",
+    "cardTitleFont": "default",
+    "cardBodyFont": "default"
+  },
+  "contentMode": "standard",
+  "content": "Bu TEST içeriği Europe/Istanbul planlı yayın doğrulaması içindir.",
+  "editorialSections": [],
+  "advanced": {
+    "slug": "",
+    "seoTitle": "",
+    "seoDescription": "",
+    "youtubeId": "",
+    "author": "Elçi Veteriner Kliniği"
+  },
+  "archived": false,
+  "trashed": false
+}
