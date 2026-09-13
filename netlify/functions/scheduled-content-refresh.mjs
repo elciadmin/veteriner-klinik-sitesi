@@ -19,4 +19,4 @@ export default async () => {
   const response = await fetch(hook, { method:'POST', headers:{ 'Content-Type':'application/json' }, body:JSON.stringify({ trigger_title:'Elçi zamanlanmış içerik geçişi' }) });
   if (!response.ok) throw new Error(`Build hook başarısız: ${response.status}`);
 };
-export const config = { schedule:'7 * * * *' };
+export const config = { schedule:'*/5 * * * *' };
