@@ -95,7 +95,7 @@
   const formatDate = (value, withTime = false) => {
     const date = dateValue(value);
     if (!date) return '—';
-    return date.toLocaleString('tr-TR', withTime ? {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'} : {day:'2-digit',month:'short',year:'numeric'});
+    return date.toLocaleString('tr-TR', withTime ? {timeZone:ISTANBUL_TIME_ZONE,day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'} : {timeZone:ISTANBUL_TIME_ZONE,day:'2-digit',month:'short',year:'numeric'});
   };
   const slugify = value => String(value || '').toLocaleLowerCase('tr-TR')
     .replace(/ç/g,'c').replace(/ğ/g,'g').replace(/ı/g,'i').replace(/ö/g,'o').replace(/ş/g,'s').replace(/ü/g,'u')
@@ -960,7 +960,8 @@
     try{
       state.saving=true;$$('[data-save]').forEach(button=>button.disabled=true);
       await writeJson(path,data,message,item?item._sha:null,item!=null);clearCollection(name);
-      state.dirty=false;toast('İçerik kaydedildi',`${actionLabel(action)}. Netlify yayını tamamlandığında sitede görünür.`);location.hash=`#collection/${name}`;
+      const scheduleNote=action==='schedule'&&config.dateField?` Planlandı: ${formatDate(data[config.dateField],true)} (Türkiye saati)`:'';
+      state.dirty=false;toast('İçerik kaydedildi',`${actionLabel(action)}.${scheduleNote?` ${scheduleNote}.`:''} Netlify yayını tamamlandığında sitede görünür.`);location.hash=`#collection/${name}`;
     }catch(error){if(/sha|conflict|does not match/i.test(error.message))toast('Başka bir değişiklik bulundu','Listeyi yenileyip tekrar deneyin.','error');else toast('Kaydedilemedi',error.message,'error');}
     finally{state.saving=false;$$('[data-save]').forEach(button=>button.disabled=false);}
   }
