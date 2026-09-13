@@ -29,5 +29,6 @@
     "author": "Elçi Veteriner Kliniği"
   },
   "archived": false,
-  "trashed": false
+  "trashed": true,
+  "trashedAt": "2026-09-13T19:01:00.000Z"
 }
