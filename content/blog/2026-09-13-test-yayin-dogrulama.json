@@ -1,5 +1,5 @@
 {
-  "published": true,
+  "published": false,
   "featured": false,
   "title": "TEST-YAYIN-DOGRULAMA",
   "date": "2026-09-14T02:00:00.000Z",
@@ -29,8 +29,5 @@
     "author": "Elçi Veteriner Kliniği"
   },
   "archived": false,
-  "trashed": false,
-  "_path": "content/blog/2026-09-13-test-yayin-dogrulama.json",
-  "_sha": "212731995908a4370b9533b8e377a4ba69599f86",
-  "_slug": "2026-09-13-test-yayin-dogrulama"
+  "trashed": false
 }
