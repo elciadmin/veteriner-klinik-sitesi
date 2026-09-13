@@ -59,8 +59,9 @@
     "author": "Elçi Veteriner Kliniği"
   },
   "archived": false,
-  "trashed": false,
+  "trashed": true,
   "block-card-1-0": "",
   "block-card-1-1": "/assets/img/uploads/blog/1785935041649-ekran-goruntusu-2025-12-03-224153.png",
-  "block-card-1-2": ""
+  "block-card-1-2": "",
+  "trashedAt": "2026-09-13T11:47:38.166Z"
 }
