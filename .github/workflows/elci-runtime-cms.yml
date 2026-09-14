@@ -1,0 +1,95 @@
+name: Elci Runtime CMS Command
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  run-runtime-command:
+    if: startsWith(github.event.issue.title, '[ELCI-CMS]')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate and call Cloudflare runtime CMS
+        id: call
+        env:
+          API_URL: https://elci-content-api.elcivetklinik.workers.dev
+          ADMIN_TOKEN: ${{ secrets.ELCI_CONTENT_ADMIN_TOKEN }}
+          COMMAND_JSON: ${{ github.event.issue.body }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ -z "${ADMIN_TOKEN:-}" ]; then
+            echo "status=503" >> "$GITHUB_OUTPUT"
+            echo "result=GitHub secret ELCI_CONTENT_ADMIN_TOKEN is not configured." >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if ! echo "$COMMAND_JSON" | jq -e . >/dev/null 2>&1; then
+            echo "status=400" >> "$GITHUB_OUTPUT"
+            echo "result=Issue body must be valid JSON." >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          ACTION="$(echo "$COMMAND_JSON" | jq -r '.action // empty')"
+
+          case "$ACTION" in
+            create|update|publish|schedule|unpublish|trash|restore)
+              ;;
+            *)
+              echo "status=400" >> "$GITHUB_OUTPUT"
+              echo "result=Unsupported action. Allowed: create, update, publish, schedule, unpublish, trash, restore." >> "$GITHUB_OUTPUT"
+              exit 0
+              ;;
+          esac
+
+          TMP_BODY="$(mktemp)"
+          HTTP_CODE="$(curl --silent --show-error \
+            --output "$TMP_BODY" \
+            --write-out "%{http_code}" \
+            --request POST \
+            --header "Authorization: Bearer $ADMIN_TOKEN" \
+            --header "Content-Type: application/json" \
+            --data "$COMMAND_JSON" \
+            "$API_URL/admin/$ACTION")"
+
+          RESPONSE="$(cat "$TMP_BODY")"
+          rm -f "$TMP_BODY"
+
+          {
+            echo "status=$HTTP_CODE"
+            echo "result<<ELCI_RESULT"
+            echo "$RESPONSE" | head -c 6000
+            echo
+            echo "ELCI_RESULT"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Report result to issue
+        uses: actions/github-script@v7
+        env:
+          HTTP_STATUS: ${{ steps.call.outputs.status }}
+          API_RESULT: ${{ steps.call.outputs.result }}
+        with:
+          script: |
+            const status = process.env.HTTP_STATUS || 'unknown';
+            const result = process.env.API_RESULT || '';
+            const ok = /^2\d\d$/.test(status);
+            const body = [
+              ok ? '✅ Runtime CMS command completed.' : '❌ Runtime CMS command failed.',
+              '',
+              'HTTP status: ' + status,
+              '',
+              '```json',
+              result,
+              '```'
+            ].join('\n');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body
+            });
