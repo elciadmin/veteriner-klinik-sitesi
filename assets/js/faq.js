@@ -111,11 +111,24 @@
   window.addEventListener('hashchange', openFromHash);
   if (updated) updated.textContent = new Date().toLocaleDateString('tr-TR', { day:'2-digit', month:'long', year:'numeric' });
 
-  fetch('/assets/data/faq.json?v=20260721', { cache:'no-store' })
-    .then(response => { if (!response.ok) throw new Error(); return response.json(); })
-    .then(data => {
-      items = (Array.isArray(data) ? data : data.items || []).filter(item => item && item.published !== false && item.q && item.a);
-      render();
-    })
-    .catch(() => { content.innerHTML = '<div class="no-results">Sorular şu anda yüklenemedi. Lütfen <a href="tel:+903323223220">kliniğimizi arayın</a>.</div>'; });
+  Promise.all([
+    fetch('/assets/data/faq.json?v=20260721', { cache:'no-store' })
+      .then(response => response.ok ? response.json() : []),
+    fetch('https://elci-content-api.elcivetklinik.workers.dev/content?type=faq', { cache:'no-store' })
+      .then(response => response.ok ? response.json() : { items: [] })
+      .catch(() => ({ items: [] }))
+  ]).then(([localData, runtimeData]) => {
+    const local = Array.isArray(localData) ? localData : localData.items || [];
+    const runtime = (runtimeData.items || []).map(item => ({
+      ...item.data,
+      id: item.data?.id || item.slug,
+      published: true
+    }));
+    const merged = new Map(local.map(item => [item.id || item.slug || item.q, item]));
+    runtime.forEach(item => merged.set(item.id || item.slug || item.q, item));
+    items = [...merged.values()].filter(item => item && item.published !== false && item.q && item.a);
+    render();
+  }).catch(() => {
+    content.innerHTML = '<div class="no-results">Sorular şu anda yüklenemedi. Lütfen <a href="tel:+903323223220">kliniğimizi arayın</a>.</div>';
+  });
 })();
