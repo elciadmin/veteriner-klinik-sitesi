@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Blog Yazısı | Elçi Veteriner Kliniği</title>
+  <meta name="description" content="Elçi Veteriner Kliniği sağlık notları.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/elci-system.css">
+</head>
+<body class="blog-article-page">
+<header>
+  <div class="header-top"><div class="container"><div class="header-contact"><span><i class="fa-solid fa-location-dot"></i> Havzan Mah. Yeni Meram Cad. 17/1 Meram/Konya</span></div><div class="header-contact"><a href="tel:+903323223220"><i class="fa-solid fa-phone"></i> 0332 322 32 20</a><a href="mailto:elcivetklinik@gmail.com"><i class="fa-solid fa-envelope"></i> elcivetklinik@gmail.com</a></div></div></div>
+  <div class="header-main"><div class="container"><div class="logo-text"><a class="brand-lockup" href="/" aria-label="Elçi Veteriner Kliniği ana sayfa"><span class="brand-mark"><img src="/assets/img/uploads/elci-logo.png" alt="" width="54" height="54"></span><span class="brand-copy"><strong>Elçi Veteriner Kliniği</strong><span class="signature-tagline header-signature">Sağlığın Elçi’leriyiz</span></span></a></div><nav aria-label="Birincil"><button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menüyü aç veya kapat" aria-expanded="false" aria-controls="mainMenu"><i class="fa-solid fa-bars"></i></button><ul id="mainMenu"><li><a href="/">Ana Sayfa</a></li><li><a href="/about">Hakkımızda</a></li><li><a href="/hizmetler.html">Hizmetlerimiz</a></li><li><a href="/blog.html" class="active" aria-current="page">Blog</a></li><li><a href="/sss.html">SSS</a></li><li><a href="/hasta-iliskileri.html">Hasta İlişkileri</a></li></ul></nav></div></div>
+</header>
+<div id="siteAnnouncement" class="site-announcement" hidden></div>
+<main class="blog-article-shell">
+  <div class="blog-not-active" id="blogInactive" hidden><h1>Bu yazı şu anda yayında değil.</h1><p>Yazı bulunamadı, henüz yayınlanmamış veya yayın süresi sona ermiş olabilir.</p><a class="btn primary" href="/blog.html">Bloga dön</a></div>
+  <article class="blog-article" id="blogArticle" hidden>
+    <header class="blog-article-header">
+      <span class="blog-article-kicker"><i class="fa-regular fa-file-lines"></i> Elçi sağlık notları</span>
+      <h1 id="runtimeTitle"></h1>
+      <div class="blog-article-meta">
+        <span id="runtimeCategory"><i class="fa-solid fa-layer-group"></i> Genel</span>
+        <span id="runtimeDate"><i class="fa-regular fa-calendar"></i></span>
+        <span><i class="fa-regular fa-user"></i> Elçi Veteriner</span>
+      </div>
+    </header>
+    <div class="blog-article-cover" id="runtimeCoverWrap" hidden><img id="runtimeCover" src="" alt="" onerror="this.src='/assets/img/uploads/elci-logo.png'"></div>
+    <div class="blog-article-content" id="runtimeContent"></div>
+    <footer class="blog-article-actions"><a class="btn" href="/blog.html"><i class="fa-solid fa-arrow-left"></i> Tüm yazılar</a><a class="btn primary" href="/hasta-iliskileri.html#online-randevu"><i class="fa-solid fa-calendar-check"></i> Randevu talebi</a></footer>
+  </article>
+</main>
+<footer class="footer-new"><div class="container footer-container"><div class="footer-col"><h3>Elçi Veteriner Kliniği</h3><p>Meram/Konya'da kedi ve köpekler için anlaşılır bilgilendirme, planlı klinik süreç ve düzenli takip.</p></div><div class="footer-col"><h3>Hızlı bağlantılar</h3><ul class="footer-links"><li><a href="/hizmetler.html">Hizmetlerimiz</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/sss.html">Sık Sorulan Sorular</a></li><li><a href="/hasta-iliskileri.html#online-randevu">Online Randevu</a></li></ul></div><div class="footer-col"><h3>İletişim</h3><ul class="footer-contact"><li><a href="tel:+903323223220">0332 322 32 20</a></li><li><a href="mailto:elcivetklinik@gmail.com">elcivetklinik@gmail.com</a></li><li>Her gün 09.00–21.00</li></ul></div></div><div class="footer-bottom"><div class="container">© <span id="yil"></span> Elçi Veteriner Kliniği · <a href="/kvkk.html">KVKK Aydınlatma Metni</a></div></div></footer>
+<script src="/assets/js/elci-system.js" defer></script>
+<script>
+(() => {
+  const API = 'https://elci-content-api.elcivetklinik.workers.dev';
+  const article = document.getElementById('blogArticle');
+  const inactive = document.getElementById('blogInactive');
+  const params = new URLSearchParams(location.search);
+  const slug = params.get('slug');
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const renderText = value => {
+    const text = String(value || '').trim();
+    if (!text) return '<p>İçerik hazırlanıyor.</p>';
+    return text.split(/\n\s*\n/).map(p => '<p>' + esc(p).replace(/\n/g,'<br>') + '</p>').join('');
+  };
+  const showInactive = () => { article.hidden = true; inactive.hidden = false; };
+  if (!slug) return showInactive();
+  fetch(API + '/content/blog/' + encodeURIComponent(slug), {cache:'no-store'})
+    .then(r => { if (!r.ok) throw new Error('not-found'); return r.json(); })
+    .then(item => {
+      const data = item.data || {};
+      document.getElementById('runtimeTitle').textContent = data.title || slug;
+      document.getElementById('runtimeCategory').innerHTML = '<i class="fa-solid fa-layer-group"></i> ' + esc(data.category || 'Genel');
+      const date = data.date || item.publish_at;
+      document.getElementById('runtimeDate').innerHTML = '<i class="fa-regular fa-calendar"></i> ' + (date ? new Date(date).toLocaleDateString('tr-TR',{day:'2-digit',month:'long',year:'numeric'}) : '');
+      document.getElementById('runtimeContent').innerHTML = renderText(data.content || data.body || data.summary || '');
+      if (data.cover) {
+        const img = document.getElementById('runtimeCover');
+        img.src = data.cover;
+        img.alt = data.title || '';
+        document.getElementById('runtimeCoverWrap').hidden = false;
+      }
+      document.title = (data.title || 'Blog Yazısı') + ' | Elçi Veteriner Kliniği';
+      const desc = document.querySelector('meta[name="description"]');
+      if (desc && data.summary) desc.content = data.summary;
+      const canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      canonical.href = location.origin + '/blog-post.html?slug=' + encodeURIComponent(slug);
+      document.head.appendChild(canonical);
+      article.hidden = false;
+      inactive.hidden = true;
+    })
+    .catch(showInactive);
+})();
+</script>
+</body>
+</html>
