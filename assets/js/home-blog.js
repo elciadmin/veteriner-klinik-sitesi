@@ -31,21 +31,32 @@
     </article>`;
   }
 
-  fetch('/assets/data/blog.json?v=20260721', { cache:'no-store' })
-    .then(response => {
-      if (!response.ok) throw new Error('Blog verisi yüklenemedi');
-      return response.json();
-    })
-    .then(data => {
-      const posts = (Array.isArray(data) ? data : data.posts || [])
-        .filter(isVisible)
-        .sort((a,b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)) || new Date(b.date || 0) - new Date(a.date || 0))
-        .slice(0, 3);
-      grid.innerHTML = posts.length
-        ? posts.map(card).join('')
-        : '<div class="home-blog-empty"><strong>Yeni sağlık notlarımız hazırlanıyor.</strong><span>Yakında burada yayınlanacak.</span></div>';
-    })
-    .catch(() => {
-      grid.innerHTML = '<div class="home-blog-empty"><strong>Yazılar şu anda yüklenemedi.</strong><a href="/blog.html">Blog sayfasını açın</a></div>';
-    });
+  Promise.all([
+    fetch('/assets/data/blog.json?v=20260721', { cache:'no-store' })
+      .then(response => response.ok ? response.json() : []),
+    fetch('https://elci-content-api.elcivetklinik.workers.dev/content?type=blog', { cache:'no-store' })
+      .then(response => response.ok ? response.json() : { items: [] })
+      .catch(() => ({ items: [] }))
+  ]).then(([localData, runtimeData]) => {
+    const local = Array.isArray(localData) ? localData : localData.posts || [];
+    const runtime = (runtimeData.items || []).map(item => ({
+      ...item.data,
+      slug: item.slug,
+      published: true,
+      date: item.data?.date || item.publish_at,
+      dateLabel: item.data?.dateLabel || (item.publish_at ? new Date(item.publish_at).toLocaleDateString('tr-TR') : ''),
+      url: item.data?.url || `/blog-post.html?slug=${encodeURIComponent(item.slug)}`
+    }));
+    const merged = new Map(local.map(post => [post.slug || post.id || post.title, post]));
+    runtime.forEach(post => merged.set(post.slug || post.id || post.title, post));
+    const posts = [...merged.values()]
+      .filter(isVisible)
+      .sort((a,b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)) || new Date(b.date || 0) - new Date(a.date || 0))
+      .slice(0, 3);
+    grid.innerHTML = posts.length
+      ? posts.map(card).join('')
+      : '<div class="home-blog-empty"><strong>Yeni sağlık notlarımız hazırlanıyor.</strong><span>Yakında burada yayınlanacak.</span></div>';
+  }).catch(() => {
+    grid.innerHTML = '<div class="home-blog-empty"><strong>Yazılar şu anda yüklenemedi.</strong><a href="/blog.html">Blog sayfasını açın</a></div>';
+  });
 })();
