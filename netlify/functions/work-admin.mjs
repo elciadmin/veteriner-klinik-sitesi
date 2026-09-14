@@ -55,7 +55,9 @@ function need(actor, permission) {
 async function gh(path, init={}) {
   const token=process.env.WORK_ADMIN_GITHUB_TOKEN;
   if(!token) throw Object.assign(new Error('Work GitHub credential is not configured'),{status:503});
-  const response=await fetch(API+path.split('/').map(encodeURIComponent).join('/'),{...init,headers:{Accept:'application/vnd.github+json',Authorization:'Bearer '+token,'X-GitHub-Api-Version':'2022-11-28',...(init.headers||{})}});
+  const [pathname, query=''] = String(path).split('?');
+  const target=API+pathname.split('/').map(encodeURIComponent).join('/')+(query?'?'+query:'');
+  const response=await fetch(target,{...init,headers:{Accept:'application/vnd.github+json',Authorization:'Bearer '+token,'X-GitHub-Api-Version':'2022-11-28',...(init.headers||{})}});
   const text=await response.text(); let data={}; try{data=JSON.parse(text)}catch{}
   if(!response.ok) throw Object.assign(new Error(data.message||'GitHub content operation failed'),{status:response.status,data});
   return data;
