@@ -82,7 +82,9 @@ async function removeFile(path,sha,message) {
   return gh(path,{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,sha,branch:BRANCH})});
 }
 function validate(type,data) {
-  if(!data||typeof data!=='object'||Array.isArray(data)) throw Object.assign(new Error('Invalid schema'),{status:400});
+  if(data==null||typeof data!=='object') throw Object.assign(new Error('Invalid schema'),{status:400});
+  if(Object.hasOwn(DOCUMENTS,type)) { if(JSON.stringify(data).length>MAX_JSON) throw Object.assign(new Error('Content too large'),{status:400}); return; }
+  if(Array.isArray(data)) throw Object.assign(new Error('Invalid schema'),{status:400});
   if(type==='blog'&&(!clean(data.title,180)||!clean(data.summary,600))) throw Object.assign(new Error('Blog title and summary are required'),{status:400});
   if(type==='announcements'&&(!clean(data.title,180)||!clean(data.message,900))) throw Object.assign(new Error('Announcement title and message are required'),{status:400});
   if(type==='faq'&&(!clean(data.question,240)||!clean(data.answer,2500))) throw Object.assign(new Error('FAQ question and answer are required'),{status:400});
@@ -159,8 +161,10 @@ export default async request => {
       if(DOCUMENTS[type]) { const item=await readFile(DOCUMENTS[type]); return json({items:[{id:type,path:item.path,sha:item.sha,data:item.data}]}); }
       const rows=await listDir(COLLECTIONS[type]); const q=clean(url.searchParams.get('q'),120).toLocaleLowerCase('tr-TR'); const limit=Math.min(Math.max(Number(url.searchParams.get('limit')||30),1),100);
       const hydrated=await Promise.all(rows.map(async r=>{const x=await readFile(r.path);return {id:r.id,path:r.path,sha:x.sha,data:x.data};}));
-      const filtered=hydrated.filter(x=>!q||JSON.stringify(x.data).toLocaleLowerCase('tr-TR').includes(q)).slice(0,limit);
-      return json({items:filtered,nextCursor:filtered.length===limit?filtered[filtered.length-1].id:null});
+      const matching=hydrated.filter(x=>!q||JSON.stringify(x.data).toLocaleLowerCase('tr-TR').includes(q));
+      const cursor=clean(url.searchParams.get('cursor'),180); const start=cursor?Math.max(0,matching.findIndex(x=>x.id===cursor)+1):0;
+      const filtered=matching.slice(start,start+limit); const more=start+filtered.length<matching.length;
+      return json({items:filtered,nextCursor:more?filtered[filtered.length-1].id:null});
     }
     let item;
     if(DOCUMENTS[type]) item=await readFile(DOCUMENTS[type]); else {
