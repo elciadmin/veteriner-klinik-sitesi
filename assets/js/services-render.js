@@ -14,10 +14,18 @@
     const trackHost = document.getElementById('servicesTrack');
     if (!featuredHost && !trackHost) return;
     try {
-      const response = await fetch('/assets/data/services.json', { cache: 'no-store' });
-      if (!response.ok) throw new Error('Hizmet verisi alınamadı');
-      const data = await response.json();
-      const items = (Array.isArray(data.items) ? data.items : [])
+      const [localResponse, runtimeResponse] = await Promise.all([
+        fetch('/assets/data/services.json', { cache: 'no-store' }),
+        fetch('https://elci-content-api.elcivetklinik.workers.dev/content?type=services', { cache: 'no-store' }).catch(() => null)
+      ]);
+      if (!localResponse.ok) throw new Error('Hizmet verisi alınamadı');
+      const localData = await localResponse.json();
+      const runtimeData = runtimeResponse?.ok ? await runtimeResponse.json() : { items: [] };
+      const local = Array.isArray(localData.items) ? localData.items : [];
+      const runtime = (runtimeData.items || []).map(item => ({ ...item.data, id: item.data?.id || item.slug, published: true }));
+      const merged = new Map(local.map(item => [item.id || item.slug || item.title, item]));
+      runtime.forEach(item => merged.set(item.id || item.slug || item.title, item));
+      const items = [...merged.values()]
         .filter(item => item && item.published !== false)
         .sort((a, b) => Number(a.order ?? 999) - Number(b.order ?? 999));
       const explicit = items.filter(item => item.featured === true);
