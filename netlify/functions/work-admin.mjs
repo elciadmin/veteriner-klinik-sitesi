@@ -24,6 +24,7 @@ const idOk=v=>/^[a-z0-9][a-z0-9-]{0,150}$/i.test(String(v||''));
 const pathOk=v=>/^(content\/(blog|announcements|faq|reviews|instagram)\/[a-z0-9][a-z0-9-]{0,150}\.json|assets\/img\/uploads\/[a-z0-9/_-]{1,180}\.(png|jpe?g|webp|gif)|settings\/(home-faq|home-reviews|blog-design)\.json|assets\/data\/(services|successStories)\.json)$/i.test(String(v||''));
 const b64=v=>Buffer.from(String(v),'utf8').toString('base64');
 const unb64=v=>Buffer.from(String(v),'base64').toString('utf8');
+const imageSignatureOk=(bytes,ext)=>{ const h=bytes.toString('hex',0,12); if(ext==='png') return h.startsWith('89504e470d0a1a0a'); if(ext==='gif') return bytes.toString('ascii',0,6)==='GIF87a'||bytes.toString('ascii',0,6)==='GIF89a'; if(ext==='webp') return bytes.toString('ascii',0,4)==='RIFF'&&bytes.toString('ascii',8,12)==='WEBP'; return h.startsWith('ffd8ff'); };
 const now=()=>new Date().toISOString();
 
 function tokens() {
@@ -151,7 +152,7 @@ export default async request => {
     if(action==='mediaCreate') {
       const name=clean(body.name,120).toLowerCase().replace(/[^a-z0-9._-]/g,'-');
       const ext=(name.match(/\.(png|jpe?g|webp|gif)$/)||[])[1]; const bytes=Buffer.from(String(body.base64||''),'base64');
-      if(!ext||!bytes.length||bytes.length>MAX_MEDIA) return json({error:'Invalid media file'},400);
+      if(!ext||!bytes.length||bytes.length>MAX_MEDIA||!imageSignatureOk(bytes,ext)) return json({error:'Invalid media file'},400);
       const path='assets/img/uploads/work/'+name;
       await gh(path,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'Work API: media upload',content:bytes.toString('base64'),branch:BRANCH})});
       await audit(store,{action,type:'media',path,actor:actor.id,result:'success'}); return json({path},201);
