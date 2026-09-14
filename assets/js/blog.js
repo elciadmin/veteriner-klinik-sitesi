@@ -114,11 +114,28 @@
 
   search?.addEventListener('input', () => { activePage = 1; render(); });
 
-  fetch(root.dataset.json || '/assets/data/blog.json', { cache: 'no-store' })
-    .then(response => { if (!response.ok) throw new Error(); return response.json(); })
-    .then(data => {
-      posts = (Array.isArray(data) ? data : data.posts || []).filter(isActive).sort((a,b) => new Date(b.date || 0) - new Date(a.date || 0));
-      renderFilters(); renderSidebar(); render();
-    })
-    .catch(() => { grid.innerHTML = '<div class="blog-empty">Yazılar şu anda yüklenemedi. Lütfen kısa süre sonra yeniden deneyin.</div>'; });
+  Promise.all([
+    fetch(root.dataset.json || '/assets/data/blog.json', { cache: 'no-store' })
+      .then(response => response.ok ? response.json() : []),
+    fetch('https://elci-content-api.elcivetklinik.workers.dev/content?type=blog', { cache: 'no-store' })
+      .then(response => response.ok ? response.json() : { items: [] })
+      .catch(() => ({ items: [] }))
+  ]).then(([localData, runtimeData]) => {
+    const local = Array.isArray(localData) ? localData : localData.posts || [];
+    const runtime = (runtimeData.items || []).map(item => ({
+      ...item.data,
+      slug: item.slug,
+      published: true,
+      date: item.data?.date || item.publish_at,
+      dateLabel: item.data?.dateLabel || (item.publish_at ? new Date(item.publish_at).toLocaleDateString('tr-TR') : ''),
+      url: item.data?.url || `/blog-post.html?slug=${encodeURIComponent(item.slug)}`,
+      _runtime: true
+    }));
+    const merged = new Map(local.map(post => [post.slug || post.id || post.title, post]));
+    runtime.forEach(post => merged.set(post.slug || post.id || post.title, post));
+    posts = [...merged.values()].filter(isActive).sort((a,b) => new Date(b.date || 0) - new Date(a.date || 0));
+    renderFilters(); renderSidebar(); render();
+  }).catch(() => {
+    grid.innerHTML = '<div class="blog-empty">Yazılar şu anda yüklenemedi. Lütfen kısa süre sonra yeniden deneyin.</div>';
+  });
 })();
