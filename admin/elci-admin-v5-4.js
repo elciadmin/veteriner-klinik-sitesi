@@ -258,6 +258,94 @@
     return payload;
   }
 
+  const RUNTIME_API = 'https://elci-content-api.elcivetklinik.workers.dev';
+  const RUNTIME_COLLECTIONS = new Set(['blog','announcements','faq']);
+
+  async function runtimeHeaders(jsonBody=false) {
+    const token = await state.user?.jwt?.();
+    if (!token) throw new Error('Yönetici oturumu bulunamadı');
+    return {Authorization:`Bearer ${token}`,Accept:'application/json',...(jsonBody?{'Content-Type':'application/json'}:{})};
+  }
+
+  async function runtimeRequest(path, options={}) {
+    const response = await fetch(`${RUNTIME_API}${path}`, {
+      cache:'no-store',
+      ...options,
+      headers:{...(await runtimeHeaders(options.body != null)),...(options.headers||{})}
+    });
+    let payload={};
+    try { payload = await response.json(); } catch {}
+    if (!response.ok) throw new Error(payload?.error || payload?.detail || `Runtime CMS işlemi tamamlanamadı (${response.status})`);
+    return payload;
+  }
+
+  function runtimePanelItem(name,item) {
+    const data=clone(item?.data||{});
+    const config=COLLECTIONS[name]||{};
+    data.published=Boolean(item?.published);
+    data.archived=Boolean(item?.archived);
+    data.trashed=Boolean(item?.trashed);
+    if(config.dateField && !data[config.dateField] && item?.publish_at)data[config.dateField]=item.publish_at;
+    if(!data.unpublishAt && item?.unpublish_at)data.unpublishAt=item.unpublish_at;
+    data._runtime=true;
+    data._runtimeVersion=Number(item?.version||1);
+    data._slug=item?.slug||'';
+    data._path=null;
+    data._sha=null;
+    return data;
+  }
+
+  async function listRuntimeCollection(name) {
+    if(!RUNTIME_COLLECTIONS.has(name))return[];
+    const payload=await runtimeRequest(`/admin/content?type=${encodeURIComponent(name)}`);
+    return (payload.items||[]).map(item=>runtimePanelItem(name,item));
+  }
+
+  function runtimePayloadData(data) {
+    const clean=clone(data||{});
+    ['_runtime','_runtimeVersion','_slug','_path','_sha','published','archived','trashed','trashedAt'].forEach(key=>delete clean[key]);
+    return clean;
+  }
+
+  function runtimeSlug(name,data,item) {
+    if(item?._slug)return item._slug;
+    return slugify(data?.advanced?.slug||data?.title||data?.message||`${name}-${Date.now()}`);
+  }
+
+  async function runtimeEnsureContent(name,data,item) {
+    const slug=runtimeSlug(name,data,item);
+    const body={type:name,slug,data:runtimePayloadData(data)};
+    if(item?._runtime){
+      await runtimeRequest('/admin/update',{method:'POST',body:JSON.stringify(body)});
+      return slug;
+    }
+    try {
+      await runtimeRequest('/admin/create',{method:'POST',body:JSON.stringify(body)});
+    } catch(error) {
+      if(!/already exists/i.test(error.message))throw error;
+      await runtimeRequest('/admin/update',{method:'POST',body:JSON.stringify(body)});
+    }
+    return slug;
+  }
+
+  async function runtimeSaveEditor(name,data,item,action) {
+    const slug=await runtimeEnsureContent(name,data,item);
+    const config=COLLECTIONS[name]||{};
+    const base={type:name,slug};
+    if(action==='publish'){
+      await runtimeRequest('/admin/publish',{method:'POST',body:JSON.stringify({...base,publish_at:config.dateField?data[config.dateField]||null:null,unpublish_at:data.unpublishAt||null})});
+    }else if(action==='schedule'){
+      await runtimeRequest('/admin/schedule',{method:'POST',body:JSON.stringify({...base,publish_at:config.dateField?data[config.dateField]:null,unpublish_at:data.unpublishAt||null})});
+    }else if(action==='draft'||action==='unpublish'){
+      await runtimeRequest('/admin/unpublish',{method:'POST',body:JSON.stringify(base)});
+    }else if(action==='archive'){
+      await runtimeRequest('/admin/archive',{method:'POST',body:JSON.stringify(base)});
+    }else if(action==='trash'){
+      await runtimeRequest('/admin/trash',{method:'POST',body:JSON.stringify(base)});
+    }
+    return slug;
+  }
+
   async function loadRuntime() {
     try {
       const response = await fetch('/.netlify/functions/admin-runtime', {cache:'no-store'});
@@ -330,13 +418,21 @@
     const key = `collection:${state.branch}:${name}`;
     if (!force && state.cache.has(key)) return clone(state.cache.get(key));
     let files = [];
-    try { files = await listDirectory(config.folder); } catch (error) { if (/not found/i.test(error.message)) return []; throw error; }
+    try { files = await listDirectory(config.folder); } catch (error) { if (!/not found/i.test(error.message)) throw error; }
     const jsonFiles = files.filter(file => file.type === 'file' && file.name.endsWith('.json'));
     const rows = await Promise.all(jsonFiles.map(async file => {
-      try { const raw = await readRaw(file.path); return {...JSON.parse(raw.content),_path:file.path,_sha:raw.sha,_slug:file.name.replace(/\.json$/i,'')}; }
+      try { const raw = await readRaw(file.path); return {...JSON.parse(raw.content),_path:file.path,_sha:raw.sha,_slug:file.name.replace(/\.json$/i,''),_runtime:false}; }
       catch { return null; }
     }));
-    const result = rows.filter(Boolean);
+    const local = rows.filter(Boolean);
+    let runtime=[];
+    if(RUNTIME_COLLECTIONS.has(name)){
+      try { runtime=await listRuntimeCollection(name); }
+      catch(error){ console.warn('Runtime CMS listesi alınamadı, Git içeriği kullanılacak',error); }
+    }
+    const merged=new Map(local.map(item=>[item._slug,item]));
+    runtime.forEach(item=>merged.set(item._slug,item));
+    const result=[...merged.values()];
     state.cache.set(key,result); return clone(result);
   }
   function clearCollection(name) { state.cache.delete(`collection:${state.branch}:${name}`); }
@@ -532,14 +628,14 @@
     const date = config.dateField ? formatDate(item[config.dateField],true) : '';
     const category = item[config.categoryField] || (name==='reviews'?`${item.rating||5} yıldız`:'');
     const secondaryAction = status.key === 'published' || status.key === 'scheduled' ? `<button class="button" data-quick-action="unpublish" data-slug="${attr(item._slug)}">Yayından kaldır</button>` : `<button class="button success" data-quick-action="publish" data-slug="${attr(item._slug)}">Yayınla</button>`;
-    const publicLink=name==='blog'?`<a class="button" href="/blog/${encodeURIComponent(slugify(item.advanced?.slug||item._slug))}.html" target="_blank" rel="noopener"><i class="fa-regular fa-eye"></i> Görüntüle</a>`:'';
+    const publicLink=name==='blog'?`<a class="button" href="${item._runtime?`/blog-post.html?slug=${encodeURIComponent(item._slug)}`:`/blog/${encodeURIComponent(slugify(item.advanced?.slug||item._slug))}.html`}" target="_blank" rel="noopener"><i class="fa-regular fa-eye"></i> Görüntüle</a>`:'';
     return `<article class="content-card"><div><h3>${esc(collectionTitle(name,item))}</h3><p>${esc(truncate(collectionDescription(name,item),150))}</p><div class="content-meta"><span class="status-badge ${status.key}">${esc(status.label)}</span>${date?`<span class="tag"><i class="fa-regular fa-calendar"></i>${esc(date)}</span>`:''}${category?`<span class="tag">${esc(category)}</span>`:''}</div></div><div class="card-actions"><a class="button primary" href="#edit/${name}/${encodeURIComponent(item._slug)}"><i class="fa-solid fa-pen"></i> Düzenle</a>${publicLink}${secondaryAction}<button class="button" data-quick-action="archive" data-slug="${attr(item._slug)}">${item.archived?'Arşivden çıkar':'Arşivle'}</button><button class="button danger" data-quick-action="trash" data-slug="${attr(item._slug)}">${item.trashed?'Geri al':'Çöpe taşı'}</button></div></article>`;
   }
 
   async function quickContentAction(name,slug,action) {
     const items = await listCollection(name); const item = items.find(row=>row._slug===slug); if (!item) return;
     if(action==='trash'&&!item.trashed&&!await confirmAction({title:'Çöpe taşı',message:`“${collectionTitle(name,item)}” çöp kutusuna taşınsın mı?`,action:'trash-confirm',contentId:item._slug}))return;
-    const data = clone(item); delete data._path; delete data._sha; delete data._slug;
+    const data = clone(item); delete data._path; delete data._sha; delete data._slug; delete data._runtime; delete data._runtimeVersion;
     if (action === 'publish') {
       data.published=true; data.archived=false; data.trashed=false;
       const field=COLLECTIONS[name].dateField;if(field && (!data[field] || dateValue(data[field])>new Date()))data[field]=nowIso();
@@ -549,6 +645,15 @@
     if (action === 'archive') { data.archived=!item.archived; data.trashed=false; if(data.archived)data.published=false; }
     if (action === 'trash') { data.trashed=!item.trashed; if(data.trashed){data.published=false;data.archived=false;data.trashedAt=nowIso();}else data.trashedAt=''; }
     try {
+      if(RUNTIME_COLLECTIONS.has(name)){
+        const runtimeItem=item._runtime?item:{...item,_runtime:false};
+        await runtimeEnsureContent(name,data,runtimeItem);
+        if(action==='publish')await runtimeRequest('/admin/publish',{method:'POST',body:JSON.stringify({type:name,slug:item._slug,publish_at:COLLECTIONS[name].dateField?data[COLLECTIONS[name].dateField]||null:null,unpublish_at:data.unpublishAt||null})});
+        if(action==='unpublish')await runtimeRequest('/admin/unpublish',{method:'POST',body:JSON.stringify({type:name,slug:item._slug})});
+        if(action==='archive')await runtimeRequest(item.archived?'/admin/unarchive':'/admin/archive',{method:'POST',body:JSON.stringify({type:name,slug:item._slug})});
+        if(action==='trash')await runtimeRequest(item.trashed?'/admin/restore':'/admin/trash',{method:'POST',body:JSON.stringify({type:name,slug:item._slug})});
+        clearCollection(name); toast('İçerik kaydedildi','Runtime CMS güncellendi; Netlify deploy gerekmez.'); await renderCollection(name); return;
+      }
       await writeJson(item._path,data,`Panel: ${collectionTitle(name,item)} — ${action}`,item._sha);
       clearCollection(name); toast('İçerik kaydedildi','Site yeni sürümü hazırlıyor. Üst çubuktaki durumdan takip edebilirsiniz.'); await renderCollection(name);
     } catch(error) { toast('İşlem yapılamadı',error.message,'error'); }
@@ -954,11 +1059,20 @@
     if(action==='archive'){data.published=false;data.archived=true;data.trashed=false;}
     if(action==='trash'){if(!await confirmAction({title:'Çöpe taşı',message:'Bu içerik çöp kutusuna taşınsın mı?',action:'trash-confirm',contentId:item?item._slug:'new'}))return;data.published=false;data.archived=false;data.trashed=true;data.trashedAt=nowIso();}
     const validation=validateEditor(name,data,action);if(validation){toast('Eksik veya hatalı bilgi',validation,'warning');return;}
-    let path=item?item._path:newPath(name,data);
-    if(!item){const existing=await listCollection(name);if(existing.some(row=>row._path===path))path=path.replace(/\.json$/i,`-${Date.now()}.json`);}
     const message=`Panel: ${collectionTitle(name,data)} — ${actionLabel(action)}`;
     try{
       state.saving=true;$$('[data-save]').forEach(button=>button.disabled=true);
+      if(RUNTIME_COLLECTIONS.has(name)){
+        await runtimeSaveEditor(name,data,item,action);
+        clearCollection(name);
+        const scheduleNote=action==='schedule'&&config.dateField?` Planlandı: ${formatDate(data[config.dateField],true)} (Türkiye saati)`:'';
+        state.dirty=false;
+        toast('İçerik kaydedildi',`${actionLabel(action)}.${scheduleNote?` ${scheduleNote}.`:''} Runtime CMS anında güncellendi; Netlify deploy gerekmez.`);
+        location.hash=`#collection/${name}`;
+        return;
+      }
+      let path=item?item._path:newPath(name,data);
+      if(!item){const existing=await listCollection(name);if(existing.some(row=>row._path===path))path=path.replace(/\.json$/i,`-${Date.now()}.json`);}
       await writeJson(path,data,message,item?item._sha:null,item!=null);clearCollection(name);
       const scheduleNote=action==='schedule'&&config.dateField?` Planlandı: ${formatDate(data[config.dateField],true)} (Türkiye saati)`:'';
       state.dirty=false;toast('İçerik kaydedildi',`${actionLabel(action)}.${scheduleNote?` ${scheduleNote}.`:''} Netlify yayını tamamlandığında sitede görünür.`);location.hash=`#collection/${name}`;
