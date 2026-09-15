@@ -563,8 +563,8 @@
   async function renderCollection(name) {
     const config = COLLECTIONS[name]; if (!config) throw new Error('İçerik bölümü bulunamadı');
     const items = await listCollection(name);
-    const counts={all:items.length,published:0,scheduled:0,draft:0,archived:0,trash:0};
-    items.forEach(item=>{const key=contentStatus(item,config).key;if(counts[key]!=null)counts[key]++;});
+    const counts={all:0,published:0,scheduled:0,draft:0,archived:0,trash:0};
+    items.forEach(item=>{const key=contentStatus(item,config).key;if(counts[key]!=null)counts[key]++;if(key!=='trash')counts.all++;});
     const selected=state.collectionFilters[name]||'all';
     main.innerHTML = `
       <header class="page-head"><div><span class="kicker">İÇERİK YÖNETİMİ</span><h1>${esc(config.label)}</h1><p>${collectionHelp(name)}</p></div><div class="page-actions"><a class="button primary large" href="#edit/${name}/new"><i class="fa-solid fa-plus"></i> Yeni ${esc(config.singular.toLocaleLowerCase('tr-TR'))}</a></div></header>
@@ -605,6 +605,7 @@
     const sort = $('#collectionSort')?.value || 'newest';
     let items = originalItems.filter(item => {
       const status = contentStatus(item,config).key;
+      if (statusFilter === 'all' && status === 'trash') return false;
       if (statusFilter !== 'all' && status !== statusFilter) return false;
       if (category && item[config.categoryField] !== category) return false;
       if (query && !normalize([collectionTitle(name,item),collectionDescription(name,item),item.category,item.author,item.petName].join(' ')).includes(query)) return false;
@@ -626,11 +627,13 @@
     const category = item[config.categoryField] || (name==='reviews'?`${item.rating||5} yıldız`:'');
     const secondaryAction = status.key === 'published' || status.key === 'scheduled' ? `<button class="button" data-quick-action="unpublish" data-slug="${attr(item._slug)}">Yayından kaldır</button>` : `<button class="button success" data-quick-action="publish" data-slug="${attr(item._slug)}">Yayınla</button>`;
     const publicLink=name==='blog'?`<a class="button" href="${item._runtime?`/blog-post.html?slug=${encodeURIComponent(item._slug)}`:`/blog/${encodeURIComponent(slugify(item.advanced?.slug||item._slug))}.html`}" target="_blank" rel="noopener"><i class="fa-regular fa-eye"></i> Görüntüle</a>`:'';
-    return `<article class="content-card"><div><h3>${esc(collectionTitle(name,item))}</h3><p>${esc(truncate(collectionDescription(name,item),150))}</p><div class="content-meta"><span class="status-badge ${status.key}">${esc(status.label)}</span>${date?`<span class="tag"><i class="fa-regular fa-calendar"></i>${esc(date)}</span>`:''}${category?`<span class="tag">${esc(category)}</span>`:''}</div></div><div class="card-actions"><a class="button primary" href="#edit/${name}/${encodeURIComponent(item._slug)}"><i class="fa-solid fa-pen"></i> Düzenle</a>${publicLink}${secondaryAction}<button class="button" data-quick-action="archive" data-slug="${attr(item._slug)}">${item.archived?'Arşivden çıkar':'Arşivle'}</button><button class="button danger" data-quick-action="trash" data-slug="${attr(item._slug)}">${item.trashed?'Geri al':'Çöpe taşı'}</button></div></article>`;
+    const actions=status.key==='trash'?`<button class="button success" data-quick-action="restore" data-slug="${attr(item._slug)}">Geri yükle</button><button class="button danger" data-quick-action="permanent-delete" data-slug="${attr(item._slug)}">Kalıcı sil</button>`:`<a class="button primary" href="#edit/${name}/${encodeURIComponent(item._slug)}"><i class="fa-solid fa-pen"></i> Düzenle</a>${publicLink}${secondaryAction}<button class="button" data-quick-action="archive" data-slug="${attr(item._slug)}">${item.archived?'Arşivden çıkar':'Arşivle'}</button><button class="button danger" data-quick-action="trash" data-slug="${attr(item._slug)}">Çöpe taşı</button>`;
+    return `<article class="content-card"><div><h3>${esc(collectionTitle(name,item))}</h3><p>${esc(truncate(collectionDescription(name,item),150))}</p><div class="content-meta"><span class="status-badge ${status.key}">${esc(status.label)}</span>${date?`<span class="tag"><i class="fa-regular fa-calendar"></i>${esc(date)}</span>`:''}${category?`<span class="tag">${esc(category)}</span>`:''}</div></div><div class="card-actions">${actions}</div></article>`;
   }
 
   async function quickContentAction(name,slug,action) {
     const items = await listCollection(name); const item = items.find(row=>row._slug===slug); if (!item) return;
+    if(action==='permanent-delete'){ await permanentDelete(name,slug); return; }
     if(action==='trash'&&!item.trashed&&!await confirmAction({title:'Çöpe taşı',message:`“${collectionTitle(name,item)}” çöp kutusuna taşınsın mı?`,action:'trash-confirm',contentId:item._slug}))return;
     const data = clone(item); delete data._path; delete data._sha; delete data._slug; delete data._runtime; delete data._runtimeVersion;
     if (action === 'publish') {
@@ -639,6 +642,7 @@
       const end=dateValue(data.unpublishAt);if(end&&end<=new Date())data.unpublishAt='';
     }
     if (action === 'unpublish') data.published=false;
+    if (action === 'restore') { data.published=false; data.trashed=false; data.archived=false; }
     if (action === 'archive') { data.archived=!item.archived; data.trashed=false; if(data.archived)data.published=false; }
     if (action === 'trash') { data.trashed=!item.trashed; if(data.trashed){data.published=false;data.archived=false;data.trashedAt=nowIso();}else data.trashedAt=''; }
     try {
@@ -648,6 +652,7 @@
         if(action==='publish')await runtimeRequest('/admin/publish',{method:'POST',body:JSON.stringify({type:name,slug:item._slug,publish_at:COLLECTIONS[name].dateField?data[COLLECTIONS[name].dateField]||null:null,unpublish_at:data.unpublishAt||null})});
         if(action==='unpublish')await runtimeRequest('/admin/unpublish',{method:'POST',body:JSON.stringify({type:name,slug:item._slug})});
         if(action==='archive')await runtimeRequest(item.archived?'/admin/unarchive':'/admin/archive',{method:'POST',body:JSON.stringify({type:name,slug:item._slug})});
+        if(action==='restore')await runtimeRequest('/admin/restore',{method:'POST',body:JSON.stringify({type:name,slug:item._slug})});
         if(action==='trash')await runtimeRequest(item.trashed?'/admin/restore':'/admin/trash',{method:'POST',body:JSON.stringify({type:name,slug:item._slug})});
         clearCollection(name); toast('İçerik kaydedildi','Runtime CMS güncellendi; Netlify deploy gerekmez.'); await renderCollection(name); return;
       }
