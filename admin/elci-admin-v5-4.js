@@ -258,20 +258,16 @@
     return payload;
   }
 
-  const RUNTIME_API = 'https://elci-content-api.elcivetklinik.workers.dev';
+  const RUNTIME_PROXY = '/.netlify/functions/admin-runtime-content';
   const RUNTIME_COLLECTIONS = new Set(['blog','announcements','faq']);
 
-  async function runtimeHeaders(jsonBody=false) {
+  async function runtimeRequest(path, options={}) {
     const token = await state.user?.jwt?.();
     if (!token) throw new Error('Yönetici oturumu bulunamadı');
-    return {Authorization:`Bearer ${token}`,Accept:'application/json',...(jsonBody?{'Content-Type':'application/json'}:{})};
-  }
-
-  async function runtimeRequest(path, options={}) {
-    const response = await fetch(`${RUNTIME_API}${path}`, {
-      cache:'no-store',
+    const response = await fetch(`${RUNTIME_PROXY}?path=${encodeURIComponent(path)}`, {
+      cache:'no-store', credentials:'same-origin',
       ...options,
-      headers:{...(await runtimeHeaders(options.body != null)),...(options.headers||{})}
+      headers:{Authorization:`Bearer ${token}`,Accept:'application/json',...(options.body?{'Content-Type':'application/json'}:{}),...(options.headers||{})}
     });
     let payload={};
     try { payload = await response.json(); } catch {}
@@ -289,6 +285,7 @@
     if(!data.unpublishAt && item?.unpublish_at)data.unpublishAt=item.unpublish_at;
     data._runtime=true;
     data._runtimeVersion=Number(item?.version||1);
+    data._runtimeStatus=item?.status||'';
     data._slug=item?.slug||'';
     data._path=null;
     data._sha=null;
