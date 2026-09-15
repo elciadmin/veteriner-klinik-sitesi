@@ -1,5 +1,5 @@
 const API_BASE = 'https://elci-content-api.elcivetklinik.workers.dev';
-const ALLOWED_PATH = /^\/admin\/(?:content(?:\?(?:type=[a-z]+)?)?|create|update|publish|schedule|unpublish|trash|restore|archive|unarchive)$/;
+const ALLOWED_PATH = /^\/admin\/(?:content(?:\?(?:type=[a-z]+)?)?|create|update|publish|schedule|unpublish|trash|restore|archive|unarchive|permanent-delete)$/;
 const json = (data, status = 200) => Response.json(data, { status, headers: { 'Cache-Control':'no-store, private', 'X-Content-Type-Options':'nosniff' } });
 
 async function identityUser(request) {
