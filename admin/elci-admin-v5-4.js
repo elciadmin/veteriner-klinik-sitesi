@@ -300,7 +300,7 @@
 
   function runtimePayloadData(data) {
     const clean=clone(data||{});
-    ['_runtime','_runtimeVersion','_slug','_path','_sha','published','archived','trashed','trashedAt'].forEach(key=>delete clean[key]);
+    ['_runtime','_runtimeVersion','_runtimeStatus','_slug','_path','_sha','published','archived','trashed','trashedAt'].forEach(key=>delete clean[key]);
     return clean;
   }
 
