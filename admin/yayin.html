@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="theme-color" content="#35105f">
+  <title>Elçi Yayın Merkezi</title>
+  <link rel="icon" href="/assets/img/uploads/elci-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/admin/elci-publisher.css?v=20260926">
+</head>
+<body>
+  <section class="login" id="login">
+    <div class="login-card">
+      <img src="/assets/img/uploads/elci-logo.png" alt="Elçi Veteriner Kliniği">
+      <span>TEK NOKTADAN YAYIN</span>
+      <h1>Elçi Yayın Merkezi</h1>
+      <p>Bir kez hazırla, bağlı kanalların tamamına tek tıkla gönder.</p>
+      <button id="loginButton"><i class="fa-solid fa-lock"></i> Güvenli giriş</button>
+    </div>
+  </section>
+
+  <div class="app hidden" id="app">
+    <header class="topbar">
+      <a href="/admin/" class="brand">
+        <img src="/assets/img/uploads/elci-logo.png" alt="">
+        <div><strong>Elçi Yayın Merkezi</strong><small>Yönetim Merkezi</small></div>
+      </a>
+      <div class="top-actions">
+        <span id="userEmail"></span>
+        <a href="/admin/" class="soft"><i class="fa-solid fa-arrow-left"></i> Yönetim merkezi</a>
+        <button id="logoutButton" class="soft"><i class="fa-solid fa-right-from-bracket"></i> Çıkış</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <span class="eyebrow">HER YERDE YAYINLA</span>
+          <h1>İçeriği bir kez hazırla.</h1>
+          <p>Web sitesi, Instagram, Facebook, YouTube ve Google İşletme için dağıtımı tek işlemden yönet.</p>
+        </div>
+        <div class="hero-status"><strong id="readyCount">—</strong><span>kanal hazır</span></div>
+      </section>
+
+      <section class="layout">
+        <form id="publishForm" class="card editor">
+          <div class="card-head">
+            <div><span class="eyebrow">YAYIN</span><h2>Yeni içerik</h2></div>
+            <button type="button" id="selectReady" class="outline">Hazır kanalları seç</button>
+          </div>
+
+          <label>Başlık
+            <input id="title" maxlength="180" required placeholder="Örn. Kedilerde ağız ve diş sağlığı">
+          </label>
+
+          <label>Yayın metni
+            <textarea id="text" maxlength="5000" required placeholder="Tek ana metni buraya yazın."></textarea>
+          </label>
+
+          <label>Görsel / video bağlantısı
+            <input id="mediaUrl" type="url" placeholder="https://.../gorsel.jpg veya video.mp4">
+            <small>Instagram ve YouTube için medya gerekir. Sonraki adımda doğrudan dosya yükleme de eklenecek.</small>
+          </label>
+
+          <div class="channels" id="channels"></div>
+
+          <label class="privacy">YouTube görünürlüğü
+            <select id="youtubePrivacy">
+              <option value="public">Herkese açık</option>
+              <option value="unlisted">Liste dışı</option>
+              <option value="private">Gizli</option>
+            </select>
+          </label>
+
+          <button class="publish" id="publishButton" type="submit">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span>HER YERDE YAYINLA</span>
+          </button>
+          <p class="hint">Bir kanal hata verirse diğer kanallar durmaz. Her kanalın sonucu ayrı gösterilir.</p>
+        </form>
+
+        <aside class="side">
+          <section class="card">
+            <div class="card-head"><div><span class="eyebrow">BAĞLANTILAR</span><h2>Kanal durumu</h2></div><button id="refresh" class="icon" title="Yenile"><i class="fa-solid fa-rotate"></i></button></div>
+            <div id="channelStatus" class="status-list"></div>
+          </section>
+
+          <section class="card">
+            <div class="card-head"><div><span class="eyebrow">SONUÇ</span><h2>Son yayın</h2></div></div>
+            <div id="results" class="results empty">Henüz yayın yapılmadı.</div>
+          </section>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script src="/admin/elci-publisher.js?v=20260926"></script>
+</body>
+</html>
