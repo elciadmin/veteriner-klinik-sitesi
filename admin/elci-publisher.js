@@ -15,6 +15,7 @@
   };
   let user = null;
   let status = {};
+  let connectionState = {};
 
   const esc = value => String(value ?? "").replace(/[&<>"']/g, char => ({
     "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
@@ -31,6 +32,24 @@
   async function authHeaders() {
     const token = await (user && user.jwt ? user.jwt() : null);
     return token ? {Authorization:"Bearer " + token} : {};
+  }
+
+  async function oauthApi(method, action, body) {
+    const response = await fetch("/.netlify/functions/publisher-oauth?action=" + encodeURIComponent(action), {
+      method:method || "GET",
+      cache:"no-store",
+      credentials:"same-origin",
+      headers:Object.assign(
+        {},
+        await authHeaders(),
+        {Accept:"application/json"},
+        body ? {"Content-Type":"application/json"} : {}
+      ),
+      body:body ? JSON.stringify(body) : undefined
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw Object.assign(new Error(data.error || "Bağlantı işlemi başarısız"),{code:data.code||""});
+    return data;
   }
 
   async function api(method, body) {
@@ -95,6 +114,69 @@
       if (note) note.textContent = applicable ? "Yayına hazır" : "Bu medya türü için uygun değil";
       if (!applicable) input.checked = false;
     });
+  }
+
+  function renderConnections(data) {
+    connectionState = data || {};
+    const root = $("#connections");
+    const google = data.google || {};
+    const meta = data.meta || {};
+    const setup = data.appSetup || {};
+
+    const googleText = google.connected
+      ? (google.gbpReady ? "YouTube + Google İşletme bağlı" : "YouTube bağlı · Google İşletme erişimi bekleniyor")
+      : (setup.google ? "Bağlanmaya hazır" : "Google OAuth uygulama bilgileri eksik");
+    const metaText = meta.connected
+      ? (meta.selectedPage ? meta.selectedPage.name + (meta.selectedPage.instagramUsername ? " · @" + meta.selectedPage.instagramUsername : "") : "Hesap bağlı · Facebook Sayfası seçilmeli")
+      : (setup.meta ? "Bağlanmaya hazır" : "Meta uygulama bilgileri eksik");
+
+    root.innerHTML =
+      '<div class="connection-row">' +
+        '<i class="fa-brands fa-meta"></i>' +
+        '<div><strong>Facebook + Instagram</strong><small>' + esc(metaText) + '</small></div>' +
+        (meta.connected
+          ? '<button type="button" class="disconnect-btn" data-disconnect="meta">Ayır</button>'
+          : '<button type="button" class="connect-btn" data-connect="meta" ' + (setup.meta ? "" : "disabled") + '>Meta’yı Bağla</button>') +
+      '</div>' +
+      '<div class="connection-row">' +
+        '<i class="fa-brands fa-google"></i>' +
+        '<div><strong>YouTube + Google İşletme</strong><small>' + esc(googleText) + '</small></div>' +
+        (google.connected
+          ? '<button type="button" class="disconnect-btn" data-disconnect="google">Ayır</button>'
+          : '<button type="button" class="connect-btn" data-connect="google" ' + (setup.google ? "" : "disabled") + '>Google’ı Bağla</button>') +
+      '</div>' +
+      (!setup.encryption ? '<p class="connection-note">OAuth şifreleme anahtarı eksik; bağlantılar güvenli şekilde saklanamaz.</p>' : '');
+
+    const picker = $("#metaPagePicker");
+    if (meta.connected && !meta.selectedPage && Array.isArray(meta.pages) && meta.pages.length) {
+      picker.classList.remove("hidden");
+      picker.innerHTML =
+        '<strong>Hangi Facebook Sayfası kullanılacak?</strong>' +
+        '<select id="metaPageSelect">' +
+          meta.pages.map(page => '<option value="' + esc(page.id) + '">' + esc(page.name + (page.instagramUsername ? " · @" + page.instagramUsername : "")) + '</option>').join("") +
+        '</select>' +
+        '<button type="button" class="select-page-btn" id="selectMetaPage">Bu sayfayı kullan</button>';
+    } else {
+      picker.classList.add("hidden");
+      picker.innerHTML = "";
+    }
+
+    if (data.lastError?.message) toast(data.lastError.message);
+  }
+
+  async function refreshConnections() {
+    try {
+      const data = await oauthApi("GET","status");
+      renderConnections(data);
+    } catch (error) {
+      $("#connections").innerHTML = '<div class="connection-placeholder">' + esc(error.message) + '</div>';
+    }
+  }
+
+  async function startOAuth(provider) {
+    const data = await oauthApi("POST","start",{provider});
+    if (!data.url) throw new Error("Yetkilendirme adresi alınamadı");
+    window.location.assign(data.url);
   }
 
   function renderStatus() {
@@ -184,6 +266,49 @@
   });
 
   $("#refresh").addEventListener("click", refresh);
+  $("#refreshConnections").addEventListener("click", async () => {
+    await refreshConnections();
+    await refresh();
+  });
+
+  $("#connections").addEventListener("click", async event => {
+    const connect = event.target.closest("[data-connect]");
+    if (connect) {
+      connect.disabled = true;
+      try { await startOAuth(connect.dataset.connect); }
+      catch (error) { toast(error.message); connect.disabled = false; }
+      return;
+    }
+    const disconnect = event.target.closest("[data-disconnect]");
+    if (disconnect) {
+      disconnect.disabled = true;
+      try {
+        await oauthApi("POST","disconnect",{provider:disconnect.dataset.disconnect});
+        toast("Hesap bağlantısı kaldırıldı.");
+        await refreshConnections();
+        await refresh();
+      } catch (error) {
+        toast(error.message);
+        disconnect.disabled = false;
+      }
+    }
+  });
+
+  $("#metaPagePicker").addEventListener("click", async event => {
+    if (!event.target.closest("#selectMetaPage")) return;
+    const pageId = $("#metaPageSelect")?.value;
+    if (!pageId) return;
+    event.target.disabled = true;
+    try {
+      await oauthApi("POST","select-meta",{pageId});
+      toast("Facebook Sayfası seçildi.");
+      await refreshConnections();
+      await refresh();
+    } catch (error) {
+      toast(error.message);
+      event.target.disabled = false;
+    }
+  });
 
   $("#mediaUrl").addEventListener("input", syncApplicability);
 
@@ -274,6 +399,19 @@
     login.classList.add("hidden");
     app.classList.remove("hidden");
     refresh();
+    refreshConnections();
+    const params = new URLSearchParams(location.search);
+    if (params.get("oauth") === "ok") {
+      const provider = params.get("provider");
+      toast(provider === "meta" ? "Meta hesabı bağlandı." : "Google hesabı bağlandı.");
+      history.replaceState({}, "", location.pathname);
+    } else if (params.get("oauth") === "cancelled") {
+      toast("Hesap bağlantısı iptal edildi.");
+      history.replaceState({}, "", location.pathname);
+    } else if (params.get("oauth") === "error") {
+      toast("Hesap bağlantısı tamamlanamadı; bağlantı durumunu kontrol edin.");
+      history.replaceState({}, "", location.pathname);
+    }
   }
 
   function showLogin() {
