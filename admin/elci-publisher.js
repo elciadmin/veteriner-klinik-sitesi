@@ -145,7 +145,8 @@
           ? '<button type="button" class="disconnect-btn" data-disconnect="google">Ayır</button>'
           : '<button type="button" class="connect-btn" data-connect="google" ' + (setup.google ? "" : "disabled") + '>Google’ı Bağla</button>') +
       '</div>' +
-      (!setup.encryption ? '<p class="connection-note">OAuth şifreleme anahtarı eksik; bağlantılar güvenli şekilde saklanamaz.</p>' : '');
+      (!setup.encryption ? '<p class="connection-note">OAuth şifreleme anahtarı eksik; bağlantılar güvenli şekilde saklanamaz.</p>' : '') +
+      (setup.callbackUrl ? '<p class="connection-note"><strong>OAuth dönüş adresi:</strong><br><code>' + esc(setup.callbackUrl) + '</code></p>' : '');
 
     const picker = $("#metaPagePicker");
     if (meta.connected && !meta.selectedPage && Array.isArray(meta.pages) && meta.pages.length) {
