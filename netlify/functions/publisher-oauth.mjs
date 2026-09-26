@@ -202,7 +202,7 @@ async function callback(request){
   }
 }
 
-async function status(){
+async function status(request){
   const [google,meta,lastError]=await Promise.all([
     loadOAuthSecret("google"),
     loadOAuthSecret("meta"),
@@ -242,7 +242,19 @@ async function status(){
     appSetup:{
       google:Boolean(process.env.GOOGLE_OAUTH_CLIENT_ID&&process.env.GOOGLE_OAUTH_CLIENT_SECRET),
       meta:Boolean(process.env.META_APP_ID&&process.env.META_APP_SECRET),
-      encryption:Boolean(process.env.PUBLISHER_TOKEN_ENCRYPTION_KEY)
+      encryption:Boolean(process.env.PUBLISHER_TOKEN_ENCRYPTION_KEY),
+      callbackUrl:callbackUrl(request),
+      googleScopes:[
+        "https://www.googleapis.com/auth/youtube.upload",
+        "https://www.googleapis.com/auth/business.manage"
+      ],
+      metaPermissions:[
+        "pages_show_list",
+        "pages_read_engagement",
+        "pages_manage_posts",
+        "instagram_basic",
+        "instagram_content_publish"
+      ]
     }
   };
 }
@@ -274,7 +286,7 @@ export default async request=>{
   const auth=await authorize();
   if(auth.error) return auth.error;
 
-  if(request.method==="GET"&&action==="status") return json(await status());
+  if(request.method==="GET"&&action==="status") return json(await status(request));
   if(request.method==="POST"){
     try{verifyRequestOrigin(request)}catch{return json({error:"Geçersiz istek kaynağı"},403)}
     const body=await request.json().catch(()=>({}));
