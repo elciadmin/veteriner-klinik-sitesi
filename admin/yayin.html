@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="/admin/elci-publisher.css?v=20260926">
+  <link rel="stylesheet" href="/admin/elci-publisher.css?v=20260926b">
 </head>
 <body>
   <section class="login" id="login">
@@ -91,6 +91,14 @@
 
         <aside class="side">
           <section class="card">
+            <div class="card-head"><div><span class="eyebrow">HESAPLAR</span><h2>Hesapları bağla</h2></div><button id="refreshConnections" class="icon" title="Bağlantıları yenile"><i class="fa-solid fa-rotate"></i></button></div>
+            <div id="connections" class="connections">
+              <div class="connection-placeholder">Bağlantılar kontrol ediliyor…</div>
+            </div>
+            <div id="metaPagePicker" class="meta-picker hidden"></div>
+          </section>
+
+          <section class="card">
             <div class="card-head"><div><span class="eyebrow">BAĞLANTILAR</span><h2>Kanal durumu</h2></div><button id="refresh" class="icon" title="Yenile"><i class="fa-solid fa-rotate"></i></button></div>
             <div id="channelStatus" class="status-list"></div>
           </section>
@@ -111,6 +119,6 @@
 
   <div id="toast" class="toast hidden"></div>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script src="/admin/elci-publisher.js?v=20260926"></script>
+  <script src="/admin/elci-publisher.js?v=20260926b"></script>
 </body>
 </html>
