@@ -1,7 +1,10 @@
+import { randomUUID } from "node:crypto";
+import { getStore } from "@netlify/blobs";
 import { getUser, verifyRequestOrigin } from "@netlify/identity";
 
 const RUNTIME_API = "https://elci-content-api.elcivetklinik.workers.dev";
 const MAX_REMOTE_MEDIA = 80 * 1024 * 1024;
+const PUBLISH_STORE_NAME = "elci-publisher-v1";
 
 const json = (data, status = 200) => Response.json(data, {
   status,
@@ -233,11 +236,38 @@ const adapters = {
   gmb:publishGmb
 };
 
+const publicationStore = () => getStore({name:PUBLISH_STORE_NAME,consistency:"strong"});
+
+async function publicationHistory(limit=12) {
+  const store = publicationStore();
+  const {blobs} = await store.list({prefix:"publication/"});
+  const rows = (await Promise.all(blobs.slice(-100).map(async item => {
+    try { return await store.get(item.key,{type:"json",consistency:"strong"}); }
+    catch { return null; }
+  }))).filter(Boolean);
+  return rows.sort((a,b)=>String(b.createdAt||"").localeCompare(String(a.createdAt||""))).slice(0,limit);
+}
+
+async function publicationRead(id) {
+  if (!/^[0-9a-f-]{20,80}$/i.test(String(id||""))) return null;
+  return publicationStore().get("publication/" + id,{type:"json",consistency:"strong"});
+}
+
+async function publicationSave(record) {
+  await publicationStore().setJSON("publication/" + record.id,record,{
+    metadata:{createdAt:record.createdAt,actor:record.actor || "",complete:Boolean(record.complete)}
+  });
+}
+
 export default async request => {
   const auth = await authorize();
   if (auth.error) return auth.error;
 
-  if (request.method === "GET") return json({channels:channelStatus(),mode:"one-click-publisher-v1"});
+  if (request.method === "GET") return json({
+    channels:channelStatus(),
+    mode:"one-click-publisher-v2",
+    history:await publicationHistory(12)
+  });
   if (request.method !== "POST") return json({error:"Desteklenmeyen yöntem"},405);
 
   try { verifyRequestOrigin(request); }
@@ -247,7 +277,11 @@ export default async request => {
   try { body = await request.json(); }
   catch { return json({error:"Geçersiz veri"},400); }
 
-  const payload = {
+  const retryOf = clean(body.retryPublicationId,80);
+  const previous = retryOf ? await publicationRead(retryOf) : null;
+  if (retryOf && !previous) return json({error:"Yeniden denenecek yayın kaydı bulunamadı"},404);
+
+  const payload = previous ? previous.payload : {
     title:clean(body.title,180),
     text:clean(body.text,5000),
     mediaUrl:clean(body.mediaUrl,2000),
@@ -269,11 +303,26 @@ export default async request => {
     }
   }));
 
-  return json({
+  const createdAt = new Date().toISOString();
+  const record = {
+    id:randomUUID(),
+    retryOf:retryOf || null,
+    actor:auth.user.email || auth.user.id || "yetkili",
+    payload,
+    channels:requested,
+    results,
     ok:results.some(x => x.ok),
     complete:results.every(x => x.ok),
+    createdAt
+  };
+  await publicationSave(record);
+
+  return json({
+    ok:record.ok,
+    complete:record.complete,
     results,
-    publishedAt:new Date().toISOString()
+    publicationId:record.id,
+    publishedAt:createdAt
   });
 };
 
