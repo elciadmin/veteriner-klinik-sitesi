@@ -62,9 +62,14 @@
             <textarea id="text" maxlength="5000" required placeholder="Tek ana metni buraya yazın."></textarea>
           </label>
 
-          <label>Görsel / video bağlantısı
-            <input id="mediaUrl" type="url" placeholder="https://.../gorsel.jpg veya video.mp4">
-            <small>Instagram ve YouTube için medya gerekir. Sonraki adımda doğrudan dosya yükleme de eklenecek.</small>
+          <label>Görsel yükle
+            <input id="mediaFile" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
+            <small id="mediaHelp">JPG, PNG veya WEBP · en fazla 4 MB. Görsel seçerseniz yayın sırasında otomatik yüklenir.</small>
+          </label>
+
+          <label>Video / harici medya bağlantısı
+            <input id="mediaUrl" type="url" placeholder="https://.../video.mp4 veya mevcut görsel bağlantısı">
+            <small>Büyük video dosyalarında şimdilik doğrudan erişilebilir bağlantı kullanılır. Görsel seçildiğinde bu alan boş bırakılabilir.</small>
           </label>
 
           <div class="channels" id="channels"></div>
@@ -93,6 +98,11 @@
           <section class="card">
             <div class="card-head"><div><span class="eyebrow">SONUÇ</span><h2>Son yayın</h2></div></div>
             <div id="results" class="results empty">Henüz yayın yapılmadı.</div>
+          </section>
+
+          <section class="card">
+            <div class="card-head"><div><span class="eyebrow">GEÇMİŞ</span><h2>Son yayınlar</h2></div></div>
+            <div id="history" class="history empty">Yayın geçmişi yükleniyor…</div>
           </section>
         </aside>
       </section>
