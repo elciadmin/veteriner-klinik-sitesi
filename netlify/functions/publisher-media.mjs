@@ -3,11 +3,15 @@ import { getStore } from "@netlify/blobs";
 import { getUser, verifyRequestOrigin } from "@netlify/identity";
 
 const STORE_NAME = "elci-publisher-media-v1";
-const MAX_IMAGE = 4 * 1024 * 1024;
+const MAX_UPLOAD = 5 * 1024 * 1024;
 const TYPES = new Map([
   ["image/jpeg","jpg"],
   ["image/png","png"],
-  ["image/webp","webp"]
+  ["image/webp","webp"],
+  ["video/mp4","mp4"],
+  ["video/webm","webm"],
+  ["video/quicktime","mov"],
+  ["video/x-m4v","m4v"]
 ]);
 const json = (data,status=200) => Response.json(data,{status,headers:{"Cache-Control":"no-store, private","X-Content-Type-Options":"nosniff"}});
 const allowedEmails = () => String(process.env.ADMIN_EMAILS || "").split(",").map(v=>v.trim().toLowerCase()).filter(Boolean);
@@ -58,10 +62,10 @@ export default async request => {
   try { form = await request.formData(); }
   catch { return json({error:"Dosya okunamadı"},400); }
   const file = form.get("file");
-  if (!(file instanceof Blob)) return json({error:"Görsel seçilmedi"},400);
+  if (!(file instanceof Blob)) return json({error:"Medya dosyası seçilmedi"},400);
   const ext = TYPES.get(file.type);
-  if (!ext) return json({error:"Yalnız JPG, PNG veya WEBP yüklenebilir"},400);
-  if (!file.size || file.size > MAX_IMAGE) return json({error:"Görsel en fazla 4 MB olabilir"},400);
+  if (!ext) return json({error:"Yalnız JPG, PNG, WEBP, MP4, MOV, M4V veya WEBM yüklenebilir"},400);
+  if (!file.size || file.size > MAX_UPLOAD) return json({error:"Medya dosyası en fazla 5 MB olabilir"},400);
 
   const id = Date.now().toString(36) + "-" + randomUUID() + "." + ext;
   await store.set(id,await file.arrayBuffer(),{metadata:{
