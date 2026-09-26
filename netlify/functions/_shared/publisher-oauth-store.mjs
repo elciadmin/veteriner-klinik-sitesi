@@ -1,12 +1,33 @@
-import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto";
+import { createCipheriv, createDecipheriv, createHash, randomBytes } from "node:crypto";
 import { getStore } from "@netlify/blobs";
 
 const STORE_NAME = "elci-publisher-oauth-v1";
 
+function dedicatedKey() {
+  return String(process.env.PUBLISHER_TOKEN_ENCRYPTION_KEY || "").trim();
+}
+
+function fallbackSecret() {
+  return String(process.env.GOOGLE_OAUTH_CLIENT_SECRET || process.env.META_APP_SECRET || "").trim();
+}
+
+export function oauthEncryptionConfigured() {
+  const dedicated = dedicatedKey();
+  if (dedicated) return /^[0-9a-f]{64}$/i.test(dedicated);
+  return Boolean(fallbackSecret());
+}
+
 function keyBytes() {
-  const value = String(process.env.PUBLISHER_TOKEN_ENCRYPTION_KEY || "").trim();
-  if (!/^[0-9a-f]{64}$/i.test(value)) throw new Error("OAuth şifreleme anahtarı yapılandırılmamış");
-  return Buffer.from(value,"hex");
+  const dedicated = dedicatedKey();
+  if (dedicated) {
+    if (!/^[0-9a-f]{64}$/i.test(dedicated)) throw new Error("OAuth şifreleme anahtarı geçersiz");
+    return Buffer.from(dedicated,"hex");
+  }
+  const fallback = fallbackSecret();
+  if (!fallback) throw new Error("OAuth şifreleme anahtarı yapılandırılmamış");
+  return createHash("sha256")
+    .update("elci-publisher-oauth-v1\0" + fallback,"utf8")
+    .digest();
 }
 
 export function oauthStore() {
