@@ -5,7 +5,8 @@ import {
   deleteOAuthSecret,
   loadOAuthSecret,
   saveOAuthSecret,
-  saveOAuthState
+  saveOAuthState,
+  oauthEncryptionConfigured
 } from "./_shared/publisher-oauth-store.mjs";
 
 const json=(data,status=200)=>Response.json(data,{status,headers:{"Cache-Control":"no-store, private","X-Content-Type-Options":"nosniff"}});
@@ -242,7 +243,7 @@ async function status(request){
     appSetup:{
       google:Boolean(process.env.GOOGLE_OAUTH_CLIENT_ID&&process.env.GOOGLE_OAUTH_CLIENT_SECRET),
       meta:Boolean(process.env.META_APP_ID&&process.env.META_APP_SECRET),
-      encryption:Boolean(process.env.PUBLISHER_TOKEN_ENCRYPTION_KEY),
+      encryption:oauthEncryptionConfigured(),
       callbackUrl:callbackUrl(request),
       googleScopes:[
         "https://www.googleapis.com/auth/youtube.upload",
