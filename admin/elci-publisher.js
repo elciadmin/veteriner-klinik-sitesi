@@ -68,6 +68,35 @@
     return data;
   }
 
+  function mediaKindFromInputs() {
+    const file = $("#mediaFile")?.files && $("#mediaFile").files[0];
+    if (file) return "image";
+    const value = String($("#mediaUrl")?.value || "").toLowerCase().split("?")[0];
+    if (/\.(mp4|mov|m4v|webm)$/.test(value)) return "video";
+    if (/\.(jpg|jpeg|png|webp)$/.test(value)) return "image";
+    return value ? "unknown" : "none";
+  }
+
+  function isApplicable(channel) {
+    const kind = mediaKindFromInputs();
+    if (channel === "youtube") return kind === "video";
+    if (channel === "instagram") return kind === "image" || kind === "video";
+    return true;
+  }
+
+  function syncApplicability() {
+    document.querySelectorAll('input[name="channel"]').forEach(input => {
+      const item = status[input.value];
+      if (!item?.ready) return;
+      const applicable = isApplicable(input.value);
+      input.disabled = !applicable;
+      input.closest(".channel-choice")?.classList.toggle("disabled",!applicable);
+      const note = input.closest(".channel-choice")?.querySelector("small");
+      if (note) note.textContent = applicable ? "Yayına hazır" : "Bu medya türü için uygun değil";
+      if (!applicable) input.checked = false;
+    });
+  }
+
   function renderStatus() {
     const rows = Object.entries(status);
     statusEl.innerHTML = rows.map(([key,item]) => {
@@ -87,6 +116,7 @@
     }).join("");
 
     $("#readyCount").textContent = rows.filter(([,item]) => item.ready).length + "/" + rows.length;
+    syncApplicability();
   }
 
   function renderResults(results) {
@@ -147,12 +177,15 @@
   }
 
   $("#selectReady").addEventListener("click", () => {
+    syncApplicability();
     document.querySelectorAll('input[name="channel"]:not(:disabled)').forEach(input => {
       input.checked = true;
     });
   });
 
   $("#refresh").addEventListener("click", refresh);
+
+  $("#mediaUrl").addEventListener("input", syncApplicability);
 
   $("#mediaFile").addEventListener("change", () => {
     const file = $("#mediaFile").files && $("#mediaFile").files[0];
@@ -164,6 +197,7 @@
     }
     help.textContent = file.name + " · " + Math.max(1,Math.round(file.size/1024)) + " KB · yayın sırasında otomatik yüklenecek";
     help.classList.add("uploading");
+    syncApplicability();
   });
 
   $("#publishForm").addEventListener("submit", async event => {
