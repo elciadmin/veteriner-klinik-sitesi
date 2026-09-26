@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { getStore } from "@netlify/blobs";
 import { getUser, verifyRequestOrigin } from "@netlify/identity";
+import { loadOAuthSecret } from "./_shared/publisher-oauth-store.mjs";
 
 const RUNTIME_API = "https://elci-content-api.elcivetklinik.workers.dev";
 const MAX_REMOTE_MEDIA = 80 * 1024 * 1024;
@@ -40,7 +41,21 @@ const mediaKind = url => {
   return url ? "unknown" : "none";
 };
 
-function channelStatus() {
+async function connectionSecrets() {
+  const [meta,google] = await Promise.all([
+    loadOAuthSecret("meta"),
+    loadOAuthSecret("google")
+  ]);
+  return {meta,google};
+}
+
+async function channelStatus() {
+  const {meta,google}=await connectionSecrets();
+  const selectedMeta=meta?.selectedPage||null;
+  const facebookReady=Boolean(selectedMeta?.id&&selectedMeta?.pageAccessToken);
+  const instagramReady=Boolean(facebookReady&&selectedMeta?.instagramBusinessAccountId);
+  const googleReady=Boolean(google?.refreshToken);
+  const gbpReady=Boolean(googleReady&&google?.gbp?.ready&&google?.gbp?.selected?.accountId&&google?.gbp?.selected?.locationId);
   return {
     website: {
       ready: envReady("ELCI_RUNTIME_ADMIN_TOKEN"),
@@ -48,24 +63,24 @@ function channelStatus() {
       detail: envReady("ELCI_RUNTIME_ADMIN_TOKEN") ? "Runtime CMS bağlı" : "Runtime CMS anahtarı eksik"
     },
     facebook: {
-      ready: envReady("META_PAGE_ID", "META_PAGE_ACCESS_TOKEN", "META_GRAPH_VERSION"),
+      ready: facebookReady,
       label: "Facebook",
-      detail: envReady("META_PAGE_ID", "META_PAGE_ACCESS_TOKEN", "META_GRAPH_VERSION") ? "Meta Page bağlı" : "Meta bağlantısı bekleniyor"
+      detail: facebookReady ? "Meta Sayfası OAuth ile bağlı" : "Meta bağlantısı bekleniyor"
     },
     instagram: {
-      ready: envReady("INSTAGRAM_BUSINESS_ACCOUNT_ID", "META_PAGE_ACCESS_TOKEN", "META_GRAPH_VERSION"),
+      ready: instagramReady,
       label: "Instagram",
-      detail: envReady("INSTAGRAM_BUSINESS_ACCOUNT_ID", "META_PAGE_ACCESS_TOKEN", "META_GRAPH_VERSION") ? "Instagram Professional bağlı" : "Instagram bağlantısı bekleniyor"
+      detail: instagramReady ? "Instagram Professional OAuth ile bağlı" : (facebookReady ? "Bağlı sayfada Instagram Professional hesabı yok" : "Instagram bağlantısı bekleniyor")
     },
     youtube: {
-      ready: envReady("GOOGLE_OAUTH_CLIENT_ID", "GOOGLE_OAUTH_CLIENT_SECRET", "GOOGLE_OAUTH_REFRESH_TOKEN"),
+      ready: googleReady,
       label: "YouTube",
-      detail: envReady("GOOGLE_OAUTH_CLIENT_ID", "GOOGLE_OAUTH_CLIENT_SECRET", "GOOGLE_OAUTH_REFRESH_TOKEN") ? "Google OAuth bağlı" : "YouTube OAuth bağlantısı bekleniyor"
+      detail: googleReady ? "Google OAuth bağlı" : "YouTube OAuth bağlantısı bekleniyor"
     },
     gmb: {
-      ready: envReady("GOOGLE_OAUTH_CLIENT_ID", "GOOGLE_OAUTH_CLIENT_SECRET", "GOOGLE_OAUTH_REFRESH_TOKEN", "GBP_ACCOUNT_ID", "GBP_LOCATION_ID"),
+      ready: gbpReady,
       label: "Google İşletme",
-      detail: envReady("GOOGLE_OAUTH_CLIENT_ID", "GOOGLE_OAUTH_CLIENT_SECRET", "GOOGLE_OAUTH_REFRESH_TOKEN", "GBP_ACCOUNT_ID", "GBP_LOCATION_ID") ? "GBP API bağlı" : "GBP API erişimi/onayı bekleniyor"
+      detail: gbpReady ? "GBP API ve konum bağlı" : (googleReady ? (google?.gbp?.error || "GBP API erişimi/onayı bekleniyor") : "Google OAuth bağlantısı bekleniyor")
     }
   };
 }
@@ -105,10 +120,20 @@ async function publishWebsite(payload) {
   return { id: slug };
 }
 
-const metaBase = () => "https://graph.facebook.com/" + encodeURIComponent(clean(process.env.META_GRAPH_VERSION,20));
+const metaBase = () => "https://graph.facebook.com/" + encodeURIComponent(clean(process.env.META_GRAPH_VERSION || "v26.0",20));
 
-async function metaPost(path, params) {
-  const body = new URLSearchParams({ ...params, access_token: process.env.META_PAGE_ACCESS_TOKEN || "" });
+async function metaCredentials() {
+  const meta=await loadOAuthSecret("meta");
+  const selected=meta?.selectedPage||null;
+  return {
+    pageId:clean(selected?.id || process.env.META_PAGE_ID,120),
+    pageAccessToken:clean(selected?.pageAccessToken || process.env.META_PAGE_ACCESS_TOKEN,5000),
+    instagramBusinessAccountId:clean(selected?.instagramBusinessAccountId || process.env.INSTAGRAM_BUSINESS_ACCOUNT_ID,120)
+  };
+}
+
+async function metaPost(path, params, accessToken) {
+  const body = new URLSearchParams({ ...params, access_token: accessToken || "" });
   const response = await fetch(metaBase() + "/" + path, { method:"POST", body, cache:"no-store" });
   const data = await response.json().catch(() => ({}));
   if (!response.ok || data.error) throw new Error((data.error && data.error.message) || "Meta API işlemi başarısız");
@@ -116,25 +141,27 @@ async function metaPost(path, params) {
 }
 
 async function publishFacebook(payload) {
-  const pageId = clean(process.env.META_PAGE_ID,120);
+  const credentials=await metaCredentials();
+  const pageId = credentials.pageId;
+  if(!pageId||!credentials.pageAccessToken) throw new Error("Facebook bağlantısı yok");
   const kind = mediaKind(payload.mediaUrl);
   if (kind === "image") {
-    const data = await metaPost(pageId + "/photos", { url:payload.mediaUrl, caption:payload.text });
+    const data = await metaPost(pageId + "/photos", { url:payload.mediaUrl, caption:payload.text },credentials.pageAccessToken);
     return { id:data.post_id || data.id || "" };
   }
   if (kind === "video") {
-    const data = await metaPost(pageId + "/videos", { file_url:payload.mediaUrl, description:payload.text, title:payload.title });
+    const data = await metaPost(pageId + "/videos", { file_url:payload.mediaUrl, description:payload.text, title:payload.title },credentials.pageAccessToken);
     return { id:data.id || "" };
   }
   const params = { message:payload.text };
   if (payload.mediaUrl) params.link = payload.mediaUrl;
-  const data = await metaPost(pageId + "/feed", params);
+  const data = await metaPost(pageId + "/feed", params,credentials.pageAccessToken);
   return { id:data.id || "" };
 }
 
-async function waitInstagramContainer(id) {
+async function waitInstagramContainer(id,accessToken) {
   for (let i=0;i<12;i++) {
-    const url = metaBase() + "/" + encodeURIComponent(id) + "?fields=status_code,status&access_token=" + encodeURIComponent(process.env.META_PAGE_ACCESS_TOKEN || "");
+    const url = metaBase() + "/" + encodeURIComponent(id) + "?fields=status_code,status&access_token=" + encodeURIComponent(accessToken || "");
     const response = await fetch(url,{cache:"no-store"});
     const data = await response.json().catch(() => ({}));
     if (data.status_code === "FINISHED") return;
@@ -145,23 +172,28 @@ async function waitInstagramContainer(id) {
 }
 
 async function publishInstagram(payload) {
-  const accountId = clean(process.env.INSTAGRAM_BUSINESS_ACCOUNT_ID,120);
+  const credentials=await metaCredentials();
+  const accountId = credentials.instagramBusinessAccountId;
+  if(!accountId||!credentials.pageAccessToken) throw new Error("Instagram bağlantısı yok");
   const kind = mediaKind(payload.mediaUrl);
   if (!payload.mediaUrl || !["image","video"].includes(kind)) throw new Error("Instagram için görsel veya video URL'si gerekli");
   const create = kind === "video"
-    ? await metaPost(accountId + "/media", { media_type:"REELS", video_url:payload.mediaUrl, caption:payload.text })
-    : await metaPost(accountId + "/media", { image_url:payload.mediaUrl, caption:payload.text });
+    ? await metaPost(accountId + "/media", { media_type:"REELS", video_url:payload.mediaUrl, caption:payload.text },credentials.pageAccessToken)
+    : await metaPost(accountId + "/media", { image_url:payload.mediaUrl, caption:payload.text },credentials.pageAccessToken);
   if (!create.id) throw new Error("Instagram medya kapsayıcısı oluşturulamadı");
-  if (kind === "video") await waitInstagramContainer(create.id);
-  const published = await metaPost(accountId + "/media_publish",{ creation_id:create.id });
+  if (kind === "video") await waitInstagramContainer(create.id,credentials.pageAccessToken);
+  const published = await metaPost(accountId + "/media_publish",{ creation_id:create.id },credentials.pageAccessToken);
   return { id:published.id || "" };
 }
 
 async function googleAccessToken() {
+  const google=await loadOAuthSecret("google");
+  const refreshToken=clean(google?.refreshToken || process.env.GOOGLE_OAUTH_REFRESH_TOKEN,5000);
+  if(!refreshToken) throw new Error("Google hesabı bağlı değil");
   const body = new URLSearchParams({
     client_id:process.env.GOOGLE_OAUTH_CLIENT_ID || "",
     client_secret:process.env.GOOGLE_OAUTH_CLIENT_SECRET || "",
-    refresh_token:process.env.GOOGLE_OAUTH_REFRESH_TOKEN || "",
+    refresh_token:refreshToken,
     grant_type:"refresh_token"
   });
   const response = await fetch("https://oauth2.googleapis.com/token",{method:"POST",body,cache:"no-store"});
@@ -172,8 +204,10 @@ async function googleAccessToken() {
 
 async function publishGmb(payload) {
   const token = await googleAccessToken();
-  const accountId = clean(process.env.GBP_ACCOUNT_ID,120);
-  const locationId = clean(process.env.GBP_LOCATION_ID,120);
+  const google=await loadOAuthSecret("google");
+  const accountId = clean(google?.gbp?.selected?.accountId || process.env.GBP_ACCOUNT_ID,120);
+  const locationId = clean(google?.gbp?.selected?.locationId || process.env.GBP_LOCATION_ID,120);
+  if(!accountId||!locationId) throw new Error("Google İşletme konumu bağlı değil");
   const body = { languageCode:"tr-TR", summary:payload.text.slice(0,1500), topicType:"STANDARD" };
   if (payload.mediaUrl && mediaKind(payload.mediaUrl) === "image") {
     body.media = [{ mediaFormat:"PHOTO", sourceUrl:payload.mediaUrl }];
@@ -264,7 +298,7 @@ export default async request => {
   if (auth.error) return auth.error;
 
   if (request.method === "GET") return json({
-    channels:channelStatus(),
+    channels:await channelStatus(),
     mode:"one-click-publisher-v2",
     history:await publicationHistory(12)
   });
@@ -292,7 +326,7 @@ export default async request => {
   const requested = Array.isArray(body.channels) ? body.channels.filter(x => Object.hasOwn(adapters,x)) : [];
   if (!requested.length) return json({error:"En az bir yayın kanalı seçin"},400);
 
-  const status = channelStatus();
+  const status = await channelStatus();
   const results = await Promise.all(requested.map(async channel => {
     if (!status[channel]?.ready) return {channel,ok:false,skipped:true,error:status[channel]?.detail || "Kanal bağlı değil"};
     try {
