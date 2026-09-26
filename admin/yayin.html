@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="/admin/elci-publisher.css?v=20260926e">
+  <link rel="stylesheet" href="/admin/elci-publisher.css?v=20260926f">
 </head>
 <body>
   <section class="login" id="login">
@@ -62,14 +62,14 @@
             <textarea id="text" maxlength="5000" required placeholder="Tek ana metni buraya yazın."></textarea>
           </label>
 
-          <label>Görsel yükle
-            <input id="mediaFile" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
-            <small id="mediaHelp">JPG, PNG veya WEBP · en fazla 4 MB. Görsel seçerseniz yayın sırasında otomatik yüklenir.</small>
+          <label>Görsel / video yükle
+            <input id="mediaFile" type="file" accept=".jpg,.jpeg,.png,.webp,.mp4,.mov,.m4v,.webm,image/jpeg,image/png,image/webp,video/mp4,video/quicktime,video/x-m4v,video/webm">
+            <small id="mediaHelp">JPG, PNG, WEBP, MP4, MOV, M4V veya WEBM · en fazla 5 MB. Dosya seçerseniz yayın sırasında otomatik yüklenir.</small>
           </label>
 
-          <label>Video / harici medya bağlantısı
+          <label>Harici medya bağlantısı
             <input id="mediaUrl" type="url" placeholder="https://.../video.mp4 veya mevcut görsel bağlantısı">
-            <small>Büyük video dosyalarında şimdilik doğrudan erişilebilir bağlantı kullanılır. Görsel seçildiğinde bu alan boş bırakılabilir.</small>
+            <small>5 MB üzerindeki videolarda şimdilik doğrudan erişilebilir bağlantı kullanılır. Dosya seçildiğinde bu alan boş bırakılabilir.</small>
           </label>
 
           <div class="channels" id="channels"></div>
@@ -119,6 +119,6 @@
 
   <div id="toast" class="toast hidden"></div>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script src="/admin/elci-publisher.js?v=20260926e"></script>
+  <script src="/admin/elci-publisher.js?v=20260926f"></script>
 </body>
 </html>
