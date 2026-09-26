@@ -99,7 +99,7 @@ async function discoverGbp(accessToken){
   for(const account of accounts.slice(0,20)){
     const accountName=clean(account.name,200);
     if(!accountName) continue;
-    const url="https://mybusinessbusinessinformation.googleapis.com/v1/"+accountName+"/locations?readMask=name,title,websiteUri&location="+Date.now();
+    const url="https://mybusinessbusinessinformation.googleapis.com/v1/"+accountName+"/locations?readMask=name,title,websiteUri";
     const response=await fetch(url,{headers,cache:"no-store"});
     const data=await response.json().catch(()=>({}));
     if(!response.ok) continue;
