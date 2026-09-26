@@ -70,10 +70,10 @@
     return data;
   }
 
-  async function uploadImage(file) {
-    const allowed = ["image/jpeg","image/png","image/webp"];
-    if (!allowed.includes(file.type)) throw new Error("Yalnız JPG, PNG veya WEBP görsel yüklenebilir.");
-    if (file.size > 4 * 1024 * 1024) throw new Error("Görsel en fazla 4 MB olabilir.");
+  async function uploadMedia(file) {
+    const allowed = ["image/jpeg","image/png","image/webp","video/mp4","video/webm","video/quicktime","video/x-m4v"];
+    if (!allowed.includes(file.type)) throw new Error("Yalnız JPG, PNG, WEBP, MP4, MOV, M4V veya WEBM yüklenebilir.");
+    if (file.size > 5 * 1024 * 1024) throw new Error("Medya dosyası en fazla 5 MB olabilir.");
     const form = new FormData();
     form.append("file",file,file.name);
     const response = await fetch("/.netlify/functions/publisher-media",{
@@ -89,7 +89,7 @@
 
   function mediaKindFromInputs() {
     const file = $("#mediaFile")?.files && $("#mediaFile").files[0];
-    if (file) return "image";
+    if (file) return String(file.type || "").startsWith("video/") ? "video" : "image";
     const value = String($("#mediaUrl")?.value || "").toLowerCase().split("?")[0];
     if (/\.(mp4|mov|m4v|webm)$/.test(value)) return "video";
     if (/\.(jpg|jpeg|png|webp)$/.test(value)) return "image";
@@ -317,7 +317,7 @@
     const file = $("#mediaFile").files && $("#mediaFile").files[0];
     const help = $("#mediaHelp");
     if (!file) {
-      help.textContent = "JPG, PNG veya WEBP · en fazla 4 MB. Görsel seçerseniz yayın sırasında otomatik yüklenir.";
+      help.textContent = "JPG, PNG, WEBP, MP4, MOV, M4V veya WEBM · en fazla 5 MB. Dosya seçerseniz yayın sırasında otomatik yüklenir.";
       help.classList.remove("uploading");
       return;
     }
@@ -341,11 +341,11 @@
       const file = $("#mediaFile").files && $("#mediaFile").files[0];
       if (file) {
         const help = $("#mediaHelp");
-        help.textContent = "Görsel güvenli alana yükleniyor…";
+        help.textContent = "Medya güvenli alana yükleniyor…";
         help.classList.add("uploading");
-        const uploaded = await uploadImage(file);
+        const uploaded = await uploadMedia(file);
         mediaUrl = uploaded.url;
-        help.textContent = "Görsel yüklendi ✓";
+        help.textContent = "Medya yüklendi ✓";
       }
       const data = await api("POST", {
         title:$("#title").value,
