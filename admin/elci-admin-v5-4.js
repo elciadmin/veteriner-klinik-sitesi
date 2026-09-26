@@ -531,7 +531,7 @@
     main.innerHTML = `
       <section class="dashboard-hero">
         <div><span class="kicker">GÜNLÜK YÖNETİM</span><h1>Bugün ne yapmak istiyorsunuz?</h1><p>En sık kullanılan işlemlere buradan ulaşın. Kaydettiğiniz içerik, site hazırlanmayı tamamladığında ziyaretçilere görünür.</p></div>
-        <div class="button-row"><a class="button primary large" href="#edit/blog/new"><i class="fa-solid fa-plus"></i> Blog yayınla</a><a class="button large" href="#edit/announcements/new"><i class="fa-solid fa-bullhorn"></i> Duyuru yayınla</a></div>
+        <div class="button-row"><a class="button primary large" href="/admin/yayin.html"><i class="fa-solid fa-paper-plane"></i> Her yerde yayınla</a><a class="button large" href="#edit/blog/new"><i class="fa-solid fa-plus"></i> Blog yayınla</a><a class="button large" href="#edit/announcements/new"><i class="fa-solid fa-bullhorn"></i> Duyuru yayınla</a></div>
       </section>
       <section class="metric-grid">
         <article class="metric-card"><span class="metric-icon"><i class="fa-solid fa-phone"></i></span><div><strong>${newAppointments}</strong><span>aranmayı bekleyen yeni randevu</span></div></article>
@@ -541,6 +541,7 @@
       </section>
       <section class="dashboard-grid">
         <div class="panel"><div class="panel-head"><div><h2>Hızlı işlemler</h2><p>Bir işi başlatmak için seçin</p></div></div><div class="quick-list">
+          ${quickItem('fa-paper-plane','Yayın Merkezi','Web sitesi ve bağlı sosyal kanallara tek yerden yayınlayın','/admin/yayin.html')}
           ${quickItem('fa-pen-to-square','Yeni blog yazısı','Hazır metni yapıştırıp hemen veya ileri tarihte yayınlayın','#edit/blog/new')}
           ${quickItem('fa-calendar-check','Randevuları aç','Yeni talepleri arayın, durum ve klinik notu ekleyin','#appointments')}
           ${quickItem('fa-bullhorn','Yeni duyuru','Ana sayfada başlangıç ve bitiş zamanı olan duyuru yayınlayın','#edit/announcements/new')}
