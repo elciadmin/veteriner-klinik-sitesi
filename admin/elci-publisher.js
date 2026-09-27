@@ -16,6 +16,10 @@
   let user = null;
   let status = {};
   let connectionState = {};
+  let draftLoaded = false;
+  let pendingPublish = false;
+  let draftTimer = null;
+  const DRAFT_KEY = "elci-yayin-merkezi-draft-v1";
 
   const esc = value => String(value ?? "").replace(/[&<>"']/g, char => ({
     "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
@@ -27,6 +31,103 @@
     el.classList.remove("hidden");
     clearTimeout(toast.timer);
     toast.timer = setTimeout(() => el.classList.add("hidden"), 4200);
+  }
+
+  function selectedChannels() {
+    return Array.from(document.querySelectorAll('input[name="channel"]:checked')).map(input => input.value);
+  }
+
+  function formSnapshot() {
+    return {
+      title:$("#title")?.value || "",
+      text:$("#text")?.value || "",
+      mediaUrl:$("#mediaUrl")?.value || "",
+      youtubePrivacy:$("#youtubePrivacy")?.value || "public",
+      channels:selectedChannels(),
+      savedAt:new Date().toISOString()
+    };
+  }
+
+  function updateCounters() {
+    $("#titleCount").textContent = String(($("#title")?.value || "").length);
+    $("#textCount").textContent = String(($("#text")?.value || "").length);
+  }
+
+  function saveDraft(silent=false) {
+    try {
+      const data=formSnapshot();
+      localStorage.setItem(DRAFT_KEY,JSON.stringify(data));
+      const stateEl=$("#draftState");
+      if (stateEl) stateEl.textContent = "Taslak kaydedildi · " + new Date().toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"});
+      if (!silent) toast("Taslak kaydedildi.");
+    } catch {
+      if (!silent) toast("Taslak bu tarayıcıda kaydedilemedi.");
+    }
+  }
+
+  function scheduleDraftSave() {
+    clearTimeout(draftTimer);
+    draftTimer=setTimeout(()=>saveDraft(true),700);
+  }
+
+  function restoreDraft() {
+    if (draftLoaded) return;
+    draftLoaded=true;
+    try {
+      const raw=localStorage.getItem(DRAFT_KEY);
+      if (!raw) { updateCounters(); return; }
+      const data=JSON.parse(raw);
+      if (data && typeof data==="object") {
+        if ($("#title") && !$("#title").value) $("#title").value=data.title || "";
+        if ($("#text") && !$("#text").value) $("#text").value=data.text || "";
+        if ($("#mediaUrl") && !$("#mediaUrl").value) $("#mediaUrl").value=data.mediaUrl || "";
+        if ($("#youtubePrivacy") && data.youtubePrivacy) $("#youtubePrivacy").value=data.youtubePrivacy;
+        if (Array.isArray(data.channels)) {
+          document.querySelectorAll('input[name="channel"]').forEach(input => {
+            if (!input.disabled) input.checked=data.channels.includes(input.value);
+          });
+        }
+        const stateEl=$("#draftState");
+        if (stateEl && data.savedAt) stateEl.textContent="Kayıtlı taslak geri yüklendi · " + new Date(data.savedAt).toLocaleString("tr-TR");
+      }
+    } catch {}
+    updateCounters();
+    syncApplicability();
+  }
+
+  function previewMediaMarkup() {
+    const file=$("#mediaFile")?.files && $("#mediaFile").files[0];
+    const url=file ? URL.createObjectURL(file) : ($("#mediaUrl")?.value || "").trim();
+    const kind=mediaKindFromInputs();
+    if (!url) return '<div class="preview-media empty">Medya eklenmedi</div>';
+    if (kind==="image") return '<div class="preview-media"><img src="' + esc(url) + '" alt="Yayın görseli önizlemesi"></div>';
+    if (kind==="video") return '<div class="preview-media"><video src="' + esc(url) + '" controls preload="metadata"></video></div>';
+    return '<div class="preview-media empty">Medya bağlantısı önizlenemiyor; yayın sırasında bağlantı kullanılacak.</div>';
+  }
+
+  function renderPreview() {
+    const title=($("#title")?.value || "").trim();
+    const text=($("#text")?.value || "").trim();
+    const selected=selectedChannels();
+    if (!title || !text) { toast("Önizleme için başlık ve yayın metni gerekli."); return false; }
+    if (!selected.length) { toast("Önizleme için en az bir hazır kanal seçin."); return false; }
+    const badges=selected.map(key => {
+      const item=status[key] || {label:key};
+      return '<span class="preview-channel"><i class="' + (icons[key] || "fa-solid fa-share-nodes") + '"></i>' + esc(item.label) + '</span>';
+    }).join("");
+    $("#previewContent").innerHTML =
+      '<div class="preview-channels">' + badges + '</div>' +
+      '<article class="preview-post">' +
+        previewMediaMarkup() +
+        '<div class="preview-copy"><h3>' + esc(title) + '</h3><p>' + esc(text).replace(/\n/g,"<br>") + '</p></div>' +
+      '</article>';
+    $("#previewModal").classList.remove("hidden");
+    return true;
+  }
+
+  function closePreview() {
+    $("#previewModal").classList.add("hidden");
+    pendingPublish=false;
   }
 
   async function authHeaders() {
@@ -311,7 +412,16 @@
     }
   });
 
-  $("#mediaUrl").addEventListener("input", syncApplicability);
+  $("#mediaUrl").addEventListener("input", () => { syncApplicability(); scheduleDraftSave(); });
+  $("#title").addEventListener("input", () => { updateCounters(); scheduleDraftSave(); });
+  $("#text").addEventListener("input", () => { updateCounters(); scheduleDraftSave(); });
+  $("#youtubePrivacy").addEventListener("change", scheduleDraftSave);
+  $("#channels").addEventListener("change", scheduleDraftSave);
+  $("#saveDraft").addEventListener("click", () => saveDraft(false));
+  $("#previewButton").addEventListener("click", () => { pendingPublish=false; renderPreview(); });
+  $("#closePreview").addEventListener("click", closePreview);
+  $("#cancelPreview").addEventListener("click", closePreview);
+  $("#previewModal").addEventListener("click", event => { if (event.target === $("#previewModal")) closePreview(); });
 
   $("#mediaFile").addEventListener("change", () => {
     const file = $("#mediaFile").files && $("#mediaFile").files[0];
@@ -324,18 +434,21 @@
     help.textContent = file.name + " · " + Math.max(1,Math.round(file.size/1024)) + " KB · yayın sırasında otomatik yüklenecek";
     help.classList.add("uploading");
     syncApplicability();
+    scheduleDraftSave();
   });
 
-  $("#publishForm").addEventListener("submit", async event => {
-    event.preventDefault();
+  async function publishNow() {
     const button = $("#publishButton");
-    const selected = Array.from(document.querySelectorAll('input[name="channel"]:checked')).map(input => input.value);
+    const confirmButton=$("#confirmPublish");
+    const selected = selectedChannels();
     if (!selected.length) {
       toast("En az bir hazır kanal seçin.");
       return;
     }
     button.disabled = true;
+    confirmButton.disabled=true;
     button.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i><span>YAYINLANIYOR…</span>';
+    confirmButton.innerHTML='<i class="fa-solid fa-circle-notch fa-spin"></i> Yayınlanıyor…';
     try {
       let mediaUrl = $("#mediaUrl").value.trim();
       const file = $("#mediaFile").files && $("#mediaFile").files[0];
@@ -355,14 +468,39 @@
         channels:selected
       });
       renderResults(data.results || []);
+      $("#previewModal").classList.add("hidden");
+      pendingPublish=false;
+      if (data.ok) {
+        localStorage.removeItem(DRAFT_KEY);
+        const stateEl=$("#draftState");
+        if (stateEl) stateEl.textContent="Son yayın işlendi; yeni içerik için taslak alanı hazır.";
+      } else {
+        saveDraft(true);
+      }
       toast(data.complete ? "Tüm seçili kanallara yayınlandı." : "Yayın tamamlandı; bazı kanalları kontrol edin.");
       await refresh();
     } catch (error) {
       toast(error.message);
+      saveDraft(true);
     } finally {
       button.disabled = false;
+      confirmButton.disabled=false;
       button.innerHTML = '<i class="fa-solid fa-paper-plane"></i><span>HER YERDE YAYINLA</span>';
+      confirmButton.innerHTML='<i class="fa-solid fa-paper-plane"></i> Onayla ve yayınla';
     }
+  }
+
+  $("#publishForm").addEventListener("submit", event => {
+    event.preventDefault();
+    pendingPublish=true;
+    if (!renderPreview()) pendingPublish=false;
+  });
+
+  $("#confirmPublish").addEventListener("click", async () => {
+    if (!pendingPublish) {
+      pendingPublish=true;
+    }
+    await publishNow();
   });
 
   historyEl.addEventListener("click", async event => {
@@ -399,8 +537,9 @@
     $("#userEmail").textContent = (user && user.email) || "";
     login.classList.add("hidden");
     app.classList.remove("hidden");
-    refresh();
+    refresh().then(restoreDraft);
     refreshConnections();
+    updateCounters();
     const params = new URLSearchParams(location.search);
     if (params.get("oauth") === "ok") {
       const provider = params.get("provider");
