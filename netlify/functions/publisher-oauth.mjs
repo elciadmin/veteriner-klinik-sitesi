@@ -58,21 +58,18 @@ async function googleStart(request,user){
 async function metaStart(request,user){
   const appId=clean(process.env.META_APP_ID,500);
   const appSecret=clean(process.env.META_APP_SECRET,500);
+  const configId=clean(process.env.META_LOGIN_CONFIG_ID,500);
   if(!appId||!appSecret) return json({error:"Meta uygulama bilgileri henüz yapılandırılmamış",code:"META_APP_MISSING"},409);
+  if(!configId) return json({error:"Meta Login for Business configuration ID henüz yapılandırılmamış",code:"META_CONFIG_MISSING"},409);
   const state=randomBytes(24).toString("base64url");
   await saveOAuthState(state,{provider:"meta",actor:user.email||user.id||"yetkili",createdAt:Date.now()});
   const u=new URL("https://www.facebook.com/"+graphVersion()+"/dialog/oauth");
   u.searchParams.set("client_id",appId);
   u.searchParams.set("redirect_uri",callbackUrl(request));
   u.searchParams.set("response_type","code");
+  u.searchParams.set("override_default_response_type","true");
+  u.searchParams.set("config_id",configId);
   u.searchParams.set("state",state);
-  u.searchParams.set("scope",[
-    "pages_show_list",
-    "pages_read_engagement",
-    "pages_manage_posts",
-    "instagram_basic",
-    "instagram_content_publish"
-  ].join(","));
   return json({url:u.toString()});
 }
 
@@ -242,13 +239,14 @@ async function status(request){
     lastError:lastError?.message?{provider:lastError.provider,message:lastError.message,at:lastError.at}:null,
     appSetup:{
       google:Boolean(process.env.GOOGLE_OAUTH_CLIENT_ID&&process.env.GOOGLE_OAUTH_CLIENT_SECRET),
-      meta:Boolean(process.env.META_APP_ID&&process.env.META_APP_SECRET),
+      meta:Boolean(process.env.META_APP_ID&&process.env.META_APP_SECRET&&process.env.META_LOGIN_CONFIG_ID),
       encryption:oauthEncryptionConfigured(),
       callbackUrl:callbackUrl(request),
       googleScopes:[
         "https://www.googleapis.com/auth/youtube.upload",
         "https://www.googleapis.com/auth/business.manage"
       ],
+      metaLoginConfigIdConfigured:Boolean(process.env.META_LOGIN_CONFIG_ID),
       metaPermissions:[
         "pages_show_list",
         "pages_read_engagement",
