@@ -56,10 +56,12 @@
 
           <label>Başlık
             <input id="title" maxlength="180" required placeholder="Örn. Kedilerde ağız ve diş sağlığı">
+            <small><span id="titleCount">0</span>/180 karakter</small>
           </label>
 
           <label>Yayın metni
             <textarea id="text" maxlength="5000" required placeholder="Tek ana metni buraya yazın."></textarea>
+            <small><span id="textCount">0</span>/5000 karakter</small>
           </label>
 
           <label>Görsel / video yükle
@@ -82,11 +84,16 @@
             </select>
           </label>
 
+          <div class="publish-actions">
+            <button class="draft-btn" id="saveDraft" type="button"><i class="fa-regular fa-floppy-disk"></i> Taslağı kaydet</button>
+            <button class="preview-btn" id="previewButton" type="button"><i class="fa-regular fa-eye"></i> Önizle</button>
+          </div>
           <button class="publish" id="publishButton" type="submit">
             <i class="fa-solid fa-paper-plane"></i>
             <span>HER YERDE YAYINLA</span>
           </button>
-          <p class="hint">Bir kanal hata verirse diğer kanallar durmaz. Her kanalın sonucu ayrı gösterilir.</p>
+          <p class="draft-state" id="draftState">Taslak değişiklikleri bu tarayıcıda otomatik korunur.</p>
+          <p class="hint">Yayın butonu önce son kontrol ekranını açar. Onay vermeden gerçek yayın başlamaz.</p>
         </form>
 
         <aside class="side">
@@ -117,8 +124,25 @@
     </main>
   </div>
 
+  <div class="modal-backdrop hidden" id="previewModal" role="presentation">
+    <section class="preview-modal" role="dialog" aria-modal="true" aria-labelledby="previewTitle">
+      <header>
+        <div><span class="eyebrow">SON KONTROL</span><h2 id="previewTitle">Yayın önizlemesi</h2></div>
+        <button type="button" class="modal-close" id="closePreview" aria-label="Önizlemeyi kapat"><i class="fa-solid fa-xmark"></i></button>
+      </header>
+      <div class="preview-body">
+        <div id="previewContent"></div>
+        <div class="preview-warning"><i class="fa-solid fa-triangle-exclamation"></i><span>Onayladığınız anda seçili ve hazır kanallara gerçek yayın gönderilir.</span></div>
+      </div>
+      <footer>
+        <button type="button" class="outline" id="cancelPreview">Düzenlemeye dön</button>
+        <button type="button" class="confirm-publish" id="confirmPublish"><i class="fa-solid fa-paper-plane"></i> Onayla ve yayınla</button>
+      </footer>
+    </section>
+  </div>
+
   <div id="toast" class="toast hidden"></div>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script src="/admin/elci-publisher.js?v=20260926f"></script>
+  <script src="/admin/elci-publisher.js?v=20260927-finalize1"></script>
 </body>
 </html>
