@@ -415,13 +415,15 @@
     const key = `collection:${state.branch}:${name}`;
     if (!force && state.cache.has(key)) return clone(state.cache.get(key));
     let files = [];
-    try { files = await listDirectory(config.folder); } catch (error) { if (!/not found/i.test(error.message)) throw error; }
+    if (name !== 'blog') {
+      try { files = await listDirectory(config.folder); } catch (error) { if (!/not found/i.test(error.message)) throw error; }
+    }
     const jsonFiles = files.filter(file => file.type === 'file' && file.name.endsWith('.json'));
     const rows = await Promise.all(jsonFiles.map(async file => {
       try { const raw = await readRaw(file.path); return {...JSON.parse(raw.content),_path:file.path,_sha:raw.sha,_slug:file.name.replace(/\.json$/i,''),_runtime:false}; }
       catch { return null; }
     }));
-    const local = rows.filter(Boolean);
+    const local = name === 'blog' ? [] : rows.filter(Boolean);
     let runtime=[];
     if(RUNTIME_COLLECTIONS.has(name)){
       try { runtime=await listRuntimeCollection(name); }
@@ -1124,7 +1126,7 @@
 
   async function renderHomeOverview(){
     const [blog,announcements,services,homeFaq,homeReviews]=await Promise.all([
-      listCollection('blog'),listCollection('announcements'),readJson('assets/data/services.json',{items:[]}),readJson('settings/home-faq.json',{items:[]}),readJson('settings/home-reviews.json',{items:[],totalCount:194})
+      listCollection('blog'),listCollection('announcements'),readJson('assets/data/services.json',{items:[]}),readJson('settings/home-faq.json',{items:[]}),readJson('settings/home-reviews.json',{items:[],totalCount:242})
     ]);
     const featuredBlog=blog.filter(x=>x.featured&&contentStatus(x,COLLECTIONS.blog).key==='published').length;
     const featuredServices=(services.data.items||[]).filter(x=>x.featured&&x.published!==false).length;
@@ -1158,7 +1160,7 @@
   function bindRelationButtons(selector,onChange){const root=$(selector);$$('[data-move]',root).forEach(btn=>{if(btn.dataset.bound)return;btn.dataset.bound='1';btn.addEventListener('click',()=>{const row=btn.closest('[data-relation-slug]');if(btn.dataset.move==='up'&&row.previousElementSibling)root.insertBefore(row,row.previousElementSibling);if(btn.dataset.move==='down'&&row.nextElementSibling)root.insertBefore(row.nextElementSibling,row);onChange?.();});});$$('[data-remove-relation]',root).forEach(btn=>{if(btn.dataset.bound)return;btn.dataset.bound='1';btn.addEventListener('click',()=>{btn.closest('[data-relation-slug]').remove();onChange?.();});});}
 
   async function renderHomeReviews(){
-    const [reviews,settings]=await Promise.all([listCollection('reviews'),readJson('settings/home-reviews.json',{title:'Ana Sayfa Google Yorumları',totalCount:194,items:[]})]);
+    const [reviews,settings]=await Promise.all([listCollection('reviews'),readJson('settings/home-reviews.json',{title:'Ana Sayfa Google Yorumları',totalCount:242,items:[]})]);
     const selected=(settings.data.items||[]).map(x=>typeof x==='string'?x:x.review).filter(Boolean).slice(0,12);
     main.innerHTML=`<header class="page-head"><div><span class="kicker">ORTAK YORUM SUNUMU</span><h1>Sitedeki Google yorumları</h1><p>Ana sayfa ve Hakkımızda sayfası aynı seçilmiş yorum listesini kullanır. Yorumu yalnızca bir kez eklemeniz yeterlidir.</p></div><div class="page-actions"><button class="button primary large" id="saveHomeReviews"><i class="fa-regular fa-floppy-disk"></i> Seçimi kaydet</button></div></header>
       <section class="form-card" style="margin-bottom:14px"><div class="form-grid">${inputField('totalCount','Google’daki toplam değerlendirme sayısı',settings.data.totalCount||194,'number','Hero kartındaki toplam sayı.',false,'min="0"')}</div></section>
