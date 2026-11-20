@@ -333,8 +333,20 @@ export default async request => {
   };
   if (!payload.title || !payload.text) return json({error:"Başlık ve yayın metni gerekli"},400);
 
-  const requested = Array.isArray(body.channels) ? body.channels.filter(x => Object.hasOwn(adapters,x)) : [];
-  if (!requested.length) return json({error:"En az bir yayın kanalı seçin"},400);
+  const validChannels = Array.isArray(body.channels)
+    ? [...new Set(body.channels.filter(x => typeof x === "string" && Object.hasOwn(adapters,x)))]
+    : [];
+  // A retry may only target channels that actually failed in the original record.
+  // Never let a crafted retry request republish an already successful channel.
+  const failedChannels = previous
+    ? new Set((previous.results || []).filter(item => !item.ok).map(item => item.channel))
+    : null;
+  const requested = failedChannels
+    ? validChannels.filter(channel => failedChannels.has(channel))
+    : validChannels;
+  if (!requested.length) return json({
+    error:previous ? "Bu kayıtta yeniden denenebilecek başarısız kanal yok" : "En az bir yayın kanalı seçin"
+  },400);
 
   const status = await channelStatus();
   const results = await Promise.all(requested.map(async channel => {
