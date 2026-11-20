@@ -35,10 +35,20 @@ async function authorize() {
 
 const envReady = (...names) => names.every(name => Boolean(String(process.env[name] || "").trim()));
 const mediaKind = url => {
-  const value = String(url || "").toLowerCase().split("?")[0];
+  if (!url) return "none";
+  let value = String(url).toLowerCase().split("?")[0];
+  // The internal uploader uses ?id=<uuid>.mp4; its pathname has no extension.
+  // Respect that ID only for our own media endpoint, not for arbitrary URLs.
+  try {
+    const parsed = new URL(String(url));
+    if (parsed.pathname === "/.netlify/functions/publisher-media") {
+      const uploadedId = parsed.searchParams.get("id") || "";
+      if (/^[0-9a-z._-]{8,180}$/i.test(uploadedId)) value = uploadedId.toLowerCase();
+    }
+  } catch { /* Keep the pathname-only fallback for malformed URLs. */ }
   if (/\.(mp4|mov|m4v|webm)$/.test(value)) return "video";
   if (/\.(jpg|jpeg|png|webp)$/.test(value)) return "image";
-  return url ? "unknown" : "none";
+  return "unknown";
 };
 
 async function connectionSecrets() {
