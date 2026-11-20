@@ -347,7 +347,9 @@ function blogPage(post) {
 }
 
 async function buildBlog() {
-  const [entries, rawBlogDesign] = await Promise.all([readJsonFolder(SOURCES.blog),readJson(SOURCES.blogDesign,DEFAULT_BLOG_DESIGN)]);
+  // Legacy Git blog files are retained as an archive; the runtime CMS owns live blog visibility.
+  const entries = [];
+  const rawBlogDesign = await readJson(SOURCES.blogDesign,DEFAULT_BLOG_DESIGN);
   const blogDesign=normalizeBlogDesign(rawBlogDesign);
   const posts = entries.map(({ slug:entrySlug, file, data }) => {
     const advanced = data.advanced || {};
@@ -390,7 +392,7 @@ async function buildFaq() {
 async function buildReviews() {
   const entries = await readJsonFolder(SOURCES.reviews);
   const legacy = await readJson(path.join(ROOT,"assets","data","reviews.json"), []);
-  const settings = await readJson(SOURCES.homeReviews, { totalCount:194, items:[] });
+  const settings = await readJson(SOURCES.homeReviews, { totalCount:242, items:[] });
   const map = new Map(entries.map(entry => [entry.slug, entry.data]));
   let selected = (settings?.items || []).map(item => typeof item === "string" ? item : item?.review).filter(Boolean);
   let reviews = selected.map(slug => ({ slug, data:map.get(slug) })).filter(item => item.data && item.data.published !== false).map(({slug,data}) => ({
