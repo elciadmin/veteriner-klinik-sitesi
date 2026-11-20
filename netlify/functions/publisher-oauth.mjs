@@ -258,6 +258,33 @@ async function status(request){
   };
 }
 
+async function refreshMetaPages(){
+  const meta=await loadOAuthSecret("meta");
+  if(!meta?.userToken) return json({error:"Önce Meta hesabını bağlayın"},409);
+  const url=new URL("https://graph.facebook.com/"+graphVersion()+"/me/accounts");
+  url.searchParams.set("fields","id,name,access_token,instagram_business_account{id,username}");
+  url.searchParams.set("limit","100");
+  url.searchParams.set("access_token",meta.userToken);
+  const response=await fetch(url,{cache:"no-store"});
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok) return json({error:clean(data.error?.message||"Meta sayfaları alınamadı",500)},502);
+  const pages=(Array.isArray(data.data)?data.data:[]).map(page=>({
+    id:clean(page.id,120),
+    name:clean(page.name,300),
+    pageAccessToken:clean(page.access_token,5000),
+    instagramBusinessAccountId:clean(page.instagram_business_account?.id,120),
+    instagramUsername:clean(page.instagram_business_account?.username,300)
+  })).filter(page=>page.id&&page.pageAccessToken);
+  const previousId=meta.selectedPage?.id;
+  meta.pages=pages;
+  meta.selectedPage=pages.find(page=>page.id===previousId)||null;
+  if(!meta.selectedPage&&pages.length===1) meta.selectedPage=pages[0];
+  meta.pagesRefreshedAt=new Date().toISOString();
+  await saveOAuthSecret("meta",meta,{provider:"meta"});
+  return json({ok:true,count:pages.length,selected:Boolean(meta.selectedPage),
+    message:pages.length?"Facebook sayfaları güncellendi":"Meta bu oturum için erişilebilir Facebook sayfası döndürmedi. Sayfa izinlerini kontrol edin."});
+}
+
 async function selectMeta(body){
   const meta=await loadOAuthSecret("meta");
   if(!meta?.userToken) return json({error:"Meta hesabı bağlı değil"},409);
@@ -294,6 +321,7 @@ export default async request=>{
       if(body.provider==="meta") return metaStart(request,auth.user);
       return json({error:"Geçersiz sağlayıcı"},400);
     }
+    if(action==="refresh-meta") return refreshMetaPages();
     if(action==="select-meta") return selectMeta(body);
     if(action==="disconnect") return disconnect(clean(body.provider,40));
   }
