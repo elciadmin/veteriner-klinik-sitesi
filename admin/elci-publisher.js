@@ -247,6 +247,7 @@
           ? '<button type="button" class="disconnect-btn" data-disconnect="meta">Ayır</button>'
           : '<button type="button" class="connect-btn" data-connect="meta" ' + (setup.meta ? "" : "disabled") + '>Meta’yı Bağla</button>') +
       '</div>' +
+      (meta.connected ? '<button type="button" class="connect-btn" id="refreshMetaPages" style="margin:8px 0">Facebook sayfalarını yeniden tara</button>' : '') +
       '<div class="connection-row">' +
         '<i class="fa-brands fa-google"></i>' +
         '<div><strong>YouTube + Google İşletme</strong><small>' + esc(googleText) + '</small></div>' +
@@ -382,6 +383,20 @@
   });
 
   $("#connections").addEventListener("click", async event => {
+    const rescan = event.target.closest("#refreshMetaPages");
+    if (rescan) {
+      rescan.disabled = true;
+      try {
+        const result = await oauthApi("POST","refresh-meta",{});
+        toast(result.message || (result.count + " Facebook sayfası bulundu."));
+        await refreshConnections();
+        await refresh();
+      } catch (error) {
+        toast(error.message);
+        rescan.disabled = false;
+      }
+      return;
+    }
     const connect = event.target.closest("[data-connect]");
     if (connect) {
       connect.disabled = true;
