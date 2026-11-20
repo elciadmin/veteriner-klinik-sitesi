@@ -31,9 +31,17 @@ function safeId(value) {
 }
 
 function contentTypeFromId(id) {
-  if (/\.png$/i.test(id)) return "image/png";
-  if (/\.webp$/i.test(id)) return "image/webp";
-  return "image/jpeg";
+  const extension = String(id || "").split(".").pop().toLowerCase();
+  const types = {
+    jpg:"image/jpeg",
+    png:"image/png",
+    webp:"image/webp",
+    mp4:"video/mp4",
+    mov:"video/quicktime",
+    m4v:"video/x-m4v",
+    webm:"video/webm"
+  };
+  return types[extension] || "application/octet-stream";
 }
 
 export default async request => {
