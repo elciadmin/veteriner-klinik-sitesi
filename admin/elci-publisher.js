@@ -191,10 +191,18 @@
   function mediaKindFromInputs() {
     const file = $("#mediaFile")?.files && $("#mediaFile").files[0];
     if (file) return String(file.type || "").startsWith("video/") ? "video" : "image";
-    const value = String($("#mediaUrl")?.value || "").toLowerCase().split("?")[0];
+    const rawUrl = String($("#mediaUrl")?.value || "");
+    let value = rawUrl.toLowerCase().split("?")[0];
+    try {
+      const parsed = new URL(rawUrl);
+      if (parsed.pathname === "/.netlify/functions/publisher-media") {
+        const uploadedId = parsed.searchParams.get("id") || "";
+        if (/^[0-9a-z._-]{8,180}$/i.test(uploadedId)) value = uploadedId.toLowerCase();
+      }
+    } catch {}
     if (/\.(mp4|mov|m4v|webm)$/.test(value)) return "video";
     if (/\.(jpg|jpeg|png|webp)$/.test(value)) return "image";
-    return value ? "unknown" : "none";
+    return rawUrl ? "unknown" : "none";
   }
 
   function isApplicable(channel) {
