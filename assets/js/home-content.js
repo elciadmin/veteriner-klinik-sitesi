@@ -26,7 +26,7 @@
 
     const total = Math.max(
       0,
-      Number(settings?.totalGoogleReviews || 215)
+      Number(settings?.totalGoogleReviews || 242)
     );
 
     const heading =
@@ -472,7 +472,7 @@
         getJson(
           '/assets/data/site-settings.json?v=20260721-4',
           {
-            totalGoogleReviews: 215
+            totalGoogleReviews: 242
           }
         )
       ]);
