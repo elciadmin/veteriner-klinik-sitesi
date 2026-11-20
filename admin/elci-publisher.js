@@ -383,6 +383,8 @@
     }
     const disconnect = event.target.closest("[data-disconnect]");
     if (disconnect) {
+      // Disconnecting revokes the stored account link and must be intentional.
+      if (!window.confirm("Bu hesabın Elçi Yayın Merkezi bağlantısını ayırmak istediğinizden emin misiniz?")) return;
       disconnect.disabled = true;
       try {
         await oauthApi("POST","disconnect",{provider:disconnect.dataset.disconnect});
@@ -509,6 +511,8 @@
     let channels = [];
     try { channels = JSON.parse(decodeURIComponent(button.dataset.channels || "")); } catch {}
     if (!channels.length) return;
+    // Retry is a real publication, not a dry run: always ask for approval.
+    if (!window.confirm("Başarısız kanallarda yeniden GERÇEK yayın denemesi yapılacak. Onaylıyor musunuz?")) return;
     button.disabled = true;
     const original = button.innerHTML;
     button.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Yeniden deneniyor…';
