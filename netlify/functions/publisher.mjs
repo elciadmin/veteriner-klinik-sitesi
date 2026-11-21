@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { schedulePublication, listSchedules, cancelSchedule } from "./_shared/publisher-schedule.mjs";
 import { getStore } from "@netlify/blobs";
 import { getUser, verifyRequestOrigin } from "@netlify/identity";
 import { loadOAuthSecret } from "./_shared/publisher-oauth-store.mjs";
@@ -273,13 +274,22 @@ async function publishYouTube(payload) {
   return { id:data.id || "" };
 }
 
-const adapters = {
+export const adapters = {
   website:publishWebsite,
   facebook:publishFacebook,
   instagram:publishInstagram,
   youtube:publishYouTube,
   gmb:publishGmb
 };
+
+export async function dispatchPublisher(payload,channels) {
+  const status=await channelStatus();
+  return Promise.all(channels.map(async channel => {
+    if (!status[channel]?.ready) return {channel,ok:false,skipped:true,error:status[channel]?.detail || "Kanal bağlı değil"};
+    try {return {channel,ok:true,...await adapters[channel](effectiveChannelPayload(payload,channel))};}
+    catch(error){return {channel,ok:false,error:clean(error?.message || "Yayın başarısız",500)};}
+  }));
+}
 
 const publicationStore = () => getStore({name:PUBLISH_STORE_NAME,consistency:"strong"});
 
@@ -312,7 +322,8 @@ export default async request => {
     channels:await channelStatus(),
     rules:PUBLISHER_RULES,
     mode:"one-click-publisher-v3-rules",
-    history:await publicationHistory(12)
+    history:await publicationHistory(12),
+    scheduled:await listSchedules()
   });
   if (request.method !== "POST") return json({error:"Desteklenmeyen yöntem"},405);
 
@@ -322,6 +333,11 @@ export default async request => {
   let body;
   try { body = await request.json(); }
   catch { return json({error:"Geçersiz veri"},400); }
+
+  if (body.cancelScheduleId) {
+    const cancelled=await cancelSchedule(clean(body.cancelScheduleId,80));
+    return json({ok:cancelled},cancelled?200:409);
+  }
 
   const retryOf = clean(body.retryPublicationId,80);
   const previous = retryOf ? await publicationRead(retryOf) : null;
@@ -366,16 +382,14 @@ export default async request => {
     validationErrors
   },400);
 
-  const status = await channelStatus();
-  const results = await Promise.all(requested.map(async channel => {
-    if (!status[channel]?.ready) return {channel,ok:false,skipped:true,error:status[channel]?.detail || "Kanal bağlı değil"};
+  if (!previous && body.publishAt) {
+    if (requested.some(channel=>!Object.hasOwn(adapters,channel))) return json({error:"Geçersiz kanal"},400);
     try {
-      const output = await adapters[channel](effectiveChannelPayload(payload,channel));
-      return {channel,ok:true,...output};
-    } catch (error) {
-      return {channel,ok:false,error:clean(error?.message || "Yayın başarısız",500)};
-    }
-  }));
+      const job=await schedulePublication({payload,channels:requested,publishAt:body.publishAt,actor:auth.user.email||auth.user.id||"yetkili"});
+      return json({ok:true,scheduled:true,id:job.id,publishAt:job.publishAt},201);
+    } catch(error){return json({error:error.message},400);}
+  }
+  const results=await dispatchPublisher(payload,requested);
 
   const createdAt = new Date().toISOString();
   const record = {
