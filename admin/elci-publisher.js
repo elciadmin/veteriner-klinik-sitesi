@@ -726,6 +726,50 @@
     await publishNow();
   });
 
+  // Scheduling is explicit: the user must approve the preview first.
+  const scheduleArea=document.createElement("div");
+  scheduleArea.style.cssText="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px";
+  scheduleArea.innerHTML='<label for="publisherScheduleAt">İleri tarih (Türkiye saati)</label><input id="publisherScheduleAt" type="datetime-local" aria-label="Planlanan yayın tarihi"><button type="button" id="publisherScheduleButton">Onayla ve ileri tarihe planla</button>';
+  $("#confirmPublish").parentElement.appendChild(scheduleArea);
+  $("#publisherScheduleButton").addEventListener("click",async()=>{
+    const input=$("#publisherScheduleAt"),button=$("#publisherScheduleButton");
+    if ($("#previewModal").classList.contains("hidden")) return toast("Önce önizlemeyi açıp onaylayın.");
+    if (!input.value) return toast("Yayın tarihi ve saatini seçin.");
+    const date=new Date(input.value);
+    if (!Number.isFinite(date.getTime()) || date.getTime()<Date.now()+60000) return toast("En az bir dakika sonrasını seçin.");
+    const selected=selectedChannels();
+    if (validateLocal(selected).length) return toast("Platform kurallarını kontrol edin.");
+    button.disabled=true;
+    try {
+      let mediaUrl=$("#mediaUrl").value.trim();
+      const channelMediaUrls={};
+      const file=$("#mediaFile").files?.[0];
+      if(file) {
+        if(file.type.startsWith("image/") && window.ElciMediaFit) {
+          for(const channel of selected) {
+            const adapted=await window.ElciMediaFit.adaptImage(file,channel);
+            if(!adapted) throw new Error("Görsel uyarlaması yapılamadı: "+channel);
+            const uploaded=await uploadMedia(adapted.file);
+            channelMediaUrls[channel]=uploaded.url;
+            mediaUrl ||= uploaded.url;
+          }
+        } else {
+          mediaUrl=(await uploadMedia(file)).url;
+        }
+      }
+      const result=await api("POST",{
+        title:$("#title").value,text:$("#text").value,mediaUrl,
+        channelMediaUrls,channelTexts:{...channelTexts},channelTitles:{...channelTitles},
+        youtubePrivacy:$("#youtubePrivacy").value,channels:selected,publishAt:date.toISOString()
+      });
+      if(!result.scheduled) throw new Error("Planlama doğrulanamadı");
+      closePreview();
+      toast("Yayın planlandı: "+date.toLocaleString("tr-TR"));
+      await refresh();
+    } catch(error){toast(error.message);}
+    finally{button.disabled=false;}
+  });
+
   historyEl.addEventListener("click", async event => {
     const button = event.target.closest("[data-retry]");
     if (!button) return;
