@@ -338,7 +338,10 @@ export default async request => {
       .map(([key,value]) => [key,clean(value,50000)])),
     channelTitles:Object.fromEntries(Object.entries(body.channelTitles && typeof body.channelTitles === "object" ? body.channelTitles : {})
       .filter(([key]) => Object.hasOwn(PUBLISHER_RULES,key))
-      .map(([key,value]) => [key,clean(value,1000)]))
+      .map(([key,value]) => [key,clean(value,1000)])),
+    channelMediaUrls:Object.fromEntries(Object.entries(body.channelMediaUrls && typeof body.channelMediaUrls === "object" ? body.channelMediaUrls : {})
+      .filter(([key]) => Object.hasOwn(PUBLISHER_RULES,key))
+      .map(([key,value]) => [key,clean(value,2000)]))
   };
   if (!payload.title || !payload.text) return json({error:"Başlık ve yayın metni gerekli"},400);
 
@@ -357,7 +360,7 @@ export default async request => {
     error:previous ? "Bu kayıtta yeniden denenebilecek başarısız kanal yok" : "En az bir yayın kanalı seçin"
   },400);
 
-  const validationErrors = validatePublisherPayload(payload,requested,mediaKind(payload.mediaUrl));
+  const validationErrors = validatePublisherPayload(payload,requested,mediaKind);
   if (validationErrors.length) return json({
     error:"Yayın koşulları karşılanmıyor: "+validationErrors[0].message,
     validationErrors
