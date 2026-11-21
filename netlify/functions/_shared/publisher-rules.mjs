@@ -10,7 +10,8 @@ export const PUBLISHER_RULES = Object.freeze({
 export const effectiveChannelPayload = (payload, channel) => ({
   ...payload,
   title:payload.channelTitles?.[channel] ?? payload.title,
-  text:payload.channelTexts?.[channel] ?? payload.text
+  text:payload.channelTexts?.[channel] ?? payload.text,
+  mediaUrl:payload.channelMediaUrls?.[channel] ?? payload.mediaUrl
 });
 
 export function validatePublisherPayload(payload, channels, mediaKind = "none") {
@@ -28,6 +29,7 @@ export function validatePublisherPayload(payload, channels, mediaKind = "none") 
       continue;
     }
     const local = effectiveChannelPayload(payload,channel);
+    const channelMedia=local.mediaUrl ? (typeof mediaKind==="function" ? mediaKind(local.mediaUrl) : mediaKind) : "none";
     if (!local.text?.trim()) errors.push({channel,field:"text",message:rule.label+" için metin boş olamaz"});
     if (!local.title?.trim()) errors.push({channel,field:"title",message:rule.label+" için başlık boş olamaz"});
     if (rule.maxTextChars && Array.from(local.text || "").length > rule.maxTextChars)
@@ -36,8 +38,8 @@ export function validatePublisherPayload(payload, channels, mediaKind = "none") 
       errors.push({channel,field:"text",message:rule.label+" açıklaması en fazla "+rule.maxTextBytes+" UTF-8 bayt olabilir"});
     if (rule.maxTitleChars && Array.from(local.title || "").length > rule.maxTitleChars)
       errors.push({channel,field:"title",message:rule.label+" başlığı en fazla "+rule.maxTitleChars+" karakter olabilir"});
-    if (!rule.media.includes(mediaKind))
-      errors.push({channel,field:"media",message:rule.label+" seçilen medya türünü desteklemiyor ("+mediaKind+")"});
+    if (!rule.media.includes(channelMedia))
+      errors.push({channel,field:"media",message:rule.label+" seçilen medya türünü desteklemiyor ("+channelMedia+")"});
   }
   return errors;
 }
