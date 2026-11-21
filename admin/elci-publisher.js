@@ -146,6 +146,10 @@
         '</label>' +
         ((rule.maxTextChars || rule.maxTextBytes) ? '<button type="button" class="rule-shortener" data-shorten="' + esc(key) + '">Kısaltma taslağı öner</button>' : '') +
         (!mediaOk ? '<div class="rule-notice">Medya uyumsuz: ' + esc(media) + '. Bu platform için farklı bir medya seçilmesi gerekiyor.</div>' : '') +
+        (media==="image" && window.ElciMediaFit?.targets[key] ?
+          '<div class="rule-note">Kırpmasız görsel: ' + esc(window.ElciMediaFit.targets[key].label) + ' (' +
+          window.ElciMediaFit.targets[key].width + '×' + window.ElciMediaFit.targets[key].height +
+          '). Görselin tamamı korunur; kalan alan bulanık arka planla doldurulur.</div>' : '') +
         '<small>Metin yalnızca bu kanalda kullanılır. Son onaydan önce klinik ve tıbbi doğruluğunu kontrol edin.</small>' +
       '</div>';
     }).join("");
@@ -651,14 +655,30 @@
     confirmButton.innerHTML='<i class="fa-solid fa-circle-notch fa-spin"></i> Yayınlanıyor…';
     try {
       let mediaUrl = $("#mediaUrl").value.trim();
+      const channelMediaUrls = {};
       const file = $("#mediaFile").files && $("#mediaFile").files[0];
       if (file) {
         const help = $("#mediaHelp");
-        help.textContent = "Medya güvenli alana yükleniyor…";
+        help.textContent = "Medya uygun platform boyutlarına hazırlanıyor…";
         help.classList.add("uploading");
-        const uploaded = await uploadMedia(file);
-        mediaUrl = uploaded.url;
-        help.textContent = "Medya yüklendi ✓";
+        if (file.type.startsWith("image/") && window.ElciMediaFit) {
+          for (const channel of selected) {
+            const adapted=await window.ElciMediaFit.adaptImage(file,channel);
+            if (!adapted) {
+              // Unrecognized image channel: do not silently deliver the wrong image.
+              throw new Error("Bu platform için görsel boyutu tanımlanmamış: "+channel);
+            }
+            help.textContent=channel+" görseli yükleniyor ("+adapted.width+"×"+adapted.height+")…";
+            const uploaded=await uploadMedia(adapted.file);
+            channelMediaUrls[channel]=uploaded.url;
+            mediaUrl ||= uploaded.url;
+          }
+        } else {
+          // Video remains unchanged; 5 MB direct upload / external URL policy still applies.
+          const uploaded = await uploadMedia(file);
+          mediaUrl = uploaded.url;
+        }
+        help.textContent = "Medya kanallara uygun hazırlandı ✓";
       }
       const data = await api("POST", {
         title:$("#title").value,
@@ -667,6 +687,7 @@
         youtubePrivacy:$("#youtubePrivacy").value,
         channelTexts:{...channelTexts},
         channelTitles:{...channelTitles},
+        channelMediaUrls,
         channels:selected
       });
       renderResults(data.results || []);
