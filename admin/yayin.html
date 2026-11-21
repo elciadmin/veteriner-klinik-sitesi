@@ -80,6 +80,11 @@
               <h3 id="platformRulesHeading">Platforma özel metin ve kural kontrolü</h3>
               <p>Her kanalın sınırını burada gör. Gerekirse yalnızca o kanala gidecek metni düzenle; son onay olmadan yayın yapılmaz.</p>
             </div>
+            <div class="rule-actions">
+              <button type="button" class="rule-shortener" id="generateAiVariants">Yapay zekâyla platform metinleri hazırla</button>
+              <small>Metindeki önemli noktaları koruyarak taslak önerir. Yayın öncesinde düzenleyip onaylayabilirsiniz.</small>
+            </div>
+            <div id="aiFeedback" class="rule-ai-feedback" aria-live="polite"></div>
             <div id="channelRules" class="platform-rules" aria-live="polite">Kurallar yükleniyor…</div>
           </section>
 
@@ -150,6 +155,7 @@
 
   <div id="toast" class="toast hidden"></div>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script src="/admin/elci-publisher.js?v=20261121-rules"></script>
+  <script src="/admin/elci-media-fit.js?v=20261121-a"></script>
+  <script src="/admin/elci-publisher.js?v=20261121-ai-media"></script>
 </body>
 </html>
