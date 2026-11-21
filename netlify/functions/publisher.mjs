@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import { getStore } from "@netlify/blobs";
 import { getUser, verifyRequestOrigin } from "@netlify/identity";
 import { loadOAuthSecret } from "./_shared/publisher-oauth-store.mjs";
+import { PUBLISHER_RULES, effectiveChannelPayload, validatePublisherPayload } from "./_shared/publisher-rules.mjs";
 
 const RUNTIME_API = "https://elci-content-api.elcivetklinik.workers.dev";
 const MAX_REMOTE_MEDIA = 80 * 1024 * 1024;
@@ -309,7 +310,8 @@ export default async request => {
 
   if (request.method === "GET") return json({
     channels:await channelStatus(),
-    mode:"one-click-publisher-v2",
+    rules:PUBLISHER_RULES,
+    mode:"one-click-publisher-v3-rules",
     history:await publicationHistory(12)
   });
   if (request.method !== "POST") return json({error:"Desteklenmeyen yöntem"},405);
@@ -326,10 +328,17 @@ export default async request => {
   if (retryOf && !previous) return json({error:"Yeniden denenecek yayın kaydı bulunamadı"},404);
 
   const payload = previous ? previous.payload : {
-    title:clean(body.title,180),
-    text:clean(body.text,5000),
+    // Do not silently truncate a veterinary explanation: validate first.
+    title:clean(body.title,1000),
+    text:clean(body.text,50000),
     mediaUrl:clean(body.mediaUrl,2000),
-    youtubePrivacy:["public","unlisted","private"].includes(body.youtubePrivacy) ? body.youtubePrivacy : "public"
+    youtubePrivacy:["public","unlisted","private"].includes(body.youtubePrivacy) ? body.youtubePrivacy : "public",
+    channelTexts:Object.fromEntries(Object.entries(body.channelTexts && typeof body.channelTexts === "object" ? body.channelTexts : {})
+      .filter(([key]) => Object.hasOwn(PUBLISHER_RULES,key))
+      .map(([key,value]) => [key,clean(value,50000)])),
+    channelTitles:Object.fromEntries(Object.entries(body.channelTitles && typeof body.channelTitles === "object" ? body.channelTitles : {})
+      .filter(([key]) => Object.hasOwn(PUBLISHER_RULES,key))
+      .map(([key,value]) => [key,clean(value,1000)]))
   };
   if (!payload.title || !payload.text) return json({error:"Başlık ve yayın metni gerekli"},400);
 
@@ -348,11 +357,17 @@ export default async request => {
     error:previous ? "Bu kayıtta yeniden denenebilecek başarısız kanal yok" : "En az bir yayın kanalı seçin"
   },400);
 
+  const validationErrors = validatePublisherPayload(payload,requested,mediaKind(payload.mediaUrl));
+  if (validationErrors.length) return json({
+    error:"Yayın koşulları karşılanmıyor: "+validationErrors[0].message,
+    validationErrors
+  },400);
+
   const status = await channelStatus();
   const results = await Promise.all(requested.map(async channel => {
     if (!status[channel]?.ready) return {channel,ok:false,skipped:true,error:status[channel]?.detail || "Kanal bağlı değil"};
     try {
-      const output = await adapters[channel](payload);
+      const output = await adapters[channel](effectiveChannelPayload(payload,channel));
       return {channel,ok:true,...output};
     } catch (error) {
       return {channel,ok:false,error:clean(error?.message || "Yayın başarısız",500)};
