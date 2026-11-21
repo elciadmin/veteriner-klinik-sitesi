@@ -584,6 +584,48 @@
     scheduleDraftSave();
   });
 
+  $("#generateAiVariants").addEventListener("click", async () => {
+    const selected=selectedChannels();
+    const title=($("#title")?.value || "").trim();
+    const text=($("#text")?.value || "").trim();
+    const target=$("#aiFeedback"),button=$("#generateAiVariants");
+    if (!title || !text || !selected.length) {
+      toast("Önce ana başlığı, metni ve yayın kanallarını seçin.");
+      return;
+    }
+    button.disabled=true;
+    button.textContent="Metin önerileri hazırlanıyor…";
+    target.textContent="";
+    try {
+      const response=await fetch("/.netlify/functions/publisher-ai",{
+        method:"POST",credentials:"same-origin",cache:"no-store",
+        headers:{...await authHeaders(), "Content-Type":"application/json",Accept:"application/json"},
+        body:JSON.stringify({title,text,channels:selected})
+      });
+      const result=await response.json().catch(()=>({}));
+      if (!response.ok || !result.ok) throw new Error(result.error || "Yapay zekâ önerisi alınamadı");
+      for(const row of result.variants || []) {
+        if (!selected.includes(row.channel)) continue;
+        channelTexts[row.channel]=row.text;
+        channelTitles[row.channel]=row.title;
+      }
+      renderChannelRules();
+      const warnings=(result.warnings || []).map(x=>'<li>'+esc(x)+'</li>').join("");
+      const facts=(result.keyFacts || []).map(x=>'<li>'+esc(x)+'</li>').join("");
+      target.innerHTML='<strong>Önemli noktalar</strong><ul>'+facts+'</ul>'+
+        (warnings ? '<strong>Kontrol gerektirenler</strong><ul>'+warnings+'</ul>' : "") +
+        '<p>Öneriler düzenlenebilir. Veteriner hekim onayından önce yayınlanmaz.</p>';
+      scheduleDraftSave();
+      toast("Platform metinleri önerildi; tüm taslakları inceleyin.");
+    }catch(error){
+      target.textContent=error.message;
+      toast(error.message);
+    }finally{
+      button.disabled=false;
+      button.textContent="Yapay zekâyla platform metinleri hazırla";
+    }
+  });
+
   $("#channelRules").addEventListener("click", event => {
     const button=event.target.closest("[data-shorten]");
     if (!button) return;
