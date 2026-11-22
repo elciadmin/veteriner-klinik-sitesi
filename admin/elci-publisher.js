@@ -450,6 +450,8 @@
       parent.appendChild(root);
     }
     root.querySelectorAll("[data-scheduled-row]").forEach(node=>node.remove());
+    const loading=root.querySelector("p:not([data-scheduled-row])");
+    if(loading) loading.remove();
     if (!jobs.length) {
       const row=document.createElement("p");
       row.dataset.scheduledRow="1";
@@ -760,10 +762,6 @@
   });
 
   // Scheduling is explicit: the user must approve the preview first.
-  const scheduleArea=document.createElement("div");
-  scheduleArea.style.cssText="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px";
-  scheduleArea.innerHTML='<label for="publisherScheduleAt">İleri tarih (Türkiye saati)</label><input id="publisherScheduleAt" type="datetime-local" aria-label="Planlanan yayın tarihi"><button type="button" id="publisherScheduleButton">Onayla ve ileri tarihe planla</button>';
-  $("#confirmPublish").parentElement.appendChild(scheduleArea);
   $("#publisherScheduleButton").addEventListener("click",async()=>{
     const input=$("#publisherScheduleAt"),button=$("#publisherScheduleButton");
     if ($("#previewModal").classList.contains("hidden")) return toast("Önce önizlemeyi açıp onaylayın.");
