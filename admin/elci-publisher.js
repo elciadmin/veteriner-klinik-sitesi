@@ -436,6 +436,38 @@
     }).join("");
   }
 
+  function renderScheduled(jobs) {
+    let root=$("#scheduledPublications");
+    if (!root) {
+      root=document.createElement("section");
+      root.id="scheduledPublications";
+      root.className="history";
+      root.style.cssText="padding:16px;margin-top:16px;border-radius:12px;background:white";
+      const heading=document.createElement("h3");
+      heading.textContent="Planlanan yayınlar";
+      root.appendChild(heading);
+      const parent=historyEl.parentElement;
+      parent.appendChild(root);
+    }
+    root.querySelectorAll("[data-scheduled-row]").forEach(node=>node.remove());
+    if (!jobs.length) {
+      const row=document.createElement("p");
+      row.dataset.scheduledRow="1";
+      row.textContent="Henüz planlanmış yayın yok.";
+      root.appendChild(row);return;
+    }
+    for(const job of jobs.slice(0,30)) {
+      const row=document.createElement("article");
+      row.dataset.scheduledRow="1";
+      row.className="history-item";
+      const when=new Date(job.publishAt).toLocaleString("tr-TR",{timeZone:"Europe/Istanbul"});
+      row.innerHTML='<strong>'+esc(job.payload?.title||"Yayın")+'</strong>'+
+        '<p>'+esc(when)+' · '+esc(job.status)+' · '+esc((job.channels||[]).map(k=>status[k]?.label||k).join(", "))+'</p>'+
+        (job.status==="pending" ? '<button type="button" data-cancel-schedule="'+esc(job.id)+'">Planlamayı iptal et</button>' : '');
+      root.appendChild(row);
+    }
+  }
+
   function renderHistory(history) {
     if (!history || !history.length) {
       historyEl.className = "history empty";
@@ -469,6 +501,7 @@
       rules = data.rules || {};
       renderStatus();
       renderHistory(data.history || []);
+      renderScheduled(data.scheduled || []);
     } catch (error) {
       toast(error.message);
     }
@@ -768,6 +801,17 @@
       await refresh();
     } catch(error){toast(error.message);}
     finally{button.disabled=false;}
+  });
+
+  document.addEventListener("click",async event=>{
+    const button=event.target.closest("[data-cancel-schedule]");
+    if(!button || !window.confirm("Bu planlanan yayını iptal etmek istiyor musunuz?")) return;
+    button.disabled=true;
+    try {
+      const result=await api("POST",{cancelScheduleId:button.dataset.cancelSchedule});
+      if(!result.ok) throw new Error("Planlama iptal edilemedi");
+      toast("Planlanan yayın iptal edildi.");await refresh();
+    } catch(error){toast(error.message);button.disabled=false;}
   });
 
   historyEl.addEventListener("click", async event => {
