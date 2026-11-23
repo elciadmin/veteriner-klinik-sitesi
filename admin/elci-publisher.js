@@ -522,6 +522,7 @@
   }
 
   $("#selectReady").addEventListener("click", () => {
+    pendingPublish=false;
     syncApplicability();
     document.querySelectorAll('input[name="channel"]:not(:disabled)').forEach(input => {
       input.checked = true;
@@ -597,7 +598,7 @@
   $("#youtubePrivacy").addEventListener("change", () => { pendingPublish=false; scheduleDraftSave(); });
   $("#channels").addEventListener("change", () => { pendingPublish=false; renderChannelRules(); scheduleDraftSave(); });
   $("#saveDraft").addEventListener("click", () => saveDraft(false));
-  $("#previewButton").addEventListener("click", () => { pendingPublish=false; renderPreview(); });
+  $("#previewButton").addEventListener("click", () => { pendingPublish=renderPreview(); });
   $("#closePreview").addEventListener("click", closePreview);
   $("#cancelPreview").addEventListener("click", closePreview);
   $("#previewModal").addEventListener("click", event => { if (event.target === $("#previewModal")) closePreview(); });
@@ -657,6 +658,7 @@
       });
       const result=await response.json().catch(()=>({}));
       if (!response.ok || !result.ok) throw new Error(result.error || "Yapay zekâ önerisi alınamadı");
+      pendingPublish=false;
       for(const row of result.variants || []) {
         if (!selected.includes(row.channel)) continue;
         channelTexts[row.channel]=row.text;
@@ -684,6 +686,7 @@
     if (!button) return;
     const key=button.dataset.shorten,rule=rules[key];
     if (!rule) return;
+    pendingPublish=false;
     channelTexts[key]=shortenSuggestion(channelText(key),rule);
     renderChannelRules();
     scheduleDraftSave();
@@ -708,6 +711,8 @@
     const confirmButton=$("#confirmPublish");
     const selected = selectedChannels();
     if (!checkUploadSize()) return;
+    const issues=validateLocal(selected);
+    if(issues.length) return toast(issues[0]);
     if (!selected.length) {
       toast("En az bir hazır kanal seçin.");
       return;
@@ -757,14 +762,14 @@
       renderResults(data.results || []);
       $("#previewModal").classList.add("hidden");
       pendingPublish=false;
-      if (data.ok) {
+      if (data.complete) {
         localStorage.removeItem(DRAFT_KEY);
         const stateEl=$("#draftState");
         if (stateEl) stateEl.textContent="Son yayın işlendi; yeni içerik için taslak alanı hazır.";
       } else {
         saveDraft(true);
       }
-      toast(data.complete ? "Tüm seçili kanallara yayınlandı." : "Yayın tamamlandı; bazı kanalları kontrol edin.");
+      toast(data.complete ? "Tüm seçili kanallara yayınlandı." : "Bazı kanallar başarısız veya atlandı. Taslak saklandı; geçmişi kontrol edin.");
       await refresh();
     } catch (error) {
       toast(error.message);
