@@ -4,12 +4,15 @@ on:
   pull_request:
     paths:
       - 'admin/elci-publisher.js'
+      - 'admin/elci-publisher.css'
+      - 'admin/elci-media-fit.js'
       - 'admin/yayin.html'
       - 'netlify/functions/publisher*.mjs'
       - 'netlify/functions/_shared/publisher-*.mjs'
       - 'tests/publisher-*.test.mjs'
       - 'package.json'
       - 'package-lock.json'
+      - 'scripts/security-smoke.mjs'
       - '.github/workflows/publisher-verify.yml'
   workflow_dispatch:
 
