@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { schedulePublication, listSchedules, cancelSchedule } from "./_shared/publisher-schedule.mjs";
+import { listSchedules, cancelSchedule } from "./_shared/publisher-schedule.mjs";
 import { getStore } from "@netlify/blobs";
 import { getUser, verifyRequestOrigin } from "@netlify/identity";
 import { loadOAuthSecret } from "./_shared/publisher-oauth-store.mjs";
@@ -385,14 +385,8 @@ export default async request => {
   },400);
 
   if (!previous && body.publishAt) {
-    // Do not accept jobs that the production scheduler cannot safely execute.
-    // A queued-but-never-published post is worse than an explicit error.
+    // No schedule can be accepted while execution is deliberately disabled.
     return json({error:"Otomatik yayın planlaması güvenlik doğrulaması tamamlanana kadar kapalı. Şimdi yayınla seçeneğini kullanabilirsiniz."},503);
-    if (requested.some(channel=>!Object.hasOwn(adapters,channel))) return json({error:"Geçersiz kanal"},400);
-    try {
-      const job=await schedulePublication({payload,channels:requested,publishAt:body.publishAt,actor:auth.user.email||auth.user.id||"yetkili"});
-      return json({ok:true,scheduled:true,id:job.id,publishAt:job.publishAt},201);
-    } catch(error){return json({error:error.message},400);}
   }
   const results=await dispatchPublisher(payload,requested);
 
