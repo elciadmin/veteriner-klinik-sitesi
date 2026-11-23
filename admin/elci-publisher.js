@@ -676,10 +676,21 @@
     toast("Kısaltma taslağı hazır. Eksilen tıbbi bilgileri ve anlamı kontrol ederek onaylayın.");
   });
 
+  function checkUploadSize() {
+    const file=$("#mediaFile")?.files?.[0];
+    if (!file) return true;
+    if (file.size > 5*1024*1024) {
+      toast("Bu dosya 5 MB sınırını aşıyor. Şimdilik doğrudan erişilebilir medya bağlantısı kullanın.");
+      return false;
+    }
+    return true;
+  }
+
   async function publishNow() {
     const button = $("#publishButton");
     const confirmButton=$("#confirmPublish");
     const selected = selectedChannels();
+    if (!checkUploadSize()) return;
     if (!selected.length) {
       toast("En az bir hazır kanal seçin.");
       return;
@@ -743,8 +754,8 @@
     } finally {
       button.disabled = false;
       confirmButton.disabled=false;
-      button.innerHTML = '<i class="fa-solid fa-paper-plane"></i><span>HER YERDE YAYINLA</span>';
-      confirmButton.innerHTML='<i class="fa-solid fa-paper-plane"></i> Onayla ve yayınla';
+      button.innerHTML = '<i class="fa-solid fa-paper-plane"></i><span>ÖNİZLE VE YAYIN SEÇENEKLERİ</span>';
+      confirmButton.innerHTML='<i class="fa-solid fa-paper-plane"></i> Şimdi yayınla';
     }
   }
 
@@ -769,6 +780,7 @@
     const date=new Date(input.value);
     if (!Number.isFinite(date.getTime()) || date.getTime()<Date.now()+60000) return toast("En az bir dakika sonrasını seçin.");
     const selected=selectedChannels();
+    if (!checkUploadSize()) return;
     if (validateLocal(selected).length) return toast("Platform kurallarını kontrol edin.");
     button.disabled=true;
     try {
