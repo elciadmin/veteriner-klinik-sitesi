@@ -782,8 +782,13 @@
       toast(data.warning || (data.complete ? "Tüm seçili kanallara yayınlandı." : "Bazı kanallar başarısız veya atlandı. Taslak saklandı; geçmişi kontrol edin."));
       await refresh();
     } catch (error) {
-      toast(error.message);
+      // The request may have reached a platform even when the browser loses
+      // the response. Never suggest an immediate retry of an uncertain publish.
+      const message = String(error?.message || "Yayın sonucu doğrulanamadı.");
+      toast(message + " Yayın isteği gönderilmiş olabilir; yeniden denemeden önce platformları ve yayın geçmişini kontrol edin.");
       saveDraft(true);
+      pendingPublish=false;
+      $("#previewModal").classList.add("hidden");
     } finally {
       publishingInProgress=false;
       button.disabled = false;
