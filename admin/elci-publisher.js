@@ -203,6 +203,15 @@
     return '<div class="preview-media empty">Medya bağlantısı önizlenemiyor; yayın sırasında bağlantı kullanılacak.</div>';
   }
 
+  let approvedPreviewSnapshot = null;
+  function currentPreviewSnapshot() {
+    const file = $("#mediaFile")?.files?.[0];
+    return JSON.stringify({
+      draft:formSnapshot(),
+      file:file ? {name:file.name,size:file.size,type:file.type,lastModified:file.lastModified} : null
+    },(key,value)=>key==="savedAt" ? undefined : value);
+  }
+
   function renderPreview() {
     const title=($("#title")?.value || "").trim();
     const text=($("#text")?.value || "").trim();
@@ -225,6 +234,7 @@
             '<strong>' + esc(channelTitle(key)) + '</strong><p>' + esc(channelText(key)) + '</p></div>').join("") +
         '</div>' +
       '</article>';
+    approvedPreviewSnapshot = currentPreviewSnapshot();
     $("#previewModal").classList.remove("hidden");
     return true;
   }
@@ -232,6 +242,7 @@
   function closePreview() {
     $("#previewModal").classList.add("hidden");
     pendingPublish=false;
+    approvedPreviewSnapshot=null;
   }
 
   async function authHeaders() {
@@ -717,6 +728,12 @@
   async function publishNow() {
     if(publishingInProgress) return;
     if($("#previewModal").classList.contains("hidden") || !pendingPublish) return toast("Yayınlamak için önce önizlemeyi onaylayın.");
+    if (!approvedPreviewSnapshot || approvedPreviewSnapshot !== currentPreviewSnapshot()) {
+      pendingPublish=false;
+      approvedPreviewSnapshot=null;
+      $("#previewModal").classList.add("hidden");
+      return toast("İçerik veya kanal seçimi değişti. Yayınlamadan önce yeniden önizleyin.");
+    }
     const button = $("#publishButton");
     const confirmButton=$("#confirmPublish");
     const selected = selectedChannels();
