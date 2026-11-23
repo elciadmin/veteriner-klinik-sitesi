@@ -323,7 +323,9 @@ export default async request => {
     rules:PUBLISHER_RULES,
     mode:"one-click-publisher-v3-rules",
     history:await publicationHistory(12),
-    scheduled:await listSchedules()
+    scheduled:await listSchedules(),
+    schedulerEnabled:false,
+    schedulerNotice:"Otomatik gönderim güvenlik doğrulaması tamamlanana kadar devre dışı."
   });
   if (request.method !== "POST") return json({error:"Desteklenmeyen yöntem"},405);
 
