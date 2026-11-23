@@ -504,6 +504,17 @@
       renderStatus();
       renderHistory(data.history || []);
       renderScheduled(data.scheduled || []);
+      const scheduleButton=$("#publisherScheduleButton");
+      if(scheduleButton) {
+        scheduleButton.disabled=data.schedulerEnabled!==true;
+        scheduleButton.title=data.schedulerEnabled===true ? "" : (data.schedulerNotice || "Otomatik yayın şu anda kapalı");
+      }
+      const scheduleCard=$("#scheduleCard");
+      if(scheduleCard) {
+        let notice=scheduleCard.querySelector("[data-scheduler-notice]");
+        if(!notice) { notice=document.createElement("p");notice.dataset.schedulerNotice="1";notice.className="rule-notice";scheduleCard.insertBefore(notice,$("#scheduledPublications")); }
+        notice.textContent=data.schedulerEnabled===true ? "Otomatik yayın etkin." : (data.schedulerNotice || "Otomatik yayın şu anda kapalı.");
+      }
     } catch (error) {
       toast(error.message);
     }
