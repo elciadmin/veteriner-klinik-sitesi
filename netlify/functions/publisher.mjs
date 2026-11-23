@@ -308,11 +308,6 @@ async function publicationHistory(limit=12) {
   return rows.sort((a,b)=>String(b.createdAt||"").localeCompare(String(a.createdAt||""))).slice(0,limit);
 }
 
-async function publicationRead(id) {
-  if (!/^[0-9a-f-]{20,80}$/i.test(String(id||""))) return null;
-  return publicationStore().get("publication/" + id,{type:"json",consistency:"strong"});
-}
-
 async function publicationSave(record) {
   await publicationStore().setJSON("publication/" + record.id,record,{
     metadata:{createdAt:record.createdAt,actor:record.actor || "",complete:Boolean(record.complete)}
@@ -323,15 +318,25 @@ export default async request => {
   const auth = await authorize();
   if (auth.error) return auth.error;
 
-  if (request.method === "GET") return json({
-    channels:await channelStatus(),
-    rules:PUBLISHER_RULES,
-    mode:"one-click-publisher-v3-rules",
-    history:await publicationHistory(12),
-    scheduled:await listSchedules(),
-    schedulerEnabled:false,
-    schedulerNotice:"Otomatik gönderim güvenlik doğrulaması tamamlanana kadar devre dışı."
-  });
+  if (request.method === "GET") {
+    let history = [];
+    let historyNotice = null;
+    try { history = await publicationHistory(12); }
+    catch (error) {
+      console.error("Publisher history unavailable",String(error?.message || error));
+      historyNotice = "Yayın geçmişi şu anda yüklenemiyor. Tekrar yayınlamadan önce platformdaki gönderileri kontrol edin.";
+    }
+    return json({
+      channels:await channelStatus(),
+      rules:PUBLISHER_RULES,
+      mode:"one-click-publisher-v3-rules",
+      history,
+      historyNotice,
+      scheduled:[],
+      schedulerEnabled:false,
+      schedulerNotice:"Otomatik gönderim güvenlik doğrulaması tamamlanana kadar devre dışı."
+    });
+  }
   if (request.method !== "POST") return json({error:"Desteklenmeyen yöntem"},405);
 
   try { verifyRequestOrigin(request); }
