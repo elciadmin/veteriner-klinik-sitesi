@@ -346,9 +346,13 @@ export default async request => {
     return json({ok:cancelled},cancelled?200:409);
   }
 
-  const retryOf = clean(body.retryPublicationId,80);
-  const previous = retryOf ? await publicationRead(retryOf) : null;
-  if (retryOf && !previous) return json({error:"Yeniden denenecek yayın kaydı bulunamadı"},404);
+  // Retrying an external publish is unsafe without an atomic per-channel claim.
+  // A timeout may mean the remote platform accepted the post even if no result was saved.
+  if (body.retryPublicationId) return json({
+    error:"Yeniden yayınlama güvenli tekrar önleme altyapısı tamamlanana kadar kapalı. Önce platformdaki gönderileri ve yayın geçmişini kontrol edin."
+  },409);
+  const retryOf = "";
+  const previous = null;
 
   const payload = previous ? previous.payload : {
     // Do not silently truncate a veterinary explanation: validate first.
