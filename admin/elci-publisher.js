@@ -846,30 +846,6 @@
     } catch(error){toast(error.message);button.disabled=false;}
   });
 
-  historyEl.addEventListener("click", async event => {
-    const button = event.target.closest("[data-retry]");
-    if (!button) return;
-    let channels = [];
-    try { channels = JSON.parse(decodeURIComponent(button.dataset.channels || "")); } catch {}
-    if (!channels.length) return;
-    // Retry is a real publication, not a dry run: always ask for approval.
-    if (!window.confirm("Başarısız kanallarda yeniden GERÇEK yayın denemesi yapılacak. Onaylıyor musunuz?")) return;
-    button.disabled = true;
-    const original = button.innerHTML;
-    button.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Yeniden deneniyor…';
-    try {
-      const data = await api("POST",{retryPublicationId:button.dataset.retry,channels});
-      renderResults(data.results || []);
-      toast(data.complete ? "Başarısız kanallar tamamlandı." : "Yeniden deneme tamamlandı; sonucu kontrol edin.");
-      await refresh();
-    } catch (error) {
-      toast(error.message);
-    } finally {
-      button.disabled = false;
-      button.innerHTML = original;
-    }
-  });
-
   $("#loginButton").addEventListener("click", () => {
     if (window.netlifyIdentity) window.netlifyIdentity.open("login");
   });
