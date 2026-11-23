@@ -244,7 +244,7 @@ function safeRemoteMediaUrl(raw) {
   if (url.protocol!=="https:" || url.username || url.password || url.port && url.port!=="443") {
     throw new Error("Video bağlantısı herkese açık HTTPS adresi olmalı");
   }
-  const host=url.hostname.toLowerCase().replace(/\\.$/,"");
+  const host=url.hostname.toLowerCase().replace(/\.$/,"");
   if (!host || host==="localhost" || host.endsWith(".localhost") || host.endsWith(".local") ||
       host.endsWith(".internal") || host.endsWith(".test") || host.endsWith(".invalid") ||
       host.endsWith(".example") || host.endsWith(".onion") ||
@@ -261,6 +261,7 @@ async function publishYouTube(payload) {
   const media = await fetch(safeRemoteMediaUrl(payload.mediaUrl),{cache:"no-store",redirect:"error"});
   if (!media.ok || !media.body) throw new Error("Video indirilemedi");
   const mediaType = media.headers.get("content-type") || "video/mp4";
+  if (!/^video\/(mp4|webm|quicktime|x-m4v)(?:\s*;|$)/i.test(mediaType)) throw new Error("Video bağlantısı geçerli bir video dosyası döndürmüyor");
   const length = Number(media.headers.get("content-length") || 0);
   if (length && length > MAX_REMOTE_MEDIA) throw new Error("YouTube doğrudan yükleme için video 80 MB sınırını aşıyor");
 
