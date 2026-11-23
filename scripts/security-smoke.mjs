@@ -1,8 +1,10 @@
 import assert from "node:assert/strict";
-import financeAccess from "../netlify/functions/finance-access.mjs";
+import { handler as financeAccess } from "../netlify/functions/finance-access.mjs";
 
 const original = { ...process.env };
-const event = (user) => ({ httpMethod: "GET", clientContext: user ? { user } : {} });
+const event = () => ({ httpMethod: "GET" });
+const context = user => ({ clientContext: user ? { user } : {} });
+const invoke = user => financeAccess(event(), context(user));
 const body = (response) => JSON.parse(response.body);
 
 try {
@@ -12,25 +14,25 @@ try {
   delete process.env.FINANCE_APP_URL;
   delete process.env.FINANCE_ACCESS_SHARED_SECRET;
 
-  let response = await financeAccess(event(null));
+  let response = await invoke(null);
   assert.equal(response.statusCode, 401);
 
-  response = await financeAccess(event({ email: "user@example.com", roles: [] }));
+  response = await invoke({ email: "user@example.com", roles: [] }));
   assert.equal(response.statusCode, 403, "empty allowlists must fail closed");
 
   process.env.FINANCE_EDITOR_EMAILS = "editor@example.com";
   process.env.FINANCE_APP_URL = "http://unsafe.example";
   process.env.FINANCE_ACCESS_SHARED_SECRET = "x".repeat(40);
-  response = await financeAccess(event({ email: "editor@example.com", roles: [] }));
+  response = await invoke({ email: "editor@example.com", roles: [] }));
   assert.equal(response.statusCode, 503, "non-HTTPS finance URL must be rejected");
 
   process.env.FINANCE_APP_URL = "https://finance.example";
   process.env.FINANCE_ACCESS_SHARED_SECRET = "short";
-  response = await financeAccess(event({ email: "editor@example.com", roles: [] }));
+  response = await invoke({ email: "editor@example.com", roles: [] }));
   assert.equal(response.statusCode, 503, "short shared secret must be rejected");
 
   process.env.FINANCE_ACCESS_SHARED_SECRET = "a-secure-random-value-with-at-least-32-characters";
-  response = await financeAccess(event({ email: "EDITOR@example.com", roles: [] }));
+  response = await invoke({ email: "EDITOR@example.com", roles: [] }));
   assert.equal(response.statusCode, 200);
   const launch = new URL(body(response).url);
   assert.equal(launch.origin, "https://finance.example");
