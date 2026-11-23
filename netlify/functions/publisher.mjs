@@ -1,3 +1,4 @@
+import { safeRemoteMediaUrl } from "./_shared/publisher-media-url.mjs";
 import { randomUUID } from "node:crypto";
 import { listSchedules, cancelSchedule } from "./_shared/publisher-schedule.mjs";
 import { getStore } from "@netlify/blobs";
@@ -238,22 +239,6 @@ async function publishGmb(payload) {
 
 // Restrict server-side media fetches to public HTTPS hosts.
 // DNS-level private-address protection still requires an egress proxy.
-function safeRemoteMediaUrl(raw) {
-  let url;
-  try { url=new URL(raw); } catch { throw new Error("Geçerli bir video bağlantısı girin"); }
-  if (url.protocol!=="https:" || url.username || url.password || url.port && url.port!=="443") {
-    throw new Error("Video bağlantısı herkese açık HTTPS adresi olmalı");
-  }
-  const host=url.hostname.toLowerCase().replace(/\.$/,"");
-  if (!host || host==="localhost" || host.endsWith(".localhost") || host.endsWith(".local") ||
-      host.endsWith(".internal") || host.endsWith(".test") || host.endsWith(".invalid") ||
-      host.endsWith(".example") || host.endsWith(".onion") ||
-      /^[0-9.]+$/.test(host) || host.includes(":") ||
-      host==="metadata.google.internal") {
-    throw new Error("Yerel veya özel ağ adreslerinden video alınamaz");
-  }
-  return url.href;
-}
 
 async function publishYouTube(payload) {
   if (mediaKind(payload.mediaUrl) !== "video") throw new Error("YouTube için video URL'si gerekli");
