@@ -507,6 +507,13 @@
       rules = data.rules || {};
       renderStatus();
       renderHistory(data.history || []);
+      if (data.historyNotice) {
+        historyEl.className = "history";
+        const notice = document.createElement("p");
+        notice.className = "rule-notice";
+        notice.textContent = data.historyNotice;
+        historyEl.prepend(notice);
+      }
       renderScheduled(data.scheduled || []);
       const scheduleButton=$("#publisherScheduleButton");
       if(scheduleButton) {
