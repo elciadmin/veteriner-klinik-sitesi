@@ -340,6 +340,7 @@ export default async request => {
   let body;
   try { body = await request.json(); }
   catch { return json({error:"Geçersiz veri"},400); }
+  if (!body || typeof body !== "object" || Array.isArray(body)) return json({error:"Yayın verisi bir JSON nesnesi olmalı"},400);
 
   if (body.cancelScheduleId) {
     const cancelled=await cancelSchedule(clean(body.cancelScheduleId,80));
