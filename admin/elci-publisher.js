@@ -209,6 +209,7 @@
     const selected=selectedChannels();
     if (!title || !text) { toast("Önizleme için başlık ve yayın metni gerekli."); return false; }
     if (!selected.length) { toast("Önizleme için en az bir hazır kanal seçin."); return false; }
+    if (!checkUploadSize()) return false;
     const issues=validateLocal(selected);
     if (issues.length) { toast(issues[0]); return false; }
     const badges=selected.map(key => {
@@ -590,11 +591,11 @@
     }
   });
 
-  $("#mediaUrl").addEventListener("input", () => { syncApplicability(); renderChannelRules(); scheduleDraftSave(); });
-  $("#title").addEventListener("input", () => { updateCounters(); renderChannelRules(); scheduleDraftSave(); });
-  $("#text").addEventListener("input", () => { updateCounters(); renderChannelRules(); scheduleDraftSave(); });
-  $("#youtubePrivacy").addEventListener("change", scheduleDraftSave);
-  $("#channels").addEventListener("change", () => { renderChannelRules(); scheduleDraftSave(); });
+  $("#mediaUrl").addEventListener("input", () => { pendingPublish=false; syncApplicability(); renderChannelRules(); scheduleDraftSave(); });
+  $("#title").addEventListener("input", () => { pendingPublish=false; updateCounters(); renderChannelRules(); scheduleDraftSave(); });
+  $("#text").addEventListener("input", () => { pendingPublish=false; updateCounters(); renderChannelRules(); scheduleDraftSave(); });
+  $("#youtubePrivacy").addEventListener("change", () => { pendingPublish=false; scheduleDraftSave(); });
+  $("#channels").addEventListener("change", () => { pendingPublish=false; renderChannelRules(); scheduleDraftSave(); });
   $("#saveDraft").addEventListener("click", () => saveDraft(false));
   $("#previewButton").addEventListener("click", () => { pendingPublish=false; renderPreview(); });
   $("#closePreview").addEventListener("click", closePreview);
@@ -602,6 +603,7 @@
   $("#previewModal").addEventListener("click", event => { if (event.target === $("#previewModal")) closePreview(); });
 
   $("#mediaFile").addEventListener("change", () => {
+    pendingPublish=false;
     const file = $("#mediaFile").files && $("#mediaFile").files[0];
     const help = $("#mediaHelp");
     if (!file) {
@@ -618,6 +620,7 @@
 
 
   $("#channelRules").addEventListener("input", event => {
+    pendingPublish=false;
     const field=event.target.closest("[data-channel-edit]");
     if (!field) return;
     const key=field.dataset.channelEdit;
@@ -697,7 +700,10 @@
     return true;
   }
 
+  let publishingInProgress=false;
   async function publishNow() {
+    if(publishingInProgress) return;
+    if($("#previewModal").classList.contains("hidden") || !pendingPublish) return toast("Yayınlamak için önce önizlemeyi onaylayın.");
     const button = $("#publishButton");
     const confirmButton=$("#confirmPublish");
     const selected = selectedChannels();
@@ -706,6 +712,7 @@
       toast("En az bir hazır kanal seçin.");
       return;
     }
+    publishingInProgress=true;
     button.disabled = true;
     confirmButton.disabled=true;
     button.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i><span>YAYINLANIYOR…</span>';
@@ -763,6 +770,7 @@
       toast(error.message);
       saveDraft(true);
     } finally {
+      publishingInProgress=false;
       button.disabled = false;
       confirmButton.disabled=false;
       button.innerHTML = '<i class="fa-solid fa-paper-plane"></i><span>ÖNİZLE VE YAYIN SEÇENEKLERİ</span>';
@@ -777,9 +785,7 @@
   });
 
   $("#confirmPublish").addEventListener("click", async () => {
-    if (!pendingPublish) {
-      pendingPublish=true;
-    }
+    if (!pendingPublish) return toast("Önce önizlemeyi açıp onaylayın.");
     await publishNow();
   });
 
