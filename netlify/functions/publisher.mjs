@@ -352,10 +352,7 @@ export default async request => {
   if (body.retryPublicationId) return json({
     error:"Yeniden yayınlama güvenli tekrar önleme altyapısı tamamlanana kadar kapalı. Önce platformdaki gönderileri ve yayın geçmişini kontrol edin."
   },409);
-  const retryOf = "";
-  const previous = null;
-
-  const payload = previous ? previous.payload : {
+  const payload = {
     // Do not silently truncate a veterinary explanation: validate first.
     title:clean(body.title,1000),
     text:clean(body.text,50000),
@@ -378,15 +375,8 @@ export default async request => {
     : [];
   // A retry may only target channels that actually failed in the original record.
   // Never let a crafted retry request republish an already successful channel.
-  const failedChannels = previous
-    ? new Set((previous.results || []).filter(item => !item.ok).map(item => item.channel))
-    : null;
-  const requested = failedChannels
-    ? validChannels.filter(channel => failedChannels.has(channel))
-    : validChannels;
-  if (!requested.length) return json({
-    error:previous ? "Bu kayıtta yeniden denenebilecek başarısız kanal yok" : "En az bir yayın kanalı seçin"
-  },400);
+  const requested = validChannels;
+  if (!requested.length) return json({error:"En az bir yayın kanalı seçin"},400);
 
   const validationErrors = validatePublisherPayload(payload,requested,mediaKind);
   if (validationErrors.length) return json({
@@ -394,7 +384,7 @@ export default async request => {
     validationErrors
   },400);
 
-  if (!previous && body.publishAt) {
+  if (body.publishAt) {
     // No schedule can be accepted while execution is deliberately disabled.
     return json({error:"Otomatik yayın planlaması güvenlik doğrulaması tamamlanana kadar kapalı. Şimdi yayınla seçeneğini kullanabilirsiniz."},503);
   }
@@ -403,7 +393,6 @@ export default async request => {
   const createdAt = new Date().toISOString();
   const record = {
     id:randomUUID(),
-    retryOf:retryOf || null,
     actor:auth.user.email || auth.user.id || "yetkili",
     payload,
     channels:requested,
