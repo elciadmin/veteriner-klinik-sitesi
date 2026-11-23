@@ -236,10 +236,29 @@ async function publishGmb(payload) {
   return { id:data.name || data.searchUrl || "" };
 }
 
+// Restrict server-side media fetches to public HTTPS hosts.
+// DNS-level private-address protection still requires an egress proxy.
+function safeRemoteMediaUrl(raw) {
+  let url;
+  try { url=new URL(raw); } catch { throw new Error("Geçerli bir video bağlantısı girin"); }
+  if (url.protocol!=="https:" || url.username || url.password || url.port && url.port!=="443") {
+    throw new Error("Video bağlantısı herkese açık HTTPS adresi olmalı");
+  }
+  const host=url.hostname.toLowerCase().replace(/\\.$/,"");
+  if (!host || host==="localhost" || host.endsWith(".localhost") || host.endsWith(".local") ||
+      host.endsWith(".internal") || host.endsWith(".test") || host.endsWith(".invalid") ||
+      host.endsWith(".example") || host.endsWith(".onion") ||
+      /^[0-9.]+$/.test(host) || host.includes(":") ||
+      host==="metadata.google.internal") {
+    throw new Error("Yerel veya özel ağ adreslerinden video alınamaz");
+  }
+  return url.href;
+}
+
 async function publishYouTube(payload) {
   if (mediaKind(payload.mediaUrl) !== "video") throw new Error("YouTube için video URL'si gerekli");
   const token = await googleAccessToken();
-  const media = await fetch(payload.mediaUrl,{cache:"no-store"});
+  const media = await fetch(safeRemoteMediaUrl(payload.mediaUrl),{cache:"no-store",redirect:"error"});
   if (!media.ok || !media.body) throw new Error("Video indirilemedi");
   const mediaType = media.headers.get("content-type") || "video/mp4";
   const length = Number(media.headers.get("content-length") || 0);
