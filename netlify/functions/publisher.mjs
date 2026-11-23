@@ -412,14 +412,28 @@ export default async request => {
     complete:results.every(x => x.ok),
     createdAt
   };
-  await publicationSave(record);
+  // External platforms may already have accepted the post. A history-store
+  // failure must not turn a completed dispatch into an HTTP 500 that encourages
+  // the operator to submit the same post again.
+  let historySaved = true;
+  try {
+    await publicationSave(record);
+  } catch (error) {
+    historySaved = false;
+    console.error("Publisher history persistence failed", {
+      publicationId:record.id,
+      message:String(error?.message || error)
+    });
+  }
 
   return json({
     ok:record.ok,
     complete:record.complete,
     results,
     publicationId:record.id,
-    publishedAt:createdAt
+    publishedAt:createdAt,
+    historySaved,
+    warning:historySaved ? null : "Yayın sonuçları alındı ancak geçmiş kaydı saklanamadı. Tekrar göndermeden önce platformları kontrol edin."
   });
 };
 
