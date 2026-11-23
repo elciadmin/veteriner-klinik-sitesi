@@ -485,7 +485,7 @@
         return '<span class="badge ' + (item.ok ? "ready" : (item.skipped ? "wait" : "fail")) + '">' + esc(itemStatus.label) + '</span>';
       }).join("");
       const retry = failed.length
-        ? '<div class="history-actions"><button class="retry" type="button" data-retry="' + esc(row.id) + '" data-channels="' + encodeURIComponent(JSON.stringify(failed)) + '"><i class="fa-solid fa-rotate-right"></i> Başarısızları yeniden dene</button></div>'
+        ? '<div class="history-actions"><small>Bir veya daha fazla kanalda sonuç belirsiz ya da başarısız. Tekrar göndermeden önce platformdaki gönderileri kontrol edin. Güvenli yeniden deneme şimdilik kapalı.</small></div>'
         : "";
       const when = row.createdAt ? new Date(row.createdAt).toLocaleString("tr-TR") : "";
       return '<article class="history-item">' +
