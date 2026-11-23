@@ -27,10 +27,13 @@ export async function cancelSchedule(id) {
   await store().setJSON(key(id),job);return true;
 }
 export async function runDueSchedules(dispatch,{now=Date.now(),max=20}={}) {
-  // Safety: never dispatch when this process has not explicitly opted in.\n  if (process.env.ELCI_PUBLISHER_SCHEDULER_ENABLED !== "true" || process.env.CONTEXT !== "production" || process.env.ELCI_PUBLISHER_ATOMIC_CLAIM_READY !== "true") return [];\n  const due=(await listSchedules()).filter(x=>x.status==="pending"&&Date.parse(x.publishAt)<=now).slice(0,max);
+  // Safety: never dispatch when this process has not explicitly opted in.
+  if (process.env.ELCI_PUBLISHER_SCHEDULER_ENABLED !== "true" || process.env.CONTEXT !== "production" || process.env.ELCI_PUBLISHER_ATOMIC_CLAIM_READY !== "true") return [];
+  const due=(await listSchedules()).filter(x=>x.status==="pending"&&Date.parse(x.publishAt)<=now).slice(0,max);
   const processed=[];
   for(const job of due) {
-    // IMPORTANT: this read/write claim is not atomic. Do not enable production\n    // scheduling until an atomic claim/idempotency layer is implemented.
+    // IMPORTANT: this read/write claim is not atomic. Do not enable production
+    // scheduling until an atomic claim/idempotency layer is implemented.
     const latest=await getSchedule(job.id);
     if(latest?.status!=="pending") continue;
     latest.status="processing";latest.attempts+=1;latest.updatedAt=new Date().toISOString();
