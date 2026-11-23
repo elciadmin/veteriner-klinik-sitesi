@@ -42,12 +42,12 @@
         <div>
           <span class="eyebrow">ELÇİ İÇERİK STÜDYOSU</span>
           <h1>Hazırla, kontrol et, yayınla.</h1>
-          <p>Tek bir içerik oluştur; platformlara uyarla, önizle ve hemen ya da seçtiğin tarihte yayınla.</p>
+          <p>Tek bir içerik oluştur; platformlara uyarla, önizle ve onaylayarak yayınla. İleri tarihli otomatik yayın hazırlık aşamasında.</p>
         </div>
         <div class="hero-status"><strong id="readyCount">—</strong><span>kanal hazır</span></div>
       </section>
 
-      <nav class="workflow-steps" aria-label="Yayın hazırlama aşamaları"><span><b>1</b> İçerik hazırla</span><span><b>2</b> Kanalları seç</span><span><b>3</b> Önizle ve onayla</span><span><b>4</b> Yayınla veya planla</span></nav>
+      <nav class="workflow-steps" aria-label="Yayın hazırlama aşamaları"><span><b>1</b> İçerik hazırla</span><span><b>2</b> Kanalları seç</span><span><b>3</b> Önizle ve onayla</span><span><b>4</b> Yayınla</span></nav>
       <section class="layout">
         <form id="publishForm" class="card editor">
           <div class="card-head">
@@ -152,11 +152,11 @@
       </header>
       <div class="preview-body">
         <div id="previewContent"></div>
-        <div class="preview-warning"><i class="fa-solid fa-triangle-exclamation"></i><span>Hemen yayınlarsanız gerçek paylaşım başlar. Tarih seçerseniz içerik planlanır; planlanan yayınlar otomatik gönderilir.</span></div>
+        <div class="preview-warning"><i class="fa-solid fa-triangle-exclamation"></i><span>Hemen yayınlarsanız gerçek paylaşım başlar. İleri tarihli otomatik yayın şu anda devre dışıdır.</span></div>
       </div>
       <footer class="preview-footer">
         <button type="button" class="outline" id="cancelPreview">Düzenlemeye dön</button>
-        <div class="publish-choice"><button type="button" class="confirm-publish" id="confirmPublish"><i class="fa-solid fa-paper-plane"></i> Şimdi yayınla</button><label for="publisherScheduleAt">Veya ileri tarih seç (Türkiye saati)</label><input type="datetime-local" id="publisherScheduleAt"><button type="button" class="preview-btn" id="publisherScheduleButton">Seçilen tarihe planla</button></div>
+        <div class="publish-choice"><button type="button" class="confirm-publish" id="confirmPublish"><i class="fa-solid fa-paper-plane"></i> Şimdi yayınla</button><label for="publisherScheduleAt">Veya ileri tarih seç (Türkiye saati)</label><input type="datetime-local" id="publisherScheduleAt" disabled><button type="button" class="preview-btn" id="publisherScheduleButton" disabled title="Güvenlik doğrulaması bekleniyor">Planlama geçici olarak kapalı</button></div>
       </footer>
     </section>
   </div>
@@ -164,6 +164,6 @@
   <div id="toast" class="toast hidden"></div>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script src="/admin/elci-media-fit.js?v=20261121-a"></script>
-  <script src="/admin/elci-publisher.js?v=20261122-pro"></script>
+  <script src="/admin/elci-publisher.js?v=20261123-batch1"></script>
 </body>
 </html>
