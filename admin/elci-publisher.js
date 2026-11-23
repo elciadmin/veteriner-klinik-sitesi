@@ -769,7 +769,7 @@
       } else {
         saveDraft(true);
       }
-      toast(data.complete ? "Tüm seçili kanallara yayınlandı." : "Bazı kanallar başarısız veya atlandı. Taslak saklandı; geçmişi kontrol edin.");
+      toast(data.warning || (data.complete ? "Tüm seçili kanallara yayınlandı." : "Bazı kanallar başarısız veya atlandı. Taslak saklandı; geçmişi kontrol edin."));
       await refresh();
     } catch (error) {
       toast(error.message);
