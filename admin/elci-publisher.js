@@ -394,7 +394,9 @@
     window.location.assign(data.url);
   }
 
+  let channelChoicesRendered = false;
   function renderStatus() {
+    const previouslySelected = channelChoicesRendered ? new Set(selectedChannels()) : null;
     const rows = Object.entries(status);
     statusEl.innerHTML = rows.map(([key,item]) => {
       return '<div class="status-row">' +
@@ -406,12 +408,13 @@
 
     channelsEl.innerHTML = rows.map(([key,item]) => {
       return '<label class="channel-choice ' + (item.ready ? "" : "disabled") + '">' +
-        '<input type="checkbox" name="channel" value="' + esc(key) + '" ' + (item.ready ? "checked" : "") + ' ' + (item.ready ? "" : "disabled") + '>' +
+        '<input type="checkbox" name="channel" value="' + esc(key) + '" ' + (item.ready && (!previouslySelected || previouslySelected.has(key)) ? "checked" : "") + ' ' + (item.ready ? "" : "disabled") + '>' +
         '<i class="' + (icons[key] || "fa-solid fa-share-nodes") + '"></i>' +
         '<span><strong>' + esc(item.label) + '</strong><small>' + esc(item.ready ? "Yayına hazır" : item.detail) + '</small></span>' +
       '</label>';
     }).join("");
 
+    channelChoicesRendered = true;
     $("#readyCount").textContent = rows.filter(([,item]) => item.ready).length + "/" + rows.length;
     syncApplicability();
     renderChannelRules();
@@ -762,7 +765,7 @@
       renderResults(data.results || []);
       $("#previewModal").classList.add("hidden");
       pendingPublish=false;
-      if (data.complete) {
+      if (data.complete && data.historySaved !== false) {
         localStorage.removeItem(DRAFT_KEY);
         const stateEl=$("#draftState");
         if (stateEl) stateEl.textContent="Son yayın işlendi; yeni içerik için taslak alanı hazır.";
