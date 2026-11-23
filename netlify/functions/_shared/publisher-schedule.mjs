@@ -26,28 +26,8 @@ export async function cancelSchedule(id) {
   job.status="cancelled";job.updatedAt=new Date().toISOString();
   await store().setJSON(key(id),job);return true;
 }
-export async function runDueSchedules(dispatch,{now=Date.now(),max=20}={}) {
-  // Safety: never dispatch when this process has not explicitly opted in.
-  if (process.env.ELCI_PUBLISHER_SCHEDULER_ENABLED !== "true" || process.env.CONTEXT !== "production" || process.env.ELCI_PUBLISHER_ATOMIC_CLAIM_READY !== "true") return [];
-  const due=(await listSchedules()).filter(x=>x.status==="pending"&&Date.parse(x.publishAt)<=now).slice(0,max);
-  const processed=[];
-  for(const job of due) {
-    // IMPORTANT: this read/write claim is not atomic. Do not enable production
-    // scheduling until an atomic claim/idempotency layer is implemented.
-    const latest=await getSchedule(job.id);
-    if(latest?.status!=="pending") continue;
-    latest.status="processing";latest.attempts+=1;latest.updatedAt=new Date().toISOString();
-    await store().setJSON(key(job.id),latest);
-    try {
-      const results=await dispatch(latest.payload,latest.channels);
-      latest.results=results;
-      latest.status=results.every(r=>r.ok)?"published":"partial";
-    } catch(e) {
-      latest.status="failed";latest.error=String(e?.message||e).slice(0,300);
-    }
-    latest.updatedAt=new Date().toISOString();
-    await store().setJSON(key(job.id),latest);
-    processed.push({id:job.id,status:latest.status});
-  }
-  return processed;
+// Disabled until a durable, atomic claim and per-channel idempotency are implemented.
+// A configuration toggle alone must never enable unsafe external publication.
+export async function runDueSchedules() {
+  return [];
 }
