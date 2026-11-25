@@ -194,7 +194,9 @@ async function publishInstagram(payload) {
     ? await metaPost(accountId + "/media", { media_type:"REELS", video_url:payload.mediaUrl, caption:payload.text },credentials.pageAccessToken)
     : await metaPost(accountId + "/media", { image_url:payload.mediaUrl, caption:payload.text },credentials.pageAccessToken);
   if (!create.id) throw new Error("Instagram medya kapsayıcısı oluşturulamadı");
-  if (kind === "video") await waitInstagramContainer(create.id,credentials.pageAccessToken);
+  // Image containers are asynchronous too; publishing before FINISHED can
+  // produce Meta error "Media ID is not available".
+  await waitInstagramContainer(create.id,credentials.pageAccessToken);
   const published = await metaPost(accountId + "/media_publish",{ creation_id:create.id },credentials.pageAccessToken);
   return { id:published.id || "" };
 }
