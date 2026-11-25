@@ -157,6 +157,12 @@
 
   function validateLocal(chosen=selectedChannels()) {
     const issues=[];
+    // Match the API's base-field limits before uploading any media or
+    // asking the operator to approve a publication that the API will reject.
+    const baseTitle=($("#title")?.value || "").trim();
+    const baseText=($("#text")?.value || "").trim();
+    if (charCount(baseTitle) > 180) issues.push("Ana başlık en fazla 180 karakter olabilir");
+    if (charCount(baseText) > 5000) issues.push("Ana yayın metni en fazla 5000 karakter olabilir");
     const kind=mediaKindFromInputs();
     for (const key of chosen) {
       const rule=rules[key];
