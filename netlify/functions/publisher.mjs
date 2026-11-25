@@ -393,19 +393,33 @@ export default async request => {
     // No schedule can be accepted while execution is deliberately disabled.
     return json({error:"Otomatik yayın planlaması güvenlik doğrulaması tamamlanana kadar kapalı. Şimdi yayınla seçeneğini kullanabilirsiniz."},503);
   }
-  const results=await dispatchPublisher(payload,requested);
-
+  // Persist the publication intent before contacting external platforms.
+  // If a worker terminates mid-request, the history retains an unresolved
+  // record for manual reconciliation rather than silently losing the attempt.
   const createdAt = new Date().toISOString();
   const record = {
     id:randomUUID(),
     actor:auth.user.email || auth.user.id || "yetkili",
     payload,
     channels:requested,
-    results,
-    ok:results.some(x => x.ok),
-    complete:results.every(x => x.ok),
+    results:requested.map(channel => ({channel,ok:false,pending:true,error:"Yayın sonucu henüz doğrulanmadı"})),
+    ok:false,
+    complete:false,
+    pending:true,
     createdAt
   };
+  try {
+    await publicationSave(record);
+  } catch (error) {
+    console.error("Publisher intent persistence failed",String(error?.message || error));
+    return json({error:"Yayın girişimi kaydedilemedi; güvenliğiniz için hiçbir platforma gönderim yapılmadı."},503);
+  }
+
+  const results=await dispatchPublisher(payload,requested);
+  record.results=results;
+  record.ok=results.some(x => x.ok);
+  record.complete=results.every(x => x.ok);
+  record.pending=false;
   // External platforms may already have accepted the post. A history-store
   // failure must not turn a completed dispatch into an HTTP 500 that encourages
   // the operator to submit the same post again.
