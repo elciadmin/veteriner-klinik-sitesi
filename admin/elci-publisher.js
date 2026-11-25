@@ -890,7 +890,9 @@
     $("#userEmail").textContent = (user && user.email) || "";
     login.classList.add("hidden");
     app.classList.remove("hidden");
-    refresh().then(restoreDraft);
+    // Draft restoration must not depend on network availability: a failed
+    // status request should not hide the operator's locally saved work.
+    refresh().finally(restoreDraft);
     refreshConnections();
     updateCounters();
     const params = new URLSearchParams(location.search);
