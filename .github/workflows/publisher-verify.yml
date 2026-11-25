@@ -1,0 +1,35 @@
+name: Publisher verification
+
+on:
+  pull_request:
+    paths:
+      - 'admin/elci-publisher.js'
+      - 'admin/elci-publisher.css'
+      - 'admin/elci-media-fit.js'
+      - 'admin/yayin.html'
+      - 'netlify/functions/publisher*.mjs'
+      - 'netlify/functions/_shared/publisher-*.mjs'
+      - 'tests/publisher-*.test.mjs'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'scripts/security-smoke.mjs'
+      - '.github/workflows/publisher-verify.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: node --check admin/elci-publisher.js
+      - run: node --check netlify/functions/publisher.mjs
+      - run: npm run verify

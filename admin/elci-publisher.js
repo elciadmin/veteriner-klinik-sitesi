@@ -16,6 +16,9 @@
   let user = null;
   let status = {};
   let connectionState = {};
+  let rules = {};
+  let channelTexts = {};
+  let channelTitles = {};
   let draftLoaded = false;
   let pendingPublish = false;
   let draftTimer = null;
@@ -44,6 +47,8 @@
       mediaUrl:$("#mediaUrl")?.value || "",
       youtubePrivacy:$("#youtubePrivacy")?.value || "public",
       channels:selectedChannels(),
+      channelTexts:{...channelTexts},
+      channelTitles:{...channelTitles},
       savedAt:new Date().toISOString()
     };
   }
@@ -82,6 +87,8 @@
         if ($("#text") && !$("#text").value) $("#text").value=data.text || "";
         if ($("#mediaUrl") && !$("#mediaUrl").value) $("#mediaUrl").value=data.mediaUrl || "";
         if ($("#youtubePrivacy") && data.youtubePrivacy) $("#youtubePrivacy").value=data.youtubePrivacy;
+        channelTexts=data.channelTexts && typeof data.channelTexts === "object" ? data.channelTexts : {};
+        channelTitles=data.channelTitles && typeof data.channelTitles === "object" ? data.channelTitles : {};
         if (Array.isArray(data.channels)) {
           document.querySelectorAll('input[name="channel"]').forEach(input => {
             if (!input.disabled) input.checked=data.channels.includes(input.value);
@@ -95,6 +102,103 @@
     syncApplicability();
   }
 
+
+  const charCount = value => Array.from(String(value || "")).length;
+  const byteCount = value => new TextEncoder().encode(String(value || "")).length;
+  const channelText = key => Object.hasOwn(channelTexts,key) ? channelTexts[key] : ($("#text")?.value || "");
+  const channelTitle = key => Object.hasOwn(channelTitles,key) ? channelTitles[key] : ($("#title")?.value || "");
+  const measure = (value,rule) => rule.maxTextBytes ? byteCount(value) : charCount(value);
+
+  function ruleFeedback(key,field,value) {
+    const rule=rules[key] || {};
+    const limit=field === "title" ? rule.maxTitleChars : (rule.maxTextBytes || rule.maxTextChars);
+    if (!limit) return "";
+    const count=field === "title" ? charCount(value) : measure(value,rule);
+    const unit=field === "text" && rule.maxTextBytes ? "bayt (UTF-8)" : "karakter";
+    return {text:count + "/" + limit + " " + unit,className:count > limit ? "invalid" : ""};
+  }
+
+  function renderChannelRules() {
+    const root=$("#channelRules");
+    if (!root) return;
+    const chosen=selectedChannels();
+    if (!chosen.length) {
+      root.textContent="Önce yayın yapılacak kanalları seçin.";
+      return;
+    }
+    root.innerHTML=chosen.map(key => {
+      const rule=rules[key];
+      if (!rule) return '<div class="rule-notice">' + esc(key) + ' için kurallar henüz yüklenmedi.</div>';
+      const text=channelText(key);
+      const title=channelTitle(key);
+      const feedback=ruleFeedback(key,"text",text);
+      const titleFeedback=ruleFeedback(key,"title",title);
+      const media=mediaKindFromInputs();
+      const mediaOk=rule.media.includes(media);
+      return '<div class="platform-rule" data-rule="' + esc(key) + '">' +
+        '<div class="platform-rule-head"><strong>' + esc(rule.label) + '</strong><small>' + esc(rule.source || "Kural kontrolü") + '</small></div>' +
+        (rule.maxTitleChars ? '<label>Bu platformun başlığı' +
+          '<input type="text" data-channel-edit="' + esc(key) + '" data-edit-field="title" value="' + esc(title) + '">' +
+          '<span class="rule-count ' + (titleFeedback?.className || "") + '" data-count="title">' + esc(titleFeedback?.text || "") + '</span></label>' : '') +
+        '<label>Bu platformun açıklaması' +
+          '<textarea data-channel-edit="' + esc(key) + '" data-edit-field="text">' + esc(text) + '</textarea>' +
+          '<span class="rule-count ' + (feedback?.className || "") + '" data-count="text">' + esc(feedback?.text || "") + '</span>' +
+        '</label>' +
+        ((rule.maxTextChars || rule.maxTextBytes) ? '<button type="button" class="rule-shortener" data-shorten="' + esc(key) + '">Kısaltma taslağı öner</button>' : '') +
+        (!mediaOk ? '<div class="rule-notice">Medya uyumsuz: ' + esc(media) + '. Bu platform için farklı bir medya seçilmesi gerekiyor.</div>' : '') +
+        (media==="image" && window.ElciMediaFit?.targets[key] ?
+          '<div class="rule-note">Kırpmasız görsel: ' + esc(window.ElciMediaFit.targets[key].label) + ' (' +
+          window.ElciMediaFit.targets[key].width + '×' + window.ElciMediaFit.targets[key].height +
+          '). Görselin tamamı korunur; kalan alan bulanık arka planla doldurulur.</div>' : '') +
+        '<small>Metin yalnızca bu kanalda kullanılır. Son onaydan önce klinik ve tıbbi doğruluğunu kontrol edin.</small>' +
+      '</div>';
+    }).join("");
+  }
+
+  function validateLocal(chosen=selectedChannels()) {
+    const issues=[];
+    // Match the API's base-field limits before uploading any media or
+    // asking the operator to approve a publication that the API will reject.
+    const baseTitle=($("#title")?.value || "").trim();
+    const baseText=($("#text")?.value || "").trim();
+    if (charCount(baseTitle) > 180) issues.push("Ana başlık en fazla 180 karakter olabilir");
+    if (charCount(baseText) > 5000) issues.push("Ana yayın metni en fazla 5000 karakter olabilir");
+    const kind=mediaKindFromInputs();
+    for (const key of chosen) {
+      const rule=rules[key];
+      if (!rule) {issues.push("Platform kuralları henüz yüklenmedi: "+key);continue;}
+      const text=channelText(key),title=channelTitle(key);
+      if (!text.trim() || !title.trim()) issues.push(rule.label+": başlık ve açıklama boş olamaz");
+      if (!rule.media.includes(kind)) issues.push(rule.label+": seçilen medya türü uygun değil");
+      if (rule.maxTextChars && charCount(text) > rule.maxTextChars) issues.push(rule.label+": açıklama "+rule.maxTextChars+" karakteri aşıyor");
+      if (rule.maxTextBytes && byteCount(text) > rule.maxTextBytes) issues.push(rule.label+": açıklama "+rule.maxTextBytes+" baytı aşıyor");
+      if (rule.maxTitleChars && charCount(title) > rule.maxTitleChars) issues.push(rule.label+": başlık "+rule.maxTitleChars+" karakteri aşıyor");
+    }
+    return issues;
+  }
+
+  // Non-AI draft helper: never publishes its own suggestions and cannot guarantee clinical completeness.
+  function shortenSuggestion(raw,rule) {
+    const max=rule.maxTextBytes || rule.maxTextChars;
+    const count=value => measure(value,rule);
+    const text=String(raw || "").trim().replace(/\s+/g," ");
+    if (!max || count(text) <= max) return text;
+    const sentences=text.match(/[^.!?]+[.!?]?/g) || [];
+    let result="";
+    for (const sentence of sentences) {
+      const candidate=(result + " " + sentence.trim()).trim();
+      if (count(candidate) > max) break;
+      result=candidate;
+    }
+    if (result) return result;
+    let part="";
+    for (const char of Array.from(text)) {
+      if (count(part + char + "…") > max) break;
+      part+=char;
+    }
+    return part.replace(/\s+\S*$/u,"").trim() + "…";
+  }
+
   function previewMediaMarkup() {
     const file=$("#mediaFile")?.files && $("#mediaFile").files[0];
     const url=file ? URL.createObjectURL(file) : ($("#mediaUrl")?.value || "").trim();
@@ -105,12 +209,24 @@
     return '<div class="preview-media empty">Medya bağlantısı önizlenemiyor; yayın sırasında bağlantı kullanılacak.</div>';
   }
 
+  let approvedPreviewSnapshot = null;
+  function currentPreviewSnapshot() {
+    const file = $("#mediaFile")?.files?.[0];
+    return JSON.stringify({
+      draft:formSnapshot(),
+      file:file ? {name:file.name,size:file.size,type:file.type,lastModified:file.lastModified} : null
+    },(key,value)=>key==="savedAt" ? undefined : value);
+  }
+
   function renderPreview() {
     const title=($("#title")?.value || "").trim();
     const text=($("#text")?.value || "").trim();
     const selected=selectedChannels();
     if (!title || !text) { toast("Önizleme için başlık ve yayın metni gerekli."); return false; }
     if (!selected.length) { toast("Önizleme için en az bir hazır kanal seçin."); return false; }
+    if (!checkUploadSize()) return false;
+    const issues=validateLocal(selected);
+    if (issues.length) { toast(issues[0]); return false; }
     const badges=selected.map(key => {
       const item=status[key] || {label:key};
       return '<span class="preview-channel"><i class="' + (icons[key] || "fa-solid fa-share-nodes") + '"></i>' + esc(item.label) + '</span>';
@@ -119,8 +235,12 @@
       '<div class="preview-channels">' + badges + '</div>' +
       '<article class="preview-post">' +
         previewMediaMarkup() +
-        '<div class="preview-copy"><h3>' + esc(title) + '</h3><p>' + esc(text).replace(/\n/g,"<br>") + '</p></div>' +
+        '<div class="preview-copy"><h3>' + esc(title) + '</h3><p>' + esc(text).replace(/\n/g,"<br>") + '</p>' +
+          selected.map(key => '<div class="platform-preview"><h4>' + esc((rules[key] || {}).label || key) + '</h4>' +
+            '<strong>' + esc(channelTitle(key)) + '</strong><p>' + esc(channelText(key)) + '</p></div>').join("") +
+        '</div>' +
       '</article>';
+    approvedPreviewSnapshot = currentPreviewSnapshot();
     $("#previewModal").classList.remove("hidden");
     return true;
   }
@@ -128,6 +248,7 @@
   function closePreview() {
     $("#previewModal").classList.add("hidden");
     pendingPublish=false;
+    approvedPreviewSnapshot=null;
   }
 
   async function authHeaders() {
@@ -290,7 +411,9 @@
     window.location.assign(data.url);
   }
 
+  let channelChoicesRendered = false;
   function renderStatus() {
+    const previouslySelected = channelChoicesRendered ? new Set(selectedChannels()) : null;
     const rows = Object.entries(status);
     statusEl.innerHTML = rows.map(([key,item]) => {
       return '<div class="status-row">' +
@@ -302,14 +425,16 @@
 
     channelsEl.innerHTML = rows.map(([key,item]) => {
       return '<label class="channel-choice ' + (item.ready ? "" : "disabled") + '">' +
-        '<input type="checkbox" name="channel" value="' + esc(key) + '" ' + (item.ready ? "checked" : "") + ' ' + (item.ready ? "" : "disabled") + '>' +
+        '<input type="checkbox" name="channel" value="' + esc(key) + '" ' + (item.ready && previouslySelected?.has(key) ? "checked" : "") + ' ' + (item.ready ? "" : "disabled") + '>' +
         '<i class="' + (icons[key] || "fa-solid fa-share-nodes") + '"></i>' +
         '<span><strong>' + esc(item.label) + '</strong><small>' + esc(item.ready ? "Yayına hazır" : item.detail) + '</small></span>' +
       '</label>';
     }).join("");
 
+    channelChoicesRendered = true;
     $("#readyCount").textContent = rows.filter(([,item]) => item.ready).length + "/" + rows.length;
     syncApplicability();
+    renderChannelRules();
   }
 
   function renderResults(results) {
@@ -332,6 +457,40 @@
     }).join("");
   }
 
+  function renderScheduled(jobs) {
+    let root=$("#scheduledPublications");
+    if (!root) {
+      root=document.createElement("section");
+      root.id="scheduledPublications";
+      root.className="history";
+      root.style.cssText="padding:16px;margin-top:16px;border-radius:12px;background:white";
+      const heading=document.createElement("h3");
+      heading.textContent="Planlanan yayınlar";
+      root.appendChild(heading);
+      const parent=historyEl.parentElement;
+      parent.appendChild(root);
+    }
+    root.querySelectorAll("[data-scheduled-row]").forEach(node=>node.remove());
+    const loading=root.querySelector("p:not([data-scheduled-row])");
+    if(loading) loading.remove();
+    if (!jobs.length) {
+      const row=document.createElement("p");
+      row.dataset.scheduledRow="1";
+      row.textContent="Henüz planlanmış yayın yok.";
+      root.appendChild(row);return;
+    }
+    for(const job of jobs.slice(0,30)) {
+      const row=document.createElement("article");
+      row.dataset.scheduledRow="1";
+      row.className="history-item";
+      const when=new Date(job.publishAt).toLocaleString("tr-TR",{timeZone:"Europe/Istanbul"});
+      row.innerHTML='<strong>'+esc(job.payload?.title||"Yayın")+'</strong>'+
+        '<p>'+esc(when)+' · '+esc(job.status)+' · '+esc((job.channels||[]).map(k=>status[k]?.label||k).join(", "))+'</p>'+
+        (job.status==="pending" ? '<button type="button" data-cancel-schedule="'+esc(job.id)+'">Planlamayı iptal et</button>' : '');
+      root.appendChild(row);
+    }
+  }
+
   function renderHistory(history) {
     if (!history || !history.length) {
       historyEl.className = "history empty";
@@ -345,13 +504,15 @@
         const itemStatus = status[item.channel] || {label:item.channel};
         return '<span class="badge ' + (item.ok ? "ready" : (item.skipped ? "wait" : "fail")) + '">' + esc(itemStatus.label) + '</span>';
       }).join("");
-      const retry = failed.length
-        ? '<div class="history-actions"><button class="retry" type="button" data-retry="' + esc(row.id) + '" data-channels="' + encodeURIComponent(JSON.stringify(failed)) + '"><i class="fa-solid fa-rotate-right"></i> Başarısızları yeniden dene</button></div>'
-        : "";
+      const retry = row.pending
+        ? '<div class="history-actions"><small>Bu yayının sonucu henüz kesinleşmedi. Platformları kontrol etmeden tekrar göndermeyin.</small></div>'
+        : failed.length
+          ? '<div class="history-actions"><small>Bir veya daha fazla kanalda sonuç belirsiz ya da başarısız. Tekrar göndermeden önce platformdaki gönderileri kontrol edin. Güvenli yeniden deneme şimdilik kapalı.</small></div>'
+          : "";
       const when = row.createdAt ? new Date(row.createdAt).toLocaleString("tr-TR") : "";
       return '<article class="history-item">' +
         '<div class="history-item-head"><div><strong>' + esc(row.payload?.title || "Yayın") + '</strong><small>' + esc(when) + (row.retryOf ? " · yeniden deneme" : "") + '</small></div>' +
-        '<span class="badge ' + (row.complete ? "ready" : "wait") + '">' + (row.complete ? "TAMAM" : "KISMİ") + '</span></div>' +
+        '<span class="badge ' + (row.complete ? "ready" : "wait") + '">' + (row.pending ? "BELİRSİZ" : row.complete ? "TAMAM" : "KISMİ") + '</span></div>' +
         '<div class="history-channels">' + channelBadges + '</div>' +
         retry +
       '</article>';
@@ -362,18 +523,41 @@
     try {
       const data = await api("GET");
       status = data.channels || {};
+      rules = data.rules || {};
       renderStatus();
       renderHistory(data.history || []);
+      if (data.historyNotice) {
+        historyEl.className = "history";
+        const notice = document.createElement("p");
+        notice.className = "rule-notice";
+        notice.textContent = data.historyNotice;
+        historyEl.prepend(notice);
+      }
+      renderScheduled(data.scheduled || []);
+      const scheduleButton=$("#publisherScheduleButton");
+      if(scheduleButton) {
+        scheduleButton.disabled=data.schedulerEnabled!==true;
+        scheduleButton.title=data.schedulerEnabled===true ? "" : (data.schedulerNotice || "Otomatik yayın şu anda kapalı");
+      }
+      const scheduleCard=$("#scheduleCard");
+      if(scheduleCard) {
+        let notice=scheduleCard.querySelector("[data-scheduler-notice]");
+        if(!notice) { notice=document.createElement("p");notice.dataset.schedulerNotice="1";notice.className="rule-notice";scheduleCard.insertBefore(notice,$("#scheduledPublications")); }
+        notice.textContent=data.schedulerEnabled===true ? "Otomatik yayın etkin." : (data.schedulerNotice || "Otomatik yayın şu anda kapalı.");
+      }
     } catch (error) {
       toast(error.message);
     }
   }
 
   $("#selectReady").addEventListener("click", () => {
+    pendingPublish=false;
     syncApplicability();
     document.querySelectorAll('input[name="channel"]:not(:disabled)').forEach(input => {
       input.checked = true;
     });
+    renderChannelRules();
+    scheduleDraftSave();
   });
 
   $("#refresh").addEventListener("click", refresh);
@@ -437,18 +621,19 @@
     }
   });
 
-  $("#mediaUrl").addEventListener("input", () => { syncApplicability(); scheduleDraftSave(); });
-  $("#title").addEventListener("input", () => { updateCounters(); scheduleDraftSave(); });
-  $("#text").addEventListener("input", () => { updateCounters(); scheduleDraftSave(); });
-  $("#youtubePrivacy").addEventListener("change", scheduleDraftSave);
-  $("#channels").addEventListener("change", scheduleDraftSave);
+  $("#mediaUrl").addEventListener("input", () => { pendingPublish=false; syncApplicability(); renderChannelRules(); scheduleDraftSave(); });
+  $("#title").addEventListener("input", () => { pendingPublish=false; updateCounters(); renderChannelRules(); scheduleDraftSave(); });
+  $("#text").addEventListener("input", () => { pendingPublish=false; updateCounters(); renderChannelRules(); scheduleDraftSave(); });
+  $("#youtubePrivacy").addEventListener("change", () => { pendingPublish=false; scheduleDraftSave(); });
+  $("#channels").addEventListener("change", () => { pendingPublish=false; renderChannelRules(); scheduleDraftSave(); });
   $("#saveDraft").addEventListener("click", () => saveDraft(false));
-  $("#previewButton").addEventListener("click", () => { pendingPublish=false; renderPreview(); });
+  $("#previewButton").addEventListener("click", () => { pendingPublish=renderPreview(); });
   $("#closePreview").addEventListener("click", closePreview);
   $("#cancelPreview").addEventListener("click", closePreview);
   $("#previewModal").addEventListener("click", event => { if (event.target === $("#previewModal")) closePreview(); });
 
   $("#mediaFile").addEventListener("change", () => {
+    pendingPublish=false;
     const file = $("#mediaFile").files && $("#mediaFile").files[0];
     const help = $("#mediaHelp");
     if (!file) {
@@ -459,59 +644,182 @@
     help.textContent = file.name + " · " + Math.max(1,Math.round(file.size/1024)) + " KB · yayın sırasında otomatik yüklenecek";
     help.classList.add("uploading");
     syncApplicability();
+    renderChannelRules();
     scheduleDraftSave();
   });
 
+
+  $("#channelRules").addEventListener("input", event => {
+    pendingPublish=false;
+    const field=event.target.closest("[data-channel-edit]");
+    if (!field) return;
+    const key=field.dataset.channelEdit;
+    if (!Object.hasOwn(rules,key)) return;
+    const type=field.dataset.editField;
+    if (type === "title") channelTitles[key]=field.value;
+    else channelTexts[key]=field.value;
+    const feedback=ruleFeedback(key,type,field.value);
+    const counter=field.closest("label")?.querySelector('[data-count="'+type+'"]');
+    if (counter && feedback) {
+      counter.textContent=feedback.text;
+      counter.classList.toggle("invalid",Boolean(feedback.className));
+    }
+    scheduleDraftSave();
+  });
+
+  $("#generateAiVariants").addEventListener("click", async () => {
+    const selected=selectedChannels();
+    const title=($("#title")?.value || "").trim();
+    const text=($("#text")?.value || "").trim();
+    const target=$("#aiFeedback"),button=$("#generateAiVariants");
+    if (!title || !text || !selected.length) {
+      toast("Önce ana başlığı, metni ve yayın kanallarını seçin.");
+      return;
+    }
+    button.disabled=true;
+    button.textContent="Metin önerileri hazırlanıyor…";
+    target.textContent="";
+    try {
+      const response=await fetch("/.netlify/functions/publisher-ai",{
+        method:"POST",credentials:"same-origin",cache:"no-store",
+        headers:{...await authHeaders(), "Content-Type":"application/json",Accept:"application/json"},
+        body:JSON.stringify({title,text,channels:selected})
+      });
+      const result=await response.json().catch(()=>({}));
+      if (!response.ok || !result.ok) throw new Error(result.error || "Yapay zekâ önerisi alınamadı");
+      pendingPublish=false;
+      for(const row of result.variants || []) {
+        if (!selected.includes(row.channel)) continue;
+        channelTexts[row.channel]=row.text;
+        channelTitles[row.channel]=row.title;
+      }
+      renderChannelRules();
+      const warnings=(result.warnings || []).map(x=>'<li>'+esc(x)+'</li>').join("");
+      const facts=(result.keyFacts || []).map(x=>'<li>'+esc(x)+'</li>').join("");
+      target.innerHTML='<strong>Önemli noktalar</strong><ul>'+facts+'</ul>'+
+        (warnings ? '<strong>Kontrol gerektirenler</strong><ul>'+warnings+'</ul>' : "") +
+        '<p>Öneriler düzenlenebilir. Veteriner hekim onayından önce yayınlanmaz.</p>';
+      scheduleDraftSave();
+      toast("Platform metinleri önerildi; tüm taslakları inceleyin.");
+    }catch(error){
+      target.textContent=error.message;
+      toast(error.message);
+    }finally{
+      button.disabled=false;
+      button.textContent="Yapay zekâyla platform metinleri hazırla";
+    }
+  });
+
+  $("#channelRules").addEventListener("click", event => {
+    const button=event.target.closest("[data-shorten]");
+    if (!button) return;
+    const key=button.dataset.shorten,rule=rules[key];
+    if (!rule) return;
+    pendingPublish=false;
+    channelTexts[key]=shortenSuggestion(channelText(key),rule);
+    renderChannelRules();
+    scheduleDraftSave();
+    toast("Kısaltma taslağı hazır. Eksilen tıbbi bilgileri ve anlamı kontrol ederek onaylayın.");
+  });
+
+  function checkUploadSize() {
+    const file=$("#mediaFile")?.files?.[0];
+    if (!file) return true;
+    if (file.size > 5*1024*1024) {
+      toast("Bu dosya 5 MB sınırını aşıyor. Şimdilik doğrudan erişilebilir medya bağlantısı kullanın.");
+      return false;
+    }
+    return true;
+  }
+
+  let publishingInProgress=false;
   async function publishNow() {
+    if(publishingInProgress) return;
+    if($("#previewModal").classList.contains("hidden") || !pendingPublish) return toast("Yayınlamak için önce önizlemeyi onaylayın.");
+    if (!approvedPreviewSnapshot || approvedPreviewSnapshot !== currentPreviewSnapshot()) {
+      pendingPublish=false;
+      approvedPreviewSnapshot=null;
+      $("#previewModal").classList.add("hidden");
+      return toast("İçerik veya kanal seçimi değişti. Yayınlamadan önce yeniden önizleyin.");
+    }
     const button = $("#publishButton");
     const confirmButton=$("#confirmPublish");
     const selected = selectedChannels();
+    if (!checkUploadSize()) return;
+    const issues=validateLocal(selected);
+    if(issues.length) return toast(issues[0]);
     if (!selected.length) {
       toast("En az bir hazır kanal seçin.");
       return;
     }
+    publishingInProgress=true;
     button.disabled = true;
     confirmButton.disabled=true;
     button.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i><span>YAYINLANIYOR…</span>';
     confirmButton.innerHTML='<i class="fa-solid fa-circle-notch fa-spin"></i> Yayınlanıyor…';
     try {
       let mediaUrl = $("#mediaUrl").value.trim();
+      const channelMediaUrls = {};
       const file = $("#mediaFile").files && $("#mediaFile").files[0];
       if (file) {
         const help = $("#mediaHelp");
-        help.textContent = "Medya güvenli alana yükleniyor…";
+        help.textContent = "Medya uygun platform boyutlarına hazırlanıyor…";
         help.classList.add("uploading");
-        const uploaded = await uploadMedia(file);
-        mediaUrl = uploaded.url;
-        help.textContent = "Medya yüklendi ✓";
+        if (file.type.startsWith("image/") && window.ElciMediaFit) {
+          for (const channel of selected) {
+            const adapted=await window.ElciMediaFit.adaptImage(file,channel);
+            if (!adapted) {
+              // Unrecognized image channel: do not silently deliver the wrong image.
+              throw new Error("Bu platform için görsel boyutu tanımlanmamış: "+channel);
+            }
+            help.textContent=channel+" görseli yükleniyor ("+adapted.width+"×"+adapted.height+")…";
+            const uploaded=await uploadMedia(adapted.file);
+            channelMediaUrls[channel]=uploaded.url;
+            mediaUrl ||= uploaded.url;
+          }
+        } else {
+          // Video remains unchanged; 5 MB direct upload / external URL policy still applies.
+          const uploaded = await uploadMedia(file);
+          mediaUrl = uploaded.url;
+        }
+        help.textContent = "Medya kanallara uygun hazırlandı ✓";
       }
       const data = await api("POST", {
         title:$("#title").value,
         text:$("#text").value,
         mediaUrl,
         youtubePrivacy:$("#youtubePrivacy").value,
+        channelTexts:{...channelTexts},
+        channelTitles:{...channelTitles},
+        channelMediaUrls,
         channels:selected
       });
       renderResults(data.results || []);
       $("#previewModal").classList.add("hidden");
       pendingPublish=false;
-      if (data.ok) {
+      if (data.complete && data.historySaved !== false) {
         localStorage.removeItem(DRAFT_KEY);
         const stateEl=$("#draftState");
         if (stateEl) stateEl.textContent="Son yayın işlendi; yeni içerik için taslak alanı hazır.";
       } else {
         saveDraft(true);
       }
-      toast(data.complete ? "Tüm seçili kanallara yayınlandı." : "Yayın tamamlandı; bazı kanalları kontrol edin.");
+      toast(data.warning || (data.complete ? "Tüm seçili kanallara yayınlandı." : "Bazı kanallar başarısız veya atlandı. Taslak saklandı; geçmişi kontrol edin."));
       await refresh();
     } catch (error) {
-      toast(error.message);
+      // The request may have reached a platform even when the browser loses
+      // the response. Never suggest an immediate retry of an uncertain publish.
+      const message = String(error?.message || "Yayın sonucu doğrulanamadı.");
+      toast(message + " Yayın isteği gönderilmiş olabilir; yeniden denemeden önce platformları ve yayın geçmişini kontrol edin.");
       saveDraft(true);
+      pendingPublish=false;
+      $("#previewModal").classList.add("hidden");
     } finally {
+      publishingInProgress=false;
       button.disabled = false;
       confirmButton.disabled=false;
-      button.innerHTML = '<i class="fa-solid fa-paper-plane"></i><span>HER YERDE YAYINLA</span>';
-      confirmButton.innerHTML='<i class="fa-solid fa-paper-plane"></i> Onayla ve yayınla';
+      button.innerHTML = '<i class="fa-solid fa-paper-plane"></i><span>ÖNİZLE VE YAYIN SEÇENEKLERİ</span>';
+      confirmButton.innerHTML='<i class="fa-solid fa-paper-plane"></i> Şimdi yayınla';
     }
   }
 
@@ -522,34 +830,60 @@
   });
 
   $("#confirmPublish").addEventListener("click", async () => {
-    if (!pendingPublish) {
-      pendingPublish=true;
-    }
+    if (!pendingPublish) return toast("Önce önizlemeyi açıp onaylayın.");
     await publishNow();
   });
 
-  historyEl.addEventListener("click", async event => {
-    const button = event.target.closest("[data-retry]");
-    if (!button) return;
-    let channels = [];
-    try { channels = JSON.parse(decodeURIComponent(button.dataset.channels || "")); } catch {}
-    if (!channels.length) return;
-    // Retry is a real publication, not a dry run: always ask for approval.
-    if (!window.confirm("Başarısız kanallarda yeniden GERÇEK yayın denemesi yapılacak. Onaylıyor musunuz?")) return;
-    button.disabled = true;
-    const original = button.innerHTML;
-    button.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Yeniden deneniyor…';
+  // Scheduling is explicit: the user must approve the preview first.
+  $("#publisherScheduleButton").addEventListener("click",async()=>{
+    const input=$("#publisherScheduleAt"),button=$("#publisherScheduleButton");
+    if ($("#previewModal").classList.contains("hidden")) return toast("Önce önizlemeyi açıp onaylayın.");
+    if (!input.value) return toast("Yayın tarihi ve saatini seçin.");
+    const date=new Date(input.value);
+    if (!Number.isFinite(date.getTime()) || date.getTime()<Date.now()+60000) return toast("En az bir dakika sonrasını seçin.");
+    const selected=selectedChannels();
+    if (!checkUploadSize()) return;
+    if (validateLocal(selected).length) return toast("Platform kurallarını kontrol edin.");
+    button.disabled=true;
     try {
-      const data = await api("POST",{retryPublicationId:button.dataset.retry,channels});
-      renderResults(data.results || []);
-      toast(data.complete ? "Başarısız kanallar tamamlandı." : "Yeniden deneme tamamlandı; sonucu kontrol edin.");
+      let mediaUrl=$("#mediaUrl").value.trim();
+      const channelMediaUrls={};
+      const file=$("#mediaFile").files?.[0];
+      if(file) {
+        if(file.type.startsWith("image/") && window.ElciMediaFit) {
+          for(const channel of selected) {
+            const adapted=await window.ElciMediaFit.adaptImage(file,channel);
+            if(!adapted) throw new Error("Görsel uyarlaması yapılamadı: "+channel);
+            const uploaded=await uploadMedia(adapted.file);
+            channelMediaUrls[channel]=uploaded.url;
+            mediaUrl ||= uploaded.url;
+          }
+        } else {
+          mediaUrl=(await uploadMedia(file)).url;
+        }
+      }
+      const result=await api("POST",{
+        title:$("#title").value,text:$("#text").value,mediaUrl,
+        channelMediaUrls,channelTexts:{...channelTexts},channelTitles:{...channelTitles},
+        youtubePrivacy:$("#youtubePrivacy").value,channels:selected,publishAt:date.toISOString()
+      });
+      if(!result.scheduled) throw new Error("Planlama doğrulanamadı");
+      closePreview();
+      toast("Yayın planlandı: "+date.toLocaleString("tr-TR"));
       await refresh();
-    } catch (error) {
-      toast(error.message);
-    } finally {
-      button.disabled = false;
-      button.innerHTML = original;
-    }
+    } catch(error){toast(error.message);}
+    finally{button.disabled=false;}
+  });
+
+  document.addEventListener("click",async event=>{
+    const button=event.target.closest("[data-cancel-schedule]");
+    if(!button || !window.confirm("Bu planlanan yayını iptal etmek istiyor musunuz?")) return;
+    button.disabled=true;
+    try {
+      const result=await api("POST",{cancelScheduleId:button.dataset.cancelSchedule});
+      if(!result.ok) throw new Error("Planlama iptal edilemedi");
+      toast("Planlanan yayın iptal edildi.");await refresh();
+    } catch(error){toast(error.message);button.disabled=false;}
   });
 
   $("#loginButton").addEventListener("click", () => {
@@ -564,7 +898,9 @@
     $("#userEmail").textContent = (user && user.email) || "";
     login.classList.add("hidden");
     app.classList.remove("hidden");
-    refresh().then(restoreDraft);
+    // Draft restoration must not depend on network availability: a failed
+    // status request should not hide the operator's locally saved work.
+    refresh().finally(restoreDraft);
     refreshConnections();
     updateCounters();
     const params = new URLSearchParams(location.search);

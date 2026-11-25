@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="/admin/elci-publisher.css?v=20260926f">
+  <link rel="stylesheet" href="/admin/elci-publisher.css?v=20261122-pro">
 </head>
 <body>
   <section class="login" id="login">
@@ -40,17 +40,18 @@
     <main>
       <section class="hero">
         <div>
-          <span class="eyebrow">HER YERDE YAYINLA</span>
-          <h1>İçeriği bir kez hazırla.</h1>
-          <p>Web sitesi, Instagram, Facebook, YouTube ve Google İşletme için dağıtımı tek işlemden yönet.</p>
+          <span class="eyebrow">ELÇİ İÇERİK STÜDYOSU</span>
+          <h1>Hazırla, kontrol et, yayınla.</h1>
+          <p>Tek bir içerik oluştur; platformlara uyarla, önizle ve onaylayarak yayınla. İleri tarihli otomatik yayın hazırlık aşamasında.</p>
         </div>
         <div class="hero-status"><strong id="readyCount">—</strong><span>kanal hazır</span></div>
       </section>
 
+      <nav class="workflow-steps" aria-label="Yayın hazırlama aşamaları"><span><b>1</b> İçerik hazırla</span><span><b>2</b> Kanalları seç</span><span><b>3</b> Önizle ve onayla</span><span><b>4</b> Yayınla</span></nav>
       <section class="layout">
         <form id="publishForm" class="card editor">
           <div class="card-head">
-            <div><span class="eyebrow">YAYIN</span><h2>Yeni içerik</h2></div>
+            <div><span class="eyebrow">ADIM 1 · TASLAK</span><h2>Yeni içerik</h2></div>
             <button type="button" id="selectReady" class="outline">Hazır kanalları seç</button>
           </div>
 
@@ -74,7 +75,20 @@
             <small>5 MB üzerindeki videolarda şimdilik doğrudan erişilebilir bağlantı kullanılır. Dosya seçildiğinde bu alan boş bırakılabilir.</small>
           </label>
 
+          <h3 class="section-label">ADIM 2 · Yayın kanalları</h3>
           <div class="channels" id="channels"></div>
+          <section class="platform-editor" aria-labelledby="platformRulesHeading">
+            <div class="platform-editor-head">
+              <h3 id="platformRulesHeading">Platforma özel metin ve kural kontrolü</h3>
+              <p>Her kanalın sınırını burada gör. Gerekirse yalnızca o kanala gidecek metni düzenle; son onay olmadan yayın yapılmaz.</p>
+            </div>
+            <div class="rule-actions">
+              <button type="button" class="rule-shortener" id="generateAiVariants">Yapay zekâyla platform metinleri hazırla</button>
+              <small>Metindeki önemli noktaları koruyarak taslak önerir. Yayın öncesinde düzenleyip onaylayabilirsiniz.</small>
+            </div>
+            <div id="aiFeedback" class="rule-ai-feedback" aria-live="polite"></div>
+            <div id="channelRules" class="platform-rules" aria-live="polite">Kurallar yükleniyor…</div>
+          </section>
 
           <label class="privacy">YouTube görünürlüğü
             <select id="youtubePrivacy">
@@ -84,13 +98,14 @@
             </select>
           </label>
 
+          <h3 class="section-label">ADIM 3 · Kontrol ve onay</h3>
           <div class="publish-actions">
             <button class="draft-btn" id="saveDraft" type="button"><i class="fa-regular fa-floppy-disk"></i> Taslağı kaydet</button>
             <button class="preview-btn" id="previewButton" type="button"><i class="fa-regular fa-eye"></i> Önizle</button>
           </div>
           <button class="publish" id="publishButton" type="submit">
             <i class="fa-solid fa-paper-plane"></i>
-            <span>HER YERDE YAYINLA</span>
+            <span>ÖNİZLE VE YAYIN SEÇENEKLERİ</span>
           </button>
           <p class="draft-state" id="draftState">Taslak değişiklikleri bu tarayıcıda otomatik korunur.</p>
           <p class="hint">Yayın butonu önce son kontrol ekranını açar. Onay vermeden gerçek yayın başlamaz.</p>
@@ -115,6 +130,11 @@
             <div id="results" class="results empty">Henüz yayın yapılmadı.</div>
           </section>
 
+          <section class="card" id="scheduleCard">
+            <div class="card-head"><div><span class="eyebrow">TAKVİM</span><h2>Planlanan yayınlar</h2></div></div>
+            <div id="scheduledPublications" class="history"><p>Planlanan yayınlar yükleniyor…</p></div>
+          </section>
+
           <section class="card">
             <div class="card-head"><div><span class="eyebrow">GEÇMİŞ</span><h2>Son yayınlar</h2></div></div>
             <div id="history" class="history empty">Yayın geçmişi yükleniyor…</div>
@@ -132,17 +152,18 @@
       </header>
       <div class="preview-body">
         <div id="previewContent"></div>
-        <div class="preview-warning"><i class="fa-solid fa-triangle-exclamation"></i><span>Onayladığınız anda seçili ve hazır kanallara gerçek yayın gönderilir.</span></div>
+        <div class="preview-warning"><i class="fa-solid fa-triangle-exclamation"></i><span>Hemen yayınlarsanız gerçek paylaşım başlar. İleri tarihli otomatik yayın şu anda devre dışıdır.</span></div>
       </div>
-      <footer>
+      <footer class="preview-footer">
         <button type="button" class="outline" id="cancelPreview">Düzenlemeye dön</button>
-        <button type="button" class="confirm-publish" id="confirmPublish"><i class="fa-solid fa-paper-plane"></i> Onayla ve yayınla</button>
+        <div class="publish-choice"><button type="button" class="confirm-publish" id="confirmPublish"><i class="fa-solid fa-paper-plane"></i> Şimdi yayınla</button><label for="publisherScheduleAt">Veya ileri tarih seç (Türkiye saati)</label><input type="datetime-local" id="publisherScheduleAt" disabled><button type="button" class="preview-btn" id="publisherScheduleButton" disabled title="Güvenlik doğrulaması bekleniyor">Planlama geçici olarak kapalı</button></div>
       </footer>
     </section>
   </div>
 
   <div id="toast" class="toast hidden"></div>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script src="/admin/elci-publisher.js?v=20260927-meta-envfix"></script>
+  <script src="/admin/elci-media-fit.js?v=20261121-a"></script>
+  <script src="/admin/elci-publisher.js?v=20261123-batch1"></script>
 </body>
 </html>

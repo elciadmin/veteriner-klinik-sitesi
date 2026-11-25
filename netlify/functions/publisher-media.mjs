@@ -66,6 +66,13 @@ export default async request => {
   try { verifyRequestOrigin(request); }
   catch { return json({error:"Geçersiz istek kaynağı"},403); }
 
+  // Reject oversized requests before parsing multipart data into memory.
+  // Multipart overhead is bounded separately from the 5 MiB file limit.
+  const declaredLength = Number(request.headers.get("content-length"));
+  if (Number.isFinite(declaredLength) && declaredLength > MAX_UPLOAD + 256 * 1024) {
+    return json({error:"İstek boyutu medya yükleme sınırını aşıyor"},413);
+  }
+
   let form;
   try { form = await request.formData(); }
   catch { return json({error:"Dosya okunamadı"},400); }

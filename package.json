@@ -5,7 +5,8 @@
   "scripts": {
     "build": "node scripts/build-site.mjs && node scripts/seo-postbuild.mjs",
     "test:security": "node scripts/security-smoke.mjs",
-    "verify": "npm run build && npm run test:security"
+    "verify": "npm run test:publisher && npm run build && npm run test:security",
+    "test:publisher": "node --test tests/publisher-rules.test.mjs tests/publisher-schedule.test.mjs tests/publisher-media-url.test.mjs"
   },
   "dependencies": {
     "@netlify/blobs": "^10.7.9",

@@ -1,7 +1,10 @@
+import { safeRemoteMediaUrl } from "./_shared/publisher-media-url.mjs";
 import { randomUUID } from "node:crypto";
+import { listSchedules, cancelSchedule } from "./_shared/publisher-schedule.mjs";
 import { getStore } from "@netlify/blobs";
 import { getUser, verifyRequestOrigin } from "@netlify/identity";
 import { loadOAuthSecret } from "./_shared/publisher-oauth-store.mjs";
+import { PUBLISHER_RULES, effectiveChannelPayload, validatePublisherPayload } from "./_shared/publisher-rules.mjs";
 
 const RUNTIME_API = "https://elci-content-api.elcivetklinik.workers.dev";
 const MAX_REMOTE_MEDIA = 80 * 1024 * 1024;
@@ -234,12 +237,16 @@ async function publishGmb(payload) {
   return { id:data.name || data.searchUrl || "" };
 }
 
+// Restrict server-side media fetches to public HTTPS hosts.
+// DNS-level private-address protection still requires an egress proxy.
+
 async function publishYouTube(payload) {
   if (mediaKind(payload.mediaUrl) !== "video") throw new Error("YouTube için video URL'si gerekli");
   const token = await googleAccessToken();
-  const media = await fetch(payload.mediaUrl,{cache:"no-store"});
+  const media = await fetch(safeRemoteMediaUrl(payload.mediaUrl),{cache:"no-store",redirect:"error"});
   if (!media.ok || !media.body) throw new Error("Video indirilemedi");
   const mediaType = media.headers.get("content-type") || "video/mp4";
+  if (!/^video\/(mp4|webm|quicktime|x-m4v)(?:\s*;|$)/i.test(mediaType)) throw new Error("Video bağlantısı geçerli bir video dosyası döndürmüyor");
   const length = Number(media.headers.get("content-length") || 0);
   if (length && length > MAX_REMOTE_MEDIA) throw new Error("YouTube doğrudan yükleme için video 80 MB sınırını aşıyor");
 
@@ -272,13 +279,22 @@ async function publishYouTube(payload) {
   return { id:data.id || "" };
 }
 
-const adapters = {
+export const adapters = {
   website:publishWebsite,
   facebook:publishFacebook,
   instagram:publishInstagram,
   youtube:publishYouTube,
   gmb:publishGmb
 };
+
+export async function dispatchPublisher(payload,channels) {
+  const status=await channelStatus();
+  return Promise.all(channels.map(async channel => {
+    if (!status[channel]?.ready) return {channel,ok:false,skipped:true,error:status[channel]?.detail || "Kanal bağlı değil"};
+    try {return {channel,ok:true,...await adapters[channel](effectiveChannelPayload(payload,channel))};}
+    catch(error){return {channel,ok:false,error:clean(error?.message || "Yayın başarısız",500)};}
+  }));
+}
 
 const publicationStore = () => getStore({name:PUBLISH_STORE_NAME,consistency:"strong"});
 
@@ -292,11 +308,6 @@ async function publicationHistory(limit=12) {
   return rows.sort((a,b)=>String(b.createdAt||"").localeCompare(String(a.createdAt||""))).slice(0,limit);
 }
 
-async function publicationRead(id) {
-  if (!/^[0-9a-f-]{20,80}$/i.test(String(id||""))) return null;
-  return publicationStore().get("publication/" + id,{type:"json",consistency:"strong"});
-}
-
 async function publicationSave(record) {
   await publicationStore().setJSON("publication/" + record.id,record,{
     metadata:{createdAt:record.createdAt,actor:record.actor || "",complete:Boolean(record.complete)}
@@ -307,11 +318,25 @@ export default async request => {
   const auth = await authorize();
   if (auth.error) return auth.error;
 
-  if (request.method === "GET") return json({
-    channels:await channelStatus(),
-    mode:"one-click-publisher-v2",
-    history:await publicationHistory(12)
-  });
+  if (request.method === "GET") {
+    let history = [];
+    let historyNotice = null;
+    try { history = await publicationHistory(12); }
+    catch (error) {
+      console.error("Publisher history unavailable",String(error?.message || error));
+      historyNotice = "Yayın geçmişi şu anda yüklenemiyor. Tekrar yayınlamadan önce platformdaki gönderileri kontrol edin.";
+    }
+    return json({
+      channels:await channelStatus(),
+      rules:PUBLISHER_RULES,
+      mode:"one-click-publisher-v3-rules",
+      history,
+      historyNotice,
+      scheduled:[],
+      schedulerEnabled:false,
+      schedulerNotice:"Otomatik gönderim güvenlik doğrulaması tamamlanana kadar devre dışı."
+    });
+  }
   if (request.method !== "POST") return json({error:"Desteklenmeyen yöntem"},405);
 
   try { verifyRequestOrigin(request); }
@@ -320,16 +345,33 @@ export default async request => {
   let body;
   try { body = await request.json(); }
   catch { return json({error:"Geçersiz veri"},400); }
+  if (!body || typeof body !== "object" || Array.isArray(body)) return json({error:"Yayın verisi bir JSON nesnesi olmalı"},400);
 
-  const retryOf = clean(body.retryPublicationId,80);
-  const previous = retryOf ? await publicationRead(retryOf) : null;
-  if (retryOf && !previous) return json({error:"Yeniden denenecek yayın kaydı bulunamadı"},404);
+  if (body.cancelScheduleId) {
+    const cancelled=await cancelSchedule(clean(body.cancelScheduleId,80));
+    return json({ok:cancelled},cancelled?200:409);
+  }
 
-  const payload = previous ? previous.payload : {
-    title:clean(body.title,180),
-    text:clean(body.text,5000),
+  // Retrying an external publish is unsafe without an atomic per-channel claim.
+  // A timeout may mean the remote platform accepted the post even if no result was saved.
+  if (body.retryPublicationId) return json({
+    error:"Yeniden yayınlama güvenli tekrar önleme altyapısı tamamlanana kadar kapalı. Önce platformdaki gönderileri ve yayın geçmişini kontrol edin."
+  },409);
+  const payload = {
+    // Do not silently truncate a veterinary explanation: validate first.
+    title:clean(body.title,1000),
+    text:clean(body.text,50000),
     mediaUrl:clean(body.mediaUrl,2000),
-    youtubePrivacy:["public","unlisted","private"].includes(body.youtubePrivacy) ? body.youtubePrivacy : "public"
+    youtubePrivacy:["public","unlisted","private"].includes(body.youtubePrivacy) ? body.youtubePrivacy : "public",
+    channelTexts:Object.fromEntries(Object.entries(body.channelTexts && typeof body.channelTexts === "object" ? body.channelTexts : {})
+      .filter(([key]) => Object.hasOwn(PUBLISHER_RULES,key))
+      .map(([key,value]) => [key,clean(value,50000)])),
+    channelTitles:Object.fromEntries(Object.entries(body.channelTitles && typeof body.channelTitles === "object" ? body.channelTitles : {})
+      .filter(([key]) => Object.hasOwn(PUBLISHER_RULES,key))
+      .map(([key,value]) => [key,clean(value,1000)])),
+    channelMediaUrls:Object.fromEntries(Object.entries(body.channelMediaUrls && typeof body.channelMediaUrls === "object" ? body.channelMediaUrls : {})
+      .filter(([key]) => Object.hasOwn(PUBLISHER_RULES,key))
+      .map(([key,value]) => [key,clean(value,2000)]))
   };
   if (!payload.title || !payload.text) return json({error:"Başlık ve yayın metni gerekli"},400);
 
@@ -338,47 +380,68 @@ export default async request => {
     : [];
   // A retry may only target channels that actually failed in the original record.
   // Never let a crafted retry request republish an already successful channel.
-  const failedChannels = previous
-    ? new Set((previous.results || []).filter(item => !item.ok).map(item => item.channel))
-    : null;
-  const requested = failedChannels
-    ? validChannels.filter(channel => failedChannels.has(channel))
-    : validChannels;
-  if (!requested.length) return json({
-    error:previous ? "Bu kayıtta yeniden denenebilecek başarısız kanal yok" : "En az bir yayın kanalı seçin"
+  const requested = validChannels;
+  if (!requested.length) return json({error:"En az bir yayın kanalı seçin"},400);
+
+  const validationErrors = validatePublisherPayload(payload,requested,mediaKind);
+  if (validationErrors.length) return json({
+    error:"Yayın koşulları karşılanmıyor: "+validationErrors[0].message,
+    validationErrors
   },400);
 
-  const status = await channelStatus();
-  const results = await Promise.all(requested.map(async channel => {
-    if (!status[channel]?.ready) return {channel,ok:false,skipped:true,error:status[channel]?.detail || "Kanal bağlı değil"};
-    try {
-      const output = await adapters[channel](payload);
-      return {channel,ok:true,...output};
-    } catch (error) {
-      return {channel,ok:false,error:clean(error?.message || "Yayın başarısız",500)};
-    }
-  }));
-
+  if (body.publishAt) {
+    // No schedule can be accepted while execution is deliberately disabled.
+    return json({error:"Otomatik yayın planlaması güvenlik doğrulaması tamamlanana kadar kapalı. Şimdi yayınla seçeneğini kullanabilirsiniz."},503);
+  }
+  // Persist the publication intent before contacting external platforms.
+  // If a worker terminates mid-request, the history retains an unresolved
+  // record for manual reconciliation rather than silently losing the attempt.
   const createdAt = new Date().toISOString();
   const record = {
     id:randomUUID(),
-    retryOf:retryOf || null,
     actor:auth.user.email || auth.user.id || "yetkili",
     payload,
     channels:requested,
-    results,
-    ok:results.some(x => x.ok),
-    complete:results.every(x => x.ok),
+    results:requested.map(channel => ({channel,ok:false,pending:true,error:"Yayın sonucu henüz doğrulanmadı"})),
+    ok:false,
+    complete:false,
+    pending:true,
     createdAt
   };
-  await publicationSave(record);
+  try {
+    await publicationSave(record);
+  } catch (error) {
+    console.error("Publisher intent persistence failed",String(error?.message || error));
+    return json({error:"Yayın girişimi kaydedilemedi; güvenliğiniz için hiçbir platforma gönderim yapılmadı."},503);
+  }
+
+  const results=await dispatchPublisher(payload,requested);
+  record.results=results;
+  record.ok=results.some(x => x.ok);
+  record.complete=results.every(x => x.ok);
+  record.pending=false;
+  // External platforms may already have accepted the post. A history-store
+  // failure must not turn a completed dispatch into an HTTP 500 that encourages
+  // the operator to submit the same post again.
+  let historySaved = true;
+  try {
+    await publicationSave(record);
+  } catch (error) {
+    historySaved = false;
+    console.error("Publisher history persistence failed", {
+      publicationId:record.id,
+      message:String(error?.message || error)
+    });
+  }
 
   return json({
     ok:record.ok,
     complete:record.complete,
     results,
     publicationId:record.id,
-    publishedAt:createdAt
+    publishedAt:createdAt,
+    historySaved,
+    warning:historySaved ? null : "Yayın sonuçları alındı ancak geçmiş kaydı saklanamadı. Tekrar göndermeden önce platformları kontrol edin."
   });
 };
 
