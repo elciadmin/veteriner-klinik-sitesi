@@ -419,7 +419,7 @@
 
     channelsEl.innerHTML = rows.map(([key,item]) => {
       return '<label class="channel-choice ' + (item.ready ? "" : "disabled") + '">' +
-        '<input type="checkbox" name="channel" value="' + esc(key) + '" ' + (item.ready && (!previouslySelected || previouslySelected.has(key)) ? "checked" : "") + ' ' + (item.ready ? "" : "disabled") + '>' +
+        '<input type="checkbox" name="channel" value="' + esc(key) + '" ' + (item.ready && previouslySelected?.has(key) ? "checked" : "") + ' ' + (item.ready ? "" : "disabled") + '>' +
         '<i class="' + (icons[key] || "fa-solid fa-share-nodes") + '"></i>' +
         '<span><strong>' + esc(item.label) + '</strong><small>' + esc(item.ready ? "Yayına hazır" : item.detail) + '</small></span>' +
       '</label>';
