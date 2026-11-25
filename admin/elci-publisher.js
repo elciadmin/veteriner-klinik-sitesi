@@ -504,13 +504,15 @@
         const itemStatus = status[item.channel] || {label:item.channel};
         return '<span class="badge ' + (item.ok ? "ready" : (item.skipped ? "wait" : "fail")) + '">' + esc(itemStatus.label) + '</span>';
       }).join("");
-      const retry = failed.length
-        ? '<div class="history-actions"><small>Bir veya daha fazla kanalda sonuç belirsiz ya da başarısız. Tekrar göndermeden önce platformdaki gönderileri kontrol edin. Güvenli yeniden deneme şimdilik kapalı.</small></div>'
-        : "";
+      const retry = row.pending
+        ? '<div class="history-actions"><small>Bu yayının sonucu henüz kesinleşmedi. Platformları kontrol etmeden tekrar göndermeyin.</small></div>'
+        : failed.length
+          ? '<div class="history-actions"><small>Bir veya daha fazla kanalda sonuç belirsiz ya da başarısız. Tekrar göndermeden önce platformdaki gönderileri kontrol edin. Güvenli yeniden deneme şimdilik kapalı.</small></div>'
+          : "";
       const when = row.createdAt ? new Date(row.createdAt).toLocaleString("tr-TR") : "";
       return '<article class="history-item">' +
         '<div class="history-item-head"><div><strong>' + esc(row.payload?.title || "Yayın") + '</strong><small>' + esc(when) + (row.retryOf ? " · yeniden deneme" : "") + '</small></div>' +
-        '<span class="badge ' + (row.complete ? "ready" : "wait") + '">' + (row.complete ? "TAMAM" : "KISMİ") + '</span></div>' +
+        '<span class="badge ' + (row.complete ? "ready" : "wait") + '">' + (row.pending ? "BELİRSİZ" : row.complete ? "TAMAM" : "KISMİ") + '</span></div>' +
         '<div class="history-channels">' + channelBadges + '</div>' +
         retry +
       '</article>';
