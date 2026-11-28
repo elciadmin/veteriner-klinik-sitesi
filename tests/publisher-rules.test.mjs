@@ -43,3 +43,25 @@ test("Google Business description limit is validated",()=>{
   const payload={...sample,channelTexts:{gmb:"x".repeat(1501)}};
   assert.ok(validatePublisherPayload(payload,["gmb"],kind).some(x=>x.field==="text"));
 });
+
+
+// Exercise the actual adapter with fake CMS calls, never a real publication.
+test("website publisher writes blog posts and confirms public visibility", async()=>{
+  const {readFile}=await import("node:fs/promises");
+  const source=await readFile(new URL("../netlify/functions/publisher.mjs",import.meta.url),"utf8");
+  const adapter=source.slice(source.indexOf("async function publishWebsite(payload)"),source.indexOf("\nconst metaBase"));
+  const factory=new Function("slugify","randomUUID","mediaKind","safeRemoteMediaUrl","runtimeCall","fetch","RUNTIME_API",adapter+"\nreturn publishWebsite;");
+  for(const media of ["image","video","none"]){
+    const calls=[],slug="test-id",mediaUrl=media==="none"?"":"https://example.com/media."+ (media==="image"?"jpg":"mp4");
+    const fn=factory(()=>"test",()=>"id",()=>media,x=>x,async(p,b)=>calls.push([p,b]),async()=>({ok:true,json:async()=>({slug,type:"blog",published:true})}),"https://example.com");
+    const result=await fn({...sample,mediaUrl});
+    assert.equal(calls.length,2);
+    assert.ok(calls.every(x=>x[1].type==="blog"));
+    assert.equal(calls[0][1].data.content,sample.text);
+    assert.equal(calls[0][1].data.cover,media==="image"?mediaUrl:"");
+    assert.equal(calls[0][1].data.videoUrl,media==="video"?mediaUrl:"");
+    assert.equal(result.url,"/blog-post.html?slug=test-id");
+  }
+  const failed=factory(()=>"test",()=>"id",()=>"none",x=>x,async()=>{},async()=>({ok:false}),"https://example.com");
+  await assert.rejects(()=>failed(sample),/görünürlük doğrulanamadı/);
+});
