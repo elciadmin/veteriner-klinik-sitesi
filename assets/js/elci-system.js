@@ -195,15 +195,33 @@
     const host = $('#siteAnnouncement');
     if (!host) return;
     try {
-      const response = await fetch('/assets/data/announcements.json', { cache: 'no-store' });
-      if (!response.ok) return;
-      const payload = await response.json();
+      const read = async url => {
+        try {
+          const response = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(5000) });
+          if (!response.ok) return [];
+          const payload = await response.json();
+          return Array.isArray(payload) ? payload : Array.isArray(payload?.items) ? payload.items : [];
+        } catch { return []; }
+      };
+      const [legacy, live] = await Promise.all([
+        read('/assets/data/announcements.json'),
+        read('https://elci-content-api.elcivetklinik.workers.dev/content?type=announcements')
+      ]);
+      const merged = new Map(legacy.filter(Boolean).map(item => [item.id || item.title, item]));
+      for (const row of live) {
+        if (!row || row.type !== 'announcements' || row.published !== true || row.archived || row.trashed || !row.slug || !row.data) continue;
+        merged.set(row.slug, {
+          ...row.data, id: row.slug, published: true,
+          publishAt: row.publish_at || row.data.publishAt,
+          unpublishAt: row.unpublish_at || row.data.unpublishAt
+        });
+      }
       const now = Date.now();
-      const items = (Array.isArray(payload) ? payload : payload.items || [])
+      const items = [...merged.values()]
         .filter(item => item && item.published !== false && item.showOnHome !== false)
         .filter(item => !item.publishAt || new Date(item.publishAt).getTime() <= now)
         .filter(item => !item.unpublishAt || new Date(item.unpublishAt).getTime() > now)
-        .sort((a, b) => Number(b.priority || 0) - Number(a.priority || 0));
+        .sort((a, b) => Number(b.priority || 0) - Number(a.priority || 0) || (Date.parse(b.publishAt) || 0) - (Date.parse(a.publishAt) || 0));
       const item = items[0];
       if (!item) return;
       const dismissKey = `elci-announcement:${item.id || item.title || item.publishAt}`;
@@ -219,9 +237,14 @@
       const container = document.createElement('div');
       container.className = 'container';
       container.appendChild(message);
-      if (item.linkUrl && item.linkLabel) {
+      let linkUrl = null;
+      try {
+        const candidate = new URL(item.linkUrl, location.origin);
+        if (item.linkUrl && ['https:', 'http:'].includes(candidate.protocol)) linkUrl = candidate.href;
+      } catch { /* Ignore invalid announcement links. */ }
+      if (linkUrl && item.linkLabel) {
         const link = document.createElement('a');
-        link.href = item.linkUrl;
+        link.href = linkUrl;
         link.textContent = item.linkLabel;
         container.appendChild(link);
       }
