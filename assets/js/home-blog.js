@@ -49,10 +49,10 @@
     }));
     const merged = new Map(local.map(post => [post.slug || post.id || post.title, post]));
     runtime.forEach(post => merged.set(post.slug || post.id || post.title, post));
-    const posts = [...merged.values()]
-      .filter(isVisible)
-      .sort((a,b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)) || new Date(b.date || 0) - new Date(a.date || 0))
-      .slice(0, 3);
+    const visible = [...merged.values()].filter(isVisible);
+    const newest = [...visible].sort((a,b) => new Date(b.date || 0) - new Date(a.date || 0))[0];
+    const posts = newest ? [newest, ...visible.filter(post => post !== newest)
+      .sort((a,b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)) || new Date(b.date || 0) - new Date(a.date || 0))].slice(0, 3) : [];
     grid.innerHTML = posts.length
       ? posts.map(card).join('')
       : '<div class="home-blog-empty"><strong>Yeni sağlık notlarımız hazırlanıyor.</strong><span>Yakında burada yayınlanacak.</span></div>';

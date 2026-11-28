@@ -1,6 +1,6 @@
 // Rules applied by the Elçi publisher. Platform rules may change; verify upstream API docs.
 export const PUBLISHER_RULES = Object.freeze({
-  website: { label:"Web sitesi", maxTextChars:5000, media:["none","image","video"], source:"Uygulama sınırı" },
+  website: { label:"Web sitesi (Blog)", maxTextChars:5000, media:["none","image","video"], source:"Uygulama sınırı" },
   facebook: { label:"Facebook", maxTextChars:5000, media:["none","image","video"], source:"Uygulama sınırı" },
   instagram: { label:"Instagram", maxTextChars:2200, media:["image","video"], source:"Instagram yayın API'si" },
   youtube: { label:"YouTube", maxTitleChars:100, maxTextBytes:5000, media:["video"], source:"YouTube Data API" },

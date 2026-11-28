@@ -72,7 +72,7 @@ async function channelStatus() {
   return {
     website: {
       ready: envReady("ELCI_RUNTIME_ADMIN_TOKEN"),
-      label: "Web sitesi",
+      label: "Web sitesi (Blog)",
       detail: envReady("ELCI_RUNTIME_ADMIN_TOKEN") ? "Runtime CMS bağlı" : "Runtime CMS anahtarı eksik"
     },
     facebook: {
@@ -118,19 +118,38 @@ async function runtimeCall(path, body) {
 }
 
 async function publishWebsite(payload) {
-  const slug = slugify(payload.title) + "-" + Date.now().toString(36);
+  const slug = slugify(payload.title) + "-" + randomUUID();
   const now = new Date().toISOString();
+  const kind = mediaKind(payload.mediaUrl);
+  const mediaUrl = payload.mediaUrl ? safeRemoteMediaUrl(payload.mediaUrl) : "";
+  const compact = payload.text.replace(/\s+/g, " ").trim();
+  const chars = Array.from(compact);
+  const summary = chars.length > 180 ? chars.slice(0, 177).join("").trimEnd() + "…" : compact;
   const data = {
     title: payload.title,
-    message: payload.text,
+    summary,
+    content: payload.text,
+    category: "Genel",
+    species: "Genel",
+    tags: [],
+    featured: false,
+    date: now,
     publishAt: now,
     unpublishAt: null,
-    source: "elci-yayin-merkezi",
-    mediaUrl: payload.mediaUrl || ""
+    cover: kind === "image" ? mediaUrl : "",
+    videoUrl: kind === "video" ? mediaUrl : "",
+    source: "elci-yayin-merkezi"
   };
-  await runtimeCall("/admin/create", { type: "announcements", slug, data });
-  await runtimeCall("/admin/publish", { type: "announcements", slug, publish_at: now, unpublish_at: null });
-  return { id: slug };
+  await runtimeCall("/admin/create", { type: "blog", slug, data });
+  await runtimeCall("/admin/publish", { type: "blog", slug, publish_at: now, unpublish_at: null });
+  // Confirm that the public blog reader can actually retrieve the new post.
+  const response = await fetch(RUNTIME_API + "/content/blog/" + encodeURIComponent(slug), { cache: "no-store" });
+  if (!response.ok) throw new Error("Blog yayın isteği gönderildi ancak görünürlük doğrulanamadı; tekrar göndermeden blogu kontrol edin.");
+  const item = await response.json().catch(() => null);
+  if (item?.slug !== slug || item?.type !== "blog" || item?.published !== true) {
+    throw new Error("Blog yayın sonucu doğrulanamadı; tekrar göndermeden blogu kontrol edin.");
+  }
+  return { id: slug, url: "/blog-post.html?slug=" + encodeURIComponent(slug) };
 }
 
 const metaBase = () => "https://graph.facebook.com/" + encodeURIComponent(clean(process.env.META_GRAPH_VERSION || "v26.0",20));
